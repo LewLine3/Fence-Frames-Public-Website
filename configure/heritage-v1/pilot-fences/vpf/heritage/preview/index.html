@@ -1,0 +1,5107 @@
+<!DOCTYPE html>
+<html lang="en" data-ff-embed="1">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Heritage configurator</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      if (p.get('embed') === '1') document.documentElement.dataset.ffEmbed = '1';
+    })();
+  </script>
+  <script>
+    if (document.documentElement.dataset.ffEmbed !== '1') {
+      var s = document.createElement('script');
+      s.src = '/preview/preview-shell-nav.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #141312;
+      --surface: rgba(36, 34, 32, 0.94);
+      --surface-solid: #242220;
+      /* UI system: charcoal fill · tan outline · orange active */
+      --ui-fill: #242220;
+      --ui-fill-deep: #1a1918;
+      --ui-outline: rgba(163, 135, 110, 0.92);
+      --ui-outline-soft: rgba(163, 135, 110, 0.48);
+      --ui-active-hover: #a6582a;
+      /* Orange — solid accent (scrollbars, legacy hooks) */
+      --orange-solid: #8a4a22;
+      --orange-soft: rgba(138, 74, 34, 0.44);
+      --orange-soft-open: rgba(138, 74, 34, 0.52);
+      --orange-soft-border: rgba(138, 74, 34, 0.78);
+      /* Tan — solid + translucent (panel chrome, active controls, pickers) */
+      --tan: #9d8068;
+      --tan-soft: rgba(163, 135, 110, 0.44);
+      --tan-soft-open: rgba(163, 135, 110, 0.52);
+      --tan-soft-border: rgba(163, 135, 110, 0.78);
+      --tan-solid: var(--tan);
+      /* Charcoal — solid gutter / outer ring line; translucent inner fill */
+      --charcoal-solid: #1a1918;
+      --charcoal-soft: rgba(20, 19, 18, 0.58);
+      /* Double-border rings — canvas + sidebar share these */
+      --ring-gutter-fill: var(--chrome-frame);
+      --ring-frame-outer: var(--chrome-frame-width);
+      --ring-frame-line: #0a0a0a;
+      --ui-active: var(--orange-solid);
+      --ui-active-solid: var(--tan-solid);
+      /* Warm tan accents */
+      --tan-light: #ad9078;
+      --tan-border: rgba(157, 128, 104, 0.76);
+      --chrome-frame: var(--ui-outline);
+      --chrome-frame-width: 3px;
+      --border: var(--ui-outline-soft);
+      --border-strong: rgba(163, 135, 110, 0.68);
+      --border-accent: var(--ui-outline);
+      --accent: var(--tan-light);
+      --accent-glow: rgba(163, 135, 110, 0.28);
+      /* Panel chrome — tan title bars + translucent control fills */
+      --orange-bar: var(--orange-solid);
+      --orange-bar-faded: var(--tan-soft);
+      --orange-bar-faded-open: var(--tan-soft-open);
+      --orange-active-soft: var(--tan-soft);
+      --orange-active-border: var(--tan-soft-border);
+      --orange-handle: var(--orange-solid);
+      --orange-toggle: var(--tan-soft);
+      --panel-accent-stripe: var(--tan-solid);
+      --title-bar-text: #f0e8e0;
+      --handle-orange: var(--orange-handle);
+      --text: #eee;
+      --muted: #aaa;
+      --panel-w-max: 288px;
+      --panel-min-w: 240px;
+      --panel-w: var(--panel-w-max);
+      /** Min canvas column + module display floor — keep in sync with VIEWPORT.MODULE_MIN_PX_W */
+      --module-min-px-w: 280px;
+      --shell-layout-pad: 48px;
+      /** Stack toolbox below canvas when min sidebar + min module no longer fit side-by-side */
+      --bp-shell-stack: calc(var(--panel-min-w) + var(--module-min-px-w) + var(--shell-layout-pad) + 1.5rem);
+      --bp-top-band-stack: var(--bp-shell-stack);
+      --bp-top-stack: 640px;
+      --tan-ground: #3a2e24;
+      --tan-ground-light: #45372a;
+      --hatch-light: rgba(220, 201, 180, 0.1);
+      --hatch-dark: rgba(0, 0, 0, 0.14);
+      --hatch-step: 7px;
+      --app-backdrop:
+        repeating-linear-gradient(32deg, var(--hatch-light) 0 1px, transparent 1px var(--hatch-step)),
+        repeating-linear-gradient(-32deg, var(--hatch-dark) 0 1px, transparent 1px var(--hatch-step)),
+        var(--tan-ground);
+      /* Sync with scripts/lib/heritage-background.js SKY_PLATE_STOPS */
+      --sky-dark: #353330;
+      --sky-mid: #3d3a35;
+      --sky-fade-tan: #45372a;
+      /** Module sky — SVG Background-Group only (stack + monolith). Do not paint on HTML wrappers. */
+      --module-sky-bg:
+        repeating-linear-gradient(32deg, rgba(28, 26, 24, 0.28) 0 1px, transparent 1px 6px),
+        repeating-linear-gradient(-32deg, rgba(20, 19, 18, 0.18) 0 1px, transparent 1px 6px),
+        linear-gradient(180deg, var(--sky-dark) 0%, var(--sky-mid) 48%, transparent 100%);
+      /* Canvas / toolbox — dark tan hatch (module sky stays in SVG) */
+      --viewer-backdrop:
+        repeating-linear-gradient(32deg, var(--hatch-light) 0 1px, transparent 1px var(--hatch-step)),
+        repeating-linear-gradient(-32deg, var(--hatch-dark) 0 1px, transparent 1px var(--hatch-step)),
+        var(--tan-ground-light);
+      --ring-inner-bg:
+        linear-gradient(var(--charcoal-soft), var(--charcoal-soft)),
+        var(--viewer-backdrop);
+      --module-frame: rgba(163, 135, 110, 0.72);
+      --module-frame-inner: rgba(28, 26, 24, 0.92);
+      --charcoal-gutter: var(--ring-gutter-fill);
+      --orange-gutter: var(--orange-solid);
+      --title-picker-text: #0a0a0a;
+      /** Text on translucent tan fills (selected tabs, folded panels, spec inputs) */
+      --selected-tan-text: #0a0a0a;
+      --selected-tan-text-muted: rgba(10, 10, 10, 0.72);
+      --selected-tan-font-weight: 700;
+      /** Heritage grass — sym-grass-front-heritage blade fills */
+      --grass-blade: #227e1f;
+      --grass-blade-bright: #318116;
+      --grass-blade-shadow: #113016;
+      /** B1 title box — dark forest green accents */
+      --b1-forest: #163320;
+      --b1-forest-hover: #1f4a2c;
+      /** Tan panel title bars + cost highlight — solid fill (no rgba; avoids S2/S3 backdrop drift) */
+      --panel-title-bar-bg: var(--tan);
+      /** Folded sidebar accordions — translucent tan fill + solid tan ring */
+      --panel-folded-fill: rgba(157, 128, 104, 0.34);
+      --panel-folded-border: 2px solid var(--tan);
+      /** Panel chrome — thin black outer + tan inset ring (matches canvas shell language) */
+      --panel-ring-outer: 1px;
+      --panel-ring-tan: 2px;
+      --fence-box-radius: 7px;
+      --fence-box-inner-radius: calc(var(--fence-box-radius) - var(--panel-ring-tan));
+      --panel-divider: 1px solid var(--ring-frame-line);
+      --panel-divider-inset: calc(var(--panel-ring-outer) + var(--panel-ring-tan));
+      --font-display: "Libre Franklin", "Segoe UI", system-ui, sans-serif;
+      --tab-active-bg: var(--orange-solid);
+      --scrollbar-track: #0a0a0a;
+      --scrollbar-track-border: rgba(163, 135, 110, 0.88);
+      --scrollbar-thumb: var(--orange-solid);
+      --scrollbar-thumb-hover: var(--ui-active-hover);
+      --scrollbar-button: #7a4218;
+      --scrollbar-size: 12px;
+      /* Shared work chrome — toolbox + canvas use same inset so tops align without JS */
+      --work-chrome-pad: 8px;
+      --work-inset-pad: 14px;
+    }
+    * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+    *::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+    }
+    *::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+      border: 1px solid var(--scrollbar-track-border);
+    }
+    *::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border: 1px solid var(--scrollbar-track-border);
+      border-radius: 2px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+    *::-webkit-scrollbar-button {
+      background: var(--scrollbar-button);
+      border: 1px solid var(--scrollbar-track-border);
+    }
+    *::-webkit-scrollbar-button:hover {
+      background: var(--orange-handle);
+    }
+    *::-webkit-scrollbar-corner {
+      background: var(--scrollbar-track);
+      border: 1px solid var(--scrollbar-track-border);
+    }
+    html {
+      min-height: 100%;
+    }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      height: auto;
+      background: var(--app-backdrop);
+      background-attachment: fixed;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+    .shell {
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0.65rem 1rem 1rem;
+      display: grid;
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+    .shell--with-sidebar {
+      container-type: inline-size;
+      container-name: app-shell;
+      grid-template-columns: minmax(0, var(--panel-w)) minmax(var(--module-min-px-w), 1fr);
+      grid-template-areas:
+        "top top"
+        "sidebar canvas"
+        "footer footer";
+      align-items: stretch;
+    }
+    /** Stack: top · canvas · toolbox · calc/price — separate rows, no overlap */
+    @container app-shell (max-width: 592px) {
+      .shell--with-sidebar {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+          "top"
+          "canvas"
+          "sidebar"
+          "footer";
+        row-gap: 0.65rem;
+        min-height: 0;
+        height: auto;
+        align-content: start;
+      }
+      #layout {
+        grid-area: canvas;
+        min-height: clamp(320px, 52vh, 540px);
+        height: clamp(320px, 52vh, 540px);
+        max-height: clamp(320px, 52vh, 540px);
+        min-width: 0;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        isolation: isolate;
+      }
+      .canvas {
+        min-height: 0;
+        height: 100%;
+        max-height: none;
+        flex: 1 1 auto;
+        overflow: hidden;
+      }
+      .canvas-viewport {
+        min-height: 0;
+        height: 100%;
+        max-height: none;
+        flex: 1 1 auto;
+      }
+      .page-config-strip {
+        grid-area: footer;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        width: 100%;
+        position: relative;
+        z-index: 0;
+      }
+      .config-section--calculator {
+        border-right: none;
+        border-bottom: var(--chrome-frame-width) solid var(--chrome-frame);
+      }
+      .config-section--calculator::after {
+        display: none;
+      }
+      .sidebar-rail {
+        grid-area: sidebar;
+        width: 100%;
+        max-width: none;
+        min-height: 0;
+        overflow: visible;
+        position: relative;
+        z-index: 0;
+        margin-top: 0;
+      }
+      .toolbox-shell {
+        width: 100%;
+        max-width: none;
+        min-height: 280px;
+        flex: 0 0 auto;
+        overflow: visible;
+      }
+      .toolbox-viewport {
+        min-height: 260px;
+        max-height: min(520px, 52vh);
+        overflow: auto;
+        flex: 0 1 auto;
+      }
+      .toolbox-chrome .panel,
+      .panel {
+        width: 100%;
+        max-width: none;
+        overflow: visible;
+      }
+      .option-groups--fence {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+        grid-auto-rows: min-content;
+        align-content: start;
+        gap: 0.35rem;
+        overflow: visible;
+        max-height: none;
+      }
+      .option-groups--fence .option-group-body {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+        gap: 0.45rem;
+      }
+    }
+    #layout {
+      grid-area: canvas;
+      display: flex;
+      flex-direction: column;
+      min-height: clamp(320px, 52vh, 580px);
+      min-width: 0;
+    }
+    .sidebar-rail {
+      grid-area: sidebar;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+    }
+    .shell-top-row {
+      grid-area: top;
+      display: grid;
+      grid-template-columns: minmax(0, 1.34fr) repeat(2, minmax(0, 1fr));
+      grid-template-rows: 1fr;
+      gap: 0.35rem;
+      align-items: stretch;
+      width: 100%;
+      min-height: 6.75rem;
+    }
+    .shell-top-row > .b1-quad,
+    .shell-top-row > .mini-panel,
+    .shell-top-band > .b1-quad,
+    .shell-top-band > .mini-panel {
+      height: 100%;
+      min-height: 6.75rem;
+    }
+    /** Desktop: bands pass children into the 4-column top row */
+    .shell-top-band {
+      display: contents;
+    }
+    .shell-top-row {
+      position: relative;
+      z-index: 2;
+      overflow: visible;
+    }
+    /** Top mini-panels 2×2 (title+templates | specs+view) — same breakpoint as shell stack */
+    @container app-shell (max-width: 592px) {
+      .shell-top-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .shell-top-band {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 0.35rem;
+        align-items: stretch;
+        min-width: 0;
+      }
+      .shell-top-band > * {
+        min-width: 0;
+        height: 100%;
+        min-height: 6.75rem;
+      }
+      .b1-quad {
+        grid-template-rows: 1fr 1fr;
+      }
+      .shell-top-band--lower > .mini-panel--specs {
+        grid-column: 1 / -1;
+      }
+      .mini-panel--specs .mini-panel-body {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0 0.45rem;
+        padding: 0.35rem 0.4rem 0.42rem;
+      }
+      .mini-panel--specs .specs-col--checks {
+        flex: 1 1 58%;
+        min-width: 0;
+        gap: 0;
+        justify-content: space-evenly;
+        padding-right: 0.1rem;
+      }
+      .mini-panel--specs .specs-col--fields {
+        flex: 0 1 42%;
+        min-width: 4rem;
+        max-width: 5.25rem;
+        gap: 0;
+        justify-content: space-evenly;
+        border-left: var(--panel-divider);
+        padding-left: 0.45rem;
+      }
+      .mini-panel--specs .specs-check-row {
+        flex: 1 1 0;
+      }
+      .mini-panel--specs .check-label {
+        white-space: nowrap;
+        font-size: 0.56rem;
+        line-height: 1.2;
+      }
+      .mini-panel--specs .specs-col--fields .field label {
+        font-size: 0.54rem;
+      }
+      .mini-panel--specs .specs-col--fields .field input {
+        font-size: 0.62rem;
+        padding: 0.14rem 0.32rem;
+      }
+    }
+    /** Top bands + title quadrants stack to single column */
+    @media (max-width: 640px) {
+      .shell-top-band {
+        grid-template-columns: 1fr;
+      }
+      .b1-quad {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "vpf"
+          "spell"
+          "line"
+          "desc";
+      }
+      .b1-quad.panel-ring::before,
+      .b1-quad.panel-ring::after {
+        display: none;
+      }
+      .b1-quad__cell--spell,
+      .b1-quad__cell--line,
+      .b1-quad__cell--desc {
+        border-top: var(--panel-divider);
+      }
+      .b1-quad__cell--vpf,
+      .b1-quad__cell--spell,
+      .b1-quad__cell--line,
+      .b1-quad__cell--desc {
+        border-radius: 0;
+      }
+      .b1-quad__cell--vpf {
+        border-top-left-radius: var(--fence-box-inner-radius);
+        border-top-right-radius: var(--fence-box-inner-radius);
+      }
+      .b1-quad__cell--desc {
+        border-bottom-left-radius: var(--fence-box-inner-radius);
+        border-bottom-right-radius: var(--fence-box-inner-radius);
+      }
+      .mini-panel--specs .mini-panel-body {
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .mini-panel--specs .specs-col--checks,
+      .mini-panel--specs .specs-col--fields {
+        flex: 1 1 auto;
+        max-width: none;
+        width: 100%;
+      }
+      .mini-panel--specs .specs-col--checks {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.65rem;
+        justify-content: flex-start;
+        padding-right: 0;
+      }
+      .mini-panel--specs .specs-col--fields {
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        border-left: none;
+        border-top: var(--panel-divider);
+        padding-left: 0;
+        padding-top: 0.35rem;
+      }
+      .mini-panel--specs .specs-check-row {
+        flex: 0 1 auto;
+      }
+      .mini-panel--specs .specs-col--fields .field {
+        flex: 1 1 5rem;
+      }
+      .mini-panel--specs .check-label {
+        font-size: 0.6rem;
+      }
+    }
+    .workspace-top {
+      display: none;
+    }
+    /** S1 / S3 panels + B1 — tan ring + thin black outer outline */
+    .panel-ring,
+    .price-split__total {
+      border: var(--panel-ring-tan) solid var(--tan);
+      padding: 0;
+      background: transparent;
+      box-shadow: 0 0 0 var(--panel-ring-outer) var(--ring-frame-line);
+      border-radius: var(--fence-box-radius);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .mini-panel.panel-ring,
+    .page-config-strip.panel-ring,
+    .b1-quad.panel-ring {
+      background: transparent;
+    }
+    /** S1 mini-panels — panel-ring radius was zeroed by .mini-panel { border-radius: 0 } */
+    .shell-top-row .mini-panel.panel-ring {
+      border-radius: var(--fence-box-radius);
+      overflow: hidden;
+    }
+    .shell-top-row .mini-panel.panel-ring .mini-panel-head {
+      border-top-left-radius: var(--fence-box-inner-radius);
+      border-top-right-radius: var(--fence-box-inner-radius);
+    }
+    /** Inset hairlines under tan title bars */
+    .mini-panel-head,
+    .config-section-head {
+      position: relative;
+      border-bottom: var(--panel-divider);
+      flex-shrink: 0;
+    }
+    .b1-quad.panel-ring::before,
+    .b1-quad.panel-ring::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .b1-quad.panel-ring::before {
+      left: var(--panel-ring-tan);
+      right: var(--panel-ring-tan);
+      top: 50%;
+      height: 1px;
+      transform: translateY(-50%);
+      background: linear-gradient(
+        to right,
+        var(--ring-frame-line) 0,
+        var(--ring-frame-line) 50%,
+        var(--tan) 50%,
+        var(--tan) 100%
+      );
+    }
+    .b1-quad.panel-ring::after {
+      top: var(--panel-ring-tan);
+      bottom: var(--panel-ring-tan);
+      left: 50%;
+      width: 1px;
+      transform: translateX(-50%);
+      background: var(--ring-frame-line);
+    }
+    .config-section--calculator {
+      position: relative;
+    }
+    .config-section--calculator::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border-right: var(--panel-divider);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .price-split__lf::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border-right: var(--panel-divider);
+      pointer-events: none;
+    }
+    .title-tile {
+      border: var(--chrome-frame-width) solid var(--chrome-frame);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem 0.5rem;
+      background: var(--ui-fill);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    /* B1 — four-quadrant title box (fresh; scoped to .b1-quad only) */
+    .sidebar-zone--title,
+    .b1-quad {
+      border-radius: var(--fence-box-radius);
+      overflow: visible;
+      min-width: 0;
+      width: 100%;
+    }
+    .b1-quad {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: minmax(2.85rem, 1fr) minmax(2.85rem, 1fr);
+      grid-template-areas:
+        "vpf spell"
+        "line desc";
+      min-height: 6.75rem;
+      height: 100%;
+      background: var(--ui-fill);
+      position: relative;
+      z-index: 1;
+      container-type: inline-size;
+      container-name: b1-quad;
+    }
+    .b1-quad:has(.b1-quad__cell.is-open) {
+      z-index: 50;
+    }
+    .b1-quad__cell--vpf {
+      grid-area: vpf;
+      background: var(--b1-forest);
+      border-top-left-radius: var(--fence-box-inner-radius);
+    }
+    .b1-quad__cell--spell {
+      grid-area: spell;
+      background: var(--ui-fill);
+      border-top-right-radius: var(--fence-box-inner-radius);
+    }
+    .b1-quad__cell--line {
+      grid-area: line;
+      background: var(--panel-title-bar-bg);
+      border-bottom-left-radius: var(--fence-box-inner-radius);
+    }
+    .b1-quad__cell--desc {
+      grid-area: desc;
+      background: var(--ui-fill);
+      border-bottom-right-radius: var(--fence-box-inner-radius);
+      align-items: flex-start;
+      overflow: hidden;
+    }
+    .b1-quad__cell {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      min-height: 0;
+      padding: 0.38rem 0.42rem;
+      position: relative;
+      z-index: 1;
+    }
+    .b1-quad__cell.is-open {
+      z-index: 51;
+    }
+    .b1-quad__picker {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      gap: 0;
+      background: none;
+      border: none;
+      padding: 0 0.62rem 0 0;
+      margin: 0;
+      cursor: pointer;
+      color: var(--title-picker-text);
+      text-align: left;
+      font: inherit;
+      position: relative;
+    }
+    .b1-quad__picker:hover .b1-quad__chev,
+    .b1-quad__cell.is-open .b1-quad__chev {
+      opacity: 1;
+    }
+    .b1-quad__chev {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 0.62rem;
+      height: 0.62rem;
+      font-size: 0;
+      line-height: 0;
+      color: transparent;
+      opacity: 0.88;
+      transform: translateY(-50%);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .b1-quad__cell--vpf .b1-quad__picker {
+      color: var(--tan-light);
+    }
+    .b1-quad__cell--line .b1-quad__picker {
+      color: var(--title-picker-text);
+    }
+    .b1-quad__chev::before {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      margin: 0 auto;
+      border-left: 0.22rem solid transparent;
+      border-right: 0.22rem solid transparent;
+      border-top: 0.32rem solid var(--title-picker-text);
+      opacity: 0.92;
+      transition: border-top-color 0.15s ease, opacity 0.15s ease;
+    }
+    .b1-quad__cell--vpf .b1-quad__chev::before {
+      border-top-color: var(--tan-light);
+    }
+    .b1-quad__cell--vpf .b1-quad__picker:hover .b1-quad__chev::before,
+    .b1-quad__cell--vpf.is-open .b1-quad__chev::before {
+      border-top-color: var(--tan);
+      opacity: 1;
+    }
+    .b1-quad__cell--line .b1-quad__picker:hover .b1-quad__chev::before,
+    .b1-quad__cell--line.is-open .b1-quad__chev::before {
+      border-top-color: var(--title-picker-text);
+      opacity: 1;
+    }
+    .b1-quad__cell.is-open .b1-quad__chev {
+      transform: translateY(-50%) rotate(180deg);
+    }
+    .b1-quad__code,
+    .b1-quad__line {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-family: var(--font-display);
+      font-size: clamp(0.68rem, 0.42rem + 3.6cqi, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+    }
+    .b1-quad__code {
+      color: var(--tan-light);
+    }
+    .b1-quad__line {
+      color: var(--title-picker-text);
+    }
+    .b1-quad__spell {
+      margin: 0;
+      width: 100%;
+      font-size: clamp(0.5rem, 0.36rem + 2.2cqi, 0.72rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: var(--tan-light);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+    }
+    .b1-quad__desc {
+      margin: 0;
+      width: 100%;
+      font-size: clamp(0.54rem, 0.46rem + 0.22vw, 0.64rem);
+      line-height: 1.2;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: break-word;
+    }
+    .b1-quad .title-fence-menu {
+      position: absolute;
+      top: calc(100% + 0.25rem);
+      left: 0.5rem;
+      right: auto;
+      min-width: 11rem;
+      max-width: min(16rem, calc(100vw - 2rem));
+      max-height: min(16rem, 50vh);
+      overflow-y: auto;
+      z-index: 60;
+    }
+    /** Placed by JS — fixed to viewport so menus never clip under URL bar or off-screen */
+    .b1-quad .title-fence-menu.title-fence-menu--placed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: auto;
+      right: auto;
+      z-index: 1000;
+    }
+    .mini-panel {
+      background: transparent;
+      overflow: hidden;
+      min-width: 0;
+      min-height: 6.75rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      container-type: inline-size;
+      container-name: mini-panel;
+    }
+    .mini-panel:not(.panel-ring) {
+      border-radius: 0;
+    }
+    .mini-panel-head {
+      margin: 0;
+      padding: 0.42rem 0.55rem;
+      padding-right: calc(1.5rem + 0.3rem);
+      font-size: clamp(0.56rem, 0.48rem + 0.35cqi, 0.62rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--title-picker-text);
+      background: var(--panel-title-bar-bg);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mini-panel-head__title {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .shell-top-row [data-panel-expandable] {
+      position: relative;
+    }
+    /** Green expand — recessed upper-right; black outline, tan icon */
+    .mini-panel-expand {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 8;
+      width: 1.5rem;
+      height: 1.5rem;
+      padding: 0;
+      border: 1px solid var(--ring-frame-line, #0a0a0a);
+      border-radius: 0;
+      border-top-right-radius: var(--fence-box-inner-radius);
+      border-bottom-left-radius: 3px;
+      background: var(--b1-forest-hover, #1f4a2c);
+      color: var(--tan-light, #ad9078);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .mini-panel-expand:hover {
+      background: #2a7a42;
+      color: var(--tan, #9d8068);
+    }
+    .mini-panel-expand:focus-visible {
+      outline: 2px solid var(--tan-light);
+      outline-offset: 1px;
+    }
+    .mini-panel-expand[aria-expanded="true"] {
+      background: var(--b1-forest, #163320);
+      color: var(--tan-light, #ad9078);
+    }
+    .mini-panel-expand__icon {
+      pointer-events: none;
+      line-height: 1;
+    }
+    /** Expanded card — fills S1 top band; fence stays visible below */
+    .shell-top-row.has-expanded-panel {
+      z-index: 30;
+      isolation: isolate;
+    }
+    .shell-top-row [data-panel-expandable].is-expanded {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      min-height: 100%;
+      max-height: min(58vh, 28rem);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.42);
+    }
+    .shell-top-row.has-expanded-panel [data-panel-expandable]:not(.is-expanded) {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .shell-top-row [data-panel-expandable].is-expanded .mini-panel-body,
+    .shell-top-row [data-panel-expandable].is-expanded.b1-quad {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .b1-quad.is-expanded .b1-quad__desc {
+      -webkit-line-clamp: unset;
+      font-size: 0.72rem;
+      line-height: 1.45;
+    }
+    .mini-panel--specs.is-expanded .mini-panel-body {
+      grid-template-columns: minmax(0, 1.2fr) minmax(6rem, 1fr);
+      overflow-y: auto;
+    }
+    .mini-panel--specs.is-expanded .check-label__title {
+      white-space: normal;
+    }
+    .mini-panel--templates.is-expanded .preset-item {
+      min-height: 2.85rem;
+      font-size: 0.62rem;
+      padding: 0.35rem 0.4rem;
+    }
+    .mini-panel-body {
+      padding: 0.42rem 0.48rem 0.48rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      min-height: 0;
+      background: var(--ui-fill);
+    }
+    .mini-panel--templates .mini-panel-body {
+      padding: 0.35rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .mini-panel--templates .preset-grid {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: 1fr;
+      gap: 0.22rem;
+      align-content: stretch;
+    }
+    .mini-panel--templates .preset-grid > li {
+      display: flex;
+      min-height: 0;
+    }
+    .mini-panel--templates .preset-item {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 2.35rem;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      text-align: left;
+      gap: 0.08rem;
+      padding: 0.28rem 0.32rem;
+      font-size: 0.54rem;
+    }
+    .mini-panel--templates .preset-item-name { line-height: 1.2; }
+    .mini-panel--templates .preset-item-price {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--tan-light);
+    }
+    .mini-panel--specs .mini-panel-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 5.25rem);
+      gap: 0 0.55rem;
+      align-items: stretch;
+      padding: 0.42rem 0.48rem 0.48rem;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .mini-panel--specs:not(.is-expanded) .mini-panel-body {
+      overflow: hidden;
+    }
+    .specs-col {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .specs-col--checks {
+      gap: 0;
+      justify-content: space-evenly;
+      flex: 1;
+      min-height: 100%;
+      padding-right: 0.15rem;
+    }
+    .specs-col--fields {
+      gap: 0;
+      justify-content: space-evenly;
+      flex: 1;
+      min-height: 100%;
+      border-left: var(--panel-divider);
+      padding-left: 0.55rem;
+    }
+    .mini-panel--specs .specs-check-row {
+      margin: 0;
+      flex: 1 1 0;
+      display: flex;
+      align-items: flex-start;
+      min-height: 0;
+    }
+    .mini-panel--specs .check-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.28rem;
+      font-size: 0.62rem;
+      line-height: 1.2;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--text);
+      margin: 0;
+      cursor: pointer;
+      white-space: normal;
+      min-width: 0;
+    }
+    .mini-panel--specs .check-label__text {
+      display: block;
+      min-width: 0;
+    }
+    .mini-panel--specs .check-label__title {
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mini-panel--specs .check-label input[type="checkbox"] {
+      flex-shrink: 0;
+      appearance: none;
+      width: 0.82rem;
+      height: 0.82rem;
+      margin: 0;
+      border-radius: 2px;
+      background: var(--orange-active-soft);
+      border: 1px solid var(--orange-active-border);
+      cursor: pointer;
+      vertical-align: middle;
+    }
+    .mini-panel--specs .check-label input[type="checkbox"]:checked {
+      background: var(--tan-solid);
+      border-color: var(--tan-solid);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%230a0a0a' d='M4.5 8.2 2.2 5.9l-.9.9 3.2 3.2 6.4-6.4-.9-.9z'/%3E%3C/svg%3E");
+      background-size: 0.62rem;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .mini-panel--specs .specs-col--fields .field {
+      margin: 0;
+    }
+    .mini-panel--specs .specs-col--fields .field label {
+      display: block;
+      margin-bottom: 0.06rem;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .mini-panel--specs .specs-col--fields .field input {
+      font-size: 0.68rem;
+      padding: 0.18rem 0.4rem;
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--orange-active-soft);
+      border: 1px solid var(--orange-active-border);
+      border-radius: 4px;
+    }
+    .mini-panel--specs .specs-col--fields .field input:focus {
+      outline: none;
+      border-color: var(--tan-solid);
+      box-shadow: 0 0 0 1px var(--accent-glow);
+    }
+    .mini-panel--specs .field--lnft input {
+      min-width: 0;
+    }
+    .toolbox-shell {
+      flex: 1 1 auto;
+      min-height: clamp(320px, 52vh, 580px);
+      background: var(--ring-gutter-fill);
+      border: var(--ring-frame-outer) solid var(--ring-frame-line);
+      border-radius: 8px;
+      padding: var(--work-chrome-pad);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .toolbox-viewport {
+      flex: 1 1 auto;
+      min-height: 0;
+      background: var(--ring-inner-bg);
+      background-attachment: local;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .toolbox-chrome {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: var(--work-inset-pad);
+      gap: 0.35rem;
+    }
+    .option-groups--fence {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .page-config-strip {
+      grid-area: footer;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(12rem, var(--panel-w));
+      background: transparent;
+      overflow: hidden;
+    }
+    .config-section {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--ui-fill);
+    }
+    .config-section-head {
+      padding: 0.42rem 0.55rem;
+      font-size: clamp(0.56rem, 0.48rem + 0.35cqi, 0.62rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--title-picker-text);
+      background: var(--panel-title-bar-bg);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .config-section--price {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .config-section--price .config-section-body {
+      padding: 0;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .config-section--price .price-split-body {
+      padding: 0.32rem;
+      gap: 0.32rem;
+    }
+    .config-section-body {
+      padding: 0.42rem 0.48rem 0.48rem;
+      font-size: 0.62rem;
+    }
+    .config-section--calculator .price-line-list-wrap {
+      margin: 0;
+    }
+    .price-line-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.35rem 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      align-items: start;
+    }
+    .price-line-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.45rem;
+      font-size: clamp(0.56rem, 0.5rem + 0.16vw, 0.62rem);
+      line-height: 1.35;
+      padding: 0.12rem 0;
+      min-width: 0;
+    }
+    .price-line-desc {
+      min-width: 0;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .price-line-rate {
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      color: var(--tan-light);
+      white-space: nowrap;
+      font-size: clamp(0.56rem, 0.5rem + 0.14vw, 0.62rem);
+    }
+    .price-line-item--na .price-line-rate {
+      color: var(--muted);
+    }
+    @media (max-width: 640px) {
+      .price-line-list {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .price-line-item {
+        border-bottom: 1px solid var(--chrome-frame);
+        padding: 0.14rem 0;
+      }
+      .price-line-item:last-child {
+        border-bottom: none;
+      }
+    }
+    .price-split-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      flex: 1 1 auto;
+      min-height: 4.5rem;
+      align-items: stretch;
+    }
+    @media (max-width: 640px) {
+      .config-section--price .price-split-body {
+        min-height: 3.75rem;
+      }
+    }
+    .price-split__lf {
+      position: relative;
+      padding: 0.5rem 0.55rem;
+      background: var(--ui-fill-deep);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.25rem;
+      min-height: 100%;
+    }
+    .price-split__total {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: 1fr;
+      min-height: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .price-split__total::after {
+      content: '';
+      position: absolute;
+      left: var(--panel-ring-tan);
+      right: var(--panel-ring-tan);
+      top: 50%;
+      height: 1px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 2;
+      background: var(--ring-frame-line);
+    }
+    .estimate-total-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+      min-height: 0;
+      padding: 0.38rem 0.48rem 0.34rem;
+      background: var(--panel-title-bar-bg);
+      flex-shrink: 0;
+    }
+    .price-split__total-body {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.34rem 0.48rem 0.38rem;
+      min-height: 0;
+      background: var(--b1-forest);
+    }
+    .cost-calculator-total {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+      font-weight: 700;
+      color: var(--tan-light);
+      line-height: 1.1;
+      text-align: right;
+    }
+    .estimate-range-hint {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(240, 232, 224, 0.72);
+      text-align: right;
+    }
+    .member-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.65rem 0.75rem;
+      border-top: var(--panel-divider);
+    }
+    .member-actions__btn {
+      flex: 1 1 auto;
+      min-width: 8.5rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: var(--fence-box-inner-radius);
+      border: 2px solid var(--tan-soft-border);
+      background: var(--panel-folded-fill);
+      color: var(--title-picker-text);
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+    .member-actions__btn:hover,
+    .member-actions__btn:focus-visible {
+      border-color: var(--ui-active-hover);
+      background: var(--tan-soft);
+      outline: none;
+    }
+    html[data-ff-embed="1"] body {
+      min-height: 100vh;
+    }
+    .estimate-total-label {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--title-picker-text);
+      opacity: 1;
+      text-align: left;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .pricing-disclaimer-btn {
+      margin: 0;
+      flex-shrink: 0;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      border: 1px solid rgba(10, 10, 10, 0.35);
+      background: rgba(10, 10, 10, 0.1);
+      color: var(--title-picker-text);
+      font-size: 0.62rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
+    .pricing-disclaimer-btn:hover,
+    .pricing-disclaimer-btn[aria-expanded="true"] {
+      background: rgba(10, 10, 10, 0.18);
+      border-color: rgba(10, 10, 10, 0.52);
+    }
+    .dynamic-footer { display: none !important; }
+    .check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      font-size: 0.62rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .check-label input { accent-color: var(--ui-active-solid); }
+    .price-hint { color: var(--muted); font-size: 0.58rem; }
+    .client-check-row { margin: 0; }
+    .toolbox-chrome .panel {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0;
+      backdrop-filter: none;
+    }
+    .pricing-disclaimer-popover {
+      position: absolute;
+      z-index: 20;
+      top: calc(100% + 0.35rem);
+      right: 0;
+      left: auto;
+      margin-top: 0;
+      padding: 0.45rem 0.55rem;
+      max-width: min(16rem, calc(100vw - 2rem));
+      font-size: 0.58rem;
+      line-height: 1.35;
+      color: var(--text);
+      background: var(--ui-fill-deep);
+      border: 1px solid var(--ui-outline);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .cost-calculator-metrics,
+    .cost-calculator-per-lf {
+      font-size: 0.58rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .price-split__lf-label {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .price-split__lf-value {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--tan-light);
+    }
+    .title-category-picker {
+      flex-shrink: 0;
+      grid-column: unset;
+      grid-row: unset;
+    }
+    .title-tile-category-btn {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.5rem;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+      max-width: 100%;
+    }
+    .title-tile-category-btn:hover .title-tile-chevron,
+    .title-category-picker.is-open .title-tile-chevron {
+      color: var(--accent);
+    }
+    .title-tile-category-code {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 2.65rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      color: var(--tan-light);
+    }
+    .title-tile-category-trail {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: clamp(0.92rem, 2.2vw, 1.12rem);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: #aaa;
+      line-height: 1.15;
+    }
+    .title-tile-brand-rule {
+      height: 1px;
+      background: var(--ui-outline-soft);
+      border: none;
+      margin: 0;
+      flex-shrink: 0;
+    }
+    .title-tile-main {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto;
+      column-gap: 1rem;
+      row-gap: 0.05rem;
+      align-items: baseline;
+      min-width: 0;
+    }
+    .title-fence-picker {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .title-tile-name-btn {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+      max-width: 100%;
+    }
+    .title-tile-name-btn:hover .title-tile-chevron,
+    .title-fence-picker.is-open .title-tile-chevron {
+      color: var(--accent);
+    }
+    .title-tile-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.8vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 0.015em;
+      line-height: 1.08;
+    }
+    .title-tile-chevron {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      font-weight: 600;
+      color: var(--tan-light);
+      line-height: 1;
+      transition: transform 0.15s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+    .title-fence-picker.is-open .title-tile-chevron {
+      transform: rotate(180deg);
+    }
+    .title-fence-menu {
+      position: absolute;
+      top: calc(100% + 0.35rem);
+      left: 0;
+      margin: 0;
+      padding: 0.3rem;
+      list-style: none;
+      background: var(--ui-fill-deep);
+      border: var(--chrome-frame-width) solid var(--chrome-frame);
+      border-radius: 6px;
+      min-width: 13rem;
+      z-index: 20;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+    .title-fence-menu[hidden] {
+      display: none;
+    }
+    .title-fence-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      color: var(--text);
+      padding: 0.4rem 0.5rem;
+      font: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .title-fence-option:hover:not(:disabled) {
+      background: var(--orange-bar-faded);
+    }
+    .title-fence-option[aria-selected="true"] {
+      background: var(--orange-active-soft);
+      border: 1px solid var(--orange-active-border);
+    }
+    .title-fence-option:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .title-fence-option-note {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 0.12rem;
+    }
+    .title-tile-desc {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.35;
+    }
+    .title-tile-main .title-tile-desc {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      align-self: center;
+    }
+
+    .sidebar-rail {
+      width: 100%;
+      max-width: 100%;
+    }
+    @container app-shell (max-width: 592px) {
+      .sidebar-rail {
+        max-width: none;
+      }
+    }
+    /** Viewport fallback when container queries unsupported */
+    @media (max-width: 592px) {
+      .shell--with-sidebar {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+          "top"
+          "canvas"
+          "sidebar"
+          "footer";
+      }
+      .shell-top-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .shell-top-band {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 0.35rem;
+      }
+      .sidebar-rail {
+        max-width: none;
+      }
+    }
+
+    .general-toolbox,
+    .templates-panel {
+      border: var(--chrome-frame-width) solid var(--ui-outline);
+      border-radius: 8px;
+      background: var(--ui-fill);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .templates-panel {
+      max-height: none;
+      overflow: hidden;
+    }
+    .workspace-top .templates-panel-body {
+      padding: 0.45rem 0.55rem 0.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .templates-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      background: var(--panel-title-bar-bg);
+      padding: 0.48rem 0.75rem;
+      flex-shrink: 0;
+    }
+    .templates-panel-head .templates-panel-title {
+      background: none;
+      padding: 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .templates-panel-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+    .templates-panel-head .preset-gallery-label {
+      color: var(--title-picker-text);
+      opacity: 0.92;
+      white-space: nowrap;
+    }
+    .templates-panel-head .preset-play-btn {
+      border-color: rgba(240, 232, 224, 0.45);
+      background: rgba(10, 10, 10, 0.28);
+      opacity: 0.85;
+    }
+    .templates-panel-head .preset-play-btn:not(:disabled) {
+      opacity: 1;
+    }
+    .general-toolbox-title,
+    .templates-panel-title,
+    .dynamic-footer h2 {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--title-picker-text);
+      background: var(--panel-title-bar-bg);
+      margin: 0;
+      font-size: 0.65rem;
+      padding: 0.48rem 0.75rem;
+    }
+    .general-toolbox-body,
+    .templates-panel-body {
+      padding: 0.55rem 0.65rem 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .general-fields {
+      display: grid;
+      gap: 0.45rem;
+    }
+    .general-gates {
+      display: grid;
+      gap: 0.35rem;
+      padding-top: 0.35rem;
+      margin-top: 0.05rem;
+      border-top: 1px solid var(--ui-outline-soft);
+    }
+    .general-gates-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .general-gate-checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.28rem 0.45rem;
+    }
+    .gate-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      font-size: 0.72rem;
+      line-height: 1.25;
+      color: var(--text);
+      cursor: pointer;
+      margin: 0;
+      min-width: 0;
+    }
+    .gate-check-label input[type="checkbox"] {
+      flex-shrink: 0;
+      accent-color: var(--ui-active-solid);
+    }
+    .preset-gallery {
+      display: contents;
+    }
+    .preset-gallery-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .preset-play-btn {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      border: 1px solid var(--ui-outline);
+      background: var(--ui-fill-deep);
+      color: var(--title-bar-text);
+      font-size: 0.7rem;
+      cursor: not-allowed;
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+    .preset-play-btn:not(:disabled) {
+      cursor: pointer;
+      opacity: 1;
+    }
+    .preset-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.35rem;
+      /* 3–5 cols: as many as fit; cap effective width per cell ~20% (5 cols max) */
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, max(5.75rem, 20%)), 1fr));
+    }
+    .preset-item {
+      width: 100%;
+      text-align: center;
+      background: var(--ui-fill-deep);
+      border: 1px solid var(--ui-outline-soft);
+      border-radius: 5px;
+      color: var(--text);
+      padding: 0.42rem 0.35rem;
+      font: inherit;
+      font-size: 0.66rem;
+      line-height: 1.25;
+      cursor: pointer;
+      min-height: 2.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .preset-item:hover:not(:disabled) {
+      border-color: var(--ui-outline);
+    }
+    .preset-item[aria-pressed="true"],
+    .preset-item.is-active {
+      background: var(--orange-active-soft);
+      border-color: var(--orange-active-border);
+    }
+    .preset-item:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Canvas column — scrollport for pan/zoom; 1× width-first until zoom max or dual split */
+    .layout {
+      min-width: 0;
+      min-height: 0;
+    }
+    /* Sizing chain: .layout canvas column → #canvas-viewport scrollport → .preview-outer only */
+    .canvas {
+      background: var(--ring-gutter-fill);
+      border: var(--ring-frame-outer) solid var(--ring-frame-line);
+      border-radius: 8px;
+      padding: var(--work-chrome-pad);
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .module-frame {
+      display: none;
+    }
+    /** View rail — sibling on preview-cluster row (right of fence box(es), never over VB2) */
+    :root {
+      --view-rail-w: 1.25rem;
+      --view-rail-w-min: 1.1rem;
+      --view-rail-w-max: 4.25rem;
+    }
+    .preview-cluster {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      gap: 0;
+    }
+    .module-viewport {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: transparent;
+    }
+    .module-face-label {
+      display: block;
+      position: absolute;
+      top: calc(var(--scale-rail-h) + 0.12rem);
+      right: 0.35rem;
+      z-index: 7;
+      font-size: clamp(0.5rem, 0.44rem + 0.35cqi, 0.62rem);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tan-light);
+      background: rgba(20, 19, 18, 0.88);
+      border: 1px solid var(--ui-outline-soft);
+      border-radius: 3px;
+      padding: 0.12rem 0.38rem;
+      pointer-events: none;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+    .view-rail {
+      container-type: size;
+      container-name: view-rail;
+      position: relative;
+      flex: 0 0 var(--view-rail-w, 1.25rem);
+      width: var(--view-rail-w, 1.25rem);
+      min-width: var(--view-rail-w-min, 1.1rem);
+      max-width: var(--view-rail-w-max, 4.25rem);
+      align-self: stretch;
+      min-height: var(--module-viewport-h, auto);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      box-sizing: border-box;
+      padding: 0 clamp(0.06rem, 0.5cqi, 0.14rem) clamp(0.08rem, 0.8cqi, 0.16rem);
+      background: var(--ui-fill);
+      border: var(--chrome-frame-width) solid var(--ui-outline);
+      border-left: 1px solid var(--ring-frame-line);
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      pointer-events: auto;
+    }
+    .view-rail__face {
+      flex: 0 0 auto;
+      text-align: center;
+      font-size: clamp(0.48rem, 0.42rem + 0.45cqi, 0.58rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tan-light);
+      padding: 0.14rem 0.06rem 0.1rem;
+      margin-bottom: 0.08rem;
+      border-bottom: 1px solid var(--ui-outline-soft);
+      line-height: 1.1;
+      pointer-events: none;
+    }
+    .view-rail__zoom {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      justify-content: flex-start;
+      gap: clamp(0.08rem, 2.8cqb, 0.32rem);
+      min-height: 0;
+    }
+    .view-rail__spacer {
+      flex: 0 0 0.15rem;
+    }
+    .view-rail__side {
+      display: flex;
+      flex-direction: column;
+      flex: 0 1 auto;
+      justify-content: flex-end;
+      gap: clamp(0.08rem, 2.8cqb, 0.28rem);
+      min-height: 0;
+      padding-bottom: 0.05rem;
+    }
+    .view-rail-btn {
+      appearance: none;
+      font: inherit;
+      flex: 1 1 0;
+      min-height: clamp(1.2rem, 10cqb, 2.75rem);
+      max-height: 3.25rem;
+      margin: 0;
+      padding: 0.08rem 0.06rem;
+      cursor: pointer;
+      color: var(--title-bar-text);
+      background: var(--ui-fill-deep);
+      border: 1px solid var(--ui-outline-soft);
+      border-radius: 3px;
+      font-size: clamp(0.5rem, 0.44rem + 0.5cqi, 0.66rem);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
+    .view-rail-btn:hover:not([aria-pressed="true"]):not(:disabled) {
+      background: var(--ui-fill);
+      border-color: var(--tan-light);
+    }
+    .view-rail-btn[aria-pressed="true"] {
+      background: var(--orange-active-soft);
+      border-color: var(--orange-active-border);
+    }
+    .view-rail-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .view-rail-btn--side {
+      font-weight: 700;
+      font-size: clamp(0.58rem, 0.5rem + 0.55cqi, 0.76rem);
+      letter-spacing: 0.05em;
+    }
+    .canvas.viewport-mode-dual .view-rail__side {
+      display: none;
+    }
+    .view-tab-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    .view-tab {
+      appearance: none;
+      font: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.42rem 0.55rem;
+      margin: 0;
+      cursor: pointer;
+      color: var(--title-bar-text);
+      background: var(--ui-fill);
+      border: var(--chrome-frame-width) solid var(--ui-outline);
+      border-radius: 4px;
+      min-height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.1;
+      white-space: nowrap;
+      transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+    }
+    .view-tab:hover:not([aria-pressed="true"]) {
+      background: var(--ui-fill-deep);
+      border-color: var(--tan-light);
+    }
+    .view-tab[aria-pressed="true"] {
+      background: var(--orange-active-soft);
+      border-color: var(--orange-active-border);
+    }
+    .view-tab.zoom-tab {
+      flex: 1 1 calc(20% - 0.25rem);
+      min-width: 2.25rem;
+      text-align: center;
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+    }
+    .view-options-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .view-options-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .option-group[data-ui-code="TBPV"] .view-tab-group--side .view-tab {
+      flex: 1 1 calc(50% - 0.25rem);
+    }
+    .canvas-viewport {
+      flex: 1;
+      min-height: 0;
+      min-width: 0;
+      overflow: auto;
+      border-radius: 4px;
+      cursor: grab;
+      touch-action: none;
+      background: var(--ring-inner-bg);
+      background-attachment: local;
+      scrollbar-gutter: stable both-edges;
+    }
+    .canvas-viewport.is-panning { cursor: grabbing; }
+    /** Scroll surface — sizes to content when zoomed; min fills the viewport pane. */
+    .viewport-inset {
+      --inset-pad: var(--work-inset-pad);
+      --dual-gap: 1.25rem;
+      padding: var(--inset-pad);
+      box-sizing: border-box;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: max(100%, max-content);
+      height: max(100%, max-content);
+      min-width: 100%;
+      min-height: 100%;
+      background: var(--ring-inner-bg);
+      background-attachment: local;
+    }
+    .preview-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: var(--dual-gap);
+      flex-wrap: nowrap;
+      flex: 0 0 auto;
+    }
+    .preview-module {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .preview-module--companion {
+      display: none;
+    }
+    .canvas.viewport-mode-dual .preview-module--companion {
+      display: block;
+    }
+    /** Fence box abutting view rail — open right edge on last module in cluster */
+    .preview-cluster .preview-module:last-child .preview-outer {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+    }
+    .preview-outer {
+      display: block;
+      line-height: 0;
+      border: var(--chrome-frame-width) solid var(--ui-outline);
+      background: transparent;
+      overflow: hidden;
+      width: var(--fence-w);
+      height: var(--module-viewport-h);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .preview-chrome {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    /** InnerBox — 112×86 shelled frame (VB2); drawn in SVG to match scale ticks. */
+    .inner-box-frame {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: var(--inner-box-h);
+      z-index: 2;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .scale-rail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--scale-rail-h);
+      z-index: 3;
+      pointer-events: none;
+      background: transparent;
+    }
+    .scale-rail-v {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--scale-rail-w);
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+      background: transparent;
+    }
+    .ruler-row {
+      display: none;
+    }
+    .scale-corner {
+      display: none;
+    }
+    .scale-ruler {
+      display: block;
+      overflow: visible;
+    }
+    .scale-ruler.scale-v {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .fence-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+    }
+    .scale-ruler.scale-h {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .grid-pad { display: none; }
+    #preview-host,
+    #preview-host-back {
+      line-height: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #preview-host svg,
+    #preview-host-back svg {
+      display: block;
+      max-width: none;
+      width: 100%;
+      height: 100%;
+      /* Pixel box from sizeModuleSvg; none = fill VB1 without letterbox gaps */
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 100%;
+      background: var(--ui-fill);
+      border: var(--chrome-frame-width) solid var(--ui-outline);
+      border-radius: 8px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      min-height: 0;
+      max-height: 100%;
+      overflow: hidden;
+    }
+    .option-groups {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      gap: 0.35rem;
+      overflow-y: auto;
+    }
+    details.option-group {
+      border: var(--panel-folded-border);
+      border-radius: 6px;
+      background: var(--ui-fill-deep);
+      box-shadow: inset 3px 0 0 var(--panel-accent-stripe);
+      overflow: hidden;
+    }
+    details.option-group:not([open]) {
+      background: var(--panel-folded-fill);
+    }
+    details.option-group[open] {
+      border-color: var(--tan);
+      box-shadow: inset 3px 0 0 var(--panel-accent-stripe);
+    }
+    details.option-group summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.5rem 0.55rem;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      color: var(--title-bar-text);
+      background: var(--ui-fill);
+      border-bottom: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    details.option-group:not([open]) summary {
+      background: transparent;
+    }
+    details.option-group:not([open]) summary::before {
+      color: var(--selected-tan-text);
+    }
+    details.option-group[open] summary {
+      background: var(--panel-title-bar-bg);
+      color: var(--title-picker-text);
+      border-bottom-color: var(--ui-outline-soft);
+    }
+    details.option-group summary::-webkit-details-marker { display: none; }
+    details.option-group summary::before {
+      content: '▸';
+      flex-shrink: 0;
+      color: var(--title-bar-text);
+      font-size: 0.85rem;
+      line-height: 1;
+      transition: transform 0.15s ease;
+    }
+    details.option-group summary:hover {
+      color: var(--title-bar-text);
+    }
+    details.option-group:not([open]) summary:hover {
+      background: rgba(157, 128, 104, 0.22);
+    }
+    details.option-group[open] summary::before {
+      transform: rotate(90deg);
+      color: var(--title-picker-text);
+    }
+    details.option-group[open] summary:hover {
+      color: var(--title-picker-text);
+    }
+    details.option-group.pilot-hidden {
+      display: none;
+    }
+    .templates-panel.pilot-hidden,
+    .mini-panel--templates.pilot-hidden {
+      display: none !important;
+    }
+    .option-group-body {
+      padding: 0 0.55rem 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      border-top: 1px solid var(--ui-outline-soft);
+    }
+    .panel-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .panel-section + .panel-section {
+      padding-top: 0.45rem;
+      border-top: 1px solid var(--border);
+    }
+    .panel-section-title {
+      display: none;
+    }
+    .field label {
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .field select {
+      width: 100%;
+      background: var(--ui-fill-deep);
+      color: var(--text);
+      border: 1px solid var(--ui-outline-soft);
+      border-radius: 6px;
+      padding: 0.35rem 0.45rem;
+      font: inherit;
+      font-size: 0.82rem;
+    }
+    .field select:focus {
+      outline: none;
+      border-color: var(--tan-solid);
+      box-shadow: 0 0 0 1px var(--accent-glow);
+    }
+    .field select:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .field-hint {
+      font-size: 0.65rem;
+      color: #666;
+      margin: 0.15rem 0 0;
+      line-height: 1.35;
+    }
+    /** Trim panel — rail vs vertical vs custom (TBPT sub-groups) */
+    .trim-category {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .trim-category + .trim-category {
+      margin-top: 0.45rem;
+      padding-top: 0.45rem;
+      border-top: 1px solid var(--ui-outline-soft);
+    }
+    .trim-category-label {
+      margin: 0;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field.planned label::after {
+      content: ' · soon';
+      text-transform: none;
+      letter-spacing: 0;
+      color: #666;
+      font-weight: normal;
+    }
+    .toggle {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .toggle button {
+      flex: 1;
+      min-width: 5.5rem;
+      background: var(--ui-fill-deep);
+      border: 1px solid var(--ui-outline-soft);
+      color: var(--text);
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.82rem;
+    }
+    .toggle button:hover {
+      border-color: var(--ui-outline);
+    }
+    .toggle button[aria-pressed="true"] {
+      background: var(--orange-active-soft);
+      border-color: var(--orange-active-border);
+      box-shadow: inset 0 0 0 1px rgba(163, 135, 110, 0.28);
+    }
+    .toggle button.zoom-btn {
+      flex: 0 1 auto;
+      min-width: 2.5rem;
+    }
+
+    /** Transparent tan box — bold black type (wins over base control styles) */
+    .view-tab[aria-pressed="true"],
+    .title-fence-option[aria-selected="true"],
+    .preset-item[aria-pressed="true"],
+    .preset-item.is-active,
+    .toggle button[aria-pressed="true"],
+    details.option-group:not([open]) > summary,
+    .mini-panel--specs .specs-col--fields .field input {
+      color: var(--selected-tan-text);
+      font-weight: var(--selected-tan-font-weight);
+    }
+    .title-fence-option[aria-selected="true"] .title-fence-option-note {
+      color: var(--selected-tan-text-muted);
+      font-weight: 600;
+    }
+    .preset-item[aria-pressed="true"] .preset-item-price,
+    .preset-item.is-active .preset-item-price {
+      color: var(--selected-tan-text);
+      font-weight: var(--selected-tan-font-weight);
+    }
+    details.option-group:not([open]) > summary::before,
+    details.option-group:not([open]) > summary:hover,
+    details.option-group:not([open]) > summary:hover::before {
+      color: var(--selected-tan-text);
+    }
+
+    .selection-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.25rem;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+    .selection-summary .label { color: var(--muted); }
+    #warnings { display: flex; flex-direction: column; gap: 0.5rem; }
+    #warnings[hidden] { display: none; }
+    .warn-card {
+      background: #2a2418;
+      border: 1px solid #6b5020;
+      border-radius: 6px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+    .warn-card strong { display: block; margin-bottom: 0.25rem; color: #e8c070; }
+    .warn-card p { margin: 0; color: #ddd; }
+    #load-error {
+      display: none;
+      background: #3a1818;
+      border: 1px solid #8b3030;
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: #f5d0d0;
+    }
+    #load-error.visible { display: block; }
+    #load-error code { color: #ffb4b4; }
+
+    /** Dev overlay — ?dev=codes shows data-ui-code tags (see heritage-ui-naming.md) */
+    body.dev-ui-codes [data-ui-code] {
+      position: relative;
+    }
+    body.dev-ui-codes [data-ui-code]::after {
+      content: attr(data-ui-code);
+      position: absolute;
+      top: 0.12rem;
+      left: 0.18rem;
+      padding: 0.06rem 0.28rem;
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.15;
+      color: rgba(240, 232, 224, 0.92);
+      background: rgba(122, 66, 24, 0.58);
+      border: 1px solid rgba(166, 88, 42, 0.55);
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 40;
+      font-family: Consolas, "Segoe UI", monospace;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell shell--with-sidebar" id="shell">
+    <div class="shell-top-row" id="shell-top-row" data-ui-code="S1">
+      <div class="shell-top-band shell-top-band--upper" data-ui-code="S1.1">
+      <div class="b1-quad sidebar-zone--title panel-ring" data-panel-expandable data-ui-code="B1">
+        <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand fence style panel" title="Expand">
+          <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
+        </button>
+        <div class="b1-quad__cell b1-quad__cell--vpf" id="fence-category-picker" data-ui-code="B1P0">
+          <button type="button" class="b1-quad__picker" id="fence-category-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="fence-category-menu">
+            <span class="b1-quad__code" id="fence-category-code">VPF</span>
+            <span class="b1-quad__chev" aria-hidden="true"></span>
+          </button>
+          <ul class="title-fence-menu" id="fence-category-menu" role="listbox" aria-label="Fence category" hidden>
+            <li><button type="button" class="title-fence-option" role="option" data-category="vpf" aria-selected="true">VPF<span class="title-fence-option-note">Vertical Picket Fence</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="horizontal">Horizontal fence<span class="title-fence-option-note">Split board &amp; rail</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="fabric" disabled title="Coming soon">Fabric fence<span class="title-fence-option-note">Coming soon</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="hand-guardrail" disabled title="Coming soon">Hand / guardrail<span class="title-fence-option-note">Curveball — coming soon</span></button></li>
+          </ul>
+        </div>
+        <div class="b1-quad__cell b1-quad__cell--spell">
+          <p class="b1-quad__spell" id="fence-category-spell">Vertical Picket Fence</p>
+        </div>
+        <div class="b1-quad__cell b1-quad__cell--line" id="fence-style-picker" data-ui-code="B1P1">
+          <button type="button" class="b1-quad__picker" id="fence-style-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="fence-style-menu">
+            <span class="b1-quad__line" id="fence-style-label">Natural wood</span>
+            <span class="b1-quad__chev" aria-hidden="true"></span>
+          </button>
+          <ul class="title-fence-menu" id="fence-style-menu" role="listbox" aria-label="Fence style" hidden></ul>
+        </div>
+        <div class="b1-quad__cell b1-quad__cell--desc" data-ui-code="B1M2">
+          <p class="b1-quad__desc" id="fence-style-desc">
+            6′ vertical picket fence — PT frame, cedar pickets, configurable rail frame.
+          </p>
+        </div>
+      </div>
+
+      <section class="mini-panel mini-panel--templates panel-ring" id="templates-panel" data-panel-expandable data-ui-code="B2" aria-label="Fence templates">
+        <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand templates" title="Expand">
+          <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
+        </button>
+        <h3 class="mini-panel-head">
+          <span class="mini-panel-head__title">Templates</span>
+        </h3>
+        <div class="mini-panel-body">
+          <ul class="preset-grid" id="preset-list" role="list"></ul>
+        </div>
+      </section>
+      </div>
+
+      <div class="shell-top-band shell-top-band--lower" data-ui-code="S1.2">
+      <section class="mini-panel mini-panel--specs panel-ring" id="project-specs-panel" data-panel-expandable data-ui-code="TBC" aria-label="Project specs">
+        <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand project specs" title="Expand">
+          <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
+        </button>
+        <h3 class="mini-panel-head">
+          <span class="mini-panel-head__title">Project specs</span>
+        </h3>
+        <div class="mini-panel-body">
+          <div class="specs-col specs-col--checks">
+            <div class="specs-check-row">
+              <label class="check-label" for="job-new-install">
+                <input type="checkbox" id="job-new-install" checked />
+                <span class="check-label__text">
+                  <span class="check-label__title">New install</span>
+                </span>
+              </label>
+            </div>
+            <div class="specs-check-row">
+              <label class="check-label" for="job-repair">
+                <input type="checkbox" id="job-repair" />
+                <span class="check-label__text">
+                  <span class="check-label__title">Repair</span>
+                </span>
+              </label>
+            </div>
+            <div class="specs-check-row">
+              <label class="check-label" for="fence-demo">
+                <input type="checkbox" id="fence-demo" />
+                <span class="check-label__text">
+                  <span class="check-label__title">Demo</span>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="specs-col specs-col--fields">
+            <div class="field">
+              <label for="client-zip">Zip</label>
+              <input type="text" id="client-zip" inputmode="numeric" autocomplete="postal-code" placeholder="98000" maxlength="10" />
+            </div>
+            <div class="field field--lnft">
+              <label for="total-ln-ft">Linear ft</label>
+              <input type="number" id="total-ln-ft" min="0" step="1" value="8" />
+            </div>
+          </div>
+        </div>
+      </section>
+      </div>
+    </div>
+
+    <div id="load-error" role="alert">
+      <strong>Preview could not load the assembly</strong>
+      <p id="load-error-detail"></p>
+    </div>
+
+    <div class="layout" id="layout" data-ui-code="S2-CANVAS">
+      <div class="canvas" id="canvas-wrap" data-ui-code="VB">
+        <p class="visually-hidden" id="zoom-info" aria-live="polite">—</p>
+        <div class="canvas-viewport" id="canvas-viewport" aria-label="Zoom and pan — drag to pan when zoomed">
+          <div class="viewport-inset">
+            <div class="preview-cluster" id="preview-cluster">
+              <div class="preview-row" id="preview-row">
+                <div class="preview-module" id="preview-module-front">
+                  <div id="preview-stage" class="preview-outer" data-ui-code="VB1">
+                    <div class="preview-chrome" id="preview-grid">
+                      <div class="module-viewport module-viewport--front" data-ui-code="VB2">
+                        <div class="scale-rail scale-rail-v" id="scale-rail-v" aria-hidden="true">
+                          <svg id="scale-v" class="scale-ruler scale-v" role="presentation" aria-hidden="true"></svg>
+                        </div>
+                        <div class="scale-rail" id="scale-rail" aria-hidden="true">
+                          <svg id="scale-h" class="scale-ruler scale-h" role="presentation" aria-hidden="true"></svg>
+                        </div>
+                        <svg id="inner-box-frame" class="inner-box-frame scale-ruler" role="presentation" aria-hidden="true"></svg>
+                        <div class="fence-wrap" id="fence-wrap" data-ui-code="VB3">
+                          <div id="preview-host"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="preview-module preview-module--companion" id="preview-module-back" aria-hidden="true">
+                  <div id="preview-stage-back" class="preview-outer" data-ui-code="VB1">
+                    <div class="preview-chrome" id="preview-grid-back">
+                      <div class="module-viewport module-viewport--back" data-ui-code="VB2">
+                        <div class="scale-rail scale-rail-v" aria-hidden="true">
+                          <svg id="scale-v-back" class="scale-ruler scale-v" role="presentation" aria-hidden="true"></svg>
+                        </div>
+                        <div class="scale-rail" aria-hidden="true">
+                          <svg id="scale-h-back" class="scale-ruler scale-h" role="presentation" aria-hidden="true"></svg>
+                        </div>
+                        <svg id="inner-box-frame-back" class="inner-box-frame scale-ruler" role="presentation" aria-hidden="true"></svg>
+                        <div class="fence-wrap" data-ui-code="VB3">
+                          <div id="preview-host-back"></div>
+                        </div>
+                        <span class="module-face-label" id="module-face-label-back" aria-hidden="true">Back</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <aside class="view-rail" id="view-rail" data-ui-code="TBPV" aria-label="View controls">
+                <span class="view-rail__face" id="view-rail-face" aria-hidden="true">Front</span>
+                <div class="view-rail__zoom" id="zoom-controls" role="group" aria-label="Zoom">
+                  <button type="button" class="view-rail-btn zoom-tab" data-zoom="0.5" aria-pressed="false">.5×</button>
+                  <button type="button" class="view-rail-btn zoom-tab" data-zoom="0.75" aria-pressed="false">.75×</button>
+                  <button type="button" class="view-rail-btn zoom-tab" data-zoom="1" aria-pressed="true">1×</button>
+                  <button type="button" class="view-rail-btn zoom-tab" data-zoom="1.5" aria-pressed="false">1.5×</button>
+                  <button type="button" class="view-rail-btn zoom-tab" data-zoom="2" aria-pressed="false">2×</button>
+                </div>
+                <div class="view-rail__spacer" aria-hidden="true"></div>
+                <div class="view-rail__side" role="group" aria-label="Side">
+                  <button type="button" class="view-rail-btn view-rail-btn--side" id="btn-front" aria-pressed="true">F</button>
+                  <button type="button" class="view-rail-btn view-rail-btn--side" id="btn-back" aria-pressed="false">B</button>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-config-strip panel-ring" id="page-config-strip" data-ui-code="S3">
+      <section class="config-section config-section--calculator" data-ui-code="B-CALC">
+        <h3 class="config-section-head">Calculator</h3>
+        <div class="config-section-body">
+          <div class="price-line-list-wrap" id="price-indicator-strip" aria-live="polite"></div>
+          <div id="warnings" hidden></div>
+        </div>
+      </section>
+      <section class="config-section config-section--price" data-ui-code="B-PRICE">
+        <h3 class="config-section-head">Fence price</h3>
+        <div class="config-section-body">
+          <div class="price-split-body">
+            <div class="price-split__lf">
+              <span class="price-split__lf-label">Per linear foot</span>
+              <span class="price-split__lf-value" id="cost-calculator-per-lf">—</span>
+              <span class="cost-calculator-metrics" id="cost-calculator-summary">8′ module · enter total run</span>
+            </div>
+            <div class="price-split__total">
+              <div class="estimate-total-head">
+                <span class="estimate-total-label">Estimate</span>
+                <button type="button" class="pricing-disclaimer-btn" id="pricing-disclaimer-toggle" aria-expanded="false" aria-controls="pricing-disclaimer-popover" title="Pricing disclaimer">ℹ</button>
+                <div class="pricing-disclaimer-popover" id="pricing-disclaimer-popover" role="note" hidden></div>
+              </div>
+              <div class="price-split__total-body">
+                <span class="cost-calculator-total" id="cost-calculator-total" aria-live="polite">—</span>
+                <span class="estimate-range-hint" id="estimate-range-hint" hidden>±15% estimate range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="config-section config-section--member" data-ui-code="B-MEMBER" id="member-actions-section">
+        <h3 class="config-section-head">Your design</h3>
+        <div class="config-section-body member-actions" role="group" aria-label="Member actions">
+          <button type="button" class="member-actions__btn" id="btn-save-design">Save design</button>
+          <button type="button" class="member-actions__btn" id="btn-request-contact">Request contact</button>
+          <button type="button" class="member-actions__btn" id="btn-create-blueprint">Create blueprint</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="sidebar-rail" id="sidebar-rail" data-ui-code="S2-TOOLBOX">
+      <div class="toolbox-shell" id="sidebar-fence-stack">
+        <div class="toolbox-viewport">
+          <div class="toolbox-chrome">
+            <aside class="panel" id="control-panel" aria-label="Fence options">
+              <div class="option-groups option-groups--fence" id="option-groups">
+        <details class="option-group" data-ui-code="TBPG">
+          <summary>General</summary>
+          <div class="option-group-body">
+            <div class="general-fields">
+              <div class="field planned">
+                <label for="general-height">Height</label>
+                <select id="general-height" disabled>
+                  <option value="6ft" selected>6′ (standard)</option>
+                  <option value="8ft" disabled>8′ — coming soon</option>
+                </select>
+              </div>
+              <div class="field planned">
+                <label for="general-panel-length">Panel length</label>
+                <select id="general-panel-length" disabled>
+                  <option value="8ft" selected>8′ module</option>
+                  <option value="custom" disabled>Custom run — coming soon</option>
+                </select>
+              </div>
+              <div class="general-gates">
+                <span class="general-gates-label" id="general-gates-label">Gates</span>
+                <div class="field field--man-gate">
+                  <label for="gate-man-count">Man gate</label>
+                  <select id="gate-man-count" aria-labelledby="general-gates-label">
+                    <option value="0" selected>None</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                </div>
+                <div class="general-gate-checks" role="group" aria-labelledby="general-gates-label">
+                  <label class="gate-check-label" for="gate-mower">
+                    <input type="checkbox" id="gate-mower" />
+                    <span>Mower gate</span>
+                  </label>
+                  <label class="gate-check-label" for="gate-double">
+                    <input type="checkbox" id="gate-double" />
+                    <span>Double gate</span>
+                  </label>
+                  <label class="gate-check-label" for="gate-rolling">
+                    <input type="checkbox" id="gate-rolling" />
+                    <span>Rolling gate</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details class="option-group" data-ui-code="TBPP">
+          <summary>Posts</summary>
+          <div class="option-group-body">
+            <div class="field">
+              <label for="posts">Material</label>
+              <select id="posts">
+                <option value="pt-incised" selected>Pressure treated — incised</option>
+                <option value="pt-appearance">Pressure treated — appearance</option>
+                <option value="cedar">Cedar</option>
+              </select>
+            </div>
+            <div class="field planned">
+              <label for="postSize">Size / height</label>
+              <select id="postSize" disabled>
+                <option value="4x4-6ft" selected>4×4 · 6′ (standard)</option>
+                <option value="4x6-6ft" disabled>4×6 · 6′</option>
+                <option value="4x4-8ft" disabled>4×4 · 8′</option>
+                <option value="4x6-8ft" disabled>4×6 · 8′</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="postCaps">Post caps</label>
+              <select id="postCaps">
+                <option value="none" selected>None</option>
+                <option value="cedar">Cedar pyramid</option>
+                <option value="metal">Metal pyramid (black)</option>
+                <option value="solar">Solar pyramid</option>
+                <option value="copper">Copper over wood</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <details class="option-group" data-ui-code="TBPR">
+          <summary>Rails</summary>
+          <div class="option-group-body">
+            <div class="field">
+              <label for="rails">Material</label>
+              <select id="rails">
+                <option value="pt-incised" selected>Pressure treated — incised</option>
+                <option value="pt-appearance">Pressure treated — appearance</option>
+                <option value="cedar">Cedar</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="railCount">Rail count</label>
+              <select id="railCount">
+                <option value="2" selected>2 rail</option>
+                <option value="3">3 rail (middle rail)</option>
+                <option value="4" disabled>4 rail — split fill only</option>
+              </select>
+            </div>
+            <div class="field planned">
+              <label for="railProfile">Rail profile</label>
+              <select id="railProfile" disabled>
+                <option value="2x4" selected>2×4 (standard)</option>
+                <option value="2x6" disabled>2×6 — split fill only</option>
+              </select>
+            </div>
+            <div class="field" id="railCapField">
+              <label for="railCap">Rail cap</label>
+              <select id="railCap">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+              </select>
+            </div>
+            <div class="field" id="capModeField">
+              <label for="capMode">Rail cap material</label>
+              <select id="capMode">
+                <option value="match-rails" selected>Match rails (default)</option>
+                <option value="auto">Auto — follow trim when set</option>
+                <option value="cedar">Force cedar</option>
+                <option value="pt">Force PT</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <details class="option-group" data-ui-code="TBPF">
+          <summary>Pickets / fill</summary>
+          <div class="option-group-body">
+            <div class="field">
+              <label for="fenceStyle">Fence style</label>
+              <select id="fenceStyle">
+                <option value="vertical-picket" selected>Vertical picket</option>
+                <option value="horizontal-picket" disabled>Horizontal picket — coming soon</option>
+                <option value="split-fill" disabled>Split fill — coming soon</option>
+                <option value="chain-link" disabled>Chain link — coming soon</option>
+                <option value="welded-wire" disabled>Welded wire — coming soon</option>
+                <option value="lattice" disabled>Lattice — coming soon</option>
+                <option value="vinyl-composite" disabled>Vinyl / composite — coming soon</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="picketFill">Picket fill</label>
+              <select id="picketFill">
+                <option value="standard" selected>Standard</option>
+                <option value="shadowbox">Shadowbox</option>
+                <option value="board-on-board">Board on board</option>
+              </select>
+            </div>
+            <div class="field" id="picketSpacingField">
+              <label for="picketSpacing">Spacing (standard)</label>
+              <select id="picketSpacing">
+                <option value="1-16-privacy" selected>Privacy — 1/16″ tight</option>
+                <option value="gap-0-5">1/2″ gap</option>
+                <option value="gap-1">1″ gap</option>
+                <option value="gap-3">3″ gap</option>
+                <option value="gap-5-5">5.5″ gap (≈6″ nominal)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <details class="option-group" data-ui-code="TBPS">
+          <summary>Stain</summary>
+          <div class="option-group-body">
+            <div class="field">
+              <label for="stainFrame">Posts &amp; rails</label>
+              <select id="stainFrame">
+                <option value="as-material" selected>As material (PT / cedar)</option>
+                <option value="pt-brown">PT brown</option>
+                <option value="cedar-natural">Cedar natural</option>
+                <option value="custom" disabled>Custom — HOA / spec color</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="stainPicket">Pickets / fill</label>
+              <select id="stainPicket">
+                <option value="as-material" selected>As material — cedar face</option>
+                <option value="cedar-natural">Cedar natural</option>
+                <option value="custom" disabled>Custom stain — TBD</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="stainTrim">Trim boards</label>
+              <select id="stainTrim">
+                <option value="follow-rail-trim" selected>Follow rail trim material</option>
+                <option value="cedar-trim">Cedar trim tone</option>
+                <option value="pt-trim">PT trim tone</option>
+                <option value="custom" disabled>Custom — TBD</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <details class="option-group" data-ui-code="TBPT">
+          <summary>Trim</summary>
+          <div class="option-group-body">
+            <div class="trim-category" data-trim-kind="rail">
+              <p class="trim-category-label">Rail trim</p>
+              <div class="field">
+                <label for="trim">Horizontal rail boards</label>
+                <select id="trim">
+                  <option value="none" selected>None</option>
+                  <option value="cedar-1t">Cedar — 1T (top rail)</option>
+                  <option value="cedar-2t">Cedar — 2T (top + bottom rail)</option>
+                  <option value="cedar-3t">Cedar — 3T (top + middle + bottom rail)</option>
+                  <option value="pt-1t">PT — 1T (top rail)</option>
+                  <option value="pt-2t">PT — 2T (top + bottom rail)</option>
+                  <option value="pt-3t">PT — 3T (top + middle + bottom rail)</option>
+                </select>
+              </div>
+            </div>
+            <div class="trim-category" data-trim-kind="vertical">
+              <p class="trim-category-label">Vertical trim</p>
+              <div class="field planned">
+                <label for="verticalTrim">Post &amp; edge trim</label>
+                <select id="verticalTrim" disabled>
+                  <option value="none" selected>None</option>
+                  <option value="cedar-post-wrap" disabled>Cedar post wrap — coming soon</option>
+                  <option value="pt-post-wrap" disabled>PT post wrap — coming soon</option>
+                  <option value="picture-frame" disabled>Picture frame package — coming soon</option>
+                </select>
+              </div>
+            </div>
+            <div class="trim-category" data-trim-kind="custom">
+              <p class="trim-category-label">Custom trim</p>
+              <div class="field planned">
+                <label for="customTrim">Layout / shop package</label>
+                <select id="customTrim" disabled>
+                  <option value="none" selected>None</option>
+                  <option value="quote" disabled>Custom layout — quote required</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="option-group" data-ui-code="TBPE">
+          <summary>Hardware</summary>
+          <div class="option-group-body">
+            <div class="field">
+              <label for="brackets">Brackets</label>
+              <select id="brackets">
+                <option value="none" selected>None (direct to post)</option>
+                <optgroup label="Fence U-bracket (2× rail)">
+                  <option value="u-black">Black steel</option>
+                  <option value="u-galv">Galvanized steel</option>
+                </optgroup>
+                <optgroup label="L-bracket (fill side of 2×4)">
+                  <option value="l-1">1″ legs</option>
+                  <option value="l-2">2″ legs</option>
+                  <option value="l-4">4″ legs</option>
+                  <option value="l-6">6″ legs</option>
+                </optgroup>
+                <optgroup label="Polyurethane">
+                  <option value="poly-u">U-bracket (wraps 2×4)</option>
+                </optgroup>
+                <optgroup label="Wood block (matches rail material)">
+                  <option value="wood-2x2">2×2 — hidden behind pickets</option>
+                  <option value="wood-2x4">2×4 face — open slot at pickets</option>
+                </optgroup>
+              </select>
+            </div>
+            <p class="field-hint">More hardware (lighting, latches, hinges) will land here.</p>
+          </div>
+        </details>
+        </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="pilot-configurator-registry.js"></script>
+  <script src="heritage-configurator.js"></script>
+  <script src="stack-composer-manifest.js"></script>
+  <script src="stack-composer.js"></script>
+  <script src="pilot-pricing.js"></script>
+  <script src="embed-host.js"></script>
+  <script>
+    const EMBED_MODE = document.documentElement.dataset.ffEmbed === '1';
+    const { HeritageConfigurator: HC } = window;
+    const REG = window.PilotConfiguratorRegistry;
+    const bootStyle = REG.getStyle('vpf-natural-wood');
+    const paths = {
+      front: bootStyle.assembly.front,
+      back: bootStyle.assembly.back,
+    };
+
+    /** ?render=stack|monolith overrides registry renderMode (debug). */
+    const RENDER_OVERRIDE = new URLSearchParams(location.search).get('render');
+
+    function wantsStackComposer(style, side) {
+      if (typeof StackComposer === 'undefined') return false;
+      if (RENDER_OVERRIDE === 'monolith') return false;
+      if (RENDER_OVERRIDE === 'stack') return side === 'front' && style.mode === 'vpf-heritage';
+      return style.renderMode === 'stack' && side === 'front' && style.mode === 'vpf-heritage';
+    }
+
+    function canStackForState(state) {
+      return StackComposer.canUseStack(state, HC);
+    }
+
+    function isStackRendered(hostEl) {
+      return !!hostEl.querySelector('[data-render-mode="stack"]');
+    }
+
+    function needsMonolithFallback(state) {
+      const style = getCurrentStyle();
+      if (!wantsStackComposer(style, state.side)) return false;
+      return !canStackForState(state);
+    }
+
+    function getCurrentStyle() {
+      return REG.getStyle(currentStyleId);
+    }
+
+    /** @deprecated shim — use getCurrentStyle */
+    function getCurrentPilot() {
+      return getCurrentStyle();
+    }
+
+    function applyMaterialDefaults(defaults) {
+      const d = defaults || {};
+      if (d.posts) postsEl.value = d.posts;
+      if (d.rails) railsEl.value = d.rails;
+      if (d.trim) trimEl.value = d.trim;
+      if (railCapEl && d.railCap) railCapEl.value = d.railCap;
+      if (capModeEl && d.capMode) capModeEl.value = d.capMode;
+      if (postCapsEl) postCapsEl.value = d.postCaps || 'none';
+      if (bracketsEl) bracketsEl.value = d.brackets || 'none';
+      if (picketFillEl && d.picketFill) picketFillEl.value = d.picketFill;
+      if (picketSpacingEl && d.picketSpacing) picketSpacingEl.value = d.picketSpacing;
+      syncPicketFillUi();
+      syncRailCapUi();
+    }
+
+    function syncRailCapUi() {
+      const style = getCurrentStyle();
+      const railCapOn = railCapEl && railCapEl.value === 'on';
+      const vpf = style.mode === 'vpf-heritage';
+      if (railCapEl) railCapEl.disabled = !vpf;
+      if (railCapFieldEl) railCapFieldEl.classList.toggle('planned', !vpf);
+      if (capModeEl) capModeEl.disabled = !vpf || !railCapOn;
+      if (capModeFieldEl) capModeFieldEl.classList.toggle('planned', !vpf || !railCapOn);
+    }
+
+    function syncPicketFillUi() {
+      const isStandard = !picketFillEl || picketFillEl.value === 'standard';
+      if (picketSpacingFieldEl) picketSpacingFieldEl.hidden = !isStandard;
+    }
+
+    function syncPanelVisibility(pilot) {
+      const cap = pilot.capabilities;
+      const templatesPanel = document.getElementById('templates-panel');
+      if (templatesPanel) templatesPanel.classList.toggle('pilot-hidden', !cap.templates);
+      document.querySelector('[data-ui-code="TBPF"]')?.classList.toggle('pilot-hidden', !cap.pickets);
+      document.querySelector('[data-ui-code="TBPS"]')?.classList.toggle('pilot-hidden', !cap.stain);
+      document.querySelector('[data-ui-code="TBPT"]')?.classList.toggle('pilot-hidden', !cap.trim);
+      document.querySelector('.view-options-section--side')?.classList.toggle('pilot-hidden', !cap.back);
+      if (btnBack) btnBack.disabled = !cap.back;
+      const railsGroup = document.querySelector('[data-ui-code="TBPR"] summary');
+      if (railsGroup) railsGroup.textContent = pilot.mode === 'hf-frame' ? 'Boards' : 'Rails';
+    }
+
+    function syncControlsForStyle(style) {
+      if (style.mode === 'vpf-heritage') {
+        syncControlsForFramePreset(currentFramePreset);
+        if (postCapsEl) postCapsEl.disabled = false;
+        if (bracketsEl) bracketsEl.disabled = false;
+        syncRailCapUi();
+        return;
+      }
+      railCountEl.value = '2';
+      railCountEl.disabled = true;
+      if (railCapEl) railCapEl.disabled = true;
+      if (railCapFieldEl) railCapFieldEl.classList.add('planned');
+      capModeEl.disabled = true;
+      if (capModeFieldEl) capModeFieldEl.classList.add('planned');
+      if (postCapsEl) postCapsEl.disabled = true;
+      if (bracketsEl) bracketsEl.disabled = true;
+    }
+
+    const PREVIEW_URL = 'http://localhost:5199/pilot-fences/vpf/heritage/preview/heritage-pilot.html';
+    /**
+     * Preview frame guides (module inch space, heritage-geometry).
+     * UI region codes: pilot-fences/vpf/heritage/preview/heritage-ui-naming.md
+     * - VB3 / VBF: 96×72 post-bounded fence (x 8–104, y 12–84)
+     * - VB2 / VBI: full module width 112, y 0 → grass bottom (86 VPF · 96 HF)
+     * - VB1 / VBO: module outer box — 112×86 (VPF) or 112×96 (HF)
+     * - TBPV: View rail on front module (zoom + F/B)
+     */
+    const MODULE_W_IN = 112;
+    let MODULE_H_IN = 86;
+    let GRASS_BOTTOM_Y = 86;
+    const GRASS_GROUND_Y = 84;
+    const SCALE_BAND_H_IN = 10;
+    let CONTENT_H_IN = 86;
+    /** Post outer edges — matches heritage-geometry leftPostShell / rightPostShell */
+    const POST_LEFT_X = 8;
+    const POST_RIGHT_X = 104;
+    const POST_TOP_Y = 12;
+    const POST_BOTTOM_Y = 84;
+    const MEASURE_W_IN = POST_RIGHT_X - POST_LEFT_X; /* 96″ = 8′ */
+    const MEASURE_H_IN = POST_BOTTOM_Y - POST_TOP_Y; /* 72″ = 6′ */
+    let POST_LEFT_FRAC = POST_LEFT_X / MODULE_W_IN;
+    let POST_TOP_FRAC = POST_TOP_Y / MODULE_H_IN;
+    let POST_BOTTOM_FRAC = POST_BOTTOM_Y / MODULE_H_IN;
+    let MEASURE_W_FRAC = MEASURE_W_IN / MODULE_W_IN;
+    let MEASURE_H_FRAC = MEASURE_H_IN / MODULE_H_IN;
+    const GRASS_TILE_W_IN = 16;
+    const GRASS_TILE_COUNT = 7;
+    const GRASS_SPAN_IN = GRASS_TILE_W_IN * GRASS_TILE_COUNT; /* 112″ = full module */
+    /** Scale spans 6 clumps — half of clump 1 → half of clump 7 (post outer edges). */
+    const SCALE_START_X = GRASS_TILE_W_IN * 0.5; /* 8″ — module x, matches left post outer */
+    const SCALE_END_X = GRASS_TILE_W_IN * (GRASS_TILE_COUNT - 0.5); /* 104″ — right post outer */
+    const SCALE_SPAN_IN = SCALE_END_X - SCALE_START_X; /* 96″ FenceBox width between posts */
+    /** Gap from tick tips to post tops (module y). */
+    const RULER_GAP_ABOVE_FENCE = 2.5;
+    const RULER_TICK_TIP_Y = POST_TOP_Y - RULER_GAP_ABOVE_FENCE;
+    const RULER_BASELINE_Y = 3.25;
+    /** Vertical scale — mirror of horizontal, ticks point right toward posts. */
+    /** Major tick reach — vertical (→) matches horizontal (↓) extension from container edge. */
+    const RULER_MAJOR_TICK_REACH_IN = RULER_TICK_TIP_Y - RULER_BASELINE_Y;
+    /** Vertical labels sit below each major tick (y+), left of band — ticks grow right. */
+    const RULER_V_LABEL_OFFSET_Y = 1.15;
+    const RULER_V_LABEL_X_INSET = 0.2;
+    /** Foot labels below baseline, inside tick footprint (baseline → tick tips). */
+    const RULER_LABEL_OFFSET_Y = 3;
+    const RULER_LABEL_Y = RULER_BASELINE_Y + RULER_LABEL_OFFSET_Y;
+    const RULER_LABEL_X_INSET = 0.45;
+    const RULER_SHELL_BAND = 5 / 16;
+    /** Matches --chrome-frame-width at display scale (module inches). */
+    const RULER_BORDER_CORE = 3 / 16;
+    /** VB2 inner perimeter — thicker shelled frame (tan core + black shell). */
+    const VB2_FRAME_BORDER_CORE = 5 / 16;
+    const VB2_FRAME_SHELL_BAND = 7 / 16;
+    const RULER = {
+      ink: '#0a0a0a',
+      border: '#a3876e',
+      borderMuted: 'rgba(163, 135, 110, 0.88)',
+      label: '#d4c4b4',
+      borderCore: RULER_BORDER_CORE,
+      tickMajor: 6 / 16,
+      tickMinor: 5 / 16,
+      shellBand: RULER_SHELL_BAND,
+      /** Tip depth as a fraction of tick core width. */
+      tickPointRatio: 0.9,
+      labelSize: 2.85,
+      minorTickRatio: 0.62,
+    };
+    /** Preset multipliers on fit scale. Max effective px/in is VIEWPORT.ZOOM_MAX_PX_PER_IN (~10); above 2× often clamps. */
+    const ZOOM_STEPS = [0.5, 0.75, 1, 1.5, 2];
+    /** Responsive viewport — tune module min/max display size and breakpoints here.
+     * Collapse priority: shrink sidebar (--panel-min-w → --panel-w-max) before fence drops below 1× plateau
+     * → at --bp-shell-stack stack toolbox below canvas → dual only side-by-side above BP_SHELL_DUAL. */
+    const VIEWPORT = {
+      /** Must match :root --bp-shell-stack calc: panel-min + module-min + pad + gap */
+      BP_SHELL_STACK: 592,
+      /** Side-by-side shell must be at least this wide before auto front+back dual. */
+      BP_SHELL_DUAL_SIDE_BY_SIDE: 1280,
+      BP_PHONE: 640,
+      BP_TABLET: 1024,
+      MODULE_MIN_PX_W: 280,
+      /** Reference spawn width per module in dual (each ≈ half canvas at trigger). */
+      MODULE_DUAL_SPAWN_PX_W: 560,
+      /** Absolute zoom ceiling — 1× fit grows with canvas width until here; zoom presets scale further. */
+      MODULE_ZOOM_MAX_PX_W: 1120,
+      MODULE_ZOOM_MAX_PX_H: 860,
+      DUAL_GAP_PX: 24,
+      /** Hysteresis when leaving dual (px below dynamic enter width). */
+      DUAL_EXIT_HYSTERESIS_PX: 48,
+      /** Extra shell width before dual when sidebar shares a row (sidebar + front + back). */
+      DUAL_SHELL_SIDEBAR_SLACK_PX: 240,
+      SHELL_GRID_GAP_PX: 8,
+      /** View rail overlays VB2 right edge — compresses first, grows into pane slack */
+      VIEW_RAIL_W_MIN_PX: 18,
+      VIEW_RAIL_W_BASE_PX: 20,
+      VIEW_RAIL_W_MAX_PX: 68,
+      /** Legacy fallback if measureH unavailable — prefer dualEnterAvailW(measureH). */
+      DUAL_TRIGGER_AVAIL_W: 1056,
+      DUAL_EXIT_AVAIL_W: 992,
+    };
+
+    function readCssPx(varName, fallback) {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+      const n = parseFloat(raw);
+      return Number.isFinite(n) && n > 0 ? n : fallback;
+    }
+
+    function bpShellStackPx() {
+      return (
+        readCssPx('--panel-min-w', 240) +
+        readCssPx('--module-min-px-w', VIEWPORT.MODULE_MIN_PX_W) +
+        readCssPx('--shell-layout-pad', 48) +
+        24
+      );
+    }
+
+    function panelWidthBounds() {
+      return {
+        max: readCssPx('--panel-w-max', 288),
+        min: readCssPx('--panel-min-w', 240),
+      };
+    }
+
+    function setResponsivePanelWidth(px) {
+      const { max, min } = panelWidthBounds();
+      const w = Math.round(Math.max(min, Math.min(max, px)));
+      document.documentElement.style.setProperty('--panel-w', `${w}px`);
+      return w;
+    }
+
+    /** Canvas scrollport width for a given sidebar column width (side-by-side shell). */
+    function analyticalCanvasPaneW(sidebarW) {
+      const { pad } = getInsetPadding();
+      if (!isShellSideBySide()) {
+        const layoutW = layoutEl
+          ? layoutEl.getBoundingClientRect().width
+          : Math.max(320, readShellInnerWidth() - shellPadForLayout());
+        return Math.max(120, layoutW - pad);
+      }
+      const layoutW = readShellInnerWidth() - shellPadForLayout();
+      const colW = layoutW - sidebarW - VIEWPORT.SHELL_GRID_GAP_PX;
+      return Math.max(120, colW - pad);
+    }
+
+    /** Pane width needed to hold the fence at 1× plateau (× zoom preset) without width squeeze. */
+    function defaultPaneWidthNeeded(measureH, mode) {
+      const plateau = singlePlateauPxPerIn(measureH);
+      const desiredPxPerIn = clampZoomPxPerIn(plateau * zoomLevel);
+      if (mode === 'dual') {
+        return dualEnterAvailW(measureH);
+      }
+      return desiredPxPerIn * MODULE_W_IN;
+    }
+
+    /**
+     * Shrink sidebar before the fence: reserve canvas width for default-scale module(s) first.
+     * Returns sidebar width in px.
+     */
+    function resolveResponsiveSidebarW(measureH, mode) {
+      const { max, min } = panelWidthBounds();
+      if (!isShellSideBySide()) {
+        setResponsivePanelWidth(max);
+        return max;
+      }
+      const layoutW = readShellInnerWidth() - shellPadForLayout();
+      const { pad } = getInsetPadding();
+      const neededPaneW = defaultPaneWidthNeeded(measureH, mode);
+      const minCanvasCol = neededPaneW + pad;
+      const sidebarW = Math.max(
+        min,
+        Math.min(max, layoutW - VIEWPORT.SHELL_GRID_GAP_PX - minCanvasCol)
+      );
+      return setResponsivePanelWidth(sidebarW);
+    }
+
+    function readMeasureH() {
+      const inset = getInsetPadding();
+      const wrapRect = canvasWrapEl.getBoundingClientRect();
+      let h = viewportEl.clientHeight - inset.padV;
+      if (h < 120) h = Math.max(120, wrapRect.height - inset.padV);
+      return Math.max(120, h);
+    }
+
+    function minShellWidthSideBySide() {
+      return bpShellStackPx();
+    }
+
+    function isShellSideBySide() {
+      const shell = document.getElementById('shell');
+      if (!shell) return false;
+      const areas = getComputedStyle(shell).gridTemplateAreas.replace(/"/g, '');
+      return /sidebar\s+canvas/.test(areas);
+    }
+
+    function readSidebarReservedW() {
+      if (!isShellSideBySide()) return 0;
+      const measured = sidebarRailEl?.getBoundingClientRect().width ?? 0;
+      if (measured > 64) return measured;
+      return readCssPx('--panel-w', panelWidthBounds().max);
+    }
+
+    function readShellInnerWidth() {
+      const shell = document.getElementById('shell');
+      return shell?.clientWidth ?? window.innerWidth;
+    }
+
+    function shellPadForLayout() {
+      const shell = document.getElementById('shell');
+      if (!shell) return 48;
+      const s = getComputedStyle(shell);
+      return (
+        parseFloat(s.paddingLeft) +
+        parseFloat(s.paddingRight) +
+        VIEWPORT.SHELL_GRID_GAP_PX
+      );
+    }
+
+    /** Minimum shell width for front+back when the toolbox still sits beside the canvas. */
+    function minShellWidthForDual(measureH) {
+      return (
+        readSidebarReservedW() +
+        dualEnterAvailW(measureH) +
+        shellPadForLayout() +
+        VIEWPORT.DUAL_SHELL_SIDEBAR_SLACK_PX
+      );
+    }
+
+    function canShowDualView(measureW, measureH) {
+      /** Stacked shell (canvas full width): front/back via Side toggle only — never auto dual. */
+      if (!isShellSideBySide()) return false;
+      if (readShellInnerWidth() < VIEWPORT.BP_SHELL_DUAL_SIDE_BY_SIDE) return false;
+      return (
+        readShellInnerWidth() >= minShellWidthForDual(measureH) &&
+        measureW >= dualEnterAvailW(measureH)
+      );
+    }
+
+    function applyModuleProfile(pilot) {
+      const isHf = pilot?.mode === 'hf-frame';
+      MODULE_H_IN = isHf ? 96 : 86;
+      GRASS_BOTTOM_Y = isHf ? 96 : 86;
+      CONTENT_H_IN = MODULE_H_IN;
+      POST_TOP_FRAC = POST_TOP_Y / MODULE_H_IN;
+      POST_BOTTOM_FRAC = POST_BOTTOM_Y / MODULE_H_IN;
+      MEASURE_W_FRAC = MEASURE_W_IN / MODULE_W_IN;
+      MEASURE_H_FRAC = MEASURE_H_IN / MODULE_H_IN;
+      VIEWPORT.MIN_PX_PER_IN = VIEWPORT.MODULE_MIN_PX_W / MODULE_W_IN;
+      VIEWPORT.ZOOM_MAX_PX_PER_IN = Math.min(
+        VIEWPORT.MODULE_ZOOM_MAX_PX_W / MODULE_W_IN,
+        VIEWPORT.MODULE_ZOOM_MAX_PX_H / CONTENT_H_IN
+      );
+      VIEWPORT.DUAL_SPAWN_PX_PER_IN = VIEWPORT.MODULE_DUAL_SPAWN_PX_W / MODULE_W_IN;
+    }
+
+    applyModuleProfile({ mode: 'vpf-heritage' });
+
+    const host = document.getElementById('preview-host');
+    const hostBack = document.getElementById('preview-host-back');
+    const stageEl = document.getElementById('preview-stage');
+    const stageBackEl = document.getElementById('preview-stage-back');
+    const gridEl = document.getElementById('preview-grid');
+    const gridBackEl = document.getElementById('preview-grid-back');
+    const scaleHEl = document.getElementById('scale-h');
+    const scaleBackEl = document.getElementById('scale-h-back');
+    const scaleVEl = document.getElementById('scale-v');
+    const scaleVBackEl = document.getElementById('scale-v-back');
+    const innerBoxFrameEl = document.getElementById('inner-box-frame');
+    const innerBoxFrameBackEl = document.getElementById('inner-box-frame-back');
+    const viewportEl = document.getElementById('canvas-viewport');
+    const previewClusterEl = document.getElementById('preview-cluster');
+    const previewRowEl = document.getElementById('preview-row');
+    const viewRailEl = document.getElementById('view-rail');
+    const canvasWrapEl = document.getElementById('canvas-wrap');
+    const layoutEl = document.getElementById('layout');
+    const sidebarRailEl = document.getElementById('sidebar-rail');
+    const shellTopRowEl = document.getElementById('shell-top-row');
+    const priceIndicatorStripEl = document.getElementById('price-indicator-strip');
+    const moduleBackEl = document.getElementById('preview-module-back');
+    const panelEl = document.getElementById('control-panel');
+    const zoomControlsEl = document.getElementById('zoom-controls');
+    const viewRailFaceEl = document.getElementById('view-rail-face');
+    const moduleFaceLabelBackEl = document.getElementById('module-face-label-back');
+    const zoomInfoEl = document.getElementById('zoom-info');
+    const loadErrorEl = document.getElementById('load-error');
+    const loadErrorDetail = document.getElementById('load-error-detail');
+    const postsEl = document.getElementById('posts');
+    const postCapsEl = document.getElementById('postCaps');
+    const bracketsEl = document.getElementById('brackets');
+    const railsEl = document.getElementById('rails');
+    const trimEl = document.getElementById('trim');
+    const verticalTrimEl = document.getElementById('verticalTrim');
+    const customTrimEl = document.getElementById('customTrim');
+    const stainFrameEl = document.getElementById('stainFrame');
+    const stainPicketEl = document.getElementById('stainPicket');
+    const stainTrimEl = document.getElementById('stainTrim');
+    const capModeEl = document.getElementById('capMode');
+    const railCapEl = document.getElementById('railCap');
+    const railCountEl = document.getElementById('railCount');
+    const picketFillEl = document.getElementById('picketFill');
+    const picketSpacingFieldEl = document.getElementById('picketSpacingField');
+    const picketSpacingEl = document.getElementById('picketSpacing');
+    const fenceStyleDescEl = document.getElementById('fence-style-desc');
+    const fenceStyleLabelEl = document.getElementById('fence-style-label');
+    const btnFront = document.getElementById('btn-front');
+    const btnBack = document.getElementById('btn-back');
+    const warningsEl = document.getElementById('warnings');
+    const capModeFieldEl = document.getElementById('capModeField');
+    const railCapFieldEl = document.getElementById('railCapField');
+    const jobNewInstallEl = document.getElementById('job-new-install');
+    const jobRepairEl = document.getElementById('job-repair');
+    const fenceDemoEl = document.getElementById('fence-demo');
+    const clientZipEl = document.getElementById('client-zip');
+    const totalLnFtEl = document.getElementById('total-ln-ft');
+    const gateManCountEl = document.getElementById('gate-man-count');
+    const gateMowerEl = document.getElementById('gate-mower');
+    const gateDoubleEl = document.getElementById('gate-double');
+    const gateRollingEl = document.getElementById('gate-rolling');
+    const costCalculatorTotalEl = document.getElementById('cost-calculator-total');
+    const costCalculatorSummaryEl = document.getElementById('cost-calculator-summary');
+    const costCalculatorPerLfEl = document.getElementById('cost-calculator-per-lf');
+    const pricingDisclaimerToggleEl = document.getElementById('pricing-disclaimer-toggle');
+    const pricingDisclaimerPopoverEl = document.getElementById('pricing-disclaimer-popover');
+    const estimateRangeHintEl = document.getElementById('estimate-range-hint');
+    const btnSaveDesignEl = document.getElementById('btn-save-design');
+    const btnRequestContactEl = document.getElementById('btn-request-contact');
+    const btnCreateBlueprintEl = document.getElementById('btn-create-blueprint');
+    const PRICING = window.PilotPricing;
+
+    const MATERIAL_LABELS = {
+      cedar: 'Cedar',
+      'pt-incised': 'PT incised',
+      'pt-appearance': 'PT appearance',
+    };
+    const CAP_MODE_LABELS = {
+      auto: 'auto',
+      'match-rails': 'match rails',
+      cedar: 'force cedar',
+      pt: 'force PT',
+    };
+    const TRIM_LABELS = {
+      none: 'None',
+      'cedar-1t': 'Cedar 1T',
+      'cedar-2t': 'Cedar 2T',
+      'cedar-3t': 'Cedar 3T',
+      'pt-1t': 'PT 1T',
+      'pt-2t': 'PT 2T',
+      'pt-3t': 'PT 3T',
+    };
+    const VERTICAL_TRIM_LABELS = {
+      none: 'None',
+      'cedar-post-wrap': 'Cedar post wrap',
+      'pt-post-wrap': 'PT post wrap',
+      'picture-frame': 'Picture frame',
+    };
+    const CUSTOM_TRIM_LABELS = {
+      none: 'None',
+      quote: 'Custom layout',
+    };
+    const STAIN_FRAME_LABELS = {
+      'as-material': 'As material',
+      'pt-brown': 'PT brown',
+      'cedar-natural': 'Cedar natural',
+      custom: 'Custom',
+    };
+    const STAIN_PICKET_LABELS = {
+      'as-material': 'As material',
+      'cedar-natural': 'Cedar natural',
+      custom: 'Custom',
+    };
+    const STAIN_TRIM_LABELS = {
+      'follow-rail-trim': 'Follow rail trim',
+      'cedar-trim': 'Cedar trim',
+      'pt-trim': 'PT trim',
+      custom: 'Custom',
+    };
+    const PICKET_FILL_LABELS = {
+      standard: 'Standard',
+      shadowbox: 'Shadowbox',
+      'board-on-board': 'Board on board',
+    };
+    const POST_CAP_LABELS = {
+      none: 'None',
+      cedar: 'Cedar pyramid',
+      metal: 'Metal pyramid (black)',
+      solar: 'Solar pyramid',
+      copper: 'Copper over wood',
+    };
+    const BRACKET_LABELS = {
+      none: 'None (direct to post)',
+      'u-black': 'U-bracket · black steel',
+      'u-galv': 'U-bracket · galvanized',
+      'l-1': 'L-bracket · 1″ legs',
+      'l-2': 'L-bracket · 2″ legs',
+      'l-4': 'L-bracket · 4″ legs',
+      'l-6': 'L-bracket · 6″ legs',
+      'poly-u': 'Poly U-bracket',
+      'wood-2x2': 'Wood block · 2×2 hidden',
+      'wood-2x4': 'Wood block · 2×4 face',
+    };
+
+    function categorySpellText(cat) {
+      const trail = cat?.trail || '';
+      return trail.replace(/^\(|\)$/g, '').trim() || cat?.label || '';
+    }
+
+    function formatRailTrimChoice(state, style) {
+      const trimLabel = HC.formatTrimLabel(state.trim);
+      let choice = trimLabel === 'none' ? 'None' : TRIM_LABELS[state.trim] || trimLabel;
+      if (style.mode !== 'hf-frame' && trimLabel !== 'none' && state.side === 'front') {
+        choice = `${choice} (front)`;
+      } else if (state.side === 'back' && trimLabel !== 'none') {
+        choice = `${choice} (hidden on back)`;
+      }
+      return choice;
+    }
+
+    function formatTrimPanelChoice(state, style) {
+      const parts = [`Rail: ${formatRailTrimChoice(state, style)}`];
+      const vert = state.verticalTrim || 'none';
+      const custom = state.customTrim || 'none';
+      if (vert !== 'none') parts.push(`Vert: ${VERTICAL_TRIM_LABELS[vert] || vert}`);
+      if (custom !== 'none') parts.push(`Custom: ${CUSTOM_TRIM_LABELS[custom] || custom}`);
+      return parts.join(' · ');
+    }
+
+    function formatStainPanelChoice(state) {
+      const parts = [
+        `Frame: ${STAIN_FRAME_LABELS[state.stainFrame] || state.stainFrame}`,
+        `Pickets: ${STAIN_PICKET_LABELS[state.stainPicket] || state.stainPicket}`,
+        `Trim: ${STAIN_TRIM_LABELS[state.stainTrim] || state.stainTrim}`,
+      ];
+      return parts.join(' · ');
+    }
+
+    function readPricingInput() {
+      const style = getCurrentStyle();
+      return {
+        styleId: currentStyleId,
+        templateId: currentTemplateId,
+        framePreset: currentFramePreset,
+        pilotId: currentStyleId,
+        lnFt: totalLnFtEl ? totalLnFtEl.value : 8,
+        postsUi: postsEl.value,
+        railsUi: railsEl.value,
+        trim: trimEl.value,
+        railCap: railCapEl ? railCapEl.value : 'off',
+        capMode: capModeEl ? capModeEl.value : 'match-rails',
+        postCaps: postCapsEl ? postCapsEl.value : 'none',
+        brackets: bracketsEl ? bracketsEl.value : 'none',
+        picketFill: picketFillEl ? picketFillEl.value : 'standard',
+        picketsEnabled: style.capabilities.pickets,
+        jobRepair: jobRepairEl ? jobRepairEl.checked : false,
+        fenceDemo: fenceDemoEl ? fenceDemoEl.checked : false,
+        gateManCount: gateManCountEl ? Number(gateManCountEl.value) || 0 : 0,
+        gateMower: gateMowerEl ? gateMowerEl.checked : false,
+        gateDouble: gateDoubleEl ? gateDoubleEl.checked : false,
+        gateRolling: gateRollingEl ? gateRollingEl.checked : false,
+      };
+    }
+
+    function formatPriceLineRate(row, est) {
+      if (row.na) return '—';
+      if (row.isBase) return `${PRICING.money(est.basePerLf)}/lf`;
+      const delta = row.perLf || 0;
+      if (row.optional) {
+        if (Math.abs(delta) < 0.005) return '—';
+        return `${PRICING.perLfLabel(delta)}/lf`;
+      }
+      if (Math.abs(delta) < 0.005) return '—';
+      return `${PRICING.perLfLabel(delta)}/lf`;
+    }
+
+    function buildPriceIndicatorRows(est) {
+      const style = getCurrentStyle();
+      const cap = style.capabilities;
+      const state = readState();
+      const template = currentTemplateId ? REG.getTemplate(currentStyleId, currentTemplateId) : null;
+      const line =
+        style.mode === 'vpf-heritage'
+          ? HC.resolveEffectiveVpfLine(state.framePreset, state.railCount)
+          : null;
+      const railCapOn = style.mode === 'vpf-heritage' && HC.resolveRailCapEnabled(state, line);
+      const capMat = railCapOn ? HC.resolveRailCapMaterial(state) : null;
+
+      const jobParts = [];
+      if (jobRepairEl && jobRepairEl.checked) jobParts.push('Repair');
+      if (fenceDemoEl && fenceDemoEl.checked) jobParts.push('Demo');
+      if (!jobParts.length) jobParts.push('New install');
+
+      const postsChoice = MATERIAL_LABELS[state.postsUi] || state.postsUi;
+      let railsChoice = MATERIAL_LABELS[state.railsUi] || state.railsUi;
+      if (style.mode === 'hf-frame') {
+        railsChoice = `${railsChoice} · ${style.label}`;
+      } else if (line) {
+        railsChoice = `${railsChoice} · ${line.railCount}-rail`;
+      }
+
+      const trimChoice = formatTrimPanelChoice(state, style);
+
+      let stainChoice = formatStainPanelChoice(state);
+
+      let railCapChoice = 'Off';
+      if (style.mode === 'hf-frame') {
+        railCapChoice = 'None';
+      } else if (railCapOn) {
+        const capName = capMat ? `${capMat.charAt(0).toUpperCase()}${capMat.slice(1)}` : 'Auto';
+        railCapChoice =
+          state.capMode === 'auto'
+            ? `${capName} (${CAP_MODE_LABELS.auto})`
+            : `${capName} — ${CAP_MODE_LABELS[state.capMode] || state.capMode}`;
+      }
+
+      const postCapChoice = POST_CAP_LABELS[state.postCaps] || state.postCaps || 'None';
+      const bracketChoice = BRACKET_LABELS[state.brackets] || state.brackets || 'None';
+
+      const frameLabel =
+        style.mode === 'vpf-heritage'
+          ? HC.resolveVpfLine(state.framePreset)?.label || state.framePreset
+          : style.label;
+      const baseChoice = template
+        ? `${template.label} · ${style.label}`
+        : `${frameLabel} · ${style.label} (custom)`;
+      const rows = [
+        { label: 'Base', choice: baseChoice, perLf: est.basePerLf, isBase: true },
+        { code: 'TBC', label: 'Job', choice: jobParts.join(' · '), perLf: est.perLfDeltas.TBC },
+        { code: 'TBPP', label: 'Posts', choice: postsChoice, perLf: est.perLfDeltas.TBPP },
+        {
+          label: 'Post caps',
+          choice: postCapChoice,
+          perLf: est.perLfDeltas.POST_CAPS,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+        { code: 'TBPR', label: style.mode === 'hf-frame' ? 'Boards' : 'Rails', choice: railsChoice, perLf: est.perLfDeltas.TBPR },
+        {
+          code: 'TBPF',
+          label: 'Pickets',
+          choice: PICKET_FILL_LABELS[state.picketFill] || 'Standard',
+          perLf: est.perLfDeltas.TBPF,
+          na: !cap.pickets,
+        },
+        {
+          code: 'TBPT',
+          label: 'Trim',
+          choice: trimChoice,
+          perLf: est.perLfDeltas.TBPT,
+          na: !cap.trim,
+        },
+        {
+          code: 'TBPS',
+          label: 'Stain',
+          choice: stainChoice,
+          perLf: 0,
+          na: !cap.stain,
+        },
+        {
+          code: 'TBPC',
+          label: 'Rail cap',
+          choice: railCapChoice,
+          perLf: est.perLfDeltas.TBPC,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+        {
+          code: 'TBPE',
+          label: 'Brackets',
+          choice: bracketChoice,
+          perLf: est.perLfDeltas.TBPE,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+      ];
+
+      return rows;
+    }
+
+    function renderPriceIndicatorStrip(est) {
+      if (!priceIndicatorStripEl || !PRICING) return;
+      const rows = buildPriceIndicatorRows(est);
+      priceIndicatorStripEl.innerHTML = `<ul class="price-line-list">${rows
+        .map((row) => {
+          const naClass = row.na ? ' price-line-item--na' : '';
+          const codeAttr = row.code ? ` data-ui-code="${row.code}"` : '';
+          const desc = `${row.label} · ${row.choice}`;
+          const rate = formatPriceLineRate(row, est);
+          return `<li class="price-line-item${naClass}"${codeAttr}><span class="price-line-desc">${desc}</span><span class="price-line-rate">${rate}</span></li>`;
+        })
+        .join('')}</ul>`;
+    }
+
+    function updatePresetPriceLabels(estInput) {
+      if (!PRICING) return;
+      const base = estInput || readPricingInput();
+      const lnFt = Math.max(0, Number(base.lnFt) || 0);
+      document.querySelectorAll('[data-preset-price]').forEach((el) => {
+        const templateId = el.dataset.presetPrice;
+        const template = REG.getTemplate(currentStyleId, templateId);
+        if (!template || !template.defaults) return;
+        const est = PRICING.computeEstimate({
+          ...base,
+          lnFt,
+          templateId,
+          framePreset: template.framePreset || base.framePreset,
+          postsUi: template.defaults.posts,
+          railsUi: template.defaults.rails,
+          trim: template.defaults.trim,
+          railCap: template.defaults.railCap || 'off',
+          capMode: template.defaults.capMode || 'match-rails',
+          postCaps: template.defaults.postCaps || 'none',
+          brackets: template.defaults.brackets || 'none',
+        });
+        el.textContent = lnFt > 0 ? PRICING.money(est.total) : '—';
+      });
+    }
+
+    function updatePricingEstimate() {
+      if (!PRICING) return;
+      const quote = PRICING.computeQuoteRange(readPricingInput());
+      const rangeLabel = PRICING.formatQuoteRange(quote);
+      const perLfLabel = `${PRICING.money(quote.perLf)}/lf`;
+
+      if (costCalculatorTotalEl) costCalculatorTotalEl.textContent = rangeLabel;
+      if (estimateRangeHintEl) estimateRangeHintEl.hidden = !(quote.lnFt > 0);
+      if (costCalculatorSummaryEl) {
+        costCalculatorSummaryEl.textContent =
+          quote.lnFt > 0
+            ? `${quote.lnFt}′ · ${getCurrentPilot().label}`
+            : 'Enter total linear feet for an estimate.';
+      }
+      if (costCalculatorPerLfEl) {
+        costCalculatorPerLfEl.textContent = quote.lnFt > 0 ? perLfLabel : '—';
+      }
+      renderPriceIndicatorStrip(quote);
+      updatePresetPriceLabels(readPricingInput());
+      if (window.FenceFramesEmbed) window.FenceFramesEmbed.notifyConfigChanged();
+    }
+
+    function setTopPanelExpanded(panel, expanded) {
+      const shellTop = document.getElementById('shell-top-row');
+      if (!panel || !shellTop) return;
+      const btn = panel.querySelector('.mini-panel-expand');
+      panel.classList.toggle('is-expanded', expanded);
+      if (btn) {
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        btn.title = expanded ? 'Collapse' : 'Expand';
+        const icon = btn.querySelector('.mini-panel-expand__icon');
+        if (icon) icon.textContent = expanded ? '⤡' : '⤢';
+        const label = btn.getAttribute('aria-label') || '';
+        if (label) {
+          btn.setAttribute(
+            'aria-label',
+            label.replace(/\b(Expand|Collapse)\b/, expanded ? 'Collapse' : 'Expand')
+          );
+        }
+      }
+      const anyExpanded = shellTop.querySelector('[data-panel-expandable].is-expanded');
+      shellTop.classList.toggle('has-expanded-panel', Boolean(anyExpanded));
+    }
+
+    function collapseTopPanels() {
+      const shellTop = document.getElementById('shell-top-row');
+      if (!shellTop) return;
+      shellTop.querySelectorAll('[data-panel-expandable].is-expanded').forEach((panel) => {
+        setTopPanelExpanded(panel, false);
+      });
+    }
+
+    function wireTopPanelExpand() {
+      const shellTop = document.getElementById('shell-top-row');
+      if (!shellTop) return;
+
+      shellTop.querySelectorAll('.mini-panel-expand').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const panel = btn.closest('[data-panel-expandable]');
+          if (!panel) return;
+          const willExpand = !panel.classList.contains('is-expanded');
+          collapseTopPanels();
+          setTopPanelExpanded(panel, willExpand);
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') collapseTopPanels();
+      });
+    }
+
+    function wireClientJobChecks() {
+      if (!jobNewInstallEl || !jobRepairEl) return;
+      jobNewInstallEl.addEventListener('change', () => {
+        if (jobNewInstallEl.checked) jobRepairEl.checked = false;
+        if (!jobNewInstallEl.checked && !jobRepairEl.checked) jobNewInstallEl.checked = true;
+        updatePricingEstimate();
+      });
+      jobRepairEl.addEventListener('change', () => {
+        if (jobRepairEl.checked) jobNewInstallEl.checked = false;
+        if (!jobNewInstallEl.checked && !jobRepairEl.checked) jobNewInstallEl.checked = true;
+        updatePricingEstimate();
+      });
+      if (fenceDemoEl) {
+        fenceDemoEl.addEventListener('change', updatePricingEstimate);
+      }
+      [clientZipEl, totalLnFtEl].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', updatePricingEstimate);
+      });
+    }
+
+    function wireGeneralGates() {
+      const gateEls = [gateManCountEl, gateMowerEl, gateDoubleEl, gateRollingEl];
+      gateEls.forEach((el) => {
+        if (!el) return;
+        el.addEventListener('change', updatePricingEstimate);
+      });
+    }
+
+    function wirePricingDisclaimer() {
+      if (!pricingDisclaimerToggleEl || !pricingDisclaimerPopoverEl || !PRICING) return;
+      pricingDisclaimerPopoverEl.textContent = PRICING.DISCLAIMER;
+      pricingDisclaimerToggleEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = pricingDisclaimerPopoverEl.hidden;
+        pricingDisclaimerPopoverEl.hidden = !open;
+        pricingDisclaimerToggleEl.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (pricingDisclaimerPopoverEl.hidden) return;
+        if (pricingDisclaimerToggleEl.contains(e.target) || pricingDisclaimerPopoverEl.contains(e.target)) return;
+        pricingDisclaimerPopoverEl.hidden = true;
+        pricingDisclaimerToggleEl.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    function buildConfigSnapshot() {
+      const state = readState();
+      const pricing = readPricingInput();
+      return {
+        version: '1.0.0',
+        styleId: state.styleId,
+        templateId: state.templateId,
+        framePreset: state.framePreset,
+        options: state,
+        project: {
+          zip: clientZipEl ? clientZipEl.value.trim() : '',
+          lnFt: pricing.lnFt,
+          jobRepair: Boolean(pricing.jobRepair),
+          fenceDemo: Boolean(pricing.fenceDemo),
+        },
+      };
+    }
+
+    function wireMemberActions() {
+      if (!window.FenceFramesEmbed) return;
+      const FF = window.FenceFramesEmbed;
+      FF.init({
+        getConfig: buildConfigSnapshot,
+        getQuoteRange: () => (PRICING ? PRICING.computeQuoteRange(readPricingInput()) : null),
+      });
+      if (btnSaveDesignEl) {
+        btnSaveDesignEl.addEventListener('click', () => FF.member.requestSaveDesign());
+      }
+      if (btnRequestContactEl) {
+        btnRequestContactEl.addEventListener('click', () => FF.member.requestContact());
+      }
+      if (btnCreateBlueprintEl) {
+        btnCreateBlueprintEl.addEventListener('click', () => FF.member.requestCreateBlueprint());
+      }
+    }
+
+    let currentStyleId = 'vpf-natural-wood';
+    let currentFramePreset = 'heritage-vpf';
+    let currentFenceCategory = 'vpf';
+    let currentTemplateId = 'default';
+    let currentPresetId = null;
+    let zoomLevel = 1;
+    let viewportMode = 'desktop';
+    let panActive = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panScrollLeft = 0;
+    let panScrollTop = 0;
+    let layoutFrame = null;
+
+    /** Map UI material tier → heritage-configurator rails slot (pt | cedar) until split slots exist */
+    function materialToLegacyRails(value) {
+      return value === 'cedar' ? 'cedar' : 'pt';
+    }
+
+    function normalizeSvg(svg) {
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      /** VPF: crop legacy 112×95 exports to VBO/VBI (112×86). HF: full 112×96 module. */
+      svg.setAttribute('viewBox', `0 0 ${MODULE_W_IN} ${CONTENT_H_IN}`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+    }
+
+    function getInsetPadding() {
+      const inset = viewportEl.querySelector('.viewport-inset');
+      if (!inset) return { pad: 28, padV: 28 };
+      const style = getComputedStyle(inset);
+      return {
+        pad: parseFloat(style.paddingLeft) + parseFloat(style.paddingRight),
+        padV: parseFloat(style.paddingTop) + parseFloat(style.paddingBottom),
+      };
+    }
+
+    /** Estimate canvas column width when the scrollport has not settled yet. */
+    function estimateCanvasColumnWidth() {
+      if (!layoutEl) return Math.max(320, window.innerWidth - 48);
+      const layoutW = layoutEl.getBoundingClientRect().width;
+      if (layoutW < VIEWPORT.BP_PHONE) return Math.max(280, layoutW - 32);
+      if (!isShellSideBySide()) return Math.max(280, layoutW - 32);
+      const sidebarW = sidebarRailEl
+        ? sidebarRailEl.getBoundingClientRect().width
+        : readCssPx('--panel-w', panelWidthBounds().max);
+      return Math.max(280, layoutW - sidebarW - 48);
+    }
+
+    function readInsetSize() {
+      const { pad, padV } = getInsetPadding();
+      const wrapRect = canvasWrapEl.getBoundingClientRect();
+      let w = viewportEl.clientWidth - pad;
+      let h = viewportEl.clientHeight - padV;
+      /** Flex/grid often reports 0 before paint — use the canvas chrome box, not inflated fallbacks. */
+      if (w < 200) w = Math.max(120, wrapRect.width - pad);
+      if (h < 120) h = Math.max(120, wrapRect.height - padV);
+      return {
+        w: Math.max(120, w),
+        h: Math.max(120, h),
+      };
+    }
+
+    function zoomPxPerInLimits() {
+      return { min: VIEWPORT.MIN_PX_PER_IN, max: VIEWPORT.ZOOM_MAX_PX_PER_IN };
+    }
+
+    function clampZoomPxPerIn(pxPerIn) {
+      const { min, max } = zoomPxPerInLimits();
+      return Math.max(min, Math.min(pxPerIn, max));
+    }
+
+    /** 1× fit inside pane — constrain by width and height (matches dual per-module behavior). */
+    function singleFitPxPerIn(measureW, measureH) {
+      const byW = measureW / MODULE_W_IN;
+      const byH = measureH / MODULE_H_IN;
+      return clampZoomPxPerIn(Math.min(byW, byH));
+    }
+
+    function fitPxPerInForModuleSlot(measureW, measureH, mode) {
+      if (mode === 'dual') {
+        /** Each module owns half the pane; space-between keeps even inset from side walls. */
+        const slotW = measureW / 2;
+        const byW = slotW / MODULE_W_IN;
+        const byH = measureH / MODULE_H_IN;
+        return clampZoomPxPerIn(Math.min(byW, byH));
+      }
+      return singleFitPxPerIn(measureW, measureH);
+    }
+
+    function isAtFitMaxScale(pxPerIn) {
+      return pxPerIn >= VIEWPORT.ZOOM_MAX_PX_PER_IN * 0.97;
+    }
+
+    /** Max 1× scale a single module can reach given pane height (width unlimited). */
+    function singlePlateauPxPerIn(measureH) {
+      return singleFitPxPerIn(Number.MAX_SAFE_INTEGER, measureH);
+    }
+
+    function singlePlateauFenceW(measureH) {
+      return MODULE_W_IN * singlePlateauPxPerIn(measureH);
+    }
+
+    /**
+     * Dual enters when single has hit its growth cap and the pane can fit two modules
+     * (each shrinks to ~half the single plateau width when halving is above MODULE_MIN).
+     */
+    function dualEnterAvailW(measureH) {
+      const plateauW = singlePlateauFenceW(measureH);
+      const minDualW = 2 * VIEWPORT.MODULE_MIN_PX_W + VIEWPORT.DUAL_GAP_PX;
+      const halfPlateauW = plateauW / 2;
+      if (halfPlateauW >= VIEWPORT.MODULE_MIN_PX_W) {
+        return Math.max(minDualW, Math.round(plateauW + VIEWPORT.DUAL_GAP_PX));
+      }
+      return minDualW;
+    }
+
+    function dualExitAvailW(measureH) {
+      return Math.max(
+        2 * VIEWPORT.MODULE_MIN_PX_W + VIEWPORT.DUAL_GAP_PX,
+        dualEnterAvailW(measureH) - VIEWPORT.DUAL_EXIT_HYSTERESIS_PX
+      );
+    }
+
+    function singleAtGrowthPlateau(measureW, measureH) {
+      const fit = singleFitPxPerIn(measureW, measureH);
+      const maxFit = singlePlateauPxPerIn(measureH);
+      return fit >= maxFit * 0.985;
+    }
+
+    function modulePixelSize(pxPerIn) {
+      return {
+        w: MODULE_W_IN * pxPerIn,
+        h: CONTENT_H_IN * pxPerIn,
+      };
+    }
+
+    function metricsFromPxPerIn(pxPerIn) {
+      const fenceW = Math.round(MODULE_W_IN * pxPerIn);
+      /** Keep exact module aspect — independent W/H rounding caused sky letterbox gaps. */
+      const fenceH = Math.round(fenceW * (CONTENT_H_IN / MODULE_W_IN));
+      const scaleRailH = Math.round((SCALE_BAND_H_IN / MODULE_H_IN) * fenceH);
+      const scaleRailW = Math.round((SCALE_BAND_H_IN / MODULE_W_IN) * fenceW);
+      const innerBoxH = Math.round((GRASS_BOTTOM_Y / CONTENT_H_IN) * fenceH);
+      const grassLineY = Math.round((GRASS_GROUND_Y / GRASS_BOTTOM_Y) * innerBoxH);
+      return {
+        fenceW,
+        fenceH,
+        scaleRailH,
+        scaleRailW,
+        innerBoxH,
+        grassLineY,
+        moduleViewportH: fenceH,
+        pxPerIn,
+      };
+    }
+
+    /**
+     * phone / tablet / desktop / dual
+     * — single grows until height/zoom cap; dual only when pane fits two modules AND
+     *   (when toolbox is beside canvas) the full shell fits sidebar + front + back.
+     */
+    function resolveViewportMode(measureW, measureH) {
+      const layoutW = layoutEl.clientWidth || window.innerWidth;
+      if (layoutW < VIEWPORT.BP_PHONE) return 'phone';
+
+      const enterW = dualEnterAvailW(measureH);
+      const exitW = dualExitAvailW(measureH);
+      const wasDual = viewportMode === 'dual';
+
+      if (wasDual) {
+        if (measureW >= exitW && canShowDualView(measureW, measureH)) return 'dual';
+        return layoutW < VIEWPORT.BP_TABLET ? 'tablet' : 'desktop';
+      }
+      if (
+        measureW >= enterW &&
+        singleAtGrowthPlateau(measureW, measureH) &&
+        canShowDualView(measureW, measureH)
+      ) {
+        return 'dual';
+      }
+      return layoutW < VIEWPORT.BP_TABLET ? 'tablet' : 'desktop';
+    }
+
+    function applyViewportModeClass(mode) {
+      viewportMode = mode;
+      canvasWrapEl.classList.remove(
+        'viewport-mode-phone',
+        'viewport-mode-tablet',
+        'viewport-mode-desktop',
+        'viewport-mode-dual'
+      );
+      canvasWrapEl.classList.add(`viewport-mode-${mode}`);
+      const isDual = mode === 'dual';
+      moduleBackEl.hidden = !isDual;
+      moduleBackEl.setAttribute('aria-hidden', isDual ? 'false' : 'true');
+    }
+
+    /** Fit module(s) — sidebar shrinks first; fence holds 1× plateau until sidebar is at min. */
+    function computeDisplaySize() {
+      const measureH = readMeasureH();
+      const { max: panelMax } = panelWidthBounds();
+
+      let sidebarW = panelMax;
+      let measureW = analyticalCanvasPaneW(sidebarW);
+      let mode = resolveViewportMode(measureW, measureH);
+
+      sidebarW = resolveResponsiveSidebarW(measureH, mode);
+      measureW = analyticalCanvasPaneW(sidebarW);
+      const modeAfterSidebar = resolveViewportMode(measureW, measureH);
+      if (modeAfterSidebar !== mode) {
+        mode = modeAfterSidebar;
+        sidebarW = resolveResponsiveSidebarW(measureH, mode);
+        measureW = analyticalCanvasPaneW(sidebarW);
+      }
+
+      const neededPaneW = defaultPaneWidthNeeded(measureH, mode);
+      const holdDefaultScale = measureW >= neededPaneW * 0.985;
+
+      let fitPxPerIn;
+      if (holdDefaultScale) {
+        fitPxPerIn = singlePlateauPxPerIn(measureH);
+        if (mode === 'dual') {
+          const slotW = measureW / 2;
+          fitPxPerIn = Math.min(slotW / MODULE_W_IN, measureH / MODULE_H_IN, fitPxPerIn);
+        }
+      } else {
+        fitPxPerIn = fitPxPerInForModuleSlot(measureW, measureH, mode);
+      }
+
+      const scaledPxPerIn = clampZoomPxPerIn(fitPxPerIn * zoomLevel);
+      const { w: fenceW } = modulePixelSize(scaledPxPerIn);
+      const fencesW = fencesRowWidth(fenceW, mode);
+      return {
+        ...metricsFromPxPerIn(scaledPxPerIn),
+        mode,
+        fitPxPerIn,
+        paneW: measureW,
+        paneH: measureH,
+        sidebarW,
+        holdDefaultScale,
+        slackW: Math.max(0, measureW - fencesW - VIEWPORT.VIEW_RAIL_W_BASE_PX),
+        atFitMax: mode !== 'dual' && singleAtGrowthPlateau(measureW, measureH),
+      };
+    }
+
+    /** Clump n (1-based) at fraction f along its 16″ width → module x. */
+    function clumpModuleX(clump, fraction) {
+      return (clump - 1) * GRASS_TILE_W_IN + GRASS_TILE_W_IN * fraction;
+    }
+
+    /**
+     * Nine ticks on 6-clump scale (half clump 1 → half clump 7).
+     * Even-foot labels at start, clump 2|3, half clump 4, clump 5|6, half clump 7.
+     */
+    function clumpScaleTicks() {
+      return [
+        { moduleX: clumpModuleX(1, 0.5), foot: 0, major: true },
+        { moduleX: clumpModuleX(2, 0.25), major: false },
+        { moduleX: clumpModuleX(3, 0), foot: 2, major: true }, /* clump 2|3 */
+        { moduleX: clumpModuleX(3, 0.75), major: false },
+        { moduleX: clumpModuleX(4, 0.5), foot: 4, major: true },
+        { moduleX: clumpModuleX(5, 0.25), major: false },
+        { moduleX: clumpModuleX(6, 0), foot: 6, major: true }, /* clump 5|6 */
+        { moduleX: clumpModuleX(6, 0.75), major: false },
+        { moduleX: clumpModuleX(7, 0.5), foot: 8, major: true },
+      ];
+    }
+
+    /** Vertical scale — 1′ steps from 6′ (top) → 1′; majors 2/4/6 labeled, minors 1/3/5; no 0′. */
+    function verticalScaleTicks() {
+      const step = MEASURE_H_IN / 6; /* 12″ per foot */
+      const ticks = [];
+      for (let foot = 6; foot >= 1; foot--) {
+        ticks.push({
+          moduleY: POST_TOP_Y + (6 - foot) * step,
+          foot: foot % 2 === 0 ? foot : null,
+          major: foot % 2 === 0,
+        });
+      }
+      return ticks;
+    }
+
+    function footLabel(ft) {
+      return `${ft}′`;
+    }
+
+    function rulerOuterWidth(coreW) {
+      return coreW + 2 * RULER.shellBand;
+    }
+
+    /** InnerBox top — tan baseline + black shell below (matches scale band). */
+    function innerBoxTopBorder(x1, x2, y) {
+      const { ink, border } = RULER;
+      const borderCore = VB2_FRAME_BORDER_CORE;
+      const shellBand = VB2_FRAME_SHELL_BAND;
+      const shellY = y + shellBand / 2;
+      const shellW = borderCore + 2 * shellBand;
+      return (
+        `<line x1="${x1}" y1="${shellY}" x2="${x2}" y2="${shellY}" stroke="${ink}" stroke-width="${shellW}" stroke-linecap="square"/>` +
+        `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${border}" stroke-width="${borderCore}" stroke-linecap="square"/>`
+      );
+    }
+
+    /** Shelled horizontal edge — bottom (shell below grass line). */
+    function shelledHorizontalEdge(y, x1, x2, side) {
+      const { ink, border } = RULER;
+      const borderCore = VB2_FRAME_BORDER_CORE;
+      const shellBand = VB2_FRAME_SHELL_BAND;
+      const coreY = y - borderCore / 2;
+      const shellY = coreY + shellBand / 2;
+      const shellW = borderCore + 2 * shellBand;
+      return (
+        `<line x1="${x1}" y1="${shellY}" x2="${x2}" y2="${shellY}" stroke="${ink}" stroke-width="${shellW}" stroke-linecap="square"/>` +
+        `<line x1="${x1}" y1="${coreY}" x2="${x2}" y2="${coreY}" stroke="${border}" stroke-width="${borderCore}" stroke-linecap="square"/>`
+      );
+    }
+
+    /** Shelled vertical edge — left (shell outward) or right (shell outward). */
+    function shelledVerticalEdge(y1, y2, side) {
+      const { ink, border } = RULER;
+      const borderCore = VB2_FRAME_BORDER_CORE;
+      const shellBand = VB2_FRAME_SHELL_BAND;
+      const coreX = side === 'left' ? borderCore / 2 : MODULE_W_IN - borderCore / 2;
+      const shellX = side === 'left' ? coreX - shellBand / 2 : coreX + shellBand / 2;
+      const shellW = borderCore + 2 * shellBand;
+      return (
+        `<line x1="${shellX}" y1="${y1}" x2="${shellX}" y2="${y2}" stroke="${ink}" stroke-width="${shellW}" stroke-linecap="square"/>` +
+        `<line x1="${coreX}" y1="${y1}" x2="${coreX}" y2="${y2}" stroke="${border}" stroke-width="${borderCore}" stroke-linecap="square"/>`
+      );
+    }
+
+    /** Full VB2 perimeter — shelled tan core + black shell (matches scale ticks). */
+    function buildInnerBoxFrame() {
+      const yTop = rulerBaselineY();
+      const yBottom = GRASS_BOTTOM_Y;
+      return (
+        innerBoxTopBorder(0, MODULE_W_IN, yTop) +
+        shelledVerticalEdge(yTop, yBottom, 'left') +
+        shelledVerticalEdge(yTop, yBottom, 'right') +
+        shelledHorizontalEdge(yBottom, 0, MODULE_W_IN, 'bottom')
+      );
+    }
+
+    function renderInnerBoxFrame(frameEl, fenceW, innerBoxH) {
+      if (!frameEl) return;
+      frameEl.setAttribute('width', String(fenceW));
+      frameEl.setAttribute('height', String(innerBoxH));
+      frameEl.setAttribute('viewBox', `0 0 ${MODULE_W_IN} ${GRASS_BOTTOM_Y}`);
+      frameEl.setAttribute('preserveAspectRatio', 'none');
+      frameEl.innerHTML = buildInnerBoxFrame();
+    }
+
+    function shelledVerticalTick(x, y1, y2, coreW = RULER.tickMajor) {
+      const { ink, border } = RULER;
+      const outerW = rulerOuterWidth(coreW);
+      return (
+        `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${ink}" stroke-width="${outerW}" stroke-linecap="butt"/>` +
+        `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${border}" stroke-width="${coreW}" stroke-linecap="butt"/>`
+      );
+    }
+
+    /** Downward tick — shelled stem + pointed tip (black shell, tan core). */
+    function pointedVerticalTick(x, y1, yTip, coreW = RULER.tickMajor) {
+      const { ink, border, shellBand, tickPointRatio } = RULER;
+      const outerW = rulerOuterWidth(coreW);
+      const pointH = Math.max(coreW * tickPointRatio, 0.22);
+      const stemEnd = Math.max(y1, yTip - pointH);
+      let parts = '';
+      if (stemEnd > y1 + 0.01) {
+        parts += shelledVerticalTick(x, y1, stemEnd, coreW);
+      }
+      const oh = outerW / 2;
+      const ch = coreW / 2;
+      const innerApexY = yTip - shellBand * 0.35;
+      parts += `<polygon points="${x},${yTip} ${x - oh},${stemEnd} ${x + oh},${stemEnd}" fill="${ink}"/>`;
+      parts += `<polygon points="${x},${innerApexY} ${x - ch},${stemEnd} ${x + ch},${stemEnd}" fill="${border}"/>`;
+      return parts;
+    }
+
+    /** Baseline at module y≈0 — InnerBox top + scale anchor (image import top). */
+    function rulerBaselineY() {
+      return RULER.borderCore / 2;
+    }
+
+    /** Baseline at module x≈0 — left scale anchor (mirror of rulerBaselineY). */
+    function rulerBaselineX() {
+      return RULER.borderCore / 2;
+    }
+
+    function shelledHorizontalTick(y, x1, x2, coreW = RULER.tickMajor) {
+      const { ink, border } = RULER;
+      const outerW = rulerOuterWidth(coreW);
+      return (
+        `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${ink}" stroke-width="${outerW}" stroke-linecap="butt"/>` +
+        `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${border}" stroke-width="${coreW}" stroke-linecap="butt"/>`
+      );
+    }
+
+    /** Rightward tick — shelled stem + pointed tip (mirror of pointedVerticalTick). */
+    function pointedHorizontalTick(y, x1, xTip, coreW = RULER.tickMajor) {
+      const { ink, border, shellBand, tickPointRatio } = RULER;
+      const outerW = rulerOuterWidth(coreW);
+      const pointW = Math.max(coreW * tickPointRatio, 0.22);
+      const stemEnd = Math.max(x1, xTip - pointW);
+      let parts = '';
+      if (stemEnd > x1 + 0.01) {
+        parts += shelledHorizontalTick(y, x1, stemEnd, coreW);
+      }
+      const oh = outerW / 2;
+      const ch = coreW / 2;
+      const innerApexX = xTip - shellBand * 0.35;
+      parts += `<polygon points="${xTip},${y} ${stemEnd},${y - oh} ${stemEnd},${y + oh}" fill="${ink}"/>`;
+      parts += `<polygon points="${innerApexX},${y} ${stemEnd},${y - ch} ${stemEnd},${y + ch}" fill="${border}"/>`;
+      return parts;
+    }
+
+    /** Rightward ticks — shelled stem, pointed tip; major reach mirrors top scale. */
+    function tickRightScale(moduleY, major = true) {
+      const coreW = major ? RULER.tickMajor : RULER.tickMinor;
+      const reach = RULER_MAJOR_TICK_REACH_IN * (major ? 1 : RULER.minorTickRatio);
+      const baselineX = rulerBaselineX();
+      const xTip = baselineX + reach;
+      return pointedHorizontalTick(moduleY, baselineX, xTip, coreW);
+    }
+
+    /** Downward ticks — shelled stem, pointed tip; major thicker than minor. */
+    function tickDownScale(moduleX, major = true) {
+      const coreW = major ? RULER.tickMajor : RULER.tickMinor;
+      const reach = RULER_MAJOR_TICK_REACH_IN * (major ? 1 : RULER.minorTickRatio);
+      const baselineY = rulerBaselineY();
+      const yTip = baselineY + reach;
+      return pointedVerticalTick(moduleX, baselineY, yTip, coreW);
+    }
+
+    function buildHorizontalRuler(scaleEl) {
+      const { label, labelSize } = RULER;
+      const baselineY = rulerBaselineY();
+      const labelY = baselineY + (RULER_LABEL_Y - RULER_BASELINE_Y);
+      const parts = [];
+      for (const tick of clumpScaleTicks()) {
+        parts.push(tickDownScale(tick.moduleX, tick.major));
+      }
+      for (const tick of clumpScaleTicks()) {
+        if (tick.foot == null) continue;
+        parts.push(
+          `<text x="${tick.moduleX - RULER_LABEL_X_INSET}" y="${labelY}" fill="${label}" font-size="${labelSize}" font-weight="600" font-family="Segoe UI, sans-serif" text-anchor="end">${footLabel(tick.foot)}</text>`
+        );
+      }
+      scaleEl.setAttribute('viewBox', `0 0 ${MODULE_W_IN} ${SCALE_BAND_H_IN}`);
+      scaleEl.setAttribute('preserveAspectRatio', 'none');
+      return parts.join('');
+    }
+
+    function renderScaleRulers(scaleEl, fenceW, scaleRailH) {
+      scaleEl.setAttribute('width', String(fenceW));
+      scaleEl.setAttribute('height', String(scaleRailH));
+      scaleEl.innerHTML = buildHorizontalRuler(scaleEl);
+    }
+
+    function buildVerticalRuler(scaleEl) {
+      const { label, labelSize } = RULER;
+      const baselineX = rulerBaselineX();
+      const parts = [];
+      for (const tick of verticalScaleTicks()) {
+        parts.push(tickRightScale(tick.moduleY, tick.major));
+      }
+      for (const tick of verticalScaleTicks()) {
+        if (tick.foot == null) continue;
+        const labelX = baselineX + RULER_V_LABEL_X_INSET;
+        const labelY = tick.moduleY + RULER_V_LABEL_OFFSET_Y;
+        parts.push(
+          `<text x="${labelX}" y="${labelY}" fill="${label}" font-size="${labelSize}" font-weight="600" font-family="Segoe UI, sans-serif" text-anchor="start" dominant-baseline="hanging">${footLabel(tick.foot)}</text>`
+        );
+      }
+      scaleEl.setAttribute('viewBox', `0 0 ${SCALE_BAND_H_IN} ${CONTENT_H_IN}`);
+      scaleEl.setAttribute('preserveAspectRatio', 'none');
+      return parts.join('');
+    }
+
+    function renderVerticalScaleRulers(scaleEl, scaleRailW, fenceH) {
+      if (!scaleEl) return;
+      scaleEl.setAttribute('width', String(scaleRailW));
+      scaleEl.setAttribute('height', String(fenceH));
+      scaleEl.innerHTML = buildVerticalRuler(scaleEl);
+    }
+
+    function dualGapPx() {
+      return readCssPx('--dual-gap', 20);
+    }
+
+    function fencesRowWidth(fenceW, mode) {
+      return mode === 'dual' ? fenceW * 2 + dualGapPx() : fenceW;
+    }
+
+    function applyDualRowLayout(metrics) {
+      applyClusterLayout(metrics);
+    }
+
+    /** Rail is a flex sibling — grows/shrinks on slack; fences stay left, rail pins cluster right. */
+    function applyViewRailWidth(metrics) {
+      const { VIEW_RAIL_W_MIN_PX, VIEW_RAIL_W_BASE_PX, VIEW_RAIL_W_MAX_PX } = VIEWPORT;
+      const fencesW = fencesRowWidth(metrics.fenceW, metrics.mode);
+      const slackBudget = Math.max(0, metrics.paneW - fencesW - VIEW_RAIL_W_MIN_PX);
+      let railW;
+      if (slackBudget <= VIEW_RAIL_W_BASE_PX - VIEW_RAIL_W_MIN_PX) {
+        railW = VIEW_RAIL_W_MIN_PX;
+      } else {
+        const grow = Math.min(VIEW_RAIL_W_MAX_PX - VIEW_RAIL_W_BASE_PX, slackBudget);
+        railW = Math.round(VIEW_RAIL_W_BASE_PX + grow);
+      }
+      const railWRem = `${(railW / 16).toFixed(3)}rem`;
+      if (viewRailEl) {
+        viewRailEl.style.width = `${railW}px`;
+        viewRailEl.style.flexBasis = `${railW}px`;
+      }
+      if (previewClusterEl) previewClusterEl.style.setProperty('--view-rail-w', railWRem);
+      document.documentElement.style.setProperty('--view-rail-w', railWRem);
+      return railW;
+    }
+
+    function applyClusterLayout(metrics) {
+      const railW = applyViewRailWidth(metrics);
+      if (!previewClusterEl) return;
+      previewClusterEl.style.setProperty('--module-viewport-h', `${metrics.moduleViewportH}px`);
+      previewClusterEl.style.width = `${fencesRowWidth(metrics.fenceW, metrics.mode) + railW}px`;
+      if (previewRowEl) previewRowEl.style.width = `${fencesRowWidth(metrics.fenceW, metrics.mode)}px`;
+    }
+
+    function updateModuleFaceLabels(side, mode) {
+      const face = side === 'back' ? 'Back' : 'Front';
+      if (viewRailFaceEl) viewRailFaceEl.textContent = mode === 'dual' ? 'Front' : face;
+      if (moduleFaceLabelBackEl) moduleFaceLabelBackEl.textContent = 'Back';
+    }
+
+    function centerViewport() {
+      requestAnimationFrame(() => {
+        viewportEl.scrollLeft = Math.max(0, (viewportEl.scrollWidth - viewportEl.clientWidth) / 2);
+        viewportEl.scrollTop = Math.max(0, (viewportEl.scrollHeight - viewportEl.clientHeight) / 2);
+      });
+    }
+
+    function setModuleChromeVars(stage, grid, metrics) {
+      stage.style.width = `${metrics.fenceW}px`;
+      stage.style.height = `${metrics.moduleViewportH}px`;
+      stage.style.setProperty('--fence-w', `${metrics.fenceW}px`);
+      stage.style.setProperty('--fence-h', `${metrics.fenceH}px`);
+      stage.style.setProperty('--scale-rail-h', `${metrics.scaleRailH}px`);
+      stage.style.setProperty('--scale-rail-w', `${metrics.scaleRailW}px`);
+      stage.style.setProperty('--inner-box-h', `${metrics.innerBoxH}px`);
+      stage.style.setProperty('--grass-line-y', `${metrics.grassLineY}px`);
+      stage.style.setProperty('--module-viewport-h', `${metrics.moduleViewportH}px`);
+      grid.style.setProperty('--fence-w', `${metrics.fenceW}px`);
+      grid.style.setProperty('--fence-h', `${metrics.fenceH}px`);
+      grid.style.setProperty('--scale-rail-h', `${metrics.scaleRailH}px`);
+      grid.style.setProperty('--scale-rail-w', `${metrics.scaleRailW}px`);
+      grid.style.setProperty('--inner-box-h', `${metrics.innerBoxH}px`);
+      grid.style.setProperty('--grass-line-y', `${metrics.grassLineY}px`);
+      grid.style.setProperty('--module-viewport-h', `${metrics.moduleViewportH}px`);
+      grid.style.setProperty('--post-left-frac', String(POST_LEFT_FRAC));
+      grid.style.setProperty('--post-top-frac', String(POST_TOP_FRAC));
+      grid.style.setProperty('--post-bottom-frac', String(POST_BOTTOM_FRAC));
+      grid.style.setProperty('--measure-w-frac', String(MEASURE_W_FRAC));
+      grid.style.setProperty('--measure-h-frac', String(MEASURE_H_FRAC));
+    }
+
+    function sizeModuleSvg(hostEl, metrics) {
+      const svg = hostEl.querySelector('svg');
+      if (!svg) return;
+      normalizeSvg(svg);
+      svg.style.width = `${metrics.fenceW}px`;
+      svg.style.height = `${metrics.fenceH}px`;
+    }
+
+    function applyConfiguratorToHost(hostEl, side) {
+      const state = { ...readState(), side };
+      const style = getCurrentStyle();
+      if (wantsStackComposer(style, side) && canStackForState(state)) {
+        return StackComposer.sync(hostEl, state, HC);
+      }
+      const svg = hostEl.querySelector('svg');
+      if (!svg) return;
+      HC.applyConfiguratorToSvgRoot(svg, state);
+    }
+
+    async function fetchAssemblyText(side) {
+      const res = await fetch(paths[side], { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} for ${paths[side]}. Run "npm run preview:heritage" from FenceBook (port 5199).`);
+      }
+      return res.text();
+    }
+
+    async function ensureHostAssembly(hostEl, side) {
+      if (hostEl.querySelector('svg')) return;
+      hostEl.innerHTML = await fetchAssemblyText(side);
+      const svg = hostEl.querySelector('svg');
+      if (!svg) throw new Error('Response was not a valid SVG.');
+      normalizeSvg(svg);
+    }
+
+    async function syncAssembliesForMode(mode) {
+      if (location.protocol === 'file:') return;
+      try {
+        if (mode === 'dual') {
+          await Promise.all([
+            ensureHostAssembly(host, 'front'),
+            ensureHostAssembly(hostBack, 'back'),
+          ]);
+          applyConfiguratorToHost(host, 'front');
+          applyConfiguratorToHost(hostBack, 'back');
+        } else {
+          const side = btnFront.getAttribute('aria-pressed') === 'true' ? 'front' : 'back';
+          await ensureHostAssembly(host, side);
+          applyToPreview(false);
+        }
+        hideLoadError();
+      } catch (err) {
+        showLoadError(err.message || String(err));
+      }
+    }
+
+    async function applyZoom(resetPan = true) {
+      const metrics = computeDisplaySize();
+      const modeChanged = metrics.mode !== viewportMode;
+      applyViewportModeClass(metrics.mode);
+
+      if (modeChanged) {
+        await syncAssembliesForMode(metrics.mode);
+      }
+
+      setModuleChromeVars(stageEl, gridEl, metrics);
+      const activeSide =
+        metrics.mode === 'dual'
+          ? 'front'
+          : btnFront.getAttribute('aria-pressed') === 'true'
+            ? 'front'
+            : 'back';
+      updateModuleFaceLabels(activeSide, metrics.mode);
+      renderScaleRulers(scaleHEl, metrics.fenceW, metrics.scaleRailH);
+      renderVerticalScaleRulers(scaleVEl, metrics.scaleRailW, metrics.fenceH);
+      renderInnerBoxFrame(innerBoxFrameEl, metrics.fenceW, metrics.innerBoxH);
+      sizeModuleSvg(host, metrics);
+
+      if (metrics.mode === 'dual') {
+        setModuleChromeVars(stageBackEl, gridBackEl, metrics);
+        renderScaleRulers(scaleBackEl, metrics.fenceW, metrics.scaleRailH);
+        renderVerticalScaleRulers(scaleVBackEl, metrics.scaleRailW, metrics.fenceH);
+        renderInnerBoxFrame(innerBoxFrameBackEl, metrics.fenceW, metrics.innerBoxH);
+        sizeModuleSvg(hostBack, metrics);
+      }
+
+      applyDualRowLayout(metrics);
+
+      zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
+        const step = Number(btn.getAttribute('data-zoom'));
+        btn.setAttribute('aria-pressed', step === zoomLevel ? 'true' : 'false');
+      });
+
+      const modeLabel =
+        metrics.mode === 'dual'
+          ? 'dual front+back'
+          : metrics.mode;
+      const capLabel = metrics.atFitMax ? ' · at fit max' : '';
+      const sidebarLabel =
+        metrics.sidebarW && isShellSideBySide() ? ` · sidebar ${Math.round(metrics.sidebarW)}px` : '';
+      zoomInfoEl.textContent =
+        `${metrics.fenceW}×${metrics.fenceH} px module · ~${metrics.pxPerIn.toFixed(1)} px/in (1× fit ${metrics.fitPxPerIn.toFixed(1)}, max zoom ${VIEWPORT.ZOOM_MAX_PX_PER_IN.toFixed(1)}) · ${modeLabel}${capLabel}${sidebarLabel} · pane ${Math.round(metrics.paneW)}×${Math.round(metrics.paneH)}`;
+
+      if (resetPan) centerViewport();
+    }
+
+    function scheduleLayout() {
+      if (layoutFrame) cancelAnimationFrame(layoutFrame);
+      layoutFrame = requestAnimationFrame(async () => {
+        layoutFrame = null;
+        await applyZoom(false);
+      });
+    }
+
+    function setZoom(level) {
+      if (!ZOOM_STEPS.includes(level)) return;
+      zoomLevel = level;
+      updatePricingEstimate();
+      void applyZoom(true);
+    }
+
+    function setupPan() {
+      viewportEl.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 && e.pointerType === 'mouse') return;
+        panActive = true;
+        panStartX = e.clientX;
+        panStartY = e.clientY;
+        panScrollLeft = viewportEl.scrollLeft;
+        panScrollTop = viewportEl.scrollTop;
+        viewportEl.classList.add('is-panning');
+        viewportEl.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+
+      viewportEl.addEventListener('pointermove', (e) => {
+        if (!panActive) return;
+        viewportEl.scrollLeft = panScrollLeft - (e.clientX - panStartX);
+        viewportEl.scrollTop = panScrollTop - (e.clientY - panStartY);
+      });
+
+      const endPan = (e) => {
+        if (!panActive) return;
+        panActive = false;
+        viewportEl.classList.remove('is-panning');
+        if (viewportEl.hasPointerCapture(e.pointerId)) {
+          viewportEl.releasePointerCapture(e.pointerId);
+        }
+      };
+
+      viewportEl.addEventListener('pointerup', endPan);
+      viewportEl.addEventListener('pointercancel', endPan);
+    }
+
+    function readState() {
+      const style = getCurrentStyle();
+      const railsLegacy = materialToLegacyRails(railsEl.value);
+      const frameKey = style.mode === 'vpf-heritage' ? currentFramePreset : currentStyleId;
+      const railCount = style.mode === 'vpf-heritage' ? railCountEl.value : '2';
+      const line =
+        style.mode === 'vpf-heritage'
+          ? HC.resolveEffectiveVpfLine(frameKey, railCount)
+          : null;
+      return {
+        pilotMode: style.mode,
+        styleId: currentStyleId,
+        templateId: currentTemplateId,
+        framePreset: currentFramePreset,
+        pilotId: currentStyleId,
+        fenceLine: frameKey,
+        posts: postsEl.value,
+        rails: railsLegacy,
+        railsUi: railsEl.value,
+        postsUi: postsEl.value,
+        postCaps: postCapsEl ? postCapsEl.value : 'none',
+        brackets: bracketsEl ? bracketsEl.value : 'none',
+        trim: trimEl.value,
+        verticalTrim: verticalTrimEl ? verticalTrimEl.value : 'none',
+        customTrim: customTrimEl ? customTrimEl.value : 'none',
+        stainFrame: stainFrameEl ? stainFrameEl.value : 'as-material',
+        stainPicket: stainPicketEl ? stainPicketEl.value : 'as-material',
+        stainTrim: stainTrimEl ? stainTrimEl.value : 'follow-rail-trim',
+        railCap: railCapEl ? railCapEl.value : 'off',
+        capMode: capModeEl.value,
+        picketFill: picketFillEl ? picketFillEl.value : 'standard',
+        picketSpacing: picketSpacingEl ? picketSpacingEl.value : '1-16-privacy',
+        railCount: line ? String(line.railCount) : railCount,
+        side: btnFront.getAttribute('aria-pressed') === 'true' ? 'front' : 'back',
+      };
+    }
+
+    function syncPresetSelection(presetId) {
+      currentPresetId = presetId;
+      currentTemplateId = presetId;
+      document.querySelectorAll('.preset-item').forEach((item) => {
+        const active = item.dataset.preset === presetId;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function templateMatchesControls(templateId) {
+      const template = REG.getTemplate(currentStyleId, templateId);
+      if (!template || !template.defaults) return false;
+      const d = template.defaults;
+      const railCapOn = railCapEl && railCapEl.value === 'on';
+      const frameMatch =
+        currentFramePreset === (template.framePreset || 'heritage-vpf');
+      return (
+        frameMatch &&
+        postsEl.value === d.posts &&
+        (postCapsEl ? postCapsEl.value : 'none') === (d.postCaps || 'none') &&
+        (bracketsEl ? bracketsEl.value : 'none') === (d.brackets || 'none') &&
+        railsEl.value === d.rails &&
+        trimEl.value === d.trim &&
+        (railCapEl ? railCapEl.value : 'off') === (d.railCap || 'off') &&
+        (!railCapOn || capModeEl.value === d.capMode) &&
+        (!picketFillEl || picketFillEl.value === (d.picketFill || 'standard')) &&
+        (!picketSpacingEl || !d.picketSpacing || picketSpacingEl.value === d.picketSpacing) &&
+        railCountEl.value === String(HC.resolveVpfLine(template.framePreset || 'heritage-vpf').railCount)
+      );
+    }
+
+    function setTemplateControls(templateId) {
+      const template = REG.getTemplate(currentStyleId, templateId);
+      if (!template) return;
+      if (template.framePreset) currentFramePreset = template.framePreset;
+      currentTemplateId = templateId;
+      applyMaterialDefaults(template.defaults);
+      if (template.framePreset) {
+        const tplLine = HC.resolveVpfLine(template.framePreset);
+        railCountEl.value = String(tplLine.railCount);
+      }
+      syncControlsForStyle(getCurrentStyle());
+      syncPresetSelection(templateId);
+    }
+
+    function applyTemplate(templateId) {
+      const style = getCurrentStyle();
+      if (!style.capabilities.templates) return;
+      const template = REG.getTemplate(currentStyleId, templateId);
+      if (!template || template.disabled) return;
+      setTemplateControls(templateId);
+      applyToPreview();
+    }
+
+    function syncPresetFromControls() {
+      const templates = REG.templatesForStyle(currentStyleId);
+      const match = templates.find((t) => !t.disabled && templateMatchesControls(t.id));
+      if (match) syncPresetSelection(match.id);
+      else {
+        currentPresetId = null;
+        currentTemplateId = null;
+        document.querySelectorAll('.preset-item').forEach((item) => {
+          item.classList.remove('is-active');
+          item.setAttribute('aria-pressed', 'false');
+        });
+      }
+    }
+
+    function syncTrimOptionsForRailCount() {
+      const threeRail = Number(railCountEl.value) >= 3;
+      trimEl.querySelectorAll('option[value="pt-3t"], option[value="cedar-3t"]').forEach((opt) => {
+        opt.disabled = !threeRail;
+      });
+      if (!threeRail && (trimEl.value === 'pt-3t' || trimEl.value === 'cedar-3t')) {
+        trimEl.value = trimEl.value.startsWith('pt') ? 'pt-2t' : 'cedar-2t';
+      }
+    }
+
+    function syncControlsForFramePreset(framePreset) {
+      const line = HC.resolveVpfLine(framePreset);
+      railCountEl.disabled = false;
+      const opt2 = railCountEl.querySelector('option[value="2"]');
+      const opt3 = railCountEl.querySelector('option[value="3"]');
+      if (opt2) opt2.textContent = '2 rail';
+      if (opt3) opt3.textContent = '3 rail (middle rail)';
+
+      syncRailCapUi();
+      syncTrimOptionsForRailCount();
+    }
+
+    async function switchStyle(styleId, labelText) {
+      const style = REG.getStyle(styleId);
+      if (!style || style.disabled || style.mode === 'stub' || !style.assembly) return;
+
+      currentStyleId = styleId;
+      currentFenceCategory = style.category;
+
+      const defaultTpl = REG.defaultTemplateForStyle(styleId);
+      if (defaultTpl) {
+        currentTemplateId = defaultTpl.id;
+        currentFramePreset = defaultTpl.framePreset || 'heritage-vpf';
+      }
+
+      applyModuleProfile(style);
+      applyMaterialDefaults(style.defaults);
+      if (defaultTpl) applyMaterialDefaults(defaultTpl.defaults);
+      syncControlsForStyle(style);
+      syncPanelVisibility(style);
+      rebuildTemplateList();
+
+      if (fenceStyleLabelEl) fenceStyleLabelEl.textContent = labelText || style.label;
+      if (fenceStyleDescEl && style.description) fenceStyleDescEl.textContent = style.description;
+      if (fenceCategoryCodeEl) {
+        const cat = REG.getCategory(style.category);
+        fenceCategoryCodeEl.textContent = cat.code;
+        if (fenceCategorySpellEl) fenceCategorySpellEl.textContent = categorySpellText(cat);
+      }
+
+      paths.front = style.assembly.front;
+      paths.back = style.assembly.back || style.assembly.front;
+
+      host.innerHTML = '';
+      if (hostBack) hostBack.innerHTML = '';
+
+      btnFront.setAttribute('aria-pressed', 'true');
+      btnBack.setAttribute('aria-pressed', 'false');
+
+      if (viewportMode === 'dual') {
+        viewportMode = 'desktop';
+        applyViewportModeClass('desktop');
+      }
+
+      zoomLevel = 1;
+      if (defaultTpl) syncPresetSelection(defaultTpl.id);
+      await loadAssembly('front');
+    }
+
+    function showLoadError(message) {
+      loadErrorDetail.textContent = message;
+      loadErrorEl.classList.add('visible');
+    }
+
+    function hideLoadError() {
+      loadErrorEl.classList.remove('visible');
+    }
+
+    async function applyToPreview(runLayout = true) {
+      const state = readState();
+      const style = getCurrentStyle();
+      updatePricingEstimate();
+      HC.renderWarnings(warningsEl, state);
+      if (viewportMode === 'dual') {
+        await applyConfiguratorToHost(host, 'front');
+        applyConfiguratorToHost(hostBack, 'back');
+      } else {
+        if (!host.querySelector('svg')) {
+          showLoadError('Assembly SVG not in page.');
+          return;
+        }
+        if (needsMonolithFallback(state) && isStackRendered(host)) {
+          await loadAssembly(state.side);
+          return;
+        }
+        if (wantsStackComposer(style, state.side) && canStackForState(state) && !isStackRendered(host)) {
+          await loadAssembly(state.side);
+          return;
+        }
+        hideLoadError();
+        if (wantsStackComposer(style, state.side) && canStackForState(state)) {
+          try {
+            await StackComposer.sync(host, state, HC);
+          } catch (err) {
+            showLoadError(err.message || String(err));
+            return;
+          }
+        } else {
+          HC.applyConfiguratorToSvgRoot(host.querySelector('svg'), state);
+        }
+      }
+      if (runLayout) applyZoom(false);
+    }
+
+    async function loadAssembly(side) {
+      const pilot = getCurrentPilot();
+      if (viewportMode === 'dual') {
+        if (!pilot.capabilities.back) {
+          btnFront.setAttribute('aria-pressed', 'true');
+          btnBack.setAttribute('aria-pressed', 'false');
+        }
+        btnFront.setAttribute('aria-pressed', 'true');
+        btnBack.setAttribute('aria-pressed', 'false');
+        await applyZoom(true);
+        return;
+      }
+
+      btnFront.setAttribute('aria-pressed', side === 'front');
+      btnBack.setAttribute('aria-pressed', side === 'back');
+      updateModuleFaceLabels(side, viewportMode);
+
+      if (side === 'back' && !pilot.capabilities.back) {
+        btnFront.setAttribute('aria-pressed', 'true');
+        btnBack.setAttribute('aria-pressed', 'false');
+        side = 'front';
+      }
+
+      if (location.protocol === 'file:') {
+        showLoadError(
+          'You opened the HTML file from disk (file://). Run npm run preview:heritage from FenceBook, then open: ' +
+            PREVIEW_URL
+        );
+        return;
+      }
+
+      hideLoadError();
+      host.innerHTML = '<p style="color:#888;font-size:0.85rem;margin:0">Loading…</p>';
+
+      const state = { ...readState(), side };
+      const style = getCurrentStyle();
+
+      try {
+        if (wantsStackComposer(style, side) && canStackForState(state)) {
+          await StackComposer.render(host, state, HC);
+        } else {
+          host.innerHTML = await fetchAssemblyText(side);
+        }
+        const svg = host.querySelector('svg');
+        if (!svg) throw new Error('Response was not a valid SVG.');
+        normalizeSvg(svg);
+        svg.style.width = '1px';
+        svg.style.height = '1px';
+        updatePricingEstimate();
+        HC.renderWarnings(warningsEl, state);
+        if (!wantsStackComposer(style, side) || !canStackForState(state)) {
+          HC.applyConfiguratorToSvgRoot(svg, state);
+        } else {
+          StackComposer.applyStackConfigurator(host, state, HC);
+        }
+        await applyZoom(true);
+      } catch (err) {
+        if (wantsStackComposer(style, side) && canStackForState(state)) {
+          console.warn('[stack-composer] falling back to monolith:', err);
+          try {
+            host.innerHTML = await fetchAssemblyText(side);
+            const svg = host.querySelector('svg');
+            if (!svg) throw new Error('Response was not a valid SVG.');
+            normalizeSvg(svg);
+            svg.style.width = '1px';
+            svg.style.height = '1px';
+            HC.applyConfiguratorToSvgRoot(svg, state);
+            await applyZoom(true);
+            return;
+          } catch (fallbackErr) {
+            showLoadError(fallbackErr.message || String(fallbackErr));
+            return;
+          }
+        }
+        showLoadError(err.message || String(err));
+      }
+    }
+
+    zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
+      btn.addEventListener('click', () => setZoom(Number(btn.getAttribute('data-zoom'))));
+    });
+
+    function wireTemplateButtons() {
+      document.querySelectorAll('.preset-item').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyTemplate(btn.dataset.preset);
+        });
+      });
+    }
+
+    function rebuildTemplateList() {
+      const presetList = document.getElementById('preset-list');
+      if (!presetList) return;
+      const templates = REG.templatesForStyle(currentStyleId);
+      presetList.innerHTML = templates
+        .map(
+          (t) =>
+            `<li><button type="button" class="preset-item${
+              t.id === currentTemplateId ? ' is-active' : ''
+            }" data-preset="${t.id}"${
+              t.disabled ? ' disabled title="Coming soon"' : ''
+            } aria-pressed="${t.id === currentTemplateId ? 'true' : 'false'}"><span class="preset-item-name">${t.label}</span><span class="preset-item-price" data-preset-price="${t.id}">—</span></button></li>`
+        )
+        .join('');
+      wireTemplateButtons();
+      updatePresetPriceLabels();
+    }
+
+    const FENCE_CATEGORIES = REG.CATEGORIES;
+
+    const fenceCategoryPicker = document.getElementById('fence-category-picker');
+    const fenceCategoryToggle = document.getElementById('fence-category-toggle');
+    const fenceCategoryMenu = document.getElementById('fence-category-menu');
+    const fenceCategoryCodeEl = document.getElementById('fence-category-code');
+    const fenceCategorySpellEl = document.getElementById('fence-category-spell');
+
+    const fenceStylePicker = document.getElementById('fence-style-picker');
+    const fenceStyleToggle = document.getElementById('fence-style-toggle');
+    const fenceStyleMenu = document.getElementById('fence-style-menu');
+
+    function rebuildStyleMenu(categoryId) {
+      const styles = REG.stylesForCategory(categoryId);
+      fenceStyleMenu.innerHTML = styles
+        .map(
+          (s) =>
+            `<li><button type="button" class="title-fence-option" role="option" data-style="${s.id}"${
+              s.id === currentStyleId ? ' aria-selected="true"' : ''
+            }>${s.label}</button></li>`
+        )
+        .join('');
+      wireStyleMenu();
+    }
+
+    function wireStyleMenu() {
+      fenceStyleMenu.querySelectorAll('.title-fence-option').forEach((opt) => {
+        opt.addEventListener('click', () => {
+          fenceStyleMenu.querySelectorAll('.title-fence-option').forEach((item) => {
+            item.setAttribute('aria-selected', 'false');
+          });
+          opt.setAttribute('aria-selected', 'true');
+          switchStyle(opt.dataset.style, opt.textContent.trim());
+          closeFenceStyleMenu();
+        });
+      });
+    }
+
+    function closeFenceCategoryMenu() {
+      fenceCategoryPicker.classList.remove('is-open');
+      resetFenceMenuPosition(fenceCategoryMenu);
+      fenceCategoryMenu.hidden = true;
+      fenceCategoryToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function openFenceCategoryMenu() {
+      closeFenceStyleMenu();
+      fenceCategoryPicker.classList.add('is-open');
+      fenceCategoryMenu.hidden = false;
+      requestAnimationFrame(() => {
+        positionFenceMenu(fenceCategoryToggle, fenceCategoryMenu);
+      });
+      fenceCategoryToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeFenceStyleMenu() {
+      fenceStylePicker.classList.remove('is-open');
+      resetFenceMenuPosition(fenceStyleMenu);
+      fenceStyleMenu.hidden = true;
+      fenceStyleToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function openFenceStyleMenu() {
+      closeFenceCategoryMenu();
+      fenceStylePicker.classList.add('is-open');
+      fenceStyleMenu.hidden = false;
+      requestAnimationFrame(() => {
+        positionFenceMenu(fenceStyleToggle, fenceStyleMenu);
+      });
+      fenceStyleToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    const MENU_VIEWPORT_PAD = 8;
+
+    function resetFenceMenuPosition(menuEl) {
+      if (!menuEl) return;
+      menuEl.classList.remove('title-fence-menu--placed');
+      menuEl.style.position = '';
+      menuEl.style.top = '';
+      menuEl.style.left = '';
+      menuEl.style.bottom = '';
+      menuEl.style.visibility = '';
+    }
+
+    /** Pin picker menu to viewport — flip above/below toggle; clamp inside window (avoids URL bar clip). */
+    function positionFenceMenu(toggleEl, menuEl) {
+      if (!toggleEl || !menuEl) return;
+      menuEl.classList.add('title-fence-menu--placed');
+      menuEl.style.visibility = 'hidden';
+      menuEl.style.top = '0px';
+      menuEl.style.left = '0px';
+
+      const toggleRect = toggleEl.getBoundingClientRect();
+      const menuRect = menuEl.getBoundingClientRect();
+      const gap = 4;
+      const spaceBelow = window.innerHeight - toggleRect.bottom - MENU_VIEWPORT_PAD;
+      const spaceAbove = toggleRect.top - MENU_VIEWPORT_PAD;
+      const openBelow = spaceBelow >= menuRect.height || spaceBelow >= spaceAbove;
+
+      let top = openBelow
+        ? toggleRect.bottom + gap
+        : toggleRect.top - menuRect.height - gap;
+      top = Math.max(
+        MENU_VIEWPORT_PAD,
+        Math.min(top, window.innerHeight - menuRect.height - MENU_VIEWPORT_PAD)
+      );
+
+      let left = toggleRect.left;
+      if (left + menuRect.width > window.innerWidth - MENU_VIEWPORT_PAD) {
+        left = window.innerWidth - menuRect.width - MENU_VIEWPORT_PAD;
+      }
+      left = Math.max(MENU_VIEWPORT_PAD, left);
+
+      menuEl.style.top = `${Math.round(top)}px`;
+      menuEl.style.left = `${Math.round(left)}px`;
+      menuEl.style.bottom = 'auto';
+      menuEl.style.visibility = '';
+    }
+
+    function repositionOpenFenceMenus() {
+      if (!fenceCategoryMenu.hidden) {
+        positionFenceMenu(fenceCategoryToggle, fenceCategoryMenu);
+      }
+      if (!fenceStyleMenu.hidden) {
+        positionFenceMenu(fenceStyleToggle, fenceStyleMenu);
+      }
+    }
+
+    window.addEventListener('resize', repositionOpenFenceMenus);
+    window.addEventListener('scroll', repositionOpenFenceMenus, true);
+
+    function selectFenceCategory(categoryId) {
+      const cat = REG.getCategory(categoryId);
+      if (!cat || cat.disabled) return;
+      currentFenceCategory = categoryId;
+      if (fenceCategoryCodeEl) fenceCategoryCodeEl.textContent = cat.code;
+      if (fenceCategorySpellEl) fenceCategorySpellEl.textContent = categorySpellText(cat);
+      fenceCategoryMenu.querySelectorAll('.title-fence-option').forEach((item) => {
+        item.setAttribute('aria-selected', item.dataset.category === categoryId ? 'true' : 'false');
+      });
+      rebuildStyleMenu(categoryId);
+      const defaultStyle = REG.defaultStyleForCategory(categoryId);
+      switchStyle(defaultStyle.id, defaultStyle.label);
+    }
+
+    fenceCategoryToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (fenceCategoryMenu.hidden) openFenceCategoryMenu();
+      else closeFenceCategoryMenu();
+    });
+
+    fenceCategoryMenu.querySelectorAll('.title-fence-option:not(:disabled)').forEach((opt) => {
+      opt.addEventListener('click', () => {
+        selectFenceCategory(opt.dataset.category);
+        closeFenceCategoryMenu();
+      });
+    });
+
+    fenceStyleToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (fenceStyleMenu.hidden) openFenceStyleMenu();
+      else closeFenceStyleMenu();
+    });
+
+    rebuildStyleMenu('vpf');
+
+    document.addEventListener('click', (e) => {
+      if (!fenceStylePicker.contains(e.target)) closeFenceStyleMenu();
+      if (!fenceCategoryPicker.contains(e.target)) closeFenceCategoryMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeFenceStyleMenu();
+        closeFenceCategoryMenu();
+      }
+    });
+
+    const optionGroups = panelEl.querySelectorAll('details.option-group');
+    optionGroups.forEach((group) => {
+      group.addEventListener('toggle', () => {
+        if (!group.open) return;
+        optionGroups.forEach((other) => {
+          if (other !== group) other.open = false;
+        });
+      });
+    });
+
+    setupPan();
+
+    function bootLayout() {
+      scheduleLayout();
+      requestAnimationFrame(() => {
+        scheduleLayout();
+        requestAnimationFrame(scheduleLayout);
+      });
+    }
+
+    let shellLayoutSideBySide = null;
+
+    function watchShellLayout() {
+      const shell = document.getElementById('shell');
+      if (!shell) return;
+      const ro = new ResizeObserver(() => {
+        const sideBySide = isShellSideBySide();
+        if (shellLayoutSideBySide !== null && shellLayoutSideBySide !== sideBySide) {
+          void applyZoom(false);
+        }
+        shellLayoutSideBySide = sideBySide;
+      });
+      ro.observe(shell);
+      shellLayoutSideBySide = isShellSideBySide();
+    }
+
+    const layoutObserver = new ResizeObserver(() => scheduleLayout());
+    layoutObserver.observe(viewportEl);
+    layoutObserver.observe(canvasWrapEl);
+    layoutObserver.observe(layoutEl);
+    if (sidebarRailEl) layoutObserver.observe(sidebarRailEl);
+    if (shellTopRowEl) layoutObserver.observe(shellTopRowEl);
+    window.addEventListener('resize', scheduleLayout);
+
+    wireClientJobChecks();
+    wireTopPanelExpand();
+    wireGeneralGates();
+    wirePricingDisclaimer();
+    wireMemberActions();
+
+    [postsEl, postCapsEl, bracketsEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl].forEach((el) => {
+      if (!el) return;
+      el.addEventListener('change', () => {
+        if (el === picketFillEl) syncPicketFillUi();
+        if (el === railCountEl) syncTrimOptionsForRailCount();
+        if (el === railCapEl) syncRailCapUi();
+        syncPresetFromControls();
+        applyToPreview();
+      });
+    });
+    syncControlsForStyle(getCurrentStyle());
+    syncPanelVisibility(getCurrentStyle());
+    applyMaterialDefaults(getCurrentStyle().defaults);
+    const bootTemplate = REG.getTemplate(currentStyleId, currentTemplateId);
+    if (bootTemplate) applyMaterialDefaults(bootTemplate.defaults);
+    rebuildTemplateList();
+    syncPresetSelection(currentTemplateId);
+    syncPicketFillUi();
+    updatePricingEstimate();
+    btnFront.addEventListener('click', () => loadAssembly('front'));
+    btnBack.addEventListener('click', () => loadAssembly('back'));
+
+    applyZoom(true).then(() => loadAssembly('front')).then(bootLayout);
+    watchShellLayout();
+
+    /** Dev UI code overlay — heritage-ui-naming.md */
+    (function initDevUiCodes() {
+      const params = new URLSearchParams(location.search);
+      if (params.get('dev') === 'codes' || localStorage.getItem('heritage-dev-ui-codes') === '1') {
+        document.body.classList.add('dev-ui-codes');
+        if (params.get('dev') === 'codes') localStorage.setItem('heritage-dev-ui-codes', '1');
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — embed parent smoke test (P2 reference)</title>
+  <style>
+    :root {
+      --ff-charcoal: #2a2a2a;
+      --ff-tan: #d4c4a8;
+      --ff-brown: #5c4033;
+      --ff-green: #2d4a3e;
+      --ff-border: #3d3d3d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background: var(--ff-charcoal);
+      color: #eee;
+      min-height: 100vh;
+    }
+    header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--ff-border);
+      background: #1e1e1e;
+    }
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ff-tan);
+    }
+    header p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr min(360px, 38vw);
+      gap: 0;
+      min-height: calc(100vh - 72px);
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .panel { border-left: none; border-top: 1px solid var(--ff-border); }
+    }
+    .embed-wrap {
+      padding: 0.75rem;
+      background: #222;
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--ff-border);
+      border-radius: 4px;
+      background: #fff;
+      min-height: 720px;
+    }
+    .panel {
+      border-left: 1px solid var(--ff-border);
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 72px);
+    }
+    .panel section { padding: 0.75rem 1rem; border-bottom: 1px solid var(--ff-border); }
+    .panel h2 {
+      margin: 0 0 0.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ff-tan);
+    }
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+    .pill {
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: #333;
+      border: 1px solid var(--ff-border);
+    }
+    .pill.ok { border-color: var(--ff-green); color: #a8d4bc; }
+    .pill.warn { border-color: #8a6a2a; color: #e8c878; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    button {
+      cursor: pointer;
+      border: 1px solid var(--ff-border);
+      background: #333;
+      color: #eee;
+      padding: 0.45rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    button:hover { background: #444; border-color: var(--ff-brown); }
+    button.primary { background: var(--ff-green); border-color: var(--ff-green); color: #fff; }
+    #event-log {
+      flex: 1;
+      overflow: auto;
+      padding: 0.75rem 1rem;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.72rem;
+      line-height: 1.45;
+    }
+    .log-entry {
+      margin: 0 0 0.65rem;
+      padding: 0.45rem 0.5rem;
+      background: #252525;
+      border-radius: 3px;
+      border-left: 3px solid #555;
+      word-break: break-word;
+    }
+    .log-entry.ready { border-left-color: var(--ff-green); }
+    .log-entry.resize { border-left-color: #6a8aaa; }
+    .log-entry.config { border-left-color: var(--ff-tan); }
+    .log-entry.gate { border-left-color: #c87878; }
+    .log-entry.parent { border-left-color: #888; }
+    .log-time { color: #777; }
+    .log-type { color: var(--ff-tan); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Embed parent smoke test</h1>
+    <p>P2 reference — listens for <code>fenceframes-embed</code> postMessage from Heritage iframe. Copy listener logic into Wix Velo.</p>
+  </header>
+
+  <div class="layout">
+    <div class="embed-wrap">
+      <iframe
+        id="ff-configurator"
+        title="Fence Frames — design your fence"
+        loading="lazy"
+      ></iframe>
+    </div>
+
+    <aside class="panel">
+      <section>
+        <h2>Status</h2>
+        <div class="status-row">
+          <span class="pill" id="pill-ready">ready: —</span>
+          <span class="pill" id="pill-height">height: —</span>
+          <span class="pill" id="pill-member">member: anonymous</span>
+          <span class="pill" id="pill-quote">quote: —</span>
+        </div>
+      </section>
+      <section>
+        <h2>Parent → child (stub)</h2>
+        <div class="actions">
+          <button type="button" class="primary" id="btn-member-login">Simulate member login</button>
+          <button type="button" id="btn-member-logout">Clear member</button>
+        </div>
+      </section>
+      <section style="flex:1;display:flex;flex-direction:column;min-height:0;padding:0;border:none">
+        <div style="padding:0.75rem 1rem 0"><h2>Event log</h2></div>
+        <div id="event-log" aria-live="polite"></div>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    (function initEmbedParentSmoke() {
+      const PROTOCOL = 'fenceframes-embed';
+      const IFRAME_ENTRY = './pilot-fences/vpf/heritage/preview/index.html?embed=1';
+
+      const iframe = document.getElementById('ff-configurator');
+      const logEl = document.getElementById('event-log');
+      const pillReady = document.getElementById('pill-ready');
+      const pillHeight = document.getElementById('pill-height');
+      const pillMember = document.getElementById('pill-member');
+      const pillQuote = document.getElementById('pill-quote');
+
+      let memberContext = { memberId: null, authenticated: false };
+      let childReady = false;
+
+      iframe.src = IFRAME_ENTRY;
+
+      function log(type, detail, cssClass) {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry ' + (cssClass || '');
+        const time = new Date().toLocaleTimeString();
+        entry.innerHTML =
+          '<span class="log-time">' + time + '</span> ' +
+          '<span class="log-type">' + type + '</span> ' +
+          (detail ? '<pre style="margin:0.35rem 0 0;white-space:pre-wrap">' +
+            escapeHtml(typeof detail === 'string' ? detail : JSON.stringify(detail, null, 2)) +
+            '</pre>' : '');
+        logEl.prepend(entry);
+      }
+
+      function escapeHtml(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      function postToChild(type, payload) {
+        if (!iframe.contentWindow) return;
+        const message = { protocol: PROTOCOL, type, ...payload };
+        iframe.contentWindow.postMessage(message, '*');
+        log('parent → child: ' + type, message, 'parent');
+      }
+
+      function sendMemberContext() {
+        postToChild('ff-embed-member-context', {
+          memberId: memberContext.memberId,
+          authenticated: memberContext.authenticated,
+        });
+        pillMember.textContent = memberContext.authenticated
+          ? 'member: ' + memberContext.memberId
+          : 'member: anonymous';
+        pillMember.className = 'pill ' + (memberContext.authenticated ? 'ok' : '');
+      }
+
+      window.addEventListener('message', function onChildMessage(event) {
+        const data = event.data;
+        if (!data || data.protocol !== PROTOCOL) return;
+
+        switch (data.type) {
+          case 'ff-embed-ready':
+            childReady = true;
+            pillReady.textContent = 'ready: v' + (data.version || '?');
+            pillReady.className = 'pill ok';
+            log('ff-embed-ready', { version: data.version, partnerSlug: data.partnerSlug, channel: data.channel }, 'ready');
+            if (memberContext.authenticated) sendMemberContext();
+            break;
+
+          case 'ff-embed-resize':
+            if (typeof data.height === 'number' && data.height > 0) {
+              iframe.style.height = data.height + 'px';
+              pillHeight.textContent = 'height: ' + data.height + 'px';
+              pillHeight.className = 'pill ok';
+            }
+            log('ff-embed-resize', { height: data.height }, 'resize');
+            break;
+
+          case 'ff-embed-config-changed':
+            if (data.quote && data.quote.low != null) {
+              pillQuote.textContent = 'quote: $' + data.quote.low + '–$' + data.quote.high;
+              pillQuote.className = 'pill ok';
+            }
+            log('ff-embed-config-changed', {
+              channel: data.channel,
+              partnerSlug: data.partnerSlug,
+              quote: data.quote,
+              configKeys: data.config ? Object.keys(data.config) : [],
+            }, 'config');
+            break;
+
+          case 'ff-embed-login-required':
+            pillMember.className = 'pill warn';
+            log('ff-embed-login-required', { action: data.action }, 'gate');
+            break;
+
+          case 'ff-embed-gate-stub':
+            log('ff-embed-gate-stub', { action: data.action, quote: data.quote }, 'gate');
+            break;
+
+          default:
+            log(data.type || 'unknown', data);
+        }
+      });
+
+      document.getElementById('btn-member-login').addEventListener('click', function () {
+        memberContext = { memberId: 'smoke-test-member-001', authenticated: true };
+        sendMemberContext();
+      });
+
+      document.getElementById('btn-member-logout').addEventListener('click', function () {
+        memberContext = { memberId: null, authenticated: false };
+        sendMemberContext();
+      });
+
+      log('parent boot', { iframeEntry: IFRAME_ENTRY, protocol: PROTOCOL }, 'parent');
+    })();
+  </script>
+</body>
+</html>

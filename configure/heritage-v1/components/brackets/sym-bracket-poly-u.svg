@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 3.5" width="432" height="504">
+  <title>sym-bracket-poly-u</title>
+  <desc>Polyurethane U-bracket — wraps full 2×4; 45° feet into post and rail. 1 unit = 1 inch.</desc>
+  <g id="sym-bracket-poly-u">
+    <g id="shell">
+      <path fill="#000000" d="M 0 0.25 L 0.75 0 L 0.75 0.875 L 2.625 0.875 L 2.625 0.375 L 3 0.375 L 3 3.125 L 2.625 3.125 L 2.625 2.625 L 0.75 2.625 L 0.75 3.5 L 0 3.25 Z"/>
+    </g>
+    <g id="fill" data-slot="bracket-material">
+      <path fill="#ececec" d="M 0.125 0.3125 L 0.6875 0.125 L 0.6875 0.8125 L 2.5625 0.8125 L 2.5625 0.4375 L 2.875 0.4375 L 2.875 3.0625 L 2.5625 3.0625 L 2.5625 2.6875 L 0.6875 2.6875 L 0.6875 3.375 L 0.125 3.1875 Z"/>
+      <path fill="#111111" d="M 0 0.25 L 0.75 0 L 0.6875 0.125 L 0.125 0.3125 Z"/>
+      <path fill="#111111" d="M 0 3.25 L 0.75 3.5 L 0.6875 3.375 L 0.125 3.1875 Z"/>
+      <path fill="#111111" d="M 2.875 0.4375 L 3 0.375 L 2.625 0.375 L 2.5625 0.4375 Z"/>
+      <path fill="#111111" d="M 2.875 3.0625 L 3 3.125 L 2.625 3.125 L 2.5625 3.0625 Z"/>
+    </g>
+  </g>
+</svg>

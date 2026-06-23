@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 112" width="140in" height="112in">
+  <title>Cedar Dog Eared Picket</title>
+  <desc>FenceBook overlay. 1 viewBox unit = 1 inch. Artboard 140×112 in. Panel (22,20)–(118,92). Bleed 14–126.</desc>
+  <defs>
+    <pattern id="pt-incision" patternUnits="userSpaceOnUse" width="1.25" height="1.25">
+      <rect width="1.25" height="1.25" fill="#6b4535"/>
+      <line x1="0" y1="1.25" x2="1.25" y2="0" stroke="#523328" stroke-width="0.1"/>
+      <line x1="0.15" y1="1.1" x2="0.4" y2="0.85" stroke="#523328" stroke-width="0.08"/>
+    </pattern>
+  </defs>
+  <style>
+    .stain-pt-ground-contact { fill: url(#pt-incision); stroke: #523328; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-cedar-natural { fill: #b8886b; stroke: #6b4f3a; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-metal-dark { fill: #6b7280; stroke: #374151; stroke-width: 0.15; paint-order: stroke fill; }
+  </style>
+  <g id="component-picket-cedar-dog-eared">
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 26.5 21.15 L 27.65 20 L 31.1 20 L 32.25 21.15 L 32.25 92 L 26.5 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 32.75 21.15 L 33.9 20 L 37.35 20 L 38.5 21.15 L 38.5 92 L 32.75 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 39 21.15 L 40.15 20 L 43.6 20 L 44.75 21.15 L 44.75 92 L 39 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 45.25 21.15 L 46.4 20 L 49.85 20 L 51 21.15 L 51 92 L 45.25 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 51.5 21.15 L 52.65 20 L 56.1 20 L 57.25 21.15 L 57.25 92 L 51.5 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 57.75 21.15 L 58.9 20 L 62.35 20 L 63.5 21.15 L 63.5 92 L 57.75 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 64 21.15 L 65.15 20 L 68.6 20 L 69.75 21.15 L 69.75 92 L 64 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 70.25 21.15 L 71.4 20 L 74.85 20 L 76 21.15 L 76 92 L 70.25 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 76.5 21.15 L 77.65 20 L 81.1 20 L 82.25 21.15 L 82.25 92 L 76.5 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 82.75 21.15 L 83.9 20 L 87.35 20 L 88.5 21.15 L 88.5 92 L 82.75 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 89 21.15 L 90.15 20 L 93.6 20 L 94.75 21.15 L 94.75 92 L 89 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 95.25 21.15 L 96.4 20 L 99.85 20 L 101 21.15 L 101 92 L 95.25 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 101.5 21.15 L 102.65 20 L 106.1 20 L 107.25 21.15 L 107.25 92 L 101.5 92 Z" />
+    <path class="stain-cedar-natural" stroke-alignment="inner" d="M 107.75 21.15 L 108.9 20 L 112.35 20 L 113.5 21.15 L 113.5 92 L 107.75 92 Z" />
+  </g>
+</svg>
