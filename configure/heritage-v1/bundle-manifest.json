@@ -1,7 +1,7 @@
 {
   "name": "heritage-vpf-embed",
   "version": "1.0.0",
-  "buildId": "2026-06-23",
+  "buildId": "2026-06-24",
   "entry": "pilot-fences/vpf/heritage/preview/index.html",
   "pilot": "vpf/heritage",
   "stackComposer": true,
