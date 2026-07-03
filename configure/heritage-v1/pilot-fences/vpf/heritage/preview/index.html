@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" data-ff-embed="1">
 <head>
+  <script>
+(function fixEmbedBaseHref() {
+  var p = location.pathname;
+  if (p.endsWith('/index.html')) p = p.slice(0, p.lastIndexOf('/') + 1);
+  else if (!p.endsWith('/')) p += '/';
+  var base = document.createElement('base');
+  base.href = p;
+  document.head.insertBefore(base, document.head.firstChild);
+})();
+</script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Fence Frames — Heritage configurator</title>
   <script>
     (function () {
       var p = new URLSearchParams(location.search);
       if (p.get('embed') === '1') document.documentElement.dataset.ffEmbed = '1';
+      var auth = 'out';
+      if (p.get('dev') === 'member') auth = 'in';
+      else {
+        try {
+          var stored = sessionStorage.getItem('ff-preview-member-auth');
+          if (stored === 'in' || stored === 'out') auth = stored;
+        } catch (e) {}
+      }
+      document.documentElement.dataset.memberAuth = auth;
     })();
   </script>
   <script>
@@ -26,23 +45,47 @@
       --bg: #141312;
       --surface: rgba(36, 34, 32, 0.94);
       --surface-solid: #242220;
-      /* UI system: charcoal fill · tan outline · orange active */
+      /* UI system: charcoal fill · tan outline · control-state tokens (see below) */
       --ui-fill: #242220;
       --ui-fill-deep: #1a1918;
       --ui-outline: rgba(163, 135, 110, 0.92);
       --ui-outline-soft: rgba(163, 135, 110, 0.48);
       --ui-active-hover: #a6582a;
-      /* Orange — solid accent (scrollbars, legacy hooks) */
+      /* Orange — scrollbars + future membership (S3); not configurator selection */
       --orange-solid: #8a4a22;
       --orange-soft: rgba(138, 74, 34, 0.44);
       --orange-soft-open: rgba(138, 74, 34, 0.52);
       --orange-soft-border: rgba(138, 74, 34, 0.78);
-      /* Tan — solid + translucent (panel chrome, active controls, pickers) */
+      /* Tan — solid + translucent */
       --tan: #9d8068;
       --tan-soft: rgba(163, 135, 110, 0.44);
       --tan-soft-open: rgba(163, 135, 110, 0.52);
       --tan-soft-border: rgba(163, 135, 110, 0.78);
       --tan-solid: var(--tan);
+      /**
+       * Control states (templates, specs, toolbox, tabs) — excludes B1 forest + estimate boxes.
+       * idle = dark rest · selected = translucent tan choice · on = solid tan toggle ·
+       * expanded = panel title bar (--panel-title-bar-bg) · folded shell = --panel-folded-bg
+       */
+      --control-idle-bg: var(--ui-fill-deep);
+      --control-idle-border: var(--ui-outline-soft);
+      --control-idle-text: var(--text);
+      --control-selected-bg: var(--tan-soft);
+      --control-selected-border: var(--tan);
+      --control-on-bg: var(--tan);
+      --control-on-border: var(--tan);
+      --control-focus-bg: var(--tan-soft);
+      --control-focus-border: var(--tan);
+      /** Membership (S3) — true orange; not configurator selection */
+      --membership-accent: var(--orange-solid);
+      --membership-accent-hover: var(--ui-active-hover);
+      --membership-veil-bg: rgba(138, 74, 34, 0.42);
+      --membership-veil-blur: 5px;
+      --membership-auth-fill: rgba(138, 74, 34, 0.52);
+      --membership-auth-fill-hover: rgba(138, 74, 34, 0.68);
+      --membership-chip-bg: rgba(138, 74, 34, 0.44);
+      --membership-chip-border: rgba(138, 74, 34, 0.92);
+      --membership-on-orange-text: #f5ebe3;
       /* Charcoal — solid gutter / outer ring line; translucent inner fill */
       --charcoal-solid: #1a1918;
       --charcoal-soft: rgba(20, 19, 18, 0.58);
@@ -62,12 +105,12 @@
       --border-accent: var(--ui-outline);
       --accent: var(--tan-light);
       --accent-glow: rgba(163, 135, 110, 0.28);
-      /* Panel chrome — tan title bars + translucent control fills */
+      /* Panel chrome — tan title bars + folded accordion shells */
       --orange-bar: var(--orange-solid);
       --orange-bar-faded: var(--tan-soft);
       --orange-bar-faded-open: var(--tan-soft-open);
-      --orange-active-soft: var(--tan-soft);
-      --orange-active-border: var(--tan-soft-border);
+      --orange-active-soft: var(--control-selected-bg);
+      --orange-active-border: var(--control-selected-border);
       --orange-handle: var(--orange-solid);
       --orange-toggle: var(--tan-soft);
       --panel-accent-stripe: var(--tan-solid);
@@ -81,15 +124,31 @@
       /** Min canvas column + module display floor — keep in sync with VIEWPORT.MODULE_MIN_PX_W */
       --module-min-px-w: 280px;
       --shell-layout-pad: 48px;
-      /** Stack toolbox below canvas when min sidebar + min module no longer fit side-by-side */
-      --bp-shell-stack: calc(var(--panel-min-w) + var(--module-min-px-w) + var(--shell-layout-pad) + 1.5rem);
-      --bp-top-band-stack: var(--bp-shell-stack);
-      --bp-top-stack: 640px;
+      /** Bottom clearance when page scrolls (safe area + dev preview chrome) */
+      --app-bottom-scroll-pad: env(safe-area-inset-bottom, 0px);
+      --fb-preview-bottom-pad: 0px;
+      --layout-debug-h: 0px;
+      --app-footer-scroll-tail: 0px;
+      --vv-bottom-inset: 0px;
+      --vv-top-inset: 0px;
+      --app-footer-debuffer: 1rem;
+      --mobile-footer-clearance: 2.75rem;
+      /**
+       * Responsive bands (viewport width) — keep in sync with VIEWPORT in JS.
+       * mobile ≤899 · tablet 900–1279 (sidebar beside, single fence) · desktop ≥1280 (dual allowed).
+       */
+      --bp-mobile-max: 899px;
+      --bp-tablet-min: 900px;
+      --bp-desktop-dual-min: 1280px;
+      /** Content floor: min shell width to fit sidebar + module side-by-side (informational). */
+      --bp-shell-content-min: calc(var(--panel-min-w) + var(--module-min-px-w) + var(--shell-layout-pad) + 1.5rem);
+      --bp-top-band-stack: var(--bp-mobile-max);
+      --bp-top-stack: var(--bp-mobile-max);
       --tan-ground: #3a2e24;
       --tan-ground-light: #45372a;
-      --hatch-light: rgba(220, 201, 180, 0.1);
-      --hatch-dark: rgba(0, 0, 0, 0.14);
-      --hatch-step: 7px;
+      --hatch-light: rgba(220, 201, 180, 0.14);
+      --hatch-dark: rgba(0, 0, 0, 0.19);
+      --hatch-step: 6px;
       --app-backdrop:
         repeating-linear-gradient(32deg, var(--hatch-light) 0 1px, transparent 1px var(--hatch-step)),
         repeating-linear-gradient(-32deg, var(--hatch-dark) 0 1px, transparent 1px var(--hatch-step)),
@@ -131,6 +190,7 @@
       --panel-title-bar-bg: var(--tan);
       /** Folded sidebar accordions — translucent tan fill + solid tan ring */
       --panel-folded-fill: rgba(157, 128, 104, 0.34);
+      --panel-folded-bg: var(--panel-folded-fill);
       --panel-folded-border: 2px solid var(--tan);
       /** Panel chrome — thin black outer + tan inset ring (matches canvas shell language) */
       --panel-ring-outer: 1px;
@@ -150,6 +210,12 @@
       /* Shared work chrome — toolbox + canvas use same inset so tops align without JS */
       --work-chrome-pad: 8px;
       --work-inset-pad: 14px;
+      --fit-center-nudge-x-desktop: 0px;
+      --fit-center-nudge-y-desktop: 0px;
+      --fit-center-nudge-x-tablet: 0px;
+      --fit-center-nudge-y-tablet: 0px;
+      --fit-center-nudge-x-mobile: 0px;
+      --fit-center-nudge-y-mobile: 0px;
     }
     * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
     *::-webkit-scrollbar {
@@ -181,14 +247,29 @@
     }
     html {
       min-height: 100%;
+      width: 100%;
+      background: var(--app-backdrop);
+    }
+    /** Full-viewport hatch — paints the scrollport even when body is transparent */
+    html::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: var(--app-backdrop);
+      pointer-events: none;
+    }
+    html:has(#layout-debug:not([hidden])) {
+      --layout-debug-h: 1.65rem;
     }
     body {
       font-family: "Segoe UI", system-ui, sans-serif;
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       height: auto;
-      background: var(--app-backdrop);
-      background-attachment: fixed;
+      width: 100%;
+      background: transparent;
       color: var(--text);
       display: flex;
       flex-direction: column;
@@ -213,29 +294,49 @@
         "footer footer";
       align-items: stretch;
     }
-    /** Stack: top · canvas · toolbox · calc/price — separate rows, no overlap */
-    @container app-shell (max-width: 592px) {
+    /** Mobile: stack top · canvas · toolbox · calc/price — separate rows, no overlap */
+    @media (max-width: 899px) {
+      html,
+      body {
+        width: 100%;
+        max-width: none;
+        overflow-x: clip;
+      }
       .shell--with-sidebar {
+        container-type: normal;
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
+        grid-template-rows: auto auto auto auto auto;
         grid-template-areas:
           "top"
           "canvas"
           "sidebar"
-          "footer";
+          "footer"
+          "footer-tail";
         row-gap: 0.65rem;
         min-height: 0;
         height: auto;
         align-content: start;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        margin: 0;
+      }
+      .shell {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        margin: 0;
+        box-sizing: border-box;
       }
       #layout {
         grid-area: canvas;
-        min-height: clamp(320px, 52vh, 540px);
-        height: clamp(320px, 52vh, 540px);
-        max-height: clamp(320px, 52vh, 540px);
+        min-height: clamp(280px, 36vh, 540px);
+        height: auto;
+        max-height: none;
         min-width: 0;
         width: 100%;
-        overflow: hidden;
+        max-width: none;
+        overflow: visible;
         position: relative;
         z-index: 1;
         isolation: isolate;
@@ -244,22 +345,59 @@
         min-height: 0;
         height: 100%;
         max-height: none;
+        width: 100%;
+        max-width: none;
         flex: 1 1 auto;
-        overflow: hidden;
+        overflow-x: clip;
+        overflow-y: visible;
       }
       .canvas-viewport {
         min-height: 0;
         height: 100%;
         max-height: none;
+        width: 100%;
+        max-width: none;
         flex: 1 1 auto;
+      }
+      .canvas-viewport.canvas-viewport--pan-enabled .viewport-inset {
+        min-height: auto;
+        height: auto;
+      }
+      .canvas-viewport:not(.canvas-viewport--pan-enabled) .viewport-inset {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: clip;
+        overflow-y: visible;
+      }
+      .preview-cluster {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .shell-top-row {
+        max-width: 100%;
+        min-width: 0;
+        overflow: visible;
+      }
+      .b1-quad__code,
+      .b1-quad__line,
+      .b1-quad__spell,
+      .b1-quad__desc {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .page-config-strip {
         grid-area: footer;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
         width: 100%;
         position: relative;
         z-index: 0;
+      }
+      .config-section--member {
+        border-bottom: var(--panel-divider);
+      }
+      .config-section--member::after {
+        display: none;
       }
       .config-section--calculator {
         border-right: none;
@@ -281,15 +419,17 @@
       .toolbox-shell {
         width: 100%;
         max-width: none;
-        min-height: 280px;
+        min-height: 0;
+        height: auto;
         flex: 0 0 auto;
         overflow: visible;
       }
       .toolbox-viewport {
-        min-height: 260px;
+        min-height: 0;
+        height: auto;
         max-height: min(520px, 52vh);
         overflow: auto;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
       }
       .toolbox-chrome .panel,
       .panel {
@@ -310,6 +450,52 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
         gap: 0.45rem;
+      }
+      .shell {
+        padding-bottom: calc(var(--app-bottom-scroll-pad) + var(--layout-debug-h));
+      }
+      html {
+        scroll-padding-bottom: calc(var(--app-bottom-scroll-pad) + var(--layout-debug-h));
+      }
+      html[data-ff-embed="1"] {
+        --mobile-footer-clearance: max(1.25rem, calc(var(--app-bottom-scroll-pad) + 0.5rem));
+        scroll-padding-bottom: calc(
+          var(--mobile-footer-clearance) + var(--app-bottom-scroll-pad) + var(--layout-debug-h)
+        );
+      }
+      html[data-ff-embed="1"] .shell {
+        padding-bottom: calc(
+          var(--mobile-footer-clearance) + var(--app-bottom-scroll-pad) + var(--layout-debug-h)
+        );
+      }
+      html:not([data-ff-embed="1"]) {
+        --mobile-footer-clearance: max(2.75rem, calc(var(--vv-bottom-inset, 0px) + var(--app-footer-debuffer)));
+      }
+      html:not([data-ff-embed="1"]) body {
+        min-height: auto;
+      }
+      .page-config-strip {
+        overflow: visible;
+        scroll-margin-bottom: var(--mobile-footer-clearance);
+      }
+      /** Belt-and-suspenders — desktop expand overlay classes must not affect mobile layout */
+      .shell-top-row.has-expanded-panel {
+        z-index: 2;
+        isolation: auto;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded {
+        position: static;
+        inset: auto;
+        z-index: auto;
+        min-height: 0;
+        max-height: none;
+        display: revert;
+        flex-direction: unset;
+        box-shadow: none;
+      }
+      .shell-top-row.has-expanded-panel [data-panel-expandable]:not(.is-expanded) {
+        visibility: visible;
+        pointer-events: auto;
       }
     }
     #layout {
@@ -352,16 +538,213 @@
       z-index: 2;
       overflow: visible;
     }
-    /** Top mini-panels 2×2 (title+templates | specs+view) — same breakpoint as shell stack */
-    @container app-shell (max-width: 592px) {
-      .shell-top-row {
+    /** Mobile — tighter work chrome so the module image gains pane (embed + preview) */
+    @media (max-width: 899px) {
+      :root {
+        --work-chrome-pad: 4px;
+        --work-inset-pad: 8px;
+      }
+      .shell {
+        padding-left: calc(0.5rem + var(--panel-ring-outer));
+        padding-right: calc(0.5rem + var(--panel-ring-outer));
+      }
+      .shell-top-row.s1-focus-stack {
+        overflow-x: visible;
+        overflow-y: hidden;
+      }
+      .sidebar-rail,
+      #layout,
+      .page-config-strip {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+    }
+    /** Top mini-panels — mobile S1 focus stack (vertical; default title open) */
+    @media (max-width: 899px) {
+      .shell-top-row.s1-focus-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-height: min(42vh, 28rem);
+        min-height: 0;
+        overflow-x: visible;
+        overflow-y: hidden;
+      }
+      .shell-top-row.s1-focus-stack .shell-top-band {
+        display: contents;
+      }
+      .shell-top-row.s1-focus-stack > .b1-quad,
+      .shell-top-row.s1-focus-stack > .mini-panel,
+      .shell-top-row.s1-focus-stack .shell-top-band > .b1-quad,
+      .shell-top-row.s1-focus-stack .shell-top-band > .mini-panel {
+        height: auto;
+        min-height: 0;
+        flex: 0 0 auto;
+        width: 100%;
+      }
+      .shell-top-row.s1-focus-stack [data-s1-panel].is-s1-focused {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .shell-top-row.s1-focus-stack [data-s1-panel].is-s1-condensed {
+        flex: 0 0 auto;
+        min-height: 0;
+        height: auto;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed.panel-ring {
+        overflow: visible;
+        border-radius: var(--fence-box-radius);
+        min-height: 0;
+        height: auto;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        min-height: 2.05rem;
+        max-height: 2.05rem;
+        padding: 0 2rem 0 0.55rem;
+        border-bottom: none;
+        border-bottom-left-radius: var(--fence-box-inner-radius);
+        border-bottom-right-radius: var(--fence-box-inner-radius);
+        white-space: nowrap;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: 0.02em;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head__title {
+        flex: 0 0 auto;
+        font-weight: 700;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head__condensed-summary {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        color: var(--title-picker-text);
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head__condensed-summary:empty {
+        display: none;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head__condensed-summary:not(:empty) {
+        display: block;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-condensed .mini-panel-head__condensed-summary:not(:empty)::before {
+        content: ' · ';
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        opacity: 1;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-focused .mini-panel-head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        text-transform: none;
+        letter-spacing: 0.02em;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-focused .mini-panel-head__title {
+        flex: 0 0 auto;
+        font-weight: 700;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-focused .mini-panel-head__condensed-summary:not(:empty) {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        color: var(--title-picker-text);
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-focused .mini-panel-head__condensed-summary:not(:empty)::before {
+        content: ' · ';
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        opacity: 1;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-condensed {
+        display: block;
+        min-height: 0;
+        height: auto;
+        grid-template-columns: none;
+        grid-template-rows: none;
+      }
+      .shell-top-row.s1-focus-stack .mini-panel.is-s1-focused.panel-ring {
+        overflow: hidden;
+        min-height: 0;
+      }
+      .shell-top-row.s1-focus-stack [data-s1-panel].is-s1-condensed .mini-panel-body,
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-condensed .b1-quad__cell {
+        display: none;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad__mobile-head {
+        display: none;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-condensed .b1-quad__mobile-head {
+        display: flex;
+        align-items: center;
+        min-height: 2.05rem;
+        max-height: 2.05rem;
+        padding: 0.35rem 2rem 0.35rem 0.55rem;
+        background: var(--panel-title-bar-bg);
+        color: var(--title-picker-text);
+        font-size: clamp(0.58rem, 0.5rem + 0.3cqi, 0.66rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: none;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-focused {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: minmax(2.85rem, 1fr) minmax(2.85rem, 1fr);
+        min-height: 0;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-focused .b1-quad__mobile-head {
+        display: none;
+      }
+      .shell-top-row.s1-focus-stack .b1-quad.is-s1-focused .b1-quad__cell {
+        display: flex;
+      }
+      .shell-top-row.s1-focus-stack [data-s1-panel].is-s1-focused .mini-panel-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+      }
+      .shell-top-row.s1-focus-stack [data-panel-expandable].is-expanded {
+        position: static;
+        inset: auto;
+        max-height: none;
+        box-shadow: none;
+      }
+      .shell-top-row.s1-focus-stack.has-expanded-panel [data-panel-expandable]:not(.is-expanded) {
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
+    /** Mobile top bands — single column when focus stack is off, 2×2 only inside s1-focus-stack */
+    @media (max-width: 899px) {
+      .shell-top-row:not(.s1-focus-stack) {
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
       }
       .shell-top-band {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: 1fr;
         gap: 0.35rem;
         align-items: stretch;
         min-width: 0;
@@ -371,55 +754,8 @@
         height: 100%;
         min-height: 6.75rem;
       }
-      .b1-quad {
-        grid-template-rows: 1fr 1fr;
-      }
       .shell-top-band--lower > .mini-panel--specs {
         grid-column: 1 / -1;
-      }
-      .mini-panel--specs .mini-panel-body {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 0 0.45rem;
-        padding: 0.35rem 0.4rem 0.42rem;
-      }
-      .mini-panel--specs .specs-col--checks {
-        flex: 1 1 58%;
-        min-width: 0;
-        gap: 0;
-        justify-content: space-evenly;
-        padding-right: 0.1rem;
-      }
-      .mini-panel--specs .specs-col--fields {
-        flex: 0 1 42%;
-        min-width: 4rem;
-        max-width: 5.25rem;
-        gap: 0;
-        justify-content: space-evenly;
-        border-left: var(--panel-divider);
-        padding-left: 0.45rem;
-      }
-      .mini-panel--specs .specs-check-row {
-        flex: 1 1 0;
-      }
-      .mini-panel--specs .check-label {
-        white-space: nowrap;
-        font-size: 0.56rem;
-        line-height: 1.2;
-      }
-      .mini-panel--specs .specs-col--fields .field label {
-        font-size: 0.54rem;
-      }
-      .mini-panel--specs .specs-col--fields .field input {
-        font-size: 0.62rem;
-        padding: 0.14rem 0.32rem;
-      }
-    }
-    /** Top bands + title quadrants stack to single column */
-    @media (max-width: 640px) {
-      .shell-top-band {
-        grid-template-columns: 1fr;
       }
       .b1-quad {
         grid-template-columns: 1fr;
@@ -493,8 +829,7 @@
       display: none;
     }
     /** S1 / S3 panels + B1 — tan ring + thin black outer outline */
-    .panel-ring,
-    .price-split__total {
+    .panel-ring {
       border: var(--panel-ring-tan) solid var(--tan);
       padding: 0;
       background: transparent;
@@ -502,6 +837,19 @@
       border-radius: var(--fence-box-radius);
       overflow: hidden;
       box-sizing: border-box;
+    }
+    .price-split__total {
+      border: var(--panel-ring-tan) solid var(--tan);
+      padding: 0;
+      background: transparent;
+      box-shadow: 0 0 0 var(--panel-ring-outer) var(--ring-frame-line);
+      border-radius: var(--fence-box-radius);
+      box-sizing: border-box;
+    }
+    @media (min-width: 900px) {
+      .price-split__total {
+        overflow: hidden;
+      }
     }
     .mini-panel.panel-ring,
     .page-config-strip.panel-ring,
@@ -633,6 +981,16 @@
       align-items: flex-start;
       overflow: hidden;
     }
+    .b1-quad__mobile-head {
+      display: none;
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+    .b1-quad__mobile-head-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .b1-quad__cell {
       display: flex;
       align-items: center;
@@ -751,6 +1109,23 @@
       overflow: hidden;
       overflow-wrap: anywhere;
     }
+    .b1-quad__spell.b1-quad__quadrant-label,
+    .b1-quad__desc.b1-quad__quadrant-label {
+      margin: 0;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(0.5rem, 0.36rem + 2.2cqi, 0.72rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-transform: none;
+      color: var(--tan-light);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+    }
     .b1-quad__desc {
       margin: 0;
       width: 100%;
@@ -817,6 +1192,9 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .mini-panel-head__condensed-summary {
+      display: none;
+    }
     .shell-top-row [data-panel-expandable] {
       position: relative;
     }
@@ -861,47 +1239,87 @@
       pointer-events: none;
       line-height: 1;
     }
-    /** Expanded card — fills S1 top band; fence stays visible below */
-    .shell-top-row.has-expanded-panel {
-      z-index: 30;
-      isolation: isolate;
-    }
-    .shell-top-row [data-panel-expandable].is-expanded {
-      position: absolute;
-      inset: 0;
-      z-index: 25;
-      min-height: 100%;
-      max-height: min(58vh, 28rem);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.42);
-    }
-    .shell-top-row.has-expanded-panel [data-panel-expandable]:not(.is-expanded) {
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .shell-top-row [data-panel-expandable].is-expanded .mini-panel-body,
-    .shell-top-row [data-panel-expandable].is-expanded.b1-quad {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-    }
-    .b1-quad.is-expanded .b1-quad__desc {
-      -webkit-line-clamp: unset;
-      font-size: 0.72rem;
-      line-height: 1.45;
-    }
-    .mini-panel--specs.is-expanded .mini-panel-body {
-      grid-template-columns: minmax(0, 1.2fr) minmax(6rem, 1fr);
-      overflow-y: auto;
-    }
-    .mini-panel--specs.is-expanded .check-label__title {
-      white-space: normal;
-    }
-    .mini-panel--templates.is-expanded .preset-item {
-      min-height: 2.85rem;
-      font-size: 0.62rem;
-      padding: 0.35rem 0.4rem;
+    /** Desktop/tablet only — S1 expand overlay (mobile uses s1-focus-stack; never position:absolute here) */
+    @media (min-width: 900px) {
+      .shell-top-row.has-expanded-panel {
+        z-index: 30;
+        isolation: isolate;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded {
+        position: absolute;
+        inset: 0;
+        z-index: 25;
+        min-height: 100%;
+        max-height: min(58vh, 28rem);
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 36px rgba(0, 0, 0, 0.42);
+      }
+      .shell-top-row.has-expanded-panel [data-panel-expandable]:not(.is-expanded) {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded .mini-panel-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+      }
+      /** B1 — keep 2×2 grid; generic is-expanded flex column stacks quadrants vertically */
+      .shell-top-row [data-panel-expandable].is-expanded.b1-quad {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: minmax(2.85rem, 1fr) minmax(2.85rem, 1fr);
+        grid-template-areas:
+          "vpf spell"
+          "line desc";
+        align-content: stretch;
+        min-height: 100%;
+        overflow-y: auto;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded .mini-panel-head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        white-space: nowrap;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded .mini-panel-head__title {
+        flex: 0 0 auto;
+      }
+      .shell-top-row [data-panel-expandable].is-expanded .mini-panel-head__condensed-summary:not(:empty) {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        color: var(--title-picker-text);
+      }
+      .shell-top-row [data-panel-expandable].is-expanded .mini-panel-head__condensed-summary:not(:empty)::before {
+        content: ' · ';
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: none;
+      }
+      .b1-quad.is-expanded .b1-quad__desc {
+        -webkit-line-clamp: unset;
+        font-size: 0.72rem;
+        line-height: 1.45;
+      }
+      .mini-panel--specs.is-expanded .mini-panel-body {
+        grid-template-columns: minmax(0, 1.2fr) minmax(6rem, 1fr);
+        overflow-y: auto;
+      }
+      .mini-panel--specs.is-expanded .check-label__title {
+        white-space: normal;
+      }
+      .mini-panel--templates.is-expanded .preset-item {
+        min-height: 2.85rem;
+        font-size: 0.62rem;
+        padding: 0.35rem 0.4rem;
+      }
     }
     .mini-panel-body {
       padding: 0.42rem 0.48rem 0.48rem;
@@ -1020,14 +1438,14 @@
       height: 0.82rem;
       margin: 0;
       border-radius: 2px;
-      background: var(--orange-active-soft);
-      border: 1px solid var(--orange-active-border);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
       cursor: pointer;
       vertical-align: middle;
     }
     .mini-panel--specs .check-label input[type="checkbox"]:checked {
-      background: var(--tan-solid);
-      border-color: var(--tan-solid);
+      background: var(--control-on-bg);
+      border-color: var(--control-on-border);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%230a0a0a' d='M4.5 8.2 2.2 5.9l-.9.9 3.2 3.2 6.4-6.4-.9-.9z'/%3E%3C/svg%3E");
       background-size: 0.62rem;
       background-repeat: no-repeat;
@@ -1050,13 +1468,16 @@
       padding: 0.18rem 0.4rem;
       width: 100%;
       box-sizing: border-box;
-      background: var(--orange-active-soft);
-      border: 1px solid var(--orange-active-border);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
       border-radius: 4px;
+      color: var(--text);
+      font-weight: 400;
     }
     .mini-panel--specs .specs-col--fields .field input:focus {
       outline: none;
-      border-color: var(--tan-solid);
+      background: var(--control-focus-bg);
+      border-color: var(--control-focus-border);
       box-shadow: 0 0 0 1px var(--accent-glow);
     }
     .mini-panel--specs .field--lnft input {
@@ -1100,9 +1521,173 @@
       grid-area: footer;
       width: 100%;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(12rem, var(--panel-w));
+      grid-template-columns: minmax(11rem, 1fr) minmax(0, 3fr);
+      grid-template-rows: auto;
+      align-items: stretch;
       background: transparent;
+    }
+    @media (min-width: 900px) {
+      .page-config-strip {
+        overflow: hidden;
+      }
+      .page-config-strip.panel-ring {
+        overflow: visible;
+      }
+      .config-section--member,
+      .pricing-gate-wrap,
+      .config-section--calculator,
+      .config-section--price {
+        min-width: 0;
+      }
+      .pricing-gate-wrap {
+        width: 100%;
+      }
+    }
+    .pricing-gate-wrap {
+      grid-column: 2 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      grid-template-rows: auto;
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+    }
+    .pricing-gate-target {
+      display: contents;
+    }
+    /** Gate $ values only — section titles + metric labels stay visible */
+    .pricing-gated-value {
+      display: inline-block;
+      min-width: 2.35rem;
+      text-align: inherit;
+    }
+    [data-member-auth="out"] .pricing-gated-value,
+    html:not([data-member-auth="in"]) .pricing-gated-value {
+      color: var(--membership-accent);
+      filter: blur(3px);
+      user-select: none;
+      pointer-events: none;
+    }
+    .member-auth-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    [data-member-auth="in"] .member-auth-row {
+      display: none;
+    }
+    .member-auth-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.32rem;
+      flex: 1 1 calc(50% - 0.2rem);
+      min-width: 5rem;
+      min-height: 2.45rem;
+      padding: 0.4rem 0.55rem;
+      border-radius: var(--fence-box-inner-radius);
+      border: 2px solid var(--membership-chip-border);
+      background: var(--membership-auth-fill);
+      color: var(--membership-on-orange-text);
+      font-family: var(--font-display);
+      font-size: clamp(0.62rem, 0.56rem + 0.14vw, 0.74rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.22);
+    }
+    .member-auth-btn__free {
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-weight: 800;
+      opacity: 0.92;
+    }
+    .member-auth-btn:hover,
+    .member-auth-btn:focus-visible {
+      border-color: var(--membership-accent-hover);
+      color: #fff;
+      background: var(--membership-auth-fill-hover);
+      outline: none;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 2px 6px rgba(0, 0, 0, 0.28);
+    }
+    /** Unified guest gate — translucent orange chip (title bars + action buttons) */
+    .membership-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0.28rem 0.62rem;
+      border-radius: 4px;
+      background: var(--membership-chip-bg);
+      border: 1px solid var(--membership-chip-border);
+      color: var(--membership-on-orange-text);
+      font-family: var(--font-display);
+      font-size: clamp(0.58rem, 0.52rem + 0.14vw, 0.7rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      line-height: 1.2;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .config-section-head .membership-chip {
+      font-size: clamp(0.6rem, 0.54rem + 0.16cqi, 0.74rem);
+      padding: 0.3rem 0.66rem;
+      letter-spacing: 0.07em;
+    }
+    /** In action buttons — compact chip ~⅓ width; title bars use full chip above */
+    .member-actions__btn .membership-chip {
+      flex: 0 1 34%;
+      max-width: 34%;
+      min-width: 0;
+      padding: 0.2rem 0.3rem;
+      font-size: clamp(0.44rem, 0.4rem + 0.1vw, 0.54rem);
+      letter-spacing: 0.045em;
+      line-height: 1.1;
       overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    html[data-member-auth="in"] .membership-chip {
+      display: none;
+    }
+    .member-auth-btn--compact {
+      flex: 0 1 auto;
+      min-width: 5.5rem;
+      min-height: 1.85rem;
+      font-size: 0.58rem;
+      padding: 0.28rem 0.55rem;
+    }
+    .config-section--member {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      background: var(--tan-soft-open);
+    }
+    .config-section--member::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border-right: var(--panel-divider);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .config-section--member .config-section-body {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding: 0.32rem;
     }
     .config-section {
       display: flex;
@@ -1111,6 +1696,10 @@
       background: var(--ui-fill);
     }
     .config-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
       padding: 0.42rem 0.55rem;
       font-size: clamp(0.56rem, 0.48rem + 0.35cqi, 0.62rem);
       font-weight: 700;
@@ -1118,9 +1707,34 @@
       text-transform: uppercase;
       color: var(--title-picker-text);
       background: var(--panel-title-bar-bg);
+    }
+    .config-section-head__title {
+      min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .config-section-head__members-only {
+      flex-shrink: 0;
+    }
+    .config-section-head__trailing {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+    .pricing-disclaimer-anchor {
+      position: relative;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+    }
+    .config-section-head:has(.pricing-disclaimer-popover:not([hidden])) {
+      z-index: 30;
+    }
+    html[data-member-auth="in"] .config-section-head__members-only {
+      display: none;
     }
     .config-section--price {
       display: flex;
@@ -1147,8 +1761,8 @@
     }
     .price-line-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.35rem 0.75rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.35rem 0.55rem;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -1180,7 +1794,82 @@
     .price-line-item--na .price-line-rate {
       color: var(--muted);
     }
-    @media (max-width: 640px) {
+    @media (max-width: 899px) {
+      .page-config-strip {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: unset;
+        grid-template-rows: unset;
+        overflow: visible;
+        min-height: auto;
+        height: auto;
+        align-items: stretch;
+      }
+      .page-config-strip.panel-ring {
+        overflow: visible;
+        padding-bottom: calc(var(--panel-ring-tan) + var(--panel-ring-outer));
+      }
+      .page-config-strip > .config-section--member,
+      .page-config-strip > .pricing-gate-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: auto;
+      }
+      .pricing-gate-wrap {
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: auto;
+        flex: 0 0 auto;
+      }
+      .pricing-gate-target {
+        display: flex;
+        flex-direction: column;
+        min-height: auto;
+        flex: 0 0 auto;
+      }
+      .pricing-gate-target .config-section--calculator,
+      .pricing-gate-target .config-section--price {
+        flex: 0 0 auto;
+        min-height: auto;
+      }
+      .config-section--price .config-section-body {
+        min-height: auto;
+        flex: 0 0 auto;
+      }
+      .config-section--member::after {
+        display: none;
+      }
+      .config-section--member {
+        border-bottom: var(--panel-divider);
+      }
+      .config-section--member .config-section-body {
+        padding: 0.42rem 0.48rem 0.48rem;
+      }
+      .member-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .member-actions__btn {
+        flex: 1 1 calc(33.333% - 0.3rem);
+        min-width: 5.5rem;
+        min-height: 2.55rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.28rem;
+        padding: 0.38rem 0.4rem;
+      }
+      .member-actions__btn-label {
+        text-align: left;
+        line-height: 1.15;
+      }
+      .config-section-head .membership-chip {
+        padding: 0.34rem 0.72rem;
+        font-size: clamp(0.62rem, 2.5vw, 0.76rem);
+        letter-spacing: 0.08em;
+      }
       .price-line-list {
         grid-template-columns: 1fr;
         gap: 0;
@@ -1198,12 +1887,38 @@
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr;
       flex: 1 1 auto;
-      min-height: 4.5rem;
+      min-height: 5rem;
       align-items: stretch;
     }
-    @media (max-width: 640px) {
+    @media (max-width: 899px) {
+      .config-section--price {
+        min-height: auto;
+      }
       .config-section--price .price-split-body {
-        min-height: 3.75rem;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        min-height: 0;
+        flex: 0 0 auto;
+        align-items: stretch;
+      }
+      .config-section--price .price-split__lf {
+        min-height: auto;
+        height: auto;
+        border-bottom: var(--panel-divider);
+      }
+      .config-section--price .price-split__lf::after {
+        display: none;
+      }
+      .config-section--price .price-split__total {
+        overflow: visible;
+        height: auto;
+        min-height: 0;
+        grid-template-rows: auto auto;
+      }
+      .config-section--price .estimate-total-head,
+      .config-section--price .price-split__total-body {
+        min-height: auto;
+        flex-shrink: 0;
       }
     }
     .price-split__lf {
@@ -1224,80 +1939,121 @@
       height: 100%;
       position: relative;
     }
-    .price-split__total::after {
-      content: '';
-      position: absolute;
-      left: var(--panel-ring-tan);
-      right: var(--panel-ring-tan);
-      top: 50%;
-      height: 1px;
-      transform: translateY(-50%);
-      pointer-events: none;
-      z-index: 2;
-      background: var(--ring-frame-line);
-    }
     .estimate-total-head {
       position: relative;
       z-index: 1;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0.12rem;
       width: 100%;
       min-height: 0;
-      padding: 0.38rem 0.48rem 0.34rem;
+      padding: 0.32rem 0.48rem 0.34rem;
       background: var(--panel-title-bar-bg);
       flex-shrink: 0;
+    }
+    .estimate-total-head .estimate-bound-label,
+    .estimate-total-head .estimate-bound {
+      text-align: left;
+      width: 100%;
     }
     .price-split__total-body {
       position: relative;
       z-index: 1;
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 0.12rem;
       padding: 0.34rem 0.48rem 0.38rem;
       min-height: 0;
       background: var(--b1-forest);
     }
-    .cost-calculator-total {
+    .estimate-bound-label {
       font-family: var(--font-display);
-      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
-      font-weight: 700;
-      color: var(--tan-light);
-      line-height: 1.1;
-      text-align: right;
-    }
-    .estimate-range-hint {
-      display: block;
-      margin-top: 0.2rem;
       font-size: 0.58rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-weight: 700;
       text-transform: uppercase;
-      color: rgba(240, 232, 224, 0.72);
+      letter-spacing: 0.08em;
+      color: var(--title-picker-text);
+      opacity: 1;
+      line-height: 1.1;
+    }
+    .estimate-bound-label--on-green {
+      color: rgba(240, 232, 224, 0.78);
+    }
+    .estimate-bound {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.05;
       text-align: right;
+      width: 100%;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .estimate-bound--low {
+      font-size: clamp(1rem, 1.75vw, 1.35rem);
+      color: var(--title-picker-text);
+    }
+    .estimate-bound--high {
+      font-size: clamp(1.15rem, 2.1vw, 1.6rem);
+      color: var(--tan-light);
+    }
+    .price-split__total .estimate-bound--low,
+    .price-split__total .estimate-bound--high {
+      font-size: clamp(1.15rem, 2.1vw, 1.6rem);
     }
     .member-actions {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 0.65rem 0.75rem;
-      border-top: var(--panel-divider);
+      flex-direction: column;
+      flex: 1 1 auto;
+      gap: 0.32rem;
+      padding: 0;
+      min-height: 0;
+      justify-content: stretch;
     }
     .member-actions__btn {
-      flex: 1 1 auto;
-      min-width: 8.5rem;
-      padding: 0.45rem 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.32rem;
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 2.25rem;
+      padding: 0.36rem 0.45rem;
       border-radius: var(--fence-box-inner-radius);
-      border: 2px solid var(--tan-soft-border);
-      background: var(--panel-folded-fill);
+      border: 2px solid var(--tan-border);
+      background: var(--tan);
       color: var(--title-picker-text);
       font-family: var(--font-display);
-      font-size: 0.68rem;
-      font-weight: 700;
+      font-size: clamp(0.58rem, 0.52rem + 0.14vw, 0.72rem);
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      text-align: left;
+      white-space: normal;
       cursor: pointer;
+    }
+    .member-actions__btn-label {
+      flex: 1 1 62%;
+      min-width: 0;
+      font-weight: 800;
+    }
+    .member-actions__btn-gate {
+      text-align: right;
+    }
+    html[data-member-auth="in"] .member-actions__btn-gate {
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .config-section--member .config-section-body {
+        padding: 0.28rem 0.35rem;
+      }
+      .member-actions {
+        gap: 0.28rem;
+      }
     }
     .member-actions__btn:hover,
     .member-actions__btn:focus-visible {
@@ -1307,18 +2063,6 @@
     }
     html[data-ff-embed="1"] body {
       min-height: 100vh;
-    }
-    .estimate-total-label {
-      font-family: var(--font-display);
-      font-size: 0.62rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--title-picker-text);
-      opacity: 1;
-      text-align: left;
-      flex: 1 1 auto;
-      min-width: 0;
     }
     .pricing-disclaimer-btn {
       margin: 0;
@@ -1340,6 +2084,26 @@
       border-color: rgba(10, 10, 10, 0.52);
     }
     .dynamic-footer { display: none !important; }
+    /** ?debug=layout — resize band readout (dev preview only) */
+    .layout-debug {
+      position: fixed;
+      bottom: env(safe-area-inset-bottom, 0px);
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      margin: 0;
+      padding: 0.28rem 0.55rem;
+      font-size: 0.62rem;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+      line-height: 1.35;
+      background: rgba(10, 10, 10, 0.92);
+      color: var(--tan-light);
+      border-top: 1px solid var(--tan);
+      pointer-events: none;
+    }
+    html[data-ff-embed="1"] .layout-debug {
+      display: none !important;
+    }
     .check-label {
       display: inline-flex;
       align-items: center;
@@ -1360,7 +2124,7 @@
     }
     .pricing-disclaimer-popover {
       position: absolute;
-      z-index: 20;
+      z-index: 40;
       top: calc(100% + 0.35rem);
       right: 0;
       left: auto;
@@ -1375,8 +2139,15 @@
       border-radius: 6px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
-    .cost-calculator-metrics,
-    .cost-calculator-per-lf {
+    @media (max-width: 899px) {
+      .config-section--price .price-split__total {
+        isolation: isolate;
+      }
+      .config-section--price .config-section-head:has(.pricing-disclaimer-popover:not([hidden])) {
+        z-index: 50;
+      }
+    }
+    .cost-calculator-metrics {
       font-size: 0.58rem;
       color: var(--muted);
       text-align: center;
@@ -1387,10 +2158,32 @@
       letter-spacing: 0.06em;
       color: var(--muted);
     }
-    .price-split__lf-value {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
+    .price-split__lf-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      width: 100%;
+    }
+    .price-split__lf-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.1rem;
+      width: 100%;
+    }
+    .price-split__lf-row--high {
+      padding-top: 0.28rem;
+      border-top: 1px solid var(--chrome-frame);
+    }
+    .price-split__lf .estimate-bound-label {
+      color: rgba(240, 232, 224, 0.78);
+    }
+    .price-split__lf .estimate-bound--low {
+      font-size: clamp(0.95rem, 1.55vw, 1.25rem);
+      color: var(--title-bar-text);
+    }
+    .price-split__lf .estimate-bound--high {
+      font-size: clamp(0.95rem, 1.55vw, 1.25rem);
       color: var(--tan-light);
     }
     .title-category-picker {
@@ -1525,8 +2318,8 @@
       background: var(--orange-bar-faded);
     }
     .title-fence-option[aria-selected="true"] {
-      background: var(--orange-active-soft);
-      border: 1px solid var(--orange-active-border);
+      background: var(--control-selected-bg);
+      border: 1px solid var(--control-selected-border);
     }
     .title-fence-option:disabled {
       opacity: 0.45;
@@ -1553,36 +2346,6 @@
     .sidebar-rail {
       width: 100%;
       max-width: 100%;
-    }
-    @container app-shell (max-width: 592px) {
-      .sidebar-rail {
-        max-width: none;
-      }
-    }
-    /** Viewport fallback when container queries unsupported */
-    @media (max-width: 592px) {
-      .shell--with-sidebar {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
-        grid-template-areas:
-          "top"
-          "canvas"
-          "sidebar"
-          "footer";
-      }
-      .shell-top-row {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
-      .shell-top-band {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 0.35rem;
-      }
-      .sidebar-rail {
-        max-width: none;
-      }
     }
 
     .general-toolbox,
@@ -1732,8 +2495,8 @@
     .preset-item {
       width: 100%;
       text-align: center;
-      background: var(--ui-fill-deep);
-      border: 1px solid var(--ui-outline-soft);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
       border-radius: 5px;
       color: var(--text);
       padding: 0.42rem 0.35rem;
@@ -1751,8 +2514,8 @@
     }
     .preset-item[aria-pressed="true"],
     .preset-item.is-active {
-      background: var(--orange-active-soft);
-      border-color: var(--orange-active-border);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
     }
     .preset-item:disabled {
       opacity: 0.45;
@@ -1794,7 +2557,7 @@
     .module-frame {
       display: none;
     }
-    /** View rail — sibling on preview-cluster row (right of fence box(es), never over VB2) */
+    /** View rail — on preview-cluster, flush right of fence box(es); out of pan scroll width */
     :root {
       --view-rail-w: 1.25rem;
       --view-rail-w-min: 1.1rem;
@@ -1803,9 +2566,10 @@
     .preview-cluster {
       display: flex;
       flex-direction: row;
-      align-items: stretch;
+      align-items: flex-start;
       flex-shrink: 0;
       gap: 0;
+      position: relative;
     }
     .module-viewport {
       width: 100%;
@@ -1814,94 +2578,150 @@
       position: relative;
       background: transparent;
     }
-    .module-face-label {
-      display: block;
+    .module-face-slot {
       position: absolute;
-      top: calc(var(--scale-rail-h) + 0.12rem);
-      right: 0.35rem;
-      z-index: 7;
-      font-size: clamp(0.5rem, 0.44rem + 0.35cqi, 0.62rem);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--tan-light);
-      background: rgba(20, 19, 18, 0.88);
-      border: 1px solid var(--ui-outline-soft);
-      border-radius: 3px;
-      padding: 0.12rem 0.38rem;
-      pointer-events: none;
-      line-height: 1.15;
-      white-space: nowrap;
+      z-index: 8;
+      display: flex;
+      align-items: stretch;
+      pointer-events: auto;
+      box-sizing: border-box;
     }
+    /** Sky pocket — below top-scale tick tips, above fence; width from JS. */
+    .module-face-slot--sky-pocket {
+      top: var(--face-slot-top, 0);
+      left: var(--face-slot-left, 0);
+      width: var(--face-slot-width, 100%);
+      height: var(--face-slot-height, 1rem);
+      transform: none;
+      max-width: none;
+    }
+    .canvas:not(.viewport-mode-dual) .module-face-slot[data-pane="back"] {
+      display: none;
+    }
+    .canvas.viewport-mode-dual .module-face-slot[data-pane="front"] .module-face-tag[data-side="back"] {
+      display: none;
+    }
+    /** Dual pane — Front / Back chips are pane titles, not a pressed toggle pair */
+    .canvas.viewport-mode-dual .module-face-slot .module-face-tag,
+    .canvas.viewport-mode-dual .module-face-slot .module-face-tag[aria-pressed="false"],
+    .canvas.viewport-mode-dual .module-face-slot .module-face-tag[aria-pressed="true"] {
+      color: var(--selected-tan-text);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
+      font-weight: 700;
+    }
+    .canvas.viewport-mode-dual .module-viewport--active-side .module-face-tag {
+      box-shadow: none;
+    }
+    .canvas.viewport-mode-dual .module-face-tag:hover:not(:disabled) {
+      color: var(--selected-tan-text);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
+    }
+    .module-face-picker {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+      width: 100%;
+      height: auto;
+      min-width: 0;
+    }
+    .module-face-tag {
+      appearance: none;
+      font: inherit;
+      flex: 1 1 0;
+      min-width: 0;
+      height: auto;
+      margin: 0;
+      padding: var(--face-tag-pad-y, 0.12em) 0.35em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--face-tag-font, 0.5rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      color: var(--control-idle-text);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
+      border-radius: 2px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .module-face-tag[aria-pressed="true"] {
+      color: var(--selected-tan-text);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
+      font-weight: 700;
+    }
+    .module-face-tag[aria-pressed="false"]:hover:not(:disabled) {
+      color: var(--selected-tan-text);
+      background: var(--control-focus-bg);
+      border-color: var(--control-focus-border);
+    }
+    .module-face-tag:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    /** View rail — flush to fence right edge; absolute so pan scroll is fence-sized only */
     .view-rail {
       container-type: size;
       container-name: view-rail;
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      right: auto;
       flex: 0 0 var(--view-rail-w, 1.25rem);
       width: var(--view-rail-w, 1.25rem);
       min-width: var(--view-rail-w-min, 1.1rem);
       max-width: var(--view-rail-w-max, 4.25rem);
-      align-self: stretch;
-      min-height: var(--module-viewport-h, auto);
-      z-index: 4;
-      display: flex;
-      flex-direction: column;
+      height: var(--module-viewport-h, auto);
+      max-height: var(--module-viewport-h, none);
+      z-index: 5;
+      display: grid;
+      grid-template-rows: 1fr;
       align-items: stretch;
       box-sizing: border-box;
-      padding: 0 clamp(0.06rem, 0.5cqi, 0.14rem) clamp(0.08rem, 0.8cqi, 0.16rem);
-      background: var(--ui-fill);
-      border: var(--chrome-frame-width) solid var(--ui-outline);
+      padding: clamp(0.1rem, 0.8cqi, 0.18rem) clamp(0.06rem, 0.5cqi, 0.14rem);
+      background: var(--tan-soft-open);
+      border: var(--chrome-frame-width) solid var(--tan-border);
       border-left: 1px solid var(--ring-frame-line);
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
       pointer-events: auto;
+      overflow: hidden;
     }
     .view-rail__face {
-      flex: 0 0 auto;
-      text-align: center;
-      font-size: clamp(0.48rem, 0.42rem + 0.45cqi, 0.58rem);
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--tan-light);
-      padding: 0.14rem 0.06rem 0.1rem;
-      margin-bottom: 0.08rem;
-      border-bottom: 1px solid var(--ui-outline-soft);
-      line-height: 1.1;
-      pointer-events: none;
+      display: none;
     }
     .view-rail__zoom {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      justify-content: flex-start;
-      gap: clamp(0.08rem, 2.8cqb, 0.32rem);
+      display: grid;
+      grid-template-rows: repeat(5, minmax(0, 1fr));
+      gap: clamp(0.05rem, 1.2cqb, 0.2rem);
       min-height: 0;
+      align-content: stretch;
     }
     .view-rail__spacer {
-      flex: 0 0 0.15rem;
+      display: none;
     }
     .view-rail__side {
-      display: flex;
-      flex-direction: column;
-      flex: 0 1 auto;
-      justify-content: flex-end;
-      gap: clamp(0.08rem, 2.8cqb, 0.28rem);
-      min-height: 0;
-      padding-bottom: 0.05rem;
+      display: none;
     }
     .view-rail-btn {
       appearance: none;
       font: inherit;
-      flex: 1 1 0;
-      min-height: clamp(1.2rem, 10cqb, 2.75rem);
-      max-height: 3.25rem;
+      min-height: 0;
+      max-height: none;
       margin: 0;
       padding: 0.08rem 0.06rem;
       cursor: pointer;
-      color: var(--title-bar-text);
-      background: var(--ui-fill-deep);
-      border: 1px solid var(--ui-outline-soft);
+      color: var(--control-idle-text);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
       border-radius: 3px;
       font-size: clamp(0.5rem, 0.44rem + 0.5cqi, 0.66rem);
       font-weight: 600;
@@ -1914,24 +2734,36 @@
       transition: background 0.12s ease, border-color 0.12s ease;
     }
     .view-rail-btn:hover:not([aria-pressed="true"]):not(:disabled) {
-      background: var(--ui-fill);
-      border-color: var(--tan-light);
+      color: var(--selected-tan-text);
+      background: var(--control-focus-bg);
+      border-color: var(--control-focus-border);
     }
     .view-rail-btn[aria-pressed="true"] {
-      background: var(--orange-active-soft);
-      border-color: var(--orange-active-border);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
     }
     .view-rail-btn:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
     .view-rail-btn--side {
-      font-weight: 700;
-      font-size: clamp(0.58rem, 0.5rem + 0.55cqi, 0.76rem);
-      letter-spacing: 0.05em;
-    }
-    .canvas.viewport-mode-dual .view-rail__side {
       display: none;
+    }
+    @media (max-width: 899px) {
+      .view-rail {
+        --view-rail-w-min: 2rem;
+        min-width: 2rem;
+        padding: 0.14rem 0.1rem;
+      }
+      .view-rail__zoom {
+        gap: 0.1rem;
+      }
+      .view-rail-btn {
+        font-size: 0.62rem;
+        line-height: 1.1;
+        padding: 0.12rem 0.06rem;
+        letter-spacing: 0;
+      }
     }
     .view-tab-group {
       display: flex;
@@ -1962,12 +2794,12 @@
       transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     }
     .view-tab:hover:not([aria-pressed="true"]) {
-      background: var(--ui-fill-deep);
+      background: var(--control-idle-bg);
       border-color: var(--tan-light);
     }
     .view-tab[aria-pressed="true"] {
-      background: var(--orange-active-soft);
-      border-color: var(--orange-active-border);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
     }
     .view-tab.zoom-tab {
       flex: 1 1 calc(20% - 0.25rem);
@@ -1994,30 +2826,49 @@
       flex: 1;
       min-height: 0;
       min-width: 0;
-      overflow: auto;
+      position: relative;
+      overflow: hidden;
       border-radius: 4px;
-      cursor: grab;
-      touch-action: none;
+      cursor: default;
+      touch-action: auto;
       background: var(--ring-inner-bg);
       background-attachment: local;
+    }
+    .canvas-viewport.canvas-viewport--pan-enabled {
+      overflow: auto;
+      cursor: grab;
+      touch-action: none;
       scrollbar-gutter: stable both-edges;
     }
-    .canvas-viewport.is-panning { cursor: grabbing; }
-    /** Scroll surface — sizes to content when zoomed; min fills the viewport pane. */
+    @media (max-width: 899px) {
+      .canvas-viewport.canvas-viewport--pan-enabled {
+        scrollbar-gutter: stable;
+      }
+    }
+    .canvas-viewport.canvas-viewport--pan-enabled.is-panning { cursor: grabbing; }
+    /** Scroll surface — sizes to content when zoomed; min fills the viewport pane.
+     * Pan off (≤1×): JS positions cluster (fence + rail visual bounds).
+     * Pan on (≥1.5×): flex-start + scroll centering so both edges are reachable. */
     .viewport-inset {
       --inset-pad: var(--work-inset-pad);
       --dual-gap: 1.25rem;
       padding: var(--inset-pad);
-      box-sizing: border-box;
+      box-sizing: content-box;
       display: flex;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: flex-start;
       width: max(100%, max-content);
       height: max(100%, max-content);
       min-width: 100%;
       min-height: 100%;
       background: var(--ring-inner-bg);
       background-attachment: local;
+    }
+    .canvas-viewport:not(.canvas-viewport--pan-enabled) .viewport-inset {
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
     }
     .preview-row {
       display: flex;
@@ -2079,6 +2930,7 @@
       z-index: 3;
       pointer-events: none;
       background: transparent;
+      overflow: visible;
     }
     .scale-rail-v {
       position: absolute;
@@ -2089,6 +2941,7 @@
       z-index: 3;
       pointer-events: none;
       background: transparent;
+      overflow: visible;
     }
     .ruler-row {
       display: none;
@@ -2161,6 +3014,31 @@
       gap: 0.35rem;
       overflow-y: auto;
     }
+    /** Mobile toolbox — hug collapsed accordions; grow with open section (cap in .toolbox-viewport) */
+    @media (max-width: 899px) {
+      .sidebar-rail .toolbox-shell {
+        min-height: 0;
+        height: auto;
+        flex: 0 0 auto;
+      }
+      .sidebar-rail .toolbox-viewport {
+        min-height: 0;
+        height: auto;
+        max-height: min(520px, 52vh);
+        flex: 0 0 auto;
+        overflow: auto;
+      }
+      .sidebar-rail .toolbox-chrome,
+      .sidebar-rail .toolbox-chrome .panel,
+      .sidebar-rail .option-groups.option-groups--fence {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        min-height: 0;
+        max-height: none;
+        overflow: visible;
+      }
+    }
     details.option-group {
       border: var(--panel-folded-border);
       border-radius: 6px;
@@ -2169,7 +3047,7 @@
       overflow: hidden;
     }
     details.option-group:not([open]) {
-      background: var(--panel-folded-fill);
+      background: var(--panel-folded-bg);
     }
     details.option-group[open] {
       border-color: var(--tan);
@@ -2196,7 +3074,7 @@
       background: transparent;
     }
     details.option-group:not([open]) summary::before {
-      color: var(--selected-tan-text);
+      color: var(--title-bar-text);
     }
     details.option-group[open] summary {
       background: var(--panel-title-bar-bg);
@@ -2318,8 +3196,8 @@
     .toggle button {
       flex: 1;
       min-width: 5.5rem;
-      background: var(--ui-fill-deep);
-      border: 1px solid var(--ui-outline-soft);
+      background: var(--control-idle-bg);
+      border: 1px solid var(--control-idle-border);
       color: var(--text);
       padding: 0.35rem 0.5rem;
       border-radius: 6px;
@@ -2331,8 +3209,8 @@
       border-color: var(--ui-outline);
     }
     .toggle button[aria-pressed="true"] {
-      background: var(--orange-active-soft);
-      border-color: var(--orange-active-border);
+      background: var(--control-selected-bg);
+      border-color: var(--control-selected-border);
       box-shadow: inset 0 0 0 1px rgba(163, 135, 110, 0.28);
     }
     .toggle button.zoom-btn {
@@ -2340,14 +3218,14 @@
       min-width: 2.5rem;
     }
 
-    /** Transparent tan box — bold black type (wins over base control styles) */
+    /** Selected choice — bold dark type on translucent tan */
     .view-tab[aria-pressed="true"],
     .title-fence-option[aria-selected="true"],
     .preset-item[aria-pressed="true"],
     .preset-item.is-active,
     .toggle button[aria-pressed="true"],
-    details.option-group:not([open]) > summary,
-    .mini-panel--specs .specs-col--fields .field input {
+    .view-rail-btn[aria-pressed="true"],
+    .module-face-tag[aria-pressed="true"] {
       color: var(--selected-tan-text);
       font-weight: var(--selected-tan-font-weight);
     }
@@ -2363,7 +3241,7 @@
     details.option-group:not([open]) > summary::before,
     details.option-group:not([open]) > summary:hover,
     details.option-group:not([open]) > summary:hover::before {
-      color: var(--selected-tan-text);
+      color: var(--title-bar-text);
     }
 
     .selection-summary {
@@ -2422,19 +3300,47 @@
       font-family: Consolas, "Segoe UI", monospace;
       text-transform: uppercase;
     }
+    /** Mobile footer — must load after .panel-ring / .page-config-strip base rules */
+    .mobile-preview-scroll-tail {
+      display: none;
+    }
+    @media (max-width: 899px) {
+      html:not([data-ff-embed="1"]) .mobile-preview-scroll-tail {
+        display: block;
+        grid-area: footer-tail;
+        width: 100%;
+        flex: 0 0 auto;
+        min-height: 0;
+        height: calc(
+          var(--mobile-footer-clearance) + var(--panel-ring-outer) + var(--panel-ring-tan)
+        );
+        pointer-events: none;
+      }
+      #page-config-strip.panel-ring {
+        overflow: visible;
+      }
+      .config-section--price .price-split__total-body {
+        min-height: 3.5rem;
+        padding: 0.45rem 0.55rem 0.65rem;
+        overflow: visible;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="shell shell--with-sidebar" id="shell">
     <div class="shell-top-row" id="shell-top-row" data-ui-code="S1">
       <div class="shell-top-band shell-top-band--upper" data-ui-code="S1.1">
-      <div class="b1-quad sidebar-zone--title panel-ring" data-panel-expandable data-ui-code="B1">
-        <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand fence style panel" title="Expand">
-          <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
+      <div class="b1-quad sidebar-zone--title panel-ring" data-panel-expandable data-s1-panel="title" data-ui-code="B1">
+        <button type="button" class="mini-panel-expand" aria-expanded="true" aria-label="Collapse fence style panel" title="Collapse">
+          <span class="mini-panel-expand__icon" aria-hidden="true">⤡</span>
         </button>
+        <div class="b1-quad__mobile-head" aria-hidden="true">
+          <span class="b1-quad__mobile-head-label" id="b1-mobile-head-label">Vertical Fence · Cedar Picket</span>
+        </div>
         <div class="b1-quad__cell b1-quad__cell--vpf" id="fence-category-picker" data-ui-code="B1P0">
           <button type="button" class="b1-quad__picker" id="fence-category-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="fence-category-menu">
-            <span class="b1-quad__code" id="fence-category-code">VPF</span>
+            <span class="b1-quad__code" id="fence-category-code">Vertical Fence</span>
             <span class="b1-quad__chev" aria-hidden="true"></span>
           </button>
           <ul class="title-fence-menu" id="fence-category-menu" role="listbox" aria-label="Fence category" hidden>
@@ -2445,28 +3351,27 @@
           </ul>
         </div>
         <div class="b1-quad__cell b1-quad__cell--spell">
-          <p class="b1-quad__spell" id="fence-category-spell">Vertical Picket Fence</p>
+          <p class="b1-quad__spell b1-quad__quadrant-label" id="fence-category-spell">Fence Type</p>
         </div>
         <div class="b1-quad__cell b1-quad__cell--line" id="fence-style-picker" data-ui-code="B1P1">
           <button type="button" class="b1-quad__picker" id="fence-style-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="fence-style-menu">
-            <span class="b1-quad__line" id="fence-style-label">Natural wood</span>
+            <span class="b1-quad__line" id="fence-style-label">Cedar Picket</span>
             <span class="b1-quad__chev" aria-hidden="true"></span>
           </button>
           <ul class="title-fence-menu" id="fence-style-menu" role="listbox" aria-label="Fence style" hidden></ul>
         </div>
         <div class="b1-quad__cell b1-quad__cell--desc" data-ui-code="B1M2">
-          <p class="b1-quad__desc" id="fence-style-desc">
-            6′ vertical picket fence — PT frame, cedar pickets, configurable rail frame.
-          </p>
+          <p class="b1-quad__desc b1-quad__quadrant-label" id="fence-style-desc">Fence Style</p>
         </div>
       </div>
 
-      <section class="mini-panel mini-panel--templates panel-ring" id="templates-panel" data-panel-expandable data-ui-code="B2" aria-label="Fence templates">
+      <section class="mini-panel mini-panel--templates panel-ring" id="templates-panel" data-panel-expandable data-s1-panel="templates" data-ui-code="B2" aria-label="Fence templates">
         <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand templates" title="Expand">
           <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
         </button>
         <h3 class="mini-panel-head">
           <span class="mini-panel-head__title">Templates</span>
+          <span class="mini-panel-head__condensed-summary" id="templates-condensed-summary" aria-hidden="true"></span>
         </h3>
         <div class="mini-panel-body">
           <ul class="preset-grid" id="preset-list" role="list"></ul>
@@ -2475,12 +3380,13 @@
       </div>
 
       <div class="shell-top-band shell-top-band--lower" data-ui-code="S1.2">
-      <section class="mini-panel mini-panel--specs panel-ring" id="project-specs-panel" data-panel-expandable data-ui-code="TBC" aria-label="Project specs">
+      <section class="mini-panel mini-panel--specs panel-ring" id="project-specs-panel" data-panel-expandable data-s1-panel="specs" data-ui-code="TBC" aria-label="Project specs">
         <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand project specs" title="Expand">
           <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
         </button>
         <h3 class="mini-panel-head">
           <span class="mini-panel-head__title">Project specs</span>
+          <span class="mini-panel-head__condensed-summary" id="specs-condensed-summary" aria-hidden="true"></span>
         </h3>
         <div class="mini-panel-body">
           <div class="specs-col specs-col--checks">
@@ -2532,7 +3438,7 @@
     <div class="layout" id="layout" data-ui-code="S2-CANVAS">
       <div class="canvas" id="canvas-wrap" data-ui-code="VB">
         <p class="visually-hidden" id="zoom-info" aria-live="polite">—</p>
-        <div class="canvas-viewport" id="canvas-viewport" aria-label="Zoom and pan — drag to pan when zoomed">
+        <div class="canvas-viewport" id="canvas-viewport" aria-label="Fence preview">
           <div class="viewport-inset">
             <div class="preview-cluster" id="preview-cluster">
               <div class="preview-row" id="preview-row">
@@ -2550,6 +3456,12 @@
                         <div class="fence-wrap" id="fence-wrap" data-ui-code="VB3">
                           <div id="preview-host"></div>
                         </div>
+                        <div class="module-face-slot module-face-slot--sky-pocket" id="module-face-slot-front" data-pane="front">
+                          <div class="module-face-picker" role="group" aria-label="Fence side">
+                            <button type="button" class="module-face-tag" data-side="front" aria-pressed="true">Front</button>
+                            <button type="button" class="module-face-tag" data-side="back" aria-pressed="false">Back</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2561,14 +3473,18 @@
                         <div class="scale-rail scale-rail-v" aria-hidden="true">
                           <svg id="scale-v-back" class="scale-ruler scale-v" role="presentation" aria-hidden="true"></svg>
                         </div>
-                        <div class="scale-rail" aria-hidden="true">
+                        <div class="scale-rail" id="scale-rail-back" aria-hidden="true">
                           <svg id="scale-h-back" class="scale-ruler scale-h" role="presentation" aria-hidden="true"></svg>
                         </div>
                         <svg id="inner-box-frame-back" class="inner-box-frame scale-ruler" role="presentation" aria-hidden="true"></svg>
                         <div class="fence-wrap" data-ui-code="VB3">
                           <div id="preview-host-back"></div>
                         </div>
-                        <span class="module-face-label" id="module-face-label-back" aria-hidden="true">Back</span>
+                        <div class="module-face-slot module-face-slot--sky-pocket" id="module-face-slot-back" data-pane="back">
+                          <div class="module-face-picker" role="group" aria-label="Fence side">
+                            <button type="button" class="module-face-tag" data-side="back" aria-pressed="false">Back</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2596,45 +3512,89 @@
     </div>
 
     <div class="page-config-strip panel-ring" id="page-config-strip" data-ui-code="S3">
+      <section class="config-section config-section--member" data-ui-code="B-MEMBER" id="member-actions-section">
+        <h3 class="config-section-head">Your design</h3>
+        <div class="config-section-body">
+          <div class="member-auth-row" id="member-auth-row" role="group" aria-label="Account">
+            <button type="button" class="member-auth-btn" id="btn-member-login">Log in</button>
+            <button type="button" class="member-auth-btn member-auth-btn--signup" id="btn-member-signup">
+              <span class="member-auth-btn__label">Sign up</span>
+              <span class="member-auth-btn__free">(Free)</span>
+            </button>
+          </div>
+          <div class="member-actions" role="group" aria-label="Member actions">
+          <button type="button" class="member-actions__btn" id="btn-save-design">
+            <span class="member-actions__btn-label">Save design</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+          <button type="button" class="member-actions__btn" id="btn-request-contact">
+            <span class="member-actions__btn-label">Request contact</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+          <button type="button" class="member-actions__btn" id="btn-create-blueprint">
+            <span class="member-actions__btn-label">Create blueprint</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+        </div>
+        </div>
+      </section>
+      <div class="pricing-gate-wrap" id="pricing-gate-wrap">
+        <div class="pricing-gate-target" id="pricing-gate-target">
       <section class="config-section config-section--calculator" data-ui-code="B-CALC">
-        <h3 class="config-section-head">Calculator</h3>
+        <h3 class="config-section-head">
+          <span class="config-section-head__title">Calculator</span>
+          <span class="config-section-head__members-only membership-chip">Members only</span>
+        </h3>
         <div class="config-section-body">
           <div class="price-line-list-wrap" id="price-indicator-strip" aria-live="polite"></div>
           <div id="warnings" hidden></div>
         </div>
       </section>
       <section class="config-section config-section--price" data-ui-code="B-PRICE">
-        <h3 class="config-section-head">Fence price</h3>
+        <h3 class="config-section-head config-section-head--price">
+          <span class="config-section-head__title">Fence price</span>
+          <span class="config-section-head__trailing">
+            <span class="pricing-disclaimer-anchor">
+              <button type="button" class="pricing-disclaimer-btn" id="pricing-disclaimer-toggle" aria-expanded="false" aria-controls="pricing-disclaimer-popover" title="Pricing disclaimer">ℹ</button>
+              <div class="pricing-disclaimer-popover" id="pricing-disclaimer-popover" role="note" hidden></div>
+            </span>
+            <span class="config-section-head__members-only membership-chip">Members only</span>
+          </span>
+        </h3>
         <div class="config-section-body">
           <div class="price-split-body">
             <div class="price-split__lf">
               <span class="price-split__lf-label">Per linear foot</span>
-              <span class="price-split__lf-value" id="cost-calculator-per-lf">—</span>
+              <div class="price-split__lf-stack" aria-live="polite">
+                <div class="price-split__lf-row price-split__lf-row--low">
+                  <span class="estimate-bound-label">Low</span>
+                  <span class="estimate-bound estimate-bound--low pricing-gated-value" id="cost-calculator-per-lf-low">—</span>
+                </div>
+                <div class="price-split__lf-row price-split__lf-row--high">
+                  <span class="estimate-bound-label estimate-bound-label--on-green">High</span>
+                  <span class="estimate-bound estimate-bound--high pricing-gated-value" id="cost-calculator-per-lf-high">—</span>
+                </div>
+              </div>
               <span class="cost-calculator-metrics" id="cost-calculator-summary">8′ module · enter total run</span>
             </div>
-            <div class="price-split__total">
+            <div class="price-split__total" aria-live="polite" aria-atomic="true">
               <div class="estimate-total-head">
-                <span class="estimate-total-label">Estimate</span>
-                <button type="button" class="pricing-disclaimer-btn" id="pricing-disclaimer-toggle" aria-expanded="false" aria-controls="pricing-disclaimer-popover" title="Pricing disclaimer">ℹ</button>
-                <div class="pricing-disclaimer-popover" id="pricing-disclaimer-popover" role="note" hidden></div>
+                <span class="estimate-bound-label">Low</span>
+                <span class="estimate-bound estimate-bound--low pricing-gated-value" id="cost-calculator-low">—</span>
               </div>
               <div class="price-split__total-body">
-                <span class="cost-calculator-total" id="cost-calculator-total" aria-live="polite">—</span>
-                <span class="estimate-range-hint" id="estimate-range-hint" hidden>±15% estimate range</span>
+                <span class="estimate-bound-label estimate-bound-label--on-green">High</span>
+                <span class="estimate-bound estimate-bound--high pricing-gated-value" id="cost-calculator-high">—</span>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section class="config-section config-section--member" data-ui-code="B-MEMBER" id="member-actions-section">
-        <h3 class="config-section-head">Your design</h3>
-        <div class="config-section-body member-actions" role="group" aria-label="Member actions">
-          <button type="button" class="member-actions__btn" id="btn-save-design">Save design</button>
-          <button type="button" class="member-actions__btn" id="btn-request-contact">Request contact</button>
-          <button type="button" class="member-actions__btn" id="btn-create-blueprint">Create blueprint</button>
         </div>
-      </section>
+      </div>
     </div>
+
+    <div class="mobile-preview-scroll-tail" id="mobile-preview-scroll-tail" aria-hidden="true"></div>
 
     <div class="sidebar-rail" id="sidebar-rail" data-ui-code="S2-TOOLBOX">
       <div class="toolbox-shell" id="sidebar-fence-stack">
@@ -2915,6 +3875,8 @@
     </div>
   </div>
 
+  <p class="layout-debug" id="layout-debug" hidden aria-live="polite"></p>
+
   <script src="pilot-configurator-registry.js"></script>
   <script src="heritage-configurator.js"></script>
   <script src="stack-composer-manifest.js"></script>
@@ -2933,7 +3895,9 @@
 
     /** ?render=stack|monolith overrides registry renderMode (debug). */
     const RENDER_OVERRIDE = new URLSearchParams(location.search).get('render');
-
+    const LAYOUT_DEBUG = /^(layout|1|true)$/i.test(
+      new URLSearchParams(location.search).get('debug') || ''
+    );
     function wantsStackComposer(style, side) {
       if (typeof StackComposer === 'undefined') return false;
       if (RENDER_OVERRIDE === 'monolith') return false;
@@ -3038,6 +4002,9 @@
     let MODULE_H_IN = 86;
     let GRASS_BOTTOM_Y = 86;
     const GRASS_GROUND_Y = 84;
+    const GRASS_DIRT_HEIGHT_IN = 2;
+    /** Grass.svg tile aspect (639÷2304) — matches grass-art.js */
+    const GRASS_TILE_ASPECT = 639 / 2304;
     const SCALE_BAND_H_IN = 10;
     let CONTENT_H_IN = 86;
     /** Post outer edges — matches heritage-geometry leftPostShell / rightPostShell */
@@ -3059,9 +4026,13 @@
     const SCALE_START_X = GRASS_TILE_W_IN * 0.5; /* 8″ — module x, matches left post outer */
     const SCALE_END_X = GRASS_TILE_W_IN * (GRASS_TILE_COUNT - 0.5); /* 104″ — right post outer */
     const SCALE_SPAN_IN = SCALE_END_X - SCALE_START_X; /* 96″ FenceBox width between posts */
-    /** Gap from tick tips to post tops (module y). */
+    /** Gap from horizontal tick tips to post tops (module y) — vertical ruler alignment, not drawn H-scale tip. */
     const RULER_GAP_ABOVE_FENCE = 2.5;
     const RULER_TICK_TIP_Y = POST_TOP_Y - RULER_GAP_ABOVE_FENCE;
+    /** Heritage assembly — rail cap rect top (module y). */
+    const RAIL_CAP_TOP_Y = 12.1875;
+    const RAIL_CAP_HEIGHT_IN = 1.125;
+    const RAIL_CAP_BOTTOM_Y = RAIL_CAP_TOP_Y + RAIL_CAP_HEIGHT_IN;
     const RULER_BASELINE_Y = 3.25;
     /** Vertical scale — mirror of horizontal, ticks point right toward posts. */
     /** Major tick reach — vertical (→) matches horizontal (↓) extension from container edge. */
@@ -3095,17 +4066,26 @@
     };
     /** Preset multipliers on fit scale. Max effective px/in is VIEWPORT.ZOOM_MAX_PX_PER_IN (~10); above 2× often clamps. */
     const ZOOM_STEPS = [0.5, 0.75, 1, 1.5, 2];
+    /** Drag-pan only when zoomed past fit — 1× and below stay centered, no scrollport. */
+    const ZOOM_PAN_MIN = 1.5;
     /** Responsive viewport — tune module min/max display size and breakpoints here.
-     * Collapse priority: shrink sidebar (--panel-min-w → --panel-w-max) before fence drops below 1× plateau
-     * → at --bp-shell-stack stack toolbox below canvas → dual only side-by-side above BP_SHELL_DUAL. */
+     * Bands (viewport width): mobile ≤899 · tablet 900–1279 · desktop ≥1280 (dual when pane fits).
+     * Collapse priority: shrink sidebar before fence drops below 1× plateau → mobile stacks toolbox below canvas. */
     const VIEWPORT = {
-      /** Must match :root --bp-shell-stack calc: panel-min + module-min + pad + gap */
-      BP_SHELL_STACK: 592,
-      /** Side-by-side shell must be at least this wide before auto front+back dual. */
+      /** Viewport ≤ this = mobile band (sidebar below canvas, phone polish). */
+      BP_MOBILE_MAX: 899,
+      BP_TABLET_MIN: 900,
+      BP_TABLET_MAX: 1279,
+      /** Shell width ≥ this before auto front+back dual (sidebar beside canvas). */
+      BP_DESKTOP_DUAL_MIN: 1280,
       BP_SHELL_DUAL_SIDE_BY_SIDE: 1280,
-      BP_PHONE: 640,
-      BP_TABLET: 1024,
+      /** Min shell width to fit sidebar + module side-by-side (content floor, informational). */
+      BP_SHELL_CONTENT_MIN: 592,
       MODULE_MIN_PX_W: 280,
+      /** Mobile absolute module floor — may shrink below MODULE_MIN when pane is tight */
+      MOBILE_MODULE_MIN_PX_W: 120,
+      /** Hatch padding inside canvas inset — keep visible beyond fence + view-rail borders */
+      MOBILE_FIT_GUTTER_PX: 8,
       /** Reference spawn width per module in dual (each ≈ half canvas at trigger). */
       MODULE_DUAL_SPAWN_PX_W: 560,
       /** Absolute zoom ceiling — 1× fit grows with canvas width until here; zoom presets scale further. */
@@ -3121,6 +4101,13 @@
       VIEW_RAIL_W_MIN_PX: 18,
       VIEW_RAIL_W_BASE_PX: 20,
       VIEW_RAIL_W_MAX_PX: 68,
+      /** Mobile — wider floor so zoom tabs and scale labels stay legible */
+      MOBILE_VIEW_RAIL_W_MIN_PX: 32,
+      MOBILE_VIEW_RAIL_W_BASE_PX: 36,
+      MOBILE_VIEW_RAIL_W_MAX_PX: 52,
+      /** Proportional scale bands on mobile — floors inflated overlay vs posts / FRONT-BACK pocket */
+      MOBILE_SCALE_RAIL_W_MIN_PX: 0,
+      MOBILE_SCALE_RAIL_H_MIN_PX: 0,
       /** Legacy fallback if measureH unavailable — prefer dualEnterAvailW(measureH). */
       DUAL_TRIGGER_AVAIL_W: 1056,
       DUAL_EXIT_AVAIL_W: 992,
@@ -3133,12 +4120,78 @@
     }
 
     function bpShellStackPx() {
-      return (
-        readCssPx('--panel-min-w', 240) +
-        readCssPx('--module-min-px-w', VIEWPORT.MODULE_MIN_PX_W) +
-        readCssPx('--shell-layout-pad', 48) +
-        24
-      );
+      return VIEWPORT.BP_SHELL_CONTENT_MIN;
+    }
+
+    function resolveLayoutBand(viewportW) {
+      const w = viewportW ?? window.innerWidth;
+      if (w <= VIEWPORT.BP_MOBILE_MAX) return 'mobile';
+      if (w < VIEWPORT.BP_DESKTOP_DUAL_MIN) return 'tablet';
+      return 'desktop';
+    }
+
+    function viewRailBounds() {
+      const mobile = resolveLayoutBand(window.innerWidth) === 'mobile';
+      if (mobile) {
+        const { MOBILE_VIEW_RAIL_W_MIN_PX, MOBILE_VIEW_RAIL_W_BASE_PX, MOBILE_VIEW_RAIL_W_MAX_PX } =
+          VIEWPORT;
+        return {
+          min: MOBILE_VIEW_RAIL_W_MIN_PX,
+          base: MOBILE_VIEW_RAIL_W_BASE_PX,
+          max: MOBILE_VIEW_RAIL_W_MAX_PX,
+        };
+      }
+      const { VIEW_RAIL_W_MIN_PX, VIEW_RAIL_W_BASE_PX, VIEW_RAIL_W_MAX_PX } = VIEWPORT;
+      return { min: VIEW_RAIL_W_MIN_PX, base: VIEW_RAIL_W_BASE_PX, max: VIEW_RAIL_W_MAX_PX };
+    }
+
+    function viewRailMinPx() {
+      return viewRailBounds().min;
+    }
+
+    function scaleRailFloorsPx() {
+      if (resolveLayoutBand(window.innerWidth) !== 'mobile') {
+        return { w: 0, h: 0 };
+      }
+      return {
+        w: VIEWPORT.MOBILE_SCALE_RAIL_W_MIN_PX,
+        h: VIEWPORT.MOBILE_SCALE_RAIL_H_MIN_PX,
+      };
+    }
+
+    function updateLayoutDebug(metrics, mode) {
+      if (!LAYOUT_DEBUG || !layoutDebugEl) return;
+      const vpW = window.innerWidth;
+      const band = resolveLayoutBand(vpW);
+      document.documentElement.dataset.layoutBand = band;
+      document.documentElement.dataset.shellLayout = isShellSideBySide() ? 'beside' : 'below';
+      layoutDebugEl.hidden = false;
+      const s1Label = shellTopRowEl?.classList.contains('s1-focus-stack')
+        ? `s1-focus:${shellTopRowEl.dataset.s1Focus || 'title'}`
+        : 's1:overlay';
+      const memberLabel = `member:${document.documentElement.dataset.memberAuth || 'out'}`;
+      const vvBottom = getComputedStyle(document.documentElement).getPropertyValue('--vv-bottom-inset').trim() || '0px';
+      const vvTop = getComputedStyle(document.documentElement).getPropertyValue('--vv-top-inset').trim() || '0px';
+      const vvLabel = band === 'mobile' ? `vv-top:${vvTop} · vv-bottom:${vvBottom}` : null;
+      const shellW = Math.round(readShellInnerWidth());
+      const bleedOk = Math.abs(shellW - vpW) <= 4;
+      const previewHostHint =
+        !EMBED_MODE && bleedOk
+          ? 'layout fills viewport — if side gutters show, resize Simple Browser pane to match (no device frame)'
+          : null;
+      layoutDebugEl.textContent = [
+        `band: ${band} (${vpW}px)`,
+        `shell: ${isShellSideBySide() ? 'sidebar beside' : 'sidebar below'}`,
+        bleedOk ? 'bleed: ok' : `bleed: shell ${shellW}px vs viewport ${vpW}px`,
+        `fence: ${mode}`,
+        `dual: ${mode === 'dual' ? 'yes' : 'no'}`,
+        s1Label,
+        memberLabel,
+        vvLabel,
+        `pane ${Math.round(metrics.paneW)}px`,
+        `shell ${shellW}px`,
+        previewHostHint,
+      ].filter(Boolean).join(' · ');
     }
 
     function panelWidthBounds() {
@@ -3159,10 +4212,12 @@
     function analyticalCanvasPaneW(sidebarW) {
       const { pad } = getInsetPadding();
       if (!isShellSideBySide()) {
+        const vpW = viewportEl?.clientWidth ?? 0;
+        if (vpW > 100) return Math.max(120, vpW - pad);
         const layoutW = layoutEl
           ? layoutEl.getBoundingClientRect().width
           : Math.max(320, readShellInnerWidth() - shellPadForLayout());
-        return Math.max(120, layoutW - pad);
+        return Math.max(120, layoutW - pad - readCanvasChromeReserveW());
       }
       const layoutW = readShellInnerWidth() - shellPadForLayout();
       const colW = layoutW - sidebarW - VIEWPORT.SHELL_GRID_GAP_PX;
@@ -3172,11 +4227,11 @@
     /** Pane width needed to hold the fence at 1× plateau (× zoom preset) without width squeeze. */
     function defaultPaneWidthNeeded(measureH, mode) {
       const plateau = singlePlateauPxPerIn(measureH);
-      const desiredPxPerIn = clampZoomPxPerIn(plateau * zoomLevel);
+      const desiredPxPerIn = clampZoomPxPerIn(plateau * zoomLevel, estimateCanvasColumnWidth());
       if (mode === 'dual') {
         return dualEnterAvailW(measureH);
       }
-      return desiredPxPerIn * MODULE_W_IN;
+      return desiredPxPerIn * moduleDisplayWIn() + viewRailMinPx();
     }
 
     /**
@@ -3255,7 +4310,7 @@
     function canShowDualView(measureW, measureH) {
       /** Stacked shell (canvas full width): front/back via Side toggle only — never auto dual. */
       if (!isShellSideBySide()) return false;
-      if (readShellInnerWidth() < VIEWPORT.BP_SHELL_DUAL_SIDE_BY_SIDE) return false;
+      if (readShellInnerWidth() < VIEWPORT.BP_DESKTOP_DUAL_MIN) return false;
       return (
         readShellInnerWidth() >= minShellWidthForDual(measureH) &&
         measureW >= dualEnterAvailW(measureH)
@@ -3305,9 +4360,8 @@
     const moduleBackEl = document.getElementById('preview-module-back');
     const panelEl = document.getElementById('control-panel');
     const zoomControlsEl = document.getElementById('zoom-controls');
-    const viewRailFaceEl = document.getElementById('view-rail-face');
-    const moduleFaceLabelBackEl = document.getElementById('module-face-label-back');
     const zoomInfoEl = document.getElementById('zoom-info');
+    const layoutDebugEl = document.getElementById('layout-debug');
     const loadErrorEl = document.getElementById('load-error');
     const loadErrorDetail = document.getElementById('load-error-detail');
     const postsEl = document.getElementById('posts');
@@ -3342,15 +4396,21 @@
     const gateMowerEl = document.getElementById('gate-mower');
     const gateDoubleEl = document.getElementById('gate-double');
     const gateRollingEl = document.getElementById('gate-rolling');
-    const costCalculatorTotalEl = document.getElementById('cost-calculator-total');
+    const costCalculatorLowEl = document.getElementById('cost-calculator-low');
+    const costCalculatorHighEl = document.getElementById('cost-calculator-high');
     const costCalculatorSummaryEl = document.getElementById('cost-calculator-summary');
-    const costCalculatorPerLfEl = document.getElementById('cost-calculator-per-lf');
+    const costCalculatorPerLfLowEl = document.getElementById('cost-calculator-per-lf-low');
+    const costCalculatorPerLfHighEl = document.getElementById('cost-calculator-per-lf-high');
     const pricingDisclaimerToggleEl = document.getElementById('pricing-disclaimer-toggle');
     const pricingDisclaimerPopoverEl = document.getElementById('pricing-disclaimer-popover');
-    const estimateRangeHintEl = document.getElementById('estimate-range-hint');
     const btnSaveDesignEl = document.getElementById('btn-save-design');
     const btnRequestContactEl = document.getElementById('btn-request-contact');
     const btnCreateBlueprintEl = document.getElementById('btn-create-blueprint');
+    const btnMemberLoginEl = document.getElementById('btn-member-login');
+    const btnMemberSignupEl = document.getElementById('btn-member-signup');
+    const b1MobileHeadLabelEl = document.getElementById('b1-mobile-head-label');
+    const templatesCondensedSummaryEl = document.getElementById('templates-condensed-summary');
+    const specsCondensedSummaryEl = document.getElementById('specs-condensed-summary');
     const PRICING = window.PilotPricing;
 
     const MATERIAL_LABELS = {
@@ -3487,6 +4547,7 @@
 
     function formatPriceLineRate(row, est) {
       if (row.na) return '—';
+      if (isMemberPricingGated()) return '••••';
       if (row.isBase) return `${PRICING.money(est.basePerLf)}/lf`;
       const delta = row.perLf || 0;
       if (row.optional) {
@@ -3610,7 +4671,7 @@
           const codeAttr = row.code ? ` data-ui-code="${row.code}"` : '';
           const desc = `${row.label} · ${row.choice}`;
           const rate = formatPriceLineRate(row, est);
-          return `<li class="price-line-item${naClass}"${codeAttr}><span class="price-line-desc">${desc}</span><span class="price-line-rate">${rate}</span></li>`;
+          return `<li class="price-line-item${naClass}"${codeAttr}><span class="price-line-desc">${desc}</span><span class="price-line-rate pricing-gated-value">${rate}</span></li>`;
         })
         .join('')}</ul>`;
     }
@@ -3636,56 +4697,293 @@
           postCaps: template.defaults.postCaps || 'none',
           brackets: template.defaults.brackets || 'none',
         });
-        el.textContent = lnFt > 0 ? PRICING.money(est.total) : '—';
+        el.textContent = lnFt > 0 ? (isMemberPricingGated() ? '••••' : PRICING.money(est.total)) : '—';
       });
     }
 
     function updatePricingEstimate() {
       if (!PRICING) return;
       const quote = PRICING.computeQuoteRange(readPricingInput());
-      const rangeLabel = PRICING.formatQuoteRange(quote);
-      const perLfLabel = `${PRICING.money(quote.perLf)}/lf`;
+      const empty = '—';
+      const perLfLowLabel = `${PRICING.money(quote.per_lf_low)}/lf`;
+      const perLfHighLabel = `${PRICING.money(quote.per_lf_high)}/lf`;
 
-      if (costCalculatorTotalEl) costCalculatorTotalEl.textContent = rangeLabel;
-      if (estimateRangeHintEl) estimateRangeHintEl.hidden = !(quote.lnFt > 0);
+      if (costCalculatorLowEl) {
+        costCalculatorLowEl.textContent =
+          quote.lnFt > 0
+            ? isMemberPricingGated()
+              ? '••••'
+              : PRICING.money(quote.display_low)
+            : empty;
+      }
+      if (costCalculatorHighEl) {
+        costCalculatorHighEl.textContent =
+          quote.lnFt > 0
+            ? isMemberPricingGated()
+              ? '••••'
+              : PRICING.money(quote.display_high)
+            : empty;
+      }
       if (costCalculatorSummaryEl) {
         costCalculatorSummaryEl.textContent =
           quote.lnFt > 0
             ? `${quote.lnFt}′ · ${getCurrentPilot().label}`
             : 'Enter total linear feet for an estimate.';
       }
-      if (costCalculatorPerLfEl) {
-        costCalculatorPerLfEl.textContent = quote.lnFt > 0 ? perLfLabel : '—';
+      if (costCalculatorPerLfLowEl) {
+        costCalculatorPerLfLowEl.textContent =
+          quote.lnFt > 0
+            ? isMemberPricingGated()
+              ? '••••'
+              : perLfLowLabel
+            : empty;
+      }
+      if (costCalculatorPerLfHighEl) {
+        costCalculatorPerLfHighEl.textContent =
+          quote.lnFt > 0
+            ? isMemberPricingGated()
+              ? '••••'
+              : perLfHighLabel
+            : empty;
       }
       renderPriceIndicatorStrip(quote);
       updatePresetPriceLabels(readPricingInput());
+      updateS1CondensedHeadLabels();
       if (window.FenceFramesEmbed) window.FenceFramesEmbed.notifyConfigChanged();
     }
 
-    function setTopPanelExpanded(panel, expanded) {
-      const shellTop = document.getElementById('shell-top-row');
-      if (!panel || !shellTop) return;
-      const btn = panel.querySelector('.mini-panel-expand');
-      panel.classList.toggle('is-expanded', expanded);
-      if (btn) {
-        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-        btn.title = expanded ? 'Collapse' : 'Expand';
-        const icon = btn.querySelector('.mini-panel-expand__icon');
-        if (icon) icon.textContent = expanded ? '⤡' : '⤢';
-        const label = btn.getAttribute('aria-label') || '';
-        if (label) {
-          btn.setAttribute(
-            'aria-label',
-            label.replace(/\b(Expand|Collapse)\b/, expanded ? 'Collapse' : 'Expand')
-          );
-        }
+    function isMemberPricingGated() {
+      return document.documentElement.dataset.memberAuth !== 'in';
+    }
+
+    function setMemberAuthState(authenticated) {
+      const authed = Boolean(authenticated);
+      document.documentElement.dataset.memberAuth = authed ? 'in' : 'out';
+      document.querySelectorAll('.pricing-gated-value').forEach((el) => {
+        el.setAttribute('aria-hidden', authed ? 'false' : 'true');
+      });
+      document.querySelectorAll('.membership-chip').forEach((el) => {
+        el.setAttribute('aria-hidden', authed ? 'true' : 'false');
+      });
+      updatePricingEstimate();
+      if (window.FenceFramesEmbed && typeof window.FenceFramesEmbed.postResize === 'function') {
+        window.FenceFramesEmbed.postResize();
       }
+    }
+
+    function requestMemberAuth(action) {
+      const FF = window.FenceFramesEmbed;
+      if (!FF) return;
+      if (action === 'signup' && FF.member.requestSignup) FF.member.requestSignup();
+      else if (FF.member.requestLogin) FF.member.requestLogin();
+    }
+
+    function wireMobileViewportChrome() {
+      if (EMBED_MODE) return;
+      const mobileMq = window.matchMedia('(max-width: 899px)');
+      const root = document.documentElement;
+      const MIN_BOTTOM_CLEARANCE_PX = 48;
+      const DEBUFFER_PX = 12;
+      let pollId = null;
+      let lastTop = -1;
+      let lastBottom = -1;
+
+      function syncViewportChromeInset() {
+        if (!mobileMq.matches) {
+          root.style.setProperty('--vv-bottom-inset', '0px');
+          root.style.setProperty('--vv-top-inset', '0px');
+          return;
+        }
+        const vv = window.visualViewport;
+        let topPx = 0;
+        let bottomPx = MIN_BOTTOM_CLEARANCE_PX;
+        if (vv) {
+          topPx = Math.max(0, Math.round(vv.offsetTop));
+          const measured = Math.max(
+            0,
+            Math.round(window.innerHeight - (vv.height + vv.offsetTop))
+          );
+          bottomPx = Math.max(MIN_BOTTOM_CLEARANCE_PX, measured + DEBUFFER_PX);
+        }
+        if (topPx === lastTop && bottomPx === lastBottom) return;
+        lastTop = topPx;
+        lastBottom = bottomPx;
+        root.style.setProperty('--vv-top-inset', `${topPx}px`);
+        root.style.setProperty('--vv-bottom-inset', `${bottomPx}px`);
+        if (LAYOUT_DEBUG && layoutDebugEl) scheduleLayout();
+      }
+
+      function startPoll() {
+        if (pollId != null) return;
+        pollId = window.setInterval(syncViewportChromeInset, 350);
+      }
+
+      function stopPoll() {
+        if (pollId == null) return;
+        window.clearInterval(pollId);
+        pollId = null;
+      }
+
+      syncViewportChromeInset();
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncViewportChromeInset);
+        window.visualViewport.addEventListener('scroll', syncViewportChromeInset);
+      }
+      window.addEventListener('resize', syncViewportChromeInset);
+      window.addEventListener('orientationchange', syncViewportChromeInset);
+      document.addEventListener('visibilitychange', syncViewportChromeInset);
+      mobileMq.addEventListener('change', (e) => {
+        if (e.matches) startPoll();
+        else stopPoll();
+        syncViewportChromeInset();
+      });
+      if (mobileMq.matches) startPoll();
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncViewportChromeInset).catch(() => {});
+      }
+      requestAnimationFrame(syncViewportChromeInset);
+    }
+
+    function wireMembershipChrome() {
+      setMemberAuthState(document.documentElement.dataset.memberAuth === 'in');
+      window.addEventListener('ff-preview-member-auth', (e) => {
+        setMemberAuthState(Boolean(e.detail && e.detail.authenticated));
+      });
+      window.addEventListener('ff-embed-member-context', (e) => {
+        setMemberAuthState(Boolean(e.detail && e.detail.authenticated));
+      });
+      window.dispatchEvent(
+        new CustomEvent('ff-preview-member-auth-changed', {
+          detail: { authenticated: document.documentElement.dataset.memberAuth === 'in' },
+        })
+      );
+      btnMemberLoginEl?.addEventListener('click', () => requestMemberAuth('login'));
+      btnMemberSignupEl?.addEventListener('click', () => requestMemberAuth('signup'));
+      document.querySelectorAll('[data-auth-action]').forEach((btn) => {
+        btn.addEventListener('click', () => requestMemberAuth(btn.getAttribute('data-auth-action')));
+      });
+      window.addEventListener('ff-embed-login-required', (e) => {
+        if (document.documentElement.dataset.memberAuth === 'in') return;
+        const action = e.detail && e.detail.action;
+        const target =
+          action === 'signup' ? btnMemberSignupEl : btnMemberLoginEl;
+        target?.focus({ preventScroll: true });
+        target?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    function updateB1MobileHeadLabel() {
+      if (!b1MobileHeadLabelEl) return;
+      const code = fenceCategoryCodeEl ? fenceCategoryCodeEl.textContent.trim() : 'Vertical Fence';
+      const style = fenceStyleLabelEl ? fenceStyleLabelEl.textContent.trim() : '';
+      b1MobileHeadLabelEl.textContent = style ? `${code} · ${style}` : code;
+    }
+
+    function updateS1CondensedHeadLabels() {
+      if (templatesCondensedSummaryEl) {
+        const active = document.querySelector(
+          '.preset-item.is-active .preset-item-name, .preset-item[aria-pressed="true"] .preset-item-name'
+        );
+        const label = active ? active.textContent.trim() : '';
+        templatesCondensedSummaryEl.textContent = label;
+        templatesCondensedSummaryEl.setAttribute('aria-hidden', label ? 'false' : 'true');
+      }
+      if (specsCondensedSummaryEl) {
+        const parts = [];
+        const ln = totalLnFtEl?.value?.trim();
+        const zip = clientZipEl?.value?.trim();
+        if (ln) parts.push(`${ln}′`);
+        if (zip) parts.push(zip);
+        const label = parts.join(' · ');
+        specsCondensedSummaryEl.textContent = label;
+        specsCondensedSummaryEl.setAttribute('aria-hidden', label ? 'false' : 'true');
+      }
+    }
+
+    let s1Focus = 'title';
+
+    function isS1FocusStack() {
+      return resolveLayoutBand(window.innerWidth) === 'mobile';
+    }
+
+    function syncS1ExpandButton(panel, expanded) {
+      const btn = panel.querySelector('.mini-panel-expand');
+      if (!btn) return;
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      btn.title = expanded ? 'Collapse' : 'Expand';
+      const icon = btn.querySelector('.mini-panel-expand__icon');
+      if (icon) icon.textContent = expanded ? '⤡' : '⤢';
+      const label = btn.getAttribute('aria-label') || '';
+      if (label) {
+        btn.setAttribute(
+          'aria-label',
+          label.replace(/\b(Expand|Collapse)\b/, expanded ? 'Collapse' : 'Expand')
+        );
+      }
+    }
+
+    function applyS1FocusClasses() {
+      const shellTop = shellTopRowEl;
+      if (!shellTop) return;
+      const stack = isS1FocusStack();
+      shellTop.classList.toggle('s1-focus-stack', stack);
+
+      if (stack) {
+        shellTop.classList.remove('has-expanded-panel');
+        shellTop.querySelectorAll('[data-panel-expandable]').forEach((panel) => {
+          panel.classList.remove('is-expanded');
+        });
+        if (!s1Focus) s1Focus = 'title';
+        shellTop.dataset.s1Focus = s1Focus;
+        shellTop.querySelectorAll('[data-s1-panel]').forEach((panel) => {
+          const id = panel.dataset.s1Panel;
+          const focused = id === s1Focus;
+          panel.classList.toggle('is-s1-focused', focused);
+          panel.classList.toggle('is-s1-condensed', !focused);
+          syncS1ExpandButton(panel, focused);
+        });
+      } else {
+        shellTop.dataset.s1Focus = '';
+        shellTop.querySelectorAll('[data-s1-panel]').forEach((panel) => {
+          panel.classList.remove('is-s1-focused', 'is-s1-condensed');
+        });
+      }
+      updateB1MobileHeadLabel();
+      updateS1CondensedHeadLabels();
+    }
+
+    function applyS1FocusState() {
+      applyS1FocusClasses();
+      scheduleLayout();
+    }
+
+    function setS1Focus(panelId) {
+      s1Focus = panelId;
+      applyS1FocusState();
+    }
+
+    function resetS1Focus() {
+      s1Focus = 'title';
+      applyS1FocusState();
+    }
+
+    function setTopPanelExpanded(panel, expanded) {
+      const shellTop = shellTopRowEl;
+      if (!panel || !shellTop) return;
+      /** Mobile S1 focus stack owns panel chrome — desktop is-expanded overlay is invalid here */
+      if (isS1FocusStack()) {
+        panel.classList.remove('is-expanded');
+        shellTop.classList.remove('has-expanded-panel');
+        return;
+      }
+      panel.classList.toggle('is-expanded', expanded);
+      syncS1ExpandButton(panel, expanded);
       const anyExpanded = shellTop.querySelector('[data-panel-expandable].is-expanded');
       shellTop.classList.toggle('has-expanded-panel', Boolean(anyExpanded));
     }
 
     function collapseTopPanels() {
-      const shellTop = document.getElementById('shell-top-row');
+      const shellTop = shellTopRowEl;
       if (!shellTop) return;
       shellTop.querySelectorAll('[data-panel-expandable].is-expanded').forEach((panel) => {
         setTopPanelExpanded(panel, false);
@@ -3693,7 +4991,7 @@
     }
 
     function wireTopPanelExpand() {
-      const shellTop = document.getElementById('shell-top-row');
+      const shellTop = shellTopRowEl;
       if (!shellTop) return;
 
       shellTop.querySelectorAll('.mini-panel-expand').forEach((btn) => {
@@ -3701,6 +4999,15 @@
           e.stopPropagation();
           const panel = btn.closest('[data-panel-expandable]');
           if (!panel) return;
+          const panelId = panel.dataset.s1Panel;
+          if (isS1FocusStack() && panelId) {
+            if (s1Focus === panelId) {
+              if (panelId !== 'title') resetS1Focus();
+            } else {
+              setS1Focus(panelId);
+            }
+            return;
+          }
           const willExpand = !panel.classList.contains('is-expanded');
           collapseTopPanels();
           setTopPanelExpanded(panel, willExpand);
@@ -3708,8 +5015,12 @@
       });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') collapseTopPanels();
+        if (e.key !== 'Escape') return;
+        if (isS1FocusStack()) resetS1Focus();
+        else collapseTopPanels();
       });
+
+      applyS1FocusState();
     }
 
     function wireClientJobChecks() {
@@ -3831,11 +5142,94 @@
       };
     }
 
+    function readCanvasChromeReserveW() {
+      if (!canvasWrapEl) return 16;
+      const s = getComputedStyle(canvasWrapEl);
+      return (
+        parseFloat(s.borderLeftWidth) +
+        parseFloat(s.borderRightWidth) +
+        parseFloat(s.paddingLeft) +
+        parseFloat(s.paddingRight)
+      );
+    }
+
+    function readCanvasChromeReserveH() {
+      if (!canvasWrapEl) return 16;
+      const s = getComputedStyle(canvasWrapEl);
+      return (
+        parseFloat(s.borderTopWidth) +
+        parseFloat(s.borderBottomWidth) +
+        parseFloat(s.paddingTop) +
+        parseFloat(s.paddingBottom)
+      );
+    }
+
+    /** Shelled VB2 ink extends past the 112″ module — reserve at fit time. */
+    function moduleFrameBleedInPerSide() {
+      return VB2_FRAME_SHELL_BAND + VB2_FRAME_BORDER_CORE / 2;
+    }
+
+    function moduleDisplayWIn() {
+      return MODULE_W_IN + 2 * moduleFrameBleedInPerSide();
+    }
+
+    /** Pane width inside viewport-inset (fence row + view rail). */
+    function mobileFitGutterPx() {
+      if (resolveLayoutBand(window.innerWidth) !== 'mobile') return 0;
+      return VIEWPORT.MOBILE_FIT_GUTTER_PX;
+    }
+
+    function mobileClusterReservePx(mode, railW) {
+      const chrome = readCssPx('--chrome-frame-width', 3);
+      const rail = Number.isFinite(railW) && railW > 0 ? railW : viewRailMinPx();
+      return rail + chrome * 2 + mobileFitGutterPx() * 2;
+    }
+
+    /** After width fit, shrink mobile scale until borders + inset gutter stay inside the pane. */
+    function tightenMobileFitPxPerIn(measureW, fitPxPerIn, mode) {
+      if (resolveLayoutBand(window.innerWidth) !== 'mobile') return fitPxPerIn;
+      const railW = viewRailBounds().min;
+      const minPx = VIEWPORT.MOBILE_MODULE_MIN_PX_W / MODULE_W_IN;
+      let pxPerIn = fitPxPerIn;
+      for (let i = 0; i < 12; i += 1) {
+        const m = metricsFromPxPerIn(pxPerIn);
+        const need = fencesRowWidth(m.fenceW, mode) + mobileClusterReservePx(mode, railW);
+        if (need <= measureW + 0.5) return pxPerIn;
+        const slotW = measureW - mobileClusterReservePx(mode, railW);
+        pxPerIn = Math.max(minPx, slotW / moduleDisplayWIn());
+        if (pxPerIn <= minPx + 0.001) return pxPerIn;
+      }
+      return pxPerIn;
+    }
+
+    function fenceFitPaneW(paneW) {
+      return Math.max(120, paneW - mobileClusterReservePx('phone', viewRailMinPx()));
+    }
+
+    function syncMobileCanvasHeight(metrics) {
+      if (!layoutEl) return;
+      const band = resolveLayoutBand(window.innerWidth);
+      if (band !== 'mobile') {
+        layoutEl.style.removeProperty('height');
+        layoutEl.style.removeProperty('min-height');
+        layoutEl.style.removeProperty('max-height');
+        return;
+      }
+      const { padV } = getInsetPadding();
+      /** Lock mobile chrome to 1× fit height so zoom presets create vertical scroll slack. */
+      const fitModuleH = metricsFromPxPerIn(metrics.fitPxPerIn).moduleViewportH;
+      const h = Math.ceil(readCanvasChromeReserveH() + padV + fitModuleH);
+      const clamped = Math.max(280, h);
+      layoutEl.style.height = `${clamped}px`;
+      layoutEl.style.minHeight = `${clamped}px`;
+      layoutEl.style.maxHeight = `${clamped}px`;
+    }
+
     /** Estimate canvas column width when the scrollport has not settled yet. */
     function estimateCanvasColumnWidth() {
       if (!layoutEl) return Math.max(320, window.innerWidth - 48);
       const layoutW = layoutEl.getBoundingClientRect().width;
-      if (layoutW < VIEWPORT.BP_PHONE) return Math.max(280, layoutW - 32);
+      if (layoutW <= VIEWPORT.BP_MOBILE_MAX) return Math.max(120, layoutW - 24);
       if (!isShellSideBySide()) return Math.max(280, layoutW - 32);
       const sidebarW = sidebarRailEl
         ? sidebarRailEl.getBoundingClientRect().width
@@ -3857,29 +5251,40 @@
       };
     }
 
-    function zoomPxPerInLimits() {
-      return { min: VIEWPORT.MIN_PX_PER_IN, max: VIEWPORT.ZOOM_MAX_PX_PER_IN };
+    function zoomPxPerInLimits(measureW) {
+      return { min: effectiveMinPxPerIn(measureW), max: VIEWPORT.ZOOM_MAX_PX_PER_IN };
     }
 
-    function clampZoomPxPerIn(pxPerIn) {
-      const { min, max } = zoomPxPerInLimits();
+    /** On mobile, allow the module to shrink below the desktop 280px floor when the pane is tight. */
+    function effectiveMinPxPerIn(measureW) {
+      const nominalMin = VIEWPORT.MIN_PX_PER_IN;
+      if (resolveLayoutBand(window.innerWidth) !== 'mobile') return nominalMin;
+      const paneW = Number.isFinite(measureW) && measureW > 0 ? measureW : readInsetSize().w;
+      const fitByW = fenceFitPaneW(paneW) / moduleDisplayWIn();
+      const mobileFloor = VIEWPORT.MOBILE_MODULE_MIN_PX_W / MODULE_W_IN;
+      return Math.max(mobileFloor, Math.min(nominalMin, fitByW));
+    }
+
+    function clampZoomPxPerIn(pxPerIn, measureW) {
+      const { min, max } = zoomPxPerInLimits(measureW);
       return Math.max(min, Math.min(pxPerIn, max));
     }
 
     /** 1× fit inside pane — constrain by width and height (matches dual per-module behavior). */
     function singleFitPxPerIn(measureW, measureH) {
-      const byW = measureW / MODULE_W_IN;
+      const slotW = fenceFitPaneW(measureW);
+      const byW = slotW / moduleDisplayWIn();
       const byH = measureH / MODULE_H_IN;
-      return clampZoomPxPerIn(Math.min(byW, byH));
+      return clampZoomPxPerIn(Math.min(byW, byH), measureW);
     }
 
     function fitPxPerInForModuleSlot(measureW, measureH, mode) {
       if (mode === 'dual') {
-        /** Each module owns half the pane; space-between keeps even inset from side walls. */
-        const slotW = measureW / 2;
-        const byW = slotW / MODULE_W_IN;
+        const fitPaneW = fenceFitPaneW(measureW);
+        const slotW = Math.max(120, (fitPaneW - dualGapPx()) / 2);
+        const byW = slotW / moduleDisplayWIn();
         const byH = measureH / MODULE_H_IN;
-        return clampZoomPxPerIn(Math.min(byW, byH));
+        return clampZoomPxPerIn(Math.min(byW, byH), measureW);
       }
       return singleFitPxPerIn(measureW, measureH);
     }
@@ -3894,7 +5299,7 @@
     }
 
     function singlePlateauFenceW(measureH) {
-      return MODULE_W_IN * singlePlateauPxPerIn(measureH);
+      return moduleDisplayWIn() * singlePlateauPxPerIn(measureH);
     }
 
     /**
@@ -3931,14 +5336,28 @@
       };
     }
 
+    function grassTopYModuleIn() {
+      const dirtBottomY = GRASS_GROUND_Y + GRASS_DIRT_HEIGHT_IN;
+      const tileH = GRASS_TILE_W_IN * GRASS_TILE_ASPECT;
+      return dirtBottomY - tileH;
+    }
+
     function metricsFromPxPerIn(pxPerIn) {
       const fenceW = Math.round(MODULE_W_IN * pxPerIn);
       /** Keep exact module aspect — independent W/H rounding caused sky letterbox gaps. */
       const fenceH = Math.round(fenceW * (CONTENT_H_IN / MODULE_W_IN));
-      const scaleRailH = Math.round((SCALE_BAND_H_IN / MODULE_H_IN) * fenceH);
-      const scaleRailW = Math.round((SCALE_BAND_H_IN / MODULE_W_IN) * fenceW);
+      const scaleFloors = scaleRailFloorsPx();
+      const scaleRailH = Math.max(
+        scaleFloors.h,
+        Math.round((SCALE_BAND_H_IN / MODULE_H_IN) * fenceH)
+      );
+      const scaleRailW = Math.max(
+        scaleFloors.w,
+        Math.round((SCALE_BAND_H_IN / MODULE_W_IN) * fenceW)
+      );
       const innerBoxH = Math.round((GRASS_BOTTOM_Y / CONTENT_H_IN) * fenceH);
       const grassLineY = Math.round((GRASS_GROUND_Y / GRASS_BOTTOM_Y) * innerBoxH);
+      const grassTopY = Math.round((grassTopYModuleIn() / CONTENT_H_IN) * fenceH);
       return {
         fenceW,
         fenceH,
@@ -3946,6 +5365,7 @@
         scaleRailW,
         innerBoxH,
         grassLineY,
+        grassTopY,
         moduleViewportH: fenceH,
         pxPerIn,
       };
@@ -3958,7 +5378,7 @@
      */
     function resolveViewportMode(measureW, measureH) {
       const layoutW = layoutEl.clientWidth || window.innerWidth;
-      if (layoutW < VIEWPORT.BP_PHONE) return 'phone';
+      if (layoutW <= VIEWPORT.BP_MOBILE_MAX) return 'phone';
 
       const enterW = dualEnterAvailW(measureH);
       const exitW = dualExitAvailW(measureH);
@@ -3966,7 +5386,7 @@
 
       if (wasDual) {
         if (measureW >= exitW && canShowDualView(measureW, measureH)) return 'dual';
-        return layoutW < VIEWPORT.BP_TABLET ? 'tablet' : 'desktop';
+        return layoutW < VIEWPORT.BP_DESKTOP_DUAL_MIN ? 'tablet' : 'desktop';
       }
       if (
         measureW >= enterW &&
@@ -3975,7 +5395,7 @@
       ) {
         return 'dual';
       }
-      return layoutW < VIEWPORT.BP_TABLET ? 'tablet' : 'desktop';
+      return layoutW < VIEWPORT.BP_DESKTOP_DUAL_MIN ? 'tablet' : 'desktop';
     }
 
     function applyViewportModeClass(mode) {
@@ -4017,14 +5437,17 @@
       if (holdDefaultScale) {
         fitPxPerIn = singlePlateauPxPerIn(measureH);
         if (mode === 'dual') {
-          const slotW = measureW / 2;
-          fitPxPerIn = Math.min(slotW / MODULE_W_IN, measureH / MODULE_H_IN, fitPxPerIn);
+          const fitPaneW = fenceFitPaneW(measureW);
+          const slotW = Math.max(120, (fitPaneW - dualGapPx()) / 2);
+          fitPxPerIn = Math.min(slotW / moduleDisplayWIn(), measureH / MODULE_H_IN, fitPxPerIn);
         }
       } else {
         fitPxPerIn = fitPxPerInForModuleSlot(measureW, measureH, mode);
       }
 
-      const scaledPxPerIn = clampZoomPxPerIn(fitPxPerIn * zoomLevel);
+      fitPxPerIn = tightenMobileFitPxPerIn(measureW, fitPxPerIn, mode);
+
+      const scaledPxPerIn = clampZoomPxPerIn(fitPxPerIn * zoomLevel, measureW);
       const { w: fenceW } = modulePixelSize(scaledPxPerIn);
       const fencesW = fencesRowWidth(fenceW, mode);
       return {
@@ -4035,7 +5458,7 @@
         paneH: measureH,
         sidebarW,
         holdDefaultScale,
-        slackW: Math.max(0, measureW - fencesW - VIEWPORT.VIEW_RAIL_W_BASE_PX),
+        slackW: Math.max(0, measureW - fencesW - viewRailBounds().base),
         atFitMax: mode !== 'dual' && singleAtGrowthPlateau(measureW, measureH),
       };
     }
@@ -4229,6 +5652,12 @@
       return pointedVerticalTick(moduleX, baselineY, yTip, coreW);
     }
 
+    /** Bottom of major downward ticks on the top (horizontal) scale — module y, 0–10 band. */
+    function horizontalScaleMajorTickTipYModuleIn() {
+      const baselineY = rulerBaselineY();
+      return baselineY + RULER_MAJOR_TICK_REACH_IN;
+    }
+
     function buildHorizontalRuler(scaleEl) {
       const { label, labelSize } = RULER;
       const baselineY = rulerBaselineY();
@@ -4295,20 +5724,29 @@
 
     /** Rail is a flex sibling — grows/shrinks on slack; fences stay left, rail pins cluster right. */
     function applyViewRailWidth(metrics) {
-      const { VIEW_RAIL_W_MIN_PX, VIEW_RAIL_W_BASE_PX, VIEW_RAIL_W_MAX_PX } = VIEWPORT;
+      let { min, base, max } = viewRailBounds();
       const fencesW = fencesRowWidth(metrics.fenceW, metrics.mode);
-      const slackBudget = Math.max(0, metrics.paneW - fencesW - VIEW_RAIL_W_MIN_PX);
+      const mobile = resolveLayoutBand(window.innerWidth) === 'mobile';
+      if (mobile) {
+        const tightMax = Math.max(24, metrics.paneW - fencesW);
+        min = Math.min(min, tightMax);
+        base = Math.min(base, tightMax);
+        max = Math.min(max, tightMax);
+      }
+      const slackBudget = Math.max(0, metrics.paneW - fencesW - min);
       let railW;
-      if (slackBudget <= VIEW_RAIL_W_BASE_PX - VIEW_RAIL_W_MIN_PX) {
-        railW = VIEW_RAIL_W_MIN_PX;
+      if (slackBudget <= base - min) {
+        railW = min;
       } else {
-        const grow = Math.min(VIEW_RAIL_W_MAX_PX - VIEW_RAIL_W_BASE_PX, slackBudget);
-        railW = Math.round(VIEW_RAIL_W_BASE_PX + grow);
+        const grow = Math.min(max - base, slackBudget);
+        railW = Math.round(base + grow);
       }
       const railWRem = `${(railW / 16).toFixed(3)}rem`;
       if (viewRailEl) {
         viewRailEl.style.width = `${railW}px`;
         viewRailEl.style.flexBasis = `${railW}px`;
+        viewRailEl.style.height = `${metrics.moduleViewportH}px`;
+        viewRailEl.style.maxHeight = `${metrics.moduleViewportH}px`;
       }
       if (previewClusterEl) previewClusterEl.style.setProperty('--view-rail-w', railWRem);
       document.documentElement.style.setProperty('--view-rail-w', railWRem);
@@ -4316,23 +5754,223 @@
     }
 
     function applyClusterLayout(metrics) {
-      const railW = applyViewRailWidth(metrics);
+      applyViewRailWidth(metrics);
       if (!previewClusterEl) return;
+      const fencesW = fencesRowWidth(metrics.fenceW, metrics.mode);
       previewClusterEl.style.setProperty('--module-viewport-h', `${metrics.moduleViewportH}px`);
-      previewClusterEl.style.width = `${fencesRowWidth(metrics.fenceW, metrics.mode) + railW}px`;
-      if (previewRowEl) previewRowEl.style.width = `${fencesRowWidth(metrics.fenceW, metrics.mode)}px`;
+      previewClusterEl.style.width = `${fencesW}px`;
+      if (previewRowEl) previewRowEl.style.width = `${fencesW}px`;
     }
 
-    function updateModuleFaceLabels(side, mode) {
-      const face = side === 'back' ? 'Back' : 'Front';
-      if (viewRailFaceEl) viewRailFaceEl.textContent = mode === 'dual' ? 'Front' : face;
-      if (moduleFaceLabelBackEl) moduleFaceLabelBackEl.textContent = 'Back';
+    function faceSlotLayoutPx(metrics) {
+      /** Top (horizontal) scale major tick tips → fence top; compact chip centered in pocket. */
+      const pocketTopIn = horizontalScaleMajorTickTipYModuleIn();
+      const pocketBottomIn = POST_TOP_Y;
+      const pocketTopPx = (pocketTopIn / CONTENT_H_IN) * metrics.fenceH;
+      const pocketBottomPx = (pocketBottomIn / CONTENT_H_IN) * metrics.fenceH;
+      const pocketHPx = pocketBottomPx - pocketTopPx;
+
+      const fontPx = Math.max(7, Math.min(11, Math.round(metrics.pxPerIn * 0.42)));
+      const padYPx = Math.max(1, Math.round(fontPx * 0.2));
+      const heightPx = fontPx + padYPx * 2 + 2;
+      const topPx = Math.round(pocketTopPx + (pocketHPx - heightPx) / 2);
+
+      const fenceSpanPx = (MEASURE_W_IN / MODULE_W_IN) * metrics.fenceW;
+      const postLeftPx = (POST_LEFT_X / MODULE_W_IN) * metrics.fenceW;
+      const isDual = metrics.mode === 'dual';
+      let widthPx;
+      let leftPx;
+      if (isDual) {
+        widthPx = Math.round(fenceSpanPx / 2);
+        leftPx = Math.round(postLeftPx + (fenceSpanPx - widthPx) / 2);
+      } else {
+        widthPx = Math.round(fenceSpanPx);
+        leftPx = Math.round(postLeftPx);
+      }
+      return { topPx, heightPx, leftPx, widthPx, fontPx, padYPx };
+    }
+
+    function applyFaceSlotLayout(moduleViewport, metrics) {
+      if (!moduleViewport) return;
+      const slot = faceSlotLayoutPx(metrics);
+      moduleViewport.style.setProperty('--face-slot-top', `${slot.topPx}px`);
+      moduleViewport.style.setProperty('--face-slot-left', `${slot.leftPx}px`);
+      moduleViewport.style.setProperty('--face-slot-width', `${slot.widthPx}px`);
+      moduleViewport.style.setProperty('--face-slot-height', `${slot.heightPx}px`);
+      moduleViewport.style.setProperty('--face-tag-font', `${slot.fontPx}px`);
+      moduleViewport.style.setProperty('--face-tag-pad-y', `${slot.padYPx}px`);
+    }
+
+    function activeFenceSide() {
+      return btnFront.getAttribute('aria-pressed') === 'true' ? 'front' : 'back';
+    }
+
+    function syncFenceSideHighlight(side) {
+      const pilot = getCurrentPilot();
+      let active = side;
+      if (active === 'back' && !pilot.capabilities.back) active = 'front';
+      btnFront.setAttribute('aria-pressed', active === 'front' ? 'true' : 'false');
+      btnBack.setAttribute('aria-pressed', active === 'back' ? 'true' : 'false');
+      const dualPane = viewportMode === 'dual';
+      document.querySelectorAll('.module-face-tag[data-side="front"]').forEach((el) => {
+        el.setAttribute('aria-pressed', dualPane || active === 'front' ? 'true' : 'false');
+      });
+      document.querySelectorAll('.module-face-tag[data-side="back"]').forEach((el) => {
+        el.setAttribute('aria-pressed', dualPane || active === 'back' ? 'true' : 'false');
+        el.disabled = !pilot.capabilities.back;
+      });
+      document.querySelectorAll('.module-viewport--front').forEach((el) => {
+        el.classList.toggle('module-viewport--active-side', dualPane && active === 'front');
+      });
+      document.querySelectorAll('.module-viewport--back').forEach((el) => {
+        el.classList.toggle('module-viewport--active-side', dualPane && active === 'back');
+      });
+      return active;
+    }
+
+    async function selectFenceSide(side) {
+      const active = syncFenceSideHighlight(side);
+      if (viewportMode === 'dual') {
+        await applyZoom(false);
+        return;
+      }
+      await loadAssembly(active);
+    }
+
+    function viewRailWidthPx() {
+      const measured = viewRailEl?.offsetWidth ?? 0;
+      if (measured > 0) return measured;
+      return viewRailBounds().base;
+    }
+
+    function insetContentSize() {
+      const inset = viewportEl?.querySelector('.viewport-inset');
+      if (!inset) return { w: 0, h: 0 };
+      const s = getComputedStyle(inset);
+      const padL = parseFloat(s.paddingLeft) || 0;
+      const padR = parseFloat(s.paddingRight) || 0;
+      const padT = parseFloat(s.paddingTop) || 0;
+      const padB = parseFloat(s.paddingBottom) || 0;
+      return {
+        w: Math.max(0, inset.clientWidth - padL - padR),
+        h: Math.max(0, inset.clientHeight - padT - padB),
+      };
+    }
+
+    function fitModeVisualBounds() {
+      if (!previewClusterEl || !viewportEl) return null;
+      const rowEl = previewRowEl || previewClusterEl;
+      const rowRect = rowEl.getBoundingClientRect();
+      const railRect = viewRailEl?.getBoundingClientRect();
+      if (!railRect || railRect.width <= 0) {
+        return {
+          left: rowRect.left,
+          top: rowRect.top,
+          width: rowRect.width,
+          height: rowRect.height,
+        };
+      }
+      const left = Math.min(rowRect.left, railRect.left);
+      const top = Math.min(rowRect.top, railRect.top);
+      const right = Math.max(rowRect.right, railRect.right);
+      const bottom = Math.max(rowRect.bottom, railRect.bottom);
+      return { left, top, width: right - left, height: bottom - top };
+    }
+
+    /** Center fence + view-rail as one unit in the viewport (fit / no-pan). */
+    function syncFitModeClusterPosition() {
+      if (!previewClusterEl || !viewportEl) return;
+      const railW = viewRailWidthPx();
+      previewClusterEl.style.setProperty('--view-rail-layout-w', `${railW}px`);
+      if (zoomAllowsPan()) {
+        previewClusterEl.style.removeProperty('transform');
+        return;
+      }
+      previewClusterEl.style.transform = 'translate(0px, 0px)';
+      previewClusterEl.offsetHeight;
+      const vpRect = viewportEl.getBoundingClientRect();
+      const visual = fitModeVisualBounds();
+      if (!visual || visual.width <= 0 || visual.height <= 0) return;
+      const band = resolveLayoutBand(window.innerWidth);
+      const nudgeX =
+        band === 'mobile'
+          ? readCssPx('--fit-center-nudge-x-mobile', 0)
+          : band === 'tablet'
+            ? readCssPx('--fit-center-nudge-x-tablet', 0)
+            : readCssPx('--fit-center-nudge-x-desktop', 0);
+      const nudgeY =
+        band === 'mobile'
+          ? readCssPx('--fit-center-nudge-y-mobile', 0)
+          : band === 'tablet'
+            ? readCssPx('--fit-center-nudge-y-tablet', 0)
+            : readCssPx('--fit-center-nudge-y-desktop', 0);
+      const vpCx = vpRect.left + vpRect.width / 2;
+      const vpCy = vpRect.top + vpRect.height / 2;
+      const visualCx = visual.left + visual.width / 2;
+      const visualCy = visual.top + visual.height / 2;
+      let dx = vpCx - visualCx + nudgeX;
+      let dy = vpCy - visualCy + nudgeY;
+      if (band === 'mobile') {
+        const margin = mobileFitGutterPx();
+        if (visual.right + dx > vpRect.right - margin) {
+          dx = vpRect.right - margin - visual.right;
+        }
+        if (visual.left + dx < vpRect.left + margin) {
+          dx = vpRect.left + margin - visual.left;
+        }
+      }
+      previewClusterEl.style.transform = `translate(${Math.round(dx)}px, ${Math.round(dy)}px)`;
+    }
+
+    function syncViewportInsetExtents() {
+      const inset = viewportEl?.querySelector('.viewport-inset');
+      if (!inset || !previewClusterEl) return;
+      if (!zoomAllowsPan()) {
+        inset.style.removeProperty('width');
+        inset.style.removeProperty('height');
+        return;
+      }
+      const { pad, padV } = getInsetPadding();
+      const clusterW = previewClusterEl.offsetWidth;
+      const clusterH = previewClusterEl.offsetHeight;
+      const vpW = viewportEl.clientWidth;
+      const vpH = viewportEl.clientHeight;
+      inset.style.width = `${Math.max(vpW - pad, clusterW)}px`;
+      inset.style.height = `${Math.max(vpH - padV, clusterH)}px`;
+    }
+
+    function zoomAllowsPan() {
+      return zoomLevel >= ZOOM_PAN_MIN;
+    }
+
+    function syncViewportPanMode() {
+      if (!viewportEl) return;
+      const panOn = zoomAllowsPan();
+      viewportEl.classList.toggle('canvas-viewport--pan-enabled', panOn);
+      viewportEl.setAttribute(
+        'aria-label',
+        panOn ? 'Zoomed view — drag to pan' : 'Fence preview'
+      );
     }
 
     function centerViewport() {
       requestAnimationFrame(() => {
-        viewportEl.scrollLeft = Math.max(0, (viewportEl.scrollWidth - viewportEl.clientWidth) / 2);
-        viewportEl.scrollTop = Math.max(0, (viewportEl.scrollHeight - viewportEl.clientHeight) / 2);
+        requestAnimationFrame(() => {
+          syncViewportPanMode();
+          syncViewportInsetExtents();
+          syncFitModeClusterPosition();
+          const railHalf = viewRailWidthPx() / 2;
+          if (zoomAllowsPan()) {
+            viewportEl.scrollLeft = Math.max(
+              0,
+              (viewportEl.scrollWidth - viewportEl.clientWidth) / 2 - railHalf
+            );
+            viewportEl.scrollTop = Math.max(0, (viewportEl.scrollHeight - viewportEl.clientHeight) / 2);
+          } else {
+            viewportEl.scrollLeft = 0;
+            viewportEl.scrollTop = 0;
+          }
+        });
       });
     }
 
@@ -4358,6 +5996,13 @@
       grid.style.setProperty('--post-bottom-frac', String(POST_BOTTOM_FRAC));
       grid.style.setProperty('--measure-w-frac', String(MEASURE_W_FRAC));
       grid.style.setProperty('--measure-h-frac', String(MEASURE_H_FRAC));
+      const moduleViewport = grid.querySelector('.module-viewport');
+      if (moduleViewport) {
+        moduleViewport.style.setProperty('--scale-rail-h', `${metrics.scaleRailH}px`);
+        moduleViewport.style.setProperty('--scale-rail-w', `${metrics.scaleRailW}px`);
+        moduleViewport.style.setProperty('--module-viewport-h', `${metrics.moduleViewportH}px`);
+        applyFaceSlotLayout(moduleViewport, metrics);
+      }
     }
 
     function sizeModuleSvg(hostEl, metrics) {
@@ -4432,7 +6077,7 @@
           : btnFront.getAttribute('aria-pressed') === 'true'
             ? 'front'
             : 'back';
-      updateModuleFaceLabels(activeSide, metrics.mode);
+      syncFenceSideHighlight(activeSide);
       renderScaleRulers(scaleHEl, metrics.fenceW, metrics.scaleRailH);
       renderVerticalScaleRulers(scaleVEl, metrics.scaleRailW, metrics.fenceH);
       renderInnerBoxFrame(innerBoxFrameEl, metrics.fenceW, metrics.innerBoxH);
@@ -4447,12 +6092,21 @@
       }
 
       applyDualRowLayout(metrics);
+      syncMobileCanvasHeight(metrics);
+      syncViewportInsetExtents();
+      syncFitModeClusterPosition();
+      syncViewportPanMode();
 
-      zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
-        const step = Number(btn.getAttribute('data-zoom'));
-        btn.setAttribute('aria-pressed', step === zoomLevel ? 'true' : 'false');
-      });
+      if (zoomControlsEl) {
+        zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
+          const step = Number(btn.getAttribute('data-zoom'));
+          btn.setAttribute('aria-pressed', step === zoomLevel ? 'true' : 'false');
+        });
+      }
 
+      const band = resolveLayoutBand(window.innerWidth);
+      document.documentElement.dataset.layoutBand = band;
+      applyS1FocusClasses();
       const modeLabel =
         metrics.mode === 'dual'
           ? 'dual front+back'
@@ -4460,8 +6114,11 @@
       const capLabel = metrics.atFitMax ? ' · at fit max' : '';
       const sidebarLabel =
         metrics.sidebarW && isShellSideBySide() ? ` · sidebar ${Math.round(metrics.sidebarW)}px` : '';
-      zoomInfoEl.textContent =
-        `${metrics.fenceW}×${metrics.fenceH} px module · ~${metrics.pxPerIn.toFixed(1)} px/in (1× fit ${metrics.fitPxPerIn.toFixed(1)}, max zoom ${VIEWPORT.ZOOM_MAX_PX_PER_IN.toFixed(1)}) · ${modeLabel}${capLabel}${sidebarLabel} · pane ${Math.round(metrics.paneW)}×${Math.round(metrics.paneH)}`;
+      if (zoomInfoEl) {
+        zoomInfoEl.textContent =
+          `${metrics.fenceW}×${metrics.fenceH} px module · ~${metrics.pxPerIn.toFixed(1)} px/in (1× fit ${metrics.fitPxPerIn.toFixed(1)}, max zoom ${VIEWPORT.ZOOM_MAX_PX_PER_IN.toFixed(1)}) · ${modeLabel}${capLabel}${sidebarLabel} · pane ${Math.round(metrics.paneW)}×${Math.round(metrics.paneH)} · ${band}`;
+      }
+      updateLayoutDebug(metrics, metrics.mode);
 
       if (resetPan) centerViewport();
     }
@@ -4483,6 +6140,8 @@
 
     function setupPan() {
       viewportEl.addEventListener('pointerdown', (e) => {
+        if (!zoomAllowsPan()) return;
+        if (e.target.closest('button, input, select, textarea, a, label, [role="button"]')) return;
         if (e.button !== 0 && e.pointerType === 'mouse') return;
         panActive = true;
         panStartX = e.clientX;
@@ -4558,6 +6217,7 @@
         item.classList.toggle('is-active', active);
         item.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      updateS1CondensedHeadLabels();
     }
 
     function templateMatchesControls(templateId) {
@@ -4662,13 +6322,11 @@
       rebuildTemplateList();
 
       if (fenceStyleLabelEl) fenceStyleLabelEl.textContent = labelText || style.label;
-      if (fenceStyleDescEl && style.description) fenceStyleDescEl.textContent = style.description;
       if (fenceCategoryCodeEl) {
         const cat = REG.getCategory(style.category);
-        fenceCategoryCodeEl.textContent = cat.code;
-        if (fenceCategorySpellEl) fenceCategorySpellEl.textContent = categorySpellText(cat);
+        fenceCategoryCodeEl.textContent = cat.label;
       }
-
+      updateB1MobileHeadLabel();
       paths.front = style.assembly.front;
       paths.back = style.assembly.back || style.assembly.front;
 
@@ -4735,25 +6393,15 @@
 
     async function loadAssembly(side) {
       const pilot = getCurrentPilot();
+      const active = syncFenceSideHighlight(side);
+
       if (viewportMode === 'dual') {
-        if (!pilot.capabilities.back) {
-          btnFront.setAttribute('aria-pressed', 'true');
-          btnBack.setAttribute('aria-pressed', 'false');
-        }
-        btnFront.setAttribute('aria-pressed', 'true');
-        btnBack.setAttribute('aria-pressed', 'false');
-        await applyZoom(true);
+        await applyZoom(false);
         return;
       }
 
-      btnFront.setAttribute('aria-pressed', side === 'front');
-      btnBack.setAttribute('aria-pressed', side === 'back');
-      updateModuleFaceLabels(side, viewportMode);
-
-      if (side === 'back' && !pilot.capabilities.back) {
-        btnFront.setAttribute('aria-pressed', 'true');
-        btnBack.setAttribute('aria-pressed', 'false');
-        side = 'front';
+      if (active !== side) {
+        side = active;
       }
 
       if (location.protocol === 'file:') {
@@ -4811,9 +6459,22 @@
       }
     }
 
-    zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
-      btn.addEventListener('click', () => setZoom(Number(btn.getAttribute('data-zoom'))));
-    });
+    function wireViewControls() {
+      if (zoomControlsEl) {
+        zoomControlsEl.querySelectorAll('[data-zoom]').forEach((btn) => {
+          btn.addEventListener('click', () => setZoom(Number(btn.getAttribute('data-zoom'))));
+        });
+      }
+      if (btnFront) btnFront.addEventListener('click', () => selectFenceSide('front'));
+      if (btnBack) btnBack.addEventListener('click', () => selectFenceSide('back'));
+      if (previewClusterEl) {
+        previewClusterEl.addEventListener('click', (e) => {
+          const tag = e.target.closest('.module-face-tag[data-side]');
+          if (!tag || tag.disabled) return;
+          selectFenceSide(tag.getAttribute('data-side'));
+        });
+      }
+    }
 
     function wireTemplateButtons() {
       document.querySelectorAll('.preset-item').forEach((btn) => {
@@ -4976,8 +6637,8 @@
       const cat = REG.getCategory(categoryId);
       if (!cat || cat.disabled) return;
       currentFenceCategory = categoryId;
-      if (fenceCategoryCodeEl) fenceCategoryCodeEl.textContent = cat.code;
-      if (fenceCategorySpellEl) fenceCategorySpellEl.textContent = categorySpellText(cat);
+      if (fenceCategoryCodeEl) fenceCategoryCodeEl.textContent = cat.label;
+      updateB1MobileHeadLabel();
       fenceCategoryMenu.querySelectorAll('.title-fence-option').forEach((item) => {
         item.setAttribute('aria-selected', item.dataset.category === categoryId ? 'true' : 'false');
       });
@@ -5022,16 +6683,20 @@
     const optionGroups = panelEl.querySelectorAll('details.option-group');
     optionGroups.forEach((group) => {
       group.addEventListener('toggle', () => {
-        if (!group.open) return;
-        optionGroups.forEach((other) => {
-          if (other !== group) other.open = false;
-        });
+        if (group.open) {
+          optionGroups.forEach((other) => {
+            if (other !== group) other.open = false;
+          });
+        }
+        scheduleLayout();
       });
     });
 
+    wireViewControls();
     setupPan();
 
     function bootLayout() {
+      syncLayoutBandTransition();
       scheduleLayout();
       requestAnimationFrame(() => {
         scheduleLayout();
@@ -5040,6 +6705,17 @@
     }
 
     let shellLayoutSideBySide = null;
+    let layoutBandPrev = null;
+
+    function syncLayoutBandTransition() {
+      const band = resolveLayoutBand(window.innerWidth);
+      document.documentElement.dataset.layoutBand = band;
+      if (layoutBandPrev !== null && layoutBandPrev !== band) {
+        collapseTopPanels();
+        applyS1FocusClasses();
+      }
+      layoutBandPrev = band;
+    }
 
     function watchShellLayout() {
       const shell = document.getElementById('shell');
@@ -5061,12 +6737,17 @@
     layoutObserver.observe(layoutEl);
     if (sidebarRailEl) layoutObserver.observe(sidebarRailEl);
     if (shellTopRowEl) layoutObserver.observe(shellTopRowEl);
-    window.addEventListener('resize', scheduleLayout);
+    window.addEventListener('resize', () => {
+      syncLayoutBandTransition();
+      scheduleLayout();
+    });
 
     wireClientJobChecks();
     wireTopPanelExpand();
     wireGeneralGates();
     wirePricingDisclaimer();
+    wireMobileViewportChrome();
+    wireMembershipChrome();
     wireMemberActions();
 
     [postsEl, postCapsEl, bracketsEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl].forEach((el) => {
@@ -5088,8 +6769,6 @@
     syncPresetSelection(currentTemplateId);
     syncPicketFillUi();
     updatePricingEstimate();
-    btnFront.addEventListener('click', () => loadAssembly('front'));
-    btnBack.addEventListener('click', () => loadAssembly('back'));
 
     applyZoom(true).then(() => loadAssembly('front')).then(bootLayout);
     watchShellLayout();

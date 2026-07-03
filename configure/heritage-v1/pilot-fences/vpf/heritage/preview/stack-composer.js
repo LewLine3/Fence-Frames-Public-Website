@@ -93,16 +93,24 @@
     rewriteUrlRefsInFragment(doc, prefix);
   }
 
+  function symFetchMayCache() {
+    if (typeof location === 'undefined') return true;
+    const host = location.hostname;
+    return host !== '127.0.0.1' && host !== 'localhost';
+  }
+
   async function fetchSymDocument(url) {
-    if (symCache.has(url)) return symCache.get(url).cloneNode(true);
-    const res = await fetch(url);
+    if (symFetchMayCache() && symCache.has(url)) return symCache.get(url).cloneNode(true);
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`Stack composer: failed to fetch ${url} (${res.status})`);
     const text = await res.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, 'image/svg+xml');
     const err = doc.querySelector('parsererror');
     if (err) throw new Error(`Stack composer: invalid SVG ${url}`);
-    symCache.set(url, doc.documentElement.cloneNode(true));
+    if (symFetchMayCache()) {
+      symCache.set(url, doc.documentElement.cloneNode(true));
+    }
     return doc.documentElement.cloneNode(true);
   }
 

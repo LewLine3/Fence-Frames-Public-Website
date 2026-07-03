@@ -81,7 +81,7 @@
     'vpf-natural-wood': {
       id: 'vpf-natural-wood',
       category: 'vpf',
-      label: 'Natural wood',
+      label: 'Cedar Picket',
       code: 'WOOD',
       description: '6′ vertical picket fence — PT frame, cedar pickets, configurable rail frame.',
       mode: 'vpf-heritage',

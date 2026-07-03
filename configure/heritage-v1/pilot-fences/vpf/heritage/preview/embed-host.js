@@ -158,6 +158,18 @@
         if (gateCallbacks.createBlueprint) gateCallbacks.createBlueprint(getConfig(), getQuoteRange());
         else postToParent('ff-embed-gate-stub', { action: 'blueprint', config: getConfig(), quote: getQuoteRange() });
       },
+      requestLogin() {
+        if (memberContext.authenticated) return true;
+        postToParent('ff-embed-login-required', { action: 'login' });
+        global.dispatchEvent(new CustomEvent('ff-embed-login-required', { detail: { action: 'login' } }));
+        return false;
+      },
+      requestSignup() {
+        if (memberContext.authenticated) return true;
+        postToParent('ff-embed-login-required', { action: 'signup' });
+        global.dispatchEvent(new CustomEvent('ff-embed-login-required', { detail: { action: 'signup' } }));
+        return false;
+      },
     },
   };
 

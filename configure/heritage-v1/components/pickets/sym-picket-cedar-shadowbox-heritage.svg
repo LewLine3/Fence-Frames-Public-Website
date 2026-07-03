@@ -5,8 +5,7 @@
   <g id="sym-picket-cedar-shadowbox-heritage">
     <g id="component-picket-cedar-shadowbox-heritage">
         <g class="picket-row picket-row-overlay" data-picket-row="overlay">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#8a6f52"/>
       <rect x="19.75" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="19.9375" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
       <rect x="29.25" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
@@ -23,12 +22,11 @@
       <rect x="77.0625" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
       <rect x="86.40625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="86.59375" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#8a6f52"/>
         </g>
         <g class="picket-row picket-row-front" data-picket-row="front">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="11.5" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
       <rect x="14.96875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="15.15625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="24.5" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
@@ -47,8 +45,8 @@
       <rect x="81.8125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="91.15625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="91.34375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="97.03125" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
         </g>
     </g>
   </g>

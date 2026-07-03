@@ -307,17 +307,26 @@
     const quoted_mid = est.total;
     const display_low = Math.round(quoted_mid * 0.85 * 100) / 100;
     const display_high = Math.round(quoted_mid * 1.15 * 100) / 100;
+    const per_lf_low = Math.round(est.perLf * 0.85 * 100) / 100;
+    const per_lf_high = Math.round(est.perLf * 1.15 * 100) / 100;
     return {
       ...est,
       quoted_mid,
       display_low,
       display_high,
+      per_lf_low,
+      per_lf_high,
     };
   }
 
   function formatQuoteRange(quote) {
     if (!quote || !(quote.lnFt > 0)) return '—';
     return `${money(quote.display_low)} – ${money(quote.display_high)}`;
+  }
+
+  function formatPerLfRange(quote) {
+    if (!quote || !(quote.lnFt > 0)) return '—';
+    return `${money(quote.per_lf_low)}/lf – ${money(quote.per_lf_high)}/lf`;
   }
 
   global.PilotPricing = {
@@ -341,5 +350,6 @@
     computeEstimate,
     computeQuoteRange,
     formatQuoteRange,
+    formatPerLfRange,
   };
 })(typeof window !== 'undefined' ? window : global);

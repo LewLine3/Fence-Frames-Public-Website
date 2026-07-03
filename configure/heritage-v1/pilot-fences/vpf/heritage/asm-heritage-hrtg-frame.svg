@@ -728,38 +728,23 @@
     <g id="Picket-Groups" data-slot="picket-fill" data-default-fill="standard" data-default-spacing="1-16-privacy" data-active-fill="standard" data-active-spacing="1-16-privacy">
       <g class="picket-fill-layer" data-picket-fill="standard" data-picket-spacing="1-16-privacy">
         <g class="picket-fill-member-shells">
-      <rect x="11.3125" y="13.3125" width="3.15625" height="69.4375" fill="#000000" data-picket-cut="left"/>
-      <rect x="11.5" y="13.5" width="2.78125" height="69.0625" fill="#b8886b"/>
-      <rect x="14.46875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="14.65625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="20.40625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="20.59375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="26.34375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="26.53125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="32.28125" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="32.46875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="38.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="38.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="44.15625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="44.34375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="50.09375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="50.28125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="56.03125" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="56.21875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="61.96875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="62.15625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="67.90625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="68.09375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="73.84375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="74.03125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="79.78125" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="79.96875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="85.71875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="85.90625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="91.65625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
-      <rect x="91.84375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="97.53125" y="13.3125" width="3.15625" height="69.4375" fill="#000000" data-picket-cut="right"/>
-      <rect x="97.71875" y="13.5" width="2.78125" height="69.0625" fill="#b8886b"/>
+      <rect x="11.3125" y="13.3125" width="89.375" height="69.4375" fill="#000000" data-picket-row-shell="true"/>
+      <rect x="11.5" y="13.5" width="2.78125" height="69.0625" fill="#b8886b" data-picket-cut="left"/>
+      <rect x="14.65625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="20.59375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="26.53125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="32.46875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="38.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="44.34375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="50.28125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="56.21875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="62.15625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="68.09375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="74.03125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="79.96875" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="85.90625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="91.84375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-cut="full"/>
+      <rect x="97.71875" y="13.5" width="2.78125" height="69.0625" fill="#b8886b" data-picket-cut="right"/>
         </g>
     <g class="picket-nails" data-slot="picket-nails" data-visible="front" fill="none">
       <g class="picket-nail">
@@ -1803,8 +1788,7 @@
       <g class="picket-fill-layer" data-picket-fill="shadowbox" style="display:none">
         <g class="picket-fill-member-shells">
         <g class="picket-row picket-row-overlay" data-picket-row="overlay">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#8a6f52"/>
       <rect x="19.75" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="19.9375" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
       <rect x="29.25" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
@@ -1821,12 +1805,11 @@
       <rect x="77.0625" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
       <rect x="86.40625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="86.59375" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#8a6f52"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#8a6f52"/>
         </g>
         <g class="picket-row picket-row-front" data-picket-row="front">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="11.5" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
       <rect x="14.96875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="15.15625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="24.5" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
@@ -1845,26 +1828,26 @@
       <rect x="81.8125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="91.15625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="91.34375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="97.03125" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
         </g>
         </g>
     <g class="picket-nails" data-slot="picket-nails" data-visible="front" fill="none">
       <g class="picket-nail">
-        <circle cx="11.40625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="11.40625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="12.5" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="12.5" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="14.90625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="14.90625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="13.78125" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="13.78125" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="11.40625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="11.40625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="12.5" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="12.5" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="14.90625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="14.90625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="13.78125" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="13.78125" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
         <circle cx="16.15625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
@@ -2011,28 +1994,28 @@
         <circle cx="95.84375" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="97.125" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="97.125" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="98.21875" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="98.21875" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="100.625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="100.625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="99.5" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="99.5" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="97.125" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="97.125" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="98.21875" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="98.21875" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="100.625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="100.625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="99.5" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="99.5" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
     </g>
       </g>
       <g class="picket-fill-layer" data-picket-fill="board-on-board" style="display:none">
         <g class="picket-fill-member-shells">
         <g class="picket-row picket-row-front" data-picket-row="front">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="11.5" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-left"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
       <rect x="14.96875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="15.15625" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="24.5" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
@@ -2051,12 +2034,11 @@
       <rect x="81.8125" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
       <rect x="91.15625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="full"/>
       <rect x="91.34375" y="13.5" width="5.5" height="69.0625" fill="#b8886b" data-picket-face="5.5"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="97.03125" y="13.3125" width="3.46875" height="69.4375" fill="#000000" data-picket-cut="side-right"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
         </g>
         <g class="picket-row picket-row-overlay" data-picket-row="overlay">
-      <rect x="10.21875" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-left"/>
-      <rect x="10.40625" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="11.5" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
       <rect x="19.75" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="19.9375" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
       <rect x="29.25" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
@@ -2073,26 +2055,25 @@
       <rect x="77.0625" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
       <rect x="86.40625" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay"/>
       <rect x="86.59375" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
-      <rect x="95.9375" y="13.3125" width="5.875" height="69.4375" fill="#000000" data-picket-cut="overlay-right"/>
-      <rect x="96.125" y="13.5" width="5.5" height="69.0625" fill="#b8886b"/>
+      <rect x="97.21875" y="13.5" width="3.28125" height="69.0625" fill="#b8886b"/>
         </g>
         </g>
     <g class="picket-nails" data-slot="picket-nails" data-visible="front" fill="none">
       <g class="picket-nail">
-        <circle cx="11.40625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="11.40625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="12.5" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="12.5" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="14.90625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="14.90625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="13.78125" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="13.78125" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="11.40625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="11.40625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="12.5" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="12.5" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="14.90625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="14.90625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="13.78125" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="13.78125" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
         <circle cx="16.15625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
@@ -2239,20 +2220,20 @@
         <circle cx="95.84375" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="97.125" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="97.125" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="98.21875" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="98.21875" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="100.625" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="100.625" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="99.5" cy="15.0625" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="99.5" cy="15.0625" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="97.125" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="97.125" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="98.21875" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="98.21875" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
       <g class="picket-nail">
-        <circle cx="100.625" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
-        <circle cx="100.625" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
+        <circle cx="99.5" cy="73.75" r="0.125" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="0.03125"/>
+        <circle cx="99.5" cy="73.75" r="0.0625" fill="#4f4f4f" opacity="0.35"/>
       </g>
     </g>
       </g>
