@@ -166,6 +166,7 @@
     const trimMatKey = trimMat === HC.MATERIAL.PT ? 'pt' : 'cedar';
     const topTrimPath = `${COMPONENTS_BASE}trim/sym-trim-top-${trimMatKey}.svg`;
     const bottomTrimPath = `${COMPONENTS_BASE}trim/sym-trim-bottom-${trimMatKey}.svg`;
+    const middleTrimPath = `${COMPONENTS_BASE}trim/sym-trim-middle-${trimMatKey}.svg`;
 
     const railDy = line.topRailDy || 0;
     const bottomPlace =
@@ -320,7 +321,7 @@
     if (showMiddleTrim) {
       layers.push({
         id: 'trim-middle',
-        path: topTrimPath,
+        path: middleTrimPath,
         kind: 'placed',
         place: PLACE.middleRail,
         z: 52,

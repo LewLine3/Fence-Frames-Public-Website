@@ -6,6 +6,7 @@ Log every **GitHub Pages** push. Local `:5199` work is **DEV** — do not log he
 |---------|----------|--------|---------|-------|
 | 2026-06-24 | PILOT | 260cc34 | Soft-launch baseline — Heritage VPF stack composer live | backcheck + live /configure |
 | 2026-07-03 | PILOT | 6ca947d | Responsive breakpoint + layout sweep: unify 899/900 mobile/tablet, fix panel-ring clipping, merge B1 grid rules | skipped — owner smoke in Wix |
+| 2026-07-05 | PILOT | (pending) | HF board fence + horizontal picket assemblies; multi-category pilot; community presets; middle trim syms | backcheck:configurator |
 
 ## How to add a row
 

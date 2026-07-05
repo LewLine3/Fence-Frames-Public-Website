@@ -3110,6 +3110,38 @@
     .mini-panel--templates.pilot-hidden {
       display: none !important;
     }
+
+    .community-preset-hidden {
+      display: none !important;
+    }
+
+    .community-preset-banner {
+      margin: 0;
+      padding: 0.65rem 1rem;
+      background: rgba(138, 74, 34, 0.22);
+      border-bottom: 1px solid var(--ui-outline-soft);
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .community-preset-banner strong {
+      display: block;
+      font-family: var(--font-display, 'Libre Franklin', sans-serif);
+      font-size: 1rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .community-preset-banner .community-preset-subhead {
+      display: block;
+      opacity: 0.88;
+    }
+
+    .community-preset-disclaimer {
+      margin: 0.35rem 0 0;
+      font-size: 0.78rem;
+      opacity: 0.75;
+    }
     .option-group-body {
       padding: 0 0.55rem 0.55rem;
       display: flex;
@@ -3328,6 +3360,11 @@
   </style>
 </head>
 <body>
+  <div id="community-preset-banner" class="community-preset-banner" hidden>
+    <strong id="community-preset-headline"></strong>
+    <span id="community-preset-subhead" class="community-preset-subhead"></span>
+    <p id="community-preset-disclaimer" class="community-preset-disclaimer"></p>
+  </div>
   <div class="shell shell--with-sidebar" id="shell">
     <div class="shell-top-row" id="shell-top-row" data-ui-code="S1">
       <div class="shell-top-band shell-top-band--upper" data-ui-code="S1.1">
@@ -3346,7 +3383,7 @@
           <ul class="title-fence-menu" id="fence-category-menu" role="listbox" aria-label="Fence category" hidden>
             <li><button type="button" class="title-fence-option" role="option" data-category="vpf" aria-selected="true">VPF<span class="title-fence-option-note">Vertical Picket Fence</span></button></li>
             <li><button type="button" class="title-fence-option" role="option" data-category="horizontal">Horizontal fence<span class="title-fence-option-note">Split board &amp; rail</span></button></li>
-            <li><button type="button" class="title-fence-option" role="option" data-category="fabric" disabled title="Coming soon">Fabric fence<span class="title-fence-option-note">Coming soon</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="fabric" disabled title="Coming soon">Fabric fence<span class="title-fence-option-note">Mesh &amp; lattice — coming soon</span></button></li>
             <li><button type="button" class="title-fence-option" role="option" data-category="hand-guardrail" disabled title="Coming soon">Hand / guardrail<span class="title-fence-option-note">Curveball — coming soon</span></button></li>
           </ul>
         </div>
@@ -3609,6 +3646,7 @@
               <div class="field planned">
                 <label for="general-height">Height</label>
                 <select id="general-height" disabled>
+                  <option value="4ft">4′ (board fence)</option>
                   <option value="6ft" selected>6′ (standard)</option>
                   <option value="8ft" disabled>8′ — coming soon</option>
                 </select>
@@ -3669,6 +3707,13 @@
                 <option value="4x6-8ft" disabled>4×6 · 8′</option>
               </select>
             </div>
+            <div class="field" id="hfPostSizeField" hidden>
+              <label for="hfPostSize">Post size</label>
+              <select id="hfPostSize">
+                <option value="4x4" selected>4×4 (standard)</option>
+                <option value="4x6">4×6 (upgrade)</option>
+              </select>
+            </div>
             <div class="field">
               <label for="postCaps">Post caps</label>
               <select id="postCaps">
@@ -3708,6 +3753,13 @@
                 <option value="2x6" disabled>2×6 — split fill only</option>
               </select>
             </div>
+            <div class="field" id="hfBoardSizeField" hidden>
+              <label for="hfBoardSize">Board size</label>
+              <select id="hfBoardSize">
+                <option value="2x4" selected>2×4 (standard)</option>
+                <option value="2x6">2×6 (upgrade)</option>
+              </select>
+            </div>
             <div class="field" id="railCapField">
               <label for="railCap">Rail cap</label>
               <select id="railCap">
@@ -3730,7 +3782,7 @@
         <details class="option-group" data-ui-code="TBPF">
           <summary>Pickets / fill</summary>
           <div class="option-group-body">
-            <div class="field">
+            <div class="field" id="fenceStyleField">
               <label for="fenceStyle">Fence style</label>
               <select id="fenceStyle">
                 <option value="vertical-picket" selected>Vertical picket</option>
@@ -3758,6 +3810,37 @@
                 <option value="gap-1">1″ gap</option>
                 <option value="gap-3">3″ gap</option>
                 <option value="gap-5-5">5.5″ gap (≈6″ nominal)</option>
+              </select>
+            </div>
+            <div class="field" id="fabricWireGridField" hidden>
+              <label for="fabricWireGrid">Mesh square size</label>
+              <select id="fabricWireGrid">
+                <option value="grid-1-5">1.5″ square</option>
+                <option value="grid-2" selected>2″ square (standard)</option>
+                <option value="grid-4">4″ square</option>
+              </select>
+            </div>
+            <div class="field" id="fabricWireFinishField" hidden>
+              <label for="fabricWireFinish">Wire coating</label>
+              <select id="fabricWireFinish">
+                <option value="galvanized" selected>Galvanized (silver)</option>
+                <option value="vinyl-black">Vinyl coated — black</option>
+                <option value="vinyl-green">Vinyl coated — green</option>
+              </select>
+            </div>
+            <div class="field" id="fabricLatticeGridField" hidden>
+              <label for="fabricLatticeGrid">Lattice openings</label>
+              <select id="fabricLatticeGrid">
+                <option value="grid-1-5">1.5″ openings</option>
+                <option value="grid-2" selected>2″ openings (standard)</option>
+                <option value="grid-3">3″ openings</option>
+              </select>
+            </div>
+            <div class="field" id="fabricLatticeMaterialField" hidden>
+              <label for="fabricLatticeMaterial">Lattice material</label>
+              <select id="fabricLatticeMaterial">
+                <option value="composite" selected>Composite (white)</option>
+                <option value="cedar">Cedar slats</option>
               </select>
             </div>
           </div>
@@ -3883,6 +3966,7 @@
   <script src="stack-composer.js"></script>
   <script src="pilot-pricing.js"></script>
   <script src="embed-host.js"></script>
+  <script src="community-preset.js"></script>
   <script>
     const EMBED_MODE = document.documentElement.dataset.ffEmbed === '1';
     const { HeritageConfigurator: HC } = window;
@@ -3939,6 +4023,15 @@
       if (bracketsEl) bracketsEl.value = d.brackets || 'none';
       if (picketFillEl && d.picketFill) picketFillEl.value = d.picketFill;
       if (picketSpacingEl && d.picketSpacing) picketSpacingEl.value = d.picketSpacing;
+      if (fabricWireGridEl && d.fabricWireGrid) fabricWireGridEl.value = d.fabricWireGrid;
+      if (fabricWireFinishEl && d.fabricWireFinish) fabricWireFinishEl.value = d.fabricWireFinish;
+      if (fabricLatticeGridEl && d.fabricLatticeGrid) fabricLatticeGridEl.value = d.fabricLatticeGrid;
+      if (fabricLatticeMaterialEl && d.fabricLatticeMaterial) fabricLatticeMaterialEl.value = d.fabricLatticeMaterial;
+      if (hfPostSizeEl && d.postSize) hfPostSizeEl.value = d.postSize;
+      if (hfBoardSizeEl && d.boardSize) hfBoardSizeEl.value = d.boardSize;
+      if (d.boardStack) currentBoardStack = d.boardStack;
+      if (d.boardCount != null) currentBoardCount = Number(d.boardCount);
+      if (fenceHeightEl && d.fenceHeight) fenceHeightEl.value = d.fenceHeight;
       syncPicketFillUi();
       syncRailCapUi();
     }
@@ -3958,17 +4051,238 @@
       if (picketSpacingFieldEl) picketSpacingFieldEl.hidden = !isStandard;
     }
 
+    const HF_SIZE_LABELS = {
+      '4x4': '4×4 (standard)',
+      '4x6': '4×6 (upgrade)',
+      '2x4': '2×4 (standard)',
+      '2x6': '2×6 (upgrade)',
+    };
+
+    /** Fallback before the assembly SVG is in the DOM — mirrors hf-frame-geometry.js. */
+    const HF_PRESET_VARIANT_FALLBACK = {
+      'board-fence': { postSizes: ['4x4', '4x6'], boardSizes: ['2x4', '2x6'], defaultPost: '4x6', defaultBoard: '2x6' },
+      rancher: { postSizes: ['4x4', '4x6'], boardSizes: ['2x4', '2x6'], defaultPost: '4x6', defaultBoard: '2x6' },
+      homesteader: { postSizes: ['4x4', '4x6'], boardSizes: ['2x4', '2x6'], defaultPost: '4x4', defaultBoard: '2x4' },
+      'horizontal-picket': { postSizes: ['4x4', '4x6'], boardSizes: [], defaultPost: '4x4' },
+    };
+
+    function hfPresetIdFromAssemblyPath(frontPath) {
+      const m = /asm-hf-([a-z0-9-]+)-frame\.svg/i.exec(frontPath || '');
+      return m ? m[1] : null;
+    }
+
+    function collectHfToggleValues(svg, attr) {
+      if (!svg) return [];
+      const vals = new Set();
+      svg.querySelectorAll(`[${attr}]`).forEach((g) => {
+        const v = g.getAttribute(attr);
+        if (v) vals.add(v);
+      });
+      return [...vals];
+    }
+
+    function parseHfCsvAttr(svg, attr) {
+      const raw = svg.getAttribute(attr);
+      if (!raw) return [];
+      return raw.split(',').map((s) => s.trim()).filter(Boolean);
+    }
+
+    function ensureHfSelectOptions(select, values, labels) {
+      if (!select || !values.length) return;
+      const keep = new Set(values);
+      Array.from(select.options).forEach((opt) => {
+        if (!keep.has(opt.value)) opt.remove();
+      });
+      values.forEach((v) => {
+        if (!select.querySelector(`option[value="${v}"]`)) {
+          const opt = document.createElement('option');
+          opt.value = v;
+          opt.textContent = labels[v] || v;
+          select.appendChild(opt);
+        }
+      });
+    }
+
+    /**
+     * Show HF post/board size controls when the loaded assembly (or preset
+     * fallback) bakes more than one toggle group — same pattern for Rancher
+     * and Homesteader board fences.
+     */
+    function syncHfVariantFields(frontPath, svg) {
+      const style = getCurrentStyle();
+      if (style.mode !== 'hf-frame') {
+        if (hfPostSizeFieldEl) hfPostSizeFieldEl.hidden = true;
+        if (hfBoardSizeFieldEl) hfBoardSizeFieldEl.hidden = true;
+        return;
+      }
+
+      const root = svg || host.querySelector('svg');
+      const isBoardFence = style.id === 'hf-board-fence';
+      let postSizes = [];
+      let boardSizes = [];
+
+      if (root) {
+        postSizes = collectHfToggleValues(root, 'data-hf-post-size');
+        if (postSizes.length < 2) postSizes = parseHfCsvAttr(root, 'data-post-size-options');
+        boardSizes = collectHfToggleValues(root, 'data-hf-board-size');
+        if (boardSizes.length < 2) boardSizes = parseHfCsvAttr(root, 'data-board-size-options');
+      } else {
+        const presetId = hfPresetIdFromAssemblyPath(frontPath);
+        const fb = HF_PRESET_VARIANT_FALLBACK[presetId] || {};
+        postSizes = fb.postSizes || [];
+        boardSizes = fb.boardSizes || [];
+      }
+
+      if (hfPostSizeFieldEl) {
+        const showPost = postSizes.length > 1;
+        hfPostSizeFieldEl.hidden = !showPost;
+        if (showPost && hfPostSizeEl) {
+          ensureHfSelectOptions(hfPostSizeEl, postSizes, HF_SIZE_LABELS);
+          if (!postSizes.includes(hfPostSizeEl.value)) {
+            hfPostSizeEl.value = root?.getAttribute('data-post-size') || postSizes[0];
+          }
+        }
+      }
+
+      if (hfBoardSizeFieldEl) {
+        const showBoard = isBoardFence && boardSizes.length > 1;
+        hfBoardSizeFieldEl.hidden = !showBoard;
+        if (showBoard && hfBoardSizeEl) {
+          ensureHfSelectOptions(hfBoardSizeEl, boardSizes, HF_SIZE_LABELS);
+          if (!boardSizes.includes(hfBoardSizeEl.value)) {
+            hfBoardSizeEl.value = root?.getAttribute('data-board-size') || boardSizes[0];
+          }
+        } else if (hfBoardSizeEl && boardSizes.length === 1) {
+          hfBoardSizeEl.value = boardSizes[0];
+        }
+      }
+    }
+
+    /** Keep HF size dropdowns valid for the loaded assembly — do not stomp template picks. */
+    function alignHfSizeStateFromAssembly(svg) {
+      const style = getCurrentStyle();
+      if (style.mode !== 'hf-frame' || !svg) return;
+      const postSizes = collectHfToggleValues(svg, 'data-hf-post-size');
+      const boardSizes = collectHfToggleValues(svg, 'data-hf-board-size');
+      if (hfPostSizeEl && postSizes.length && !postSizes.includes(hfPostSizeEl.value)) {
+        hfPostSizeEl.value = postSizes[0];
+      }
+      if (hfBoardSizeEl && boardSizes.length && !boardSizes.includes(hfBoardSizeEl.value)) {
+        hfBoardSizeEl.value = boardSizes[0];
+      }
+    }
+
+    /**
+     * HF board fence — hide VPF-only stubs that stay disabled (looks broken).
+     * Keep Posts material + HF post size, Boards material + HF board size live.
+     */
+    function syncHfBoardFenceUi(style) {
+      const isHf = style.mode === 'hf-frame';
+      const isBoardFence = style.id === 'hf-board-fence';
+
+      const vpfPostSizeField = document.getElementById('postSize')?.closest('.field');
+      if (vpfPostSizeField) vpfPostSizeField.hidden = isHf;
+
+      const postCapsField = postCapsEl?.closest('.field');
+      if (postCapsField) postCapsField.hidden = isHf;
+
+      const railCountField = railCountEl?.closest('.field');
+      if (railCountField) railCountField.hidden = isHf;
+
+      const railProfileField = document.getElementById('railProfile')?.closest('.field');
+      if (railProfileField) railProfileField.hidden = isHf;
+
+      if (railCapFieldEl) railCapFieldEl.hidden = isHf;
+      if (capModeFieldEl) capModeFieldEl.hidden = isHf;
+
+      document.querySelector('[data-ui-code="TBPE"]')?.classList.toggle('pilot-hidden', isBoardFence);
+
+      if (isHf) {
+        if (postsEl) postsEl.disabled = false;
+        if (railsEl) railsEl.disabled = false;
+        if (hfPostSizeEl) hfPostSizeEl.disabled = false;
+        if (hfBoardSizeEl) hfBoardSizeEl.disabled = false;
+      }
+
+      if (isBoardFence) {
+        document.querySelector('[data-ui-code="TBPP"]')?.setAttribute('open', '');
+        document.querySelector('[data-ui-code="TBPR"]')?.setAttribute('open', '');
+      }
+
+      const heightField = fenceHeightEl?.closest('.field');
+      if (fenceHeightEl && heightField) {
+        const heightEnabled = isBoardFence;
+        fenceHeightEl.disabled = !heightEnabled;
+        heightField.classList.toggle('planned', !heightEnabled);
+        if (isBoardFence) {
+          if (fenceHeightEl.value !== '4ft') fenceHeightEl.value = '4ft';
+        } else if (fenceHeightEl.value === '4ft') {
+          fenceHeightEl.value = '6ft';
+        }
+      }
+    }
+
+    /** Picket fill modes with real rendered geometry today — others are UI stubs. */
+    const PICKET_FILL_BUILT = { 'vpf-heritage': ['standard', 'shadowbox', 'board-on-board'], 'hf-frame': ['standard'] };
+
     function syncPanelVisibility(pilot) {
       const cap = pilot.capabilities;
+      const isFabric = pilot.mode === 'fabric-frame';
+      const isHf = pilot.mode === 'hf-frame';
       const templatesPanel = document.getElementById('templates-panel');
       if (templatesPanel) templatesPanel.classList.toggle('pilot-hidden', !cap.templates);
-      document.querySelector('[data-ui-code="TBPF"]')?.classList.toggle('pilot-hidden', !cap.pickets);
-      document.querySelector('[data-ui-code="TBPS"]')?.classList.toggle('pilot-hidden', !cap.stain);
-      document.querySelector('[data-ui-code="TBPT"]')?.classList.toggle('pilot-hidden', !cap.trim);
+      /** `[data-ui-code]` is reused on price-calculator line items — scope to the sidebar
+       *  option-group `<details>` so we don't accidentally toggle a calculator row instead. */
+      document.querySelector('details.option-group[data-ui-code="TBPF"]')?.classList.toggle('pilot-hidden', !cap.pickets);
+      document.querySelector('details.option-group[data-ui-code="TBPS"]')?.classList.toggle('pilot-hidden', !cap.stain);
+      document.querySelector('details.option-group[data-ui-code="TBPT"]')?.classList.toggle('pilot-hidden', !cap.trim);
+      /** Board fence uses the Boards panel; horizontal picket uses Pickets/spacing only (cedar pickets, not 2× lumber). */
+      const hideBoardsPanel = pilot.id === 'hf-horizontal-picket';
+      document.querySelector('details.option-group[data-ui-code="TBPR"]')?.classList.toggle('pilot-hidden', hideBoardsPanel);
       document.querySelector('.view-options-section--side')?.classList.toggle('pilot-hidden', !cap.back);
       if (btnBack) btnBack.disabled = !cap.back;
       const railsGroup = document.querySelector('[data-ui-code="TBPR"] summary');
-      if (railsGroup) railsGroup.textContent = pilot.mode === 'hf-frame' ? 'Boards' : 'Rails';
+      if (railsGroup) railsGroup.textContent = isHf ? 'Boards' : 'Rails';
+      const tbpfSummary = document.querySelector('[data-ui-code="TBPF"] summary');
+      if (tbpfSummary) {
+        if (cap.latticeGrid) tbpfSummary.textContent = 'Lattice panel';
+        else if (cap.wireGrid) tbpfSummary.textContent = 'Wire mesh';
+        else tbpfSummary.textContent = 'Pickets';
+      }
+
+      /** "Fence style" sub-picker (vertical/horizontal/etc. picket orientation stubs) is VPF-only chrome. */
+      if (fenceStyleFieldEl) fenceStyleFieldEl.hidden = isHf || isFabric;
+
+      if (picketFillEl && picketFillEl.closest('.field')) {
+        picketFillEl.closest('.field').hidden = !!(cap.wireGrid || cap.latticeGrid);
+      }
+      if (fabricWireGridFieldEl) fabricWireGridFieldEl.hidden = !cap.wireGrid;
+      if (fabricWireFinishFieldEl) fabricWireFinishFieldEl.hidden = !cap.wireFinish;
+      if (fabricLatticeGridFieldEl) fabricLatticeGridFieldEl.hidden = !cap.latticeGrid;
+      if (fabricLatticeMaterialFieldEl) fabricLatticeMaterialFieldEl.hidden = !cap.latticeMaterial;
+      if (picketSpacingFieldEl && (cap.wireGrid || cap.latticeGrid)) picketSpacingFieldEl.hidden = true;
+
+      const trimRailLabel = document.querySelector('[data-trim-kind="rail"] .trim-category-label');
+      if (trimRailLabel) {
+        trimRailLabel.textContent = isFabric ? 'Fabric sandwich trim' : 'Rail trim';
+      }
+      const trimSelectLabel = document.querySelector('[data-trim-kind="rail"] label[for="trim"]');
+      if (trimSelectLabel) {
+        trimSelectLabel.textContent = isFabric
+          ? 'Trim boards (sandwich infill at rails)'
+          : 'Horizontal rail boards';
+      }
+
+      /** Horizontal picket only has "standard" fill built so far — hide the unbuilt options rather than a dead control. */
+      if (picketFillEl) {
+        const built = PICKET_FILL_BUILT[pilot.mode] || PICKET_FILL_BUILT['vpf-heritage'];
+        Array.from(picketFillEl.options).forEach((opt) => {
+          opt.hidden = !built.includes(opt.value);
+        });
+        if (!built.includes(picketFillEl.value)) picketFillEl.value = 'standard';
+        syncPicketFillUi();
+      }
+      syncHfBoardFenceUi(pilot);
     }
 
     function syncControlsForStyle(style) {
@@ -3977,6 +4291,43 @@
         if (postCapsEl) postCapsEl.disabled = false;
         if (bracketsEl) bracketsEl.disabled = false;
         syncRailCapUi();
+        return;
+      }
+      if (style.mode === 'fabric-frame') {
+        railCountEl.value = '2';
+        railCountEl.disabled = true;
+        if (railCapEl) railCapEl.disabled = true;
+        if (railCapFieldEl) railCapFieldEl.classList.add('planned');
+        capModeEl.disabled = true;
+        if (capModeFieldEl) capModeFieldEl.classList.add('planned');
+        if (postCapsEl) postCapsEl.disabled = true;
+        if (bracketsEl) bracketsEl.disabled = true;
+        if (trimEl) {
+          trimEl.querySelectorAll('option[value="pt-3t"], option[value="cedar-3t"]').forEach((opt) => {
+            opt.disabled = true;
+          });
+          if (trimEl.value === 'pt-3t' || trimEl.value === 'cedar-3t') {
+            trimEl.value = trimEl.value.startsWith('pt') ? 'pt-2t' : 'cedar-2t';
+          }
+        }
+        return;
+      }
+      if (style.mode === 'hf-frame') {
+        railCountEl.value = '2';
+        railCountEl.disabled = true;
+        const railCountField = railCountEl.closest('.field');
+        if (railCountField) railCountField.classList.add('planned');
+        if (railCapEl) railCapEl.disabled = true;
+        if (railCapFieldEl) railCapFieldEl.classList.add('planned');
+        capModeEl.disabled = true;
+        if (capModeFieldEl) capModeFieldEl.classList.add('planned');
+        if (postCapsEl) postCapsEl.disabled = true;
+        if (bracketsEl) bracketsEl.disabled = true;
+        if (postsEl) postsEl.disabled = false;
+        if (railsEl) railsEl.disabled = false;
+        if (hfPostSizeEl) hfPostSizeEl.disabled = false;
+        if (hfBoardSizeEl) hfBoardSizeEl.disabled = false;
+        syncHfBoardFenceUi(style);
         return;
       }
       railCountEl.value = '2';
@@ -4010,10 +4361,14 @@
     /** Post outer edges — matches heritage-geometry leftPostShell / rightPostShell */
     const POST_LEFT_X = 8;
     const POST_RIGHT_X = 104;
+    /** Fence module coords — vertical ruler uses SCALE_* below, not these. */
     const POST_TOP_Y = 12;
     const POST_BOTTOM_Y = 84;
     const MEASURE_W_IN = POST_RIGHT_X - POST_LEFT_X; /* 96″ = 8′ */
     const MEASURE_H_IN = POST_BOTTOM_Y - POST_TOP_Y; /* 72″ = 6′ */
+    /** Static vertical scale — always 6′ module span regardless of configured fence height. */
+    const SCALE_FENCE_TOP_Y = POST_TOP_Y;
+    const SCALE_MEASURE_H_IN = MEASURE_H_IN;
     let POST_LEFT_FRAC = POST_LEFT_X / MODULE_W_IN;
     let POST_TOP_FRAC = POST_TOP_Y / MODULE_H_IN;
     let POST_BOTTOM_FRAC = POST_BOTTOM_Y / MODULE_H_IN;
@@ -4318,9 +4673,9 @@
     }
 
     function applyModuleProfile(pilot) {
-      const isHf = pilot?.mode === 'hf-frame';
-      MODULE_H_IN = isHf ? 96 : 86;
-      GRASS_BOTTOM_Y = isHf ? 96 : 86;
+      const tallModule = pilot?.mode === 'hf-frame' || pilot?.mode === 'fabric-frame';
+      MODULE_H_IN = tallModule ? 96 : 86;
+      GRASS_BOTTOM_Y = tallModule ? 96 : 86;
       CONTENT_H_IN = MODULE_H_IN;
       POST_TOP_FRAC = POST_TOP_Y / MODULE_H_IN;
       POST_BOTTOM_FRAC = POST_BOTTOM_Y / MODULE_H_IN;
@@ -4377,9 +4732,23 @@
     const capModeEl = document.getElementById('capMode');
     const railCapEl = document.getElementById('railCap');
     const railCountEl = document.getElementById('railCount');
+    const fenceStyleFieldEl = document.getElementById('fenceStyleField');
     const picketFillEl = document.getElementById('picketFill');
     const picketSpacingFieldEl = document.getElementById('picketSpacingField');
     const picketSpacingEl = document.getElementById('picketSpacing');
+    const fabricWireGridFieldEl = document.getElementById('fabricWireGridField');
+    const fabricWireGridEl = document.getElementById('fabricWireGrid');
+    const fabricWireFinishFieldEl = document.getElementById('fabricWireFinishField');
+    const fabricWireFinishEl = document.getElementById('fabricWireFinish');
+    const fabricLatticeGridFieldEl = document.getElementById('fabricLatticeGridField');
+    const fabricLatticeGridEl = document.getElementById('fabricLatticeGrid');
+    const fabricLatticeMaterialFieldEl = document.getElementById('fabricLatticeMaterialField');
+    const fabricLatticeMaterialEl = document.getElementById('fabricLatticeMaterial');
+    const hfPostSizeFieldEl = document.getElementById('hfPostSizeField');
+    const hfPostSizeEl = document.getElementById('hfPostSize');
+    const hfBoardSizeFieldEl = document.getElementById('hfBoardSizeField');
+    const hfBoardSizeEl = document.getElementById('hfBoardSize');
+    const fenceHeightEl = document.getElementById('general-height');
     const fenceStyleDescEl = document.getElementById('fence-style-desc');
     const fenceStyleLabelEl = document.getElementById('fence-style-label');
     const btnFront = document.getElementById('btn-front');
@@ -5110,6 +5479,9 @@
     let currentFenceCategory = 'vpf';
     let currentTemplateId = 'default';
     let currentPresetId = null;
+    /** HF board fence — split stack in 4′ fill zone; templates set board count. */
+    let currentBoardStack = 'split';
+    let currentBoardCount = 2;
     let zoomLevel = 1;
     let viewportMode = 'desktop';
     let panActive = false;
@@ -5488,11 +5860,11 @@
 
     /** Vertical scale — 1′ steps from 6′ (top) → 1′; majors 2/4/6 labeled, minors 1/3/5; no 0′. */
     function verticalScaleTicks() {
-      const step = MEASURE_H_IN / 6; /* 12″ per foot */
+      const step = SCALE_MEASURE_H_IN / 6; /* 12″ per foot */
       const ticks = [];
       for (let foot = 6; foot >= 1; foot--) {
         ticks.push({
-          moduleY: POST_TOP_Y + (6 - foot) * step,
+          moduleY: SCALE_FENCE_TOP_Y + (6 - foot) * step,
           foot: foot % 2 === 0 ? foot : null,
           major: foot % 2 === 0,
         });
@@ -6204,6 +6576,15 @@
         capMode: capModeEl.value,
         picketFill: picketFillEl ? picketFillEl.value : 'standard',
         picketSpacing: picketSpacingEl ? picketSpacingEl.value : '1-16-privacy',
+        fabricWireGrid: fabricWireGridEl ? fabricWireGridEl.value : 'grid-2',
+        fabricWireFinish: fabricWireFinishEl ? fabricWireFinishEl.value : 'galvanized',
+        fabricLatticeGrid: fabricLatticeGridEl ? fabricLatticeGridEl.value : 'grid-2',
+        fabricLatticeMaterial: fabricLatticeMaterialEl ? fabricLatticeMaterialEl.value : 'composite',
+        postSize: hfPostSizeEl ? hfPostSizeEl.value : '4x4',
+        boardSize: hfBoardSizeEl ? hfBoardSizeEl.value : '2x4',
+        boardStack: currentBoardStack,
+        boardCount: currentBoardCount,
+        fenceHeight: fenceHeightEl ? fenceHeightEl.value : '6ft',
         railCount: line ? String(line.railCount) : railCount,
         side: btnFront.getAttribute('aria-pressed') === 'true' ? 'front' : 'back',
       };
@@ -6221,9 +6602,23 @@
     }
 
     function templateMatchesControls(templateId) {
+      const style = getCurrentStyle();
       const template = REG.getTemplate(currentStyleId, templateId);
       if (!template || !template.defaults) return false;
       const d = template.defaults;
+
+      if (style.mode === 'hf-frame') {
+        return (
+          postsEl.value === d.posts &&
+          railsEl.value === d.rails &&
+          currentBoardStack === (d.boardStack || 'split') &&
+          currentBoardCount === Number(d.boardCount) &&
+          (!fenceHeightEl || !d.fenceHeight || fenceHeightEl.value === d.fenceHeight) &&
+          (!hfPostSizeEl || !d.postSize || hfPostSizeEl.value === d.postSize) &&
+          (!hfBoardSizeEl || !d.boardSize || hfBoardSizeEl.value === d.boardSize)
+        );
+      }
+
       const railCapOn = railCapEl && railCapEl.value === 'on';
       const frameMatch =
         currentFramePreset === (template.framePreset || 'heritage-vpf');
@@ -6256,12 +6651,15 @@
       syncPresetSelection(templateId);
     }
 
-    function applyTemplate(templateId) {
+    async function applyTemplate(templateId) {
       const style = getCurrentStyle();
       if (!style.capabilities.templates) return;
       const template = REG.getTemplate(currentStyleId, templateId);
       if (!template || template.disabled) return;
       setTemplateControls(templateId);
+      syncHfVariantFields(paths.front, host.querySelector('svg'));
+      const loadedSvg = host.querySelector('svg');
+      if (loadedSvg) alignHfSizeStateFromAssembly(loadedSvg);
       applyToPreview();
     }
 
@@ -6319,6 +6717,7 @@
       if (defaultTpl) applyMaterialDefaults(defaultTpl.defaults);
       syncControlsForStyle(style);
       syncPanelVisibility(style);
+      syncHfBoardFenceUi(style);
       rebuildTemplateList();
 
       if (fenceStyleLabelEl) fenceStyleLabelEl.textContent = labelText || style.label;
@@ -6327,8 +6726,10 @@
         fenceCategoryCodeEl.textContent = cat.label;
       }
       updateB1MobileHeadLabel();
-      paths.front = style.assembly.front;
-      paths.back = style.assembly.back || style.assembly.front;
+      const bootAssembly = (defaultTpl && defaultTpl.assembly) || style.assembly;
+      paths.front = bootAssembly.front;
+      paths.back = bootAssembly.back || bootAssembly.front;
+      syncHfVariantFields(paths.front);
 
       host.innerHTML = '';
       if (hostBack) hostBack.innerHTML = '';
@@ -6415,12 +6816,11 @@
       hideLoadError();
       host.innerHTML = '<p style="color:#888;font-size:0.85rem;margin:0">Loading…</p>';
 
-      const state = { ...readState(), side };
       const style = getCurrentStyle();
 
       try {
-        if (wantsStackComposer(style, side) && canStackForState(state)) {
-          await StackComposer.render(host, state, HC);
+        if (wantsStackComposer(style, side) && canStackForState({ ...readState(), side })) {
+          await StackComposer.render(host, { ...readState(), side }, HC);
         } else {
           host.innerHTML = await fetchAssemblyText(side);
         }
@@ -6429,6 +6829,9 @@
         normalizeSvg(svg);
         svg.style.width = '1px';
         svg.style.height = '1px';
+        alignHfSizeStateFromAssembly(svg);
+        syncHfVariantFields(paths.front, svg);
+        const state = { ...readState(), side };
         updatePricingEstimate();
         HC.renderWarnings(warningsEl, state);
         if (!wantsStackComposer(style, side) || !canStackForState(state)) {
@@ -6438,6 +6841,7 @@
         }
         await applyZoom(true);
       } catch (err) {
+        const state = { ...readState(), side };
         if (wantsStackComposer(style, side) && canStackForState(state)) {
           console.warn('[stack-composer] falling back to monolith:', err);
           try {
@@ -6447,7 +6851,10 @@
             normalizeSvg(svg);
             svg.style.width = '1px';
             svg.style.height = '1px';
-            HC.applyConfiguratorToSvgRoot(svg, state);
+            alignHfSizeStateFromAssembly(svg);
+            syncHfVariantFields(paths.front, svg);
+            const fallbackState = { ...readState(), side };
+            HC.applyConfiguratorToSvgRoot(svg, fallbackState);
             await applyZoom(true);
             return;
           } catch (fallbackErr) {
@@ -6750,7 +7157,9 @@
     wireMembershipChrome();
     wireMemberActions();
 
-    [postsEl, postCapsEl, bracketsEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl].forEach((el) => {
+    watchShellLayout();
+
+    [postsEl, postCapsEl, bracketsEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl, fabricWireGridEl, fabricWireFinishEl, fabricLatticeGridEl, fabricLatticeMaterialEl, hfPostSizeEl, hfBoardSizeEl, fenceHeightEl].forEach((el) => {
       if (!el) return;
       el.addEventListener('change', () => {
         if (el === picketFillEl) syncPicketFillUi();
@@ -6760,18 +7169,61 @@
         applyToPreview();
       });
     });
-    syncControlsForStyle(getCurrentStyle());
-    syncPanelVisibility(getCurrentStyle());
-    applyMaterialDefaults(getCurrentStyle().defaults);
-    const bootTemplate = REG.getTemplate(currentStyleId, currentTemplateId);
-    if (bootTemplate) applyMaterialDefaults(bootTemplate.defaults);
-    rebuildTemplateList();
-    syncPresetSelection(currentTemplateId);
-    syncPicketFillUi();
-    updatePricingEstimate();
+      syncControlsForStyle(getCurrentStyle());
+      syncPanelVisibility(getCurrentStyle());
+      syncHfVariantFields(paths.front);
+      syncHfBoardFenceUi(getCurrentStyle());
 
-    applyZoom(true).then(() => loadAssembly('front')).then(bootLayout);
-    watchShellLayout();
+    async function startConfigurator() {
+      const slug = window.CommunityPreset && window.CommunityPreset.getSlug();
+      let communityPreset = null;
+      if (slug && window.CommunityPreset) {
+        try {
+          communityPreset = await window.CommunityPreset.load(slug);
+        } catch (err) {
+          console.warn('[community-preset] load failed', err);
+        }
+      }
+
+      if (communityPreset) {
+        window.CommunityPreset.applyUi(communityPreset);
+        const cfg = communityPreset.configurator;
+        await switchStyle(cfg.styleId, communityPreset.copy?.headline || communityPreset.displayName);
+        applyTemplate(cfg.templateId);
+        window.CommunityPreset.applyDefaults(communityPreset, applyMaterialDefaults, {
+          stainFrameEl,
+          stainPicketEl,
+          stainTrimEl,
+        });
+        window.CommunityPreset.lockControls(communityPreset, {
+          picketFillEl,
+          picketSpacingEl,
+          postsEl,
+          railsEl,
+          trimEl,
+          railCapEl,
+          stainFrameEl,
+          stainPicketEl,
+        });
+      } else {
+        applyMaterialDefaults(getCurrentStyle().defaults);
+        const bootTemplate = REG.getTemplate(currentStyleId, currentTemplateId);
+        if (bootTemplate) applyMaterialDefaults(bootTemplate.defaults);
+        rebuildTemplateList();
+        syncPresetSelection(currentTemplateId);
+      }
+
+      syncPicketFillUi();
+      updatePricingEstimate();
+      await applyZoom(true);
+      await loadAssembly('front');
+      bootLayout();
+    }
+
+    startConfigurator().catch((err) => {
+      console.error('[configurator] boot failed', err);
+      showLoadError(err && err.message ? err.message : 'Configurator failed to start.');
+    });
 
     /** Dev UI code overlay — heritage-ui-naming.md */
     (function initDevUiCodes() {

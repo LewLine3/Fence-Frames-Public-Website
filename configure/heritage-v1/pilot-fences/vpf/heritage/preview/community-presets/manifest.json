@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "presets": [
+    {
+      "slug": "si-view",
+      "file": "si-view.json",
+      "displayName": "Si View Community",
+      "status": "pilot-internal"
+    }
+  ]
+}

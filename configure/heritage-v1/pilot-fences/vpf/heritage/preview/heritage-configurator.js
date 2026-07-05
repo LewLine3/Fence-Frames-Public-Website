@@ -407,6 +407,7 @@ function applyStackMaterials(root, state, line) {
       })
     : MATERIAL.NONE;
   applyRailCap(root, cap, state);
+  applyStain(root, state);
 }
 
 function resolveMaterialUi(state) {
@@ -419,8 +420,227 @@ function resolveMaterialUi(state) {
   };
 }
 
-/** HF horizontal frame — posts + board/rail fills share material slots. */
+/**
+ * Horizontal picket fence — same spacing menu as VPF pickets (rotated 90°),
+ * baked as toggle groups (see HORIZONTAL_PICKET_SPACING_* in hf-frame-geometry.js
+ * / build-hf-frames.js). No-op if the loaded assembly has no picket-spacing groups.
+ */
+function applyHfPicketSpacing(root, state) {
+  const groups = root.querySelectorAll('[data-hf-picket-spacing]');
+  if (!groups.length) return;
+  const active = state.picketSpacing || '1-16-privacy';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-hf-picket-spacing') === active ? '' : 'none';
+  });
+}
+
+/**
+ * Active HF scope — unified board-fence assemblies nest post/board toggles under
+ * `data-hf-board-stack` (butt = Rancher, split = Homesteader). Single-preset
+ * assemblies (horizontal picket, legacy compare pages) have no stack groups.
+ */
+function hfActiveScope(root, state) {
+  const asmRoot = root.querySelector('[data-hf-preset]') || root;
+  let scope = asmRoot;
+
+  const stackGroups = asmRoot.querySelectorAll('[data-hf-board-stack]');
+  if (stackGroups.length >= 2) {
+    const active =
+      state.boardStack || asmRoot.getAttribute('data-board-stack') || 'split';
+    scope =
+      Array.from(stackGroups).find((g) => g.getAttribute('data-hf-board-stack') === active) ||
+      scope;
+  }
+
+  const countGroups = scope.querySelectorAll('[data-hf-board-count]');
+  if (countGroups.length >= 2) {
+    const active = String(
+      state.boardCount ?? asmRoot.getAttribute('data-board-count') ?? '2'
+    );
+    scope =
+      Array.from(countGroups).find((g) => g.getAttribute('data-hf-board-count') === active) ||
+      scope;
+  } else if (countGroups.length === 1) {
+    scope = countGroups[0];
+  }
+
+  return scope;
+}
+
+/**
+ * HF board-stack runtime toggle (legacy butt / split) — only when both are baked.
+ */
+function applyHfBoardStack(root, state) {
+  const asmRoot = root.querySelector('[data-hf-preset]') || root;
+  const groups = asmRoot.querySelectorAll('[data-hf-board-stack]');
+  if (groups.length < 2) return;
+  const active =
+    state.boardStack || asmRoot.getAttribute('data-board-stack') || 'split';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-hf-board-stack') === active ? '' : 'none';
+  });
+}
+
+/**
+ * HF board-count runtime toggle (2 / 3 / 4 rails) — unified board-fence assembly.
+ */
+function applyHfBoardCount(root, state) {
+  const asmRoot = root.querySelector('[data-hf-preset]') || root;
+  let stackScope = asmRoot;
+  const stackGroups = asmRoot.querySelectorAll('[data-hf-board-stack]');
+  if (stackGroups.length >= 2) {
+    const stackActive =
+      state.boardStack || asmRoot.getAttribute('data-board-stack') || 'split';
+    stackScope =
+      Array.from(stackGroups).find(
+        (g) => g.getAttribute('data-hf-board-stack') === stackActive
+      ) || stackScope;
+  }
+
+  const groups = stackScope.querySelectorAll('[data-hf-board-count]');
+  if (groups.length < 2) return;
+  const active = String(state.boardCount ?? asmRoot.getAttribute('data-board-count') ?? '2');
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-hf-board-count') === active ? '' : 'none';
+  });
+}
+
+/**
+ * HF post-size runtime toggle (4×4 / 4×6) — baked as `data-hf-post-size`
+ * groups bundling posts + infill + splice lines for that size (see
+ * hfPostSizeVariantsMarkup in build-hf-frames.js). No-op if the loaded
+ * assembly only has one size baked in — no-op when groups.length < 2.
+ */
+function applyHfPostSize(root, state) {
+  const scope = hfActiveScope(root, state);
+  const groups = scope.querySelectorAll('[data-hf-post-size]');
+  if (groups.length < 2) return;
+  const asmRoot = root.querySelector('[data-hf-preset]') || root;
+  const active =
+    state.postSize || asmRoot.getAttribute('data-post-size') || '4x4';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-hf-post-size') === active ? '' : 'none';
+  });
+}
+
+/**
+ * HF board-size runtime toggle (2×4 / 2×6) — baked as `data-hf-board-size`
+ * groups bundling board infill + splice lines for that size (see
+ * hfBoardSizeVariantsMarkup in build-hf-frames.js). No-op if the loaded
+ * assembly only has one size baked in — no-op when groups.length < 2.
+ */
+function applyHfBoardSize(root, state) {
+  const scope = hfActiveScope(root, state);
+  const groups = scope.querySelectorAll('[data-hf-board-size]');
+  if (groups.length < 2) return;
+  const asmRoot = root.querySelector('[data-hf-preset]') || root;
+  const active =
+    state.boardSize || asmRoot.getAttribute('data-board-size') || '2x4';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-hf-board-size') === active ? '' : 'none';
+  });
+}
+
+/** HF horizontal frame — posts + board fills share the Boards material slot; pickets stay cedar. */
 function applyHfFrameMaterials(root, state) {
+  applyHfBoardStack(root, state);
+  applyHfBoardCount(root, state);
+  applyHfPostSize(root, state);
+  applyHfBoardSize(root, state);
+  applyPostsMaterial(root, state);
+  const { isCedar, isPtAppearance, isPtIncised } = resolveMaterialUi({
+    railsUi: state.railsUi,
+    rails: state.rails,
+  });
+  const isPicketAssembly = root.getAttribute('data-hf-kind') === 'picket';
+
+  root.querySelectorAll('[data-hf-material]').forEach((group) => {
+    const mat = group.getAttribute('data-hf-material');
+    const ptStyle = group.getAttribute('data-hf-pt-style');
+    let show = false;
+    /** Horizontal picket infill = same flat cedar face as VPF pickets, not board/rail PT texture. */
+    if (isPicketAssembly && group.closest('[data-hf-kind="picket"]')) {
+      show = mat === MATERIAL.CEDAR;
+    } else if (mat === MATERIAL.CEDAR) show = isCedar;
+    else if (ptStyle === 'appearance') show = isPtAppearance;
+    else if (ptStyle === 'incised') show = isPtIncised;
+    group.style.display = show ? '' : 'none';
+  });
+
+  applyHfPicketSpacing(root, state);
+}
+
+/**
+ * Fabric welded-wire grid runtime toggle — baked as `data-fabric-wire-grid`
+ * groups (see build-fabric-frames.js / welded-wire-mesh.js).
+ */
+function applyFabricWireGrid(root, state) {
+  const groups = root.querySelectorAll('[data-fabric-wire-grid]');
+  if (!groups.length) return;
+  const active = state.fabricWireGrid || 'grid-2';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-fabric-wire-grid') === active ? '' : 'none';
+  });
+}
+
+function applyFabricWireFinish(root, state) {
+  const groups = root.querySelectorAll('[data-fabric-wire-finish]');
+  if (!groups.length) return;
+  const active = state.fabricWireFinish || 'galvanized';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-fabric-wire-finish') === active ? '' : 'none';
+  });
+}
+
+function applyFabricLatticeGrid(root, state) {
+  const groups = root.querySelectorAll('[data-fabric-lattice-grid]');
+  if (!groups.length) return;
+  const active = state.fabricLatticeGrid || 'grid-2';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-fabric-lattice-grid') === active ? '' : 'none';
+  });
+}
+
+function applyFabricLatticeMaterial(root, state) {
+  const groups = root.querySelectorAll('[data-fabric-lattice-material]');
+  if (!groups.length) return;
+  const active = state.fabricLatticeMaterial || 'composite';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-fabric-lattice-material') === active ? '' : 'none';
+  });
+}
+
+/** Fabric trim sandwich — 1×4 strips hide fabric-to-rail connections (2T = top + bottom). */
+function applyFabricTrim(root, state) {
+  const group = byId(root, 'Trim-Group');
+  if (!group) return;
+
+  const { tier, material } = parseTrimPackage(state.trim);
+  const showTop = tier === '1t' || tier === '2t' || tier === '3t';
+  const showBottom = tier === '2t' || tier === '3t';
+
+  group.style.display = showTop || showBottom ? '' : 'none';
+
+  const top = byId(root, 'Top-Trim-Group');
+  const bottom = byId(root, 'Bottom-Trim-Group');
+  if (top) top.style.display = showTop ? '' : 'none';
+  if (bottom) bottom.style.display = showBottom ? '' : 'none';
+
+  for (const groupId of ['Top-Trim-Group', 'Bottom-Trim-Group']) {
+    const trimRoot = byId(root, groupId);
+    if (!trimRoot) continue;
+    const cedar = trimRoot.querySelector('[data-trim-material="cedar"]');
+    const pt = trimRoot.querySelector('[data-trim-material="pt"]');
+    if (cedar) cedar.style.display = material === MATERIAL.CEDAR ? '' : 'none';
+    if (pt) pt.style.display = material === MATERIAL.PT ? '' : 'none';
+  }
+
+  group.setAttribute('data-resolved-tier', tier);
+  group.setAttribute('data-resolved-material', material || MATERIAL.NONE);
+}
+
+/** Fabric frame — posts + 2×4 rails share the Rails material slot; infill + trim toggles separately. */
+function applyFabricFrameMaterials(root, state) {
   applyPostsMaterial(root, state);
   const { isCedar, isPtAppearance, isPtIncised } = resolveMaterialUi({
     railsUi: state.railsUi,
@@ -436,10 +656,21 @@ function applyHfFrameMaterials(root, state) {
     else if (ptStyle === 'incised') show = isPtIncised;
     group.style.display = show ? '' : 'none';
   });
+
+  const fabricKind = root.getAttribute('data-fabric-kind');
+  if (fabricKind === 'welded-wire') {
+    applyFabricWireGrid(root, state);
+    applyFabricWireFinish(root, state);
+  } else if (fabricKind === 'lattice') {
+    applyFabricLatticeGrid(root, state);
+    applyFabricLatticeMaterial(root, state);
+  }
+  applyFabricTrim(root, state);
 }
 
 function detectPilotMode(svgRoot, state) {
   if (state.pilotMode) return state.pilotMode;
+  if (svgRoot.querySelector('[data-fabric-preset]')) return 'fabric-frame';
   if (svgRoot.querySelector('[data-hf-preset]')) return 'hf-frame';
   return 'vpf-heritage';
 }
@@ -549,11 +780,89 @@ function applySideVisibility(root, side) {
   });
 }
 
+/**
+ * Stain — native SVG multiply-blend tint painted over whichever material fill
+ * is already visible. No new sym art per stain × material combo, no raster
+ * layer: a single <rect data-stain-overlay> sibling per matched fill group,
+ * sized via getBBox() and composited with mix-blend-mode:multiply so grain/
+ * pattern stays visible underneath. Same attribute selectors resolve inside
+ * both the monolith assembly and stack-composer's merged sym layers, so one
+ * implementation covers both render modes.
+ */
+const STAIN_FRAME_TARGET = {
+  'pt-brown': STAIN.pt,
+  'cedar-natural': STAIN.cedar,
+};
+const STAIN_PICKET_TARGET = {
+  'cedar-natural': STAIN.cedar,
+};
+const STAIN_TRIM_TARGET = {
+  'cedar-trim': STAIN.cedarTrim,
+  'pt-trim': STAIN.ptTrim,
+};
+const STAIN_OPACITY = '0.5';
+
+function paintStainOverlay(group, color) {
+  const existing = group.querySelector(':scope > rect[data-stain-overlay]');
+  if (!color || group.style.display === 'none') {
+    if (existing) existing.style.display = 'none';
+    return;
+  }
+  let box;
+  try {
+    box = group.getBBox();
+  } catch (err) {
+    return;
+  }
+  if (!box || !box.width || !box.height) {
+    if (existing) existing.style.display = 'none';
+    return;
+  }
+  const rect = existing || document.createElementNS(SVG_NS, 'rect');
+  if (!existing) {
+    rect.setAttribute('data-stain-overlay', 'true');
+    rect.setAttribute('pointer-events', 'none');
+    rect.style.mixBlendMode = 'multiply';
+    group.appendChild(rect);
+  }
+  rect.setAttribute('x', String(box.x));
+  rect.setAttribute('y', String(box.y));
+  rect.setAttribute('width', String(box.width));
+  rect.setAttribute('height', String(box.height));
+  rect.setAttribute('fill', color);
+  rect.setAttribute('fill-opacity', STAIN_OPACITY);
+  rect.style.display = '';
+}
+
+function applyStainToSelector(root, selector, color) {
+  root.querySelectorAll(selector).forEach((group) => paintStainOverlay(group, color));
+}
+
+function applyStain(root, state) {
+  if (!root) return;
+  const frameColor = STAIN_FRAME_TARGET[state.stainFrame] || null;
+  applyStainToSelector(root, '[data-post-material]', frameColor);
+  applyStainToSelector(root, '[data-frame-material]', frameColor);
+  applyStainToSelector(root, '[data-cap-material]', frameColor);
+
+  const picketColor = STAIN_PICKET_TARGET[state.stainPicket] || null;
+  root
+    .querySelectorAll('.picket-fill-layer, [data-layer-id="pickets"]')
+    .forEach((layer) => paintStainOverlay(layer, picketColor));
+
+  const trimColor = STAIN_TRIM_TARGET[state.stainTrim] || null;
+  applyStainToSelector(root, '[data-trim-material]', trimColor);
+}
+
 function applyConfiguratorToSvgRoot(svgRoot, state) {
   if (!svgRoot) return;
   const mode = detectPilotMode(svgRoot, state);
   if (mode === 'hf-frame') {
     applyHfFrameMaterials(svgRoot, state);
+    return;
+  }
+  if (mode === 'fabric-frame') {
+    applyFabricFrameMaterials(svgRoot, state);
     return;
   }
   const fenceLine = state.framePreset || state.fenceLine || 'heritage-vpf';
@@ -571,6 +880,7 @@ function applyConfiguratorToSvgRoot(svgRoot, state) {
   applySideVisibility(svgRoot, state.side);
   const capSlot = svgRoot.querySelector('[data-slot="rail-cap-material"]');
   if (capSlot) capSlot.setAttribute('data-resolved-cap', showRailCap ? cap : MATERIAL.NONE);
+  applyStain(svgRoot, state);
 }
 
 function applyConfiguratorToSvg(doc, state) {
@@ -620,7 +930,14 @@ window.HeritageConfigurator = {
   applyConfiguratorToSvgRoot,
   applyRailCap,
   applyStackMaterials,
+  applyStain,
   applyHfFrameMaterials,
+  applyFabricFrameMaterials,
+  applyFabricWireGrid,
+  applyFabricWireFinish,
+  applyFabricLatticeGrid,
+  applyFabricLatticeMaterial,
+  applyFabricTrim,
   applyVpfLine,
   detectPilotMode,
   formatTrimLabel,
