@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Development Dashboard & Demo Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #101412;
+      --panel: #1b221d;
+      --panel-hover: #242c26;
+      --border-subtle: rgba(226, 212, 188, 0.18);
+      --tan: #e2d4bc;
+      --tan-muted: rgba(226, 212, 188, 0.75);
+      --gold: #d4af37;
+      --cream: #f7f1e6;
+      --charcoal: #36454f;
+      --ink: #1a1a1a;
+      --forest: #2f5d3a;
+      --forest-deep: #1e3d28;
+      --font: "Rowdies", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-weight: 400;
+      color: var(--tan);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(47, 93, 58, 0.25), transparent 55%),
+        linear-gradient(180deg, #0b0e0c 0%, var(--bg-dark) 45%, #141a16 100%);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 68rem; margin: 0 auto; padding: clamp(1.2rem, 3vw, 2.2rem); }
+    header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .brand {
+      margin: 0;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .tag {
+      margin: 0.3rem 0 0;
+      font-weight: 300;
+      color: var(--tan-muted);
+      font-size: 0.95rem;
+    }
+    .tag code {
+      font-size: 0.85em;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      color: var(--tan);
+    }
+    
+    /* Control Toolbar Banner */
+    .banner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, rgba(47, 93, 58, 0.35), rgba(27, 34, 29, 0.95));
+      border: 1px solid var(--forest);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .banner p {
+      margin: 0;
+      flex: 1 1 18rem;
+      color: var(--cream);
+      font-size: 0.92rem;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1.2rem;
+      border-radius: 8px;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: var(--gold); color: var(--ink); }
+    .btn-gold:hover { background: #e5be3b; }
+    .btn-forest { background: var(--forest); color: var(--cream); border-color: rgba(47, 93, 58, 0.6); }
+    .btn-forest:hover { background: var(--forest-deep); }
+    .btn-ghost {
+      background: rgba(226, 212, 188, 0.08);
+      color: var(--tan);
+      border-color: rgba(226, 212, 188, 0.3);
+    }
+    .btn-ghost:hover {
+      border-color: var(--tan);
+      background: rgba(226, 212, 188, 0.16);
+    }
+
+    section.block { margin-bottom: 2.2rem; }
+    .block-head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .block-head h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+    .badge {
+      display: inline-flex;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: var(--charcoal);
+      color: var(--tan);
+    }
+    .badge.active { background: var(--forest); color: var(--cream); }
+    .badge.gold { background: var(--gold); color: var(--ink); font-weight: 700; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      gap: 1rem;
+    }
+
+    /* Cards */
+    a.card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 1.2rem;
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    a.card:hover {
+      background: var(--panel-hover);
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    a.card.hero-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(47, 93, 58, 0.2), var(--panel));
+      border: 2px solid var(--gold);
+    }
+    a.card .title { font-weight: 700; font-size: 1.05rem; color: var(--cream); }
+    a.card .meta { font-size: 0.82rem; font-weight: 300; color: var(--tan-muted); line-height: 1.4; }
+    a.card .chip {
+      margin-top: auto;
+      padding-top: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--tan-muted);
+      font-size: 0.82rem;
+      font-weight: 300;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    
+    <!-- Header -->
+    <header>
+      <div>
+        <h1 class="brand">Fence Frames</h1>
+        <p class="tag">
+          Development Dashboard &amp; Master Demo Hub • Root: <code>C:\Users\TwoLe\Lew-Line-Workspaces</code>
+        </p>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--gold); text-align: right;">
+        <div>Workspace: <strong>Lew-Line-Workspaces</strong></div>
+        <div>No Server Required to View</div>
+      </div>
+    </header>
+
+    <!-- Top Server Launcher Toolbar -->
+    <div class="banner">
+      <div>
+        <p><strong>Live Servers &amp; Previews:</strong></p>
+        <span style="font-size: 0.82rem; color: var(--tan-muted);">
+          <code>:5173</code> Live Vite App • <code>:5199</code> Ops Hub &amp; Configurator • <code>:5198</code> Wix Prototypes
+        </span>
+      </div>
+      <div class="actions">
+        <a class="btn btn-gold" href="http://localhost:5173/" target="_blank">🚀 Launch :5173 Live App</a>
+        <a class="btn btn-forest" href="http://localhost:5199/" target="_blank">⚙️ Ops Hub (:5199)</a>
+        <a class="btn btn-ghost" href="http://localhost:5198/" target="_blank">🌐 Wix Prototypes (:5198)</a>
+      </div>
+    </div>
+
+    <!-- FEATURED DEMO (VITE APP) -->
+    <section class="block">
+      <div class="block-head">
+        <span class="badge gold">PRIMARY DEMO</span>
+        <h2>Fence Frames Full App Demo (Vite)</h2>
+      </div>
+      <a class="card hero-card" href="http://localhost:5173/" target="_blank">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <div class="title" style="font-size: 1.3rem; color: var(--gold);">Fence Frames Live Application Demo</div>
+            <div class="meta" style="font-size: 0.92rem; margin-top: 0.3rem;">
+              The Detail Wizard • 3-Seat SMS Scramble • Heritage VPF Quote Engine ($MC × 1.25 + Labor + 15%-20% Admin) • 1-Page Landscape ARC Blueprint Sheet • Dynamic SEO Community Routes (/wa/king-county/north-bend/si-view)
+            </div>
+          </div>
+          <span class="btn btn-gold" style="white-space: nowrap;">Open App →</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- VISUAL DESIGN MOCKUPS GALLERY -->
+    <section class="block">
+      <div class="block-head">
+        <span class="badge active">DESIGN MOCKUPS</span>
+        <h2>Visual JPG Mockup Gallery</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--tan-muted); margin-bottom: 1rem;">
+        Click any item to view the high-resolution design mockup from <code>FenceBook/docs/design-mockups/</code>.
+      </p>
+
+      <div class="grid">
+        
+        <a class="card" href="../FenceBook/docs/design-mockups/guided_wizard_mockup_1785429435623.jpg" target="_blank">
+          <div class="title">🧙‍♂️ Guided Wizard Mockup</div>
+          <div class="meta">Interactive choice cards, 2D vector preview canvas &amp; component callout tags</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/design-mockups/blueprint_spec_mockup_1785429027936.jpg" target="_blank">
+          <div class="title">📐 Architectural Blueprint Spec</div>
+          <div class="meta">Drafting grid view, 4-step foundation/rail/picket assembly &amp; title block</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/design-mockups/step5_pdf_blueprint_stamp_mockup_1785429827571.jpg" target="_blank">
+          <div class="title">📜 Official HOA Approval Stamp</div>
+          <div class="meta">Licensed Architectural Engineer stamp badge &amp; PDF export button</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/design-mockups/material_ledger_mockup_1785429037990.jpg" target="_blank">
+          <div class="title">📊 Material BOM &amp; Cut-List Ledger</div>
+          <div class="meta">94% Lumberyard cut efficiency, itemized ledger &amp; financial breakdown</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/design-mockups/progressive_build_wizard_mockup_1785429738093.jpg" target="_blank">
+          <div class="title">🛠️ Progressive Framing Builder</div>
+          <div class="meta">Isolated post &amp; rail framing schematic with dimension callout lines</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/design-mockups/designer_workspace_mockup_1785429017703.jpg" target="_blank">
+          <div class="title">🎨 Visual Designer Workspace</div>
+          <div class="meta">Full 2D/3D visual canvas builder workspace</div>
+          <div class="chip">View JPG Mockup →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- CORE SPECS & ARCHITECTURE DOCS -->
+    <section class="block">
+      <div class="block-head">
+        <span class="badge active">SPECIFICATIONS</span>
+        <h2>Master Architecture &amp; Handbook Documents</h2>
+      </div>
+
+      <div class="grid">
+        
+        <a class="card" href="../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/implementation_plan.md" target="_blank">
+          <div class="title">📄 Master Implementation Plan</div>
+          <div class="meta">Locked Handbook specs vs proposal comparison &amp; system architecture</div>
+          <div class="chip">View Markdown Spec →</div>
+        </a>
+
+        <a class="card" href="../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/walkthrough.md" target="_blank">
+          <div class="title">📋 Execution Walkthrough</div>
+          <div class="meta">Build verification results, quote engine math &amp; Supabase SQL schema</div>
+          <div class="chip">View Walkthrough →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/handbook/00-handbook.md" target="_blank">
+          <div class="title">📘 Handbook Index (Canon)</div>
+          <div class="meta">Official canonical specification index &amp; status locked rules</div>
+          <div class="chip">View Handbook →</div>
+        </a>
+
+        <a class="card" href="../FenceBook/docs/handbook/monetization_rules.md" target="_blank">
+          <div class="title">💰 Monetization Rules Spec</div>
+          <div class="meta">Seat pricing matrix, Telnyx SMS scramble &amp; 72h filled board display</div>
+          <div class="chip">View Monetization Rules →</div>
+        </a>
+
+        <a class="card" href="../Design/FenceBook/wix-pages/tokens/ff-marketing-tokens.css" target="_blank">
+          <div class="title">🎨 Marketing Design System Tokens</div>
+          <div class="meta">Rowdies trio typography &amp; Forest Green / Tan color variables</div>
+          <div class="chip">View CSS Tokens →</div>
+        </a>
+
+        <a class="card" href="../Fence-Frames-Wix-Site/docs/page-templates/City.template.js" target="_blank">
+          <div class="title">🏙️ Dynamic Location Page Template</div>
+          <div class="meta">SEO URL routing /wa/{county}/{city}/{community} template logic</div>
+          <div class="chip">View JS Template →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- DYNAMIC PINS FROM PINS.JSON -->
+    <section class="block">
+      <div class="block-head">
+        <span class="badge">PINNED DEMOS</span>
+        <h2>Pinned Links &amp; Workspace Artifacts</h2>
+      </div>
+      <div class="grid" id="pins-grid">
+        <!-- Rendered dynamically from pins.json -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Fence Frames • Development Dashboard &amp; Master Demo Hub • "Frame Your Vision | Find Your Fence"</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Fetch and render pins.json dynamically
+    fetch('./pins.json')
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById('pins-grid');
+        if (!grid || !data.pins) return;
+        
+        grid.innerHTML = data.pins.map(pin => `
+          <a class="card" href="${pin.href}" target="_blank">
+            <div class="title">${pin.title}</div>
+            <div class="meta">${pin.meta}</div>
+            <div class="chip">${pin.permanent ? '📌 PERMANENT PIN' : 'LINK'} →</div>
+          </a>
+        `).join('');
+      })
+      .catch(err => console.log('Pins load info:', err));
+  </script>
+</body>
+</html>

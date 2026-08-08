@@ -1,0 +1,77 @@
+{
+  "updated": "2026-08-07",
+  "maxPins": 20,
+  "note": "Fence Frames Development Hub pins. Agent and user managed.",
+  "pins": [
+    {
+      "title": "Fence Frames Live App (Vite)",
+      "meta": "Detail Wizard · 3-Seat Scramble · Quote Engine · 1-Page ARC Sheet",
+      "href": "http://localhost:5173/",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Master Implementation Plan",
+      "meta": "Locked Handbook specs vs proposal comparison document",
+      "href": "../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/implementation_plan.md",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Handbook Index (Canon)",
+      "meta": "Primary specification index and status locked rules",
+      "href": "../FenceBook/docs/handbook/00-handbook.md",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Monetization Rules Spec",
+      "meta": "Seat pricing tiers · SMS scramble · 72h filled board badge",
+      "href": "../FenceBook/docs/handbook/monetization_rules.md",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Marketing Design System Tokens",
+      "meta": "Rowdies trio typography & Forest / Tan palette variables",
+      "href": "../Design/FenceBook/wix-pages/tokens/ff-marketing-tokens.css",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Visual Design Mockups Gallery",
+      "meta": "8 JPG mockups: Wizard, Blueprint Stamp, Ledger & Cut-List",
+      "href": "../FenceBook/docs/design-mockups/guided_wizard_mockup_1785429435623.jpg",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
+      "title": "Si View Pitch · 01 Configurator",
+      "meta": "PNG snapshot · Heritage cedar VPF layout",
+      "href": "../Design/FenceBook/templates/hoa-pitch/si-view/01-configurator.html",
+      "permanent": true,
+      "added": "2026-07-23"
+    },
+    {
+      "title": "Si View Pitch · 02 Blueprint",
+      "meta": "PNG snapshot · Component schedule & rule summary",
+      "href": "../Design/FenceBook/templates/hoa-pitch/si-view/02-blueprint.html",
+      "permanent": true,
+      "added": "2026-07-23"
+    },
+    {
+      "title": "Component Encyclopedia Framework",
+      "meta": "Metrics spine · slot → component → SKU",
+      "href": "../FenceBook/docs/component-encyclopedia-framework.md",
+      "permanent": true,
+      "added": "2026-07-20"
+    },
+    {
+      "title": "City Dynamic Template",
+      "meta": "Studio item page spec & community repeater logic",
+      "href": "../Fence-Frames-Wix-Site/docs/page-templates/City.template.js",
+      "permanent": false,
+      "added": "2026-08-07"
+    }
+  ]
+}
