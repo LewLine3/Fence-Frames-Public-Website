@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Development Dashboard & Demo Hub</title>
+  <title>Fence Frames — Portable Development Dashboard & Demo Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet" />
@@ -206,19 +206,19 @@
       <div>
         <h1 class="brand">Fence Frames</h1>
         <p class="tag">
-          Development Dashboard &amp; Master Demo Hub • Root: <code>C:\Users\TwoLe\Lew-Line-Workspaces</code>
+          Portable Development Dashboard &amp; Master Demo Hub • Works on Any PC
         </p>
       </div>
       <div style="font-size: 0.85rem; color: var(--gold); text-align: right;">
         <div>Workspace: <strong>Lew-Line-Workspaces</strong></div>
-        <div>No Server Required to View</div>
+        <div>Zero Server Required to View</div>
       </div>
     </header>
 
     <!-- Top Server Launcher Toolbar -->
     <div class="banner">
       <div>
-        <p><strong>Live Servers &amp; Previews:</strong></p>
+        <p><strong>Live App Servers &amp; Previews:</strong></p>
         <span style="font-size: 0.82rem; color: var(--tan-muted);">
           <code>:5173</code> Live Vite App • <code>:5199</code> Ops Hub &amp; Configurator • <code>:5198</code> Wix Prototypes
         </span>
@@ -237,7 +237,7 @@
         <h2>Fence Frames Full App Demo (Vite)</h2>
       </div>
       <a class="card hero-card" href="http://localhost:5173/" target="_blank">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
           <div>
             <div class="title" style="font-size: 1.3rem; color: var(--gold);">Fence Frames Live Application Demo</div>
             <div class="meta" style="font-size: 0.92rem; margin-top: 0.3rem;">
@@ -308,14 +308,20 @@
       </div>
 
       <div class="grid">
+
+        <a class="card" href="../Obsidian/Fence%20Frames/Website-Progress-Tracker.md" target="_blank">
+          <div class="title">📊 Website Progress Tracker</div>
+          <div class="meta">Master route matrix comparing Plan vs Demo vs Staging status across all 7 surfaces</div>
+          <div class="chip">View Route Matrix →</div>
+        </a>
         
-        <a class="card" href="../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/implementation_plan.md" target="_blank">
+        <a class="card" href="../Obsidian/Fence%20Frames/Implementation-Plan-Path-B.md" target="_blank">
           <div class="title">📄 Master Implementation Plan</div>
           <div class="meta">Locked Handbook specs vs proposal comparison &amp; system architecture</div>
-          <div class="chip">View Markdown Spec →</div>
+          <div class="chip">View Implementation Plan →</div>
         </a>
 
-        <a class="card" href="../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/walkthrough.md" target="_blank">
+        <a class="card" href="../Obsidian/Fence%20Frames/Execution-Walkthrough-Path-B.md" target="_blank">
           <div class="title">📋 Execution Walkthrough</div>
           <div class="meta">Build verification results, quote engine math &amp; Supabase SQL schema</div>
           <div class="chip">View Walkthrough →</div>
@@ -339,23 +345,17 @@
           <div class="chip">View CSS Tokens →</div>
         </a>
 
-        <a class="card" href="../Fence-Frames-Wix-Site/docs/page-templates/City.template.js" target="_blank">
-          <div class="title">🏙️ Dynamic Location Page Template</div>
-          <div class="meta">SEO URL routing /wa/{county}/{city}/{community} template logic</div>
-          <div class="chip">View JS Template →</div>
-        </a>
-
       </div>
     </section>
 
-    <!-- DYNAMIC PINS FROM PINS.JSON -->
+    <!-- DYNAMIC PINS FROM PINS.JSON WITH EMBEDDED FALLBACK -->
     <section class="block">
       <div class="block-head">
         <span class="badge">PINNED DEMOS</span>
-        <h2>Pinned Links &amp; Workspace Artifacts</h2>
+        <h2>Workspace Quick Pins</h2>
       </div>
       <div class="grid" id="pins-grid">
-        <!-- Rendered dynamically from pins.json -->
+        <!-- Rendered dynamically or via embedded fallback -->
       </div>
     </section>
 
@@ -367,22 +367,69 @@
   </div>
 
   <script>
-    // Fetch and render pins.json dynamically
+    // Portable Pins Fallback Data (Guarantees dashboard works on any PC even over file:// protocol)
+    const fallbackPins = [
+      {
+        "title": "Fence Frames Live App (Vite)",
+        "meta": "Detail Wizard · 3-Seat Scramble · Quote Engine · 1-Page ARC Sheet",
+        "href": "http://localhost:5173/",
+        "permanent": true
+      },
+      {
+        "title": "Website Progress Tracker",
+        "meta": "Master route matrix & Plan vs Demo vs Staging delta",
+        "href": "../Obsidian/Fence%20Frames/Website-Progress-Tracker.md",
+        "permanent": true
+      },
+      {
+        "title": "Master Implementation Plan",
+        "meta": "Path B design specs & Supabase schema",
+        "href": "../Obsidian/Fence%20Frames/Implementation-Plan-Path-B.md",
+        "permanent": true
+      },
+      {
+        "title": "Execution Walkthrough",
+        "meta": "Quote engine math & database locking verification",
+        "href": "../Obsidian/Fence%20Frames/Execution-Walkthrough-Path-B.md",
+        "permanent": true
+      },
+      {
+        "title": "Handbook Index (Canon)",
+        "meta": "Primary specification index and status locked rules",
+        "href": "../FenceBook/docs/handbook/00-handbook.md",
+        "permanent": true
+      },
+      {
+        "title": "Monetization Rules Spec",
+        "meta": "Seat pricing tiers · SMS scramble · 72h filled board badge",
+        "href": "../FenceBook/docs/handbook/monetization_rules.md",
+        "permanent": true
+      },
+      {
+        "title": "Marketing Design System Tokens",
+        "meta": "Rowdies trio typography & Forest / Tan palette variables",
+        "href": "../Design/FenceBook/wix-pages/tokens/ff-marketing-tokens.css",
+        "permanent": true
+      }
+    ];
+
+    function renderPins(pins) {
+      const grid = document.getElementById('pins-grid');
+      if (!grid || !pins) return;
+      grid.innerHTML = pins.map(pin => `
+        <a class="card" href="${pin.href}" target="_blank">
+          <div class="title">${pin.title}</div>
+          <div class="meta">${pin.meta}</div>
+          <div class="chip">${pin.permanent ? '📌 PINNED' : 'LINK'} →</div>
+        </a>
+      `).join('');
+    }
+
+    // Try fetching pins.json, fall back to embedded data if CORS file:// restriction occurs
     fetch('./pins.json')
       .then(res => res.json())
-      .then(data => {
-        const grid = document.getElementById('pins-grid');
-        if (!grid || !data.pins) return;
-        
-        grid.innerHTML = data.pins.map(pin => `
-          <a class="card" href="${pin.href}" target="_blank">
-            <div class="title">${pin.title}</div>
-            <div class="meta">${pin.meta}</div>
-            <div class="chip">${pin.permanent ? '📌 PERMANENT PIN' : 'LINK'} →</div>
-          </a>
-        `).join('');
-      })
-      .catch(err => console.log('Pins load info:', err));
+      .then(data => renderPins(data.pins))
+      .catch(() => renderPins(fallbackPins));
   </script>
 </body>
 </html>
