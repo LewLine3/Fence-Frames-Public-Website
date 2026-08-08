@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 112" width="140in" height="112in">
+  <title>Two Rail Wide Style</title>
+  <desc>FenceBook overlay. 1 viewBox unit = 1 inch. Artboard 140×112 in. Panel (22,20)–(118,92). Bleed 14–126.</desc>
+  <defs>
+    <pattern id="pt-incision" patternUnits="userSpaceOnUse" width="1.25" height="1.25">
+      <rect width="1.25" height="1.25" fill="#6b4535"/>
+      <line x1="0" y1="1.25" x2="1.25" y2="0" stroke="#523328" stroke-width="0.1"/>
+      <line x1="0.15" y1="1.1" x2="0.4" y2="0.85" stroke="#523328" stroke-width="0.08"/>
+    </pattern>
+  </defs>
+  <style>
+    .stain-pt-ground-contact { fill: url(#pt-incision); stroke: #523328; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-cedar-natural { fill: #b8886b; stroke: #6b4f3a; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-metal-dark { fill: #6b7280; stroke: #374151; stroke-width: 0.15; paint-order: stroke fill; }
+  </style>
+  <g id="component-rail-cedar-two-rail-wide">
+    <path class="stain-pt-ground-contact" stroke-alignment="inner" d="M 22.5 20.35 L 22.85 20 L 25.65 20 L 26 20.35 L 26 92 L 22.5 92 Z" />
+    <path class="stain-pt-ground-contact" stroke-alignment="inner" d="M 110.5 20.35 L 110.85 20 L 113.65 20 L 114 20.35 L 114 92 L 110.5 92 Z" />
+    <rect class="stain-pt-ground-contact" stroke-alignment="inner" x="26" y="26" width="88" height="3.5" />
+    <rect class="stain-pt-ground-contact" stroke-alignment="inner" x="26" y="82.5" width="88" height="3.5" />
+  </g>
+</svg>

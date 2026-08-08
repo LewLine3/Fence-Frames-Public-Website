@@ -1,0 +1,73 @@
+{
+  "slug": "si-view",
+  "displayName": "Si View Community",
+  "city": "North Bend, WA",
+  "approvedBuildName": "Standard Si View Privacy Fence",
+  "airtable": {
+    "communityGuidelinesRecordId": "rec6z8LkCdHKylV93",
+    "configuratorHoaRecordId": null
+  },
+  "visualReference": "docs/HOA/si-view/si-view-visual-reference.md",
+  "configurator": {
+    "categoryId": "vpf",
+    "styleId": "vpf-natural-wood",
+    "templateId": "default",
+    "defaults": {
+      "fenceHeight": "6ft",
+      "posts": "pt-incised",
+      "rails": "pt-incised",
+      "trim": "pt-1t",
+      "railCap": "on",
+      "capMode": "match-rails",
+      "postCaps": "none",
+      "brackets": "none",
+      "picketFill": "standard",
+      "picketSpacing": "1-16-privacy",
+      "stainFrame": "pt-brown",
+      "stainPicket": "cedar-natural"
+    },
+    "lock": {
+      "fenceHeight": "6ft",
+      "picketFill": "standard",
+      "picketSpacing": "1-16-privacy",
+      "maxHeightFt": 6
+    },
+    "hide": {
+      "categories": ["horizontal", "fabric", "hand-guardrail"],
+      "styles": ["vpf-composite-vinyl"],
+      "templates": ["lineage", "legacy", "base"],
+      "controls": [
+        "fence-category-picker",
+        "fence-style-picker",
+        "templates-panel",
+        "picketSpacingField"
+      ]
+    },
+    "allow": {
+      "materials": ["wood"],
+      "postMaterial": ["pt-incised", "pt-appearance"],
+      "picketStyles": ["flat-top-cedar"]
+    }
+  },
+  "copy": {
+    "headline": "Standard Si View Privacy Fence",
+    "subhead": "Design the approved 6′ cedar privacy style for Si View Community.",
+    "disclaimer": "Unofficial planning tool — submit to Si View ARC (PayHOA) before building."
+  },
+  "rulesSummary": {
+    "height": "6 ft maximum",
+    "pickets": "1×4 cedar, ≤¼″ gap",
+    "rails": "2×4 cedar top and bottom nailers",
+    "posts": "4×4 PT, max 8 ft on center",
+    "finish": "Pre-approved solid-color stain within 60 days",
+    "cornerSetback": "5 ft from lot line when side fence faces street"
+  },
+  "notIncluded": [
+    "ornamental-36in",
+    "gates",
+    "board-on-board",
+    "shadowbox",
+    "vinyl-composite",
+    "second-approved-style"
+  ]
+}

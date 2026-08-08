@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89.375 3.5" width="12870" height="504">
+  <title>sym-trim-bottom-pt</title>
+  <desc>Heritage trim 2T · bottom · pt. Extracted from asm-heritage-hrtg-frame.svg (fill-Bottom-Trim-Group-pt).</desc>
+  <defs>
+    <pattern id="pt-trim-grain-bottom" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="12" height="3.125" patternTransform="translate(0.1875, 0.1875)">
+      <path d="M 10.15625 0.21875 L 11.90625 0.21875" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="1"/>
+      <path d="M 7.8125 0.3125 L 9.59375 0.3125" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.95"/>
+      <path d="M 1.8125 0.4375 L 5.1875 0.4375" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="1"/>
+      <path d="M 0.40625 0.625 L 3.59375 0.625" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.96"/>
+      <path d="M 5.09375 0.84375 L 7.90625 0.84375" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.95"/>
+      <path d="M 8.5 1.0625 L 10.90625 1.0625" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.98"/>
+      <path d="M 0.1875 1.28125 L 3.6875 1.28125" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.97"/>
+      <path d="M 6.8125 1.46875 L 9.40625 1.46875" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.94"/>
+      <path d="M 2.5 1.6875 L 6.3125 1.6875" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.96"/>
+      <path d="M 9.1875 1.90625 L 11.6875 1.90625" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.95"/>
+      <path d="M 5.5 2.125 L 9.40625 2.125" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.92"/>
+      <path d="M 1.1875 2.3125 L 5.6875 2.3125" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.98"/>
+      <path d="M 7.8125 2.53125 L 11 2.53125" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.94"/>
+      <path d="M 0.59375 2.75 L 3.6875 2.75" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.93"/>
+      <path d="M 4.1875 2.9375 L 7.8125 2.9375" fill="none" stroke="#2e1e12" stroke-width="0.078125" stroke-linecap="round" opacity="0.96"/>
+      <rect x="0" y="0" width="12" height="0.15625" fill="#dcc890" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <g id="sym-trim-bottom-pt" data-trim-tier="2T" data-trim-position="bottom" data-trim-material="pt">
+    <g id="shell">
+      <rect x="0" y="0" width="89.375" height="3.5" fill="#000000"/>
+    </g>
+    <g id="fill">
+<g id="fill-Bottom-Trim-Group-pt" data-trim-material="pt">
+                <rect x="0.1875" y="0.1875" width="89" height="3.125" fill="#755038"/>
+              <rect x="0.1875" y="0.1875" width="89" height="3.125" fill="url(#pt-trim-grain-bottom)"/>
+              </g>
+    </g>
+    <g class="trim-nails" data-slot="trim-nails" data-trim-tier="2T" data-visible="front" fill="none">
+              <g class="trim-nail">
+                <circle cx="2" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="2" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="2" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="2" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="14.1875" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="14.1875" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="14.1875" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="14.1875" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="26.40625" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="26.40625" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="26.40625" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="26.40625" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="38.59375" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="38.59375" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="38.59375" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="38.59375" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="50.78125" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="50.78125" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="50.78125" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="50.78125" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="62.96875" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="62.96875" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="62.96875" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="62.96875" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="75.1875" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="75.1875" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="75.1875" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="75.1875" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="87.375" cy="0.6875" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="87.375" cy="0.6875" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+              <g class="trim-nail">
+                <circle cx="87.375" cy="2.8125" r="0.0625" fill="#222222" stroke="#080808" stroke-width="0.03125"/>
+                <circle cx="87.375" cy="2.8125" r="0.03125" fill="#333333" opacity="0.22"/>
+              </g>
+            </g>
+  </g>
+</svg>

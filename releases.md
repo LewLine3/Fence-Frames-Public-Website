@@ -1,0 +1,20 @@
+# Heritage embed releases (`configure/heritage-v1`)
+
+Log every **GitHub Pages** push. Local `:5199` work is **DEV** — do not log here.
+
+| buildId | category | commit | summary | smoke |
+|---------|----------|--------|---------|-------|
+| 2026-06-24 | PILOT | 260cc34 | Soft-launch baseline — Heritage VPF stack composer live | backcheck + live /configure |
+| 2026-07-03 | PILOT | 6ca947d | Responsive breakpoint + layout sweep: unify 899/900 mobile/tablet, fix panel-ring clipping, merge B1 grid rules | skipped — owner smoke in Wix |
+| 2026-07-05 | PILOT | db5fc31 | HF board fence + horizontal picket assemblies; multi-category pilot; community presets; middle trim syms | backcheck:configurator |
+
+## How to add a row
+
+1. Set `FF_BUNDLE_CATEGORY` (SYM | ASM | CFG | PILOT | HOTFIX)
+2. Build, smoke per `_workspaces/.cursor/rules/ff-embed-bundle-release.mdc`
+3. Push `main`, confirm live `bundle-manifest.json`
+4. Append row: `buildId`, category, short git hash, one-line summary, smoke tier passed
+
+## Commit prefix
+
+`[CATEGORY] heritage-v1 YYYY-MM-DD: summary`

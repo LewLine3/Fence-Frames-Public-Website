@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 6" width="864" height="864">
+  <title>sym-bracket-l-6in</title>
+  <desc>90° L-bracket — 6 in legs, fill-side of 2×4 rail. 1 unit = 1 inch.</desc>
+  <g id="sym-bracket-l-6in">
+    <g id="shell"><path fill="#000000" d="M 0 0 H 6 V 0.125 H 0.125 V 6 H 0 Z"/></g>
+    <g id="fill" data-slot="bracket-material"><path fill="#2a2a2a" d="M 0.03125 0.03125 H 5.96875 V 0.09375 H 0.09375 V 5.96875 H 0.03125 Z"/></g>
+  </g>
+</svg>
