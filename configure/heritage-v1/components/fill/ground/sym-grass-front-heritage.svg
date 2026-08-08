@@ -11,7 +11,7 @@
     </symbol>
   </defs>
   <g id="sym-grass-front-heritage">
-<g id="Grass-Front-Group" data-slot="grass-blades" data-grass-layer="front" clip-path="url(#grass-post-clip)">
+<g id="Grass-Front-Group" data-slot="grass-blades" data-grass-layer="front" clip-path="url(#grass-post-clip)" style="filter:saturate(0.7) brightness(0.84)">
       <use href="#grass-tile-16in" x="0" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>
       <use href="#grass-tile-16in" x="16" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>
       <use href="#grass-tile-16in" x="32" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>

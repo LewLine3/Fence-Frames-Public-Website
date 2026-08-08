@@ -43,9 +43,9 @@
       <stop offset="100%" stop-color="#a08858" stop-opacity="1"/>
     </linearGradient>
     <linearGradient id="cedar-trim-shine" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0%" stop-color="#b49268" stop-opacity="1"/>
-      <stop offset="50%" stop-color="#a37e54" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#9a8050" stop-opacity="1"/>
+      <stop offset="0%" stop-color="#cfa888" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#b8886b" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#a87858" stop-opacity="1"/>
     </linearGradient>
     <pattern id="pt-grain-post-l" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="3.125" height="1.3125" patternTransform="translate(8.1875, 12.1875)">
       <rect x="0.90625" y="0.03125" width="0.1875" height="0.625" fill="#000000"/>
@@ -3812,7 +3812,7 @@
     </g>
     </g>
     </g>
-    <g id="Grass-Front-Group" data-slot="grass-blades" data-grass-layer="front" clip-path="url(#grass-post-clip)">
+    <g id="Grass-Front-Group" data-slot="grass-blades" data-grass-layer="front" clip-path="url(#grass-post-clip)" style="filter:saturate(0.7) brightness(0.84)">
       <use href="#grass-tile-16in" x="0" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>
       <use href="#grass-tile-16in" x="16" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>
       <use href="#grass-tile-16in" x="32" y="81.5625" width="16" height="4.4375" preserveAspectRatio="xMidYMax meet"/>

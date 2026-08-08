@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-ff-embed="1">
+<html lang="en">
 <head>
-  <script>
-(function fixEmbedBaseHref() {
-  var p = location.pathname;
-  if (p.endsWith('/index.html')) p = p.slice(0, p.lastIndexOf('/') + 1);
-  else if (!p.endsWith('/')) p += '/';
-  var base = document.createElement('base');
-  base.href = p;
-  document.head.insertBefore(base, document.head.firstChild);
-})();
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Fence Frames — Heritage configurator</title>
+  <title>Fence Frames — blueprint landscape</title>
   <script>
     (function () {
       var p = new URLSearchParams(location.search);
@@ -39,15 +29,15 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@500;600;700&family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #141312;
       --surface: rgba(36, 34, 32, 0.94);
       --surface-solid: #242220;
       /* UI system: charcoal fill · tan outline · control-state tokens (see below) */
-      --ui-fill: rgba(36, 34, 32, 0.92);
-      --ui-fill-deep: rgba(26, 25, 24, 0.9);
+      --ui-fill: #242220;
+      --ui-fill-deep: #1a1918;
       --ui-outline: rgba(163, 135, 110, 0.92);
       --ui-outline-soft: rgba(163, 135, 110, 0.48);
       --ui-active-hover: #a6582a;
@@ -89,8 +79,6 @@
       /* Charcoal — solid gutter / outer ring line; translucent inner fill */
       --charcoal-solid: #1a1918;
       --charcoal-soft: rgba(20, 19, 18, 0.58);
-      /** S0 nav charcoal fill — slight see-through vs page bg */
-      --nav-bar-bg: rgba(26, 25, 24, 0.88);
       /* Double-border rings — canvas + sidebar share these */
       --ring-gutter-fill: var(--chrome-frame);
       --ring-frame-outer: var(--chrome-frame-width);
@@ -98,7 +86,7 @@
       --ui-active: var(--orange-solid);
       --ui-active-solid: var(--tan-solid);
       /* Warm tan accents */
-      --tan-light: var(--cream-tan);
+      --tan-light: #ad9078;
       --tan-border: rgba(157, 128, 104, 0.76);
       --chrome-frame: var(--ui-outline);
       --chrome-frame-width: 3px;
@@ -107,16 +95,6 @@
       --border-accent: var(--ui-outline);
       --accent: var(--tan-light);
       --accent-glow: rgba(163, 135, 110, 0.28);
-      /**
-       * Cream ink — prefer over pure white for title bars / selected chrome.
-       * Trial across three spots (pick a winner later):
-       *   A title (B1) → --cream
-       *   B nav idle → --cream-soft
-       *   C community partner → --cream-tan
-       */
-      --cream: #f3ebe0;
-      --cream-soft: #e8d9c4;
-      --cream-tan: #ddd0b8;
       /* Panel chrome — tan title bars + folded accordion shells */
       --orange-bar: var(--orange-solid);
       --orange-bar-faded: var(--tan-soft);
@@ -126,7 +104,7 @@
       --orange-handle: var(--orange-solid);
       --orange-toggle: var(--tan-soft);
       --panel-accent-stripe: var(--tan-solid);
-      --title-bar-text: var(--cream);
+      --title-bar-text: #f0e8e0;
       --handle-orange: var(--orange-handle);
       --text: #eee;
       --muted: #aaa;
@@ -198,15 +176,11 @@
       /** B1 title box — dark forest green accents */
       --b1-forest: #163320;
       --b1-forest-hover: #1f4a2c;
-      /** Brand chip — forest fill + nav cream ink */
-      --brand-fill: var(--b1-forest);
-      --brand-ink: var(--cream-soft);
-      --brand-green: var(--brand-ink);
       /**
        * Panel container title bars (Project specs, Your design, Calculator, …) —
-       * solid forest; panel bodies use slightly translucent --ui-fill.
+       * forest green at half opacity (body fills stay solid --ui-fill for now).
        */
-      --panel-title-bar-bg: var(--b1-forest);
+      --panel-title-bar-bg: rgba(22, 51, 32, 0.5);
       --panel-title-bar-text: var(--title-bar-text);
       /** Folded sidebar accordions — translucent tan fill + solid tan ring */
       --panel-folded-fill: rgba(157, 128, 104, 0.34);
@@ -219,28 +193,7 @@
       --fence-box-inner-radius: calc(var(--fence-box-radius) - var(--panel-ring-tan));
       --panel-divider: 1px solid var(--ring-frame-line);
       --panel-divider-inset: calc(var(--panel-ring-outer) + var(--panel-ring-tan));
-      /**
-       * Configurator type — Rowdies only.
-       * Bold (700) primary / metric values · Regular (400) body · Light (300) subtext labels.
-       * Metric stacks (Low/High price, etc.): subtext = light + fluid; value = bold + much larger fluid.
-       * Fluid sizes try to fill their containers within min/max.
-       */
-      --font-family: "Rowdies", "Segoe UI", system-ui, sans-serif;
-      --font-display: var(--font-family);
-      --font-weight-title: 700;
-      --font-weight-body: 400;
-      --font-weight-small: 300;
-      --font-size-brand: clamp(1.35rem, 72cqh, 2rem);
-      --font-size-nav: clamp(0.72rem, 0.55rem + 0.85cqi, 1rem);
-      --font-size-title: clamp(0.58rem, 0.48rem + 0.7cqi, 0.82rem);
-      --font-size-body: clamp(0.6rem, 0.5rem + 0.55cqi, 0.82rem);
-      --font-size-small: clamp(0.48rem, 0.4rem + 0.45cqi, 0.66rem);
-      /* Metric stack pattern — reuse on other large-value + subtext pairs */
-      --metric-sub-size: clamp(0.85rem, min(5.5cqw, 24cqh), 1.2rem);
-      --metric-value-size: clamp(1.55rem, min(14cqw, 52cqh), 2.85rem);
-      --metric-value-size-sm: clamp(1.25rem, min(9cqw, 36cqh), 2.1rem);
-      --chrome-edge: 3px solid var(--b1-forest);
-      --chrome-edge-ink: 1px solid #0a0a0a;
+      --font-display: "Libre Franklin", "Segoe UI", system-ui, sans-serif;
       --tab-active-bg: var(--orange-solid);
       --scrollbar-track: #0a0a0a;
       --scrollbar-track-border: rgba(163, 135, 110, 0.88);
@@ -251,60 +204,6 @@
       /* Shared work chrome — toolbox + canvas use same inset so tops align without JS */
       --work-chrome-pad: 8px;
       --work-inset-pad: 14px;
-      /**
-       * Blueprint documents — Blueprint / Material List / Ledger plus the
-       * archived landscape Schedule. These are the only colors those four
-       * layouts should use; adding a raw literal to a `.bp-*` / `.ledger-*` /
-       * `.blueprint-*` rule breaks them out of step with each other.
-       * `--bp-*-max` above are viewport breakpoints, unrelated to these.
-       */
-      --bp-ink: #f7f1e6;
-      --bp-ink-strong: rgba(247, 241, 230, 0.92);
-      --bp-ink-muted: rgba(247, 241, 230, 0.88);
-      --bp-ink-body: rgba(247, 241, 230, 0.84);
-      --bp-ink-label: rgba(247, 241, 230, 0.78);
-      --bp-ink-soft: rgba(247, 241, 230, 0.68);
-      --bp-ink-faint: rgba(247, 241, 230, 0.58);
-      /** Pitch palette — one coherent forest set (ff-landscape + --b1-forest). */
-      --bp-forest: var(--b1-forest);
-      --bp-forest-deep: #1e3d28;
-      --bp-forest-bright: #2f5d3a;
-      --bp-gold: #c4a882;
-      --bp-gold-light: #e2d4bc;
-      --bp-head-accent: #b8d4bc;
-      --bp-link: #6ecf96;
-      --bp-link-hover: #8ee0ad;
-      /** Card = one component/section. Panel = a container holding cards or a table. */
-      --bp-paper-card: var(--ui-fill);
-      --bp-paper-card-active: #2e2a28;
-      --bp-paper-panel: var(--ui-fill-deep);
-      --bp-paper-stage: var(--ui-fill-deep);
-      --bp-stage-bg:
-        radial-gradient(128% 92% at 50% 20%, rgba(247, 241, 230, 0.12) 0%, rgba(247, 241, 230, 0) 64%),
-        linear-gradient(180deg, #2b2927 0%, #252321 68%, #201f1d 100%);
-      --bp-hatch: var(--bp-stage-bg);
-      --bp-rule: rgba(157, 128, 104, 0.28);
-      --bp-rule-strong: rgba(157, 128, 104, 0.48);
-      --bp-rule-head: rgba(184, 212, 188, 0.35);
-      --bp-rule-card: rgba(157, 128, 104, 0.72);
-      --bp-ring: 1px solid var(--tan);
-      --bp-ring-outer: 0 0 0 1px var(--ring-frame-line);
-      /** Brown → forest chrome bar — Schedule toolbar, view controls, Ledger grand total. */
-      --bp-chrome-grad: var(--bp-forest-deep);
-      --bp-chrome-stripe: linear-gradient(90deg, var(--bp-forest-deep), var(--bp-forest-bright), var(--bp-gold));
-      --bp-head-bg: linear-gradient(180deg, rgba(30, 61, 40, 0.96) 0%, rgba(22, 51, 32, 0.98) 100%);
-      --bp-head-text: var(--bp-ink);
-      --bp-font-display: "Rowdies", "Libre Franklin", "Segoe UI", system-ui, sans-serif;
-      --bp-font-body: "Libre Baskerville", Georgia, "Times New Roman", serif;
-      --bp-font-ui: "Libre Franklin", "Segoe UI", system-ui, sans-serif;
-      --bp-radius: 4px;
-      /** Inner corner of a card head sitting flush inside --bp-radius. */
-      --bp-radius-inner: 2px;
-      --bp-radius-control: 3px;
-      /** Bullet / row status — research confidence, not brand color. */
-      --bp-status-ok: #3d9a5f;
-      --bp-status-assumed: #e6c35c;
-      --bp-status-alert: #d4544a;
       --fit-center-nudge-x-desktop: 0px;
       --fit-center-nudge-y-desktop: 0px;
       --fit-center-nudge-x-tablet: 0px;
@@ -358,8 +257,7 @@
       --layout-debug-h: 1.65rem;
     }
     body {
-      font-family: var(--font-family);
-      font-weight: var(--font-weight-body);
+      font-family: "Segoe UI", system-ui, sans-serif;
       margin: 0;
       min-height: 100vh;
       min-height: 100dvh;
@@ -385,13 +283,12 @@
       container-name: app-shell;
       grid-template-columns: minmax(0, var(--panel-w)) minmax(var(--module-min-px-w), 1fr);
       grid-template-areas:
-        "header header"
         "top top"
         "sidebar canvas"
         "footer footer";
       align-items: stretch;
     }
-    /** Mobile: stack header · top · canvas · toolbox · calc/price */
+    /** Mobile: stack top · canvas · toolbox · calc/price — separate rows, no overlap */
     @media (max-width: 899px) {
       html,
       body {
@@ -402,9 +299,8 @@
       .shell--with-sidebar {
         container-type: normal;
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-rows: auto auto auto auto auto;
         grid-template-areas:
-          "header"
           "top"
           "canvas"
           "sidebar"
@@ -616,7 +512,7 @@
     .shell-top-row {
       grid-area: top;
       display: grid;
-      grid-template-columns: minmax(0, var(--panel-w)) repeat(3, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1.34fr) repeat(2, minmax(0, 1fr));
       grid-template-rows: 1fr;
       gap: 0.35rem;
       align-items: stretch;
@@ -856,31 +752,37 @@
         min-height: 6.75rem;
       }
       .shell-top-band--lower > .mini-panel--specs {
-        grid-column: auto;
+        grid-column: 1 / -1;
       }
       .b1-quad {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
+        grid-template-rows: auto;
         grid-template-areas:
           "vpf"
-          "line";
+          "spell"
+          "line"
+          "desc";
       }
       .b1-quad.panel-ring::before,
       .b1-quad.panel-ring::after {
         display: none;
       }
-      .b1-quad__cell--line {
+      .b1-quad__cell--spell,
+      .b1-quad__cell--line,
+      .b1-quad__cell--desc {
         border-top: var(--panel-divider);
       }
       .b1-quad__cell--vpf,
-      .b1-quad__cell--line {
+      .b1-quad__cell--spell,
+      .b1-quad__cell--line,
+      .b1-quad__cell--desc {
         border-radius: 0;
       }
       .b1-quad__cell--vpf {
         border-top-left-radius: var(--fence-box-inner-radius);
         border-top-right-radius: var(--fence-box-inner-radius);
       }
-      .b1-quad__cell--line {
+      .b1-quad__cell--desc {
         border-bottom-left-radius: var(--fence-box-inner-radius);
         border-bottom-right-radius: var(--fence-box-inner-radius);
       }
@@ -984,10 +886,21 @@
       top: 50%;
       height: 1px;
       transform: translateY(-50%);
-      background: var(--ring-frame-line);
+      background: linear-gradient(
+        to right,
+        var(--ring-frame-line) 0,
+        var(--ring-frame-line) 50%,
+        var(--tan) 50%,
+        var(--tan) 100%
+      );
     }
     .b1-quad.panel-ring::after {
-      display: none;
+      top: var(--panel-ring-tan);
+      bottom: var(--panel-ring-tan);
+      left: 50%;
+      width: 1px;
+      transform: translateX(-50%);
+      background: var(--ring-frame-line);
     }
     .config-section--calculator {
       position: relative;
@@ -1021,7 +934,7 @@
       flex-direction: column;
       gap: 0.35rem;
     }
-    /* B1 — two-row stack (forest + tan); labels live as subtext in each cell */
+    /* B1 — four-quadrant title box (fresh; scoped to .b1-quad only) */
     .sidebar-zone--title,
     .b1-quad {
       border-radius: var(--fence-box-radius);
@@ -1031,11 +944,11 @@
     }
     .b1-quad {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-rows: minmax(2.85rem, 1fr) minmax(2.85rem, 1fr);
       grid-template-areas:
-        "vpf"
-        "line";
+        "vpf spell"
+        "line desc";
       min-height: 6.75rem;
       height: 100%;
       background: var(--ui-fill);
@@ -1051,13 +964,25 @@
       grid-area: vpf;
       background: var(--b1-forest);
       border-top-left-radius: var(--fence-box-inner-radius);
+    }
+    .b1-quad__cell--spell {
+      grid-area: spell;
+      background: transparent;
+      box-shadow: inset 0 0 0 1.5px var(--tan);
       border-top-right-radius: var(--fence-box-inner-radius);
     }
     .b1-quad__cell--line {
       grid-area: line;
       background: var(--tan);
       border-bottom-left-radius: var(--fence-box-inner-radius);
+    }
+    .b1-quad__cell--desc {
+      grid-area: desc;
+      background: transparent;
+      box-shadow: inset 0 0 0 1.5px var(--tan);
       border-bottom-right-radius: var(--fence-box-inner-radius);
+      align-items: flex-start;
+      overflow: hidden;
     }
     .b1-quad__mobile-head {
       display: none;
@@ -1071,17 +996,12 @@
     }
     .b1-quad__cell {
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: center;
-      gap: 0.18rem;
+      align-items: center;
       min-width: 0;
       min-height: 0;
-      padding: 0.32rem 0.42rem;
+      padding: 0.38rem 0.42rem;
       position: relative;
       z-index: 1;
-      container-type: size;
-      text-align: left;
     }
     .b1-quad__cell.is-open {
       z-index: 51;
@@ -1122,7 +1042,7 @@
       pointer-events: none;
     }
     .b1-quad__cell--vpf .b1-quad__picker {
-      color: var(--cream);
+      color: var(--tan-light);
     }
     .b1-quad__cell--line .b1-quad__picker {
       color: var(--title-picker-text);
@@ -1140,11 +1060,11 @@
       transition: border-top-color 0.15s ease, opacity 0.15s ease;
     }
     .b1-quad__cell--vpf .b1-quad__chev::before {
-      border-top-color: var(--cream);
+      border-top-color: var(--tan-light);
     }
     .b1-quad__cell--vpf .b1-quad__picker:hover .b1-quad__chev::before,
     .b1-quad__cell--vpf.is-open .b1-quad__chev::before {
-      border-top-color: var(--cream-soft);
+      border-top-color: var(--tan);
       opacity: 1;
     }
     .b1-quad__cell--line .b1-quad__picker:hover .b1-quad__chev::before,
@@ -1159,12 +1079,11 @@
     .b1-quad__line {
       flex: 1 1 auto;
       min-width: 0;
-      font-family: var(--font-family);
-      font-size: clamp(1rem, min(11cqw, 36cqh), 1.75rem);
-      font-weight: var(--font-weight-title); /* Rowdies bold */
-      letter-spacing: 0.03em;
-      line-height: 1.1;
-      text-align: left;
+      font-family: var(--font-display);
+      font-size: clamp(0.68rem, 0.42rem + 3.6cqi, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -1173,7 +1092,7 @@
       white-space: normal;
     }
     .b1-quad__code {
-      color: var(--cream);
+      color: var(--tan-light);
     }
     .b1-quad__line {
       color: var(--title-picker-text);
@@ -1181,43 +1100,46 @@
     .b1-quad__spell {
       margin: 0;
       width: 100%;
-      font-size: clamp(0.72rem, min(5cqw, 18cqh), 0.95rem);
-      font-weight: var(--font-weight-small); /* Rowdies light */
-      letter-spacing: 0.06em;
-      line-height: 1.15;
+      font-size: clamp(0.5rem, 0.36rem + 2.2cqi, 0.72rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
       text-transform: uppercase;
-      text-align: left;
-      color: var(--cream);
-      opacity: 0.9;
-    }
-    .b1-quad__sublabel {
-      margin: 0;
-      padding: 0 0.62rem 0 0;
-      pointer-events: none;
+      color: var(--tan-light);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-family: var(--font-family);
-      font-weight: var(--font-weight-small); /* Rowdies light */
-      text-align: left;
+      overflow-wrap: anywhere;
     }
-    .b1-quad__cell--vpf .b1-quad__sublabel {
-      color: var(--cream);
-      opacity: 0.88;
-    }
-    .b1-quad__cell--line .b1-quad__sublabel {
-      color: rgba(10, 10, 10, 0.72);
+    .b1-quad__spell.b1-quad__quadrant-label,
+    .b1-quad__desc.b1-quad__quadrant-label {
+      margin: 0;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(0.5rem, 0.36rem + 2.2cqi, 0.72rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-transform: none;
+      color: var(--tan-light);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: anywhere;
     }
     .b1-quad__desc {
       margin: 0;
       width: 100%;
-      font-size: clamp(0.72rem, min(5cqw, 18cqh), 0.95rem);
-      font-weight: var(--font-weight-small); /* Rowdies light */
-      letter-spacing: 0.06em;
-      line-height: 1.15;
-      text-transform: uppercase;
-      text-align: left;
-      color: rgba(10, 10, 10, 0.72);
+      font-size: clamp(0.54rem, 0.46rem + 0.22vw, 0.64rem);
+      line-height: 1.2;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: break-word;
     }
     .b1-quad .title-fence-menu {
       position: absolute;
@@ -1257,9 +1179,8 @@
       margin: 0;
       padding: 0.42rem 0.55rem;
       padding-right: calc(1.5rem + 0.3rem);
-      font-family: var(--font-family);
-      font-size: var(--font-size-title);
-      font-weight: var(--font-weight-title);
+      font-size: clamp(0.56rem, 0.48rem + 0.35cqi, 0.62rem);
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--panel-title-bar-text);
@@ -1346,14 +1267,14 @@
         min-height: 0;
         overflow-y: auto;
       }
-      /** B1 — keep 2-row stack when expanded */
+      /** B1 — keep 2×2 grid; generic is-expanded flex column stacks quadrants vertically */
       .shell-top-row [data-panel-expandable].is-expanded.b1-quad {
         display: grid;
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         grid-template-rows: minmax(2.85rem, 1fr) minmax(2.85rem, 1fr);
         grid-template-areas:
-          "vpf"
-          "line";
+          "vpf spell"
+          "line desc";
         align-content: stretch;
         min-height: 100%;
         overflow-y: auto;
@@ -1450,118 +1371,10 @@
       font-weight: 700;
       color: var(--tan-light);
     }
-    /* ── App chrome header (S0) — brand + auth; design docs open from B-MEMBER ── */
-    #app-site-header {
-      grid-area: header;
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: stretch;
-      justify-content: flex-start;
-      gap: 0.4rem;
-      padding: 0;
-      padding-right: 0.45rem;
-      min-height: 2.85rem;
-      min-width: 0;
-      width: 100%;
-      max-width: 100%;
-      background: var(--nav-bar-bg);
-      border: 2px solid var(--tan);
-      box-shadow:
-        0 0 0 1px var(--bp-gold),
-        0 0 0 2px #0a0a0a;
-      box-sizing: border-box;
-      color: var(--title-bar-text);
-      overflow: visible;
-    }
-    .app-site-header__brand {
-      display: inline-flex;
-      align-items: center;
-      align-self: stretch;
-      flex: 0 0 auto;
-      margin: 1px;
-      padding: 0 0.85rem 0 0.7rem;
-      border: 1px solid var(--tan);
-      box-shadow: 0 0 0 1px var(--ring-frame-line);
-      border-radius: 0;
-      background: var(--brand-fill);
-      font-family: var(--font-family);
-      font-size: var(--font-size-brand);
-      font-weight: var(--font-weight-title);
-      letter-spacing: 0.02em;
-      line-height: 1;
-      color: var(--brand-ink);
-      white-space: nowrap;
-      box-sizing: border-box;
-    }
-    .app-site-header__spacer {
-      flex: 1 1 auto;
-      min-width: 0.5rem;
-    }
-    .app-site-header__contractor {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      align-self: center;
-      flex: 0 0 auto;
-      margin: 0.35rem 0.45rem 0.35rem 0;
-      padding: 0.42rem 0.9rem;
-      min-height: 2.15rem;
-      border: 2px solid var(--tan);
-      border-radius: 4px;
-      background: var(--b1-forest);
-      color: #fff;
-      font-family: var(--font-display);
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      line-height: 1.15;
-      text-transform: uppercase;
-      white-space: nowrap;
-      cursor: pointer;
-      box-shadow:
-        0 0 0 1px var(--ring-frame-line),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
-    .app-site-header__contractor:hover,
-    .app-site-header__contractor:focus-visible {
-      background: var(--b1-forest-hover);
-      outline: none;
-      color: #fff;
-      border-color: var(--bp-gold, var(--tan));
-    }
-    html[data-view-mode="blueprint"] .app-site-header__contractor {
-      display: inline-flex;
-    }
-    .app-site-header__auth {
-      display: inline-flex;
-      flex-wrap: nowrap;
-      align-items: stretch;
-      align-self: stretch;
-      flex: 0 0 auto;
-      gap: 0.28rem;
-      margin: 0.25rem 0.35rem 0.25rem 0;
-      min-width: 0;
-    }
-    [data-member-auth="in"] .app-site-header__auth,
-    html[data-member-auth="in"] .app-site-header__auth {
-      display: none;
-    }
-    .app-site-header__auth .member-auth-btn {
-      flex: 0 1 auto;
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-      padding: 0.22rem 0.55rem;
-      font-size: clamp(0.58rem, 0.5rem + 0.55cqi, 0.72rem);
-      white-space: nowrap;
-    }
-    .blueprint-view-toggle[hidden] {
-      display: none !important;
-    }
     .mini-panel--specs .mini-panel-body {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
       gap: 0.42rem 0.55rem;
       align-items: stretch;
       padding: 0.42rem 0.48rem 0.48rem;
@@ -1648,9 +1461,7 @@
     .mini-panel--specs .specs-col--fields .field label {
       display: block;
       margin-bottom: 0.06rem;
-      font-family: var(--font-family);
       font-size: 0.58rem;
-      font-weight: var(--font-weight-small);
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--muted);
@@ -1666,34 +1477,6 @@
       border-radius: 4px;
       color: var(--text);
       font-weight: 400;
-    }
-    .mini-panel--specs .specs-col--fields .field select {
-      font-size: 0.68rem;
-      padding: 0.18rem 0.4rem;
-      width: 100%;
-      box-sizing: border-box;
-      background: var(--control-idle-bg);
-      border: 1px solid var(--control-idle-border);
-      border-radius: 4px;
-      color: var(--text);
-      font-weight: 400;
-    }
-    .mini-panel--specs .specs-col--fields .field select:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-    .mini-panel--specs .specs-col--fields .field select:focus {
-      outline: none;
-      background: var(--control-focus-bg);
-      border-color: var(--control-focus-border);
-      box-shadow: 0 0 0 1px var(--accent-glow);
-    }
-    .mini-panel--specs .specs-coming-soon {
-      display: block;
-      font-size: 0.64rem;
-      line-height: 1.25;
-      color: var(--muted);
-      padding: 0.2rem 0;
     }
     .mini-panel--specs .specs-col--fields .field input:focus {
       outline: none;
@@ -1736,8 +1519,6 @@
     .option-groups--fence {
       flex: 1 1 auto;
       min-height: 0;
-      display: flex;
-      flex-direction: column;
       overflow-y: auto;
     }
     .page-config-strip {
@@ -1747,10 +1528,6 @@
       grid-template-rows: auto;
       align-items: stretch;
       background: transparent;
-      overflow: visible;
-    }
-    .page-config-strip.panel-ring {
-      overflow: visible;
     }
     .app-footer {
       grid-area: footer;
@@ -1831,16 +1608,24 @@
     .pricing-gate-target {
       display: contents;
     }
-    /** Quote values — visible to guests (pilot); save/blueprint/contact stay member-gated */
+    /** Gate $ values only — section titles + metric labels stay visible */
     .pricing-gated-value {
       display: inline-block;
       min-width: 2.35rem;
       text-align: inherit;
     }
+    [data-member-auth="out"] .pricing-gated-value,
+    html:not([data-member-auth="in"]) .pricing-gated-value {
+      color: var(--membership-accent);
+      filter: blur(3px);
+      user-select: none;
+      pointer-events: none;
+    }
     .member-auth-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.35rem;
+      margin-bottom: 0.35rem;
     }
     [data-member-auth="in"] .member-auth-row {
       display: none;
@@ -1965,7 +1750,6 @@
       flex-direction: column;
       min-height: 0;
       padding: 0.32rem;
-      overflow: visible;
     }
     .config-section {
       display: flex;
@@ -1979,9 +1763,8 @@
       justify-content: space-between;
       gap: 0.35rem;
       padding: 0.42rem 0.55rem;
-      font-family: var(--font-family);
-      font-size: var(--font-size-title);
-      font-weight: var(--font-weight-title);
+      font-size: clamp(0.56rem, 0.48rem + 0.35cqi, 0.62rem);
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--panel-title-bar-text);
@@ -2051,164 +1834,42 @@
     }
     .config-section-body {
       padding: 0.42rem 0.48rem 0.48rem;
-      font-size: var(--font-size-body);
-      font-weight: var(--font-weight-body);
-    }
-    .config-section--calculator .config-section-body,
-    .config-section--calculator .price-line-list,
-    .config-section--calculator .price-family,
-    .config-section--calculator .price-line-item,
-    .config-section--calculator .cost-calculator-metrics,
-    .config-section--calculator #warnings,
-    .cost-calculator-metrics {
-      font-family: var(--font-family);
-      font-weight: var(--font-weight-small);
+      font-size: 0.62rem;
     }
     .config-section--calculator .price-line-list-wrap {
       margin: 0;
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
     }
     .price-line-list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(4, minmax(0, 1fr));
-      gap: 0;
+      gap: 0.35rem 0.55rem;
       margin: 0;
       padding: 0;
       list-style: none;
-      align-items: stretch;
-      flex: 1 1 auto;
-      min-height: 0;
-      border: 1px solid var(--tan);
-      box-shadow: 0 0 0 1px var(--ring-frame-line);
-      border-radius: 4px;
-      overflow: visible;
-      background: var(--ui-fill-deep);
-      box-sizing: border-box;
+      align-items: start;
     }
-    .price-family {
-      position: relative;
-      min-width: 0;
-      min-height: 0;
-      padding: 0.28rem 0.4rem;
-      outline: none;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-    }
-    .price-family:nth-child(2n) {
-      border-right: none;
-    }
-    .price-family:nth-child(n + 7) {
-      border-bottom: none;
-    }
-    .price-family__row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.35rem;
-      width: 100%;
-      font-size: clamp(0.66rem, 0.56rem + 0.26vw, 0.76rem);
-      line-height: 1.25;
-      cursor: default;
-    }
-    .price-family__label {
-      min-width: 0;
-      color: #fff;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .price-family__rate {
-      flex-shrink: 1;
-      min-width: 0;
-      font-variant-numeric: tabular-nums;
-      color: var(--cream);
-      white-space: normal;
-      text-align: right;
-      font-size: inherit;
-      line-height: 1.2;
-    }
-    .price-family--na .price-family__rate {
-      color: var(--muted);
-    }
-    .price-family__detail {
-      display: none;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: calc(100% + 0.2rem);
-      z-index: 55;
-      margin: 0;
-      padding: 0.35rem 0.42rem;
-      list-style: none;
-      background: var(--ui-fill-deep);
-      border: 1px solid var(--ring-frame-line);
-      box-shadow:
-        0 0 0 1px var(--tan),
-        0 8px 22px rgba(0, 0, 0, 0.42);
-      border-radius: 4px;
-      max-height: min(12rem, 40vh);
-      overflow-y: auto;
-    }
-    .price-family:hover .price-family__detail,
-    .price-family:focus-within .price-family__detail {
-      display: block;
-    }
-    .price-family__charge {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.4rem;
-      padding: 0.18rem 0;
-      font-size: clamp(0.62rem, 0.54rem + 0.22vw, 0.72rem);
-      line-height: 1.3;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .price-family__charge:last-child {
-      border-bottom: none;
-    }
-    .price-family__charge-desc {
-      min-width: 0;
-      color: #fff;
-    }
-    .price-family__charge-rate {
-      flex-shrink: 0;
-      font-variant-numeric: tabular-nums;
-      color: var(--cream);
-      white-space: nowrap;
-    }
-    .price-family__charge--na .price-family__charge-rate {
-      color: var(--muted);
-    }
-    /* Legacy flat rows (if any remain) */
     .price-line-item {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 0.45rem;
-      font-size: clamp(0.68rem, 0.58rem + 0.28vw, 0.78rem);
+      font-size: clamp(0.56rem, 0.5rem + 0.16vw, 0.62rem);
       line-height: 1.35;
       padding: 0.12rem 0;
       min-width: 0;
     }
     .price-line-desc {
       min-width: 0;
-      color: #fff;
+      color: var(--text);
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .price-line-rate {
       flex-shrink: 0;
       font-variant-numeric: tabular-nums;
-      color: var(--cream);
+      color: var(--tan-light);
       white-space: nowrap;
-      font-size: clamp(0.68rem, 0.58rem + 0.26vw, 0.78rem);
+      font-size: clamp(0.56rem, 0.5rem + 0.14vw, 0.62rem);
     }
     .price-line-item--na .price-line-rate {
       color: var(--muted);
@@ -2266,24 +1927,23 @@
         padding: 0.42rem 0.48rem 0.48rem;
       }
       .member-actions {
-        flex-direction: column;
-        flex-wrap: nowrap;
-        gap: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
       }
       .member-actions__btn {
-        flex: 0 0 auto;
-        width: 100%;
-        min-height: 2.75rem;
-        justify-content: flex-start;
-        padding: 0.42rem 0.5rem;
+        flex: 1 1 calc(33.333% - 0.3rem);
+        min-width: 5.5rem;
+        min-height: 2.55rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.28rem;
+        padding: 0.38rem 0.4rem;
       }
       .member-actions__btn-label {
         text-align: left;
         line-height: 1.15;
-      }
-      .your-design-menu__list {
-        bottom: auto;
-        top: calc(100% + 0.2rem);
       }
       .config-section-head .membership-chip {
         padding: 0.34rem 0.72rem;
@@ -2292,23 +1952,7 @@
       }
       .price-line-list {
         grid-template-columns: 1fr;
-        grid-template-rows: none;
         gap: 0;
-      }
-      .price-family {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 0.22rem 0.35rem;
-      }
-      .price-family:nth-child(n + 7) {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .price-family:last-child {
-        border-bottom: none;
-      }
-      .price-family__detail {
-        bottom: auto;
-        top: calc(100% + 0.15rem);
       }
       .price-line-item {
         border-bottom: 1px solid var(--chrome-frame);
@@ -2359,75 +2003,13 @@
     }
     .price-split__lf {
       position: relative;
-      padding: 0;
+      padding: 0.5rem 0.55rem;
       background: var(--ui-fill-deep);
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      gap: 0;
-      min-height: 100%;
-      container-type: size;
-      overflow: hidden;
-      border: 1px solid var(--tan);
-      box-shadow: 0 0 0 1px var(--ring-frame-line);
-      border-radius: var(--fence-box-radius);
-      box-sizing: border-box;
-    }
-    .price-split__lf-title {
-      flex: 0 0 auto;
-      min-width: 0;
-      padding: 0.32rem 0.48rem;
-      background: var(--tan);
-      color: var(--title-picker-text);
-      font-family: var(--font-family);
-      font-size: clamp(0.72rem, min(4.6cqw, 18cqh), 0.94rem);
-      font-weight: var(--font-weight-title);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border-bottom: 1px solid var(--ring-frame-line);
-      box-sizing: border-box;
-      border-top-left-radius: var(--fence-box-inner-radius);
-      border-top-right-radius: var(--fence-box-inner-radius);
-    }
-    .price-split__lf-body {
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 0.28rem;
-      padding: 0.28rem 0.55rem 0.48rem;
-      box-sizing: border-box;
-    }
-    .price-split__lf-meta {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.4rem;
-      min-width: 0;
-      flex: 0 0 auto;
-    }
-    .price-split__lf-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      width: 100%;
-      flex: 1 1 auto;
-      min-height: 0;
       justify-content: center;
-    }
-    .price-split__lf-run {
-      flex: 0 0 auto;
-      font-family: var(--font-family);
-      font-size: clamp(0.84rem, min(5cqw, 20cqh), 1.1rem);
-      font-weight: var(--font-weight-title);
-      color: #fff;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.02em;
+      gap: 0.25rem;
+      min-height: 100%;
     }
     .price-split__total {
       display: grid;
@@ -2441,54 +2023,39 @@
       position: relative;
       z-index: 1;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.35rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0.12rem;
       width: 100%;
       min-height: 0;
       padding: 0.32rem 0.48rem 0.34rem;
       background: var(--tan);
       color: var(--title-picker-text);
       flex-shrink: 0;
-      container-type: size;
     }
     .estimate-total-head .estimate-bound-label,
     .estimate-total-head .estimate-bound {
       text-align: left;
-      width: auto;
+      width: 100%;
       color: var(--title-picker-text);
-    }
-    .estimate-total-head .estimate-bound {
-      text-align: right;
-      margin-left: auto;
     }
     .price-split__total-body {
       position: relative;
       z-index: 1;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.35rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 0.12rem;
       padding: 0.34rem 0.48rem 0.38rem;
       min-height: 0;
       background: var(--b1-forest);
-      container-type: size;
-    }
-    .price-split__total-body .estimate-bound-label,
-    .price-split__total-body .estimate-bound {
-      text-align: left;
-      width: auto;
-    }
-    .price-split__total-body .estimate-bound {
-      text-align: right;
-      margin-left: auto;
     }
     .estimate-bound-label {
-      font-family: var(--font-family);
-      font-size: var(--metric-sub-size);
-      font-weight: var(--font-weight-small); /* Rowdies light 300 */
+      font-family: var(--font-display);
+      font-size: 0.58rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--title-picker-text);
@@ -2499,235 +2066,65 @@
       color: rgba(240, 232, 224, 0.78);
     }
     .estimate-bound {
-      font-family: var(--font-family);
-      font-weight: var(--font-weight-title); /* Rowdies bold 700 */
-      line-height: 1.02;
-      width: auto;
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.05;
+      text-align: right;
+      width: 100%;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
     .estimate-bound--low {
-      font-size: var(--metric-value-size-sm);
+      font-size: clamp(1rem, 1.75vw, 1.35rem);
       color: var(--title-picker-text);
-      text-align: right;
     }
     .estimate-bound--high {
-      font-size: var(--metric-value-size-sm);
+      font-size: clamp(1.15rem, 2.1vw, 1.6rem);
       color: var(--tan-light);
-      text-align: right;
     }
     .price-split__total .estimate-bound--low,
     .price-split__total .estimate-bound--high {
-      font-size: var(--metric-value-size);
+      font-size: clamp(1.15rem, 2.1vw, 1.6rem);
     }
     .member-actions {
       display: flex;
       flex-direction: column;
       flex: 1 1 auto;
-      gap: 0;
+      gap: 0.32rem;
       padding: 0;
       min-height: 0;
       justify-content: stretch;
-      position: relative;
-      border: var(--panel-ring-tan) solid var(--tan);
-      box-shadow: 0 0 0 var(--panel-ring-outer) var(--ring-frame-line);
-      border-radius: var(--fence-box-radius);
-      box-sizing: border-box;
-      overflow: visible;
-    }
-    .design-docs-actions {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      border-bottom: 1px solid var(--ring-frame-line);
-    }
-    .design-docs-actions__btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 2.2rem;
-      padding: 0.35rem 0.3rem;
-      border: none;
-      border-right: 1px solid var(--ring-frame-line);
-      border-radius: 0;
-      background: var(--b1-forest);
-      color: var(--cream-soft);
-      font-family: var(--font-display);
-      font-size: clamp(0.62rem, 5.5cqw, 0.78rem);
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-    .design-docs-actions__btn:last-child {
-      border-right: none;
-    }
-    .design-docs-actions__btn:hover,
-    .design-docs-actions__btn:focus-visible {
-      background: var(--b1-forest-hover, #2f6a3f);
-      outline: none;
-    }
-    html[data-view-mode="blueprint"][data-bp-view="blueprint"] #btn-create-blueprint,
-    html[data-view-mode="blueprint"][data-bp-view="materialList"] #btn-create-material-list,
-    html[data-view-mode="blueprint"][data-bp-view="ledger"] #btn-create-ledger,
-    .design-docs-actions__btn.is-active {
-      background: var(--tan);
-      color: var(--title-picker-text, #1a1410);
-    }
-    .your-design-menu {
-      position: relative;
-      flex: 1 1 0;
-      min-height: 2.35rem;
-      display: flex;
-      flex-direction: column;
-    }
-    .your-design-menu__toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.4rem;
-      width: 100%;
-      flex: 1 1 auto;
-      min-height: 2.35rem;
-      padding: 0.4rem 0.55rem;
-      border: none;
-      border-bottom: 1px solid var(--ring-frame-line);
-      border-radius: 0;
-      border-top-left-radius: var(--fence-box-inner-radius);
-      border-top-right-radius: var(--fence-box-inner-radius);
-      box-shadow: none;
-      background: var(--tan);
-      color: var(--title-picker-text);
-      font-family: var(--font-display);
-      font-size: clamp(0.78rem, min(7.2cqw, 32cqh), 1.2rem);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      text-align: left;
-      container-type: size;
-    }
-    .your-design-menu__toggle-label {
-      flex: 1 1 auto;
-      min-width: 0;
-      font-size: inherit;
-      font-weight: inherit;
-      text-align: left;
-    }
-    .your-design-menu__toggle:hover,
-    .your-design-menu__toggle[aria-expanded="true"] {
-      filter: brightness(1.06);
-    }
-    .your-design-menu__chev {
-      width: 0;
-      height: 0;
-      border-left: 0.28rem solid transparent;
-      border-right: 0.28rem solid transparent;
-      border-top: 0.34rem solid currentColor;
-      flex-shrink: 0;
-      opacity: 0.85;
-      transition: transform 0.15s ease;
-    }
-    .your-design-menu__toggle[aria-expanded="true"] .your-design-menu__chev {
-      transform: rotate(180deg);
-    }
-    .your-design-menu__list {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: calc(100% + 0.2rem);
-      z-index: 60;
-      margin: 0;
-      padding: 0.28rem;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      background: var(--ui-fill-deep);
-      border: 2px solid var(--ring-frame-line);
-      border-radius: 6px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-    }
-    .your-design-menu__list[hidden] {
-      display: none;
-    }
-    .your-design-menu__item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.4rem;
-      width: 100%;
-      min-height: 2.2rem;
-      padding: 0.4rem 0.5rem;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      background: var(--tan);
-      color: var(--title-picker-text);
-      font-family: var(--font-display);
-      font-size: 0.68rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      text-align: left;
-      cursor: pointer;
-    }
-    .your-design-menu__item:hover,
-    .your-design-menu__item:focus-visible {
-      filter: brightness(1.06);
-      outline: none;
-      border-color: var(--ring-frame-line);
-    }
-    .your-design-menu__item-label {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-    .your-design-menu__item-gate {
-      font-size: 0.55rem;
-      padding: 0.18rem 0.4rem;
-    }
-    html[data-member-auth="in"] .your-design-menu__item-gate {
-      display: none;
     }
     .member-actions__btn {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       gap: 0.32rem;
-      flex: 1.35 1 0;
+      flex: 1 1 0;
       min-width: 0;
-      min-height: 2.85rem;
-      padding: 0.4rem 0.55rem;
-      border: none;
-      border-radius: 0;
-      border-bottom-left-radius: var(--fence-box-inner-radius);
-      border-bottom-right-radius: var(--fence-box-inner-radius);
-      background: var(--b1-forest);
-      color: var(--cream);
+      min-height: 2.25rem;
+      padding: 0.36rem 0.45rem;
+      border-radius: var(--fence-box-inner-radius);
+      border: 2px solid var(--ring-frame-line);
+      background: var(--tan);
+      color: var(--title-picker-text);
       font-family: var(--font-display);
-      font-size: clamp(0.78rem, min(7.2cqw, 32cqh), 1.2rem);
+      font-size: clamp(0.58rem, 0.52rem + 0.14vw, 0.72rem);
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      line-height: 1.15;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
       text-align: left;
       white-space: normal;
       cursor: pointer;
-      container-type: size;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
-    .member-actions__btn:hover,
-    .member-actions__btn:focus-visible {
-      outline: none;
-      color: var(--cream);
-      background: var(--b1-forest-hover);
+    .member-actions__btn:hover {
+      filter: brightness(1.06);
     }
     .member-actions__btn-label {
-      flex: 1 1 auto;
+      flex: 1 1 62%;
       min-width: 0;
       font-weight: 800;
-      font-size: inherit;
-      text-align: left;
-      color: inherit;
     }
     .member-actions__btn-gate {
       text-align: right;
@@ -2740,8 +2137,14 @@
         padding: 0.28rem 0.35rem;
       }
       .member-actions {
-        gap: 0;
+        gap: 0.28rem;
       }
+    }
+    .member-actions__btn:hover,
+    .member-actions__btn:focus-visible {
+      border-color: var(--ui-active-hover);
+      background: var(--tan-soft);
+      outline: none;
     }
     html[data-ff-embed="1"] body {
       min-height: 100vh;
@@ -2803,10 +2206,6 @@
       background: transparent;
       padding: 0;
       backdrop-filter: none;
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
     }
     .pricing-disclaimer-popover {
       position: absolute;
@@ -2834,23 +2233,15 @@
       }
     }
     .cost-calculator-metrics {
-      font-family: var(--font-family);
       font-size: 0.58rem;
-      font-weight: var(--font-weight-small);
       color: var(--muted);
-      text-align: left;
-    }
-    .cost-calculator-metrics[hidden] {
-      display: none !important;
+      text-align: center;
     }
     .price-split__lf-label {
-      font-family: var(--font-family);
-      font-size: clamp(0.72rem, min(4cqw, 16cqh), 0.9rem);
-      font-weight: var(--font-weight-small);
+      font-size: 0.58rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: #fff;
-      min-width: 0;
+      color: var(--muted);
     }
     .price-split__lf-stack {
       display: flex;
@@ -2860,46 +2251,25 @@
     }
     .price-split__lf-row {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.35rem;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.1rem;
       width: 100%;
     }
-    .price-split__lf-row--low {
-      padding-bottom: 0.28rem;
-    }
-    .price-split__lf-row--low .estimate-bound-label {
-      text-align: left;
-      flex-shrink: 0;
-    }
-    .price-split__lf-row--low .estimate-bound {
-      text-align: right;
-      margin-left: auto;
-    }
     .price-split__lf-row--high {
-      padding-top: 0.2rem;
+      padding-top: 0.28rem;
       border-top: 1px solid var(--chrome-frame);
     }
-    .price-split__lf-row--high .estimate-bound-label {
-      text-align: left;
-      flex-shrink: 0;
+    .price-split__lf .estimate-bound-label {
+      color: rgba(240, 232, 224, 0.78);
     }
-    .price-split__lf-row--high .estimate-bound {
-      text-align: right;
-      margin-left: auto;
+    .price-split__lf .estimate-bound--low {
+      font-size: clamp(0.95rem, 1.55vw, 1.25rem);
+      color: var(--title-bar-text);
     }
-    .price-split__lf .estimate-bound-label,
-    .price-split__lf .estimate-bound-label--on-green {
-      color: #fff;
-      font-size: var(--metric-sub-size);
-      font-weight: var(--font-weight-small);
-    }
-    .price-split__lf .estimate-bound--low,
     .price-split__lf .estimate-bound--high {
-      font-size: var(--metric-value-size-sm);
-      color: var(--cream);
-      text-align: right;
+      font-size: clamp(0.95rem, 1.55vw, 1.25rem);
+      color: var(--tan-light);
     }
     .title-category-picker {
       flex-shrink: 0;
@@ -2933,9 +2303,9 @@
       color: var(--tan-light);
     }
     .title-tile-category-trail {
-      font-family: var(--font-family);
+      font-family: "Segoe UI", system-ui, sans-serif;
       font-size: clamp(0.92rem, 2.2vw, 1.12rem);
-      font-weight: var(--font-weight-body);
+      font-weight: 500;
       letter-spacing: 0.02em;
       color: #aaa;
       line-height: 1.15;
@@ -2988,9 +2358,9 @@
       line-height: 1.08;
     }
     .title-tile-chevron {
-      font-family: var(--font-family);
+      font-family: "Segoe UI", system-ui, sans-serif;
       font-size: clamp(0.95rem, 2.2vw, 1.15rem);
-      font-weight: var(--font-weight-body);
+      font-weight: 600;
       color: var(--tan-light);
       line-height: 1;
       transition: transform 0.15s ease, color 0.15s ease;
@@ -3120,8 +2490,7 @@
     .general-toolbox-title,
     .templates-panel-title,
     .dynamic-footer h2 {
-      font-family: var(--font-family);
-      font-weight: var(--font-weight-title);
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--panel-title-bar-text);
@@ -3167,67 +2536,20 @@
       font-size: 0.72rem;
       color: var(--text);
     }
-    .mini-panel--gate .mini-panel-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 0.35rem;
-      padding: 0.35rem 0.4rem 0.45rem;
-      overflow: hidden;
-      min-width: 0;
-    }
-    .gate-qty-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.28rem 0.35rem;
-      width: 100%;
-    }
-    .gate-qty-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.12rem;
-      min-width: 0;
-      margin: 0;
-    }
-    .gate-qty-field label {
-      font-family: var(--font-family);
-      font-size: 0.52rem;
-      font-weight: var(--font-weight-small);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .gate-qty-field select {
-      width: 100%;
-      min-height: 1.7rem;
-      padding: 0.18rem 0.28rem;
-      border: 1px solid var(--ui-outline-soft);
-      border-radius: 4px;
-      background: var(--control-idle-bg);
-      color: var(--text);
-      font: inherit;
-      font-size: 0.72rem;
-      font-weight: 700;
-      box-sizing: border-box;
-    }
     .specs-gate-cta {
+      grid-column: 1 / -1;
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      justify-content: flex-end;
       gap: 0.35rem;
       width: 100%;
       margin: 0;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-      background: transparent;
+      padding: 0.4rem 0.45rem;
+      border: var(--panel-ring-tan) solid var(--tan);
+      border-radius: var(--fence-box-inner-radius);
+      box-shadow: 0 0 0 var(--panel-ring-outer) var(--ring-frame-line);
+      background: var(--ui-fill-deep);
       box-sizing: border-box;
-      flex: 1 1 auto;
     }
     .specs-gate-cta__copy {
       display: flex;
@@ -3691,57 +3013,36 @@
       filter: saturate(0.7) brightness(0.84);
     }
 
-    /* Blueprint / Catalog — header + canvas; hide S1 toolbox/footer. */
-    html[data-view-mode="blueprint"] .shell--with-sidebar,
-    html[data-view-mode="catalog"] .shell--with-sidebar {
+    /* Blueprint Choice A — print-first: hide configure chrome, top/bottom bands, multi-panel run */
+    html[data-view-mode="blueprint"] .shell--with-sidebar {
       grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: auto minmax(0, 1fr);
-      grid-template-areas:
-        "header"
-        "canvas";
+      grid-template-rows: minmax(0, 1fr);
+      grid-template-areas: "canvas";
       /* Extra inset so tan canvas ring is never flush-clipped by shell edges */
       padding: 0.45rem 0.55rem 0.55rem;
-      gap: 0.35rem;
+      gap: 0;
       overflow: visible !important;
+      /* Fit under preview-shell nav (body padding-top) — do not grow past viewport */
       box-sizing: border-box;
-      min-height: 0;
-    }
-    /*
-     * ARCHIVED Schedule only — rigid viewport so the landscape grid + run
-     * strip stay on one screen. Portrait docs (Blueprint / Material List /
-     * Ledger) flow with the content instead; see archived/blueprint-schedule/.
-     */
-    html[data-view-mode="blueprint"][data-bp-view="schedule"] .shell--with-sidebar {
       height: calc(100dvh - var(--fb-preview-nav-h, 0px) - var(--vv-top-inset, 0px));
       max-height: calc(100dvh - var(--fb-preview-nav-h, 0px) - var(--vv-top-inset, 0px));
-    }
-    html[data-view-mode="blueprint"]:not([data-bp-view="schedule"]) .shell--with-sidebar,
-    html[data-view-mode="catalog"] .shell--with-sidebar {
-      height: auto;
-      max-height: none;
-      min-height: calc(100dvh - var(--fb-preview-nav-h, 0px) - var(--vv-top-inset, 0px));
+      min-height: 0;
     }
     html[data-view-mode="blueprint"] .shell-top-row,
-    html[data-view-mode="catalog"] .shell-top-row {
-      display: none !important;
-    }
     html[data-view-mode="blueprint"] .toolbox-shell,
     html[data-view-mode="blueprint"] .app-footer,
     html[data-view-mode="blueprint"] .page-config-strip,
-    html[data-view-mode="catalog"] .toolbox-shell,
-    html[data-view-mode="catalog"] .app-footer,
-    html[data-view-mode="catalog"] .page-config-strip {
+    html[data-view-mode="blueprint"] #templates-panel {
       display: none !important;
     }
-    html[data-view-mode="blueprint"] #layout,
-    html[data-view-mode="catalog"] #layout {
+    html[data-view-mode="blueprint"] #layout {
       min-height: 100vh !important;
       height: auto !important;
       max-height: none !important;
       overflow: visible !important;
     }
     /* Configure fence + zoom/view rail stay mounted but fully gone in blueprint
-       (Edit design / Esc returns to configure). */
+       (run strip is the only fence stage; Edit design / Esc returns to configure). */
     html[data-view-mode="blueprint"] .canvas-viewport .preview-row,
     html[data-view-mode="blueprint"] .view-rail,
     html[data-view-mode="blueprint"] .view-rail__zoom,
@@ -3749,55 +3050,20 @@
     html[data-view-mode="blueprint"] .view-rail__face,
     html[data-view-mode="blueprint"] .view-rail__mode,
     html[data-view-mode="blueprint"] .module-face-slot,
-    html[data-view-mode="blueprint"] .scale-rail,
-    html[data-view-mode="catalog"] .canvas-viewport,
-    html[data-view-mode="catalog"] .view-rail,
-    html[data-view-mode="catalog"] .blueprint-detail,
-    html[data-view-mode="catalog"] .blueprint-materials,
-    html[data-view-mode="catalog"] .blueprint-ledger,
-    html[data-view-mode="catalog"] .blueprint-detail-controls,
-    html[data-view-mode="catalog"] .blueprint-overlay {
+    html[data-view-mode="blueprint"] .scale-rail {
       display: none !important;
     }
-    .catalog-stub {
-      display: none;
-      margin: 0.5rem;
-      padding: 2rem 1.25rem;
-      border: var(--bp-ring, 1px solid var(--tan));
-      box-shadow: var(--bp-ring-outer, 0 0 0 1px #0a0a0a);
-      border-radius: var(--bp-radius, 4px);
-      background: var(--bp-paper-panel, var(--ui-fill-deep));
-      color: var(--bp-ink, #f7f1e6);
-      text-align: center;
-    }
-    html[data-view-mode="catalog"] .catalog-stub {
-      display: block;
-    }
-    .catalog-stub__title {
-      margin: 0 0 0.5rem;
-      font-family: var(--font-display);
-      font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.5rem);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--bp-gold-light, #e2d4bc);
-    }
-    .catalog-stub__lede {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.45;
-      color: var(--bp-ink-body, rgba(247, 241, 230, 0.84));
-    }
-    html[data-view-mode="blueprint"][data-bp-view="schedule"] .blueprint-run-strip {
+    html[data-view-mode="blueprint"] .blueprint-run-strip {
       display: flex;
     }
     /*
      * Blueprint frame — one tan border owned by .canvas.
-     * Portrait docs grow with content; Schedule pins to the shell height.
+     * overflow:hidden + double frames were clipping the bottom band and
+     * eating side borders (outer container covering the ring).
      */
     html[data-view-mode="blueprint"] .canvas {
       border: 2px solid var(--tan) !important;
-      background: var(--bp-stage-bg);
+      background: var(--viewer-backdrop);
       box-shadow: none !important;
       border-radius: 6px;
       overflow: auto !important;
@@ -3805,15 +3071,9 @@
       overflow-y: auto !important;
       padding: 0.25rem;
       box-sizing: border-box;
-      max-height: none !important;
-    }
-    html[data-view-mode="blueprint"][data-bp-view="schedule"] .canvas {
       height: 100% !important;
       min-height: 100% !important;
-    }
-    html[data-view-mode="blueprint"]:not([data-bp-view="schedule"]) .canvas {
-      height: auto !important;
-      min-height: 100% !important;
+      max-height: none !important;
     }
     html[data-view-mode="blueprint"] .canvas-viewport {
       display: none;
@@ -3837,7 +3097,7 @@
       border: none !important;
       border-radius: 0;
     }
-    html[data-view-mode="blueprint"][data-bp-view="schedule"] .blueprint-overlay {
+    html[data-view-mode="blueprint"] .blueprint-overlay {
       /* Use nearly the full canvas for a print-first layout */
       inset: 0.1rem;
       z-index: 8;
@@ -3849,11 +3109,7 @@
       pointer-events: none;
       box-sizing: border-box;
     }
-    /* Beat mobile (≤899px) clip + band max-height that chops card bottoms / side rings.
-       .canvas owns the tan frame border, so it must grow to fit content (height:auto)
-       rather than staying pinned to a fixed height with overflow:visible — otherwise
-       the border closes at that fixed height while taller content (Material List,
-       Ledger) keeps rendering past it, unbordered. */
+    /* Beat mobile (≤899px) clip + band max-height that chops card bottoms / side rings */
     @media (max-width: 899px) {
       html[data-view-mode="blueprint"],
       html[data-view-mode="blueprint"] body {
@@ -3865,10 +3121,6 @@
         overflow: visible !important;
         overflow-x: visible !important;
         overflow-y: visible !important;
-      }
-      html[data-view-mode="blueprint"] .canvas {
-        height: auto !important;
-        min-height: 100% !important;
       }
       html[data-view-mode="blueprint"] .blueprint-band {
         max-height: none !important;
@@ -3891,22 +3143,6 @@
     .blueprint-overlay[hidden] {
       display: none !important;
     }
-    /**
-     * The three portrait documents are query containers named `bp-doc`, so
-     * they lay out against the width they're handed — the browser today, a
-     * Wix iframe of arbitrary width tomorrow — rather than the viewport.
-     * All document-internal responsive rules are `@container bp-doc`; the
-     * viewport `@media` tiers below are for page chrome only.
-     */
-    .blueprint-detail,
-    .blueprint-materials,
-    .blueprint-ledger,
-    .blueprint-material-list {
-      container-type: inline-size;
-      container-name: bp-doc;
-      font-family: var(--bp-font-ui);
-      color: var(--bp-ink);
-    }
     .blueprint-detail {
       position: relative;
       top: auto;
@@ -3920,85 +3156,11 @@
       border-top: none;
       margin-top: 0;
     }
-    html[data-bp-view="blueprint"] .blueprint-detail {
+    html[data-bp-view="detail"] .blueprint-detail {
       display: block;
     }
     .blueprint-detail[hidden] {
       display: none !important;
-    }
-    .blueprint-materials {
-      position: relative;
-      top: auto;
-      left: 0.1rem;
-      right: 0.1rem;
-      z-index: 8;
-      display: none;
-      pointer-events: none;
-      box-sizing: border-box;
-      padding-top: 0.5rem;
-      border-top: none;
-      margin-top: 0;
-    }
-    html[data-bp-view="materialList"] .blueprint-materials {
-      display: block;
-    }
-    .blueprint-materials[hidden] {
-      display: none !important;
-    }
-    .blueprint-ledger {
-      position: relative;
-      top: auto;
-      left: 0.1rem;
-      right: 0.1rem;
-      z-index: 8;
-      display: none;
-      pointer-events: none;
-      box-sizing: border-box;
-      padding-top: 0.5rem;
-      border-top: none;
-      margin-top: 0;
-    }
-    html[data-bp-view="ledger"] .blueprint-ledger {
-      display: block;
-    }
-    .blueprint-ledger[hidden] {
-      display: none !important;
-    }
-    .bp-materials-image {
-      position: relative;
-      pointer-events: auto;
-      overflow: visible;
-      min-height: 10rem;
-      max-height: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 0.6rem 0.6rem;
-      padding: 0.5rem;
-      background: var(--bp-stage-bg);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer), inset 0 0 0 1px rgba(226, 212, 188, 0.22);
-      border-radius: var(--bp-radius);
-      box-sizing: border-box;
-    }
-    .bp-materials-image svg {
-      display: block;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: min(42vh, 26rem);
-      /* SVG preserveAspectRatio=meet + max-height → full fence, no crop */
-    }
-    .bp-materials-list {
-      pointer-events: auto;
-      margin: 0 0.6rem 0.6rem;
-      padding: 0.5rem 0.6rem;
-      background: var(--bp-paper-panel);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
-      color: var(--bp-ink);
-      font-family: var(--bp-font-ui);
     }
     .bp-detail-row {
       display: grid;
@@ -4022,89 +3184,41 @@
     }
     .bp-detail-image {
       position: relative;
-      overflow: visible;
-      min-height: 10rem;
-      max-height: none;
+      overflow: hidden;
+      min-height: 12rem;
+      max-height: 22rem;
       display: flex;
       align-items: center;
       justify-content: center;
       pointer-events: auto;
-      padding: 0.35rem;
-      background: var(--bp-stage-bg);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer), inset 0 0 0 1px rgba(226, 212, 188, 0.2);
-      border-radius: var(--bp-radius);
-      box-sizing: border-box;
     }
     .bp-detail-image svg {
-      display: block;
       width: auto;
-      height: auto;
+      height: 100%;
       max-width: 100%;
-      max-height: min(48vh, 28rem);
     }
-    /**
-     * Single print block for every blueprint document. Keep all print rules
-     * here — they were previously spread across three places, which is how
-     * the run-strip and vendor-link rules drifted apart.
-     */
+    .bp-detail-dim {
+      filter: grayscale(1);
+      opacity: 0.35;
+    }
+    .bp-detail-highlight {
+      filter: none;
+      opacity: 1;
+    }
     @media print {
-      .blueprint-detail,
-      .blueprint-materials,
-      .blueprint-ledger {
+      .blueprint-detail {
         break-before: page;
         margin-top: 0;
         padding-top: 0;
         border-top: none;
       }
-      /* Screen-only chrome: the view toolbar, the Schedule's header bar, and
-         both "Edit design" buttons are navigation, not document content. */
       .blueprint-detail-controls,
-      .blueprint-overlay__chrome,
       .blueprint-overlay__back,
       .blueprint-view-toggle {
         display: none !important;
       }
-      /* Blueprint / Material List / Ledger content is normal block flow
-         (unlike the archived Schedule grid) — let it reflow across print
-         pages instead of clipping to the on-screen canvas height. */
-      html[data-bp-view="blueprint"] .canvas,
-      html[data-bp-view="materialList"] .canvas,
-      html[data-bp-view="ledger"] .canvas {
-        height: auto !important;
-        min-height: 0 !important;
-        overflow: visible !important;
-      }
-      /* A card split across a page break loses its head, so the rules read
-         as belonging to whatever card printed above it. */
-      .bp-detail-row .bp-group,
-      .ledger-section {
-        break-inside: avoid;
-      }
-      /* Archived Schedule's material list scrolls on screen; print needs it whole. */
-      .blueprint-material-list {
-        overflow-y: visible;
-        max-height: none;
-      }
-      /* Underlined green on paper reads as an error, and the URL isn't clickable. */
-      .bp-vendor-name--link {
-        color: var(--bp-ink-muted);
-        text-decoration: none;
-      }
-      /* Pitch panels — preserve dark fills + forest heads when printing. */
-      .bp-group,
-      .bp-group__head,
-      .blueprint-band,
-      .blueprint-material-list,
-      .ledger-section,
-      .ledger-grand-total,
-      .blueprint-overlay__chrome,
-      .blueprint-detail-controls {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
     }
-    @container bp-doc (max-width: 680px) {
+    @media (max-width: 680px) {
       .bp-detail-row {
         grid-template-columns: 1fr;
       }
@@ -4114,35 +3228,21 @@
       }
       .bp-detail-image {
         order: -1;
-      }
-      .bp-detail-image svg {
-        max-height: min(40vh, 22rem);
-      }
-      .bp-materials-image svg {
-        max-height: min(36vh, 20rem);
+        max-height: 18rem;
       }
     }
-    @container bp-doc (max-width: 460px) {
+    @media (max-width: 460px) {
       .bp-detail-row {
         padding: 0.4rem 0.3rem;
       }
       .bp-detail-image {
-        min-height: 9rem;
-      }
-      .bp-detail-image svg {
-        max-height: min(36vh, 18rem);
-      }
-      .bp-materials-image {
-        min-height: 9rem;
-      }
-      .bp-materials-image svg {
-        max-height: min(32vh, 16rem);
+        min-height: 8rem;
+        max-height: 14rem;
       }
     }
     .blueprint-overlay__chrome {
       grid-row: 1;
       grid-column: 1;
-      position: relative;
       pointer-events: auto;
       display: flex;
       align-items: center;
@@ -4150,49 +3250,36 @@
       gap: 0.5rem;
       margin: 0.35rem 0.4rem 0;
       padding: 0.28rem 0.45rem;
-      background: var(--bp-chrome-grad);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
+      background: linear-gradient(145deg, #4a3428 0%, #3a2920 55%, #1e3d28 100%);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
       z-index: 4;
-    }
-    .blueprint-overlay__chrome::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 2px;
-      background: var(--bp-gold-light);
-      border-radius: 0 0 var(--bp-radius-inner) var(--bp-radius-inner);
-      pointer-events: none;
     }
     .blueprint-overlay__title {
       margin: 0;
-      font-family: var(--bp-font-display);
+      font-family: var(--font-display, inherit);
       font-size: clamp(0.7rem, 0.62rem + 0.35cqi, 0.85rem);
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--bp-head-accent);
+      color: var(--tan);
     }
     .blueprint-overlay__hint {
       margin: 0;
       flex: 1 1 auto;
       font-size: 0.64rem;
       line-height: 1.3;
-      color: var(--bp-ink-body);
+      color: rgba(247, 241, 230, 0.82);
     }
     .blueprint-overlay__back {
       appearance: none;
       margin: 0;
       padding: 0.28rem 0.45rem;
-      border: var(--bp-ring);
-      border-radius: var(--bp-radius-control);
-      background: rgba(247, 241, 230, 0.12);
-      color: var(--bp-ink);
+      border: 1px solid var(--tan);
+      border-radius: 3px;
+      background: rgba(226, 212, 188, 0.18);
+      color: #f7f1e6;
       font: inherit;
-      font-family: var(--bp-font-ui);
       font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -4201,12 +3288,14 @@
     }
     .blueprint-overlay__back:hover,
     .blueprint-overlay__back:focus-visible {
-      background: rgba(184, 212, 188, 0.22);
-      border-color: var(--bp-head-accent);
-      color: var(--bp-ink);
+      background: var(--control-selected-bg, rgba(220, 201, 180, 0.35));
+      color: var(--selected-tan-text, #0a0a0a);
     }
     .blueprint-view-toggle {
-      /* Docs group in #app-site-header; class retained for JS tablist wiring */
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-left: auto;
     }
     .blueprint-view-toggle[hidden] {
       display: none !important;
@@ -4215,12 +3304,11 @@
       appearance: none;
       margin: 0;
       padding: 0.28rem 0.5rem;
-      border: var(--bp-ring);
-      border-radius: var(--bp-radius-control);
-      background: rgba(247, 241, 230, 0.1);
-      color: var(--bp-ink);
+      border: 1px solid var(--tan);
+      border-radius: 3px;
+      background: rgba(226, 212, 188, 0.12);
+      color: #f7f1e6;
       font: inherit;
-      font-family: var(--bp-font-ui);
       font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -4230,27 +3318,38 @@
     .blueprint-view-btn.is-active,
     .blueprint-view-btn:hover,
     .blueprint-view-btn:focus-visible {
-      background: rgba(184, 212, 188, 0.28);
-      border-color: var(--bp-head-accent);
-      color: var(--bp-ink);
+      background: var(--control-selected-bg, rgba(220, 201, 180, 0.45));
+      color: var(--selected-tan-text, #0a0a0a);
     }
-    html[data-bp-view="blueprint"] .blueprint-overlay,
-    html[data-bp-view="materialList"] .blueprint-overlay,
-    html[data-bp-view="ledger"] .blueprint-overlay {
+    html[data-bp-view="detail"] .blueprint-overlay {
       display: none !important;
     }
-    /* Legacy absolute / S0 doc chrome removed — docs open from B-MEMBER footer */
     .blueprint-detail-controls {
-      display: none !important;
+      display: none;
+      position: absolute;
+      top: 0.1rem;
+      left: 0.1rem;
+      right: 0.1rem;
+      z-index: 20;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.28rem 0.45rem;
+      background: linear-gradient(145deg, #4a3428 0%, #3a2920 55%, #1e3d28 100%);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
+      pointer-events: auto;
+      box-sizing: border-box;
     }
-    /**
-     * Viewport tiers used by blueprint page chrome: 1280 / 900–899 / 680 / 460.
-     * Media queries can't read the `--bp-*-max` tokens above, so the numbers
-     * are literal — keep them on these four values. Anything that responds to
-     * the document's own width belongs in an `@container bp-doc` query instead.
-     */
-    @media (max-width: 460px) {
-      /* Design docs nav lives in shell header row — no canvas padding reserve */
+    .blueprint-detail-controls .blueprint-view-toggle {
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+    html[data-bp-view="detail"] .blueprint-detail-controls {
+      display: flex;
+    }
+    html[data-bp-view="detail"] .blueprint-detail {
+      padding-top: 3.5rem;
     }
     .blueprint-band {
       pointer-events: auto;
@@ -4261,10 +3360,9 @@
       gap: 0.6rem;
       margin: 0;
       padding: 0.6rem 0.7rem;
-      background: var(--bp-paper-stage);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
+      background: rgba(26, 25, 24, 0.72);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
       -webkit-backdrop-filter: blur(2px);
       backdrop-filter: blur(2px);
       /* Full cards visible — do not clip bottoms */
@@ -4313,18 +3411,22 @@
       z-index: 3;
       margin: 0;
       padding: 0.5rem 0.6rem;
-      background: var(--bp-paper-panel);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
+      background: rgba(26, 25, 24, 0.78);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
       -webkit-backdrop-filter: blur(2px);
       backdrop-filter: blur(2px);
-      color: var(--bp-ink);
-      font-family: var(--bp-font-ui);
+      color: #f7f1e6;
       grid-column: 1;
       grid-row: 5;
       overflow-y: auto;
       max-height: 12rem;
+    }
+    @media print {
+      .blueprint-material-list {
+        overflow-y: visible;
+        max-height: none;
+      }
     }
     .bp-material-list__head {
       display: flex;
@@ -4333,20 +3435,19 @@
       gap: 0.5rem;
       margin-bottom: 0.32rem;
       padding-bottom: 0.24rem;
-      border-bottom: 1px solid var(--bp-rule-strong);
+      border-bottom: 1px solid rgba(157, 128, 104, 0.45);
     }
     .bp-material-list__title {
       margin: 0;
-      font-family: var(--bp-font-display);
       font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.01em;
       text-transform: uppercase;
-      color: var(--bp-head-accent);
+      color: var(--tan, #e6d0b0);
     }
     .bp-material-list__src {
       font-size: 0.62rem;
-      color: var(--bp-ink-soft);
+      color: rgba(247, 241, 230, 0.65);
       white-space: nowrap;
     }
     .bp-material-list__body {
@@ -4355,24 +3456,8 @@
     }
     .bp-material-list__placeholder {
       margin: 0;
-      color: var(--bp-ink-faint);
+      color: rgba(247, 241, 230, 0.55);
       font-style: italic;
-    }
-    /**
-     * Visually hidden, still announced: table summaries (the visible heading
-     * already carries the same information sighted users get) and the view
-     * -change status line.
-     */
-    .bp-table-caption,
-    .bp-sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
     }
     .bp-material-list__table {
       width: 100%;
@@ -4384,381 +3469,31 @@
       padding: 0.18rem 0.24rem;
       text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid var(--bp-rule);
+      border-bottom: 1px solid rgba(157, 128, 104, 0.25);
     }
     .bp-material-list__table th {
-      font-family: var(--bp-font-display);
       font-weight: 600;
-      color: var(--bp-head-accent);
+      color: rgba(247, 241, 230, 0.75);
       font-size: 0.64rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid var(--bp-rule-strong);
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid rgba(157, 128, 104, 0.45);
     }
-    .bp-material-list__col-qty {
-      width: 8%;
+    .bp-material-list__col-qty,
+    .bp-material-list__col-unit,
+    .bp-material-list__col-sku {
+      width: 18%;
       text-align: center;
     }
-    .bp-material-list__col-unit {
-      width: 15%;
-      text-align: center;
-    }
-    .bp-material-list__col-pricing {
-      width: 43%;
-    }
-    .bp-material-list__qty {
+    .bp-material-list__qty,
+    .bp-material-list__unit,
+    .bp-material-list__sku {
       text-align: center;
       white-space: nowrap;
     }
-    .bp-material-list__unit {
-      text-align: center;
-      white-space: normal;
-      overflow-wrap: break-word;
-      line-height: 1.25;
-    }
-    .bp-material-list__pricing {
-      text-align: left;
-    }
-    .bp-material-list__row > .bp-material-list__item,
-    .bp-material-list__row > .bp-material-list__qty,
-    .bp-material-list__row > .bp-material-list__unit {
-      vertical-align: middle;
-    }
-    .bp-material-list__row--needs-sku .bp-material-list__pricing {
-      color: var(--bp-status-assumed);
+    .bp-material-list__row--needs-sku .bp-material-list__sku {
+      color: #f6b26b;
       font-style: italic;
-    }
-    @container bp-doc (max-width: 680px) {
-      .bp-material-list__table th,
-      .bp-material-list__table td {
-        padding: 0.14rem 0.18rem;
-        font-size: 0.62rem;
-      }
-      .bp-material-list__table th {
-        font-size: 0.58rem;
-      }
-      .bp-material-list__col-qty {
-        width: 10%;
-      }
-      .bp-material-list__col-unit {
-        width: 18%;
-      }
-      .bp-material-list__col-pricing {
-        width: 48%;
-      }
-    }
-    /* Screen only — print always gets the real table, whatever the frame width. */
-    @container bp-doc (max-width: 460px) {
-      @media screen {
-        .bp-material-list__table,
-        .bp-material-list__table thead,
-        .bp-material-list__table tbody,
-        .bp-material-list__table tr,
-        .bp-material-list__table td,
-        .bp-material-list__table th {
-          display: block;
-          width: 100%;
-        }
-        .bp-material-list__table thead {
-          display: none;
-        }
-        .bp-material-list__table tr {
-          border: 1px solid var(--bp-rule-card);
-          border-radius: var(--bp-radius);
-          background: var(--bp-paper-card);
-          margin-bottom: 0.5rem;
-          padding: 0.4rem 0.45rem;
-        }
-        .bp-material-list__table td {
-          border-bottom: none;
-          padding: 0.15rem 0;
-          text-align: left;
-        }
-        .bp-material-list__item {
-          font-family: var(--bp-font-display);
-          font-weight: 700;
-          color: var(--bp-gold-light);
-          border-bottom: 1px solid var(--bp-rule);
-          padding-bottom: 0.28rem !important;
-          margin-bottom: 0.22rem;
-        }
-        .bp-material-list__qty,
-        .bp-material-list__unit {
-          display: inline;
-          width: auto;
-          text-align: left;
-          padding: 0.1rem 0.4rem 0.1rem 0;
-        }
-        .bp-material-list__qty[data-label]::before,
-        .bp-material-list__unit[data-label]::before {
-          content: attr(data-label) ": ";
-          color: var(--bp-ink-soft);
-          font-weight: 400;
-          text-transform: uppercase;
-          font-size: 0.55rem;
-        }
-        .bp-material-list__pricing {
-          padding-top: 0.2rem;
-        }
-      }
-    }
-    /**
-     * Vendor pricing — 2-up grid so 4 vendors stay ~2 lines tall instead of
-     * stacking one-per-row and stretching every Material List table row.
-     */
-    .bp-vendor-list {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      column-gap: 0.55rem;
-      row-gap: 0.12rem;
-      align-items: start;
-    }
-    .bp-vendor-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.18rem 0.28rem;
-      min-width: 0;
-      line-height: 1.25;
-    }
-    .bp-vendor-name {
-      min-width: 0;
-      color: var(--bp-ink-muted);
-      font-weight: 600;
-      font-size: 0.62rem;
-    }
-    .bp-vendor-name--link {
-      color: var(--bp-link);
-      text-decoration: underline;
-      text-decoration-color: rgba(110, 207, 150, 0.45);
-    }
-    .bp-vendor-name--link:hover {
-      color: var(--bp-link-hover);
-    }
-    .bp-vendor-price {
-      color: var(--bp-gold-light);
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .bp-vendor-sku {
-      flex: 1 1 100%;
-      color: var(--bp-ink-faint);
-      font-size: 0.52rem;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    @container bp-doc (max-width: 680px) {
-      .bp-vendor-list {
-        column-gap: 0.4rem;
-      }
-      .bp-vendor-name {
-        font-size: 0.58rem;
-      }
-    }
-    /* Card-collapse width: still 2-up — full-width stack would re-stretch cards. */
-    @container bp-doc (max-width: 460px) {
-      @media screen {
-        .bp-vendor-list {
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        }
-      }
-    }
-    .ledger-section {
-      pointer-events: auto;
-      margin: 0 0.6rem 0.6rem;
-      padding: 0.5rem 0.6rem;
-      background: var(--bp-paper-panel);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
-      color: var(--bp-ink);
-      font-family: var(--bp-font-ui);
-      break-inside: avoid;
-    }
-    .ledger-table {
-      width: 100%;
-      margin-top: 0.3rem;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .ledger-table th,
-    .ledger-table td {
-      padding: 0.2rem 0.28rem;
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.68rem;
-      line-height: 1.35;
-      border-bottom: 1px solid var(--bp-rule);
-    }
-    .ledger-table th {
-      font-family: var(--bp-font-display);
-      font-weight: 600;
-      color: var(--bp-head-accent);
-      font-size: 0.62rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid var(--bp-rule-strong);
-    }
-    .ledger-table__col-material,
-    .ledger-table__col-hours,
-    .ledger-table__col-labor,
-    .ledger-table__col-total {
-      width: 14%;
-      text-align: right;
-    }
-    .ledger-row__material,
-    .ledger-row__hours,
-    .ledger-row__labor,
-    .ledger-row__total {
-      text-align: right;
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums;
-    }
-    .ledger-row--empty td {
-      color: var(--bp-ink-faint);
-      font-style: italic;
-    }
-    .ledger-row--subtotal td {
-      padding-top: 0.3rem;
-      font-weight: 700;
-      color: var(--bp-gold-light);
-      border-bottom: none;
-      border-top: 1px solid var(--bp-rule-strong);
-    }
-    .ledger-row--subtotal .ledger-row__decision {
-      text-align: right;
-      text-transform: uppercase;
-      font-size: 0.6rem;
-      letter-spacing: 0.04em;
-    }
-    @container bp-doc (max-width: 680px) {
-      .ledger-table th,
-      .ledger-table td {
-        padding: 0.15rem 0.22rem;
-        font-size: 0.62rem;
-      }
-      .ledger-table th {
-        font-size: 0.58rem;
-      }
-      .ledger-table__col-material,
-      .ledger-table__col-hours,
-      .ledger-table__col-labor,
-      .ledger-table__col-total {
-        width: 16%;
-      }
-      .ledger-grand-total__label {
-        font-size: 0.72rem;
-      }
-      .ledger-grand-total__value {
-        font-size: 0.85rem;
-      }
-    }
-    /* Screen only — print always gets the real table, whatever the frame width. */
-    @container bp-doc (max-width: 460px) {
-      @media screen {
-        .ledger-table,
-        .ledger-table thead,
-        .ledger-table tbody,
-        .ledger-table tr,
-        .ledger-table td,
-        .ledger-table th {
-          display: block;
-          width: 100%;
-        }
-        .ledger-table thead {
-          display: none;
-        }
-        .ledger-table tr {
-          border-bottom: 1px solid var(--bp-rule);
-          padding: 0.35rem 0;
-        }
-        .ledger-table td {
-          border-bottom: none;
-          padding: 0.12rem 0;
-          text-align: left;
-        }
-        .ledger-row__decision {
-          font-weight: 700;
-          color: var(--bp-gold-light);
-          border-bottom: 1px solid var(--bp-rule);
-          padding-bottom: 0.25rem !important;
-          margin-bottom: 0.2rem;
-        }
-        .ledger-row__material,
-        .ledger-row__hours,
-        .ledger-row__labor,
-        .ledger-row__total {
-          display: flex;
-          justify-content: space-between;
-          text-align: right;
-          width: 100%;
-        }
-        .ledger-row__material[data-label]::before,
-        .ledger-row__hours[data-label]::before,
-        .ledger-row__labor[data-label]::before,
-        .ledger-row__total[data-label]::before {
-          content: attr(data-label);
-          color: var(--bp-ink-soft);
-          font-weight: 400;
-          text-transform: uppercase;
-          font-size: 0.55rem;
-          text-align: left;
-        }
-        .ledger-row--subtotal {
-          display: flex !important;
-          justify-content: space-between;
-          align-items: baseline;
-          padding-top: 0.3rem;
-          border-top: 1px solid var(--bp-rule-strong);
-        }
-        .ledger-row--subtotal td {
-          border-top: none;
-          padding: 0;
-        }
-        .ledger-row--subtotal .ledger-row__decision {
-          border-bottom: none;
-          margin-bottom: 0;
-          padding-bottom: 0 !important;
-          text-align: left;
-        }
-        .ledger-row--subtotal .ledger-row__total {
-          font-weight: 700;
-          width: auto;
-        }
-        .ledger-row--empty td {
-          text-align: center;
-          padding: 0.4rem 0;
-        }
-      }
-    }
-    .ledger-grand-total {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin: 0 0.6rem 0.6rem;
-      padding: 0.5rem 0.6rem;
-      background: var(--bp-chrome-grad);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius);
-    }
-    .ledger-grand-total__label {
-      font-family: var(--bp-font-display);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--bp-gold-light);
-    }
-    .ledger-grand-total__value {
-      font-size: 0.95rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      color: var(--bp-ink);
     }
     .blueprint-overlay__stage {
       position: relative;
@@ -4772,18 +3507,18 @@
       min-width: 0;
       height: 100%;
       padding: 0.6rem 0.7rem;
-      border-radius: var(--bp-radius);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer), inset 0 0 0 1px rgba(226, 212, 188, 0.1);
-      background: var(--bp-paper-card);
-      color: var(--bp-ink);
+      border-radius: 3px;
+      border: 1px solid rgba(157, 128, 104, 0.65);
+      background: rgba(36, 34, 32, 0.94);
+      color: #f7f1e6;
       cursor: default;
       transition: border-color 140ms ease, background 140ms ease;
+      box-shadow: inset 0 0 0 1px rgba(226, 212, 188, 0.12);
     }
     .bp-group:hover,
     .bp-group.is-active {
-      border-color: var(--tan-light);
-      background: var(--bp-paper-card-active);
+      border-color: var(--tan);
+      background: rgba(48, 44, 40, 0.96);
     }
     .bp-group__head {
       display: flex;
@@ -4792,34 +3527,33 @@
       justify-content: space-between;
       gap: 0.15rem 0.55rem;
       margin: 0 0 0.25rem;
-      padding: 0.22rem 0.32rem 0.24rem;
+      padding: 0.18rem 0.3rem 0.22rem;
       margin-left: -0.12rem;
       margin-right: -0.12rem;
-      font-family: var(--bp-font-display);
+      font-family: var(--font-display, inherit);
       font-size: clamp(0.68rem, 0.6rem + 0.28cqi, 0.8rem);
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--bp-head-text);
-      background: var(--bp-head-bg);
-      border-bottom: 1px solid var(--bp-rule-head);
-      border-radius: var(--bp-radius-inner) var(--bp-radius-inner) 0 0;
+      color: #4a3428;
+      background: var(--tan);
+      border-bottom: 1px solid rgba(157, 128, 104, 0.55);
+      border-radius: 2px 2px 0 0;
     }
     .bp-group__title {
       flex: 1 1 auto;
       min-width: 0;
-      color: var(--bp-gold-light);
     }
     .bp-group__src {
       flex: 1 1 100%;
       min-width: 0;
       text-align: left;
-      font-family: var(--bp-font-ui);
+      font-family: inherit;
       font-size: clamp(0.52rem, 0.48rem + 0.2cqi, 0.62rem);
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(247, 241, 230, 0.68);
+      color: rgba(74, 52, 40, 0.72);
       white-space: normal;
       overflow: hidden;
       display: -webkit-box;
@@ -4837,10 +3571,9 @@
     .bp-group__items li {
       position: relative;
       padding: 1px 0 1px 0.76rem;
-      font-family: var(--bp-font-ui);
       font-size: clamp(0.64rem, 0.58rem + 0.25cqi, 0.76rem);
       line-height: 1.4;
-      color: var(--bp-ink-strong);
+      color: rgba(247, 241, 230, 0.9);
     }
     .bp-group__items li::before {
       content: "";
@@ -4850,14 +3583,17 @@
       width: 0.42rem;
       height: 0.42rem;
       border-radius: 50%;
-      background: var(--bp-status-ok);
+      background: #3d9a5f;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
     }
+    .bp-group__items li[data-status="ok"]::before {
+      background: #3d9a5f;
+    }
     .bp-group__items li[data-status="assumed"]::before {
-      background: var(--bp-status-assumed);
+      background: #e6c35c;
     }
     .bp-group__items li[data-status="alert"]::before {
-      background: var(--bp-status-alert);
+      background: #d4544a;
     }
     .bp-status-dot {
       display: inline-block;
@@ -4868,9 +3604,9 @@
       vertical-align: 0.05em;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
     }
-    .bp-status-dot--ok { background: var(--bp-status-ok); }
-    .bp-status-dot--assumed { background: var(--bp-status-assumed); }
-    .bp-status-dot--alert { background: var(--bp-status-alert); }
+    .bp-status-dot--ok { background: #3d9a5f; }
+    .bp-status-dot--assumed { background: #e6c35c; }
+    .bp-status-dot--alert { background: #d4544a; }
     .bp-group__detail {
       display: block;
       margin: 0;
@@ -4880,25 +3616,22 @@
     }
     .bp-group__detail p {
       margin: 0;
-      font-family: var(--bp-font-body);
       font-size: clamp(0.62rem, 0.56rem + 0.24cqi, 0.74rem);
       line-height: 1.45;
-      color: var(--bp-ink-body);
+      color: rgba(247, 241, 230, 0.82);
     }
     .bp-group__detail .bp-install {
       margin-top: 0.2rem;
-      font-family: var(--bp-font-ui);
-      color: var(--bp-gold-light);
+      color: var(--tan);
     }
     .bp-group__detail .bp-src {
       display: block;
       margin-top: 0.15rem;
-      font-family: var(--bp-font-ui);
       font-size: 0.54rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--bp-head-accent);
+      color: #8fbf9a;
       opacity: 0.95;
     }
     #blueprint-callouts {
@@ -4909,20 +3642,18 @@
     .bp-callout {
       position: absolute;
       padding: 0.15rem 0.35rem;
-      background: rgba(26, 25, 24, 0.9);
-      border: var(--bp-ring);
-      box-shadow: var(--bp-ring-outer);
-      border-radius: var(--bp-radius-control);
+      background: rgba(20, 18, 16, 0.82);
+      border: 1px solid var(--tan);
+      border-radius: 3px;
       opacity: 0.45;
       transition: opacity 140ms ease;
     }
     .bp-callout__label {
-      font-family: var(--bp-font-display);
       font-size: 0.54rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--bp-gold-light);
+      color: var(--tan);
     }
     .bp-callout--footing {
       bottom: 6%;
@@ -4932,7 +3663,7 @@
       opacity: 0.9;
     }
     .bp-callout--assumed {
-      border-color: var(--bp-status-assumed);
+      border-color: #e6c35c;
       background: rgba(40, 34, 12, 0.88);
     }
     .bp-callout--assumed .bp-callout__label {
@@ -5253,51 +3984,12 @@
       overflow: hidden;
     }
     .option-groups {
-      --option-group-gap: 0.35rem;
-      --option-groups-pad-block: 0.55rem; /* tad larger than gap */
       display: flex;
       flex-direction: column;
       flex: 1;
       min-height: 0;
-      gap: var(--option-group-gap);
-      padding-block: var(--option-groups-pad-block);
-      box-sizing: border-box;
+      gap: 0.35rem;
       overflow-y: auto;
-    }
-    /** Desktop: collapsed option headers share leftover height evenly */
-    @media (min-width: 900px) {
-      .option-groups.option-groups--fence:not(:has(details.option-group[open])) details.option-group:not(.pilot-hidden) {
-        flex: 1 1 0;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-      }
-      .option-groups.option-groups--fence:not(:has(details.option-group[open])) details.option-group:not([open]) > summary {
-        flex: 1 1 auto;
-        min-height: 2.35rem;
-        height: 100%;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-      }
-      .option-groups.option-groups--fence:has(details.option-group[open]) details.option-group:not([open]):not(.pilot-hidden) {
-        flex: 0 0 auto;
-      }
-      .option-groups.option-groups--fence:has(details.option-group[open]) details.option-group[open] {
-        flex: 1 1 auto;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-      }
-      .option-groups.option-groups--fence:has(details.option-group[open]) details.option-group[open] > summary {
-        flex: 0 0 auto;
-      }
-      .option-groups.option-groups--fence:has(details.option-group[open]) details.option-group[open] > .option-group-body {
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-      }
     }
     /** Mobile toolbox — hug collapsed accordions; grow with open section (cap in .toolbox-viewport) */
     @media (max-width: 899px) {
@@ -5323,16 +4015,6 @@
         max-height: none;
         overflow: visible;
       }
-      .sidebar-rail .option-groups {
-        padding-block: 0.2rem;
-      }
-      .sidebar-rail details.option-group {
-        flex: 0 0 auto;
-      }
-      .sidebar-rail details.option-group > summary {
-        flex: none;
-        min-height: 0;
-      }
     }
     details.option-group {
       border: var(--panel-folded-border);
@@ -5340,8 +4022,6 @@
       background: var(--ui-fill-deep);
       box-shadow: inset 3px 0 0 var(--panel-accent-stripe);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
     details.option-group:not([open]) {
       background: var(--panel-folded-bg);
@@ -5353,23 +4033,19 @@
     details.option-group summary {
       list-style: none;
       cursor: pointer;
-      padding: 0.55rem 0.55rem;
-      font-family: var(--font-family);
-      font-size: clamp(0.64rem, 0.52rem + 0.8cqi, 0.9rem);
-      line-height: 1.15;
+      padding: 0.5rem 0.55rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      font-weight: var(--font-weight-title);
+      font-weight: 600;
       color: var(--title-bar-text);
       background: var(--ui-fill);
       border-bottom: 1px solid transparent;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
       gap: 0.4rem;
       user-select: none;
       transition: background 0.15s ease, color 0.15s ease;
-      box-sizing: border-box;
     }
     details.option-group:not([open]) summary {
       background: transparent;
@@ -5388,7 +4064,7 @@
       content: '▸';
       flex-shrink: 0;
       color: var(--title-bar-text);
-      font-size: 0.92rem;
+      font-size: 0.85rem;
       line-height: 1;
       transition: transform 0.15s ease;
     }
@@ -5417,7 +4093,16 @@
       display: none !important;
     }
 
-    /** CPP copy — lives inside B2 when Community / HOA mode is on */
+    /** CPP card — lives in the S1 top row; fills the Templates slot when HOA mode hides it */
+    .community-preset-banner {
+      margin: 0;
+      color: var(--text);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+    .community-preset-banner[hidden] {
+      display: none !important;
+    }
     .community-preset-banner__body {
       flex: 1 1 auto;
       min-height: 0;
@@ -5428,41 +4113,26 @@
       padding: 0.45rem 0.55rem 0.5rem;
       background: var(--ui-fill-deep);
       overflow: hidden;
-      color: var(--text);
-      font-size: 0.78rem;
-      line-height: 1.35;
-    }
-    .community-preset-banner__body[hidden] {
-      display: none !important;
-    }
-    #templates-panel[data-panel-mode="community"] #templates-panel-body {
-      display: none !important;
-    }
-    #templates-panel[data-panel-mode="community"] #community-preset-banner {
-      display: flex !important;
-    }
-    #templates-panel[data-panel-mode="templates"] #community-preset-banner {
-      display: none !important;
     }
 
-    .community-preset-banner__body strong {
+    .community-preset-banner strong {
       display: block;
-      font-family: var(--font-family);
+      font-family: var(--font-display, 'Libre Franklin', sans-serif);
       font-size: 0.86rem;
       line-height: 1.25;
-      color: var(--text);
+      color: var(--tan-light);
     }
 
-    .community-preset-banner__body .community-preset-subhead {
+    .community-preset-banner .community-preset-subhead {
       display: block;
-      color: var(--muted);
+      opacity: 0.88;
     }
 
     .community-preset-disclaimer {
       margin: 0.2rem 0 0;
       font-size: 0.66rem;
-      color: var(--muted);
-      line-height: 1.35;
+      line-height: 1.3;
+      opacity: 0.75;
     }
     .option-group-body {
       padding: 0 0.55rem 0.55rem;
@@ -5485,9 +4155,7 @@
     }
     .field label {
       display: block;
-      font-family: var(--font-family);
-      font-size: 0.74rem;
-      font-weight: var(--font-weight-small);
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--muted);
@@ -5499,12 +4167,9 @@
       color: var(--text);
       border: 1px solid var(--ui-outline-soft);
       border-radius: 6px;
-      padding: 0.42rem 0.45rem;
+      padding: 0.35rem 0.45rem;
       font: inherit;
-      font-size: 0.9rem;
-      line-height: 1.25;
-      min-height: 2.35rem;
-      box-sizing: border-box;
+      font-size: 0.82rem;
     }
     .field select:focus {
       outline: none;
@@ -5516,7 +4181,7 @@
       cursor: not-allowed;
     }
     .field-hint {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #666;
       margin: 0.15rem 0 0;
       line-height: 1.35;
@@ -5534,7 +4199,7 @@
     }
     .trim-category-label {
       margin: 0;
-      font-size: 0.64rem;
+      font-size: 0.58rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -5684,326 +4349,10 @@
         overflow: visible;
       }
     }
-
-    /* Greatest Hits Catalog View */
-    #catalog-view {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 1.25rem 1rem 3rem 1rem;
-      box-sizing: border-box;
-    }
-    #catalog-view[hidden] {
-      display: none !important;
-    }
-    .catalog-header-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      background: var(--surface-solid, #242220);
-      border: 2px solid var(--ui-outline, #a3876e);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    .catalog-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    .catalog-main-title {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--cream, #f3ebe0);
-      margin: 0;
-    }
-    .catalog-results-badge {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 300;
-      color: var(--tan, #9d8068);
-      background: rgba(163, 135, 110, 0.15);
-      border: 1px solid rgba(163, 135, 110, 0.3);
-      padding: 0.3rem 0.75rem;
-      border-radius: 20px;
-    }
-    .catalog-filters-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-    }
-    .catalog-filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      min-width: 180px;
-      flex: 1 1 200px;
-    }
-    .catalog-filter-group label {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 300;
-      color: var(--tan, #9d8068);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .catalog-filter-group select,
-    .catalog-filter-group input {
-      background: var(--control-idle-bg, #1a1918);
-      color: var(--text, #eee);
-      border: 1px solid var(--ui-outline-soft, rgba(163, 135, 110, 0.5));
-      border-radius: 5px;
-      padding: 0.5rem 0.75rem;
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.85rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .catalog-tags-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.25rem;
-    }
-    .tag-chip {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #0a0a0a;
-      background: var(--tan, #9d8068);
-      border: 1px solid #0a0a0a;
-      padding: 0.25rem 0.65rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .tag-chip:hover {
-      background: var(--tan-light, #ddd0b8);
-      border-color: #0a0a0a;
-      color: #0a0a0a;
-    }
-    .tag-chip.active {
-      background: var(--tan-light, #ddd0b8);
-      color: #0a0a0a;
-      font-weight: 800;
-      border-color: #0a0a0a;
-      box-shadow: inset 0 0 0 1px #0a0a0a;
-    }
-    .catalog-grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    @media (max-width: 1024px) {
-      .catalog-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 640px) {
-      .catalog-grid-container {
-        grid-template-columns: 1fr;
-      }
-    }
-    .fence-catalog-card {
-      background: var(--b1-forest, #1b382b);
-      border: 2px solid var(--ui-outline, #a3876e);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    }
-    .fence-catalog-card:hover {
-      transform: translateY(-4px);
-      border-color: #d4af37;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.9), 0 0 16px rgba(212, 175, 55, 0.45);
-    }
-
-    .card-media-wrapper {
-      position: relative;
-      width: 100%;
-      background: #141312;
-      border-bottom: 2px solid #0a0a0a;
-    }
-    .card-svg-thumb {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Vertically Sleek Tan Titlebar (Contains ONLY Title, stacked under fence image, on top of green body) */
-    .card-panel-header {
-      background: var(--tan, #9d8068);
-      border-bottom: 2px solid #0a0a0a;
-      padding: 0.45rem 0.75rem;
-      display: flex;
-      align-items: center;
-      z-index: 2;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-    }
-    .card-title {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #0a0a0a;
-      margin: 0;
-      line-height: 1.2;
-      flex: 1;
-    }
-
-    .card-content {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      background: var(--b1-forest, #1b382b);
-    }
-    .card-price-tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
-      margin-bottom: 0.55rem;
-    }
-    .card-price-range-badge {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #0a0a0a;
-      background: var(--tan, #9d8068);
-      border: 1px solid #0a0a0a;
-      padding: 0.18rem 0.5rem;
-      border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .card-tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-bottom: 0.5rem;
-    }
-    .card-tag {
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #0a0a0a;
-      background: var(--tan, #9d8068);
-      border: 1px solid #0a0a0a;
-      padding: 0.15rem 0.45rem;
-      border-radius: 3px;
-    }
-    .card-desc {
-      font-family: 'Libre Franklin', sans-serif;
-      font-size: 0.8rem;
-      color: #ffffff;
-      line-height: 1.45;
-      margin: 0 0 1rem 0;
-      flex: 1;
-    }
-    .card-action-bar {
-      margin-top: auto;
-      border-top: 1px solid rgba(163, 135, 110, 0.25);
-      padding-top: 0.65rem;
-    }
-    .btn-card-inspect {
-      display: block;
-      width: 100%;
-      text-align: center;
-      background: var(--control-idle-bg, #1a1918);
-      color: var(--cream, #f3ebe0);
-      border: 1px solid var(--tan, #9d8068);
-      border-radius: 4px;
-      padding: 0.45rem 0.6rem;
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      transition: background 0.15s ease, color 0.15s ease;
-    }
-    .fence-catalog-card:hover .btn-card-inspect {
-      background: var(--tan, #9d8068);
-      color: #0a0a0a;
-      border-color: #0a0a0a;
-    }
   </style>
 </head>
 <body>
   <div class="shell shell--with-sidebar" id="shell">
-    <!-- S0 product chrome — brand + auth; site/Catalog nav lives in Wix (or preview-shell). Design docs switch from B-MEMBER below. -->
-    <header id="app-site-header" class="app-site-header" data-ui-code="S0" role="banner">
-      <span class="app-site-header__brand">Fence Frames</span>
-      <div class="app-site-header__spacer" aria-hidden="true"></div>
-      <button type="button" class="app-site-header__contractor" id="btn-find-contractor-header">
-        Find a fence builder
-      </button>
-      <div class="member-auth-row app-site-header__auth" id="member-auth-row" role="group" aria-label="Account">
-        <button type="button" class="member-auth-btn" id="btn-member-login">Log in</button>
-        <button type="button" class="member-auth-btn member-auth-btn--signup" id="btn-member-signup">
-          <span class="member-auth-btn__label">Sign up</span>
-          <span class="member-auth-btn__free">(Free)</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- S0.1 GREATEST HITS CATALOG SURFACE -->
-    <section id="catalog-view" class="catalog-surface" hidden>
-      <div class="catalog-header-bar panel-ring">
-        <div class="catalog-title-row">
-          <h1 class="catalog-main-title">Greatest Hits Fence Catalog</h1>
-          <span class="catalog-results-badge" id="catalog-results-count">27 Fence Designs Available</span>
-        </div>
-
-        <div class="catalog-filters-row">
-          <div class="catalog-filter-group">
-            <label for="catalog-category-filter">Fence Type (Category)</label>
-            <select id="catalog-category-filter">
-              <option value="all">All Standard Fence Types</option>
-              <option value="vpf">Vertical Fence (VPF)</option>
-              <option value="horizontal">Horizontal Fence (HF)</option>
-              <option value="fabric">Fabric Fence (Mesh / Lattice)</option>
-              <option value="community">Community / HOA Approved</option>
-            </select>
-          </div>
-
-          <div class="catalog-filter-group">
-            <label for="catalog-style-filter">Fence Style</label>
-            <select id="catalog-style-filter">
-              <option value="all">All Styles</option>
-              <option value="vpf-natural-wood">Cedar Picket</option>
-              <option value="hf-board-fence">Board Fence (Rancher / Split)</option>
-              <option value="hf-horizontal-picket">Horizontal Picket</option>
-              <option value="fabric-welded-wire">Welded Wire Accent</option>
-              <option value="fabric-lattice">Lattice Privacy Screen</option>
-            </select>
-          </div>
-
-          <div class="catalog-filter-group">
-            <label for="catalog-search-input">Search Builds</label>
-            <input type="text" id="catalog-search-input" placeholder="e.g. Heritage, Cap, 6ft, Black Stain..." />
-          </div>
-        </div>
-
-        <div class="catalog-tags-wrapper" id="catalog-tag-chips">
-          <span class="tag-chip active" data-tag="all">All Fences</span>
-          <span class="tag-chip" data-tag="Best Seller">Best Sellers</span>
-          <span class="tag-chip" data-tag="Privacy">Full Privacy</span>
-          <span class="tag-chip" data-tag="HOA Approved">HOA Approved</span>
-          <span class="tag-chip" data-tag="Cap Rail">Signature Cap Rail</span>
-          <span class="tag-chip" data-tag="Modern">Modern / Contemporary</span>
-          <span class="tag-chip" data-tag="Budget Friendly">Budget Friendly</span>
-        </div>
-      </div>
-
-      <div class="catalog-grid-container" id="catalog-grid"></div>
-    </section>
-
     <div class="shell-top-row" id="shell-top-row" data-ui-code="S1">
       <div class="shell-top-band shell-top-band--upper" data-ui-code="S1.1">
       <div class="b1-quad sidebar-zone--title panel-ring" data-panel-expandable data-s1-panel="title" data-ui-code="B1">
@@ -6018,53 +4367,39 @@
             <span class="b1-quad__code" id="fence-category-code">Vertical Fence</span>
             <span class="b1-quad__chev" aria-hidden="true"></span>
           </button>
-          <p class="b1-quad__spell b1-quad__sublabel" id="fence-category-spell">Fence Type</p>
           <ul class="title-fence-menu" id="fence-category-menu" role="listbox" aria-label="Fence category" hidden>
             <li><button type="button" class="title-fence-option" role="option" data-category="vpf" aria-selected="true">VPF<span class="title-fence-option-note">Vertical Picket Fence</span></button></li>
             <li><button type="button" class="title-fence-option" role="option" data-category="horizontal">Horizontal fence<span class="title-fence-option-note">Split board &amp; rail</span></button></li>
             <li><button type="button" class="title-fence-option" role="option" data-category="community">Community / HOA<span class="title-fence-option-note">Partner community builds</span></button></li>
-            <li><button type="button" class="title-fence-option" role="option" data-category="fabric">Fabric fence<span class="title-fence-option-note">Mesh &amp; lattice</span></button></li>
-            <li><button type="button" class="title-fence-option" role="option" data-category="hand-guardrail" disabled title="Parked until further notice">Hand / guardrail<span class="title-fence-option-note">Parked — finish wood &amp; fabric first</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="fabric" disabled title="Coming soon">Fabric fence<span class="title-fence-option-note">Mesh &amp; lattice — coming soon</span></button></li>
+            <li><button type="button" class="title-fence-option" role="option" data-category="hand-guardrail" disabled title="Coming soon">Hand / guardrail<span class="title-fence-option-note">Curveball — coming soon</span></button></li>
           </ul>
+        </div>
+        <div class="b1-quad__cell b1-quad__cell--spell">
+          <p class="b1-quad__spell b1-quad__quadrant-label" id="fence-category-spell">Fence Type</p>
         </div>
         <div class="b1-quad__cell b1-quad__cell--line" id="fence-style-picker" data-ui-code="B1P1">
           <button type="button" class="b1-quad__picker" id="fence-style-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="fence-style-menu">
             <span class="b1-quad__line" id="fence-style-label">Cedar Picket</span>
             <span class="b1-quad__chev" aria-hidden="true"></span>
           </button>
-          <p class="b1-quad__desc b1-quad__sublabel" id="fence-style-desc" data-ui-code="B1M2">Fence Style</p>
           <ul class="title-fence-menu" id="fence-style-menu" role="listbox" aria-label="Fence style" hidden></ul>
+        </div>
+        <div class="b1-quad__cell b1-quad__cell--desc" data-ui-code="B1M2">
+          <p class="b1-quad__desc b1-quad__quadrant-label" id="fence-style-desc">Fence Style</p>
         </div>
       </div>
 
-      <section
-        class="mini-panel mini-panel--templates panel-ring"
-        id="templates-panel"
-        data-panel-expandable
-        data-s1-panel="templates"
-        data-panel-mode="templates"
-        data-ui-code="B2"
-        aria-label="Fence templates"
-      >
+      <section class="mini-panel mini-panel--templates panel-ring" id="templates-panel" data-panel-expandable data-s1-panel="templates" data-ui-code="B2" aria-label="Fence templates">
         <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand templates" title="Expand">
           <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
         </button>
         <h3 class="mini-panel-head">
-          <span class="mini-panel-head__title" id="b2-panel-title">Templates</span>
+          <span class="mini-panel-head__title">Templates</span>
           <span class="mini-panel-head__condensed-summary" id="templates-condensed-summary" aria-hidden="true"></span>
         </h3>
-        <div class="mini-panel-body" id="templates-panel-body" data-b2-view="templates">
+        <div class="mini-panel-body">
           <ul class="preset-grid" id="preset-list" role="list"></ul>
-        </div>
-        <div
-          class="mini-panel-body community-preset-banner__body"
-          id="community-preset-banner"
-          data-b2-view="community"
-          hidden
-        >
-          <strong id="community-preset-headline"></strong>
-          <span id="community-preset-subhead" class="community-preset-subhead"></span>
-          <p id="community-preset-disclaimer" class="community-preset-disclaimer"></p>
         </div>
       </section>
       </div>
@@ -6110,66 +4445,29 @@
               <label for="client-zip">Location</label>
               <input type="text" id="client-zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip 98000" maxlength="10" />
             </div>
-            <div class="field field--community">
-              <label for="client-community">Community</label>
-              <select id="client-community" disabled aria-describedby="client-community-status">
-                <option value="">Enter ZIP to see communities</option>
-              </select>
-              <span id="client-community-status" class="specs-coming-soon" hidden></span>
-            </div>
             <div class="field field--lnft">
               <label for="total-ln-ft">Linear ft</label>
               <input type="number" id="total-ln-ft" min="0" step="1" value="8" />
             </div>
           </div>
+          <div class="specs-gate-cta" data-ui-code="TBC-GATE">
+            <div class="specs-gate-cta__copy">
+              <span class="specs-gate-cta__label">Gates</span>
+              <span class="specs-gate-cta__summary" id="gate-cta-summary">No man gate</span>
+            </div>
+            <button type="button" class="specs-gate-cta__btn" id="gate-studio-open">Design gate</button>
+          </div>
         </div>
       </section>
 
-      <section class="mini-panel mini-panel--gate panel-ring" id="design-gate-panel" data-panel-expandable data-s1-panel="gate" data-ui-code="GATE" aria-label="Design gate">
-        <button type="button" class="mini-panel-expand" aria-expanded="false" aria-label="Expand design gate" title="Expand">
-          <span class="mini-panel-expand__icon" aria-hidden="true">⤢</span>
-        </button>
+      <section id="community-preset-banner" class="mini-panel community-preset-banner panel-ring" hidden aria-label="Community program">
         <h3 class="mini-panel-head">
-          <span class="mini-panel-head__title">Design gate</span>
-          <span class="mini-panel-head__condensed-summary" id="gate-condensed-summary" aria-hidden="true"></span>
+          <span class="mini-panel-head__title">Community Partner</span>
         </h3>
-        <div class="mini-panel-body">
-          <div class="gate-qty-grid" role="group" aria-label="Gate quantities">
-            <div class="gate-qty-field">
-              <label for="gate-qty-man">Man gate</label>
-              <select id="gate-qty-man" data-gate-qty="man" aria-label="Man gate quantity">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="gate-qty-field">
-              <label for="gate-qty-mower">Mower gate</label>
-              <select id="gate-qty-mower" data-gate-qty="mower" aria-label="Mower gate quantity">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="gate-qty-field">
-              <label for="gate-qty-vehicle">Vehicle gate</label>
-              <select id="gate-qty-vehicle" data-gate-qty="vehicle" aria-label="Vehicle gate quantity">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-          </div>
-          <div class="specs-gate-cta" data-ui-code="GATE-CTA">
-            <div class="specs-gate-cta__copy">
-              <span class="specs-gate-cta__label">Estimate</span>
-              <span class="specs-gate-cta__summary" id="gate-cta-summary">No gates</span>
-            </div>
-            <button type="button" class="specs-gate-cta__btn" id="gate-studio-open">Design man gate</button>
-          </div>
+        <div class="mini-panel-body community-preset-banner__body">
+          <strong id="community-preset-headline"></strong>
+          <span id="community-preset-subhead" class="community-preset-subhead"></span>
+          <p id="community-preset-disclaimer" class="community-preset-disclaimer"></p>
         </div>
       </section>
       </div>
@@ -6183,17 +4481,15 @@
     <div class="layout" id="layout" data-ui-code="S2-CANVAS">
       <div class="canvas" id="canvas-wrap" data-ui-code="VB">
         <p class="visually-hidden" id="zoom-info" aria-live="polite">—</p>
-        <!--
-          ARCHIVED — Choice A landscape schedule. Not on the live toggle
-          (Blueprint / Material List / Ledger). Recover via ?view=schedule.
-          Decision + snapshot: preview/archived/blueprint-schedule/README.md
-          Layout notes: docs/HOA/si-view/BLUEPRINT-SCHEDULE-LAYOUT.md
-        -->
         <div class="blueprint-overlay" id="blueprint-overlay" hidden>
           <div class="blueprint-overlay__chrome">
             <p class="blueprint-overlay__title">Blueprint</p>
             <p class="blueprint-overlay__hint">Print-ready · all categories open · continuous run · Esc / Edit design returns to configure</p>
-            <button type="button" class="blueprint-overlay__back" id="blueprint-back-to-config" aria-label="Edit design — leave the blueprint schedule">Edit design</button>
+            <div class="blueprint-view-toggle">
+              <button type="button" class="blueprint-view-btn" data-bp-view-btn="schedule" aria-pressed="true">Schedule</button>
+              <button type="button" class="blueprint-view-btn" data-bp-view-btn="detail" aria-pressed="false">Detail</button>
+            </div>
+            <button type="button" class="blueprint-overlay__back" id="blueprint-back-to-config">Edit design</button>
           </div>
           <div class="blueprint-band blueprint-band--top" id="blueprint-band-top" aria-label="Blueprint top categories"></div>
           <div class="blueprint-overlay__stage">
@@ -6213,14 +4509,14 @@
             </div>
           </div>
         </div>
-        <section id="catalog-stub" class="catalog-stub" aria-label="Catalog">
-          <h2 class="catalog-stub__title">Catalog</h2>
-          <p class="catalog-stub__lede">Coming soon — browse fence styles and templates here.</p>
-        </section>
-        <p class="bp-sr-only" id="blueprint-view-status" role="status" aria-live="polite"></p>
-        <section id="blueprint-detail" class="blueprint-detail" hidden role="region" aria-label="Fence Blueprint" tabindex="0"></section>
-        <section id="blueprint-materials" class="blueprint-materials" hidden role="region" aria-label="Material List" tabindex="0"></section>
-        <section id="blueprint-ledger" class="blueprint-ledger" hidden role="region" aria-label="Project Ledger" tabindex="0"></section>
+        <div class="blueprint-detail-controls" id="blueprint-detail-controls">
+          <button type="button" class="blueprint-overlay__back" id="blueprint-detail-back-to-config">Edit design</button>
+          <div class="blueprint-view-toggle">
+            <button type="button" class="blueprint-view-btn" data-bp-view-btn="schedule" aria-pressed="true">Schedule</button>
+            <button type="button" class="blueprint-view-btn" data-bp-view-btn="detail" aria-pressed="false">Detail</button>
+          </div>
+        </div>
+        <section id="blueprint-detail" class="blueprint-detail" hidden aria-label="Blueprint detail mode"></section>
         <div class="canvas-viewport" id="canvas-viewport" aria-label="Fence preview">
           <div class="viewport-inset">
             <div class="preview-cluster" id="preview-cluster">
@@ -6275,6 +4571,10 @@
               </div>
               <aside class="view-rail" id="view-rail" data-ui-code="TBPV" aria-label="View controls">
                 <span class="view-rail__face" id="view-rail-face" aria-hidden="true">Front</span>
+                <div class="view-rail__mode" role="group" aria-label="View mode">
+                  <button type="button" class="view-rail-btn view-rail-btn--mode" data-view-mode-btn="configure" aria-pressed="true" title="Configure">Cfg</button>
+                  <button type="button" class="view-rail-btn view-rail-btn--mode" data-view-mode-btn="blueprint" aria-pressed="false" title="Blueprint">BP</button>
+                </div>
                 <div class="view-rail__zoom" id="zoom-controls" role="group" aria-label="Zoom">
                   <button type="button" class="view-rail-btn zoom-tab" data-zoom="0.5" aria-pressed="false">.5×</button>
                   <button type="button" class="view-rail-btn zoom-tab" data-zoom="0.75" aria-pressed="false">.75×</button>
@@ -6304,43 +4604,27 @@
           </svg>
         </h3>
         <div class="config-section-body">
-          <div class="member-actions" role="group" aria-label="Your design actions">
-            <div class="design-docs-actions blueprint-view-toggle" role="tablist" aria-label="Open design documents">
-              <button type="button" class="design-docs-actions__btn" id="btn-create-blueprint" data-design-action="blueprint" data-bp-view-btn="blueprint" role="tab" aria-controls="blueprint-detail" aria-selected="false" title="Fence Blueprint">
-                Blueprint
-              </button>
-              <button type="button" class="design-docs-actions__btn" id="btn-create-material-list" data-design-action="materialList" data-bp-view-btn="materialList" role="tab" aria-controls="blueprint-materials" aria-selected="false" title="Material List">
-                Mat list
-              </button>
-              <button type="button" class="design-docs-actions__btn" id="btn-create-ledger" data-design-action="ledger" data-bp-view-btn="ledger" role="tab" aria-controls="blueprint-ledger" aria-selected="false" title="Project Ledger">
-                Ledger
-              </button>
-            </div>
-            <div class="your-design-menu" id="your-design-menu">
-              <button
-                type="button"
-                class="your-design-menu__toggle"
-                id="your-design-menu-toggle"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                aria-controls="your-design-menu-list"
-              >
-                <span class="your-design-menu__toggle-label">Your design</span>
-                <span class="your-design-menu__chev" aria-hidden="true"></span>
-              </button>
-              <ul class="your-design-menu__list" id="your-design-menu-list" role="menu" hidden>
-                <li role="none">
-                  <button type="button" class="your-design-menu__item" role="menuitem" id="btn-save-design" data-design-action="save">
-                    <span class="your-design-menu__item-label">Save Design</span>
-                    <span class="your-design-menu__item-gate membership-chip">Members only</span>
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <button type="button" class="member-actions__btn member-actions__btn--contractor" id="btn-find-contractor">
-              <span class="member-actions__btn-label">Find a fence builder</span>
+          <div class="member-auth-row" id="member-auth-row" role="group" aria-label="Account">
+            <button type="button" class="member-auth-btn" id="btn-member-login">Log in</button>
+            <button type="button" class="member-auth-btn member-auth-btn--signup" id="btn-member-signup">
+              <span class="member-auth-btn__label">Sign up</span>
+              <span class="member-auth-btn__free">(Free)</span>
             </button>
           </div>
+          <div class="member-actions" role="group" aria-label="Member actions">
+          <button type="button" class="member-actions__btn" id="btn-save-design">
+            <span class="member-actions__btn-label">Save design</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+          <button type="button" class="member-actions__btn" id="btn-request-contact">
+            <span class="member-actions__btn-label">Request contact</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+          <button type="button" class="member-actions__btn" id="btn-create-blueprint">
+            <span class="member-actions__btn-label">Create blueprint</span>
+            <span class="member-actions__btn-gate membership-chip">Members only</span>
+          </button>
+        </div>
         </div>
       </section>
       <div class="pricing-gate-wrap" id="pricing-gate-wrap">
@@ -6349,6 +4633,7 @@
         <h3 class="config-section-head">
           <span class="config-section-head__title">Calculator</span>
           <span class="config-section-head__trailing">
+            <span class="config-section-head__members-only membership-chip">Members only</span>
             <svg class="config-section-head__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
               <path fill="currentColor" d="M3.2 13.2 2 12l6.2-6.2-.9-2.1 1.5-1.5 2.1.9L13.2 1 15 2.8l-2.1 2.3.9 2.1-1.5 1.5-2.1-.9L3.2 13.2zm7.4-8.1L9.4 4l-.5 1.2L7.8 6.3l1.1 1.1 1.1-1.1 1.2-.5.1-1.2zM4.1 12.1l4.2-4.2-.9-.9-4.2 4.2.9.9z"/>
             </svg>
@@ -6367,6 +4652,7 @@
               <button type="button" class="pricing-disclaimer-btn" id="pricing-disclaimer-toggle" aria-expanded="false" aria-controls="pricing-disclaimer-popover" title="Pricing disclaimer">ℹ</button>
               <div class="pricing-disclaimer-popover" id="pricing-disclaimer-popover" role="note" hidden></div>
             </span>
+            <span class="config-section-head__members-only membership-chip">Members only</span>
             <svg class="config-section-head__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
               <path fill="currentColor" d="M2 13.2V4.8h1.4v8.4H2zm3.2 0V6.2h1.2v7H5.2zm2.6 0V4.2h1.2v9H7.8zm2.6 0V6.2H11.6v7H10.4zm2.6 0V4.8H15v8.4h-1.4zM2 3.4l6-2.2 6 2.2v1.2l-6-2.2-6 2.2V3.4z"/>
             </svg>
@@ -6375,24 +4661,18 @@
         <div class="config-section-body">
           <div class="price-split-body">
             <div class="price-split__lf">
-              <div class="price-split__lf-title" id="price-lf-fence-label">Vertical Fence · Cedar Picket</div>
-              <div class="price-split__lf-body">
-                <div class="price-split__lf-meta">
-                  <span class="price-split__lf-label">Per Linear Ft</span>
-                  <span class="price-split__lf-run" id="price-lf-run">8′</span>
+              <span class="price-split__lf-label">Per linear foot</span>
+              <div class="price-split__lf-stack" aria-live="polite">
+                <div class="price-split__lf-row price-split__lf-row--low">
+                  <span class="estimate-bound-label">Low</span>
+                  <span class="estimate-bound estimate-bound--low pricing-gated-value" id="cost-calculator-per-lf-low">—</span>
                 </div>
-                <div class="price-split__lf-stack" aria-live="polite">
-                  <div class="price-split__lf-row price-split__lf-row--low">
-                    <span class="estimate-bound-label">Low</span>
-                    <span class="estimate-bound estimate-bound--low pricing-gated-value" id="cost-calculator-per-lf-low">—</span>
-                  </div>
-                  <div class="price-split__lf-row price-split__lf-row--high">
-                    <span class="estimate-bound-label estimate-bound-label--on-green">High</span>
-                    <span class="estimate-bound estimate-bound--high pricing-gated-value" id="cost-calculator-per-lf-high">—</span>
-                  </div>
+                <div class="price-split__lf-row price-split__lf-row--high">
+                  <span class="estimate-bound-label estimate-bound-label--on-green">High</span>
+                  <span class="estimate-bound estimate-bound--high pricing-gated-value" id="cost-calculator-per-lf-high">—</span>
                 </div>
-                <span class="cost-calculator-metrics" id="cost-calculator-summary" hidden>Enter total linear feet for an estimate.</span>
               </div>
+              <span class="cost-calculator-metrics" id="cost-calculator-summary">8′ module · enter total run</span>
             </div>
             <div class="price-split__total" aria-live="polite" aria-atomic="true">
               <div class="estimate-total-head">
@@ -6550,15 +4830,19 @@
         <details class="option-group" data-ui-code="TBPF">
           <summary>Pickets / fill</summary>
           <div class="option-group-body">
-
-            <div class="field" id="fabricStyleSelectField" hidden>
-              <label for="fabricStyleSelect">Fabric style</label>
-              <select id="fabricStyleSelect">
-                <option value="fabric-welded-wire" selected>Welded wire mesh</option>
-                <option value="fabric-lattice">Lattice panel</option>
+            <div class="field" id="fenceStyleField">
+              <label for="fenceStyle">Fence style</label>
+              <select id="fenceStyle">
+                <option value="vertical-picket" selected>Vertical picket</option>
+                <option value="horizontal-picket" disabled>Horizontal picket — coming soon</option>
+                <option value="split-fill" disabled>Split fill — coming soon</option>
+                <option value="chain-link" disabled>Chain link — coming soon</option>
+                <option value="welded-wire" disabled>Welded wire — coming soon</option>
+                <option value="lattice" disabled>Lattice — coming soon</option>
+                <option value="vinyl-composite" disabled>Vinyl / composite — coming soon</option>
               </select>
             </div>
-            <div class="field" id="picketFillField">
+            <div class="field">
               <label for="picketFill">Picket fill</label>
               <select id="picketFill">
                 <option value="standard" selected>Standard (flat top)</option>
@@ -6585,21 +4869,11 @@
               </select>
             </div>
             <div class="field" id="fabricWireGridField" hidden>
-              <label for="fabricWireGrid">Mesh size &amp; orientation</label>
+              <label for="fabricWireGrid">Mesh square size</label>
               <select id="fabricWireGrid">
-                <option value="grid-4" selected>4″×4″ square mesh</option>
-                <option value="grid-4-2">4″×2″ vertical mesh</option>
-                <option value="grid-2">2″×2″ square mesh</option>
-                <option value="grid-1">1″×1″ square mesh</option>
-              </select>
-            </div>
-            <div class="field" id="fabricWireGaugeField" hidden>
-              <label for="fabricWireGauge">Wire gauge (thickness)</label>
-              <select id="fabricWireGauge">
-                <option value="16ga">16 Gauge (thinnest)</option>
-                <option value="14ga" selected>14 Gauge (standard)</option>
-                <option value="12ga">12 Gauge (heavy)</option>
-                <option value="10ga">10 Gauge (extra heavy)</option>
+                <option value="grid-1-5">1.5″ square</option>
+                <option value="grid-2" selected>2″ square (standard)</option>
+                <option value="grid-4">4″ square</option>
               </select>
             </div>
             <div class="field" id="fabricWireFinishField" hidden>
@@ -6618,20 +4892,11 @@
                 <option value="grid-3">3″ openings</option>
               </select>
             </div>
-            <div class="field" id="fabricLatticeTypeField" hidden>
-              <label for="fabricLatticeType">Lattice material</label>
-              <select id="fabricLatticeType">
-                <option value="wood" selected>Wood (Cedar)</option>
-                <option value="composite">Vinyl / Composite</option>
-              </select>
-            </div>
-            <div class="field" id="fabricLatticeColorField" hidden>
-              <label for="fabricLatticeColor">Composite color</label>
-              <select id="fabricLatticeColor">
-                <option value="composite-white" selected>White</option>
-                <option value="composite-tan">Tan</option>
-                <option value="composite-brown">Brown</option>
-                <option value="composite-green">Green</option>
+            <div class="field" id="fabricLatticeMaterialField" hidden>
+              <label for="fabricLatticeMaterial">Lattice material</label>
+              <select id="fabricLatticeMaterial">
+                <option value="composite" selected>Composite (white)</option>
+                <option value="cedar">Cedar slats</option>
               </select>
             </div>
           </div>
@@ -6811,8 +5076,8 @@
   <script src="pilot-pricing.js"></script>
   <script src="embed-host.js"></script>
   <script src="community-preset.js"></script>
-  <script src="location-serve.js"></script>
   <script src="bom-calculator.js"></script>
+  <script>window.__initialBlueprintView = 'schedule'; window.__showBlueprintToggle = false;</script>
   <script src="blueprint-mode.js"></script>
   <script>
     const EMBED_MODE = document.documentElement.dataset.ffEmbed === '1';
@@ -6877,16 +5142,7 @@
       if (fabricWireGridEl && d.fabricWireGrid) fabricWireGridEl.value = d.fabricWireGrid;
       if (fabricWireFinishEl && d.fabricWireFinish) fabricWireFinishEl.value = d.fabricWireFinish;
       if (fabricLatticeGridEl && d.fabricLatticeGrid) fabricLatticeGridEl.value = d.fabricLatticeGrid;
-      if (d.fabricLatticeMaterial) {
-        const mat = String(d.fabricLatticeMaterial);
-        if (fabricLatticeTypeEl) {
-          fabricLatticeTypeEl.value = mat === 'cedar' || mat === 'wood' ? 'wood' : 'composite';
-        }
-        if (fabricLatticeColorEl) {
-          if (mat.startsWith('composite-')) fabricLatticeColorEl.value = mat;
-          else if (mat === 'composite') fabricLatticeColorEl.value = 'composite-white';
-        }
-      }
+      if (fabricLatticeMaterialEl && d.fabricLatticeMaterial) fabricLatticeMaterialEl.value = d.fabricLatticeMaterial;
       if (hfPostSizeEl && d.postSize) hfPostSizeEl.value = d.postSize;
       if (hfBoardSizeEl && d.boardSize) hfBoardSizeEl.value = d.boardSize;
       if (d.boardStack) currentBoardStack = d.boardStack;
@@ -6908,20 +5164,10 @@
     }
 
     function syncPicketFillUi() {
-      const style = getCurrentStyle();
-      const cap = style ? (style.capabilities || {}) : {};
-      const isFabric = style && (style.mode === 'fabric-frame' || cap.wireGrid || cap.latticeGrid);
-      if (isFabric) {
-        if (picketFillFieldEl) picketFillFieldEl.hidden = true;
-        if (picketSpacingFieldEl) picketSpacingFieldEl.hidden = true;
-        if (picketWidthFieldEl) picketWidthFieldEl.hidden = true;
-        return;
-      }
-      if (picketFillFieldEl) picketFillFieldEl.hidden = false;
       const isStandard = !picketFillEl || picketFillEl.value === 'standard';
       if (picketSpacingFieldEl) picketSpacingFieldEl.hidden = !isStandard;
       /** Width/spacing toggles are Standard-only (gothic / shadowbox / board-on-board are 5.5″ privacy layout in v1). */
-      if (picketWidthFieldEl) picketWidthFieldEl.hidden = !isStandard || !cap.picketWidth;
+      if (picketWidthFieldEl) picketWidthFieldEl.hidden = !isStandard;
     }
 
     const HF_SIZE_LABELS = {
@@ -7134,11 +5380,7 @@
       const isFabric = pilot.mode === 'fabric-frame';
       const isHf = pilot.mode === 'hf-frame';
       const templatesPanel = document.getElementById('templates-panel');
-      if (templatesPanel) {
-        /* B2 is always present (templates ↔ community). Never pilot-hide the shell. */
-        templatesPanel.classList.remove('pilot-hidden');
-        templatesPanel.hidden = false;
-      }
+      if (templatesPanel) templatesPanel.classList.toggle('pilot-hidden', !cap.templates);
       /** `[data-ui-code]` is reused on price-calculator line items — scope to the sidebar
        *  option-group `<details>` so we don't accidentally toggle a calculator row instead. */
       document.querySelector('details.option-group[data-ui-code="TBPF"]')?.classList.toggle('pilot-hidden', !cap.pickets);
@@ -7160,24 +5402,14 @@
 
       /** "Fence style" sub-picker (vertical/horizontal/etc. picket orientation stubs) is VPF-only chrome. */
       if (fenceStyleFieldEl) fenceStyleFieldEl.hidden = isHf || isFabric;
-      syncPicketFillUi();
-      if (stainPicketEl && stainPicketEl.closest('.field')) {
-        stainPicketEl.closest('.field').hidden = !!(cap.wireGrid || cap.latticeGrid || isFabric);
-      }
-      if (fabricStyleSelectFieldEl) {
-        fabricStyleSelectFieldEl.hidden = !isFabric;
-        if (fabricStyleSelectEl && isFabric) {
-          fabricStyleSelectEl.value = pilot.id;
-        }
+
+      if (picketFillEl && picketFillEl.closest('.field')) {
+        picketFillEl.closest('.field').hidden = !!(cap.wireGrid || cap.latticeGrid);
       }
       if (fabricWireGridFieldEl) fabricWireGridFieldEl.hidden = !cap.wireGrid;
-      if (fabricWireGaugeFieldEl) fabricWireGaugeFieldEl.hidden = !cap.wireGrid;
       if (fabricWireFinishFieldEl) fabricWireFinishFieldEl.hidden = !cap.wireFinish;
-      if (fabricLatticeTypeFieldEl) fabricLatticeTypeFieldEl.hidden = !cap.latticeMaterial;
-      if (fabricLatticeColorFieldEl) {
-        const isComposite = fabricLatticeTypeEl && fabricLatticeTypeEl.value === 'composite';
-        fabricLatticeColorFieldEl.hidden = !cap.latticeMaterial || !isComposite;
-      }
+      if (fabricLatticeGridFieldEl) fabricLatticeGridFieldEl.hidden = !cap.latticeGrid;
+      if (fabricLatticeMaterialFieldEl) fabricLatticeMaterialFieldEl.hidden = !cap.latticeMaterial;
       if (picketSpacingFieldEl && (cap.wireGrid || cap.latticeGrid)) picketSpacingFieldEl.hidden = true;
       /** Width toggle is VPF Heritage-only (v1) — hide for HF, fabric/wire, and lattice lines. */
       if (picketWidthFieldEl) picketWidthFieldEl.hidden = !cap.picketWidth || !!(cap.wireGrid || cap.latticeGrid);
@@ -7656,26 +5888,19 @@
     const railCapEl = document.getElementById('railCap');
     const railCountEl = document.getElementById('railCount');
     const fenceStyleFieldEl = document.getElementById('fenceStyleField');
-    const picketFillFieldEl = document.getElementById('picketFillField');
     const picketFillEl = document.getElementById('picketFill');
     const picketSpacingFieldEl = document.getElementById('picketSpacingField');
     const picketSpacingEl = document.getElementById('picketSpacing');
     const picketWidthFieldEl = document.getElementById('picketWidthField');
     const picketWidthEl = document.getElementById('picketWidth');
-    const fabricStyleSelectFieldEl = document.getElementById('fabricStyleSelectField');
-    const fabricStyleSelectEl = document.getElementById('fabricStyleSelect');
     const fabricWireGridFieldEl = document.getElementById('fabricWireGridField');
     const fabricWireGridEl = document.getElementById('fabricWireGrid');
-    const fabricWireGaugeFieldEl = document.getElementById('fabricWireGaugeField');
-    const fabricWireGaugeEl = document.getElementById('fabricWireGauge');
     const fabricWireFinishFieldEl = document.getElementById('fabricWireFinishField');
     const fabricWireFinishEl = document.getElementById('fabricWireFinish');
     const fabricLatticeGridFieldEl = document.getElementById('fabricLatticeGridField');
     const fabricLatticeGridEl = document.getElementById('fabricLatticeGrid');
-    const fabricLatticeTypeFieldEl = document.getElementById('fabricLatticeTypeField');
-    const fabricLatticeTypeEl = document.getElementById('fabricLatticeType');
-    const fabricLatticeColorFieldEl = document.getElementById('fabricLatticeColorField');
-    const fabricLatticeColorEl = document.getElementById('fabricLatticeColor');
+    const fabricLatticeMaterialFieldEl = document.getElementById('fabricLatticeMaterialField');
+    const fabricLatticeMaterialEl = document.getElementById('fabricLatticeMaterial');
     const hfPostSizeFieldEl = document.getElementById('hfPostSizeField');
     const hfPostSizeEl = document.getElementById('hfPostSize');
     const hfBoardSizeFieldEl = document.getElementById('hfBoardSizeField');
@@ -7693,35 +5918,22 @@
     const jobRepairEl = document.getElementById('job-repair');
     const fenceDemoEl = document.getElementById('fence-demo');
     const clientZipEl = document.getElementById('client-zip');
-    const clientCommunityEl = document.getElementById('client-community');
-    const clientCommunityStatusEl = document.getElementById('client-community-status');
     const totalLnFtEl = document.getElementById('total-ln-ft');
-    let selectedCommunitySlug = null;
-    let zipLookupTimer = null;
     const costCalculatorLowEl = document.getElementById('cost-calculator-low');
     const costCalculatorHighEl = document.getElementById('cost-calculator-high');
     const costCalculatorSummaryEl = document.getElementById('cost-calculator-summary');
-    const priceLfFenceLabelEl = document.getElementById('price-lf-fence-label');
-    const priceLfRunEl = document.getElementById('price-lf-run');
     const costCalculatorPerLfLowEl = document.getElementById('cost-calculator-per-lf-low');
     const costCalculatorPerLfHighEl = document.getElementById('cost-calculator-per-lf-high');
     const pricingDisclaimerToggleEl = document.getElementById('pricing-disclaimer-toggle');
     const pricingDisclaimerPopoverEl = document.getElementById('pricing-disclaimer-popover');
     const btnSaveDesignEl = document.getElementById('btn-save-design');
-    const btnFindContractorEl = document.getElementById('btn-find-contractor');
-    const btnFindContractorHeaderEl = document.getElementById('btn-find-contractor-header');
+    const btnRequestContactEl = document.getElementById('btn-request-contact');
     const btnCreateBlueprintEl = document.getElementById('btn-create-blueprint');
-    const btnCreateMaterialListEl = document.getElementById('btn-create-material-list');
-    const btnCreateLedgerEl = document.getElementById('btn-create-ledger');
-    const yourDesignMenuToggleEl = document.getElementById('your-design-menu-toggle');
-    const yourDesignMenuListEl = document.getElementById('your-design-menu-list');
     const btnMemberLoginEl = document.getElementById('btn-member-login');
     const btnMemberSignupEl = document.getElementById('btn-member-signup');
     const b1MobileHeadLabelEl = document.getElementById('b1-mobile-head-label');
     const templatesCondensedSummaryEl = document.getElementById('templates-condensed-summary');
     const specsCondensedSummaryEl = document.getElementById('specs-condensed-summary');
-    const gateCondensedSummaryEl = document.getElementById('gate-condensed-summary');
-    const gateCtaSummaryEl = document.getElementById('gate-cta-summary');
     const PRICING = window.PilotPricing;
 
     const MATERIAL_LABELS = {
@@ -7875,9 +6087,12 @@
       if (isMemberPricingGated()) return '••••';
       if (row.isBase) return `${PRICING.money(est.basePerLf)}/lf`;
       const delta = row.perLf || 0;
+      if (row.optional) {
+        if (Math.abs(delta) < 0.005) return '—';
+        return `${PRICING.perLfLabel(delta)}/lf`;
+      }
       if (Math.abs(delta) < 0.005) return '—';
-      /* perLfLabel already includes /lf */
-      return PRICING.perLfLabel(delta);
+      return `${PRICING.perLfLabel(delta)}/lf`;
     }
 
     function buildPriceIndicatorRows(est) {
@@ -7936,181 +6151,91 @@
       const baseChoice = template
         ? `${template.label} · ${style.label}`
         : `${frameLabel} · ${style.label} (custom)`;
-      const railsFamilyLabel = style.mode === 'hf-frame' ? 'Boards' : 'Rails';
-
-      return [
+      const rows = [
+        { label: 'Base', choice: baseChoice, perLf: est.basePerLf, isBase: true },
+        { code: 'TBC', label: 'Job', choice: jobParts.join(' · '), perLf: est.perLfDeltas.TBC },
+        { code: 'TBPP', label: 'Posts', choice: postsChoice, perLf: est.perLfDeltas.TBPP },
         {
-          id: 'general',
-          label: 'General',
-          code: 'TBPG',
-          lines: [
-            { label: 'Base', choice: baseChoice, perLf: est.basePerLf, isBase: true },
-            { code: 'TBC', label: 'Job', choice: jobParts.join(' · '), perLf: est.perLfDeltas.TBC },
-          ],
+          label: 'Post caps',
+          choice: postCapChoice,
+          perLf: est.perLfDeltas.POST_CAPS,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
         },
+        { code: 'TBPR', label: style.mode === 'hf-frame' ? 'Boards' : 'Rails', choice: railsChoice, perLf: est.perLfDeltas.TBPR },
         {
-          id: 'posts',
-          label: 'Posts',
-          code: 'TBPP',
-          lines: [
-            { code: 'TBPP', label: 'Posts', choice: postsChoice, perLf: est.perLfDeltas.TBPP },
-            {
-              label: 'Post caps',
-              choice: postCapChoice,
-              perLf: est.perLfDeltas.POST_CAPS,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-          ],
-        },
-        {
-          id: 'rails',
-          label: railsFamilyLabel,
-          code: 'TBPR',
-          lines: [
-            {
-              code: 'TBPR',
-              label: railsFamilyLabel,
-              choice: railsChoice,
-              perLf: est.perLfDeltas.TBPR,
-            },
-            {
-              code: 'TBPC',
-              label: 'Rail cap',
-              choice: railCapChoice,
-              perLf: est.perLfDeltas.TBPC,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-          ],
-        },
-        {
-          id: 'pickets',
-          label: 'Pickets / fill',
           code: 'TBPF',
-          lines: [
-            {
-              code: 'TBPF',
-              label: 'Pickets',
-              choice: PICKET_FILL_LABELS[state.picketFill] || 'Standard',
-              perLf: est.perLfDeltas.TBPF,
-              na: !cap.pickets,
-            },
-          ],
+          label: 'Pickets',
+          choice: PICKET_FILL_LABELS[state.picketFill] || 'Standard',
+          perLf: est.perLfDeltas.TBPF,
+          na: !cap.pickets,
         },
         {
-          id: 'stain',
-          label: 'Stain',
-          code: 'TBPS',
-          lines: [
-            {
-              code: 'TBPS',
-              label: 'Stain',
-              choice: stainChoice,
-              perLf: 0,
-              na: !cap.stain,
-            },
-          ],
-        },
-        {
-          id: 'trim',
-          label: 'Trim',
           code: 'TBPT',
-          lines: [
-            {
-              code: 'TBPT',
-              label: 'Trim',
-              choice: trimChoice,
-              perLf: est.perLfDeltas.TBPT,
-              na: !cap.trim,
-            },
-          ],
+          label: 'Trim',
+          choice: trimChoice,
+          perLf: est.perLfDeltas.TBPT,
+          na: !cap.trim,
         },
         {
-          id: 'hardware',
-          label: 'Hardware',
+          code: 'TBPS',
+          label: 'Stain',
+          choice: stainChoice,
+          perLf: 0,
+          na: !cap.stain,
+        },
+        {
+          code: 'TBPC',
+          label: 'Rail cap',
+          choice: railCapChoice,
+          perLf: est.perLfDeltas.TBPC,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+        {
           code: 'TBPE',
-          lines: [
-            {
-              code: 'TBPE',
-              label: 'Brackets',
-              choice: bracketChoice,
-              perLf: est.perLfDeltas.TBPE,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-            {
-              label: 'Framing fasteners',
-              choice: framingFastenerChoice,
-              perLf: 0,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-            {
-              label: 'Fill fasteners',
-              choice: fillFastenerChoice,
-              perLf: 0,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-            {
-              label: 'Trim fasteners',
-              choice: trimFastenerChoice,
-              perLf: 0,
-              optional: true,
-              na: style.mode !== 'vpf-heritage',
-            },
-          ],
+          label: 'Brackets',
+          choice: bracketChoice,
+          perLf: est.perLfDeltas.TBPE,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
         },
         {
-          id: 'admin',
-          label: 'Administrative',
-          code: 'ADMIN',
-          lines: [
-            {
-              code: 'ADMIN',
-              label: 'Administrative fee',
-              choice: `${Math.round((est.adminFeePct != null ? est.adminFeePct : 0.05) * 100)}% of fence estimate (placeholder)`,
-              perLf: est.perLfDeltas.ADMIN || 0,
-              optional: true,
-            },
-          ],
+          label: 'Framing fasteners',
+          choice: framingFastenerChoice,
+          perLf: 0,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+        {
+          label: 'Fill fasteners',
+          choice: fillFastenerChoice,
+          perLf: 0,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
+        },
+        {
+          label: 'Trim fasteners',
+          choice: trimFastenerChoice,
+          perLf: 0,
+          optional: true,
+          na: style.mode !== 'vpf-heritage',
         },
       ];
-    }
 
-    function formatFamilyRate(family, est) {
-      const active = (family.lines || []).filter((line) => !line.na);
-      if (!active.length) return '—';
-      if (isMemberPricingGated()) return '••••';
-      /* List each charge’s $/lf instead of summing — room on the grid cell */
-      const parts = [];
-      for (const row of active) {
-        const rate = formatPriceLineRate(row, est);
-        if (rate && rate !== '—') parts.push(rate);
-      }
-      if (!parts.length) return '—';
-      return parts.join(' · ');
+      return rows;
     }
 
     function renderPriceIndicatorStrip(est) {
       if (!priceIndicatorStripEl || !PRICING) return;
-      const families = buildPriceIndicatorRows(est);
-      priceIndicatorStripEl.innerHTML = `<ul class="price-line-list">${families
-        .map((family) => {
-          const allNa = (family.lines || []).every((line) => line.na);
-          const naClass = allNa ? ' price-family--na' : '';
-          const codeAttr = family.code ? ` data-ui-code="${family.code}"` : '';
-          const rate = formatFamilyRate(family, est);
-          const detail = (family.lines || [])
-            .map((row) => {
-              const chargeNa = row.na ? ' price-family__charge--na' : '';
-              const desc = `${row.label} · ${row.choice}`;
-              const chargeRate = formatPriceLineRate(row, est);
-              return `<li class="price-family__charge${chargeNa}"><span class="price-family__charge-desc">${desc}</span><span class="price-family__charge-rate pricing-gated-value">${chargeRate}</span></li>`;
-            })
-            .join('');
-          return `<li class="price-family${naClass}"${codeAttr} tabindex="0"><div class="price-family__row"><span class="price-family__label">${family.label}</span><span class="price-family__rate pricing-gated-value">${rate}</span></div><ul class="price-family__detail" role="list">${detail}</ul></li>`;
+      const rows = buildPriceIndicatorRows(est);
+      priceIndicatorStripEl.innerHTML = `<ul class="price-line-list">${rows
+        .map((row) => {
+          const naClass = row.na ? ' price-line-item--na' : '';
+          const codeAttr = row.code ? ` data-ui-code="${row.code}"` : '';
+          const desc = `${row.label} · ${row.choice}`;
+          const rate = formatPriceLineRate(row, est);
+          return `<li class="price-line-item${naClass}"${codeAttr}><span class="price-line-desc">${desc}</span><span class="price-line-rate pricing-gated-value">${rate}</span></li>`;
         })
         .join('')}</ul>`;
     }
@@ -8140,36 +6265,12 @@
       });
     }
 
-    function getPriceLfFenceLabel() {
-      if (document.documentElement.dataset.communityPreset) {
-        const communityEl = document.getElementById('config-status-community');
-        const name = communityEl ? communityEl.textContent.trim() : '';
-        return name || 'Community';
-      }
-      const code = fenceCategoryCodeEl ? fenceCategoryCodeEl.textContent.trim() : 'Vertical Fence';
-      const style = fenceStyleLabelEl ? fenceStyleLabelEl.textContent.trim() : '';
-      return style ? `${code} · ${style}` : code;
-    }
-
-    function syncPriceLfChrome() {
-      if (priceLfFenceLabelEl) {
-        priceLfFenceLabelEl.textContent = getPriceLfFenceLabel();
-      }
-      if (priceLfRunEl) {
-        const raw = totalLnFtEl ? Number(totalLnFtEl.value) : 8;
-        const ln = Number.isFinite(raw) && raw > 0 ? raw : 8;
-        priceLfRunEl.textContent = `${ln}′`;
-      }
-    }
-
     function updatePricingEstimate() {
       if (!PRICING) return;
       const quote = PRICING.computeQuoteRange(readPricingInput());
       const empty = '—';
       const perLfLowLabel = `${PRICING.money(quote.per_lf_low)}/lf`;
       const perLfHighLabel = `${PRICING.money(quote.per_lf_high)}/lf`;
-
-      syncPriceLfChrome();
 
       if (costCalculatorLowEl) {
         costCalculatorLowEl.textContent =
@@ -8188,13 +6289,10 @@
             : empty;
       }
       if (costCalculatorSummaryEl) {
-        if (quote.lnFt > 0) {
-          costCalculatorSummaryEl.hidden = true;
-          costCalculatorSummaryEl.textContent = '';
-        } else {
-          costCalculatorSummaryEl.hidden = false;
-          costCalculatorSummaryEl.textContent = 'Enter total linear feet for an estimate.';
-        }
+        costCalculatorSummaryEl.textContent =
+          quote.lnFt > 0
+            ? `${quote.lnFt}′ · ${getCurrentPilot().label}`
+            : 'Enter total linear feet for an estimate.';
       }
       if (costCalculatorPerLfLowEl) {
         costCalculatorPerLfLowEl.textContent =
@@ -8218,9 +6316,8 @@
       if (window.FenceFramesEmbed) window.FenceFramesEmbed.notifyConfigChanged();
     }
 
-    /** Pilot default: anonymous users see in-session quote range (handbook W2 / monetization). */
     function isMemberPricingGated() {
-      return false;
+      return document.documentElement.dataset.memberAuth !== 'in';
     }
 
     function updateConfigStatusBar(opts) {
@@ -8246,7 +6343,7 @@
       const authed = Boolean(authenticated);
       document.documentElement.dataset.memberAuth = authed ? 'in' : 'out';
       document.querySelectorAll('.pricing-gated-value').forEach((el) => {
-        el.setAttribute('aria-hidden', 'false');
+        el.setAttribute('aria-hidden', authed ? 'false' : 'true');
       });
       document.querySelectorAll('.membership-chip').forEach((el) => {
         el.setAttribute('aria-hidden', authed ? 'true' : 'false');
@@ -8364,7 +6461,6 @@
       const code = fenceCategoryCodeEl ? fenceCategoryCodeEl.textContent.trim() : 'Vertical Fence';
       const style = fenceStyleLabelEl ? fenceStyleLabelEl.textContent.trim() : '';
       b1MobileHeadLabelEl.textContent = style ? `${code} · ${style}` : code;
-      syncPriceLfChrome();
     }
 
     function updateS1CondensedHeadLabels() {
@@ -8380,21 +6476,11 @@
         const parts = [];
         const ln = totalLnFtEl?.value?.trim();
         const zip = clientZipEl?.value?.trim();
-        const communityLabel =
-          selectedCommunitySlug && clientCommunityEl && !clientCommunityEl.disabled
-            ? clientCommunityEl.options[clientCommunityEl.selectedIndex]?.text
-            : '';
         if (ln) parts.push(`${ln}′`);
         if (zip) parts.push(zip);
-        if (communityLabel && communityLabel !== 'No HOA') parts.push(communityLabel);
         const label = parts.join(' · ');
         specsCondensedSummaryEl.textContent = label;
         specsCondensedSummaryEl.setAttribute('aria-hidden', label ? 'false' : 'true');
-      }
-      if (gateCondensedSummaryEl && gateCtaSummaryEl) {
-        const label = (gateCtaSummaryEl.textContent || '').trim();
-        gateCondensedSummaryEl.textContent = label;
-        gateCondensedSummaryEl.setAttribute('aria-hidden', label ? 'false' : 'true');
       }
     }
 
@@ -8536,160 +6622,10 @@
       if (fenceDemoEl) {
         fenceDemoEl.addEventListener('change', updatePricingEstimate);
       }
-      if (totalLnFtEl) {
-        totalLnFtEl.addEventListener('input', updatePricingEstimate);
-      }
-      wireLocationCommunity();
-    }
-
-    function setCommunityFieldPlaceholder(message, { disabled = true, comingSoon = false } = {}) {
-      if (!clientCommunityEl) return;
-      clientCommunityEl.innerHTML = '';
-      const opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = message;
-      clientCommunityEl.appendChild(opt);
-      clientCommunityEl.value = '';
-      clientCommunityEl.disabled = disabled;
-      clientCommunityEl.hidden = comingSoon;
-      if (clientCommunityStatusEl) {
-        if (comingSoon) {
-          clientCommunityStatusEl.hidden = false;
-          clientCommunityStatusEl.textContent =
-            (window.LocationServe && window.LocationServe.COMING_SOON) ||
-            'Coming soon to your area';
-        } else {
-          clientCommunityStatusEl.hidden = true;
-          clientCommunityStatusEl.textContent = '';
-        }
-      }
-    }
-
-    function populateCommunityOptions(communities) {
-      if (!clientCommunityEl || !window.LocationServe) return;
-      const LS = window.LocationServe;
-      clientCommunityEl.innerHTML = '';
-      const placeholder = document.createElement('option');
-      placeholder.value = '';
-      placeholder.textContent = 'Select community';
-      clientCommunityEl.appendChild(placeholder);
-      const noHoa = document.createElement('option');
-      noHoa.value = LS.NO_HOA;
-      noHoa.textContent = 'No HOA';
-      clientCommunityEl.appendChild(noHoa);
-      communities.forEach((c) => {
-        const opt = document.createElement('option');
-        opt.value = c.slug;
-        opt.textContent = c.name || c.slug;
-        clientCommunityEl.appendChild(opt);
+      [clientZipEl, totalLnFtEl].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', updatePricingEstimate);
       });
-      clientCommunityEl.disabled = false;
-      clientCommunityEl.hidden = false;
-      if (clientCommunityStatusEl) {
-        clientCommunityStatusEl.hidden = true;
-        clientCommunityStatusEl.textContent = '';
-      }
-    }
-
-    async function applyCommunitySelection(value) {
-      const LS = window.LocationServe;
-      if (!LS) return;
-      if (LS.isNoHoa(value) || !value) {
-        selectedCommunitySlug = null;
-        if (document.documentElement.dataset.communityPreset) {
-          exitCommunityMode();
-        }
-        updateS1CondensedHeadLabels();
-        return;
-      }
-      let preset = null;
-      try {
-        preset = await window.CommunityPreset.load(value);
-      } catch (err) {
-        console.warn('[location-serve] preset load failed', err);
-      }
-      const styleId = (preset && preset.configurator && preset.configurator.styleId) || null;
-      const style = styleId ? REG.getStyle(styleId) : null;
-      if (style && !style.disabled) {
-        const label =
-          style.label ||
-          (preset && (preset.displayName || preset.copy?.headline)) ||
-          value;
-        await switchStyle(styleId, label);
-      } else {
-        await enterCommunityMode(value);
-      }
-      updateS1CondensedHeadLabels();
-    }
-
-    async function refreshCommunityFromZip() {
-      const LS = window.LocationServe;
-      if (!LS || !clientZipEl) return;
-      await LS.load();
-      const result = LS.lookupZip(clientZipEl.value);
-      const previous = selectedCommunitySlug;
-
-      if (result.status === 'invalid') {
-        selectedCommunitySlug = null;
-        setCommunityFieldPlaceholder('Enter ZIP to see communities', { disabled: true });
-        if (document.documentElement.dataset.communityPreset) {
-          exitCommunityMode();
-        }
-        updateS1CondensedHeadLabels();
-        return;
-      }
-
-      if (result.status === 'unserved') {
-        selectedCommunitySlug = null;
-        setCommunityFieldPlaceholder('', { disabled: true, comingSoon: true });
-        if (document.documentElement.dataset.communityPreset) {
-          exitCommunityMode();
-        }
-        updateS1CondensedHeadLabels();
-        return;
-      }
-
-      populateCommunityOptions(result.communities);
-      if (previous && result.communities.some((c) => c.slug === previous)) {
-        clientCommunityEl.value = previous;
-      } else if (previous === LS.NO_HOA) {
-        clientCommunityEl.value = LS.NO_HOA;
-        selectedCommunitySlug = null;
-      } else {
-        selectedCommunitySlug = null;
-        clientCommunityEl.value = '';
-        if (document.documentElement.dataset.communityPreset) {
-          exitCommunityMode();
-        }
-      }
-      updateS1CondensedHeadLabels();
-    }
-
-    function wireLocationCommunity() {
-      if (!clientZipEl || !clientCommunityEl || !window.LocationServe) return;
-      setCommunityFieldPlaceholder('Enter ZIP to see communities', { disabled: true });
-      window.LocationServe.load().catch(() => {});
-
-      clientZipEl.addEventListener('input', () => {
-        updatePricingEstimate();
-        if (zipLookupTimer) clearTimeout(zipLookupTimer);
-        zipLookupTimer = setTimeout(() => {
-          refreshCommunityFromZip().catch((err) =>
-            console.warn('[location-serve] zip lookup failed', err)
-          );
-        }, 280);
-      });
-
-      clientCommunityEl.addEventListener('change', () => {
-        applyCommunitySelection(clientCommunityEl.value).catch((err) =>
-          console.warn('[location-serve] community apply failed', err)
-        );
-      });
-
-      const bootZip = window.LocationServe.normalizeZip(clientZipEl.value);
-      if (bootZip) {
-        refreshCommunityFromZip().catch(() => {});
-      }
     }
 
     function wireGeneralGates() {
@@ -8732,7 +6668,6 @@
         options: state,
         project: {
           zip: clientZipEl ? clientZipEl.value.trim() : '',
-          community: selectedCommunitySlug || null,
           lnFt: pricing.lnFt,
           jobRepair: Boolean(pricing.jobRepair),
           fenceDemo: Boolean(pricing.fenceDemo),
@@ -8741,99 +6676,25 @@
     }
 
     function wireMemberActions() {
-      const FF = window.FenceFramesEmbed || null;
-      if (FF && typeof FF.init === 'function') {
-        FF.init({
-          getConfig: buildConfigSnapshot,
-          getQuoteRange: () => (PRICING ? PRICING.computeQuoteRange(readPricingInput()) : null),
-        });
-      }
-
-      function closeYourDesignMenu() {
-        if (!yourDesignMenuToggleEl || !yourDesignMenuListEl) return;
-        yourDesignMenuListEl.hidden = true;
-        yourDesignMenuToggleEl.setAttribute('aria-expanded', 'false');
-      }
-
-      function openYourDesignMenu() {
-        if (!yourDesignMenuToggleEl || !yourDesignMenuListEl) return;
-        yourDesignMenuListEl.hidden = false;
-        yourDesignMenuToggleEl.setAttribute('aria-expanded', 'true');
-      }
-
-      function toggleYourDesignMenu() {
-        if (!yourDesignMenuListEl) return;
-        if (yourDesignMenuListEl.hidden) openYourDesignMenu();
-        else closeYourDesignMenu();
-      }
-
-      /** Local demo: open portrait docs for everyone. Do not call embed create APIs. */
-      function enterDesignDoc(view) {
-        if (!window.BlueprintMode) return;
-        if (typeof window.BlueprintMode.enter === 'function') {
-          window.BlueprintMode.enter();
-        }
-        if (view && typeof window.BlueprintMode.setBlueprintView === 'function') {
-          window.BlueprintMode.setBlueprintView(view);
-        }
-      }
-
-      function requestFindBuilder() {
-        if (FF && FF.member && typeof FF.member.requestContact === 'function') {
-          FF.member.requestContact();
-          return;
-        }
-        window.location.href = 'https://www.fenceframes.com/find-a-builder';
-      }
-
-      if (yourDesignMenuToggleEl) {
-        yourDesignMenuToggleEl.addEventListener('click', (e) => {
-          e.stopPropagation();
-          toggleYourDesignMenu();
-        });
-      }
+      if (!window.FenceFramesEmbed) return;
+      const FF = window.FenceFramesEmbed;
+      FF.init({
+        getConfig: buildConfigSnapshot,
+        getQuoteRange: () => (PRICING ? PRICING.computeQuoteRange(readPricingInput()) : null),
+      });
       if (btnSaveDesignEl) {
-        btnSaveDesignEl.addEventListener('click', () => {
-          closeYourDesignMenu();
-          if (FF && FF.member && typeof FF.member.requestSaveDesign === 'function') {
-            FF.member.requestSaveDesign();
-          }
-        });
+        btnSaveDesignEl.addEventListener('click', () => FF.member.requestSaveDesign());
+      }
+      if (btnRequestContactEl) {
+        btnRequestContactEl.addEventListener('click', () => FF.member.requestContact());
       }
       if (btnCreateBlueprintEl) {
         btnCreateBlueprintEl.addEventListener('click', () => {
-          closeYourDesignMenu();
-          enterDesignDoc('blueprint');
+          /* Local build: enter blueprint view immediately. Parent gate still notified when embed. */
+          if (window.BlueprintMode) window.BlueprintMode.enter();
+          FF.member.requestCreateBlueprint();
         });
       }
-      if (btnCreateMaterialListEl) {
-        btnCreateMaterialListEl.addEventListener('click', () => {
-          closeYourDesignMenu();
-          enterDesignDoc('materialList');
-        });
-      }
-      if (btnCreateLedgerEl) {
-        btnCreateLedgerEl.addEventListener('click', () => {
-          closeYourDesignMenu();
-          enterDesignDoc('ledger');
-        });
-      }
-      if (btnFindContractorEl) {
-        btnFindContractorEl.addEventListener('click', requestFindBuilder);
-      }
-      if (btnFindContractorHeaderEl) {
-        btnFindContractorHeaderEl.addEventListener('click', requestFindBuilder);
-      }
-
-      document.addEventListener('click', (e) => {
-        if (!yourDesignMenuListEl || yourDesignMenuListEl.hidden) return;
-        const menuRoot = document.getElementById('your-design-menu');
-        if (menuRoot && menuRoot.contains(e.target)) return;
-        closeYourDesignMenu();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeYourDesignMenu();
-      });
     }
 
     async function wireBlueprintMode(communityPreset) {
@@ -8849,11 +6710,7 @@
         catalogUrl,
         onModeChange: (mode) => {
           if (typeof scheduleLayout === 'function') scheduleLayout();
-          if (typeof updateS1CondensedHeadLabels === 'function') updateS1CondensedHeadLabels();
-          /* Run strip lives in the ARCHIVED Schedule overlay only — cloning
-             the canvas SVG into it on every blueprint entry is wasted work
-             for the three portrait documents. */
-          if (mode === 'blueprint' && window.BlueprintMode.getBlueprintView() === 'schedule') {
+          if (mode === 'blueprint') {
             requestAnimationFrame(() => {
               if (window.BlueprintMode) window.BlueprintMode.syncRunStrip(true);
             });
@@ -9811,27 +7668,27 @@
       return res.text();
     }
 
-    async function ensureHostAssembly(hostEl, side, forceReload = false) {
-      if (!forceReload && hostEl.querySelector('svg')) return;
+    async function ensureHostAssembly(hostEl, side) {
+      if (hostEl.querySelector('svg')) return;
       hostEl.innerHTML = await fetchAssemblyText(side);
       const svg = hostEl.querySelector('svg');
       if (!svg) throw new Error('Response was not a valid SVG.');
       normalizeSvg(svg);
     }
 
-    async function syncAssembliesForMode(mode, forceReload = false) {
+    async function syncAssembliesForMode(mode) {
       if (location.protocol === 'file:') return;
       try {
         if (mode === 'dual') {
           await Promise.all([
-            ensureHostAssembly(host, 'front', forceReload),
-            ensureHostAssembly(hostBack, 'back', forceReload),
+            ensureHostAssembly(host, 'front'),
+            ensureHostAssembly(hostBack, 'back'),
           ]);
           applyConfiguratorToHost(host, 'front');
           applyConfiguratorToHost(hostBack, 'back');
         } else {
           const side = btnFront.getAttribute('aria-pressed') === 'true' ? 'front' : 'back';
-          await ensureHostAssembly(host, side, forceReload);
+          await ensureHostAssembly(host, side);
           applyToPreview(false);
         }
         hideLoadError();
@@ -9993,13 +7850,10 @@
         picketFill: picketFillEl ? picketFillEl.value : 'standard',
         picketSpacing: picketSpacingEl ? picketSpacingEl.value : '1-16-privacy',
         picketWidth: picketWidthEl ? picketWidthEl.value : '5.5',
-        fabricWireGrid: fabricWireGridEl ? fabricWireGridEl.value : 'grid-4',
-        fabricWireGauge: fabricWireGaugeEl ? fabricWireGaugeEl.value : '14ga',
+        fabricWireGrid: fabricWireGridEl ? fabricWireGridEl.value : 'grid-2',
         fabricWireFinish: fabricWireFinishEl ? fabricWireFinishEl.value : 'galvanized',
         fabricLatticeGrid: fabricLatticeGridEl ? fabricLatticeGridEl.value : 'grid-2',
-        fabricLatticeMaterial: (fabricLatticeTypeEl && fabricLatticeTypeEl.value === 'wood')
-          ? 'cedar'
-          : (fabricLatticeColorEl ? fabricLatticeColorEl.value : 'composite-white'),
+        fabricLatticeMaterial: fabricLatticeMaterialEl ? fabricLatticeMaterialEl.value : 'composite',
         postSize: hfPostSizeEl ? hfPostSizeEl.value : '4x4',
         boardSize: hfBoardSizeEl ? hfBoardSizeEl.value : '2x4',
         boardStack: currentBoardStack,
@@ -10215,7 +8069,6 @@
       }
       if (!preset) return null;
 
-      selectedCommunitySlug = preset.slug || slug;
       window.CommunityPreset.clearUi();
       window.CommunityPreset.applyUi(preset);
       updateConfigStatusBar({
@@ -10242,7 +8095,6 @@
 
     function exitCommunityMode() {
       if (!window.CommunityPreset) return;
-      selectedCommunitySlug = null;
       window.CommunityPreset.unlockControls(communityControlEls());
       window.CommunityPreset.clearUi();
       updateConfigStatusBar({ community: 'Heritage', code: 'Pilot' });
@@ -10301,17 +8153,20 @@
       const pilot = getCurrentPilot();
       const active = syncFenceSideHighlight(side);
 
+      if (viewportMode === 'dual') {
+        await applyZoom(false);
+        return;
+      }
+
+      if (active !== side) {
+        side = active;
+      }
+
       if (location.protocol === 'file:') {
         showLoadError(
           'You opened the HTML file from disk (file://). Run npm run preview:heritage from FenceBook, then open: ' +
             PREVIEW_URL
         );
-        return;
-      }
-
-      if (viewportMode === 'dual') {
-        await syncAssembliesForMode('dual', true);
-        await applyZoom(false);
         return;
       }
 
@@ -10551,9 +8406,9 @@
       fenceCategoryMenu.querySelectorAll('.title-fence-option').forEach((item) => {
         item.setAttribute('aria-selected', item.dataset.category === categoryId ? 'true' : 'false');
       });
+      rebuildStyleMenu(categoryId);
       const defaultStyle = REG.defaultStyleForCategory(categoryId);
       switchStyle(defaultStyle.id, defaultStyle.label);
-      rebuildStyleMenu(categoryId);
     }
 
     fenceCategoryToggle.addEventListener('click', (e) => {
@@ -10661,19 +8516,12 @@
 
     watchShellLayout();
 
-    [postsEl, postCapsEl, bracketsEl, framingFastenersEl, fillFastenersEl, trimFastenersEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl, picketWidthEl, fabricStyleSelectEl, fabricWireGridEl, fabricWireGaugeEl, fabricWireFinishEl, fabricLatticeGridEl, fabricLatticeTypeEl, fabricLatticeColorEl, hfPostSizeEl, hfBoardSizeEl, fenceHeightEl, panelLengthEl].forEach((el) => {
+    [postsEl, postCapsEl, bracketsEl, framingFastenersEl, fillFastenersEl, trimFastenersEl, railsEl, railCapEl, trimEl, verticalTrimEl, customTrimEl, stainFrameEl, stainPicketEl, stainTrimEl, capModeEl, railCountEl, picketFillEl, picketSpacingEl, picketWidthEl, fabricWireGridEl, fabricWireFinishEl, fabricLatticeGridEl, fabricLatticeMaterialEl, hfPostSizeEl, hfBoardSizeEl, fenceHeightEl, panelLengthEl].forEach((el) => {
       if (!el) return;
       el.addEventListener('change', () => {
-        if (el === fabricStyleSelectEl) {
-          const selectedStyleId = fabricStyleSelectEl.value;
-          const style = REG.getStyle(selectedStyleId);
-          if (style) switchStyle(selectedStyleId, style.label);
-          return;
-        }
         if (el === picketFillEl) syncPicketFillUi();
         if (el === railCountEl) syncTrimOptionsForRailCount();
         if (el === railCapEl) syncRailCapUi();
-        if (el === fabricLatticeTypeEl) syncPanelVisibility(getCurrentStyle());
         syncPresetFromControls();
         applyToPreview();
         if (window.BlueprintMode) window.BlueprintMode.refresh();
@@ -10706,50 +8554,16 @@
           communityPreset.copy?.headline ||
           'Community';
         await switchStyle(styleId, label);
-        const bootParams = new URLSearchParams(location.search);
-        let rawBootStyle = bootParams.get('style') || bootParams.get('styleId') || bootParams.get('preset') || bootParams.get('line');
-        const bootCategory = bootParams.get('category') || bootParams.get('cat');
-
-        const STYLE_ALIASES = {
-          'welded-wire': 'fabric-welded-wire',
-          'weldedwire': 'fabric-welded-wire',
-          'hogwire': 'fabric-welded-wire',
-          'lattice': 'fabric-lattice',
-          'chain-link': 'fabric-chain-link',
-          'chainlink': 'fabric-chain-link',
-          'split-rail': 'hf-split-rail',
-          'board-fence': 'hf-board-fence',
-          'horizontal-picket': 'hf-horizontal-picket',
-          'wood-baluster': 'hand-wood-baluster',
-          'cable-metal': 'hand-cable-metal',
-        };
-
-        let bootStyle = rawBootStyle ? (STYLE_ALIASES[rawBootStyle.toLowerCase()] || rawBootStyle) : null;
-
-        if (!bootStyle && bootCategory) {
-          const catObj = REG.getCategory(bootCategory);
-          if (catObj && !catObj.disabled) {
-            const defSt = REG.defaultStyleForCategory(bootCategory);
-            if (defSt) bootStyle = defSt.id;
-          }
-        }
-
-        if (!bootStyle) {
-          bootStyle = 'vpf-natural-wood';
-        }
-
-        const bootTemplate = bootParams.get('template') || bootParams.get('templateId');
-        const st = REG.getStyle(bootStyle);
-        if (st && !st.disabled) {
-          await switchStyle(bootStyle, st.label);
-        }
-        if (bootTemplate && REG.getTemplate(currentStyleId, bootTemplate) && !REG.getTemplate(currentStyleId, bootTemplate).disabled) {
-          applyTemplate(bootTemplate);
-        }
-
+      } else {
+        applyMaterialDefaults(getCurrentStyle().defaults);
+        const bootTemplate = REG.getTemplate(currentStyleId, currentTemplateId);
+        if (bootTemplate) applyMaterialDefaults(bootTemplate.defaults);
+        rebuildTemplateList();
+        syncPresetSelection(currentTemplateId);
         syncPicketFillUi();
         updatePricingEstimate();
         await applyZoom(true);
+        await loadAssembly('front');
         bootLayout();
         await wireBlueprintMode(null);
       }
@@ -10772,90 +8586,6 @@
         document.body.classList.add('dev-ui-codes');
         if (params.get('dev') === 'codes') localStorage.setItem('heritage-dev-ui-codes', '1');
       }
-    })();
-  </script>
-
-  <script src="fence-catalog-data.js"></script>
-  <script src="pro-membership-modal.js"></script>
-  <script src="fence-catalog.js"></script>
-  <script>
-    window.loadCatalogBuild = async function(buildId) {
-      const build = window.FenceCatalogData ? window.FenceCatalogData.getBuildById(buildId) : null;
-      if (!build) return;
-
-      if (build.style && typeof REG !== 'undefined' && REG.getStyle(build.style)) {
-        const st = REG.getStyle(build.style);
-        if (typeof switchStyle === 'function') await switchStyle(build.style, st.label);
-      }
-      if (build.template && typeof applyTemplate === 'function') {
-        applyTemplate(build.template);
-      }
-
-      const s = build.slots || {};
-      const elMap = {
-        fenceHeight: document.getElementById('fenceHeight'),
-        posts: document.getElementById('posts'),
-        rails: document.getElementById('rails'),
-        trim: document.getElementById('trim'),
-        railCap: document.getElementById('railCap'),
-        postCaps: document.getElementById('postCaps'),
-        picketFill: document.getElementById('picketFill'),
-        picketSpacing: document.getElementById('picketSpacing'),
-        picketWidth: document.getElementById('picketWidth'),
-        stainFrame: document.getElementById('stainFrame'),
-        stainPicket: document.getElementById('stainPicket')
-      };
-
-      Object.keys(elMap).forEach(key => {
-        if (s[key] && elMap[key]) elMap[key].value = s[key];
-      });
-
-      if (typeof syncPicketFillUi === 'function') syncPicketFillUi();
-      if (typeof syncRailCapUi === 'function') syncRailCapUi();
-      if (typeof applyToPreview === 'function') applyToPreview();
-      if (window.BlueprintMode && typeof window.BlueprintMode.refresh === 'function') window.BlueprintMode.refresh();
-
-      // Return to designer surface (S0 Catalog/Designer tabs removed — Wix / preview-shell owns site nav)
-      if (window.BlueprintMode && typeof window.BlueprintMode.exit === 'function') {
-        window.BlueprintMode.exit();
-      }
-      const catalogViewEl = document.getElementById('catalog-view');
-      if (catalogViewEl) catalogViewEl.hidden = true;
-      const shellTopRowEl = document.getElementById('shell-top-row');
-      const sidebarRailEl = document.getElementById('sidebar-rail');
-      const layoutWrapEl = document.getElementById('layout');
-      const pageConfigStripEl = document.getElementById('page-config-strip');
-      if (shellTopRowEl) shellTopRowEl.style.display = '';
-      if (sidebarRailEl) sidebarRailEl.style.display = '';
-      if (layoutWrapEl) layoutWrapEl.style.display = '';
-      if (pageConfigStripEl) pageConfigStripEl.style.display = '';
-
-      const layout = document.getElementById('layout');
-      if (layout) layout.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
-    // Catalog deep-link (?view=catalog) — no in-configurator S0 tabs; preview-shell / Wix owns Catalog entry
-    (function wireCatalogDeepLink() {
-      const catalogView = document.getElementById('catalog-view');
-      const shellTopRow = document.getElementById('shell-top-row');
-      const sidebarRail = document.getElementById('sidebar-rail');
-      const layoutWrap = document.getElementById('layout');
-      const pageConfigStrip = document.getElementById('page-config-strip');
-      let viewParam = '';
-      try {
-        viewParam = new URLSearchParams(window.location.search).get('view') || '';
-      } catch (e) {
-        viewParam = '';
-      }
-      if (viewParam !== 'catalog') return;
-
-      if (catalogView) catalogView.hidden = false;
-      if (shellTopRow) shellTopRow.style.display = 'none';
-      if (sidebarRail) sidebarRail.style.display = 'none';
-      if (layoutWrap) layoutWrap.style.display = 'none';
-      if (pageConfigStrip) pageConfigStrip.style.display = 'none';
-      document.documentElement.dataset.viewMode = 'catalog';
-      if (window.FenceCatalog) window.FenceCatalog.render();
     })();
   </script>
 </body>
