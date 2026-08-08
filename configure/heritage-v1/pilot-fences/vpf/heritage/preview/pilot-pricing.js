@@ -65,8 +65,14 @@
     'pt-3t': 3.75,
     'cedar-3t': 6.5,
   };
-  const PICKET_FILL_DELTA = { standard: 0, shadowbox: 5.5, 'board-on-board': 8.5 };
+  const PICKET_FILL_DELTA = { standard: 0, gothic: 0, shadowbox: 5.5, 'board-on-board': 8.5 };
   const CLIENT_JOB_DELTA = { repair: 4.5, demo: 6.5 };
+
+  /**
+   * Administrative fee — placeholder % of fence $/lf (before gates).
+   * Tune later (Airtable / monetization); keep visible in calculator family grid.
+   */
+  const ADMIN_FEE_PCT = 0.05;
 
   /**
    * Rail cap — one 2×4 spans ~8′ between posts (96″ interior bay).
@@ -227,7 +233,7 @@
     if (input.jobRepair) clientDelta += CLIENT_JOB_DELTA.repair;
     if (input.fenceDemo) clientDelta += CLIENT_JOB_DELTA.demo;
 
-    const perLf =
+    const perLfBeforeAdmin =
       basePerLf +
       postsDelta +
       railsDelta +
@@ -237,6 +243,9 @@
       pcDelta +
       bracketD +
       clientDelta;
+    const adminDelta =
+      Math.round(perLfBeforeAdmin * ADMIN_FEE_PCT * 100) / 100;
+    const perLf = perLfBeforeAdmin + adminDelta;
     const total = perLf * lnFt;
 
     const perLfDeltas = {
@@ -251,6 +260,7 @@
       TBPC: capDelta,
       TBPE: bracketD,
       POST_CAPS: pcDelta,
+      ADMIN: adminDelta,
       B2: 0,
     };
 
@@ -266,6 +276,7 @@
       TBPC: capDelta * lnFt,
       TBPE: bracketD * lnFt,
       POST_CAPS: pcDelta * lnFt,
+      ADMIN: adminDelta * lnFt,
       B2: 0,
     };
 
@@ -284,10 +295,51 @@
     if (pcDelta) breakdown.push(`Post caps · ${perLfLabel(pcDelta)} × ${lnFt}′ = ${money(pcDelta * lnFt)}`);
     if (bracketD) breakdown.push(`Brackets · ${perLfLabel(bracketD)} × ${lnFt}′ = ${money(bracketD * lnFt)}`);
     if (clientDelta) breakdown.push(`Job site · ${perLfLabel(clientDelta)} × ${lnFt}′ = ${money(clientDelta * lnFt)}`);
+    if (adminDelta) {
+      breakdown.push(
+        `Administrative (${Math.round(ADMIN_FEE_PCT * 100)}%) · ${perLfLabel(adminDelta)} × ${lnFt}′ = ${money(adminDelta * lnFt)}`
+      );
+    }
+
+    const gateCat = global.FFManGateCatalog;
+    const gate = gateCat && typeof gateCat.computeGateTotal === 'function'
+      ? gateCat.computeGateTotal(input)
+      : gateCat && typeof gateCat.computeManGateTotal === 'function'
+        ? (() => {
+          const man = gateCat.computeManGateTotal(input);
+          return { ...man, man, mower: { total: 0, count: 0, perGate: 0 }, vehicle: { total: 0, count: 0, perGate: 0 } };
+        })()
+        : { total: 0, count: 0, perGate: 0, lines: [], man: { total: 0, count: 0, perGate: 0 }, mower: { total: 0, count: 0, perGate: 0 }, vehicle: { total: 0, count: 0, perGate: 0 } };
+    const gateTotal = gate.total || 0;
+    panels.TBPG = gateTotal;
+    if (gate.man && gate.man.total > 0) {
+      breakdown.push(
+        `${gate.man.lines?.[0] || gate.lines?.[0] || 'Man gate'} · ${money(gate.man.perGate)} × ${gate.man.count} = ${money(gate.man.total)}`
+      );
+      for (let i = 1; i < (gate.man.lines || []).length; i += 1) {
+        breakdown.push(`  · ${gate.man.lines[i]}`);
+      }
+    }
+    if (gate.mower && gate.mower.total > 0) {
+      breakdown.push(
+        `Mower gate × ${gate.mower.count} · default · ${money(gate.mower.perGate)} × ${gate.mower.count} = ${money(gate.mower.total)}`
+      );
+    }
+    if (gate.vehicle && gate.vehicle.total > 0) {
+      breakdown.push(
+        `Vehicle gate × ${gate.vehicle.count} · default · ${money(gate.vehicle.perGate)} × ${gate.vehicle.count} = ${money(gate.vehicle.total)}`
+      );
+    }
 
     return {
-      total,
+      total: total + gateTotal,
+      fenceTotal: total,
+      gateTotal,
+      gateLines: gate.lines || [],
       perLf,
+      perLfBeforeAdmin,
+      adminFeePct: ADMIN_FEE_PCT,
+      adminFeePerLf: adminDelta,
       lnFt,
       basePerLf,
       baseKey,
@@ -334,7 +386,10 @@
     BASE_PER_LF,
     ABSOLUTE_BASE,
     CLIENT_JOB_DELTA,
+    POSTS_DELTA,
+    RAILS_DELTA,
     TRIM_DELTA,
+    PICKET_FILL_DELTA,
     CAP_FT_PER_BOARD,
     RAIL_CAP_PT,
     RAIL_CAP_CEDAR_MATERIAL_PREMIUM_PER_BOARD,

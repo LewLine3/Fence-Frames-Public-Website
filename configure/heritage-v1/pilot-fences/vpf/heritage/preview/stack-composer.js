@@ -147,9 +147,36 @@
 
   function layerSignature(layer) {
     if (layer.kind === 'placed' && layer.place) {
-      return `${layer.id}:${layer.path}@${layer.place.y}+${layer.dy || 0}`;
+      const cropY = layer.viewBoxCrop ? layer.viewBoxCrop.y || 0 : 0;
+      const cropW = layer.viewBoxCrop
+        ? layer.viewBoxCrop.w || layer.viewBoxCrop.shortenRight || 0
+        : 0;
+      return `${layer.id}:${layer.path}@${layer.place.x},${layer.place.y}+${layer.dy || 0}+h${layer.place.h}+w${layer.place.w}+c${cropY}/${cropW}`;
     }
-    return `${layer.id}:${layer.path}`;
+    const clipY = layer.picketClipY != null ? layer.picketClipY : '';
+    const panelDx = layer.panelDx || 0;
+    return `${layer.id}:${layer.path}@clip${clipY}+p${panelDx}`;
+  }
+
+  function resolveLayerViewBox(parsed, layer, placement) {
+    if (!layer.viewBoxCrop) return parsed;
+    const crop = layer.viewBoxCrop;
+    if (crop.shortenRight && placement) {
+      const fullW = placement.w + crop.shortenRight;
+      const ratio = parsed.w / fullW;
+      return {
+        x: parsed.x,
+        y: parsed.y,
+        w: parsed.w - crop.shortenRight * ratio,
+        h: parsed.h,
+      };
+    }
+    return {
+      x: parsed.x + (crop.x || 0),
+      y: parsed.y + (crop.y || 0),
+      w: crop.w != null ? crop.w : parsed.w - (crop.x || 0),
+      h: crop.h != null ? crop.h : parsed.h - (crop.y || 0),
+    };
   }
 
   function buildNestedSvg(content, viewBox, placement) {
@@ -173,9 +200,10 @@
 
   async function buildLayerNode(layer) {
     const symRoot = await fetchSymDocument(layer.path);
-    const viewBox = parseViewBox(symRoot);
-    const content = extractSymContent(symRoot, layer.id);
+    const parsed = parseViewBox(symRoot);
     const placement = layer.kind === 'placed' ? { ...layer.place, dy: layer.dy || 0 } : null;
+    const viewBox = resolveLayerViewBox(parsed, layer, placement && layer.place);
+    const content = extractSymContent(symRoot, layer.id);
     const nested = buildNestedSvg(content, viewBox, placement);
     const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     wrap.setAttribute('class', 'stack-layer');
@@ -422,7 +450,19 @@
       state.framePreset || state.fenceLine || 'heritage-vpf',
       state.railCount
     );
+    const heightDy = HC.resolveFenceHeightDy(state.fenceHeight);
+    const panelDx = HC.resolvePanelLengthDx(state.panelLength);
     HC.applyStackMaterials(svg, state, line);
+    const clipLine = {
+      ...line,
+      picketTopY: line.picketTopY + heightDy,
+      topNailBaseY: line.topNailBaseY + heightDy,
+      picketFieldW: 89.375 - panelDx,
+    };
+    HC.applyPicketClip(svg, clipLine);
+    HC.applyPanelLengthPicketVisibility(svg, panelDx);
+    svg.setAttribute('data-fence-height-dy', String(heightDy));
+    svg.setAttribute('data-panel-length-dx', String(panelDx));
   }
 
   /**

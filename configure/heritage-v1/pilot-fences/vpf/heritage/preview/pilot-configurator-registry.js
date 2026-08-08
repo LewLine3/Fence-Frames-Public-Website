@@ -16,6 +16,7 @@
     brackets: 'none',
     picketFill: 'standard',
     picketSpacing: '1-16-privacy',
+    picketWidth: '5.5',
   };
 
   const VPF_ASSEMBLY = {
@@ -25,6 +26,8 @@
 
   const VPF_CAPABILITIES = {
     pickets: true,
+    /** 3.5″ (1x4) / 5.5″ (1x6) toggle — standard fill only; HF and fabric/wire lines don't get this control. */
+    picketWidth: true,
     trim: true,
     stain: true,
     cap: true,
@@ -91,24 +94,35 @@
       code: 'HF',
       label: 'Horizontal Fence',
       trail: 'Board, picket & split rail',
-      styleOrder: ['hf-board-fence', 'hf-horizontal-picket', 'hf-split-rail'],
+      styleOrder: [
+        'hf-board-fence',
+        'hf-horizontal-picket',
+        'hf-split-rail',
+        'hf-composite-vinyl',
+      ],
     },
     fabric: {
       id: 'fabric',
       code: 'Fabric',
       label: 'Fabric Fence',
-      trail: 'Mesh & lattice',
-      styleOrder: ['fabric-welded-wire', 'fabric-lattice'],
-      /** Parked until fabric geometry + infill rework ships — art stays in repo. */
-      disabled: true,
+      trail: 'Mesh, lattice & chain link',
+      styleOrder: ['fabric-welded-wire', 'fabric-lattice', 'fabric-chain-link'],
     },
     'hand-guardrail': {
       id: 'hand-guardrail',
       code: 'Hand',
       label: 'Hand / Guardrail',
-      trail: 'Guardrail',
-      styleOrder: [],
+      trail: 'Guardrail — parked',
+      styleOrder: ['hand-wood-baluster', 'hand-cable-metal'],
+      /** Owner 2026-08-02: parked until Vertical / Horizontal / Fabric are finished. */
       disabled: true,
+    },
+    community: {
+      id: 'community',
+      code: 'HOA',
+      label: 'Community / HOA',
+      trail: 'Partner community builds',
+      styleOrder: ['hoa-si-view'],
     },
   };
 
@@ -141,20 +155,50 @@
       capabilities: VPF_CAPABILITIES,
       disabled: true,
     },
+    /** Community / HOA — same VPF heritage art; filtered + locked via community-presets/*.json */
+    'hoa-si-view': {
+      id: 'hoa-si-view',
+      category: 'community',
+      label: 'Si View Community',
+      code: 'SV',
+      description: 'Standard Si View Privacy Fence — approved 6′ cedar privacy for Si View Community (North Bend).',
+      mode: 'vpf-heritage',
+      renderMode: 'stack',
+      assembly: VPF_ASSEMBLY,
+      communityPreset: 'si-view',
+      templateOrder: ['default'],
+      defaults: {
+        ...MATERIAL_DEFAULTS,
+        fenceHeight: '6ft',
+        posts: 'pt-incised',
+        rails: 'cedar',
+        trim: 'cedar-1t',
+        railCap: 'on',
+        capMode: 'match-rails',
+        postCaps: 'none',
+        brackets: 'none',
+        picketFill: 'standard',
+        picketSpacing: '1-16-privacy',
+        picketWidth: '5.5',
+        stainFrame: 'pt-brown',
+        stainPicket: 'pt-brown',
+      },
+      capabilities: VPF_CAPABILITIES,
+    },
     'hf-board-fence': {
       id: 'hf-board-fence',
       category: 'horizontal',
       label: 'Board fence',
       code: 'HSB',
       description:
-        'Horizontal split board — Base through Rancher templates; PT posts, spaced boards in 4′ fill zone.',
+        'Horizontal split board — Base through Rancher templates; PT posts, spaced boards in 4′ fill zone. Cross-buck is a template here, not a separate Style.',
       mode: 'hf-frame',
       /** One unified assembly — templates are starting presets, not separate SVG branches. */
       assembly: {
         front: '../../../hf/board-fence/asm-hf-board-fence-frame.svg',
         back: null,
       },
-      templateOrder: ['base', 'default', 'homesteader', 'rancher'],
+      templateOrder: ['base', 'default', 'homesteader', 'rancher', 'cross-buck'],
       defaults: {
         posts: 'pt-incised',
         rails: 'pt-appearance',
@@ -198,14 +242,16 @@
       category: 'horizontal',
       label: 'Split rail',
       code: 'HSR',
-      description: 'Rustic round/faceted rails through mortised posts — coming soon, no art yet.',
-      mode: 'stub',
-      assembly: null,
+      description: 'Rustic round/faceted rails through mortised posts.',
+      mode: 'hf-frame',
+      assembly: {
+        front: '../../../hf/board-fence/asm-hf-board-fence-frame.svg',
+        back: null,
+      },
       templateOrder: ['base', 'default'],
       defaults: { ...MATERIAL_DEFAULTS, capMode: 'match-rails' },
       module: { w: 112, h: 96, grassBottomY: 96 },
       capabilities: HF_CAPABILITIES,
-      disabled: true,
     },
     'fabric-welded-wire': {
       id: 'fabric-welded-wire',
@@ -229,7 +275,6 @@
       },
       module: { w: 112, h: 96, grassBottomY: 96 },
       capabilities: FABRIC_WIRE_CAPABILITIES,
-      disabled: true,
     },
     'fabric-lattice': {
       id: 'fabric-lattice',
@@ -253,6 +298,94 @@
       },
       module: { w: 112, h: 96, grassBottomY: 96 },
       capabilities: FABRIC_LATTICE_CAPABILITIES,
+    },
+    /**
+     * DEPRECATED as a Style (owner 2026-08-02). Cross-buck is a Board fence
+     * template (`hf-board-fence` → `cross-buck`), not its own Style.
+     * Kept disabled so old links/docs do not resurrect a fourth HF style.
+     */
+    'hf-cross-buck': {
+      id: 'hf-cross-buck',
+      category: 'horizontal',
+      label: 'Cross-buck (deprecated style)',
+      code: 'HXB',
+      description:
+        'Deprecated — use Board fence → Cross-buck template. Not a standalone Style.',
+      mode: 'stub',
+      assembly: null,
+      templateOrder: ['base', 'default'],
+      defaults: { ...MATERIAL_DEFAULTS, capMode: 'match-rails' },
+      module: { w: 112, h: 96, grassBottomY: 96 },
+      capabilities: HF_CAPABILITIES,
+      disabled: true,
+    },
+    /**
+     * Horizontal composite / vinyl — Visionary pilot. Stub until HCV systems ship.
+     */
+    'hf-composite-vinyl': {
+      id: 'hf-composite-vinyl',
+      category: 'horizontal',
+      label: 'Composite / vinyl',
+      code: 'HCV',
+      description: 'Composite or vinyl horizontal systems — coming soon (Visionary pilot).',
+      mode: 'stub',
+      assembly: null,
+      templateOrder: ['base', 'default'],
+      defaults: { ...MATERIAL_DEFAULTS, capMode: 'match-rails' },
+      module: { w: 112, h: 96, grassBottomY: 96 },
+      capabilities: HF_CAPABILITIES,
+      disabled: true,
+    },
+    /**
+     * Chain link — fabric CLNK. Stub until chainlink mesh assembly ships.
+     */
+    'fabric-chain-link': {
+      id: 'fabric-chain-link',
+      category: 'fabric',
+      label: 'Chain link',
+      code: 'CLNK',
+      description: 'Chain-link mesh between posts.',
+      mode: 'fabric-frame',
+      assembly: {
+        front: '../../../fabric/welded-wire/asm-fabric-welded-wire-frame.svg',
+        back: null,
+      },
+      templateOrder: ['base', 'default'],
+      defaults: {
+        ...MATERIAL_DEFAULTS,
+        trim: 'none',
+        capMode: 'match-rails',
+        fabricWireFinish: 'galvanized',
+      },
+      module: { w: 112, h: 96, grassBottomY: 96 },
+      capabilities: FABRIC_WIRE_CAPABILITIES,
+    },
+    'hand-wood-baluster': {
+      id: 'hand-wood-baluster',
+      category: 'hand-guardrail',
+      label: 'Wood baluster',
+      code: 'HWB',
+      description: 'Wood baluster guardrail — parked until further notice.',
+      mode: 'stub',
+      assembly: null,
+      templateOrder: ['base', 'default'],
+      defaults: { ...MATERIAL_DEFAULTS, capMode: 'match-rails' },
+      module: { w: 112, h: 96, grassBottomY: 96 },
+      capabilities: HF_CAPABILITIES,
+      disabled: true,
+    },
+    'hand-cable-metal': {
+      id: 'hand-cable-metal',
+      category: 'hand-guardrail',
+      label: 'Cable / metal',
+      code: 'HCAB',
+      description: 'Cable or metal guardrail — parked until further notice.',
+      mode: 'stub',
+      assembly: null,
+      templateOrder: ['base', 'default'],
+      defaults: { ...MATERIAL_DEFAULTS, capMode: 'match-rails' },
+      module: { w: 112, h: 96, grassBottomY: 96 },
+      capabilities: HF_CAPABILITIES,
       disabled: true,
     },
   };
@@ -299,6 +432,29 @@
         description: 'Upgrade — triple rail + cap. PT 3T trim (requires 3-rail Legacy frame).',
         framePreset: 'legacy',
         defaults: { ...MATERIAL_DEFAULTS, trim: 'pt-3t', railCap: 'on', capMode: 'match-rails' },
+      },
+    },
+    'hoa-si-view': {
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Si View approved build — Heritage hybrid frame, privacy spacing.',
+        framePreset: 'heritage-vpf',
+        defaults: {
+          ...MATERIAL_DEFAULTS,
+          fenceHeight: '6ft',
+          posts: 'pt-incised',
+          rails: 'pt-incised',
+          trim: 'pt-1t',
+          picketSpacing: '1-16-privacy',
+          picketWidth: '5.5',
+          railCap: 'on',
+          capMode: 'match-rails',
+          postCaps: 'none',
+          stainFrame: 'pt-brown',
+          stainPicket: 'pt-brown',
+        },
       },
     },
     'hf-board-fence': {
@@ -373,6 +529,29 @@
           boardSize: '2x6',
           fenceHeight: '4ft',
         },
+      },
+      /**
+       * Cross-buck — X-rail / Statesmen pattern as a Board fence variation.
+       * Owner 2026-08-02: not a separate Style. Disabled until geometry ships.
+       */
+      'cross-buck': {
+        id: 'cross-buck',
+        label: 'Cross-buck',
+        slot: 'upgrade-c',
+        description: 'Cross-buck / X-rail board variation — coming soon.',
+        framePreset: null,
+        defaults: {
+          posts: 'pt-incised',
+          rails: 'pt-appearance',
+          trim: 'none',
+          capMode: 'match-rails',
+          boardStack: 'split',
+          boardCount: 2,
+          postSize: '4x6',
+          boardSize: '2x6',
+          fenceHeight: '4ft',
+        },
+        disabled: true,
       },
     },
     'hf-horizontal-picket': {
@@ -511,6 +690,132 @@
           fabricLatticeGrid: 'grid-2',
           fabricLatticeMaterial: 'composite',
         },
+      },
+    },
+    /** Placeholder — style disabled until CVNL geometry ships. */
+    'vpf-composite-vinyl': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum composite / vinyl vertical picket. Coming soon.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS, trim: 'none', railCap: 'off' },
+        disabled: true,
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard composite / vinyl vertical picket. Coming soon.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS },
+        disabled: true,
+      },
+    },
+    'hf-cross-buck': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum cross-buck — coming soon.',
+        framePreset: null,
+        defaults: { posts: 'pt-incised', rails: 'pt-incised', trim: 'none', capMode: 'match-rails' },
+        disabled: true,
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard cross-buck line. Coming soon.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS, trim: 'none', capMode: 'match-rails' },
+        disabled: true,
+      },
+    },
+    'hf-composite-vinyl': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum horizontal composite / vinyl. Coming soon.',
+        framePreset: null,
+        defaults: { posts: 'pt-incised', rails: 'pt-incised', trim: 'none', capMode: 'match-rails' },
+        disabled: true,
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard horizontal composite / vinyl. Coming soon.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS, trim: 'none', capMode: 'match-rails' },
+        disabled: true,
+      },
+    },
+    'fabric-chain-link': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum chain link.',
+        framePreset: null,
+        defaults: {
+          posts: 'pt-incised',
+          rails: 'pt-incised',
+          trim: 'none',
+          capMode: 'match-rails',
+          fabricWireFinish: 'galvanized',
+        },
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard chain link.',
+        framePreset: null,
+        defaults: {
+          ...MATERIAL_DEFAULTS,
+          trim: 'none',
+          capMode: 'match-rails',
+          fabricWireFinish: 'galvanized',
+        },
+      },
+    },
+    'hand-wood-baluster': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum wood baluster guardrail.',
+        framePreset: null,
+        defaults: { posts: 'pt-incised', rails: 'pt-incised', trim: 'none', capMode: 'match-rails' },
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard wood baluster guardrail.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS, trim: 'none', capMode: 'match-rails' },
+      },
+    },
+    'hand-cable-metal': {
+      base: {
+        id: 'base',
+        label: 'Base',
+        slot: 'base',
+        description: 'Minimum cable / metal guardrail.',
+        framePreset: null,
+        defaults: { posts: 'pt-incised', rails: 'pt-incised', trim: 'none', capMode: 'match-rails' },
+      },
+      default: {
+        id: 'default',
+        label: 'Default',
+        slot: 'default',
+        description: 'Standard cable / metal guardrail.',
+        framePreset: null,
+        defaults: { ...MATERIAL_DEFAULTS, trim: 'none', capMode: 'match-rails' },
       },
     },
   };

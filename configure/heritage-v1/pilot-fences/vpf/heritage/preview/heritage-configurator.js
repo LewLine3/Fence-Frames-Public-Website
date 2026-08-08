@@ -17,12 +17,76 @@ const RAIL_CAP_MODE = {
 };
 
 const STAIN = {
-  cedar: '#b8886b',
-  cedarTrim: '#a37e54',
-  cedarRail: '#ae9162',
+  /** Terracotta mid — sync with scripts/lib/cedar-stains.js (street ref ~#cc8254). */
+  cedar: '#c88254',
+  cedarTrim: '#c88254',
+  cedarRail: '#c88254',
   pt: '#6c4834',
+  /** Rails + cap when whole-fence PT stain — slightly darker / redder than picket+trim tint. */
+  ptRail: '#573026',
   ptTrim: '#755038',
 };
+
+/**
+ * Si View HOA face — terracotta family with readable contrast.
+ * Pickets lighter; rails/trim/posts same mid-dark (posts no longer near-black).
+ */
+const SI_VIEW_FACE = {
+  picket: '#b06840',
+  rail: '#8a4e2c',
+  trim: '#8a4e2c',
+  post: '#8a4e2c',
+  cap: '#8a4e2c',
+};
+
+/**
+ * Si View only — board edges. Use non-scaling stroke so lines stay visible
+ * at phone fit (~1 px/in); inch stroke-widths vanish at that zoom.
+ */
+const SI_VIEW_OUTLINE = {
+  color: '#0c0a08',
+  width: '1.25',
+  nonScaling: true,
+};
+
+/**
+ * Fence height above grade — art is authored at 6′; shorter heights cut from the top
+ * (posts clip/shorten at grade, top hardware translates, pickets clip). See heightDy.
+ */
+const FENCE_HEIGHT_DY_IN = {
+  '6ft': 0,
+  '5ft': 12,
+  '4ft': 24,
+};
+
+/** Panel length — art is authored at 8′ bay; 6′ pulls the right post in (left fixed). */
+const PANEL_LENGTH_DX_IN = {
+  '8ft': 0,
+  '6ft': 24,
+};
+
+/** First picket x to hide for 6′ (user pickets 12–16: 11th full through right rip). */
+const PANEL_6FT_PICKET_HIDE_X = 74.03125;
+
+const POST_SHELL_TOP_Y = 12;
+const POST_SHELL_H = 72;
+const RAIL_FIELD_X = 11.3125;
+const RAIL_FIELD_W = 89.375;
+const RIGHT_POST_X = 100.5;
+
+function resolveFenceHeightDy(fenceHeight) {
+  const key = fenceHeight || '6ft';
+  return Object.prototype.hasOwnProperty.call(FENCE_HEIGHT_DY_IN, key)
+    ? FENCE_HEIGHT_DY_IN[key]
+    : 0;
+}
+
+function resolvePanelLengthDx(panelLength) {
+  const key = panelLength || '8ft';
+  return Object.prototype.hasOwnProperty.call(PANEL_LENGTH_DX_IN, key)
+    ? PANEL_LENGTH_DX_IN[key]
+    : 0;
+}
 
 /** VPF rail-frame presets — geometry on shared picket assembly (112×96 module). */
 const VPF_FRAME_PRESETS = {
@@ -260,14 +324,31 @@ function applyPicketSpacing(root, spacingId) {
     pickets.getAttribute('data-active-fill') ||
     pickets.getAttribute('data-default-fill') ||
     'standard';
-  applyPicketFill(root, fill, spacingId);
+  const width = pickets.getAttribute('data-active-width') || pickets.getAttribute('data-default-width') || '5.5';
+  applyPicketFill(root, fill, spacingId, width);
 }
 
-function applyPicketFill(root, fillId, spacingId) {
+/** 3.5″ (1x4) / 5.5″ (1x6) toggle — standard fill only (see applyPicketFill's width match). */
+function applyPicketWidth(root, widthId) {
+  const pickets = byId(root, 'Picket-Groups');
+  if (!pickets) return;
+  const fill =
+    pickets.getAttribute('data-active-fill') ||
+    pickets.getAttribute('data-default-fill') ||
+    'standard';
+  const spacing =
+    pickets.getAttribute('data-active-spacing') ||
+    pickets.getAttribute('data-default-spacing') ||
+    '1-16-privacy';
+  applyPicketFill(root, fill, spacing, widthId);
+}
+
+function applyPicketFill(root, fillId, spacingId, widthId) {
   const pickets = byId(root, 'Picket-Groups');
   if (!pickets) return;
   const fill = fillId || pickets.getAttribute('data-default-fill') || 'standard';
   const spacing = spacingId || pickets.getAttribute('data-default-spacing') || '1-16-privacy';
+  const width = widthId || pickets.getAttribute('data-active-width') || pickets.getAttribute('data-default-width') || '5.5';
   pickets.querySelectorAll('.picket-fill-layer, .picket-spacing-layer').forEach((layer) => {
     const layerFill = layer.dataset.picketFill || 'standard';
     if (layerFill !== fill) {
@@ -275,26 +356,215 @@ function applyPicketFill(root, fillId, spacingId) {
       return;
     }
     if (layerFill === 'standard') {
-      layer.style.display = layer.dataset.picketSpacing === spacing ? '' : 'none';
+      /** `data-picket-width-locked` is reserved for a future width-locked standard-fill variant;
+       *  today gothic/shadowbox/board-on-board (locked to 5.5″) live in the `else` branch below since
+       *  they aren't tagged `data-picket-fill="standard"` — this check is a no-op until one exists. */
+      const layerWidth = layer.dataset.picketWidth || '5.5';
+      const widthMatches = layer.dataset.picketWidthLocked === 'true' || layerWidth === width;
+      layer.style.display = layer.dataset.picketSpacing === spacing && widthMatches ? '' : 'none';
     } else {
+      /** Gothic + dual-row fills are 5.5″ privacy layout in v1 — width/spacing toggles have no effect. */
       layer.style.display = '';
     }
   });
   pickets.setAttribute('data-active-fill', fill);
   if (fill === 'standard') {
     pickets.setAttribute('data-active-spacing', spacing);
+    pickets.setAttribute('data-active-width', width);
   }
 }
 
 function applyPicketClip(root, line) {
-  const pickets = byId(root, 'Picket-Groups');
+  const pickets =
+    byId(root, 'Picket-Groups') || root.querySelector('[data-layer-id="pickets"]');
   if (!pickets) return;
   const clipRect = ensurePicketClip(root);
-  clipRect.setAttribute('x', '11.3125');
+  const fieldW = line.picketFieldW != null ? line.picketFieldW : RAIL_FIELD_W;
+  clipRect.setAttribute('x', String(RAIL_FIELD_X));
   clipRect.setAttribute('y', String(line.picketTopY));
-  clipRect.setAttribute('width', '89.375');
+  clipRect.setAttribute('width', String(fieldW));
   clipRect.setAttribute('height', String(line.picketBottomY - line.picketTopY));
   pickets.setAttribute('clip-path', 'url(#picket-field-clip-dynamic)');
+}
+
+function ensurePostHeightClip(svgRoot) {
+  const svg = svgRoot.ownerSVGElement || svgRoot;
+  let defs = svg.querySelector('defs');
+  if (!defs) {
+    defs = document.createElementNS(SVG_NS, 'defs');
+    svg.insertBefore(defs, svg.firstElementChild);
+  }
+  let clip = defs.querySelector('#post-height-clip-dynamic');
+  if (!clip) {
+    clip = document.createElementNS(SVG_NS, 'clipPath');
+    clip.id = 'post-height-clip-dynamic';
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.id = 'post-height-clip-rect';
+    clip.appendChild(rect);
+    defs.appendChild(clip);
+  }
+  return clip.querySelector('rect');
+}
+
+/** Clip posts from the top so bottoms stay on grade (no squash). */
+function applyPostHeightClip(root, heightDy) {
+  const posts = byId(root, 'Post-Groups');
+  if (!posts) return;
+  if (!heightDy) {
+    posts.removeAttribute('clip-path');
+    return;
+  }
+  const clipRect = ensurePostHeightClip(root);
+  clipRect.setAttribute('x', '0');
+  clipRect.setAttribute('y', String(POST_SHELL_TOP_Y + heightDy));
+  clipRect.setAttribute('width', '112');
+  clipRect.setAttribute('height', String(POST_SHELL_H - heightDy));
+  posts.setAttribute('clip-path', 'url(#post-height-clip-dynamic)');
+}
+
+function ensurePanelLengthClip(svgRoot) {
+  const svg = svgRoot.ownerSVGElement || svgRoot;
+  let defs = svg.querySelector('defs');
+  if (!defs) {
+    defs = document.createElementNS(SVG_NS, 'defs');
+    svg.insertBefore(defs, svg.firstElementChild);
+  }
+  let clip = defs.querySelector('#panel-length-clip-dynamic');
+  if (!clip) {
+    clip = document.createElementNS(SVG_NS, 'clipPath');
+    clip.id = 'panel-length-clip-dynamic';
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.id = 'panel-length-clip-rect';
+    clip.appendChild(rect);
+    defs.appendChild(clip);
+  }
+  return clip.querySelector('rect');
+}
+
+/**
+ * 6′ panel: drop full pickets from #12 on, but keep the right rip-cut board and
+ * slide it left so it meets the new right post (fills the blank gap).
+ */
+function applyPanelLengthPicketVisibility(root, panelDx) {
+  const pickets =
+    byId(root, 'Picket-Groups') || root.querySelector('[data-layer-id="pickets"]');
+  if (!pickets) return;
+
+  const rightCuts = pickets.querySelectorAll('[data-picket-cut="right"]');
+  const rightRipBaseXs = new Set();
+  rightCuts.forEach((el) => {
+    el.dataset.panelRightRip = 'true';
+    const x = Number(el.getAttribute('x'));
+    if (Number.isFinite(x)) rightRipBaseXs.add(x);
+    let sib = el.nextElementSibling;
+    while (
+      sib &&
+      !sib.hasAttribute('data-picket-cut') &&
+      sib.getAttribute('data-picket-row-shell') !== 'true'
+    ) {
+      sib.dataset.panelRightRip = 'true';
+      const sx = Number(sib.getAttribute('x'));
+      if (Number.isFinite(sx)) rightRipBaseXs.add(sx);
+      sib = sib.nextElementSibling;
+    }
+  });
+
+  const isRightRipEl = (el) => {
+    if (el.dataset.panelRightRip === 'true') return true;
+    if (el.getAttribute('data-picket-cut') === 'right') return true;
+    const x = Number(el.dataset.baseX != null ? el.dataset.baseX : el.getAttribute('x'));
+    if (!Number.isFinite(x)) return false;
+    for (const rx of rightRipBaseXs) {
+      if (Math.abs(x - rx) < 0.01) return true;
+    }
+    return false;
+  };
+
+  pickets.querySelectorAll('rect, path').forEach((el) => {
+    if (el.getAttribute('data-picket-row-shell') === 'true') {
+      if (panelDx) {
+        if (!el.dataset.baseWidth) {
+          el.dataset.baseWidth = el.getAttribute('width') || String(RAIL_FIELD_W);
+        }
+        el.setAttribute('width', String(RAIL_FIELD_W - panelDx));
+      } else if (el.dataset.baseWidth) {
+        el.setAttribute('width', el.dataset.baseWidth);
+      }
+      return;
+    }
+
+    if (el.dataset.baseX == null) {
+      const xAttr = el.getAttribute('x');
+      if (xAttr != null && Number.isFinite(Number(xAttr))) {
+        el.dataset.baseX = xAttr;
+      }
+    }
+    const baseX = el.dataset.baseX != null ? Number(el.dataset.baseX) : NaN;
+    const rightRip = isRightRipEl(el);
+
+    if (!panelDx) {
+      el.style.display = '';
+      if (el.dataset.baseX != null && el.hasAttribute('x')) {
+        el.setAttribute('x', el.dataset.baseX);
+      }
+      if (el.dataset.panelRipMoved === 'true') {
+        el.removeAttribute('transform');
+        delete el.dataset.panelRipMoved;
+      }
+      return;
+    }
+
+    if (rightRip) {
+      el.style.display = '';
+      if (el.hasAttribute('x') && Number.isFinite(baseX)) {
+        el.setAttribute('x', String(baseX - panelDx));
+      } else {
+        el.setAttribute('transform', `translate(${-panelDx} 0)`);
+        el.dataset.panelRipMoved = 'true';
+      }
+      return;
+    }
+
+    if (Number.isFinite(baseX) && baseX >= PANEL_6FT_PICKET_HIDE_X) {
+      el.style.display = 'none';
+    } else {
+      el.style.display = '';
+    }
+  });
+}
+
+/**
+ * Shorten bay from the right (left post fixed). Rails/trim/pickets/cap clip;
+ * right post translates inward.
+ */
+function applyPanelLength(root, state) {
+  const panelDx = resolvePanelLengthDx(state && state.panelLength);
+  const rightPost = byId(root, 'Right-Post-Group');
+  setGroupTranslate(rightPost, 0, -panelDx);
+
+  const clipTargets = [
+    byId(root, 'Rail-Groups'),
+    byId(root, 'Trim-Group'),
+    byId(root, 'shell-cap-ref'),
+    byId(root, 'fill-cap'),
+  ].filter(Boolean);
+
+  if (!panelDx) {
+    clipTargets.forEach((el) => el.removeAttribute('clip-path'));
+    applyPanelLengthPicketVisibility(root, 0);
+    return;
+  }
+
+  const clipRect = ensurePanelLengthClip(root);
+  const clipRight = RIGHT_POST_X - panelDx;
+  clipRect.setAttribute('x', '0');
+  clipRect.setAttribute('y', '0');
+  clipRect.setAttribute('width', String(clipRight));
+  clipRect.setAttribute('height', '96');
+  clipTargets.forEach((el) => {
+    el.setAttribute('clip-path', 'url(#panel-length-clip-dynamic)');
+  });
+  applyPanelLengthPicketVisibility(root, panelDx);
 }
 
 function cacheNailBaselines(root) {
@@ -321,16 +591,26 @@ function applyNailLine(root, line) {
   });
 }
 
-function setGroupTranslate(el, dy) {
+function setGroupTranslate(el, dy, dx = 0) {
   if (!el) return;
-  if (dy) el.setAttribute('transform', `translate(0 ${dy})`);
+  if (dy || dx) el.setAttribute('transform', `translate(${dx} ${dy})`);
   else el.removeAttribute('transform');
 }
 
 /** Apply VPF sub-line rail geometry on the shared Heritage assembly. */
 function applyVpfLine(root, fenceLine, railCount, state) {
   const line = resolveEffectiveVpfLine(fenceLine, railCount);
-  const dy = line.topRailDy || 0;
+  const heightDy = resolveFenceHeightDy(state && state.fenceHeight);
+  const panelDx = resolvePanelLengthDx(state && state.panelLength);
+  const topDy = (line.topRailDy || 0) + heightDy;
+  const clipLine = {
+    ...line,
+    picketTopY: line.picketTopY + heightDy,
+    topNailBaseY: line.topNailBaseY + heightDy,
+    picketFieldW: RAIL_FIELD_W - panelDx,
+    heightDy,
+    panelDx,
+  };
 
   const capShell = byId(root, 'shell-cap-ref');
   const capFill = byId(root, 'fill-cap');
@@ -338,8 +618,12 @@ function applyVpfLine(root, fenceLine, railCount, state) {
   if (capShell) capShell.style.display = showRailCap ? '' : 'none';
   if (capFill) capFill.style.display = showRailCap ? '' : 'none';
 
-  setGroupTranslate(byId(root, 'Top-Rail-Group'), dy);
-  setGroupTranslate(byId(root, 'Top-Trim-Group'), dy);
+  setGroupTranslate(capShell, heightDy);
+  setGroupTranslate(capFill, heightDy);
+  setGroupTranslate(byId(root, 'Top-Rail-Group'), topDy);
+  setGroupTranslate(byId(root, 'Top-Trim-Group'), topDy);
+  setGroupTranslate(byId(root, 'Middle-Rail-Group'), heightDy);
+  setGroupTranslate(byId(root, 'Middle-Trim-Group'), heightDy);
 
   const middle = byId(root, 'Middle-Rail-Group');
   const bottomHeritage = byId(root, 'Bottom-Rail-Group');
@@ -348,17 +632,22 @@ function applyVpfLine(root, fenceLine, railCount, state) {
   if (bottomHeritage) bottomHeritage.style.display = line.bottomLayout === 'heritage' ? '' : 'none';
   if (bottomLegacy) bottomLegacy.style.display = line.bottomLayout === 'legacy' ? '' : 'none';
 
-  applyPicketClip(root, line);
-  applyNailLine(root, line);
+  applyPostHeightClip(root, heightDy);
+  applyPicketClip(root, clipLine);
+  applyNailLine(root, clipLine);
 
   const railGroups = byId(root, 'Rail-Groups');
   if (railGroups) {
     railGroups.setAttribute('data-vpf-preset', line.preset);
     railGroups.setAttribute('data-rail-count', String(line.railCount));
     railGroups.setAttribute('data-fence-line', line.id);
+    railGroups.setAttribute('data-fence-height-dy', String(heightDy));
   }
   const asmRoot = root.id?.startsWith('asm-') ? root : root.querySelector('[id^="asm-"]');
-  if (asmRoot) asmRoot.setAttribute('data-fence-line', line.id);
+  if (asmRoot) {
+    asmRoot.setAttribute('data-fence-line', line.id);
+    asmRoot.setAttribute('data-fence-height-dy', String(heightDy));
+  }
 }
 
 function applyPostsMaterial(root, state) {
@@ -577,9 +866,18 @@ function applyHfFrameMaterials(root, state) {
 function applyFabricWireGrid(root, state) {
   const groups = root.querySelectorAll('[data-fabric-wire-grid]');
   if (!groups.length) return;
-  const active = state.fabricWireGrid || 'grid-2';
+  const active = state.fabricWireGrid || 'grid-4';
   groups.forEach((g) => {
     g.style.display = g.getAttribute('data-fabric-wire-grid') === active ? '' : 'none';
+  });
+}
+
+function applyFabricWireGauge(root, state) {
+  const groups = root.querySelectorAll('[data-fabric-wire-gauge]');
+  if (!groups.length) return;
+  const active = state.fabricWireGauge || '14ga';
+  groups.forEach((g) => {
+    g.style.display = g.getAttribute('data-fabric-wire-gauge') === active ? '' : 'none';
   });
 }
 
@@ -604,7 +902,7 @@ function applyFabricLatticeGrid(root, state) {
 function applyFabricLatticeMaterial(root, state) {
   const groups = root.querySelectorAll('[data-fabric-lattice-material]');
   if (!groups.length) return;
-  const active = state.fabricLatticeMaterial || 'composite';
+  const active = state.fabricLatticeMaterial || 'cedar';
   groups.forEach((g) => {
     g.style.display = g.getAttribute('data-fabric-lattice-material') === active ? '' : 'none';
   });
@@ -657,21 +955,44 @@ function applyFabricFrameMaterials(root, state) {
     group.style.display = show ? '' : 'none';
   });
 
-  const fabricKind = root.getAttribute('data-fabric-kind');
+  const fabricEl = root.getAttribute('data-fabric-kind') ? root : root.querySelector('[data-fabric-kind="welded-wire"], [data-fabric-kind="lattice"], [data-fabric-preset]');
+  const fabricKind = fabricEl ? (fabricEl.getAttribute('data-fabric-kind') || fabricEl.getAttribute('data-fabric-preset')) : null;
   if (fabricKind === 'welded-wire') {
     applyFabricWireGrid(root, state);
+    applyFabricWireGauge(root, state);
     applyFabricWireFinish(root, state);
   } else if (fabricKind === 'lattice') {
     applyFabricLatticeGrid(root, state);
     applyFabricLatticeMaterial(root, state);
   }
   applyFabricTrim(root, state);
+  applyStain(root, state);
+
+  // Front vs Back Z-layering directive:
+  // Front side: Fabric infill sits OVER posts & rails, but UNDER front trim package.
+  // Back side: Fabric infill sits BEHIND posts & rails (covered by posts & rails).
+  const isBack = state.side === 'back';
+  const infillVariants = root.querySelector('[data-fabric-kind$="-variants"]');
+  const postsGroup = root.querySelector('#Post-Groups');
+  const trimGroup = root.querySelector('#Trim-Group');
+  if (infillVariants && postsGroup) {
+    const parent = infillVariants.parentNode;
+    if (isBack) {
+      parent.insertBefore(infillVariants, postsGroup);
+    } else if (trimGroup) {
+      parent.insertBefore(infillVariants, trimGroup);
+    }
+  }
 }
 
 function detectPilotMode(svgRoot, state) {
-  if (state.pilotMode) return state.pilotMode;
-  if (svgRoot.querySelector('[data-fabric-preset]')) return 'fabric-frame';
-  if (svgRoot.querySelector('[data-hf-preset]')) return 'hf-frame';
+  if (state && state.pilotMode) return state.pilotMode;
+  if (typeof PilotConfiguratorRegistry !== 'undefined' && state) {
+    const s = PilotConfiguratorRegistry.getStyle(state.styleId || state.currentStyleId);
+    if (s && s.mode) return s.mode;
+  }
+  if (svgRoot.querySelector('[data-fabric-preset], [data-fabric-kind]')) return 'fabric-frame';
+  if (svgRoot.querySelector('[data-hf-preset], [data-hf-kind]')) return 'hf-frame';
   return 'vpf-heritage';
 }
 
@@ -781,13 +1102,13 @@ function applySideVisibility(root, side) {
 }
 
 /**
- * Stain — native SVG multiply-blend tint painted over whichever material fill
- * is already visible. No new sym art per stain × material combo, no raster
- * layer: a single <rect data-stain-overlay> sibling per matched fill group,
- * sized via getBBox() and composited with mix-blend-mode:multiply so grain/
- * pattern stays visible underneath. Same attribute selectors resolve inside
- * both the monolith assembly and stack-composer's merged sym layers, so one
- * implementation covers both render modes.
+ * Stain — opaque solid base under grain/texture (not multiply overlay).
+ *
+ * Original baked fills differ per member (PT posts dark, cedar pickets mid, …).
+ * A translucent multiply on top cannot unify them. Instead we:
+ *   1. Recolor solid fills to the target (blocking original color)
+ *   2. Paint an opaque <rect data-stain-base> behind grain (url() patterns stay)
+ * Grain/stroke patterns remain visible on top; no mix-blend multiply.
  */
 const STAIN_FRAME_TARGET = {
   'pt-brown': STAIN.pt,
@@ -795,63 +1116,360 @@ const STAIN_FRAME_TARGET = {
 };
 const STAIN_PICKET_TARGET = {
   'cedar-natural': STAIN.cedar,
+  'pt-brown': STAIN.pt,
 };
 const STAIN_TRIM_TARGET = {
   'cedar-trim': STAIN.cedarTrim,
   'pt-trim': STAIN.ptTrim,
+  'cedar-natural': STAIN.cedar,
+  'pt-brown': STAIN.pt,
 };
-const STAIN_OPACITY = '0.5';
 
-function paintStainOverlay(group, color) {
-  const existing = group.querySelector(':scope > rect[data-stain-overlay]');
+/**
+ * Resolve stain tints for frame / pickets / trim / cap.
+ * Whole-fence rule: when trim is follow-rail-trim (default) or as-material,
+ * inherit frame stain, else picket stain. If frame is as-material but pickets
+ * are stained, carry picket tint onto posts, rails, and cap too.
+ * Si View: cedar-natural uses a stepped terracotta hierarchy for contrast.
+ */
+function resolveStainColors(state) {
+  const picketColor = STAIN_PICKET_TARGET[state.stainPicket] || null;
+  let frameColor = STAIN_FRAME_TARGET[state.stainFrame] || null;
+  if (!frameColor && picketColor) frameColor = picketColor;
+
+  let trimColor = STAIN_TRIM_TARGET[state.stainTrim] || null;
+  const trimFollow =
+    !state.stainTrim ||
+    state.stainTrim === 'follow-rail-trim' ||
+    state.stainTrim === 'as-material';
+  if (!trimColor && trimFollow) {
+    trimColor = frameColor || picketColor;
+  }
+
+  const railCapBase = frameColor || picketColor;
+  const siView =
+    state.communitySlug === 'si-view' &&
+    (frameColor === STAIN.cedar || picketColor === STAIN.cedar || trimColor === STAIN.cedar);
+
+  if (siView) {
+    return {
+      frameColor: SI_VIEW_FACE.post,
+      railColor: SI_VIEW_FACE.rail,
+      picketColor: SI_VIEW_FACE.picket,
+      trimColor: SI_VIEW_FACE.trim,
+      capColor: SI_VIEW_FACE.cap,
+      outline: SI_VIEW_OUTLINE,
+    };
+  }
+
+  return {
+    frameColor,
+    railColor: railCapBase,
+    picketColor,
+    trimColor,
+    capColor: railCapBase,
+    outline: null,
+  };
+}
+
+function clearLegacyStainOverlay(group) {
+  group.querySelectorAll(':scope > rect[data-stain-overlay]').forEach((el) => el.remove());
+}
+
+function restoreOriginalFills(group) {
+  group.querySelectorAll('[data-fill-original]').forEach((el) => {
+    el.setAttribute('fill', el.getAttribute('data-fill-original'));
+    el.removeAttribute('data-fill-original');
+  });
+}
+
+function restoreOriginalStrokes(group) {
+  group.querySelectorAll('[data-outline-applied]').forEach((el) => {
+    const s = el.getAttribute('data-stroke-original');
+    const w = el.getAttribute('data-stroke-width-original');
+    const ve = el.getAttribute('data-vector-effect-original');
+    if (s) el.setAttribute('stroke', s);
+    else el.removeAttribute('stroke');
+    if (w) el.setAttribute('stroke-width', w);
+    else el.removeAttribute('stroke-width');
+    if (ve) el.setAttribute('vector-effect', ve);
+    else el.removeAttribute('vector-effect');
+    el.removeAttribute('data-stroke-original');
+    el.removeAttribute('data-stroke-width-original');
+    el.removeAttribute('data-vector-effect-original');
+    el.removeAttribute('data-outline-applied');
+    el.removeAttribute('paint-order');
+  });
+}
+
+function restoreGrainOverlays(group) {
+  group.querySelectorAll('[data-grain-hidden]').forEach((el) => {
+    const prev = el.getAttribute('data-display-original');
+    if (prev) el.style.display = prev;
+    else el.style.removeProperty('display');
+    el.removeAttribute('data-display-original');
+    el.removeAttribute('data-grain-hidden');
+  });
+  group.querySelectorAll('[data-grain-faded]').forEach((el) => {
+    const prev = el.getAttribute('data-opacity-original');
+    if (prev !== null && prev !== '') el.setAttribute('opacity', prev);
+    else el.removeAttribute('opacity');
+    el.removeAttribute('data-opacity-original');
+    el.removeAttribute('data-grain-faded');
+  });
+}
+
+/** Hide url() grain/texture overlays so solid boards + outlines read as separate pickets. */
+function hideGrainOverlays(group) {
+  group.querySelectorAll('rect, path, polygon, circle, ellipse').forEach((el) => {
+    if (el.hasAttribute('data-stain-base') || el.hasAttribute('data-stain-overlay')) return;
+    const fill = el.getAttribute('fill') || '';
+    if (!fill.startsWith('url(')) return;
+    if (!el.hasAttribute('data-grain-hidden')) {
+      el.setAttribute('data-display-original', el.style.display || '');
+      el.setAttribute('data-grain-hidden', '1');
+    }
+    el.style.display = 'none';
+  });
+}
+
+/** Soften url() grain overlays (e.g. PT post hatch at 50%). */
+function fadeGrainOverlays(group, opacity) {
+  const op = typeof opacity === 'number' ? opacity : 0.5;
+  group.querySelectorAll('rect, path, polygon, circle, ellipse').forEach((el) => {
+    if (el.hasAttribute('data-stain-base') || el.hasAttribute('data-stain-overlay')) return;
+    if (el.hasAttribute('data-grain-hidden')) return;
+    const fill = el.getAttribute('fill') || '';
+    if (!fill.startsWith('url(')) return;
+    if (!el.hasAttribute('data-grain-faded')) {
+      el.setAttribute(
+        'data-opacity-original',
+        el.getAttribute('opacity') != null ? el.getAttribute('opacity') : ''
+      );
+      el.setAttribute('data-grain-faded', '1');
+    }
+    el.setAttribute('opacity', String(op));
+  });
+}
+
+/** Solid fills + pattern boards that bake color into the tile. Keep url() grain when a solid sibling board exists (pickets). */
+function recolorSolidFills(group, color) {
+  const els = [...group.querySelectorAll('rect, path, polygon, circle, ellipse')];
+  const hasSolidBoard = els.some((el) => {
+    if (el.hasAttribute('data-stain-base') || el.hasAttribute('data-stain-overlay')) return false;
+    if (el.hasAttribute('data-picket-row-shell')) return false;
+    if (el.hasAttribute('data-grain-hidden') || el.style.display === 'none') return false;
+    const fill = el.getAttribute('fill') || '';
+    return fill && fill !== 'none' && fill !== 'transparent' && !fill.startsWith('url(');
+  });
+  els.forEach((el) => {
+    if (el.hasAttribute('data-stain-base') || el.hasAttribute('data-stain-overlay')) return;
+    /* Full picket-field shell — not a board; never stain it (fills gaps). */
+    if (el.hasAttribute('data-picket-row-shell')) return;
+    if (el.hasAttribute('data-grain-hidden') || el.style.display === 'none') return;
+    const fill = el.getAttribute('fill');
+    if (!fill || fill === 'none' || fill === 'transparent') return;
+    if (fill.startsWith('url(')) {
+      /* Stroke-only grain over a board: keep. PT board-in-pattern: replace. */
+      if (hasSolidBoard) return;
+    }
+    if (!el.hasAttribute('data-fill-original')) {
+      el.setAttribute('data-fill-original', fill);
+    }
+    el.setAttribute('fill', color);
+  });
+}
+
+/** Open picket gaps: clear the field shell so sky/bg shows (not stained cedar). */
+function clearPicketRowShells(group) {
+  group.querySelectorAll('[data-picket-row-shell]').forEach((el) => {
+    if (!el.hasAttribute('data-fill-original')) {
+      el.setAttribute('data-fill-original', el.getAttribute('fill') || '#000000');
+    }
+    el.setAttribute('fill', 'none');
+  });
+}
+
+/** Thicker black board edges. Outline solid boards and visible grain overlays. */
+function applyMemberOutlines(group, outline) {
+  if (!outline) {
+    restoreOriginalStrokes(group);
+    return;
+  }
+  group.querySelectorAll('rect, path, polygon').forEach((el) => {
+    if (el.hasAttribute('data-stain-base') || el.hasAttribute('data-stain-overlay')) return;
+    if (el.hasAttribute('data-picket-row-shell')) return;
+    if (el.hasAttribute('data-grain-hidden') || el.style.display === 'none') return;
+    const fill = el.getAttribute('fill') || '';
+    if (!fill || fill === 'none' || fill === 'transparent') return;
+    if (!el.hasAttribute('data-outline-applied')) {
+      el.setAttribute('data-stroke-original', el.getAttribute('stroke') || '');
+      el.setAttribute('data-stroke-width-original', el.getAttribute('stroke-width') || '');
+      el.setAttribute(
+        'data-vector-effect-original',
+        el.getAttribute('vector-effect') || ''
+      );
+      el.setAttribute('data-outline-applied', '1');
+    }
+    el.setAttribute('stroke', outline.color);
+    el.setAttribute('stroke-width', outline.width);
+    el.setAttribute('stroke-linejoin', 'miter');
+    el.setAttribute('paint-order', 'fill stroke');
+    if (outline.nonScaling) {
+      el.setAttribute('vector-effect', 'non-scaling-stroke');
+    } else {
+      el.removeAttribute('vector-effect');
+    }
+  });
+}
+
+function paintSolidBase(group, color, attempt, outline, opts) {
+  clearLegacyStainOverlay(group);
+  const existing = group.querySelector(':scope > rect[data-stain-base]');
+  const stripGrain = !!(opts && opts.stripGrain);
   if (!color || group.style.display === 'none') {
-    if (existing) existing.style.display = 'none';
+    if (existing) existing.remove();
+    restoreGrainOverlays(group);
+    restoreOriginalFills(group);
+    restoreOriginalStrokes(group);
     return;
   }
   let box;
   try {
     box = group.getBBox();
   } catch (err) {
-    return;
+    box = null;
   }
   if (!box || !box.width || !box.height) {
     if (existing) existing.style.display = 'none';
+    const n = attempt || 0;
+    if (n < 3 && typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => paintSolidBase(group, color, n + 1, outline, opts));
+    }
+    return;
+  }
+  if (stripGrain) hideGrainOverlays(group);
+  else restoreGrainOverlays(group);
+  if (opts && opts.clearRowShell) clearPicketRowShells(group);
+  recolorSolidFills(group, color);
+  if (!stripGrain && opts && typeof opts.fadeGrain === 'number') {
+    fadeGrainOverlays(group, opts.fadeGrain);
+  }
+  applyMemberOutlines(group, outline || null);
+  /* Si View outlines: skip full-bbox base — it floods picket gaps with the same
+   * face color and kills edge contrast between boards. */
+  if (outline) {
+    if (existing) existing.remove();
     return;
   }
   const rect = existing || document.createElementNS(SVG_NS, 'rect');
   if (!existing) {
-    rect.setAttribute('data-stain-overlay', 'true');
+    rect.setAttribute('data-stain-base', 'true');
     rect.setAttribute('pointer-events', 'none');
-    rect.style.mixBlendMode = 'multiply';
-    group.appendChild(rect);
+    group.insertBefore(rect, group.firstChild);
   }
   rect.setAttribute('x', String(box.x));
   rect.setAttribute('y', String(box.y));
   rect.setAttribute('width', String(box.width));
   rect.setAttribute('height', String(box.height));
   rect.setAttribute('fill', color);
-  rect.setAttribute('fill-opacity', STAIN_OPACITY);
+  rect.setAttribute('fill-opacity', '1');
+  rect.style.mixBlendMode = 'normal';
   rect.style.display = '';
+  /* Base sits under grain — do not stroke the base (would double-outline). */
+  rect.removeAttribute('stroke');
 }
 
-function applyStainToSelector(root, selector, color) {
-  root.querySelectorAll(selector).forEach((group) => paintStainOverlay(group, color));
+function applyStainToSelector(root, selector, color, outline) {
+  root.querySelectorAll(selector).forEach((group) => {
+    /* Nested material groups: paint leaf only (avoid stacking). */
+    if (group.querySelector(selector)) {
+      paintSolidBase(group, null);
+      return;
+    }
+    paintSolidBase(group, color, 0, outline);
+  });
+}
+
+/**
+ * Fallback for rail board slots that have no cedar board art baked in yet
+ * (sym-rail-{top,middle,bottom}-heritage.svg only ship pt-incised/pt-appearance
+ * fill variants — see data-slot="frame-material"). When no material variant is
+ * visible under that slot, the black `shell` base (meant to read as a thin
+ * board-edge line under real board art) is left fully exposed instead of a
+ * board. Recolor the shell to the resolved rail color so it reads as a plain
+ * solid board rather than a black bar until real cedar rail art exists.
+ */
+function paintOrphanFrameShells(root, color, outline, state) {
+  /* No explicit stain (as-material) still needs a face color when the board
+   * art is missing — fall back to cedar's natural face so it isn't black. */
+  const fallback = color || (state && state.rails === MATERIAL.CEDAR ? STAIN.cedarRail : null);
+  if (!fallback) return;
+  root.querySelectorAll('[data-slot="frame-material"]').forEach((fillWrap) => {
+    const hasVisibleMaterial = Array.from(fillWrap.children).some(
+      (child) => child.hasAttribute('data-frame-material') && child.style.display !== 'none'
+    );
+    if (hasVisibleMaterial) return;
+    const shell = fillWrap.previousElementSibling;
+    if (!shell) return;
+    shell.querySelectorAll('rect, path, polygon').forEach((el) => {
+      el.setAttribute('fill', fallback);
+      if (outline) {
+        el.setAttribute('stroke', outline.color);
+        el.setAttribute('stroke-width', outline.width);
+        if (outline.nonScaling) el.setAttribute('vector-effect', 'non-scaling-stroke');
+        else el.removeAttribute('vector-effect');
+      } else {
+        el.removeAttribute('stroke');
+        el.removeAttribute('stroke-width');
+        el.removeAttribute('vector-effect');
+      }
+    });
+  });
 }
 
 function applyStain(root, state) {
   if (!root) return;
-  const frameColor = STAIN_FRAME_TARGET[state.stainFrame] || null;
-  applyStainToSelector(root, '[data-post-material]', frameColor);
-  applyStainToSelector(root, '[data-frame-material]', frameColor);
-  applyStainToSelector(root, '[data-cap-material]', frameColor);
+  const { frameColor, railColor, picketColor, trimColor, capColor, outline } =
+    resolveStainColors(state);
 
-  const picketColor = STAIN_PICKET_TARGET[state.stainPicket] || null;
-  root
-    .querySelectorAll('.picket-fill-layer, [data-layer-id="pickets"]')
-    .forEach((layer) => paintStainOverlay(layer, picketColor));
+  root.querySelectorAll('[data-post-material]').forEach((group) => {
+    if (group.querySelector('[data-post-material]')) {
+      paintSolidBase(group, null);
+      return;
+    }
+    /* Si View: keep PT hatch but at 50% so solid face + thin outlines read. */
+    paintSolidBase(
+      group,
+      frameColor,
+      0,
+      outline,
+      outline ? { fadeGrain: 0.5 } : null
+    );
+  });
+  applyStainToSelector(root, '[data-frame-material]', railColor || frameColor, outline);
+  paintOrphanFrameShells(root, railColor || frameColor, outline, state);
+  applyStainToSelector(root, '[data-cap-material]', capColor, outline);
 
-  const trimColor = STAIN_TRIM_TARGET[state.stainTrim] || null;
-  applyStainToSelector(root, '[data-trim-material]', trimColor);
+  const picketTargets = [
+    ...root.querySelectorAll('.picket-fill-layer, [data-layer-id="pickets"]'),
+  ];
+  picketTargets.forEach((layer) => {
+    if (picketTargets.some((other) => other !== layer && layer.contains(other))) {
+      paintSolidBase(layer, null);
+      return;
+    }
+    /* Si View: picket grain 50%; clear field shell so gaps are open (sky), not stained. */
+    paintSolidBase(
+      layer,
+      picketColor,
+      0,
+      outline,
+      outline ? { fadeGrain: 0.5, clearRowShell: true } : null
+    );
+  });
+
+  applyStainToSelector(root, '[data-trim-material]', trimColor, outline);
 }
 
 function applyConfiguratorToSvgRoot(svgRoot, state) {
@@ -871,12 +1489,13 @@ function applyConfiguratorToSvgRoot(svgRoot, state) {
   const cap = showRailCap ? resolveRailCapMaterial(state) : MATERIAL.NONE;
   applyPostsMaterial(svgRoot, state);
   applyVpfLine(svgRoot, fenceLine, state.railCount, state);
+  applyPanelLength(svgRoot, state);
   applyFrameMaterial(svgRoot, state.rails, state.railsUi || state.rails, line.railCount);
   if (showRailCap) {
     applyRailCap(svgRoot, cap, state);
   }
   applyTrim(svgRoot, state);
-  applyPicketFill(svgRoot, state.picketFill, state.picketSpacing);
+  applyPicketFill(svgRoot, state.picketFill, state.picketSpacing, state.picketWidth);
   applySideVisibility(svgRoot, state.side);
   const capSlot = svgRoot.querySelector('[data-slot="rail-cap-material"]');
   if (capSlot) capSlot.setAttribute('data-resolved-cap', showRailCap ? cap : MATERIAL.NONE);
@@ -918,10 +1537,15 @@ window.HeritageConfigurator = {
   MATERIAL,
   RAIL_CAP_MODE,
   STAIN,
+  FENCE_HEIGHT_DY_IN,
+  PANEL_LENGTH_DX_IN,
+  PANEL_6FT_PICKET_HIDE_X,
   VPF_FRAME_PRESETS,
   VPF_PILOT_LINES,
   resolveVpfLine,
   resolveEffectiveVpfLine,
+  resolveFenceHeightDy,
+  resolvePanelLengthDx,
   parseTrimPackage,
   resolveRailCapEnabled,
   resolveRailCapMaterial,
@@ -939,6 +1563,10 @@ window.HeritageConfigurator = {
   applyFabricLatticeMaterial,
   applyFabricTrim,
   applyVpfLine,
+  applyPanelLength,
+  applyPicketClip,
+  applyPostHeightClip,
+  applyPanelLengthPicketVisibility,
   detectPilotMode,
   formatTrimLabel,
   renderWarnings,

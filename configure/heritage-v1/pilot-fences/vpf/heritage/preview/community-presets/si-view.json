@@ -8,23 +8,39 @@
     "configuratorHoaRecordId": null
   },
   "visualReference": "docs/HOA/si-view/si-view-visual-reference.md",
+  "partnership": {
+    "status": "research",
+    "tier": 0,
+    "notes": "Tier 2 opt-in required before residentAccess open. Si View pilot — not partnered yet."
+  },
+  "residentAccess": "member",
+  "blueprint": {
+    "componentsFile": "community-presets/si-view-blueprint.json",
+    "interaction": "highlight",
+    "categories": ["general", "posts", "rails", "pickets", "trim", "finish"]
+  },
   "configurator": {
-    "categoryId": "vpf",
-    "styleId": "vpf-natural-wood",
+    "categoryId": "community",
+    "styleId": "hoa-si-view",
     "templateId": "default",
     "defaults": {
       "fenceHeight": "6ft",
       "posts": "pt-incised",
-      "rails": "pt-incised",
-      "trim": "pt-1t",
+      "rails": "cedar",
+      "trim": "cedar-1t",
       "railCap": "on",
       "capMode": "match-rails",
       "postCaps": "none",
       "brackets": "none",
+      "framingFasteners": "ss-nail-10-5-12",
+      "fillFasteners": "ss-ring-12-15",
+      "trimFasteners": "ss-trim-nail-15",
       "picketFill": "standard",
       "picketSpacing": "1-16-privacy",
-      "stainFrame": "pt-brown",
-      "stainPicket": "cedar-natural"
+      "picketWidth": "5.5",
+      "stainFrame": "cedar-natural",
+      "stainPicket": "cedar-natural",
+      "stainTrim": "cedar-trim"
     },
     "lock": {
       "fenceHeight": "6ft",
@@ -32,14 +48,11 @@
       "picketSpacing": "1-16-privacy",
       "maxHeightFt": 6
     },
-    "hide": {
+      "hide": {
       "categories": ["horizontal", "fabric", "hand-guardrail"],
       "styles": ["vpf-composite-vinyl"],
       "templates": ["lineage", "legacy", "base"],
       "controls": [
-        "fence-category-picker",
-        "fence-style-picker",
-        "templates-panel",
         "picketSpacingField"
       ]
     },
@@ -56,10 +69,10 @@
   },
   "rulesSummary": {
     "height": "6 ft maximum",
-    "pickets": "1×4 cedar, ≤¼″ gap",
-    "rails": "2×4 cedar top and bottom nailers",
+    "pickets": "1×4 or 1×6 cedar, flat top, ≤¼″ gap",
+    "rails": "2×4 cedar top and bottom nailers with 2×4 cedar cap",
     "posts": "4×4 PT, max 8 ft on center",
-    "finish": "Pre-approved solid-color stain within 60 days",
+    "finish": "Sherwin-Williams Woodscapes semi-transparent stain, formula 3558-789 (\"Asteroid\"), within 60 days",
     "cornerSetback": "5 ft from lot line when side fence faces street"
   },
   "notIncluded": [

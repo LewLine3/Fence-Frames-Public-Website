@@ -1,7 +1,7 @@
 /**
  * Stack composer manifest — static module placements (112×95 in).
  * Coords match scripts/lib/heritage-geometry.js buildHeritageGrid(); rebuild when geometry changes.
- * Pilot only stacks layers — no runtime layout math.
+ * Fence height shortens from the top via heightDy (posts crop, top/middle translate, pickets clip).
  */
 (function initStackManifest(global) {
   const MODULE = { w: 112, h: 95 };
@@ -44,6 +44,29 @@
     const dims = POST_CAP_DIMS[capKey];
     const cx = postPlace.x + postPlace.w / 2;
     return { x: cx - dims.w / 2, y: postPlace.y - dims.h, w: dims.w, h: dims.h };
+  }
+
+  /** Shorten post from the top; bottom stays on grade. */
+  function postPlaceForHeight(base, heightDy) {
+    if (!heightDy) return { ...base };
+    return {
+      x: base.x,
+      y: base.y + heightDy,
+      w: base.w,
+      h: base.h - heightDy,
+    };
+  }
+
+  /** Pull right post left for shorter panel; left post stays. */
+  function postPlaceForPanel(base, panelDx, isRight) {
+    if (!panelDx || !isRight) return { ...base };
+    return { ...base, x: base.x - panelDx };
+  }
+
+  /** Shorten spanning rails/trim/cap from the right (keep left edge). */
+  function spanPlaceForPanel(base, panelDx) {
+    if (!panelDx) return { ...base };
+    return { ...base, w: base.w - panelDx };
   }
 
   const BRACKET_DIMS = {
@@ -104,13 +127,15 @@
     };
   }
 
-  function pushBracketLayers(layers, state, bracketKey, railId, railPlace, railDy) {
+  function pushBracketLayers(layers, state, bracketKey, railId, railPlace, railDy, postLeft, postRight) {
     const path = resolveBracketPath(bracketKey, state);
     if (!path) return;
     const wood = bracketKey.startsWith('wood-');
     const z = wood ? 38 : 44;
-    const left = bracketPlace(PLACE.postLeft, railPlace, bracketKey, railDy);
-    const right = bracketPlace(PLACE.postRight, railPlace, bracketKey, railDy);
+    const leftPlace = postLeft || PLACE.postLeft;
+    const rightPlace = postRight || PLACE.postRight;
+    const left = bracketPlace(leftPlace, railPlace, bracketKey, railDy);
+    const right = bracketPlace(rightPlace, railPlace, bracketKey, railDy);
     layers.push(
       {
         id: `bracket-${railId}-left`,
@@ -144,11 +169,16 @@
     if (state.picketFill === 'standard' && state.picketSpacing && state.picketSpacing !== '1-16-privacy') {
       return { layers: [], fallback: true, fallbackReason: 'picket-spacing' };
     }
+    if (state.picketFill === 'standard' && state.picketWidth && state.picketWidth !== '5.5') {
+      return { layers: [], fallback: true, fallbackReason: 'picket-width' };
+    }
 
     const line = HC.resolveEffectiveVpfLine(
       state.framePreset || 'heritage-vpf',
       state.railCount
     );
+    const heightDy = HC.resolveFenceHeightDy(state.fenceHeight);
+    const panelDx = HC.resolvePanelLengthDx(state.panelLength);
     const { tier, material: trimMat } = HC.parseTrimPackage(state.trim);
     const onFront = state.side !== 'back';
     const showTopTrim = onFront && (tier === '1t' || tier === '2t' || tier === '3t');
@@ -168,9 +198,25 @@
     const bottomTrimPath = `${COMPONENTS_BASE}trim/sym-trim-bottom-${trimMatKey}.svg`;
     const middleTrimPath = `${COMPONENTS_BASE}trim/sym-trim-middle-${trimMatKey}.svg`;
 
-    const railDy = line.topRailDy || 0;
+    const topRailDy = (line.topRailDy || 0) + heightDy;
+    const postLeft = postPlaceForHeight(PLACE.postLeft, heightDy);
+    const postRight = postPlaceForPanel(
+      postPlaceForHeight(PLACE.postRight, heightDy),
+      panelDx,
+      true
+    );
+    const postViewCrop = heightDy
+      ? { y: heightDy, h: PLACE.postLeft.h - heightDy }
+      : null;
+    const topRailPlace = spanPlaceForPanel(PLACE.topRail, panelDx);
+    const middleRailPlace = spanPlaceForPanel(PLACE.middleRail, panelDx);
+    const bottomRailPlace = spanPlaceForPanel(PLACE.bottomRail, panelDx);
+    const bottomLegacyPlace = spanPlaceForPanel(PLACE.bottomRailLegacy, panelDx);
+    const capPlace = spanPlaceForPanel(PLACE.cap, panelDx);
+    const spanViewCrop = panelDx ? { shortenRight: panelDx } : null;
     const bottomPlace =
-      line.bottomLayout === 'heritage' ? PLACE.bottomRail : PLACE.bottomRailLegacy;
+      line.bottomLayout === 'heritage' ? bottomRailPlace : bottomLegacyPlace;
+    const picketClipY = line.picketTopY + heightDy;
 
     /** @type {object[]} */
     const layers = [];
@@ -188,7 +234,8 @@
         id: 'post-left',
         path: postSym,
         kind: 'placed',
-        place: PLACE.postLeft,
+        place: postLeft,
+        viewBoxCrop: postViewCrop,
         z: 20,
         visible: true,
       },
@@ -196,7 +243,8 @@
         id: 'post-right',
         path: postSym,
         kind: 'placed',
-        place: PLACE.postRight,
+        place: postRight,
+        viewBoxCrop: postViewCrop,
         z: 21,
         visible: true,
       }
@@ -210,7 +258,7 @@
           id: 'post-cap-left',
           path: capPath,
           kind: 'placed',
-          place: postCapPlace(PLACE.postLeft, postCapKey),
+          place: postCapPlace(postLeft, postCapKey),
           z: 62,
           visible: true,
         },
@@ -218,7 +266,7 @@
           id: 'post-cap-right',
           path: capPath,
           kind: 'placed',
-          place: postCapPlace(PLACE.postRight, postCapKey),
+          place: postCapPlace(postRight, postCapKey),
           z: 63,
           visible: true,
         }
@@ -230,7 +278,8 @@
         id: 'rail-bottom',
         path: `${COMPONENTS_BASE}rails/sym-rail-bottom-heritage.svg`,
         kind: 'placed',
-        place: PLACE.bottomRail,
+        place: bottomRailPlace,
+        viewBoxCrop: spanViewCrop,
         z: 30,
         visible: true,
       });
@@ -239,7 +288,8 @@
         id: 'rail-bottom-legacy',
         path: `${COMPONENTS_BASE}rails/sym-rail-bottom-heritage.svg`,
         kind: 'placed',
-        place: PLACE.bottomRailLegacy,
+        place: bottomLegacyPlace,
+        viewBoxCrop: spanViewCrop,
         z: 30,
         visible: true,
       });
@@ -250,7 +300,9 @@
         id: 'rail-middle',
         path: `${COMPONENTS_BASE}rails/sym-rail-middle-heritage.svg`,
         kind: 'placed',
-        place: PLACE.middleRail,
+        place: middleRailPlace,
+        viewBoxCrop: spanViewCrop,
+        dy: heightDy,
         z: 31,
         visible: true,
       });
@@ -260,8 +312,9 @@
       id: 'rail-top',
       path: `${COMPONENTS_BASE}rails/sym-rail-top-heritage.svg`,
       kind: 'placed',
-      place: PLACE.topRail,
-      dy: railDy,
+      place: topRailPlace,
+      viewBoxCrop: spanViewCrop,
+      dy: topRailDy,
       z: 32,
       visible: true,
     });
@@ -271,7 +324,9 @@
         id: 'rail-cap',
         path: `${COMPONENTS_BASE}rails/sym-rail-cap-ref-1.5.svg`,
         kind: 'placed',
-        place: PLACE.cap,
+        place: capPlace,
+        viewBoxCrop: spanViewCrop,
+        dy: heightDy,
         z: 33,
         visible: true,
       });
@@ -279,13 +334,20 @@
 
     const bracketKey = state.brackets || 'none';
     if (onFront && bracketKey !== 'none') {
-      pushBracketLayers(layers, state, bracketKey, 'top', PLACE.topRail, railDy);
+      pushBracketLayers(layers, state, bracketKey, 'top', topRailPlace, topRailDy, postLeft, postRight);
       if (line.showMiddle) {
-        pushBracketLayers(layers, state, bracketKey, 'middle', PLACE.middleRail, 0);
+        pushBracketLayers(
+          layers,
+          state,
+          bracketKey,
+          'middle',
+          middleRailPlace,
+          heightDy,
+          postLeft,
+          postRight
+        );
       }
-      const bottomBracketPlace =
-        line.bottomLayout === 'heritage' ? PLACE.bottomRail : PLACE.bottomRailLegacy;
-      pushBracketLayers(layers, state, bracketKey, 'bottom', bottomBracketPlace, 0);
+      pushBracketLayers(layers, state, bracketKey, 'bottom', bottomPlace, 0, postLeft, postRight);
     }
 
     layers.push({
@@ -293,15 +355,85 @@
       path: picketPath,
       kind: 'module',
       z: 40,
-      visible: onFront,
+      visible: onFront && !(Number(state.gateManCount) > 0),
+      picketClipY,
+      panelDx,
     });
 
+    if (onFront && Number(state.gateManCount) > 0) {
+      const opening = Number(state.gateOpening) || 36;
+      const leafW = opening - 2;
+      const leafH = 70 - (heightDy || 0);
+      const bayLeft = postLeft.x + postLeft.w;
+      const bayRight = postRight.x;
+      const bayW = bayRight - bayLeft;
+      const gateX = bayLeft + (bayW - leafW) / 2;
+      const gateY = postLeft.y + 2;
+      const frameMap = {
+        'MG-Z': `${COMPONENTS_BASE}additional/gates/sym-gate-frame-z-cedar.svg`,
+        'MG-X': `${COMPONENTS_BASE}additional/gates/sym-gate-frame-x-cedar.svg`,
+        'MG-STL': `${COMPONENTS_BASE}additional/gates/sym-gate-frame-stl-cedar.svg`,
+      };
+      const framePath = frameMap[state.gateFrame] || frameMap['MG-Z'];
+      const mirrorX = state.gateHand === 'LH';
+      layers.push({
+        id: 'gate-frame',
+        path: framePath,
+        kind: 'placed',
+        place: { x: gateX, y: gateY, w: leafW, h: Math.max(leafH, 40) },
+        mirrorX,
+        z: 41,
+        visible: true,
+      });
+      if (state.gatePicketTop === 'arched') {
+        layers.push({
+          id: 'gate-arch',
+          path: `${COMPONENTS_BASE}additional/gates/sym-gate-arch-crown.svg`,
+          kind: 'placed',
+          place: { x: gateX, y: gateY - 6, w: leafW, h: 7.5 },
+          mirrorX,
+          z: 42,
+          visible: true,
+        });
+      }
+      if (state.gateCable === 'kit') {
+        layers.push({
+          id: 'gate-cable',
+          path: `${COMPONENTS_BASE}additional/gates/sym-gate-cable-overlay.svg`,
+          kind: 'placed',
+          place: { x: gateX, y: gateY, w: leafW, h: Math.max(leafH, 40) },
+          mirrorX,
+          z: 43,
+          visible: true,
+        });
+      }
+      const hwMap = {
+        good: `${COMPONENTS_BASE}additional/gates/sym-gate-hardware-good.svg`,
+        better: `${COMPONENTS_BASE}additional/gates/sym-gate-hardware-better.svg`,
+        best: `${COMPONENTS_BASE}additional/gates/sym-gate-hardware-best.svg`,
+      };
+      const hw = state.gateHardware || 'better';
+      layers.push({
+        id: 'gate-hardware',
+        path: hwMap[hw] || hwMap.better,
+        kind: 'placed',
+        place: {
+          x: mirrorX ? gateX - 1 : gateX + leafW - 2,
+          y: gateY + leafH * 0.4,
+          w: 8,
+          h: 14,
+        },
+        z: 44,
+        visible: true,
+      });
+    }
     if (showBottomTrim) {
       layers.push({
         id: 'trim-bottom',
         path: bottomTrimPath,
         kind: 'placed',
         place: bottomPlace,
+        viewBoxCrop: spanViewCrop,
         z: 50,
         visible: true,
       });
@@ -311,8 +443,9 @@
         id: 'trim-top',
         path: topTrimPath,
         kind: 'placed',
-        place: PLACE.topRail,
-        dy: railDy,
+        place: topRailPlace,
+        viewBoxCrop: spanViewCrop,
+        dy: topRailDy,
         z: 51,
         visible: true,
       });
@@ -323,7 +456,9 @@
         id: 'trim-middle',
         path: middleTrimPath,
         kind: 'placed',
-        place: PLACE.middleRail,
+        place: middleRailPlace,
+        viewBoxCrop: spanViewCrop,
+        dy: heightDy,
         z: 52,
         visible: true,
       });

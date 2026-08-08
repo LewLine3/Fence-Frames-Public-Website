@@ -1,6 +1,7 @@
 /**
  * Community preset loader — HOA-filtered configurator mode.
- * URL: ?community_preset=si-view (or embed-host boot.communityPreset)
+ * Enter via Fence Type → Community / HOA → style (e.g. Si View Community),
+ * or URL ?community_preset=si-view / embed-host boot.communityPreset.
  */
 (function initCommunityPreset(global) {
   const BASE = 'community-presets/';
@@ -29,9 +30,48 @@
     return data;
   }
 
+  async function listManifest() {
+    try {
+      const res = await fetch(`${BASE}manifest.json`, { cache: 'no-cache' });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.presets) ? data.presets : [];
+    } catch (err) {
+      console.warn('[CommunityPreset] manifest load failed', err);
+      return [];
+    }
+  }
+
   function hideElement(id) {
+    /* B2 shell stays mounted — community mode swaps its body, never removes the panel. */
+    if (id === 'templates-panel') return;
     const el = global.document.getElementById(id);
     if (el) el.classList.add('community-preset-hidden');
+  }
+
+  function setB2Mode(mode) {
+    const panel = global.document.getElementById('templates-panel');
+    const title = global.document.getElementById('b2-panel-title');
+    const templatesBody = global.document.getElementById('templates-panel-body');
+    const communityBody = global.document.getElementById('community-preset-banner');
+    const isCommunity = mode === 'community';
+    if (panel) {
+      panel.classList.remove('pilot-hidden', 'community-preset-hidden');
+      panel.hidden = false;
+      panel.setAttribute('data-panel-mode', isCommunity ? 'community' : 'templates');
+      panel.setAttribute('aria-label', isCommunity ? 'Community program' : 'Fence templates');
+    }
+    if (title) title.textContent = isCommunity ? 'Community Partner' : 'Templates';
+    if (templatesBody) templatesBody.hidden = isCommunity;
+    if (communityBody) communityBody.hidden = !isCommunity;
+    const expandBtn = panel && panel.querySelector('.mini-panel-expand');
+    if (expandBtn) {
+      const label = expandBtn.getAttribute('aria-label') || '';
+      expandBtn.setAttribute(
+        'aria-label',
+        label.replace(/templates|community partner/i, isCommunity ? 'community partner' : 'templates')
+      );
+    }
   }
 
   function applyUi(preset) {
@@ -40,13 +80,11 @@
 
     const hide = preset.configurator && preset.configurator.hide ? preset.configurator.hide : {};
     (hide.controls || []).forEach(hideElement);
-    if (hide.templates && hide.templates.length) {
-      hideElement('templates-panel');
-    }
+    /* Templates stay in the same B2 slot — community mode swaps the body, not the panel. */
 
+    setB2Mode('community');
     const banner = global.document.getElementById('community-preset-banner');
     if (banner && preset.copy) {
-      banner.hidden = false;
       const headline = global.document.getElementById('community-preset-headline');
       const subhead = global.document.getElementById('community-preset-subhead');
       const disclaimer = global.document.getElementById('community-preset-disclaimer');
@@ -61,6 +99,20 @@
     }
   }
 
+  function clearUi() {
+    delete global.document.documentElement.dataset.communityPreset;
+    global.document.querySelectorAll('.community-preset-hidden').forEach((el) => {
+      el.classList.remove('community-preset-hidden');
+    });
+    setB2Mode('templates');
+    const headline = global.document.getElementById('community-preset-headline');
+    const subhead = global.document.getElementById('community-preset-subhead');
+    const disclaimer = global.document.getElementById('community-preset-disclaimer');
+    if (headline) headline.textContent = '';
+    if (subhead) subhead.textContent = '';
+    if (disclaimer) disclaimer.textContent = '';
+  }
+
   function applyDefaults(preset, applyMaterialDefaults, els) {
     if (!preset || !preset.configurator || !preset.configurator.defaults) return;
     const d = preset.configurator.defaults;
@@ -72,8 +124,10 @@
 
   const LOCK_FIELD_MAP = {
     fenceHeight: 'fenceHeightEl',
+    panelLength: 'panelLengthEl',
     picketFill: 'picketFillEl',
     picketSpacing: 'picketSpacingEl',
+    picketWidth: 'picketWidthEl',
     posts: 'postsEl',
     rails: 'railsEl',
     trim: 'trimEl',
@@ -90,7 +144,8 @@
       const el = elKey && els[elKey] ? els[elKey] : null;
       if (el) el.disabled = true;
     });
-    (preset.configurator.hide.controls || []).forEach((id) => {
+    const hide = preset.configurator.hide || {};
+    (hide.controls || []).forEach((id) => {
       const el = global.document.getElementById(id);
       if (!el) return;
       el.querySelectorAll('select, button, input').forEach((control) => {
@@ -99,11 +154,22 @@
     });
   }
 
+  function unlockControls(els) {
+    Object.keys(LOCK_FIELD_MAP).forEach((key) => {
+      const elKey = LOCK_FIELD_MAP[key];
+      const el = elKey && els[elKey] ? els[elKey] : null;
+      if (el) el.disabled = false;
+    });
+  }
+
   global.CommunityPreset = {
     getSlug,
     load,
+    listManifest,
     applyUi,
+    clearUi,
     applyDefaults,
     lockControls,
+    unlockControls,
   };
 })(typeof window !== 'undefined' ? window : global);
