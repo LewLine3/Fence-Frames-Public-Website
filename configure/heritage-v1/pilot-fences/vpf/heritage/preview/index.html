@@ -4,7 +4,7 @@
   <script>
 (function fixEmbedBaseHref() {
   var p = location.pathname;
-  if (p.endsWith('/index.html')) p = p.slice(0, p.lastIndexOf('/') + 1);
+  if (p.endsWith('.html')) p = p.slice(0, p.lastIndexOf('/') + 1);
   else if (!p.endsWith('/')) p += '/';
   var base = document.createElement('base');
   base.href = p;
@@ -2535,39 +2535,46 @@
       box-sizing: border-box;
       overflow: visible;
     }
-    .design-docs-actions {
+    .top-nav-main-actions {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      border-bottom: 1px solid var(--ring-frame-line);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.35rem;
+      padding: 0.35rem;
+      background: var(--ui-fill-deep);
+      border-radius: 6px;
+      border: 1px solid var(--tan-soft-border);
     }
-    .design-docs-actions__btn {
+    .top-nav-main-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 2.2rem;
-      padding: 0.35rem 0.3rem;
-      border: none;
-      border-right: 1px solid var(--ring-frame-line);
-      border-radius: 0;
+      min-height: 2.3rem;
+      padding: 0.35rem 0.4rem;
+      border: 1px solid var(--tan);
+      border-radius: 4px;
       background: var(--b1-forest);
       color: var(--cream-soft);
       font-family: var(--font-display);
-      font-size: clamp(0.62rem, 5.5cqw, 0.78rem);
+      font-size: clamp(0.64rem, 4.5cqw, 0.78rem);
       font-weight: 800;
       letter-spacing: 0.03em;
       text-transform: uppercase;
       cursor: pointer;
+      text-align: center;
+      transition: background 0.12s ease, border-color 0.12s ease;
     }
-    .design-docs-actions__btn:last-child {
-      border-right: none;
-    }
-    .design-docs-actions__btn:hover,
-    .design-docs-actions__btn:focus-visible {
+    .top-nav-main-btn:hover,
+    .top-nav-main-btn:focus-visible {
       background: var(--b1-forest-hover, #2f6a3f);
+      border-color: var(--tan-light);
       outline: none;
     }
-    html[data-view-mode="blueprint"][data-bp-view="blueprint"] #btn-create-blueprint,
+    @media (max-width: 768px) {
+      .top-nav-main-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    html[data-view-mode="blueprint"] #btn-create-blueprint,
     html[data-view-mode="blueprint"][data-bp-view="materialList"] #btn-create-material-list,
     html[data-view-mode="blueprint"][data-bp-view="ledger"] #btn-create-ledger,
     .design-docs-actions__btn.is-active {
@@ -6304,42 +6311,21 @@
           </svg>
         </h3>
         <div class="config-section-body">
-          <div class="member-actions" role="group" aria-label="Your design actions">
-            <div class="design-docs-actions blueprint-view-toggle" role="tablist" aria-label="Open design documents">
-              <button type="button" class="design-docs-actions__btn" id="btn-create-blueprint" data-design-action="blueprint" data-bp-view-btn="blueprint" role="tab" aria-controls="blueprint-detail" aria-selected="false" title="Fence Blueprint">
-                Blueprint
+          <div class="member-actions" role="group" aria-label="Main design actions">
+            <div class="top-nav-main-actions" role="region" aria-label="Designer Action Bar">
+              <button type="button" class="top-nav-main-btn" id="btn-create-blueprint" data-design-action="blueprint" title="Create Blueprint">
+                Create Blueprint
               </button>
-              <button type="button" class="design-docs-actions__btn" id="btn-create-material-list" data-design-action="materialList" data-bp-view-btn="materialList" role="tab" aria-controls="blueprint-materials" aria-selected="false" title="Material List">
-                Mat list
+              <button type="button" class="top-nav-main-btn" id="btn-find-contractor" data-design-action="contractor" title="Find Fence Builders">
+                Find Fence Builders
               </button>
-              <button type="button" class="design-docs-actions__btn" id="btn-create-ledger" data-design-action="ledger" data-bp-view-btn="ledger" role="tab" aria-controls="blueprint-ledger" aria-selected="false" title="Project Ledger">
-                Ledger
+              <button type="button" class="top-nav-main-btn" id="btn-save-design" data-design-action="save" title="Save Design">
+                Save Design
+              </button>
+              <button type="button" class="top-nav-main-btn" id="btn-communities-hoa" data-design-action="communities" title="Communities &amp; HOA Guidelines">
+                Communities / HOA
               </button>
             </div>
-            <div class="your-design-menu" id="your-design-menu">
-              <button
-                type="button"
-                class="your-design-menu__toggle"
-                id="your-design-menu-toggle"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                aria-controls="your-design-menu-list"
-              >
-                <span class="your-design-menu__toggle-label">Your design</span>
-                <span class="your-design-menu__chev" aria-hidden="true"></span>
-              </button>
-              <ul class="your-design-menu__list" id="your-design-menu-list" role="menu" hidden>
-                <li role="none">
-                  <button type="button" class="your-design-menu__item" role="menuitem" id="btn-save-design" data-design-action="save">
-                    <span class="your-design-menu__item-label">Save Design</span>
-                    <span class="your-design-menu__item-gate membership-chip">Members only</span>
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <button type="button" class="member-actions__btn member-actions__btn--contractor" id="btn-find-contractor">
-              <span class="member-actions__btn-label">Find a fence builder</span>
-            </button>
           </div>
         </div>
       </section>
