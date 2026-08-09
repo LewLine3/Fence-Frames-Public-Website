@@ -1,18 +1,99 @@
 /**
- * Fence Frames Landing Page Interactive Controller
+ * Fence Frames Landing Page Interactive Controller (Antigravity Edition)
+ * Frame Your Vision | Find Your Fence
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initZipLookup();
   initHeroVisualizer();
+  initCatalogFilters();
+  initBlueprintInspector();
   initFenceCalculator();
   initSmoothScroll();
+  initModals();
 });
 
 /**
- * Hero Section Interactive Spec Switcher
+ * Served ZIP Code Map & Community Resolver
+ */
+const SERVED_COMMUNITIES = {
+  '98045': {
+    name: 'Si View — North Bend, WA',
+    county: 'King County',
+    bylaws: '6ft Max Height | Steel Frame & Cedar VPF Approved',
+    preset: 'heritage-v1'
+  },
+  '98065': {
+    name: 'Snoqualmie Ridge — Snoqualmie, WA',
+    county: 'King County',
+    bylaws: 'Architectural Review Board Approved | Top Rail Accent',
+    preset: 'craftsman-v1'
+  },
+  '98027': {
+    name: 'Issaquah Highlands — Issaquah, WA',
+    county: 'King County',
+    bylaws: 'Horizontal Architectural Slat Spec Matched',
+    preset: 'horizon-v1'
+  },
+  '98052': {
+    name: 'Redmond Ridge — Redmond, WA',
+    county: 'King County',
+    bylaws: 'Zero-Sag Heavy Steel Post Spec Compliant',
+    preset: 'heritage-v1'
+  }
+};
+
+function initZipLookup() {
+  const zipInput = document.getElementById('locateZip');
+  const zipBtn = document.getElementById('locateBtn');
+  const banner = document.getElementById('zipBanner');
+  const modalOverlay = document.getElementById('unservedModal');
+
+  if (!zipInput || !zipBtn) return;
+
+  function handleLookup() {
+    const zip = zipInput.value.trim();
+    if (!zip) return;
+
+    if (SERVED_COMMUNITIES[zip]) {
+      const comm = SERVED_COMMUNITIES[zip];
+      banner.style.display = 'flex';
+      banner.innerHTML = `
+        <div class="zip-result-info">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <div>
+            <div class="zip-result-title">SERVED LOCATION: ${comm.name}</div>
+            <div class="zip-result-desc">${comm.bylaws}</div>
+          </div>
+        </div>
+        <a href="#configurator" class="btn btn-sm btn-gold">Launch Preset</a>
+      `;
+    } else {
+      banner.style.display = 'none';
+      if (modalOverlay) {
+        document.getElementById('unservedZipDisplay').textContent = zip;
+        modalOverlay.classList.add('active');
+      }
+    }
+  }
+
+  zipBtn.addEventListener('click', handleLookup);
+  zipInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLookup();
+  });
+}
+
+/**
+ * Hero Section Dual-Mode Structural Visualizer Controller
  */
 function initHeroVisualizer() {
-  const controlBtns = document.querySelectorAll('.control-btn');
+  const finishBtns = document.querySelectorAll('.control-btn[data-finish]');
+  const infillBtns = document.querySelectorAll('.control-btn[data-infill]');
+  const explodeBtn = document.getElementById('explodeToggleBtn');
+  const viewport = document.getElementById('heroVisualizerViewport');
   const frameOutline = document.getElementById('frameOutline');
   const pickets = document.querySelectorAll('.picket');
   const finishLabel = document.getElementById('finishLabel');
@@ -38,9 +119,9 @@ function initHeroVisualizer() {
     }
   };
 
-  controlBtns.forEach(btn => {
+  finishBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      controlBtns.forEach(b => b.classList.remove('active'));
+      finishBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       const finishKey = btn.getAttribute('data-finish');
@@ -60,10 +141,111 @@ function initHeroVisualizer() {
       }
     });
   });
+
+  if (infillBtns.length > 0) {
+    infillBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        infillBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const infill = btn.getAttribute('data-infill');
+        
+        pickets.forEach(picket => {
+          if (infill === 'horizontal') {
+            picket.style.transform = 'rotate(90deg) scale(0.8)';
+          } else if (infill === 'mesh') {
+            picket.style.borderRadius = '0px';
+            picket.style.opacity = '0.5';
+          } else {
+            picket.style.transform = 'none';
+            picket.style.borderRadius = '4px';
+            picket.style.opacity = '1';
+          }
+        });
+      });
+    });
+  }
+
+  if (explodeBtn && viewport) {
+    explodeBtn.addEventListener('click', () => {
+      viewport.classList.toggle('exploded-mode');
+      explodeBtn.classList.toggle('active');
+      if (viewport.classList.contains('exploded-mode')) {
+        explodeBtn.textContent = 'Collapse Assembly';
+      } else {
+        explodeBtn.textContent = '3D Exploded View';
+      }
+    });
+  }
 }
 
 /**
- * Interactive Fence Calculator & Material Estimator
+ * Dynamic Design Catalog Filtering
+ */
+function initCatalogFilters() {
+  const tabs = document.querySelectorAll('.filter-tab');
+  const cards = document.querySelectorAll('.catalog-card');
+
+  if (tabs.length === 0) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const filter = tab.getAttribute('data-filter');
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'flex';
+          card.style.animation = 'fadeIn 0.4s ease-out';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+/**
+ * ARC Architectural Blueprint & HOA Inspector (Antigravity Signature)
+ */
+function initBlueprintInspector() {
+  const windBtn = document.getElementById('toggleWindSimBtn');
+  const windBox = document.getElementById('windSimBox');
+  const viewToggleBtn = document.getElementById('blueprintViewToggle');
+  const priceElements = document.querySelectorAll('.bp-price-tag');
+
+  if (windBtn && windBox) {
+    windBtn.addEventListener('click', () => {
+      windBox.classList.toggle('simulating');
+      windBtn.classList.toggle('active');
+      if (windBox.classList.contains('simulating')) {
+        windBtn.innerHTML = '🛑 Stop 150 MPH Wind Test';
+      } else {
+        windBtn.innerHTML = '💨 Run 150 MPH Wind Simulation';
+      }
+    });
+  }
+
+  if (viewToggleBtn) {
+    viewToggleBtn.addEventListener('click', () => {
+      const isHOAMode = viewToggleBtn.getAttribute('data-mode') === 'hoa';
+      if (isHOAMode) {
+        viewToggleBtn.setAttribute('data-mode', 'quote');
+        viewToggleBtn.textContent = 'Switch to Clean HOA View (Non-Priced)';
+        priceElements.forEach(el => el.style.display = 'inline-block');
+      } else {
+        viewToggleBtn.setAttribute('data-mode', 'hoa');
+        viewToggleBtn.textContent = 'Switch to Priced Contractor Quote';
+        priceElements.forEach(el => el.style.display = 'none');
+      }
+    });
+  }
+}
+
+/**
+ * Interactive Job Material Estimator
  */
 function initFenceCalculator() {
   const footageInput = document.getElementById('calcFootage');
@@ -76,45 +258,65 @@ function initFenceCalculator() {
   const resWeight = document.getElementById('resWeight');
 
   function calculate() {
+    if (!footageInput) return;
     const footage = parseFloat(footageInput.value) || 0;
-    const height = parseFloat(heightSelect.value) || 6;
-    const isCommercial = styleSelect.value === 'commercial';
+    const height = parseFloat(heightSelect ? heightSelect.value : 6) || 6;
+    const isCommercial = styleSelect && styleSelect.value === 'commercial';
 
     if (footage <= 0) {
-      resPosts.textContent = '0';
-      resFrames.textContent = '0';
-      resBrackets.textContent = '0';
-      resWeight.textContent = '0 lbs';
+      if (resPosts) resPosts.textContent = '0';
+      if (resFrames) resFrames.textContent = '0';
+      if (resBrackets) resBrackets.textContent = '0';
+      if (resWeight) resWeight.textContent = '0 lbs';
       return;
     }
 
-    // Standard panel width: 6 feet (72 inches) or 8 feet
     const panelWidth = isCommercial ? 8 : 6;
     const frameCount = Math.ceil(footage / panelWidth);
     const postCount = frameCount + 1;
     const bracketCount = frameCount * 4;
 
-    // Weight estimate approx 45 lbs per frame section
     const weightPerFrame = height * (isCommercial ? 9.5 : 7.5);
     const totalWeight = Math.round(frameCount * weightPerFrame);
 
-    resPosts.textContent = postCount.toLocaleString();
-    resFrames.textContent = frameCount.toLocaleString();
-    resBrackets.textContent = bracketCount.toLocaleString();
-    resWeight.textContent = totalWeight.toLocaleString() + ' lbs';
+    if (resPosts) resPosts.textContent = postCount.toLocaleString();
+    if (resFrames) resFrames.textContent = frameCount.toLocaleString();
+    if (resBrackets) resBrackets.textContent = bracketCount.toLocaleString();
+    if (resWeight) resWeight.textContent = totalWeight.toLocaleString() + ' lbs';
   }
 
-  if (footageInput && heightSelect && styleSelect) {
+  if (footageInput) {
     footageInput.addEventListener('input', calculate);
-    heightSelect.addEventListener('change', calculate);
-    styleSelect.addEventListener('change', calculate);
-    // Initial run
+    if (heightSelect) heightSelect.addEventListener('change', calculate);
+    if (styleSelect) styleSelect.addEventListener('change', calculate);
     calculate();
   }
 }
 
 /**
- * Smooth Navigation Scroll
+ * Modals Handler
+ */
+function initModals() {
+  const closeBtns = document.querySelectorAll('.modal-close');
+  const overlays = document.querySelectorAll('.modal-overlay');
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      overlays.forEach(o => o.classList.remove('active'));
+    });
+  });
+
+  overlays.forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+      }
+    });
+  });
+}
+
+/**
+ * Smooth Scroll
  */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

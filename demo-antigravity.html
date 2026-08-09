@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence Frames — Frame Your Vision | Find Your Fence</title>
-  <meta name="description" content="Precision engineered structural steel fence frame systems, 3D configurator, ARC blueprint engine, and contractor marketplace for homeowners and pros.">
+  <title>Fence Frames Demo — Antigravity Edition</title>
+  <meta name="description" content="Antigravity's high-conversion HTML landing page demo for Fence Frames featuring interactive 2D/3D dual visualizer, ZIP HOA matcher, ARC blueprint engine, and contractor scramble hub.">
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,6 +13,10 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Embedded Header Badge -->
+  <div style="background: var(--gradient-brand); color: #fff; text-align: center; padding: 6px 12px; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.05em; z-index: 101; position: relative;">
+    🚀 ANTIGRAVITY CREATIVE DESIGN DEMO — READY FOR SERVER HOSTING
+  </div>
 
   <!-- Ambient Light Effects -->
   <div class="ambient-blur">
@@ -23,11 +26,11 @@
   </div>
 
   <!-- Navigation Bar -->
-  <header class="navbar">
+  <header class="navbar" style="top: 31px;">
     <div class="container nav-content">
       <a href="#" class="brand-logo">
         <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="3" y1="9" x2="21" y2="9"></line>
             <line x1="9" y1="21" x2="9" y2="9"></line>
@@ -54,7 +57,7 @@
     </div>
   </header>
 
-  <main>
+  <main style="padding-top: 30px;">
     <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-grid">
@@ -210,7 +213,7 @@
       </div>
     </section>
 
-    <!-- 3-Step Process Section ("Find -> Frame -> Fence") -->
+    <!-- 3-Step Process Section -->
     <section id="process" class="section" style="background: rgba(15, 21, 33, 0.4);">
       <div class="container">
         <div class="section-header">
@@ -265,7 +268,6 @@
           <p class="section-subtitle">Engineered structural steel frame assemblies tailored for residential privacy, commercial security, and high-wind environments.</p>
         </div>
 
-        <!-- Filter Tab Bar -->
         <div class="filter-tab-bar">
           <button class="filter-tab active" data-filter="all">All Styles</button>
           <button class="filter-tab" data-filter="heritage">Heritage Series</button>
@@ -275,7 +277,7 @@
         </div>
 
         <div class="grid-3" id="catalogGrid">
-          <!-- Card 1: Heritage VPF -->
+          <!-- Card 1 -->
           <div class="catalog-card" data-category="heritage">
             <div class="catalog-preview-area">
               <span class="price-badge">$ Starter</span>
@@ -301,7 +303,7 @@
             </div>
           </div>
 
-          <!-- Card 2: Horizon Slat -->
+          <!-- Card 2 -->
           <div class="catalog-card" data-category="horizon">
             <div class="catalog-preview-area">
               <span class="price-badge">$$ Popular</span>
@@ -325,7 +327,7 @@
             </div>
           </div>
 
-          <!-- Card 3: Rancher Mesh -->
+          <!-- Card 3 -->
           <div class="catalog-card" data-category="rancher">
             <div class="catalog-preview-area">
               <span class="price-badge">$ Heavy-Duty</span>
@@ -348,7 +350,7 @@
             </div>
           </div>
 
-          <!-- Card 4: Craftsman Accent -->
+          <!-- Card 4 -->
           <div class="catalog-card" data-category="craftsman">
             <div class="catalog-preview-area">
               <span class="price-badge">$$$ Premium</span>
@@ -392,7 +394,7 @@
       </div>
     </section>
 
-    <!-- ARC Architectural Blueprint & HOA Engine (Antigravity Signature) -->
+    <!-- ARC Architectural Blueprint Engine -->
     <section id="blueprint" class="section">
       <div class="container">
         <div class="section-header">
@@ -414,7 +416,6 @@
             <div class="blueprint-stamp">HOA CERTIFIED SPEC</div>
           </div>
 
-          <!-- Wind Stress Simulator Box -->
           <div class="wind-simulator-container" id="windSimBox">
             <div class="wind-vector-anim"></div>
             <div style="text-align: center; z-index: 2;">
@@ -444,7 +445,6 @@
             </button>
           </div>
 
-          <!-- Blueprint Material Ledger Sample -->
           <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed rgba(56,189,248,0.3); font-size: 0.88rem; color: var(--text-secondary);">
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span>[Mat.] Structural Heavy Steel Posts (2.5" Sq x 8' Length)</span>
@@ -463,7 +463,7 @@
       </div>
     </section>
 
-    <!-- Contractor Estimator Calculator -->
+    <!-- Calculator Section -->
     <section id="calculator" class="section">
       <div class="container">
         <div class="section-header">
@@ -523,7 +523,7 @@
       </div>
     </section>
 
-    <!-- Contractor Scramble Hub Section -->
+    <!-- Contractor Hub Section -->
     <section id="contractors" class="section">
       <div class="container">
         <div class="grid-2" style="align-items: center;">
@@ -653,7 +653,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 Fence Frames. All rights reserved. Designed with Architectural Precision & Performance.</p>
+        <p>&copy; 2026 Fence Frames. All rights reserved. Antigravity Creative HTML Demo Build.</p>
         <p>Frame Your Vision | Find Your Fence</p>
       </div>
     </div>
