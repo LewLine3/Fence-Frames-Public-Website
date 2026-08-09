@@ -1,3 +1,23 @@
-# Antigravity agent sandboxes
+# Antigravity agent sandboxes & IDE folders
 .antigravity/
 _antigravity/
+.vscode/
+.brain/
+.gemini/
+*Brain-History*
+*brain-history*
+
+# Environment & secret files
+.env
+.env.*
+*.env
+
+# Sensitive Financial Keywords
+*venmo*
+*quickbooks*
+*bank_statement*
+*financial_statement*
+*tax_return*
+*payroll*
+*credit_card*
+*transaction_log*
