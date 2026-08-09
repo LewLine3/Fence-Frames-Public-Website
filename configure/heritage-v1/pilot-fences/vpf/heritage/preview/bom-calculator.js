@@ -242,32 +242,35 @@
       categoryTotals[group].itemCount += 1;
     });
 
-    const wasteFactor = 0.06; // 6% waste buffer
-    const materialTotalWithWaste = rawMaterialTotal * (1 + wasteFactor);
+    // Canonical monetization formula:
+    // MC = raw material cost from BOM
+    // M = MC * 1.25 (tax + procurement + delivery)
+    // L = M * 2.0  (labor)
+    // A = (M + L) * 0.15 (admin fee)
+    // quoted_mid = M + L + A
+    // display_low = quoted_mid * 0.85
+    // display_high = quoted_mid * 1.15
 
-    // Adjust labor multiplier based on soil remediation or complexity
-    const remediation = (state && (state.remediationLevel || state.remediation)) || 'none';
-    let laborMultiplier = 1.25;
-    if (remediation === 'light') laborMultiplier = 1.35;
-    if (remediation === 'full') laborMultiplier = 1.50;
-
-    const laborTotal = materialTotalWithWaste * laborMultiplier;
-    const adminRate = 0.15; // 15% Admin & Engineering factor
-    const adminTotal = (materialTotalWithWaste + laborTotal) * adminRate;
-    const grandTotal = materialTotalWithWaste + laborTotal + adminTotal;
+    const M = rawMaterialTotal * 1.25;
+    const laborTotal = M * 2.0;
+    const adminRate = 0.15;
+    const adminTotal = (M + laborTotal) * adminRate;
+    const grandTotal = M + laborTotal + adminTotal;
     const costPerFoot = grandTotal / Math.max(1, lnFt);
+    const displayLow = grandTotal * 0.85;
+    const displayHigh = grandTotal * 1.15;
 
     return {
       counts,
       materialList,
       rawMaterialTotal: Number(rawMaterialTotal.toFixed(2)),
-      wasteFactor,
-      materialTotalWithWaste: Number(materialTotalWithWaste.toFixed(2)),
-      laborMultiplier,
+      materialsBurdened: Number(M.toFixed(2)),
       laborTotal: Number(laborTotal.toFixed(2)),
       adminRate,
       adminTotal: Number(adminTotal.toFixed(2)),
       grandTotal: Number(grandTotal.toFixed(2)),
+      displayLow: Number(displayLow.toFixed(2)),
+      displayHigh: Number(displayHigh.toFixed(2)),
       costPerFoot: Number(costPerFoot.toFixed(2)),
       categoryTotals,
     };
