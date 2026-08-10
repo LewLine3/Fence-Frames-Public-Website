@@ -8,16 +8,18 @@
    ========================================================================== */
 
 :root {
-  /* Core blueprint palette */
-  --bg: #0b1712;
+  /* Core blueprint palette — 3 clear dark tiers so nothing collapses into "just black":
+     --bg (drafting table, darkest/neutral) < --forest-deep (isolated deep panels)
+     < --forest (solid muted-green section fields, e.g. the Design Catalog backdrop) */
+  --bg: #0a0f0c;
   --bg-soft: #0f1e17;
   --forest: #1b4332;
-  --forest-deep: #081712;
+  --forest-deep: #12301f;
   --forest-mid: #204533;
   --green: #5fbf8f;
   --green-bright: #86e0b4;
-  --green-line: rgba(111, 207, 151, 0.09);
-  --green-line-major: rgba(111, 207, 151, 0.16);
+  --green-line: rgba(111, 207, 151, 0.14);
+  --green-line-major: rgba(111, 207, 151, 0.24);
   --green-line-strong: rgba(111, 207, 151, 0.45);
   --green-glow: rgba(95, 191, 143, 0.25);
 
@@ -30,6 +32,7 @@
   /* "Paper" panels — content stays readable, page stays dark */
   --cream: #f4efe8;
   --cream-panel: #ece5da;
+  --sand: #e4d3ba;
   --charcoal: #201c18;
 
   --radius: 4px;
@@ -53,7 +56,7 @@ body {
     linear-gradient(90deg, var(--green-line) 1px, transparent 1px),
     linear-gradient(var(--green-line-major) 1px, transparent 1px),
     linear-gradient(90deg, var(--green-line-major) 1px, transparent 1px);
-  background-size: 28px 28px, 28px 28px, 168px 168px, 168px 168px;
+  background-size: 16px 16px, 16px 16px, 96px 96px, 96px 96px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -141,7 +144,7 @@ button { font-family: inherit; }
 header.nav {
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(10px);
-  background: rgba(8, 20, 15, 0.82);
+  background: rgba(10, 15, 12, 0.82);
   border-bottom: 1px solid var(--green-line-major);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 20px; }
@@ -167,7 +170,7 @@ header.nav {
   .nav-links.mobile-open {
     display: flex; position: absolute; top: 72px; left: 0; right: 0;
     flex-direction: column; align-items: flex-start; gap: 0;
-    background: rgba(8,20,15,0.98); border-bottom: 1px solid var(--green-line-major);
+    background: rgba(10,15,12,0.98); border-bottom: 1px solid var(--green-line-major);
     padding: 8px 24px 18px;
   }
   .nav-links.mobile-open a { width: 100%; padding: 12px 0; border-bottom: 1px solid rgba(111,207,151,0.08); }
@@ -189,7 +192,7 @@ header.nav {
 .frame {
   position: relative; padding: 32px 30px;
   border: 1.5px solid var(--green-line-strong);
-  background: rgba(15, 30, 23, 0.55);
+  background: rgba(18, 48, 31, 0.42);
 }
 .frame .corner { width: 18px; height: 18px; }
 .frame .sheet-no {
@@ -208,7 +211,7 @@ header.nav {
 .ffs-item {
   display: flex; gap: 12px; align-items: flex-start; max-width: 230px;
   padding: 14px 16px 14px 14px; border-left: 2px solid var(--green-line-strong);
-  background: rgba(15, 30, 23, 0.4);
+  background: rgba(18, 48, 31, 0.32);
 }
 .ffs-item:nth-child(1) { transform: translateY(0) rotate(-0.6deg); }
 .ffs-item:nth-child(2) { transform: translateY(14px) rotate(0.8deg); }
@@ -270,8 +273,8 @@ header.nav {
 .bp-sub { font-size: 11px; color: var(--tan-soft); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 3px; }
 .bp-tag { font-size: 10px; color: var(--forest-deep); background: var(--green-bright); padding: 4px 8px; border-radius: 2px; font-weight: 700; letter-spacing: 0.1em; }
 .bp-media { position: relative; border: 1px solid var(--green-line-major); border-radius: 2px; overflow: hidden; background: #04100a; }
-.bp-media img { width: 100%; height: 210px; object-fit: cover; display: block; filter: saturate(0.92) brightness(0.82); }
-.bp-media .tint { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,23,17,0.15) 0%, rgba(8,23,17,0.75) 100%); }
+.bp-media img { width: 100%; height: 210px; object-fit: cover; display: block; filter: saturate(1) brightness(0.98); }
+.bp-media .tint { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,23,17,0.04) 0%, rgba(8,23,17,0.4) 100%); }
 .bp-media .overlay-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .bp-foot { position: relative; display:flex; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--green-line-major); gap: 8px; flex-wrap: wrap; }
 .bp-foot div { font-size: 11px; color: rgba(244,239,232,0.65); }
@@ -289,19 +292,21 @@ section { padding: 88px 0; position: relative; }
 @media (max-width: 640px){ .section-head .tag-stamp { display: none; } }
 
 /* ---------------- SECTION 2 — DESIGN CATALOG (grid-perfect) ---------------- */
-.catalog-bg { background: var(--forest-deep); }
+/* Solid muted-green field (the loved v0 look) — cream cards read as boxes pinned to it */
+.catalog-bg { background: var(--forest); }
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 @media (max-width: 900px){ .cards { grid-template-columns: 1fr; } }
 .card {
   background: var(--cream); color: var(--charcoal); border-radius: var(--radius);
-  overflow: hidden; border: 1px solid var(--green-line-major); position: relative;
+  overflow: hidden; border: 1px solid rgba(244,239,232,0.2); position: relative;
+  box-shadow: 0 20px 40px -24px rgba(0,0,0,0.55);
   transition: transform .2s ease, box-shadow .2s ease; display: flex; flex-direction: column;
 }
-.card:hover { transform: translateY(-5px); box-shadow: 0 28px 50px -30px rgba(0,0,0,0.6); }
+.card:hover { transform: translateY(-5px); box-shadow: 0 28px 50px -26px rgba(0,0,0,0.65); }
 .card .corner.dim { opacity: 0.9; }
-.card .art { position: relative; background: var(--cream-panel); border-bottom: 1px solid rgba(27,67,50,0.18); height: 168px; overflow: hidden; }
-.card .art img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.95) brightness(0.94); }
-.card .art::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,23,17,0) 55%, rgba(8,23,17,0.32) 100%); pointer-events: none; }
+.card .art { position: relative; background: var(--sand); border-bottom: 1px solid rgba(27,67,50,0.18); height: 168px; overflow: hidden; }
+.card .art img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1) brightness(1.02); }
+.card .art::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,23,17,0) 55%, rgba(8,23,17,0.16) 100%); pointer-events: none; }
 .card .art svg.line-art { width: 100%; height: 100%; padding: 18px; position: relative; z-index: 1; }
 .card .art .price-tab {
   position: absolute; top: 12px; right: 12px; background: var(--forest);
