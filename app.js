@@ -5,87 +5,219 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
+  initNavDropdowns();
+  initNavFindZip();
   initSmoothScroll();
   initScrollReveal();
-  initNavSpy();
-  initGridLock();
 });
 
 /**
- * Nav scroll-spy — fills the matching pill (Catalog/Community/Contractor)
- * with the "selected" ember style while its section is on screen.
- */
-function initNavSpy() {
-  const links = Array.from(document.querySelectorAll('.nav-links a[data-spy]'));
-  if (!links.length) return;
-  const sections = links
-    .map((a) => ({ link: a, el: document.querySelector(a.getAttribute('data-spy')) }))
-    .filter((s) => s.el);
-  if (!sections.length) return;
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const match = sections.find((s) => s.el === entry.target);
-        if (!match) return;
-        match.link.classList.toggle('active', entry.isIntersecting);
-      });
-    },
-    { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
-  );
-  sections.forEach((s) => io.observe(s.el));
-}
-
-/**
  * Served ZIP lookup — mirrors community-presets/served-locations.json.
- * Real pilot: Si View, North Bend, WA (98045). Everything else is a
- * friendly waitlist response, no fabricated coverage.
+ * Real pilot: Si View, North Bend, WA (98045).
  */
 const SERVED_ZIPS = {
-  '98045': { name: 'Si View \u2014 North Bend, WA', note: 'Standard Si View Privacy Fence preset is ready to go.' }
+  '98045': {
+    community: 'si-view',
+    name: 'Si View \u2014 North Bend, WA',
+    note: 'Standard Si View Privacy Fence preset is ready to go.',
+    href: '#hoa'
+  }
+};
+
+const ZIP_COLORS = {
+  ok: '#d9b872',
+  info: '#c4b294',
+  warn: '#e8a070'
 };
 
 function checkZip(e) {
   e.preventDefault();
   const input = document.getElementById('zip-input');
+  const select = document.getElementById('community-select');
   const out = document.getElementById('zip-result');
+  if (!input || !out) return false;
   const val = (input.value || '').trim();
+  const community = select ? select.value : '';
   out.classList.add('show');
 
   if (!/^\d{5}$/.test(val)) {
+    if (community === 'no-hoa') {
+      out.textContent = 'No HOA? You\u2019re free to design anything \u2014 add your ZIP and we\u2019ll price it for your area.';
+      out.style.color = ZIP_COLORS.info;
+      return false;
+    }
     out.textContent = 'Enter a 5-digit ZIP code to see your area.';
-    out.style.color = '#e2813f';
+    out.style.color = ZIP_COLORS.warn;
     return false;
   }
 
   const served = SERVED_ZIPS[val];
   if (served) {
+    if (select && !community) select.value = served.community;
     out.textContent = '\u2713 Great news \u2014 we\u2019re live in ' + served.name + '. ' + served.note;
-    out.style.color = '#86e0b4';
+    out.style.color = ZIP_COLORS.ok;
+  } else if (community === 'no-hoa') {
+    out.textContent = 'No HOA means no design limits \u2014 explore every style now; local pricing for ' + val + ' is on the way.';
+    out.style.color = ZIP_COLORS.info;
   } else {
     out.textContent = 'We\u2019re expanding toward ' + val + '. Drop it in and we\u2019ll notify you at launch \u2014 you can still explore designs and pricing now.';
-    out.style.color = '#d8c3ab';
+    out.style.color = ZIP_COLORS.info;
   }
   return false;
 }
 
+function lockNavCommunity() {
+  const wrap = document.getElementById('nav-find-community');
+  const select = document.getElementById('nav-community-select');
+  if (!wrap || !select) return;
+  wrap.dataset.locked = 'true';
+  select.disabled = true;
+  select.innerHTML = '<option value="">Enter ZIP to unlock</option>';
+}
+
+function unlockNavCommunity(zip) {
+  const wrap = document.getElementById('nav-find-community');
+  const select = document.getElementById('nav-community-select');
+  if (!wrap || !select) return;
+  wrap.dataset.locked = 'false';
+  select.disabled = false;
+  select.innerHTML = '';
+
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = 'Select community';
+  select.appendChild(placeholder);
+
+  const noHoa = document.createElement('option');
+  noHoa.value = 'no-hoa';
+  noHoa.textContent = 'No HOA / open design';
+  select.appendChild(noHoa);
+
+  const served = SERVED_ZIPS[zip];
+  if (served) {
+    const opt = document.createElement('option');
+    opt.value = served.community;
+    opt.textContent = served.name;
+    select.appendChild(opt);
+    select.value = served.community;
+  } else {
+    const soon = document.createElement('option');
+    soon.value = '';
+    soon.disabled = true;
+    soon.textContent = 'More communities coming soon';
+    select.appendChild(soon);
+  }
+}
+
+function checkNavZip(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById('nav-zip-input');
+  const select = document.getElementById('nav-community-select');
+  const out = document.getElementById('nav-zip-result');
+  if (!input || !out) return false;
+  const val = (input.value || '').trim();
+  const community = select && !select.disabled ? select.value : '';
+
+  if (!/^\d{5}$/.test(val)) {
+    lockNavCommunity();
+    out.textContent = 'Enter a 5-digit ZIP code to unlock communities.';
+    out.style.color = ZIP_COLORS.warn;
+    return false;
+  }
+
+  unlockNavCommunity(val);
+  const served = SERVED_ZIPS[val];
+  if (served) {
+    out.textContent = '\u2713 Live in ' + served.name + '. Pick a community below or open Communities.';
+    out.style.color = ZIP_COLORS.ok;
+  } else if (community === 'no-hoa') {
+    out.textContent = 'No HOA for ' + val + ' \u2014 you can design freely while we expand pricing there.';
+    out.style.color = ZIP_COLORS.info;
+  } else {
+    out.textContent = 'Expanding toward ' + val + '. Communities unlock as we launch \u2014 No HOA is available now.';
+    out.style.color = ZIP_COLORS.info;
+  }
+  return false;
+}
+
+function initNavFindZip() {
+  const input = document.getElementById('nav-zip-input');
+  if (!input) return;
+  let timer = null;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const val = (input.value || '').trim();
+      if (/^\d{5}$/.test(val)) checkNavZip();
+      else lockNavCommunity();
+    }, 280);
+  });
+}
+
 /**
- * Mobile nav toggle
+ * Dropdown menus — one open at a time; click outside / Esc closes.
+ */
+function initNavDropdowns() {
+  const dropdowns = Array.from(document.querySelectorAll('.nav-dd'));
+  if (!dropdowns.length) return;
+
+  function closeAll(except) {
+    dropdowns.forEach((dd) => {
+      if (dd === except) return;
+      dd.classList.remove('is-open');
+      const btn = dd.querySelector('.nav-dd-trigger');
+      const panel = dd.querySelector('.nav-dd-panel');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+      if (panel) panel.hidden = true;
+    });
+  }
+
+  dropdowns.forEach((dd) => {
+    const btn = dd.querySelector('.nav-dd-trigger');
+    const panel = dd.querySelector('.nav-dd-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = panel.hidden;
+      closeAll(willOpen ? dd : null);
+      panel.hidden = !willOpen;
+      dd.classList.toggle('is-open', willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+    });
+
+    panel.addEventListener('click', (e) => e.stopPropagation());
+  });
+
+  document.addEventListener('click', () => closeAll());
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+
+  document.querySelectorAll('.nav-dd-panel a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', () => closeAll());
+  });
+}
+
+/**
+ * Mobile nav toggle — expands the three zones under the bar
  */
 function initNavToggle() {
   const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
-  if (!toggle || !links) return;
+  const inner = document.querySelector('.nav-inner');
+  if (!toggle || !inner) return;
 
   toggle.addEventListener('click', () => {
-    const isOpen = links.classList.toggle('mobile-open');
+    const isOpen = inner.classList.toggle('mobile-open');
     toggle.setAttribute('aria-expanded', String(isOpen));
   });
 
-  links.querySelectorAll('a').forEach((a) => {
+  inner.querySelectorAll('a[href]').forEach((a) => {
     a.addEventListener('click', () => {
-      links.classList.remove('mobile-open');
-      toggle.setAttribute('aria-expanded', 'false');
+      if (window.matchMedia('(max-width: 860px)').matches) {
+        inner.classList.remove('mobile-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
     });
   });
 }
@@ -97,7 +229,7 @@ function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
+      if (!targetId || targetId === '#') return;
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
@@ -111,6 +243,8 @@ function initSmoothScroll() {
  * Scroll reveal — progressive enhancement only (see .js .reveal in CSS)
  */
 function initScrollReveal() {
+  const nodes = document.querySelectorAll('.reveal');
+  if (!nodes.length) return;
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((en) => {
@@ -120,93 +254,10 @@ function initScrollReveal() {
         }
       });
     },
-    { threshold: 0.14 }
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   );
-  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  nodes.forEach((el) => io.observe(el));
+  window.setTimeout(() => {
+    nodes.forEach((el) => el.classList.add('in'));
+  }, 2500);
 }
-
-/**
- * Grid lock — every .grid-box outer edge lands on major lines (100, 200, …).
- * Page grid origin stays fixed at 0,0. Boxes grow to the next major (ceil).
- * Vertical uses translateY + marginBottom so sibling margin-collapse can’t
- * leave tops on 570 / 870 / etc.
- */
-function initGridLock() {
-  const majorFromCss = () => {
-    const raw = getComputedStyle(document.documentElement)
-      .getPropertyValue('--grid-major')
-      .trim();
-    const n = parseFloat(raw);
-    return Number.isFinite(n) && n > 0 ? n : 100;
-  };
-
-  const boxes = () => Array.from(document.querySelectorAll('.grid-box'));
-
-  function clear(el) {
-    el.style.marginLeft = '';
-    el.style.marginBottom = '';
-    el.style.width = '';
-    el.style.maxWidth = '';
-    el.style.minHeight = '';
-    el.style.height = '';
-    el.style.position = '';
-    el.style.top = '';
-  }
-
-  function snapOne(el, major) {
-    const rect = el.getBoundingClientRect();
-    const left = rect.left + window.scrollX;
-    const top = rect.top + window.scrollY;
-
-    const snapLeft = Math.round(left / major) * major;
-    const snapTop = Math.round(top / major) * major;
-
-    let snapW = Math.max(major, Math.ceil(rect.width / major) * major);
-    let snapH = Math.max(major, Math.ceil(rect.height / major) * major);
-
-    const wrap = el.closest('.wrap');
-    if (wrap) {
-      const wr = wrap.getBoundingClientRect();
-      const wrapLeft = wr.left + window.scrollX;
-      const wrapRight = wrapLeft + wr.width;
-      const maxRight = Math.floor(wrapRight / major) * major;
-      const maxW = Math.max(major, maxRight - snapLeft);
-      snapW = Math.min(snapW, maxW);
-    }
-
-    const dx = snapLeft - left;
-    const dy = snapTop - top;
-    const dH = snapH - rect.height;
-
-    el.style.boxSizing = 'border-box';
-    el.style.position = 'relative';
-    el.style.top = dy ? `${dy}px` : '';
-    el.style.marginLeft = `${dx}px`;
-    el.style.width = `${snapW}px`;
-    el.style.maxWidth = 'none';
-    el.style.minHeight = `${snapH}px`;
-    // Reserve flow space for the visual shift + height grow (avoids margin-collapse)
-    el.style.marginBottom = `${dy + dH}px`;
-  }
-
-  function lock() {
-    const major = majorFromCss();
-    const list = boxes();
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
-    list.forEach(clear);
-    void document.body.offsetHeight;
-    list.forEach((el) => snapOne(el, major));
-  }
-
-  lock();
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(lock).catch(() => {});
-  }
-  window.addEventListener('load', lock);
-  let t = 0;
-  window.addEventListener('resize', () => {
-    window.clearTimeout(t);
-    t = window.setTimeout(lock, 100);
-  });
-}
-
