@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
   initSmoothScroll();
   initScrollReveal();
+  initGridLock();
 });
 
 /**
@@ -96,4 +97,89 @@ function initScrollReveal() {
     { threshold: 0.14 }
   );
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+}
+
+/**
+ * Grid lock — every .grid-box outer edge lands on major lines (100, 200, …).
+ * Page grid origin stays fixed at 0,0. Boxes grow to the next major (ceil).
+ * Vertical uses translateY + marginBottom so sibling margin-collapse can’t
+ * leave tops on 570 / 870 / etc.
+ */
+function initGridLock() {
+  const majorFromCss = () => {
+    const raw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--grid-major')
+      .trim();
+    const n = parseFloat(raw);
+    return Number.isFinite(n) && n > 0 ? n : 100;
+  };
+
+  const boxes = () => Array.from(document.querySelectorAll('.grid-box'));
+
+  function clear(el) {
+    el.style.marginLeft = '';
+    el.style.marginBottom = '';
+    el.style.width = '';
+    el.style.maxWidth = '';
+    el.style.minHeight = '';
+    el.style.height = '';
+    el.style.position = '';
+    el.style.top = '';
+  }
+
+  function snapOne(el, major) {
+    const rect = el.getBoundingClientRect();
+    const left = rect.left + window.scrollX;
+    const top = rect.top + window.scrollY;
+
+    const snapLeft = Math.round(left / major) * major;
+    const snapTop = Math.round(top / major) * major;
+
+    let snapW = Math.max(major, Math.ceil(rect.width / major) * major);
+    let snapH = Math.max(major, Math.ceil(rect.height / major) * major);
+
+    const wrap = el.closest('.wrap');
+    if (wrap) {
+      const wr = wrap.getBoundingClientRect();
+      const wrapLeft = wr.left + window.scrollX;
+      const wrapRight = wrapLeft + wr.width;
+      const maxRight = Math.floor(wrapRight / major) * major;
+      const maxW = Math.max(major, maxRight - snapLeft);
+      snapW = Math.min(snapW, maxW);
+    }
+
+    const dx = snapLeft - left;
+    const dy = snapTop - top;
+    const dH = snapH - rect.height;
+
+    el.style.boxSizing = 'border-box';
+    el.style.position = 'relative';
+    el.style.top = dy ? `${dy}px` : '';
+    el.style.marginLeft = `${dx}px`;
+    el.style.width = `${snapW}px`;
+    el.style.maxWidth = 'none';
+    el.style.minHeight = `${snapH}px`;
+    // Reserve flow space for the visual shift + height grow (avoids margin-collapse)
+    el.style.marginBottom = `${dy + dH}px`;
+  }
+
+  function lock() {
+    const major = majorFromCss();
+    const list = boxes();
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+    list.forEach(clear);
+    void document.body.offsetHeight;
+    list.forEach((el) => snapOne(el, major));
+  }
+
+  lock();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(lock).catch(() => {});
+  }
+  window.addEventListener('load', lock);
+  let t = 0;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(t);
+    t = window.setTimeout(lock, 100);
+  });
 }
