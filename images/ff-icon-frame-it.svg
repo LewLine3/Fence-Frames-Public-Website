@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img">
+  <title>Frame It — 2D Configurator &amp; Sketching</title>
+  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6,18 V6 H18"/>
+    <path d="M58,18 V6 H46"/>
+    <path d="M6,46 V58 H18"/>
+    <path d="M58,46 V58 H46"/>
+
+    <line x1="16" y1="46" x2="16" y2="20"/>
+    <line x1="48" y1="46" x2="48" y2="20"/>
+    <line x1="16" y1="26" x2="48" y2="26"/>
+    <line x1="16" y1="40" x2="48" y2="40"/>
+    <line x1="26" y1="26" x2="26" y2="40"/>
+    <line x1="38" y1="26" x2="38" y2="40"/>
+
+    <line x1="16" y1="12" x2="48" y2="12"/>
+    <line x1="16" y1="9" x2="16" y2="15"/>
+    <line x1="48" y1="9" x2="48" y2="15"/>
+  </g>
+</svg>

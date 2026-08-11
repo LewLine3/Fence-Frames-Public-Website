@@ -26,16 +26,28 @@
             <circle cx="17" cy="17" r="3" fill="#c2622d"/>
           </svg>
         </span>
-        <span class="name">Fence&nbsp;<span class="fr">Frames</span></span>
+        <span class="name"><span class="nav-fence">Fence</span>&nbsp;<span class="nav-frames">Frames</span></span>
+        <span class="home-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10v9.5h13V10"/>
+          </svg>
+        </span>
       </a>
       <nav class="nav-links" id="navLinks" aria-label="Primary">
-        <a href="#how">How It Works</a>
-        <a href="#designs">Design Catalog</a>
-        <a href="#hoa">HOA &amp; Communities</a>
-        <a href="#pros">For Contractors</a>
+        <div class="nav-group nav-group--left">
+          <a href="#designs" data-spy="#designs">Catalog</a>
+          <a href="wizard-demo.html">Designer</a>
+          <a href="wizard-demo.html">Wizard</a>
+        </div>
+        <div class="nav-group nav-group--right">
+          <a href="#hoa" data-spy="#hoa">Community</a>
+          <a href="#pros" data-spy="#pros">Contractor</a>
+        </div>
       </nav>
       <div class="nav-actions">
-        <button class="btn btn-primary" onclick="document.getElementById('zip-input').focus()">Design My Fence</button>
+        <a class="nav-auth nav-auth--signup" href="wizard-demo.html">Sign Up (Free)</a>
+        <a class="nav-auth nav-auth--login" href="wizard-demo.html">Log In</a>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
         </button>
@@ -49,15 +61,20 @@
   <section class="hero" id="how">
     <div class="wrap hero-grid">
       <div class="reveal in">
-        <p class="tagline"><span>Frame Your Vision</span><span class="pipe" aria-hidden="true">|</span><span>Find Your Fence</span></p>
-
         <div class="frame grid-box">
-          <span class="sheet-no">Sheet 01 &middot; Concept</span>
           <span class="corner tl" aria-hidden="true"></span>
           <span class="corner tr" aria-hidden="true"></span>
           <span class="corner bl" aria-hidden="true"></span>
           <span class="corner br" aria-hidden="true"></span>
-          <h1>Find it. Frame it.<br /><span class="em">Fence</span> it.</h1>
+          <div class="frame-copy">
+            <p class="frame-intro"><span class="brand-word brand-fence">Fence</span> <span class="brand-word brand-frames">Frames</span> is a modern fence design platform, built by a former fencing contractor to bring clarity to homeowners on both pricing and the options they have in fencing &mdash; simplifying the entire process into three easy steps.</p>
+            <span class="step-word step-find">Find it.</span>
+            <p class="step-line step-line--left">By using your property&rsquo;s location, we surface the fence styles, material standards, HOA guidelines, and local code considerations approved for your community, so you&rsquo;re fully informed before you design a single foot of fence.</p>
+            <span class="step-word step-frame">Frame it.</span>
+            <p class="step-line step-line--center">Our free design tools let you customize your fence while showing real-time cost for every material, style, and feature you choose &mdash; and surface options and styles you likely hadn&rsquo;t considered.</p>
+            <span class="step-word step-fence">Fence it.</span>
+            <p class="step-line step-line--right">We submit your fence proposal to the HOA on your behalf, then hand you a full Spec Sheet: a builder&rsquo;s blueprint ensuring the fence is built the right way, a material list so cheap materials can&rsquo;t be substituted, and a pricing ledger so you know a fair price range before you ever haggle with a contractor.</p>
+          </div>
         </div>
 
         <p class="lead">Design your fence in the browser, get an honest price range in seconds, and generate an HOA-ready blueprint &mdash; then match with vetted local pros who bid on the real thing.</p>
@@ -65,16 +82,31 @@
         <!-- Find / Frame / Fence, woven into the hero instead of boxed off -->
         <div class="ffs-row grid-box">
           <div class="ffs-item reveal in">
-            <span class="num">01</span>
-            <div><span class="word">Find</span><p>Your ZIP surfaces local material costs, permit rules, and HOA design standards.</p></div>
+            <div class="icon-wrap img-mode">
+              <img src="images/find-it-detailed.jpg" alt="Find It — Grassy field with location pin icon" />
+            </div>
+            <div>
+              <div class="ffs-hdr"><span class="num">01</span> <span class="word">Find</span></div>
+              <p>Your ZIP surfaces local material costs, permit rules, and HOA design standards.</p>
+            </div>
           </div>
           <div class="ffs-item reveal in">
-            <span class="num">02</span>
-            <div><span class="word">Frame</span><p>Sketch your run in the 2D configurator &mdash; height, style, gates, materials.</p></div>
+            <div class="icon-wrap img-mode">
+              <img src="images/frame-it-detailed.jpg" alt="Frame It — Picture frame with half-built picket fence" />
+            </div>
+            <div>
+              <div class="ffs-hdr"><span class="num">02</span> <span class="word">Frame</span></div>
+              <p>Sketch your run in the 2D configurator &mdash; height, style, gates, materials.</p>
+            </div>
           </div>
           <div class="ffs-item reveal in">
-            <span class="num">03</span>
-            <div><span class="word">Fence</span><p>Export your ARC blueprint, then let vetted local pros bid on the job.</p></div>
+            <div class="icon-wrap img-mode">
+              <img src="images/fence-it-detailed.jpg" alt="Fence It — Shiny new cedar picket fence on grassy field" />
+            </div>
+            <div>
+              <div class="ffs-hdr"><span class="num">03</span> <span class="word">Fence</span></div>
+              <p>Export your ARC blueprint, then let vetted local pros bid on the job.</p>
+            </div>
           </div>
         </div>
 

@@ -7,8 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
   initSmoothScroll();
   initScrollReveal();
+  initNavSpy();
   initGridLock();
+  initTempGridRulers(); // TEMP — building callouts; remove before ship
 });
+
+/**
+ * Nav scroll-spy — fills the matching pill (Catalog/Community/Contractor)
+ * with the "selected" ember style while its section is on screen.
+ */
+function initNavSpy() {
+  const links = Array.from(document.querySelectorAll('.nav-links a[data-spy]'));
+  if (!links.length) return;
+  const sections = links
+    .map((a) => ({ link: a, el: document.querySelector(a.getAttribute('data-spy')) }))
+    .filter((s) => s.el);
+  if (!sections.length) return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const match = sections.find((s) => s.el === entry.target);
+        if (!match) return;
+        match.link.classList.toggle('active', entry.isIntersecting);
+      });
+    },
+    { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+  );
+  sections.forEach((s) => io.observe(s.el));
+}
 
 /**
  * Served ZIP lookup — mirrors community-presets/served-locations.json.
@@ -182,4 +209,81 @@ function initGridLock() {
     window.clearTimeout(t);
     t = window.setTimeout(lock, 100);
   });
+}
+
+/**
+ * TEMP grid rulers — numbers for build callouts.
+ * Horizontal strip under the header (content 0…1200).
+ * Vertical strips just outside content left (0) and right (1200).
+ * Delete initTempGridRulers + .temp-grid-* CSS before ship.
+ */
+function initTempGridRulers() {
+  const MAJOR = 100;
+  const MAXW = 1200;
+
+  let root = document.getElementById('temp-grid-rulers');
+  if (!root) {
+    root = document.createElement('div');
+    root.id = 'temp-grid-rulers';
+    root.className = 'temp-grid-rulers';
+    root.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(root);
+  }
+
+  function paint() {
+    const wrap = document.querySelector('main .wrap') || document.querySelector('.wrap');
+    if (!wrap) return;
+
+    const wr = wrap.getBoundingClientRect();
+    const wrapLeft = wr.left + window.scrollX;
+    const wrapTop = 0; // page Y origin
+    const pageH = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+
+    const nav = document.querySelector('header.nav');
+    const navH = nav ? nav.getBoundingClientRect().height : MAJOR;
+
+    let html = '';
+
+    // Horizontal ruler under header — content-local X (0 … 1200)
+    html += `<div class="temp-grid-x" style="top:${navH}px">`;
+    for (let x = 0; x <= MAXW; x += MAJOR) {
+      const left = wrapLeft + x - window.scrollX;
+      const strong = x === 0 || x === MAXW ? ' temp-grid-mark--edge' : '';
+      html += `<span class="temp-grid-mark temp-grid-mark--x${strong}" style="left:${left}px">${x}</span>`;
+    }
+    html += `</div>`;
+
+    // Vertical rulers just outside content 0 and 1200 (document X)
+    const yMax = Math.ceil(pageH / MAJOR) * MAJOR;
+    const leftRail = wrapLeft - 2;
+    const rightRail = wrapLeft + MAXW + 2;
+
+    html += `<div class="temp-grid-y temp-grid-y--left" style="left:${leftRail}px;height:${pageH}px">`;
+    for (let y = 0; y <= yMax; y += MAJOR) {
+      html += `<span class="temp-grid-mark temp-grid-mark--y" style="top:${y}px">${y}</span>`;
+    }
+    html += `</div>`;
+
+    html += `<div class="temp-grid-y temp-grid-y--right" style="left:${rightRail}px;height:${pageH}px">`;
+    for (let y = 0; y <= yMax; y += MAJOR) {
+      html += `<span class="temp-grid-mark temp-grid-mark--y" style="top:${y}px">${y}</span>`;
+    }
+    html += `</div>`;
+
+    root.innerHTML = html;
+  }
+
+  paint();
+  window.addEventListener('resize', paint);
+  window.addEventListener('scroll', () => {
+    // Keep X marks under header aligned to wrap as it stays (wrap doesn't move on scroll X)
+    // Y rails are document-absolute; only need repaint if height changes — skip per-scroll
+  }, { passive: true });
+  window.addEventListener('load', paint);
+  // After grid-lock may shift wrap slightly
+  setTimeout(paint, 200);
+  setTimeout(paint, 600);
 }

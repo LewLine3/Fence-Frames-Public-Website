@@ -1,8 +1,8 @@
 /* ==========================================================================
    FENCE FRAMES — PUBLIC LANDING PAGE
    "Green Print" theme — light tan drafting-paper page.
-   Grid lock: major 100px, minor 25px (quarters at 25/50/75). Content max 1200px
-   (exactly 12 majors) so both edges sit on majors when margin is major-snapped.
+   Grid lock: solid green majors @ 100px; segmented ember minors @ 50s only (no overlap).
+   Content max 1200px (12 majors).
    Brand tokens: Rowdies/Inter, Forest #1b4332, Tan #9d8068, Cream #f4efe8 —
    see FenceBook/docs/handbook/02-brand-and-domains.md
    ========================================================================== */
@@ -24,16 +24,27 @@
   --green-glow: rgba(47, 122, 85, 0.22);
 
   /*
-    Grid lock (page origin 0,0 — do not nudge elements onto lines):
-    major every 100px; minors at 25 / 50 / 75 within each square.
+    Grid lock (page origin 0,0 — do not nudge the grid to fit boxes):
+    major every 100px; minor every 50px (no 25/75 quarters).
     1200px content = exactly 12 majors → left & right edges on majors.
   */
+  /*
+    Grid lock (page origin 0,0):
+    major every 100px — solid green only on those lines.
+    minor only at 50s within each square — segmented ember orange (same as “Fence”).
+    No overlap: minors are not drawn on major coordinates.
+  */
   --grid-major: 100px;
-  --grid-minor: 25px;
+  --grid-minor: 50px;
   --grid-half: 50px;
-  --green-line: rgba(18, 48, 31, 0.28);
-  --green-line-major: rgba(20, 16, 12, 0.34);
+  --green-line: var(--ember); /* minor dash color = Fence highlight */
+  --green-line-major: var(--forest); /* darker solid green majors */
   --green-line-strong: rgba(20, 16, 12, 0.55);
+  /*
+    100×100 tile: ember minors at midlines only.
+    Solid crosshair core at center (segments meet), then dashed arms outward.
+  */
+  --grid-minor-dash: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath d='M38 50.5 H62' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-linecap='butt'/%3E%3Cpath d='M50.5 38 V62' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-linecap='butt'/%3E%3Cpath d='M38 50.5 H0' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-dasharray='12 12' stroke-linecap='butt'/%3E%3Cpath d='M62 50.5 H100' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-dasharray='12 12' stroke-linecap='butt'/%3E%3Cpath d='M50.5 38 V0' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-dasharray='12 12' stroke-linecap='butt'/%3E%3Cpath d='M50.5 62 V100' fill='none' stroke='%23c2622d' stroke-width='1.15' stroke-dasharray='12 12' stroke-linecap='butt'/%3E%3C/svg%3E");
 
   /* Warm secondary accents */
   --tan: #8a6f55;
@@ -63,21 +74,19 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   /*
-    Blueprint grid — same top-left origin on every layer so quarter lines
-    coincide with majors (centering each layer independently was offsetting
-    minors by half a tile vs majors).
+    Minors first (ember dashed @ 50s only), then solid green majors @ 100s.
+    Shared 0,0 origin — no double-draw on major coordinates.
   */
   background-image:
-    linear-gradient(var(--green-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--green-line) 1px, transparent 1px),
+    var(--grid-minor-dash),
     linear-gradient(var(--green-line-major) 1px, transparent 1px),
     linear-gradient(90deg, var(--green-line-major) 1px, transparent 1px);
   background-size:
-    var(--grid-minor) var(--grid-minor),
-    var(--grid-minor) var(--grid-minor),
+    var(--grid-major) var(--grid-major),
     var(--grid-major) var(--grid-major),
     var(--grid-major) var(--grid-major);
   background-position: 0 0;
+  background-repeat: repeat;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -191,37 +200,87 @@ button { font-family: inherit; }
 header.nav {
   position: sticky; top: 0; z-index: 50;
   background: var(--forest-deep);
-  /* Rule sits inside the 100px nav band so main content can start on a major */
-  box-shadow: inset 0 -6px 0 #0a0a0a;
+  /* Thin ember rule inside the 50px nav band */
+  box-shadow: inset 0 -2px 0 var(--ember);
   border-bottom: none;
 }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; height: var(--grid-major); gap: var(--grid-half); }
-.brand { display: flex; align-items: center; gap: 12px; flex: none; }
-.brand .mark { width: 34px; height: 34px; flex: none; position: relative; }
+.nav-inner {
+  display: flex; align-items: center;
+  height: var(--grid-half); /* 50px — top minor band */
+  gap: 16px;
+}
+/* Brand block — solid black plate over roughly the first quarter of the bar */
+.brand {
+  display: flex; align-items: center; gap: 8px; flex: 0 0 25%;
+  height: 100%; background: #000; padding: 0 16px; box-sizing: border-box;
+  min-width: fit-content;
+}
+.brand .mark { width: 26px; height: 26px; flex: none; position: relative; }
 .brand .mark svg { width: 100%; height: 100%; }
-.brand .name { font-family: 'Rowdies', sans-serif; font-size: 19px; color: var(--cream); letter-spacing: 0.02em; }
-.brand .name .fr { color: #86e0b4; }
+.brand .name { font-family: 'Rowdies', sans-serif; font-size: 16px; letter-spacing: 0.02em; }
+.brand .name .nav-fence { color: var(--green-bright); }
+.brand .name .nav-frames { color: var(--ember-bright); }
+.brand .home-ico { width: 15px; height: 15px; flex: none; color: rgba(244, 239, 232, 0.8); margin-left: 2px; }
+.brand .home-ico svg { width: 100%; height: 100%; }
+.brand:hover .home-ico { color: var(--cream); }
 
-.nav-links { display: flex; align-items: center; gap: 30px; flex: 1; justify-content: center; }
-.nav-links a { position: relative; font-size: 14px; font-weight: 500; color: rgba(244,239,232,0.78); transition: color .2s, opacity .2s; padding: 4px 0; }
-.nav-links a::after { content:""; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:#86e0b4; transition: width .2s ease; }
-.nav-links a:hover { color: var(--cream); }
-.nav-links a:hover::after { width: 100%; }
+/* Nav buttons — black fill, ember outline; selected/current = ember fill, black text */
+.nav-links { display: flex; align-items: center; gap: 8px; flex: 1; }
+.nav-group { display: flex; align-items: center; gap: 8px; }
+.nav-group--right { margin-left: auto; }
+.nav-links a {
+  position: relative;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ember-bright);
+  background: #000;
+  border: 1.5px solid var(--ember);
+  border-radius: 5px;
+  padding: 7px 16px;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: #000;
+  background: var(--ember);
+  border-color: var(--ember-bright);
+}
 
-.nav-actions { display: flex; align-items: center; gap: 14px; flex: none; }
-.nav-toggle { display:none; background:none; border:1px solid rgba(134,224,180,0.4); border-radius: var(--radius); width:40px; height:40px; align-items:center; justify-content:center; color: var(--cream); }
-.nav-toggle svg { width:20px; height:20px; }
+.nav-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+.nav-auth {
+  font-family: 'Rowdies', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  border-radius: 5px;
+  padding: 7px 14px;
+  border: 1.5px solid var(--ember);
+  transition: background .15s ease, color .15s ease;
+}
+.nav-auth--signup { background: var(--ember); color: #000; font-weight: 700; }
+.nav-auth--signup:hover { background: var(--ember-bright); }
+.nav-auth--login { background: #000; color: var(--ember-bright); }
+.nav-auth--login:hover { background: var(--ember); color: #000; }
+
+.nav-toggle { display:none; background:none; border:1px solid rgba(134,224,180,0.4); border-radius: var(--radius); width:34px; height:34px; align-items:center; justify-content:center; color: var(--cream); }
+.nav-toggle svg { width:18px; height:18px; }
 
 @media (max-width: 860px){
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
   .nav-links.mobile-open {
-    display: flex; position: absolute; top: var(--grid-major); left: 0; right: 0;
-    flex-direction: column; align-items: flex-start; gap: 0;
-    background: var(--forest-deep); box-shadow: inset 0 -6px 0 #0a0a0a;
-    padding: 8px 24px 18px;
+    display: flex; position: absolute; top: var(--grid-half); left: 0; right: 0;
+    flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px;
+    background: var(--forest-deep); box-shadow: inset 0 -2px 0 var(--ember);
+    padding: 14px 24px 18px;
   }
-  .nav-links.mobile-open a { width: 100%; padding: 12px 0; border-bottom: 1px solid rgba(134,224,180,0.18); color: rgba(244,239,232,0.85); }
+  .nav-links.mobile-open .nav-group { display: contents; }
+}
+@media (max-width: 640px) {
+  .brand { flex-basis: auto; }
+  .nav-auth--login { display: none; }
 }
 
 /* ---------------- SECTION 1 — HERO fused with FIND · FRAME · FENCE ---------------- */
@@ -237,32 +296,63 @@ header.nav {
 }
 .hero .tagline .pipe { color: var(--green); font-weight: 400; }
 
-/* Headline frame — black inked sheet; full column width (grid is fixed — no nudge) */
+/* Headline frame — black inked sheet; full column width */
 .frame {
   position: relative;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
-  padding: var(--grid-half) var(--grid-major);
-  border: 1px solid rgba(134, 224, 180, 0.35);
+  padding: calc(var(--grid-major) * 0.4) var(--grid-half) calc(var(--grid-major) * 0.3);
+  border: 1.5px solid #5fbf8f;
   background: #000;
 }
 .frame .corner { width: 18px; height: 18px; }
 .frame .corner::before, .frame .corner::after { background: #86e0b4; }
-.frame .sheet-no {
-  position: absolute; top: -10px; left: var(--grid-half);
-  background: #000;
-  padding: 0 8px; font-size: 10.5px; letter-spacing: 0.18em; color: #86e0b4;
-  text-transform: uppercase;
-}
 
 .hero h1 { font-size: clamp(36px, 5vw, 58px); color: var(--forest); }
-.hero .frame h1 { color: var(--cream); }
-@media (min-width: 561px) {
-  /* Keep “Find it. Frame it.” on one line; <br> still breaks before Fence */
-  .hero .frame h1 { white-space: nowrap; }
+
+/* Explainer copy inside the frame — Rowdies Light body, step verbs pop large
+   and walk left → middle → right across the box as you read down. */
+.frame-copy {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  color: rgba(244, 239, 232, 0.76);
+  font-size: 17px;
+  line-height: 1.7;
 }
-.hero h1 .em { color: var(--ember); }
+.frame-intro {
+  margin: 0 0 22px;
+  color: rgba(244, 239, 232, 0.9);
+  font-size: 18px;
+  max-width: 58ch;
+}
+.brand-word { font-weight: 700; font-size: 1.15em; }
+.brand-fence { color: var(--green-bright); }
+.brand-frames { color: var(--ember-bright); }
+.step-line { margin: 6px 0 22px; max-width: 54ch; }
+.step-line:last-child { margin-bottom: 0; }
+/* Left word/paragraph stay flush left; center + right pairs mirror it */
+.step-line--left { margin-left: 0; margin-right: auto; text-align: left; }
+.step-line--center { margin-left: auto; margin-right: auto; text-align: center; }
+.step-line--right { margin-left: auto; margin-right: 0; text-align: right; }
+
+.step-word {
+  display: block;
+  width: fit-content;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+  font-size: clamp(26px, 3.2vw, 38px);
+}
+.step-find { color: var(--cream); margin-left: 0; margin-right: auto; }
+.step-frame { color: var(--ember-bright); margin-left: auto; margin-right: auto; }
+.step-fence { color: var(--green-bright); margin-left: auto; margin-right: 0; }
+
+@media (max-width: 560px) {
+  .frame-intro { font-size: 15.5px; }
+  .step-line { font-size: 15px; max-width: 34ch; }
+  .step-word { font-size: clamp(24px, 8vw, 30px); }
+}
 .hero h1 .grn { color: var(--green); }
 .hero p.lead { font-size: 16.5px; color: var(--ink-muted); margin-top: 20px; max-width: 48ch; }
 
@@ -270,13 +360,32 @@ header.nav {
 .ffs-row { display: flex; flex-wrap: wrap; gap: 14px 22px; margin-top: 30px; }
 .ffs-item {
   display: flex; gap: 12px; align-items: flex-start; max-width: 230px;
-  padding: 14px 16px 14px 14px; border-left: 2px solid var(--green);
-  background: rgba(244, 239, 232, 0.72);
+  padding: 14px 16px 14px 14px;
+  background: rgba(244, 239, 232, 0.85);
   border: 1px solid var(--green-line-major);
-  border-left-width: 2px; border-left-color: var(--green);
+  border-left-width: 3px; border-left-color: var(--green);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.ffs-item .num { font-family:'Rowdies',sans-serif; font-weight:300; font-size: 11px; color: var(--tan); letter-spacing: 0.14em; flex: none; padding-top: 2px; }
-.ffs-item .word { font-family:'Rowdies',sans-serif; font-size: 15px; display:block; margin-bottom: 2px; }
+.ffs-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(27, 67, 50, 0.08); }
+.ffs-item:nth-child(2) { border-left-color: var(--ember); }
+.ffs-item .icon-wrap {
+  flex: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.ffs-item .icon-wrap.img-mode {
+  width: 48px; height: 48px; border-radius: 6px; overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12); border: 1.5px solid rgba(27,67,50,0.22);
+}
+.ffs-item .icon-wrap.img-mode img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.ffs-item:nth-child(1) .icon-wrap { color: var(--green); }
+.ffs-item:nth-child(2) .icon-wrap { color: var(--ember); }
+.ffs-item:nth-child(3) .icon-wrap { color: var(--green-bright); }
+.ffs-hdr { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+.ffs-item .num { font-family:'Rowdies',sans-serif; font-weight:300; font-size: 11px; color: var(--tan); letter-spacing: 0.14em; flex: none; }
+.ffs-item .word { font-family:'Rowdies',sans-serif; font-size: 15px; display:inline-block; }
 .ffs-item:nth-child(1) .word { color: var(--green); }
 .ffs-item:nth-child(2) .word { color: var(--ember); }
 .ffs-item:nth-child(3) .word { color: var(--green); }
@@ -453,4 +562,66 @@ footer ul a:hover { opacity: 1; color: #86e0b4; }
 @media (prefers-reduced-motion: reduce){
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .draw { animation: none; }
+}
+
+/* ==========================================================================
+   TEMP grid rulers — build callouts only. Remove with initTempGridRulers().
+   ========================================================================== */
+.temp-grid-rulers {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  z-index: 80;
+}
+.temp-grid-x {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background: rgba(27, 67, 50, 0.88);
+  border-bottom: 1px solid rgba(194, 98, 45, 0.7);
+  z-index: 80;
+}
+.temp-grid-mark {
+  position: absolute;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  color: #86e0b4;
+  white-space: nowrap;
+}
+.temp-grid-mark--x {
+  top: 4px;
+  transform: translateX(-50%);
+}
+.temp-grid-mark--x.temp-grid-mark--edge {
+  color: #c2622d;
+}
+.temp-grid-y {
+  position: absolute;
+  top: 0;
+  width: 0;
+  z-index: 70;
+}
+.temp-grid-y--left .temp-grid-mark--y {
+  right: 4px;
+  transform: translate(-100%, -50%);
+  color: #c2622d;
+}
+.temp-grid-y--right .temp-grid-mark--y {
+  left: 4px;
+  transform: translateY(-50%);
+  color: #c2622d;
+}
+.temp-grid-mark--y {
+  font-size: 9px;
+  font-weight: 600;
+  color: #1b4332;
+  background: rgba(226, 210, 184, 0.85);
+  padding: 1px 3px;
+  border-radius: 2px;
 }
