@@ -7,7 +7,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // State
-  let components = [];
+  let components = null;
   let currentIndex = 0;
   let currentFilter = 'pending';
   let viewMode = 'v2';
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnResetCache) {
     btnResetCache.addEventListener('click', async () => {
-      if (confirm('Reload fresh component manifest batch from disk? This will reset active storage.')) {
+      if (confirm('Reload default component manifest batch from disk?')) {
         localStorage.removeItem('ff_qc_review_state');
         await loadManifestData();
         currentFilter = 'pending';
@@ -141,13 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIndex = 0;
         renderSlide();
         updateStats();
-        alert(`Successfully reloaded ${components.length} components into active queue!`);
+        alert(`Successfully loaded default manifest batch with ${components.length} components!`);
       }
     });
   }
 
   if (btnDisapproveBatch) {
     btnDisapproveBatch.addEventListener('click', () => {
+      if (!components || components.length === 0) return;
       if (confirm('Reject & Disprove ALL pending components in this batch at once?')) {
         components.forEach(comp => {
           if (comp.status === 'pending') {
@@ -174,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnKillBatch) {
     btnKillBatch.addEventListener('click', () => {
       if (confirm('⚠️ PERMANENTLY PURGE/KILL active batch from workspace without exporting?')) {
-        localStorage.removeItem('ff_qc_review_state');
+        localStorage.setItem('ff_qc_review_state', '[]');
         components = [];
         currentIndex = 0;
         renderSlide();
@@ -191,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {
       if (typeof embeddedComponents !== 'undefined' && Array.isArray(embeddedComponents)) {
         components = JSON.parse(JSON.stringify(embeddedComponents));
+      } else {
+        components = [];
       }
     }
     saveState();
@@ -198,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function initApp() {
     const saved = localStorage.getItem('ff_qc_review_state');
-    if (saved) {
+    if (saved !== null) {
       try {
         components = JSON.parse(saved);
       } catch(e) {
@@ -208,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
       await loadManifestData();
     }
 
-    if (!components) {
+    if (components === null) {
       components = [];
     }
 
@@ -219,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getFilteredComponents() {
+    if (!components || components.length === 0) return [];
     if (currentFilter === 'all') return components;
     if (currentFilter === 'pending') return components.filter(c => c.status === 'pending');
     if (currentFilter === 'accepted') return components.filter(c => c.status === 'accepted');
@@ -232,40 +236,57 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderSlide() {
-    const list = getFilteredComponents();
-    
-    if (list.length === 0) {
-      const totalDecided = components.filter(c => c.status !== 'pending').length;
-      elCompId.textContent = components.length === 0 ? 'NO BATCH' : 'QUEUE EMPTY';
-      elCompName.textContent = components.length === 0 ? 'No Active Batch Loaded' : (currentFilter === 'pending' && totalDecided > 0 ? '🎉 All Queue Items Reviewed!' : 'No Components Match Filter');
+    if (!components || components.length === 0) {
+      elCompId.textContent = 'NO BATCH';
+      elCompName.textContent = 'No Active Batch Loaded';
       elCompCategory.textContent = '-';
       elCompLine.textContent = '-';
       elCompVersion.textContent = '-';
 
-      if (components.length === 0) {
-        svgContainer.innerHTML = `
-          <div style="color:var(--text-primary); padding:40px; text-align:center;">
-            <div style="font-size:48px; margin-bottom:12px;">📥</div>
-            <h3 style="color:var(--accent-cyan); margin-bottom:8px;">Ready for Next Batch Inflow</h3>
-            <p style="color:var(--text-secondary); font-size:13px; max-width:400px; margin:0 auto 16px;">
-              Drag & Drop a new JSON batch file anywhere, click <strong>"Inflow"</strong> to paste batch JSON, or click <strong>"Reload [R]"</strong> to reload original manifest.
-            </p>
-            <button onclick="document.getElementById('btnPasteInflow').click()" class="btn btn-primary" style="padding:10px 20px; font-size:13px;">📥 Inflow Next Batch</button>
+      svgContainer.innerHTML = `
+        <div style="color:var(--text-primary); padding:40px; text-align:center;">
+          <div style="font-size:56px; margin-bottom:14px;">📥</div>
+          <h3 style="color:var(--accent-cyan); font-size:22px; margin-bottom:10px;">Workspace Clear — Ready for Next Batch</h3>
+          <p style="color:var(--text-secondary); font-size:13px; max-width:440px; margin:0 auto 20px; line-height:1.5;">
+            Paste or drag & drop a new JSON batch file below to review your next set of components!
+          </p>
+          <div style="display:flex; justify-content:center; gap:12px;">
+            <button onclick="document.getElementById('btnPasteInflow').click()" class="btn btn-primary" style="padding:10px 20px; font-size:13px;">📥 Inflow Next Batch (JSON)</button>
+            <button onclick="document.getElementById('btnResetCache').click()" class="btn btn-secondary" style="padding:10px 20px; font-size:13px;">🔄 Reload Default Manifest</button>
           </div>
-        `;
-      } else if (currentFilter === 'pending' && totalDecided > 0) {
+        </div>
+      `;
+
+      elCurrentSlideNum.textContent = '0';
+      elTotalSlideNum.textContent = '0';
+      clearCanvas();
+      renderCarousel();
+      return;
+    }
+
+    const list = getFilteredComponents();
+    
+    if (list.length === 0) {
+      const totalDecided = components.filter(c => c.status !== 'pending').length;
+      elCompId.textContent = 'QUEUE EMPTY';
+      elCompName.textContent = currentFilter === 'pending' && totalDecided > 0 ? '🎉 All Queue Items Reviewed!' : 'No Components Match Filter';
+      elCompCategory.textContent = '-';
+      elCompLine.textContent = '-';
+      elCompVersion.textContent = '-';
+
+      if (currentFilter === 'pending' && totalDecided > 0) {
         svgContainer.innerHTML = `
           <div style="color:var(--text-primary); padding:40px; text-align:center;">
             <div style="font-size:48px; margin-bottom:12px;">🎉</div>
             <h3 style="color:var(--accent-cyan); margin-bottom:8px;">All Items in Active Batch Reviewed!</h3>
             <p style="color:var(--text-secondary); font-size:13px; max-width:420px; margin:0 auto 16px;">
-              Click <strong>"🚢 Ship & Archive Batch [S]"</strong> to export AI repair prompt and archive this batch so your workspace clears for the next batch!
+              Click <strong>"🚢 Ship & Archive Batch [S]"</strong> to export AI repair prompt and clear workspace for your next batch!
             </p>
             <button onclick="window.openShipAllModal()" class="btn btn-ai-prompt" style="padding:10px 20px; font-size:14px;">🚢 Ship & Archive Batch [S]</button>
           </div>
         `;
       } else {
-        svgContainer.innerHTML = '<div style="color:var(--text-muted); padding:40px; text-align:center;">No component slides in this view. Change Filter dropdown or Reload Fresh Batch.</div>';
+        svgContainer.innerHTML = '<div style="color:var(--text-muted); padding:40px; text-align:center;">No component slides in this view. Change Filter dropdown or Inflow next batch.</div>';
       }
 
       elCurrentSlideNum.textContent = '0';
@@ -493,7 +514,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function saveState() {
-    localStorage.setItem('ff_qc_review_state', JSON.stringify(components));
+    if (components !== null) {
+      localStorage.setItem('ff_qc_review_state', JSON.stringify(components));
+    }
   }
 
   function archiveAndClearBatch() {
@@ -503,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
       items: components
     });
     localStorage.setItem('ff_qc_archived_batches', JSON.stringify(history));
-    localStorage.removeItem('ff_qc_review_state');
+    localStorage.setItem('ff_qc_review_state', '[]');
     components = [];
     currentIndex = 0;
     renderSlide();
@@ -511,6 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateStats() {
+    if (!components) components = [];
     const total = components.length;
     const accepted = components.filter(c => c.status === 'accepted').length;
     const needsWork = components.filter(c => c.status === 'needs_work').length;
@@ -526,6 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderCarousel() {
     const list = getFilteredComponents();
     carouselStrip.innerHTML = '';
+
+    if (!list || list.length === 0) return;
 
     list.forEach((comp, idx) => {
       const card = document.createElement('div');
@@ -681,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.execCommand('copy');
         archiveAndClearBatch();
         exportModal.classList.remove('active');
-        alert('🚢 Outflow Decision Package copied! Batch archived and cleared for next inflow batch.');
+        alert('🚢 Outflow Decision Package copied! Batch archived and workspace cleared for next batch.');
       });
     }
     if (btnDownloadMarkdown) {
@@ -689,13 +715,14 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadMarkdownReport();
         archiveAndClearBatch();
         exportModal.classList.remove('active');
-        alert('🚢 Outflow Decision Package downloaded! Batch archived and cleared for next inflow batch.');
+        alert('🚢 Outflow Decision Package downloaded! Batch archived and workspace cleared for next batch.');
       });
     }
   }
 
   // Ship All Decisions Outflow Package Modal
   window.openShipAllModal = function openShipAllModal() {
+    if (!components || components.length === 0) return;
     const accepted = components.filter(c => c.status === 'accepted');
     const needsWork = components.filter(c => c.status === 'needs_work');
     const scrapped = components.filter(c => c.status === 'scrapped');
@@ -745,6 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function exportJSONState() {
+    if (!components || components.length === 0) return;
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(components, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);

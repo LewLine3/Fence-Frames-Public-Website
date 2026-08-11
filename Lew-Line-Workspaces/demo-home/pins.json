@@ -1,8 +1,29 @@
 {
-  "updated": "2026-08-07",
+  "updated": "2026-08-08",
   "maxPins": 20,
   "note": "Fence Frames Development Hub pins. Agent and user managed.",
   "pins": [
+    {
+      "title": "Terminal Command Storage Hub",
+      "meta": "Official 1-click copy powershell 1-liners, 7-repo sync, brain harvesters, & git fixes",
+      "href": "../tools/command-storage/index.html",
+      "permanent": true,
+      "added": "2026-08-08"
+    },
+    {
+      "title": "Questionnaire 01: Open Questions",
+      "meta": "7 open strategic decisions requiring explicit choices & guardrails",
+      "href": "../Obsidian/Fence%20Frames/Questionnaire-01-Open-Questions.md",
+      "permanent": true,
+      "added": "2026-08-08"
+    },
+    {
+      "title": "Questionnaire 02: Uncodified Decisions",
+      "meta": "7 verified decisions ready for handbook codification",
+      "href": "../Obsidian/Fence%20Frames/Questionnaire-02-Uncodified-Decisions.md",
+      "permanent": true,
+      "added": "2026-08-08"
+    },
     {
       "title": "Fence Frames Live App (Vite)",
       "meta": "Detail Wizard · 3-Seat Scramble · Quote Engine · 1-Page ARC Sheet",
@@ -11,9 +32,16 @@
       "added": "2026-08-07"
     },
     {
+      "title": "Website Progress Tracker",
+      "meta": "Master route matrix & Plan vs Demo vs Staging status",
+      "href": "../Obsidian/Fence%20Frames/Website-Progress-Tracker.md",
+      "permanent": true,
+      "added": "2026-08-07"
+    },
+    {
       "title": "Master Implementation Plan",
       "meta": "Locked Handbook specs vs proposal comparison document",
-      "href": "../.gemini/antigravity/brain/776de95e-e53d-43a6-a915-73ff0cc6b38a/implementation_plan.md",
+      "href": "../Obsidian/Fence%20Frames/Implementation-Plan-Path-B.md",
       "permanent": true,
       "added": "2026-08-07"
     },
@@ -36,41 +64,6 @@
       "meta": "Rowdies trio typography & Forest / Tan palette variables",
       "href": "../Design/FenceBook/wix-pages/tokens/ff-marketing-tokens.css",
       "permanent": true,
-      "added": "2026-08-07"
-    },
-    {
-      "title": "Visual Design Mockups Gallery",
-      "meta": "8 JPG mockups: Wizard, Blueprint Stamp, Ledger & Cut-List",
-      "href": "../FenceBook/docs/design-mockups/guided_wizard_mockup_1785429435623.jpg",
-      "permanent": true,
-      "added": "2026-08-07"
-    },
-    {
-      "title": "Si View Pitch · 01 Configurator",
-      "meta": "PNG snapshot · Heritage cedar VPF layout",
-      "href": "../Design/FenceBook/templates/hoa-pitch/si-view/01-configurator.html",
-      "permanent": true,
-      "added": "2026-07-23"
-    },
-    {
-      "title": "Si View Pitch · 02 Blueprint",
-      "meta": "PNG snapshot · Component schedule & rule summary",
-      "href": "../Design/FenceBook/templates/hoa-pitch/si-view/02-blueprint.html",
-      "permanent": true,
-      "added": "2026-07-23"
-    },
-    {
-      "title": "Component Encyclopedia Framework",
-      "meta": "Metrics spine · slot → component → SKU",
-      "href": "../FenceBook/docs/component-encyclopedia-framework.md",
-      "permanent": true,
-      "added": "2026-07-20"
-    },
-    {
-      "title": "City Dynamic Template",
-      "meta": "Studio item page spec & community repeater logic",
-      "href": "../Fence-Frames-Wix-Site/docs/page-templates/City.template.js",
-      "permanent": false,
       "added": "2026-08-07"
     }
   ]
