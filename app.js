@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initNavSpy();
   initGridLock();
-  initTempGridRulers(); // TEMP — building callouts; remove before ship
 });
 
 /**
@@ -211,79 +210,3 @@ function initGridLock() {
   });
 }
 
-/**
- * TEMP grid rulers — numbers for build callouts.
- * Horizontal strip under the header (content 0…1200).
- * Vertical strips just outside content left (0) and right (1200).
- * Delete initTempGridRulers + .temp-grid-* CSS before ship.
- */
-function initTempGridRulers() {
-  const MAJOR = 100;
-  const MAXW = 1200;
-
-  let root = document.getElementById('temp-grid-rulers');
-  if (!root) {
-    root = document.createElement('div');
-    root.id = 'temp-grid-rulers';
-    root.className = 'temp-grid-rulers';
-    root.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(root);
-  }
-
-  function paint() {
-    const wrap = document.querySelector('main .wrap') || document.querySelector('.wrap');
-    if (!wrap) return;
-
-    const wr = wrap.getBoundingClientRect();
-    const wrapLeft = wr.left + window.scrollX;
-    const wrapTop = 0; // page Y origin
-    const pageH = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-
-    const nav = document.querySelector('header.nav');
-    const navH = nav ? nav.getBoundingClientRect().height : MAJOR;
-
-    let html = '';
-
-    // Horizontal ruler under header — content-local X (0 … 1200)
-    html += `<div class="temp-grid-x" style="top:${navH}px">`;
-    for (let x = 0; x <= MAXW; x += MAJOR) {
-      const left = wrapLeft + x - window.scrollX;
-      const strong = x === 0 || x === MAXW ? ' temp-grid-mark--edge' : '';
-      html += `<span class="temp-grid-mark temp-grid-mark--x${strong}" style="left:${left}px">${x}</span>`;
-    }
-    html += `</div>`;
-
-    // Vertical rulers just outside content 0 and 1200 (document X)
-    const yMax = Math.ceil(pageH / MAJOR) * MAJOR;
-    const leftRail = wrapLeft - 2;
-    const rightRail = wrapLeft + MAXW + 2;
-
-    html += `<div class="temp-grid-y temp-grid-y--left" style="left:${leftRail}px;height:${pageH}px">`;
-    for (let y = 0; y <= yMax; y += MAJOR) {
-      html += `<span class="temp-grid-mark temp-grid-mark--y" style="top:${y}px">${y}</span>`;
-    }
-    html += `</div>`;
-
-    html += `<div class="temp-grid-y temp-grid-y--right" style="left:${rightRail}px;height:${pageH}px">`;
-    for (let y = 0; y <= yMax; y += MAJOR) {
-      html += `<span class="temp-grid-mark temp-grid-mark--y" style="top:${y}px">${y}</span>`;
-    }
-    html += `</div>`;
-
-    root.innerHTML = html;
-  }
-
-  paint();
-  window.addEventListener('resize', paint);
-  window.addEventListener('scroll', () => {
-    // Keep X marks under header aligned to wrap as it stays (wrap doesn't move on scroll X)
-    // Y rails are document-absolute; only need repaint if height changes — skip per-scroll
-  }, { passive: true });
-  window.addEventListener('load', paint);
-  // After grid-lock may shift wrap slightly
-  setTimeout(paint, 200);
-  setTimeout(paint, 600);
-}

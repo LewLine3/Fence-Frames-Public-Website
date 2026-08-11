@@ -209,20 +209,28 @@ header.nav {
   height: var(--grid-half); /* 50px — top minor band */
   gap: 16px;
 }
-/* Brand block — solid black plate over roughly the first quarter of the bar */
+/* Brand block — solid black plate, bled past the viewport's left edge,
+   hugging its own content and closing with an ember rule bottom+right. */
 .brand {
-  display: flex; align-items: center; gap: 8px; flex: 0 0 25%;
-  height: 100%; background: #000; padding: 0 16px; box-sizing: border-box;
-  min-width: fit-content;
+  position: relative;
+  display: flex; align-items: center; gap: 8px; flex: none;
+  height: 100%; padding: 0 16px; box-sizing: border-box;
 }
-.brand .mark { width: 26px; height: 26px; flex: none; position: relative; }
-.brand .mark svg { width: 100%; height: 100%; }
-.brand .name { font-family: 'Rowdies', sans-serif; font-size: 16px; letter-spacing: 0.02em; }
+.brand::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; right: 0; left: -100vw;
+  background: #000;
+  border-right: 1.5px solid var(--ember);
+  border-bottom: 1.5px solid var(--ember);
+}
+.brand .name { position: relative; font-family: 'Rowdies', sans-serif; font-size: 16px; letter-spacing: 0.02em; }
 .brand .name .nav-fence { color: var(--green-bright); }
 .brand .name .nav-frames { color: var(--ember-bright); }
-.brand .home-ico { width: 15px; height: 15px; flex: none; color: rgba(244, 239, 232, 0.8); margin-left: 2px; }
-.brand .home-ico svg { width: 100%; height: 100%; }
-.brand:hover .home-ico { color: var(--cream); }
+.brand .home-ico { position: relative; width: 26px; height: 26px; flex: none; margin-left: 2px; display: flex; align-items: center; }
+.brand .home-ico svg { width: 100%; height: 100%; display: block; }
+.fi-fence, .fi-rail { stroke: var(--ember-bright); }
+.fi-grass { stroke: var(--green-bright); }
 
 /* Nav buttons — black fill, ember outline; selected/current = ember fill, black text */
 .nav-links { display: flex; align-items: center; gap: 8px; flex: 1; }
@@ -247,6 +255,9 @@ header.nav {
   background: var(--ember);
   border-color: var(--ember-bright);
 }
+
+/* Separates the page-section pills from the account actions */
+.nav-divider { width: 1.5px; height: 22px; background: rgba(134, 224, 180, 0.4); flex: none; }
 
 .nav-actions { display: flex; align-items: center; gap: 8px; flex: none; }
 .nav-auth {
@@ -279,7 +290,6 @@ header.nav {
   .nav-links.mobile-open .nav-group { display: contents; }
 }
 @media (max-width: 640px) {
-  .brand { flex-basis: auto; }
   .nav-auth--login { display: none; }
 }
 
@@ -564,64 +574,3 @@ footer ul a:hover { opacity: 1; color: #86e0b4; }
   .draw { animation: none; }
 }
 
-/* ==========================================================================
-   TEMP grid rulers — build callouts only. Remove with initTempGridRulers().
-   ========================================================================== */
-.temp-grid-rulers {
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 0;
-  z-index: 80;
-}
-.temp-grid-x {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 18px;
-  background: rgba(27, 67, 50, 0.88);
-  border-bottom: 1px solid rgba(194, 98, 45, 0.7);
-  z-index: 80;
-}
-.temp-grid-mark {
-  position: absolute;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 9px;
-  font-weight: 600;
-  line-height: 1;
-  color: #86e0b4;
-  white-space: nowrap;
-}
-.temp-grid-mark--x {
-  top: 4px;
-  transform: translateX(-50%);
-}
-.temp-grid-mark--x.temp-grid-mark--edge {
-  color: #c2622d;
-}
-.temp-grid-y {
-  position: absolute;
-  top: 0;
-  width: 0;
-  z-index: 70;
-}
-.temp-grid-y--left .temp-grid-mark--y {
-  right: 4px;
-  transform: translate(-100%, -50%);
-  color: #c2622d;
-}
-.temp-grid-y--right .temp-grid-mark--y {
-  left: 4px;
-  transform: translateY(-50%);
-  color: #c2622d;
-}
-.temp-grid-mark--y {
-  font-size: 9px;
-  font-weight: 600;
-  color: #1b4332;
-  background: rgba(226, 210, 184, 0.85);
-  padding: 1px 3px;
-  border-radius: 2px;
-}
