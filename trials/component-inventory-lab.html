@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Component Inventory &amp; Graduation Lab</title>
+  <title>Fence Frames — Component Inventory &amp; Pattern Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -131,6 +131,27 @@
       color: #1A1A1A;
       font-weight: 700;
     }
+
+    /* ==========================================================================
+       UNIVERSAL OPTIONAL TITLE BAR SYSTEM (Contrasting Color Options)
+       ========================================================================== */
+    .card-title-bar {
+      padding: 0.55rem 0.9rem;
+      border-radius: 2px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.95rem;
+      margin: -1.5rem -1.5rem 1rem -1.5rem;
+      border-bottom: 2px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.02em;
+    }
+    .title-green { background: var(--forest-deep); color: #FAF6EE; }
+    .title-black { background: var(--ink); color: var(--gold); }
+    .title-orange { background: var(--ember); color: #FAF6EE; }
+    .title-tan { background: #E8DCC8; color: var(--forest-deep); }
+    .title-gold { background: var(--gold); color: var(--ink); }
 
     /* ==========================================================================
        CORRECTED OUTSIDE CORNER CROP MARKS (CONTAINER = LONG / OUTSIDE = SHORT)
@@ -263,84 +284,78 @@
     }
 
     /* --------------------------------------------------------------------------
-       NEW PATTERN EXPLORATIONS (DIAGONAL HATCH, HORIZONTAL SLATS, MAJOR-ONLY)
+       BRAND NEW PATTERN EXPLORATIONS (DIAMOND, DOT MATRIX, CHEVRON, VERTICAL)
        -------------------------------------------------------------------------- */
 
-    /* 1. DIAGONAL HATCH PATTERN (45° Drafting Crosshatch on Cream / Forest / Gold) */
-    .card-diagonal-hatch-cream {
+    /* 1. ISOMETRIC 60° DIAMOND DRAFTING GRID */
+    .card-isodiamond-cream {
       background-color: #FAF6EE;
-      background-image: repeating-linear-gradient(45deg, rgba(22, 67, 45, 0.10) 0px, rgba(22, 67, 45, 0.10) 1.5px, transparent 1.5px, transparent 10px);
+      background-image:
+        linear-gradient(60deg, rgba(22, 67, 45, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(-60deg, rgba(22, 67, 45, 0.12) 1.5px, transparent 1.5px);
+      background-size: 24px 42px;
       color: var(--ink);
     }
-    .card-diagonal-hatch-forest {
-      background-color: #1B4332;
-      background-image: repeating-linear-gradient(45deg, rgba(217, 184, 114, 0.15) 0px, rgba(217, 184, 114, 0.15) 1.5px, transparent 1.5px, transparent 12px);
-      color: #FAF6EE;
-    }
-    .card-diagonal-hatch-gold {
+    .card-isodiamond-gold {
       background-color: #D9B872;
-      background-image: repeating-linear-gradient(-45deg, rgba(26, 26, 26, 0.12) 0px, rgba(26, 26, 26, 0.12) 1.5px, transparent 1.5px, transparent 10px);
+      background-image:
+        linear-gradient(60deg, rgba(26, 26, 26, 0.14) 1.5px, transparent 1.5px),
+        linear-gradient(-60deg, rgba(26, 26, 26, 0.14) 1.5px, transparent 1.5px);
+      background-size: 24px 42px;
       color: var(--ink);
     }
 
-    /* 2. HORIZONTAL RULED SLATS (Varied architectural line weights & spacing) */
-    .card-horizontal-slats-tan {
+    /* 2. ARCHITECTURAL DOT MATRIX / STIPPLE GRID */
+    .card-dotmatrix-tan {
       background-color: #E8DCC8;
-      background-image: repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.12) 0px, rgba(26, 26, 26, 0.12) 1.5px, transparent 1.5px, transparent 14px);
+      background-image: radial-gradient(rgba(26, 26, 26, 0.28) 1.5px, transparent 1.5px);
+      background-size: 18px 18px;
       color: var(--ink);
     }
-    .card-horizontal-pinstripe-cream {
-      background-color: #FAF6EE;
-      background-image: repeating-linear-gradient(0deg, rgba(47, 93, 58, 0.15) 0px, rgba(47, 93, 58, 0.15) 2px, transparent 2px, transparent 24px);
-      color: var(--ink);
-    }
-    .card-horizontal-double-plank {
-      background-color: #D8C7A5;
-      background-image:
-        repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.18) 0px, rgba(26, 26, 26, 0.18) 2px, transparent 2px, transparent 32px),
-        repeating-linear-gradient(0deg, rgba(160, 130, 90, 0.20) 0px, rgba(160, 130, 90, 0.20) 1px, transparent 1px, transparent 8px);
-      color: #1A1A1A;
-    }
-
-    /* 3. MAJOR-ONLY GRID (NO SUBGRID) */
-    .card-major-only-cream {
-      background-color: #FAF6EE;
-      background-image:
-        linear-gradient(rgba(22, 67, 45, 0.22) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(22, 67, 45, 0.22) 2px, transparent 2px);
-      background-size: 50px 50px;
-      color: var(--ink);
-    }
-    .card-major-only-forest {
+    .card-dotmatrix-forest {
       background-color: #16432D;
-      background-image:
-        linear-gradient(rgba(217, 184, 114, 0.25) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(217, 184, 114, 0.25) 2px, transparent 2px);
-      background-size: 60px 60px;
+      background-image: radial-gradient(rgba(217, 184, 114, 0.35) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
       color: #FAF6EE;
     }
-    .card-major-only-tan {
-      background-color: #E8DCC8;
+
+    /* 3. CHEVRON / HERRINGBONE ARCHITECTURAL GRAIN */
+    .card-herringbone-cream {
+      background-color: #FAF6EE;
       background-image:
-        linear-gradient(rgba(26, 26, 26, 0.22) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(26, 26, 26, 0.22) 2px, transparent 2px);
-      background-size: 50px 50px;
+        linear-gradient(135deg, rgba(47, 93, 58, 0.12) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(47, 93, 58, 0.12) 25%, transparent 25%),
+        linear-gradient(315deg, rgba(47, 93, 58, 0.12) 25%, transparent 25%),
+        linear-gradient(45deg, rgba(47, 93, 58, 0.12) 25%, transparent 25%);
+      background-size: 24px 24px;
       color: var(--ink);
     }
 
-    /* Title Headers */
-    .card-title-bar-green {
-      background: var(--forest-deep);
+    /* 4. VERTICAL RULED PICKETS (Vertical Board Slats) */
+    .card-vertical-pickets-tan {
+      background-color: #E8DCC8;
+      background-image: repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.12) 0px, rgba(26, 26, 26, 0.12) 1.5px, transparent 1.5px, transparent 16px);
+      color: var(--ink);
+    }
+
+    /* 5. ENGINEERING MICRO-QUAD GRID (10px Mesh) */
+    .card-microquad-forest {
+      background-color: #1F4A32;
+      background-image:
+        linear-gradient(rgba(250, 246, 238, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(250, 246, 238, 0.10) 1px, transparent 1px);
+      background-size: 10px 10px;
       color: #FAF6EE;
-      padding: 0.55rem 0.9rem;
-      border-radius: 2px;
-      font-family: 'Rowdies', sans-serif;
-      font-size: 1rem;
-      margin: -1.5rem -1.5rem 1rem -1.5rem;
-      border-bottom: 2px solid var(--ink);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    }
+
+    /* 6. RUNNING-BOND ARCHITECTURAL DRAFTING BRICK MESH */
+    .card-running-bond-cream {
+      background-color: #FAF6EE;
+      background-image:
+        linear-gradient(rgba(22, 67, 45, 0.15) 1.5px, transparent 1.5px),
+        repeating-linear-gradient(90deg, rgba(22, 67, 45, 0.12) 0px, rgba(22, 67, 45, 0.12) 1.5px, transparent 1.5px, transparent 32px);
+      background-size: 100% 16px, 64px 32px;
+      color: var(--ink);
     }
 
     .card-h {
@@ -409,11 +424,11 @@
   <header class="inventory-header">
     <div class="wrap header-inner">
       <div>
-        <h1>Fence Frames — Component Inventory &amp; Graduation Lab</h1>
-        <p>Trialing: Diagonal Hatch &middot; Ruled Horizontal Slats &middot; Major-Only Grid (No Subgrid) &middot; Graduated Official Roster at Bottom</p>
+        <h1>Fence Frames — Component Inventory &amp; Pattern Lab</h1>
+        <p>Exploring: Diamond Grid &middot; Dot Matrix &middot; Chevron &middot; Vertical Pickets &middot; Micro-Quad &middot; Universal Title Bar System</p>
       </div>
       <div style="font-family:'Rowdies', sans-serif; font-size:0.85rem; color:var(--gold);">
-        Interactive Selection &amp; Locking Board
+        8 Official Standards Graduated
       </div>
     </div>
   </header>
@@ -421,48 +436,147 @@
   <div class="wrap">
 
     <!-- ====================================================================
-         SECTION 1: DIAGONAL HATCH PATTERN TRIALS (45° Drafting Pinstripes)
+         SECTION 1: NEW ARCHITECTURAL PATTERN TRIALS
          ==================================================================== -->
     <section class="inventory-section">
       <div class="section-title-bar">
-        <h2 class="section-title">1. Diagonal Hatch Pattern Trials (45° Architectural Hatch)</h2>
-        <span class="section-desc">Pinstripe Drafting Textures Breaking Away from Standard Grids</span>
+        <h2 class="section-title">1. New Architectural Pattern Suite (With Optional Title Bars)</h2>
+        <span class="section-desc">Isometric Diamond, Dot Matrix, Chevron &amp; Vertical Slat Pickets</span>
       </div>
 
       <div class="grid-3">
 
-        <!-- Card #10: Diagonal Hatch Cream -->
-        <div class="card-solid card-diagonal-hatch-cream has-outside-corners">
+        <!-- Card #19: Isometric 60° Diamond Grid (Cream) + Green Title Bar -->
+        <div class="card-solid card-isodiamond-cream has-outside-corners">
           <span class="corner-mark-out tl c-forest"></span>
           <span class="corner-mark-out br c-orange"></span>
           
-          <span class="item-badge">[Card #10 — Diagonal Hatch Cream]</span>
-          <div class="card-h">45° Drafting Hatch (Cream)</div>
+          <!-- Optional Title Bar: Green on Cream -->
+          <div class="card-title-bar title-green">
+            <span>Isometric Drafting Mesh</span>
+            <span style="font-size:0.75rem; color:var(--gold);">Option: Green Bar</span>
+          </div>
+
+          <span class="item-badge">[Card #19 — Isodiamond Cream]</span>
+          <div class="card-h">60° Diamond Wireframe</div>
           <p class="card-p">
-            Solid warm cream base with fine 45-degree forest green architectural hatching. High contrast Forest (TL) and Ember (BR) outside corners.
+            Solid warm cream base textured with architectural 60° diamond drafting lines. Features solid green header bar.
           </p>
 
           <div class="bp-media--framed">
             <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
               <rect width="320" height="140" fill="#0A1610" />
-              <rect x="20" y="30" width="280" height="80" fill="none" stroke="#D9B872" stroke-width="2" />
-              <line x1="20" y1="70" x2="300" y2="70" stroke="#C4B294" stroke-width="1.5" />
-              <text x="160" y="22" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">DIAGONAL HATCH SPECIFICATION MOCKUP</text>
+              <polygon points="160,30 280,75 160,120 40,75" fill="none" stroke="#D9B872" stroke-width="2" />
+              <text x="160" y="78" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">3D ISOMETRIC POST CALCULATOR</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Explore Hatch</button>
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Explore Diamond Grid</button>
         </div>
 
-        <!-- Card #11: Diagonal Hatch Forest Plate -->
-        <div class="card-solid card-diagonal-hatch-forest has-outside-corners">
-          <span class="corner-mark-out tr c-gold"></span>
-          <span class="corner-mark-out bl c-orange"></span>
+        <!-- Card #20: Architectural Dot Matrix (Tan) + Black Title Bar -->
+        <div class="card-solid card-dotmatrix-tan has-outside-corners">
+          <span class="corner-mark-out tl c-black"></span>
+          <span class="corner-mark-out br c-forest"></span>
           
-          <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #11 — Diagonal Hatch Forest]</span>
-          <div class="card-h" style="color:var(--gold);">45° Gold Hatch on Forest</div>
+          <!-- Optional Title Bar: Black on Tan -->
+          <div class="card-title-bar title-black">
+            <span>Precision Stipple Array</span>
+            <span style="font-size:0.75rem; color:var(--gold);">Option: Black Bar</span>
+          </div>
+
+          <span class="item-badge">[Card #20 — Dot Matrix Tan]</span>
+          <div class="card-h" style="color:var(--forest-deep);">18px Drafting Dot Grid</div>
+          <p class="card-p">
+            Solid tan surface with clean architectural stipple points. Zero solid lines for an airy modern drafting surface.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0A1610" />
+              <circle cx="160" cy="55" r="26" fill="#16432D" stroke="#D9B872" stroke-width="2" />
+              <text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="14" fill="#D9B872" text-anchor="middle">72H</text>
+              <text x="160" y="105" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">LEAD LOCK TIMER</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Lock In Pool</button>
+        </div>
+
+        <!-- Card #21: Chevron / Herringbone Weave (Cream) + Orange Title Bar -->
+        <div class="card-solid card-herringbone-cream has-outside-corners">
+          <span class="corner-mark-out tr c-orange"></span>
+          <span class="corner-mark-out bl c-forest"></span>
+          
+          <!-- Optional Title Bar: Orange on Cream -->
+          <div class="card-title-bar title-orange">
+            <span>Architectural Chevron Grain</span>
+            <span style="font-size:0.75rem; color:#FAF6EE;">Option: Ember Bar</span>
+          </div>
+
+          <span class="item-badge">[Card #21 — Chevron Herringbone]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Chevron Drafting Weave</div>
+          <p class="card-p">
+            Solid cream surface with subtle zig-zag lumber grain drafting pattern and contrasting Ember Orange header bar.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#08160E" />
+              <path d="M40 70 L100 40 L160 70 L220 40 L280 70" fill="none" stroke="#D9B872" stroke-width="2.5" />
+              <text x="160" y="110" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">CHEVRON ACCENT GATE SPEC</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Chevron Spec</button>
+        </div>
+
+        <!-- Card #22: Vertical Ruled Pickets (Tan) + Green Title Bar -->
+        <div class="card-solid card-vertical-pickets-tan has-outside-corners">
+          <span class="corner-mark-out tl c-black"></span>
+          <span class="corner-mark-out br c-forest"></span>
+          
+          <!-- Optional Title Bar: Green on Tan -->
+          <div class="card-title-bar title-green">
+            <span>Vertical Picket Spacing</span>
+          </div>
+
+          <span class="item-badge">[Card #22 — Vertical Pickets Tan]</span>
+          <div class="card-h" style="color:var(--forest-deep);">16px Vertical Board Siding</div>
+          <p class="card-p">
+            Solid tan background with fine vertical architectural lines representing standard 1x6 picket spacing.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0A1610" />
+              <line x1="60" y1="30" x2="60" y2="110" stroke="#D9B872" stroke-width="4" />
+              <line x1="110" y1="30" x2="110" y2="110" stroke="#D9B872" stroke-width="4" />
+              <line x1="160" y1="30" x2="160" y2="110" stroke="#D9B872" stroke-width="4" />
+              <line x1="210" y1="30" x2="210" y2="110" stroke="#D9B872" stroke-width="4" />
+              <line x1="260" y1="30" x2="260" y2="110" stroke="#D9B872" stroke-width="4" />
+              <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="9" fill="#FAF6EE" text-anchor="middle">VERTICAL PRIVACY PICKET ELEVATION</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Configure Pickets</button>
+        </div>
+
+        <!-- Card #23: Engineering Micro-Quad (Forest) + Gold Title Bar -->
+        <div class="card-solid card-microquad-forest has-outside-corners">
+          <span class="corner-mark-out tl c-gold"></span>
+          <span class="corner-mark-out br c-orange"></span>
+          
+          <!-- Optional Title Bar: Gold on Forest -->
+          <div class="card-title-bar title-gold">
+            <span>Engineering Blueprint Mesh</span>
+            <span style="font-size:0.75rem; color:var(--ink);">Option: Gold Bar</span>
+          </div>
+
+          <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #23 — Micro-Quad Forest]</span>
+          <div class="card-h" style="color:var(--gold);">10px Precision Mesh</div>
           <p class="card-p" style="color:#C4B294;">
-            Solid deep forest green plate textured with precise 45-degree gold drafting lines. High contrast Gold (TR) and Orange (BL) outside corners.
+            Solid dark forest plate with an ultra-fine 10px drafting graph and rich gold header bar.
           </p>
 
           <div class="bp-media--framed" style="border-color:var(--gold);">
@@ -470,209 +584,45 @@
               <rect width="320" height="140" fill="#08160E" />
               <circle cx="160" cy="50" r="22" fill="#D9B872" />
               <path d="M150 50 L157 57 L172 42" fill="none" stroke="#16432D" stroke-width="3" stroke-linecap="round" />
-              <text x="160" y="92" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">PRE-SCREENED CONTRACTOR ENGINE</text>
+              <text x="160" y="92" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED STRUCTURAL CAD STAMP</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-gold" style="width:100%; justify-content:center; margin-top:0.5rem;">Request 3 Bids</button>
+          <button class="ff-btn btn-gold" style="width:100%; justify-content:center; margin-top:0.5rem;">Download CAD Stamp</button>
         </div>
 
-        <!-- Card #12: Diagonal Hatch Rich Gold -->
-        <div class="card-solid card-diagonal-hatch-gold has-outside-corners">
-          <span class="corner-mark-out tl c-black"></span>
-          <span class="corner-mark-out br c-forest"></span>
-          
-          <span class="item-badge" style="background:#FAF6EE; color:var(--ink);">[Card #12 — Diagonal Hatch Gold]</span>
-          <div class="card-h">Instant 2D Takeoff Hatch</div>
-          <p class="card-p">
-            Solid rich gold surface with angled black drafting hatch. High contrast Black (TL) and Forest (BR) outside corners.
-          </p>
-
-          <div class="bp-media--framed">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#0A1610" />
-              <line x1="30" y1="70" x2="290" y2="70" stroke="#5AAB6A" stroke-width="3" />
-              <text x="160" y="55" font-family="'Rowdies', sans-serif" font-size="12" fill="#FAF6EE" text-anchor="middle">TOTAL RUN: 164 LF</text>
-              <text x="160" y="95" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">2D VECTOR TAKEOFF CALCULATOR</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Calculate Takeoff</button>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         SECTION 2: MORE HORIZONTAL LINE & SLAT PATTERN TRIALS
-         ==================================================================== -->
-    <section class="inventory-section">
-      <div class="section-title-bar">
-        <h2 class="section-title">2. Horizontal Line &amp; Ruled Slat Trials</h2>
-        <span class="section-desc">Pinstripes, Wide Ruled Boards &amp; Double-Plank Horizontal Textures</span>
-      </div>
-
-      <div class="grid-3">
-
-        <!-- Card #13: Horizontal Ruled Slats Tan -->
-        <div class="card-solid card-horizontal-slats-tan has-outside-corners">
-          <span class="corner-mark-out tl c-black"></span>
-          <span class="corner-mark-out br c-forest"></span>
-          
-          <span class="item-badge">[Card #13 — Ruled Slats Tan]</span>
-          <div class="card-h" style="color:var(--forest-deep);">Horizontal Ruled Siding</div>
-          <p class="card-p">
-            Solid tan drafting background with crisp 14px horizontal architectural ruled lines resembling horizontal board cladding.
-          </p>
-
-          <div class="bp-media--framed">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#0A1610" />
-              <!-- Horizontal Boards Elevation -->
-              <rect x="25" y="30" width="270" height="20" fill="#CDB697" stroke="#1A1A1A" />
-              <rect x="25" y="55" width="270" height="20" fill="#CDB697" stroke="#1A1A1A" />
-              <rect x="25" y="80" width="270" height="20" fill="#CDB697" stroke="#1A1A1A" />
-              <text x="160" y="20" font-family="'Rowdies', sans-serif" font-size="9" fill="#D9B872" text-anchor="middle">HORIZONTAL MODERN BOARD ELEVATION</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Siding Spec</button>
-        </div>
-
-        <!-- Card #14: Horizontal Pinstripe Cream + Green Header Bar -->
-        <div class="card-solid card-horizontal-pinstripe-cream has-outside-corners">
-          <span class="corner-mark-out tr c-orange"></span>
-          <span class="corner-mark-out bl c-forest"></span>
-          
-          <div class="card-title-bar-green">
-            <span>Wide Ruled Pinstripe Standard</span>
-          </div>
-
-          <span class="item-badge">[Card #14 — Pinstripe Cream + Title Bar]</span>
-          <div class="card-h" style="color:var(--forest-deep);">24px Architectural Ruled</div>
-          <p class="card-p">
-            Clean solid cream surface with wide-spaced green horizontal pinstripes and a solid dark green header bar.
-          </p>
-
-          <div class="bp-media--framed">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#08160E" />
-              <rect x="30" y="40" width="260" height="60" rx="3" fill="#16432D" stroke="#D9B872" stroke-width="1.5" />
-              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="12" fill="#FAF6EE" text-anchor="middle">ARC SUBMITTAL READY</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Download Spec Sheet</button>
-        </div>
-
-        <!-- Card #15: Double-Plank Horizontal Wood Texture -->
-        <div class="card-solid card-horizontal-double-plank has-outside-corners">
+        <!-- Card #24: Running-Bond Brick Mesh (Cream) + Black Title Bar -->
+        <div class="card-solid card-running-bond-cream has-outside-corners">
           <span class="corner-mark-out tl c-forest"></span>
           <span class="corner-mark-out br c-orange"></span>
           
-          <span class="item-badge">[Card #15 — Double-Plank Horizontal]</span>
-          <div class="card-h" style="color:var(--forest-deep);">Double-Pinstripe Lumber</div>
+          <!-- Optional Title Bar: Black on Cream -->
+          <div class="card-title-bar title-black">
+            <span>Running-Bond Board Mesh</span>
+          </div>
+
+          <span class="item-badge">[Card #24 — Running-Bond Mesh]</span>
+          <div class="card-h">Staggered Planks Draft</div>
           <p class="card-p">
-            Rich natural lumber tone with dual-weight horizontal boundary lines creating authentic tongue-and-groove plank rhythm.
+            Solid cream background with architectural running-bond staggered horizontal drafting guidelines.
           </p>
 
           <div class="bp-media--framed">
             <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
               <rect width="320" height="140" fill="#0A1610" />
-              <rect x="25" y="35" width="80" height="70" rx="2" fill="#D9B872" stroke="#1A1A1A" />
-              <rect x="120" y="35" width="80" height="70" rx="2" fill="#C4B294" stroke="#1A1A1A" />
-              <rect x="215" y="35" width="80" height="70" rx="2" fill="#A0825A" stroke="#1A1A1A" />
-              <text x="160" y="22" font-family="'Rowdies', sans-serif" font-size="9" fill="#D9B872" text-anchor="middle">LUMBER SPECIES SELECTION</text>
+              <rect x="30" y="35" width="260" height="70" fill="none" stroke="#D9B872" stroke-width="2" />
+              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">STAGGERED PICKET CLADDING</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-wood" style="width:100%; justify-content:center; margin-top:0.5rem;">Compare Lumber Grades</button>
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">View Staggered Specs</button>
         </div>
 
       </div>
     </section>
 
     <!-- ====================================================================
-         SECTION 3: MAJOR-ONLY GRID TRIALS (ZERO SUBGRID LINES)
-         ==================================================================== -->
-    <section class="inventory-section">
-      <div class="section-title-bar">
-        <h2 class="section-title">3. Major Grid ONLY Trials (No Subgrid Lines)</h2>
-        <span class="section-desc">Bold 50px &amp; 60px Squares &middot; Clean Architectural Framing Without Minor Clutter</span>
-      </div>
-
-      <div class="grid-3">
-
-        <!-- Card #16: Major-Only Cream (50px Squares) -->
-        <div class="card-solid card-major-only-cream has-outside-corners">
-          <span class="corner-mark-out tl c-forest"></span>
-          <span class="corner-mark-out br c-orange"></span>
-          
-          <span class="item-badge">[Card #16 — Major-Only Cream 50px]</span>
-          <div class="card-h">50px Major Squares (Cream)</div>
-          <p class="card-p">
-            Solid cream surface with clean 50px major drafting lines only. Zero subgrid lines for an ultra-clean architectural blueprint look.
-          </p>
-
-          <div class="bp-media--framed">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#0A1610" />
-              <rect x="30" y="30" width="260" height="80" fill="none" stroke="#D9B872" stroke-width="2" />
-              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="12" fill="#FAF6EE" text-anchor="middle">50PX CLEAN MAJOR FRAME</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Layout</button>
-        </div>
-
-        <!-- Card #17: Major-Only Forest Plate (60px Squares) -->
-        <div class="card-solid card-major-only-forest has-outside-corners">
-          <span class="corner-mark-out tl c-gold"></span>
-          <span class="corner-mark-out br c-orange"></span>
-          
-          <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #17 — Major-Only Forest 60px]</span>
-          <div class="card-h" style="color:var(--gold);">60px Major Squares (Forest)</div>
-          <p class="card-p" style="color:#C4B294;">
-            Solid dark forest green background overlaid with bold 60px gold drafting grid. Zero subgrid clutter.
-          </p>
-
-          <div class="bp-media--framed" style="border-color:var(--gold);">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#08160E" />
-              <rect x="40" y="40" width="240" height="60" fill="#16432D" stroke="#D9B872" stroke-width="1.5" />
-              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">CONTRACTOR MATCHING ENGINE</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-gold" style="width:100%; justify-content:center; margin-top:0.5rem;">Dispatch 3 Bids</button>
-        </div>
-
-        <!-- Card #18: Major-Only Tan (50px Squares) -->
-        <div class="card-solid card-major-only-tan has-outside-corners">
-          <span class="corner-mark-out tl c-black"></span>
-          <span class="corner-mark-out br c-forest"></span>
-          
-          <span class="item-badge">[Card #18 — Major-Only Tan 50px]</span>
-          <div class="card-h" style="color:var(--forest-deep);">50px Major Squares (Tan)</div>
-          <p class="card-p">
-            Solid architectural tan drafting surface with 50px black major square gridlines only.
-          </p>
-
-          <div class="bp-media--framed">
-            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
-              <rect width="320" height="140" fill="#0A1610" />
-              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="12" fill="#D9B872" text-anchor="middle">72-HOUR LEAD LOCK POOL</text>
-            </svg>
-          </div>
-
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Lock In Pool</button>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         SECTION 4: GRADUATED & APPROVED SELECTIONS ROSTER (OFFICIAL STANDARDS)
+         SECTION 2: GRADUATED & APPROVED SELECTIONS ROSTER (8 LOCKED STANDARDS)
          ==================================================================== -->
     <section class="inventory-section">
       <div class="graduated-zone">
@@ -682,91 +632,132 @@
               🎓 Graduated &amp; Approved Official Roster
             </h2>
             <p style="font-size:0.88rem; color:var(--tan); margin-top:0.25rem;">
-              Officially locked components graduated by user decision &mdash; ready to assemble into master wireframes.
+              8 Officially Locked Component Standards with Optional Title Bar Configurations.
             </p>
           </div>
-          <span class="item-badge badge-graduated" style="font-size:0.85rem; padding:0.35rem 0.8rem;">3 Official Standards Locked</span>
+          <span class="item-badge badge-graduated" style="font-size:0.85rem; padding:0.35rem 0.8rem;">8 Standards Locked</span>
         </div>
 
         <div class="grid-3">
 
-          <!-- 1. GRADUATED STANDARD #01: CARD #02 (Wood Planks Grain + Green Title Bar) -->
-          <div class="card-solid card-horizontal-double-plank has-outside-corners" style="background:#D8C7A5;">
-            <!-- Contrasting Outside Tapers: Orange TR / Forest BL -->
+          <!-- 1. Card #02: Wood Planks Grain + Green Title Bar -->
+          <div class="card-solid" style="background:#D8C7A5; background-image:repeating-linear-gradient(0deg, rgba(160, 130, 90, 0.18) 0px, rgba(160, 130, 90, 0.18) 2px, transparent 2px, transparent 8px);">
             <span class="corner-mark-out tr c-orange"></span>
             <span class="corner-mark-out bl c-forest"></span>
-            
-            <div class="card-title-bar-green">
+            <div class="card-title-bar title-green">
               <span>Si View HOA Pre-Approved Standard</span>
-              <span style="font-size:0.75rem; color:var(--gold);">GRADUATED</span>
             </div>
-
-            <span class="item-badge badge-graduated">👑 Graduated Standard #01 &middot; Card #02</span>
+            <span class="item-badge badge-graduated">👑 Standard #01 &middot; Card #02 (Wood Planks)</span>
             <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
-            
-            <div class="bp-media--framed" style="min-height:120px;">
-              <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="120" fill="#08160E" />
-                <rect x="25" y="30" width="270" height="70" fill="#CDB697" stroke="#1A1A1A" stroke-width="1.5" />
-                <text x="160" y="20" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">SI VIEW HOA OFFICIAL ELEVATION</text>
-              </svg>
+            <div class="bp-media--framed" style="min-height:110px;">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><rect x="25" y="25" width="270" height="60" fill="#CDB697" stroke="#1A1A1A" /><text x="160" y="18" font-family="'Rowdies', sans-serif" font-size="9" fill="#D9B872" text-anchor="middle">HOA ARCHITECTURAL STANDARD</text></svg>
             </div>
-
-            <p class="card-p">
-              <strong>Official Specification:</strong> Solid wood plank grain body + solid dark forest green title bar + framed 2D elevation media + outside contrasting corner tapers (Orange TR / Forest BL).
-            </p>
-            <button class="ff-btn btn-forest" style="font-size:0.78rem; padding:0.4rem 0.8rem;">Download Submittal PDF</button>
+            <p class="card-p">Solid wood plank grain + Green title bar + Orange TR / Forest BL outside corners.</p>
           </div>
 
-          <!-- 2. GRADUATED STANDARD #02: CARD #03 (Solid Tan + High-Contrast Black Grid) -->
-          <div class="card-solid card-major-only-tan has-outside-corners" style="background:#E8DCC8;">
-            <!-- Contrasting Outside Tapers: Black TL / Forest BR -->
+          <!-- 2. Card #03: Solid Tan + Black Grid + Green Title Bar -->
+          <div class="card-solid" style="background:#E8DCC8; background-image:linear-gradient(rgba(26, 26, 26, 0.22) 2px, transparent 2px), linear-gradient(90deg, rgba(26, 26, 26, 0.22) 2px, transparent 2px); background-size:50px 50px;">
             <span class="corner-mark-out tl c-black"></span>
             <span class="corner-mark-out br c-forest"></span>
-            
-            <span class="item-badge badge-graduated">👑 Graduated Standard #02 &middot; Card #03</span>
+            <div class="card-title-bar title-green">
+              <span>Contractor Pool Matching</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #02 &middot; Card #03 (Tan Black Grid)</span>
             <div class="card-h" style="color:var(--forest-deep);">3-Seat Contractor Pool</div>
-            
-            <div class="bp-media--framed" style="min-height:120px;">
-              <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="120" fill="#0A1610" />
-                <rect x="25" y="35" width="70" height="55" rx="3" fill="#16432D" stroke="#D9B872" stroke-width="1" />
-                <rect x="105" y="35" width="70" height="55" rx="3" fill="#16432D" stroke="#D9B872" stroke-width="1" />
-                <rect x="185" y="35" width="70" height="55" rx="3" fill="#1F4A32" stroke="#C2622D" stroke-width="1" />
-                <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">3-SEAT MATCHING ENGINE</text>
-              </svg>
+            <div class="bp-media--framed" style="min-height:110px;">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="12" fill="#D9B872" text-anchor="middle">72-HOUR LEAD LOCK POOL</text></svg>
             </div>
-
-            <p class="card-p">
-              <strong>Official Specification:</strong> Solid architectural tan drafting surface + high-contrast black gridlines + framed contractor media + outside contrasting corner tapers (Black TL / Forest BR).
-            </p>
-            <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:3px; padding:0.4rem 0.6rem;">
-              <strong style="font-family:'Rowdies',sans-serif; font-size:0.8rem; color:var(--forest-deep);">72-Hour Lead Lock Pool</strong>
-            </div>
+            <p class="card-p">Solid tan + black grid + Green title bar + Black TL / Forest BR outside corners.</p>
           </div>
 
-          <!-- 3. GRADUATED CANDIDATE #03: CARD #06 (Solid Dark Forest Plate) -->
-          <div class="card-solid has-outside-corners" style="background:var(--forest-deep); color:#FAF6EE;">
-            <!-- Contrasting Outside Tapers: Gold TL / Orange BR -->
+          <!-- 3. Card #06: Solid Forest Plate + Orange Title Bar -->
+          <div class="card-solid" style="background:var(--forest-deep); color:#FAF6EE;">
             <span class="corner-mark-out tl c-gold"></span>
             <span class="corner-mark-out br c-orange"></span>
-            
-            <span class="item-badge badge-graduated">👑 Graduated Standard #03 &middot; Card #06</span>
-            <div class="card-h" style="color:var(--gold);">Contractor Direct Dispatch</div>
-            
-            <div class="bp-media--framed" style="min-height:120px; border-color:var(--gold);">
-              <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="120" fill="#08160E" />
-                <circle cx="160" cy="50" r="22" fill="#D9B872" />
-                <path d="M150 50 L157 57 L172 42" fill="none" stroke="#16432D" stroke-width="3" stroke-linecap="round" />
-                <text x="160" y="92" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED 3-SEAT MATCHING ENGINE</text>
-              </svg>
+            <div class="card-title-bar title-orange">
+              <span>Contractor Direct Dispatch</span>
             </div>
+            <span class="item-badge badge-graduated">👑 Standard #03 &middot; Card #06 (Solid Forest)</span>
+            <div class="card-h" style="color:var(--gold);">Verified Lead Dispatch</div>
+            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><circle cx="160" cy="45" r="20" fill="#D9B872" /><text x="160" y="85" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED BONDED CONTRACTOR</text></svg>
+            </div>
+            <p class="card-p" style="color:#C4B294;">Solid Forest green plate + Orange title bar + Gold TL / Orange BR outside corners.</p>
+          </div>
 
-            <p class="card-p" style="color:#C4B294;">
-              <strong>Official Specification:</strong> 100% Solid dark forest background + blueprint media mat + high-contrast Gold (TL) and Ember Orange (BR) outside corner tapers.
-            </p>
-            <button class="ff-btn btn-gold" style="width:100%; justify-content:center; font-size:0.85rem; padding:0.5rem;">Request 3 Bids</button>
+          <!-- 4. Card #10: Diagonal Hatch Cream + Forest Title Bar -->
+          <div class="card-solid" style="background:#FAF6EE; background-image:repeating-linear-gradient(45deg, rgba(22, 67, 45, 0.10) 0px, rgba(22, 67, 45, 0.10) 1.5px, transparent 1.5px, transparent 10px);">
+            <span class="corner-mark-out tl c-forest"></span>
+            <span class="corner-mark-out br c-orange"></span>
+            <div class="card-title-bar title-green">
+              <span>45° Drafting Specification</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #04 &middot; Card #10 (Hatch Cream)</span>
+            <div class="card-h">Diagonal Hatch Takeoff</div>
+            <div class="bp-media--framed" style="min-height:110px;">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">2D ARCHITECTURAL VECTOR DRAFT</text></svg>
+            </div>
+            <p class="card-p">Solid cream + 45° green hatch + Green title bar + Forest TL / Orange BR outside corners.</p>
+          </div>
+
+          <!-- 5. Card #11: Diagonal Hatch Forest + Gold Title Bar -->
+          <div class="card-solid" style="background:#1B4332; color:#FAF6EE; background-image:repeating-linear-gradient(45deg, rgba(217, 184, 114, 0.15) 0px, rgba(217, 184, 114, 0.15) 1.5px, transparent 1.5px, transparent 12px);">
+            <span class="corner-mark-out tr c-gold"></span>
+            <span class="corner-mark-out bl c-orange"></span>
+            <div class="card-title-bar title-gold">
+              <span>Gold Hatch Blueprint Plate</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #05 &middot; Card #11 (Hatch Forest)</span>
+            <div class="card-h" style="color:var(--gold);">Gold Hatch Forest Plate</div>
+            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">PRE-SCREENED POOL MATCH</text></svg>
+            </div>
+            <p class="card-p" style="color:#C4B294;">Solid Forest + 45° gold hatch + Gold title bar + Gold TR / Orange BL outside corners.</p>
+          </div>
+
+          <!-- 6. Card #12: Diagonal Hatch Gold + Black Title Bar -->
+          <div class="card-solid" style="background:#D9B872; background-image:repeating-linear-gradient(-45deg, rgba(26, 26, 26, 0.12) 0px, rgba(26, 26, 26, 0.12) 1.5px, transparent 1.5px, transparent 10px);">
+            <span class="corner-mark-out tl c-black"></span>
+            <span class="corner-mark-out br c-forest"></span>
+            <div class="card-title-bar title-black">
+              <span>Instant 2D Takeoff Calculator</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #06 &middot; Card #12 (Hatch Gold)</span>
+            <div class="card-h">Angled Hatch Gold Plate</div>
+            <div class="bp-media--framed" style="min-height:110px;">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">TOTAL PERIMETER: 164 LF</text></svg>
+            </div>
+            <p class="card-p">Solid Gold + angled black hatch + Black title bar + Black TL / Forest BR outside corners.</p>
+          </div>
+
+          <!-- 7. Card #15: Double-Plank Horizontal Lumber + Green Title Bar -->
+          <div class="card-solid" style="background:#D8C7A5; background-image:repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.18) 0px, rgba(26, 26, 26, 0.18) 2px, transparent 2px, transparent 32px);">
+            <span class="corner-mark-out tl c-forest"></span>
+            <span class="corner-mark-out br c-orange"></span>
+            <div class="card-title-bar title-green">
+              <span>Double-Pinstripe Siding</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #07 &middot; Card #15 (Double-Plank)</span>
+            <div class="card-h" style="color:var(--forest-deep);">Tongue &amp; Groove Rhythm</div>
+            <div class="bp-media--framed" style="min-height:110px;">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">LUMBER SPECIES SELECTOR</text></svg>
+            </div>
+            <p class="card-p">Solid lumber tone + dual horizontal lines + Green title bar + Forest TL / Orange BR outside corners.</p>
+          </div>
+
+          <!-- 8. Card #17: Major-Only Forest 60px + Gold Title Bar -->
+          <div class="card-solid" style="background:#16432D; color:#FAF6EE; background-image:linear-gradient(rgba(217, 184, 114, 0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(217, 184, 114, 0.25) 2px, transparent 2px); background-size:60px 60px;">
+            <span class="corner-mark-out tl c-gold"></span>
+            <span class="corner-mark-out br c-orange"></span>
+            <div class="card-title-bar title-gold">
+              <span>60px Major Square Blueprint</span>
+            </div>
+            <span class="item-badge badge-graduated">👑 Standard #08 &middot; Card #17 (Major Forest)</span>
+            <div class="card-h" style="color:var(--gold);">Major-Only Forest Squares</div>
+            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
+              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">CLEAN 60PX DRAFTING FRAME</text></svg>
+            </div>
+            <p class="card-p" style="color:#C4B294;">Solid Forest + bold 60px gold squares (no subgrid) + Gold title bar + Gold TL / Orange BR outside corners.</p>
           </div>
 
         </div>
