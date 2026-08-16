@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Component Inventory Lab (With Media &amp; Calibrated Grid)</title>
+  <title>Fence Frames — Component Inventory Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ==========================================================================
-       CALIBRATED BACKGROUND GRID (75% Trans Main / 25% Trans Sub-grid)
+       CALIBRATED BACKGROUND GRID (75% Trans Main / Soft Emerald Sub-grid)
        ========================================================================== */
     :root {
       --bg: #F4ECDC;
@@ -17,8 +17,8 @@
       --ink: #1a1a1a;
       --forest: #2f5d3a;
       --forest-deep: #16432D;
-      --grid-major-calibrated: rgba(22, 67, 45, 0.25); /* 75% transparent / 25% opacity */
-      --grid-minor-calibrated: rgba(46, 139, 78, 0.12); /* Sub-grid dial */
+      --grid-major: rgba(22, 67, 45, 0.25); /* 75% transparent / 25% opacity */
+      --grid-minor: rgba(46, 139, 78, 0.12); /* Sub-grid dial */
       --gold: #d9b872;
       --gold-dark: #b89243;
       --ember: #c2622d;
@@ -41,10 +41,10 @@
       line-height: 1.55;
       background-color: var(--bg);
       background-image:
-        linear-gradient(var(--grid-minor-calibrated) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-minor-calibrated) 1px, transparent 1px),
-        linear-gradient(var(--grid-major-calibrated) 2px, transparent 2px),
-        linear-gradient(90deg, var(--grid-major-calibrated) 2px, transparent 2px);
+        linear-gradient(var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(var(--grid-major) 2px, transparent 2px),
+        linear-gradient(90deg, var(--grid-major) 2px, transparent 2px);
       background-size:
         25px 25px,
         25px 25px,
@@ -133,7 +133,10 @@
     }
 
     /* ==========================================================================
-       AUTHENTIC ARCHITECTURAL OUTSIDE CORNER CROP MARKS
+       CORRECTED ARCHITECTURAL CORNER CROP MARKS
+       - Sits directly outside container (inside edge touches outer border)
+       - CONTAINER SIDE IS THE LONG SIDE (Full Length)
+       - OUTSIDE EDGE IS THE SHORT SIDE (Tapers down to container)
        ========================================================================== */
     .has-outside-corners {
       position: relative;
@@ -159,7 +162,7 @@
       background: var(--mark-c);
     }
 
-    /* Top-Left (TL) Outside */
+    /* 1. Top-Left (TL): Container side (bottom/right) is LONG, Outside (top/left) is SHORT */
     .corner-mark-out.tl {
       top: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -167,15 +170,15 @@
     .corner-mark-out.tl::before {
       top: 0; left: 0;
       width: 100%; height: var(--mark-th);
-      clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%);
+      clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%);
     }
     .corner-mark-out.tl::after {
       top: 0; left: 0;
       width: var(--mark-th); height: 100%;
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip)));
     }
 
-    /* Top-Right (TR) Outside */
+    /* 2. Top-Right (TR): Container side (bottom/left) is LONG, Outside (top/right) is SHORT */
     .corner-mark-out.tr {
       top: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -183,15 +186,15 @@
     .corner-mark-out.tr::before {
       top: 0; right: 0;
       width: 100%; height: var(--mark-th);
-      clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%);
+      clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%);
     }
     .corner-mark-out.tr::after {
       top: 0; right: 0;
       width: var(--mark-th); height: 100%;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip)));
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 0 100%);
     }
 
-    /* Bottom-Left (BL) Outside */
+    /* 3. Bottom-Left (BL): Container side (top/right) is LONG, Outside (bottom/left) is SHORT */
     .corner-mark-out.bl {
       bottom: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -199,15 +202,15 @@
     .corner-mark-out.bl::before {
       bottom: 0; left: 0;
       width: 100%; height: var(--mark-th);
-      clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%);
     }
     .corner-mark-out.bl::after {
       bottom: 0; left: 0;
       width: var(--mark-th); height: 100%;
-      clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%);
+      clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%);
     }
 
-    /* Bottom-Right (BR) Outside */
+    /* 4. Bottom-Right (BR): Container side (top/left) is LONG, Outside (bottom/right) is SHORT */
     .corner-mark-out.br {
       bottom: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -215,12 +218,12 @@
     .corner-mark-out.br::before {
       bottom: 0; right: 0;
       width: 100%; height: var(--mark-th);
-      clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%);
     }
     .corner-mark-out.br::after {
       bottom: 0; right: 0;
       width: var(--mark-th); height: 100%;
-      clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%);
     }
 
     /* Color Classes */
@@ -230,8 +233,16 @@
     .c-black { --mark-c: var(--ink); }
 
     /* ==========================================================================
-       FRAMED MEDIA & BLACK IMAGE SQUARES (.bp-media--framed)
+       SOLID CARDS & EMBEDDED MEDIA MATS (.bp-media--framed)
        ========================================================================== */
+    .card-solid {
+      border: var(--line-ink) solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
     .bp-media--framed {
       width: 100%;
       margin: 0.8rem 0;
@@ -248,36 +259,10 @@
       align-items: center;
       min-height: 140px;
     }
-    .bp-media--framed img {
+    .bp-media--framed svg {
       width: 100%;
       height: 140px;
-      object-fit: contain;
       display: block;
-      padding: 6px;
-    }
-    .bp-media-placeholder {
-      width: 100%;
-      height: 140px;
-      background: #0D1F15;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: var(--tan);
-      font-family: 'Rowdies', sans-serif;
-      font-size: 0.85rem;
-      border: 1px dashed rgba(217, 184, 114, 0.4);
-    }
-
-    /* ==========================================================================
-       ALL CARDS ARE SOLID (50/50 SOLID FAINT GRID & REAL TEXTURES)
-       ========================================================================== */
-    .card-solid {
-      border: var(--line-ink) solid var(--ink);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      position: relative;
     }
 
     /* 1. Original Solid Forest Green with Faint Blueprint Grid */
@@ -328,33 +313,20 @@
       color: var(--ink);
     }
 
-    /* 5. REAL WOOD TEXTURE CARDS (Using real image textures) */
-    .card-tx-planks-knots {
+    /* 5. Natural Wood Plank Grain Fills */
+    .card-wood-cedar-grain {
       background-color: #D8C7A5;
-      background-image: url('../images/textures/trial-planks-knots.png'), url('images/textures/trial-planks-knots.png');
-      background-size: cover;
-      background-position: center;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(160, 130, 90, 0.18) 0px, rgba(160, 130, 90, 0.18) 2px, transparent 2px, transparent 8px),
+        linear-gradient(90deg, rgba(130, 95, 55, 0.15) 0%, rgba(240, 220, 185, 0.22) 50%, rgba(130, 95, 55, 0.15) 100%);
       color: #1A1A1A;
     }
-    .card-tx-finger-joint {
+    .card-wood-finger-grain {
       background-color: #E2D5BE;
-      background-image: url('../images/textures/trial-finger-joint.png'), url('images/textures/trial-finger-joint.png');
-      background-size: cover;
-      background-position: center;
-      color: #1A1A1A;
-    }
-    .card-tx-light-planks {
-      background-color: #E8DEC8;
-      background-image: url('../images/textures/trial-light-planks.png'), url('images/textures/trial-light-planks.png');
-      background-size: cover;
-      background-position: center;
-      color: #1A1A1A;
-    }
-    .card-tx-red-cedar {
-      background-color: #CDB697;
-      background-image: url('../images/textures/trial-red-cedar.png'), url('images/textures/trial-red-cedar.png');
-      background-size: cover;
-      background-position: center;
+      background-image:
+        linear-gradient(rgba(26, 26, 26, 0.08) 1px, transparent 1px),
+        repeating-linear-gradient(90deg, rgba(140, 110, 70, 0.12) 0px, rgba(140, 110, 70, 0.12) 4px, transparent 4px, transparent 14px);
+      background-size: 100% 40px, auto;
       color: #1A1A1A;
     }
 
@@ -415,12 +387,7 @@
     }
     .btn-gold { background: var(--gold); color: var(--ink); }
     .btn-forest { background: var(--forest-deep); color: #FAF6EE; }
-    .btn-wood {
-      background-color: #E2D5BE;
-      background-image: url('../images/textures/trial-light-planks.png'), url('images/textures/trial-light-planks.png');
-      background-size: cover;
-      color: var(--ink);
-    }
+    .btn-wood { background: #E2D5BE; color: var(--ink); }
 
     /* Graduated Section */
     .graduated-zone {
@@ -447,8 +414,8 @@
   <header class="inventory-header">
     <div class="wrap header-inner">
       <div>
-        <h1>Fence Frames — Component Inventory Lab (With Media &amp; Calibrated Grid)</h1>
-        <p>Calibrated Grid: 75% Trans Main &middot; 25% Sub &middot; Framed Media Visual Anchors &middot; 50/50 Texture/Grid Mix &middot; Outside Corners</p>
+        <h1>Fence Frames — Component Inventory Lab</h1>
+        <p>Calibrated Grid (75% Trans Main) &middot; Flipped Corner Tapers (Container Long / Outside Short) &middot; Framed Media Anchors</p>
       </div>
       <div style="font-family:'Rowdies', sans-serif; font-size:0.85rem; color:var(--gold);">
         Trial Selection &amp; Graduation Board
@@ -464,7 +431,7 @@
     <section class="inventory-section">
       <div class="section-title-bar">
         <h2 class="section-title">1. Large Cards (With Media Anchors &amp; Calibrated Grid)</h2>
-        <span class="section-desc">Framed 2D Elevations, Blueprints &amp; Photos Breaking Up the Grid</span>
+        <span class="section-desc">Flipped Tapers: Long on Container Side / Short on Outside Edge</span>
       </div>
 
       <div class="grid-3">
@@ -478,12 +445,42 @@
           <span class="item-badge">[Card #01 — Original Green Blueprint Plate]</span>
           <div class="card-h">Heritage Takeoff Blueprint</div>
           <p class="card-p" style="color:#C4B294;">
-            Solid forest green background with faint drafting grid and framed elevation illustration.
+            Solid forest green background with faint drafting grid and framed 2D elevation drawing.
           </p>
 
-          <!-- Framed Black Media Mat -->
+          <!-- Framed Black Media Mat with Crisp Vector Elevation -->
           <div class="bp-media--framed">
-            <img src="../images/other/si-view-fence.png" onerror="this.src='images/other/si-view-fence.png'" alt="Heritage Fence Elevation" />
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0A1610" />
+              <!-- Elevation Posts & Rails -->
+              <rect x="20" y="30" width="10" height="90" fill="#D9B872" />
+              <rect x="155" y="30" width="10" height="90" fill="#D9B872" />
+              <rect x="290" y="30" width="10" height="90" fill="#D9B872" />
+              <!-- Top, Mid, Bottom Rails -->
+              <rect x="20" y="40" width="280" height="6" fill="#C4B294" />
+              <rect x="20" y="75" width="280" height="6" fill="#C4B294" />
+              <rect x="20" y="110" width="280" height="6" fill="#C4B294" />
+              <!-- Vertical Pickets -->
+              <g fill="#A0825A" stroke="#141B16" stroke-width="0.5">
+                <rect x="35" y="35" width="12" height="80" />
+                <rect x="50" y="35" width="12" height="80" />
+                <rect x="65" y="35" width="12" height="80" />
+                <rect x="80" y="35" width="12" height="80" />
+                <rect x="95" y="35" width="12" height="80" />
+                <rect x="110" y="35" width="12" height="80" />
+                <rect x="125" y="35" width="12" height="80" />
+                <rect x="140" y="35" width="12" height="80" />
+                <rect x="170" y="35" width="12" height="80" />
+                <rect x="185" y="35" width="12" height="80" />
+                <rect x="200" y="35" width="12" height="80" />
+                <rect x="215" y="35" width="12" height="80" />
+                <rect x="230" y="35" width="12" height="80" />
+                <rect x="245" y="35" width="12" height="80" />
+                <rect x="260" y="35" width="12" height="80" />
+                <rect x="275" y="35" width="12" height="80" />
+              </g>
+              <text x="160" y="22" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">6FT WESTERN RED CEDAR PRIVACY ELEVATION</text>
+            </svg>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.8rem;">
@@ -492,8 +489,8 @@
           </div>
         </div>
 
-        <!-- Card #02 (Candidate): Real Wood Planks-Knots Texture + Green Title Bar + Media -->
-        <div class="card-solid card-tx-planks-knots has-outside-corners">
+        <!-- Card #02 (Candidate): Real Wood Planks Grain + Green Title Bar + Media -->
+        <div class="card-solid card-wood-cedar-grain has-outside-corners">
           <!-- High-Contrast Outside Corners on Wood: Orange (TR) + Forest (BL) -->
           <span class="corner-mark-out tr c-orange"></span>
           <span class="corner-mark-out bl c-forest"></span>
@@ -503,7 +500,7 @@
             <span style="font-size:0.75rem; color:var(--gold);">Bylaw Verified</span>
           </div>
 
-          <span class="item-badge">[Card #02 — Real Wood Planks Texture + Green Bar]</span>
+          <span class="item-badge">[Card #02 — Wood Planks Grain + Green Bar]</span>
           <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
           <p class="card-p">
             Authentic lumber grain texture body paired with a solid dark green header bar and framed elevation.
@@ -511,7 +508,17 @@
 
           <!-- Framed Black Media Mat -->
           <div class="bp-media--framed">
-            <img src="../images/ai-generated-fences/Rancher Fence Illustration.jpg" onerror="this.src='images/ai-generated-fences/Rancher Fence Illustration.jpg'" alt="Cedar Fence Elevation" />
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0D1F15" />
+              <!-- Wood Plank Structure -->
+              <rect x="25" y="35" width="270" height="85" fill="#CDB697" stroke="#1A1A1A" stroke-width="1.5" />
+              <line x1="25" y1="63" x2="295" y2="63" stroke="#8C6E46" stroke-width="1.5" />
+              <line x1="25" y1="91" x2="295" y2="91" stroke="#8C6E46" stroke-width="1.5" />
+              <!-- Post Caps -->
+              <polygon points="15,35 25,25 35,35" fill="#D9B872" />
+              <polygon points="285,35 295,25 305,35" fill="#D9B872" />
+              <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">HOA ARCHITECTURAL COMPLIANCE SPEC</text>
+            </svg>
           </div>
 
           <div style="display:flex; gap:0.5rem; margin-top:0.8rem;">
@@ -534,7 +541,23 @@
 
           <!-- Framed Black Media Mat -->
           <div class="bp-media--framed">
-            <img src="../images/fence-it-detailed.jpg" onerror="this.src='images/fence-it-detailed.jpg'" alt="Contractor Build" />
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0A1610" />
+              <!-- 3 Seats Badges -->
+              <rect x="30" y="45" width="75" height="60" rx="3" fill="#16432D" stroke="#D9B872" stroke-width="1.5" />
+              <text x="67" y="70" font-family="'Rowdies', sans-serif" font-size="14" fill="#D9B872" text-anchor="middle">SEAT 1</text>
+              <text x="67" y="90" font-size="9" fill="#FAF6EE" text-anchor="middle">Matched</text>
+
+              <rect x="122" y="45" width="75" height="60" rx="3" fill="#16432D" stroke="#D9B872" stroke-width="1.5" />
+              <text x="160" y="70" font-family="'Rowdies', sans-serif" font-size="14" fill="#D9B872" text-anchor="middle">SEAT 2</text>
+              <text x="160" y="90" font-size="9" fill="#FAF6EE" text-anchor="middle">Matched</text>
+
+              <rect x="215" y="45" width="75" height="60" rx="3" fill="#1F4A32" stroke="#C2622D" stroke-width="1.5" />
+              <text x="252" y="70" font-family="'Rowdies', sans-serif" font-size="14" fill="#C2622D" text-anchor="middle">SEAT 3</text>
+              <text x="252" y="90" font-size="9" fill="#FAF6EE" text-anchor="middle">Open</text>
+              
+              <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">72-HOUR CAPPED BIDDING POOL</text>
+            </svg>
           </div>
 
           <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:3px; padding:0.5rem; margin-top:0.6rem;">
@@ -557,16 +580,25 @@
 
       <div class="grid-3">
 
-        <!-- Card #04: Real Finger-Joint Wood Texture -->
-        <div class="card-solid card-tx-finger-joint has-outside-corners">
+        <!-- Card #04: Real Finger-Joint Wood Grain -->
+        <div class="card-solid card-wood-finger-grain has-outside-corners">
           <span class="corner-mark-out tr c-forest"></span>
           <span class="corner-mark-out bl c-orange"></span>
           
-          <span class="item-badge">[Card #04 — Real Finger-Joint Wood Texture]</span>
+          <span class="item-badge">[Card #04 — Finger-Joint Wood Grain]</span>
           <div class="card-h" style="color:var(--forest-deep);">Framing &amp; Post Spacing</div>
           
           <div class="bp-media--framed" style="min-height:110px;">
-            <img src="../images/architectural-blueprint-fence-spec.png" onerror="this.src='images/architectural-blueprint-fence-spec.png'" style="height:110px;" alt="Framing Spec" />
+            <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="110" fill="#0A1610" />
+              <line x1="20" y1="55" x2="300" y2="55" stroke="#D9B872" stroke-width="2" />
+              <circle cx="40" cy="55" r="8" fill="#16432D" stroke="#D9B872" stroke-width="2" />
+              <circle cx="160" cy="55" r="8" fill="#16432D" stroke="#D9B872" stroke-width="2" />
+              <circle cx="280" cy="55" r="8" fill="#16432D" stroke="#D9B872" stroke-width="2" />
+              <text x="100" y="45" font-size="10" font-weight="bold" fill="#FAF6EE" text-anchor="middle">8′ 0″ O.C.</text>
+              <text x="220" y="45" font-size="10" font-weight="bold" fill="#FAF6EE" text-anchor="middle">8′ 0″ O.C.</text>
+              <text x="160" y="90" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">4x4 PRESSURE TREATED POST SPACING</text>
+            </svg>
           </div>
 
           <p class="card-p">
@@ -584,7 +616,15 @@
           <div class="card-h">Instant 2D Takeoff</div>
           
           <div class="bp-media--framed" style="min-height:110px;">
-            <img src="../images/other/tool-designer-workspace.jpg" onerror="this.src='images/other/tool-designer-workspace.jpg'" style="height:110px;" alt="2D Takeoff Workspace" />
+            <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="110" fill="#0A1610" />
+              <polygon points="40,30 200,30 280,80 120,80" fill="none" stroke="#D9B872" stroke-width="2" stroke-dasharray="4,4" />
+              <line x1="40" y1="30" x2="200" y2="30" stroke="#5AAB6A" stroke-width="3" />
+              <text x="120" y="24" font-size="9" font-weight="bold" fill="#5AAB6A">Run A: 84 LF</text>
+              <line x1="200" y1="30" x2="280" y2="80" stroke="#5AAB6A" stroke-width="3" />
+              <text x="250" y="55" font-size="9" font-weight="bold" fill="#5AAB6A">Run B: 58 LF</text>
+              <text x="160" y="98" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">TOTAL PERIMETER: 142 LF</text>
+            </svg>
           </div>
 
           <p class="card-p">
@@ -602,7 +642,12 @@
           <div class="card-h" style="color:var(--gold);">Contractor Direct Dispatch</div>
           
           <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
-            <img src="../images/other/si-view-blueprint-clean.png" onerror="this.src='images/other/si-view-blueprint-clean.png'" style="height:110px;" alt="Blueprint Submittal" />
+            <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="110" fill="#08160E" />
+              <circle cx="160" cy="45" r="24" fill="#D9B872" />
+              <path d="M150 45 L157 52 L172 37" fill="none" stroke="#16432D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+              <text x="160" y="85" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">VERIFIED LICENSE &amp; ACTIVE BOND</text>
+            </svg>
           </div>
 
           <p class="card-p" style="color:#C4B294;">
@@ -634,7 +679,7 @@
         <div class="grid-3">
 
           <!-- Graduated Selection 1: Card #02 Evolution (Wood Grain + Green Title Bar + Media) -->
-          <div class="card-solid card-tx-planks-knots has-outside-corners">
+          <div class="card-solid card-wood-cedar-grain has-outside-corners">
             <span class="corner-mark-out tr c-orange"></span>
             <span class="corner-mark-out bl c-forest"></span>
             
@@ -646,11 +691,15 @@
             <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
             
             <div class="bp-media--framed" style="min-height:120px;">
-              <img src="../images/other/si-view-fence.png" onerror="this.src='images/other/si-view-fence.png'" style="height:120px;" alt="Si View Fence Elevation" />
+              <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="120" fill="#08160E" />
+                <rect x="25" y="30" width="270" height="70" fill="#CDB697" stroke="#1A1A1A" stroke-width="1.5" />
+                <text x="160" y="20" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">SI VIEW HOA OFFICIAL ELEVATION</text>
+              </svg>
             </div>
 
             <p class="card-p">
-              <strong>Status:</strong> Close / Candidate for Official Component List. Real wood plank body + solid green header bar + framed elevation + contrasting outside corners (Orange TR / Forest BL).
+              <strong>Status:</strong> Close / Candidate for Official Component List. Real wood plank body + solid green header bar + framed elevation + contrasting outside corners (Orange TR / Forest BL with flipped tapers).
             </p>
             <button class="ff-btn btn-forest" style="font-size:0.75rem; padding:0.35rem 0.7rem;">Download PDF</button>
           </div>
@@ -664,11 +713,16 @@
             <div class="card-h" style="color:var(--gold);">Contractor Direct Dispatch</div>
             
             <div class="bp-media--framed" style="min-height:120px; border-color:var(--gold);">
-              <img src="../images/other/si-view-blueprint-clean.png" onerror="this.src='images/other/si-view-blueprint-clean.png'" style="height:120px;" alt="Blueprint Submittal" />
+              <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="120" fill="#08160E" />
+                <circle cx="160" cy="50" r="22" fill="#D9B872" />
+                <path d="M150 50 L157 57 L172 42" fill="none" stroke="#16432D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="160" y="92" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED 3-SEAT MATCHING ENGINE</text>
+              </svg>
             </div>
 
             <p class="card-p" style="color:#C4B294;">
-              <strong>Status:</strong> Close / Candidate for Official Component List. 100% Solid dark forest background with blueprint media mat + high-contrast Gold (TL) and Ember Orange (BR) outside corners.
+              <strong>Status:</strong> Close / Candidate for Official Component List. 100% Solid dark forest background with blueprint media mat + high-contrast Gold (TL) and Ember Orange (BR) outside corners with flipped tapers.
             </p>
             <button class="ff-btn btn-gold" style="width:100%; justify-content:center; font-size:0.85rem; padding:0.5rem;">Request 3 Bids</button>
           </div>
