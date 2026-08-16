@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Component &amp; Box Inventory Lab (Solid &amp; Textures)</title>
+  <title>Fence Frames — Component Inventory Lab (With Media &amp; Calibrated Grid)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ==========================================================================
-       LOCKED OFFICIAL BACKGROUND STANDARD & DESIGN TOKENS
+       CALIBRATED BACKGROUND GRID (75% Trans Main / 25% Trans Sub-grid)
        ========================================================================== */
     :root {
       --bg: #F4ECDC;
@@ -17,7 +17,8 @@
       --ink: #1a1a1a;
       --forest: #2f5d3a;
       --forest-deep: #16432D;
-      --emerald-sub: rgba(46, 139, 78, 0.50);
+      --grid-major-calibrated: rgba(22, 67, 45, 0.25); /* 75% transparent / 25% opacity */
+      --grid-minor-calibrated: rgba(46, 139, 78, 0.12); /* Sub-grid dial */
       --gold: #d9b872;
       --gold-dark: #b89243;
       --ember: #c2622d;
@@ -40,10 +41,10 @@
       line-height: 1.55;
       background-color: var(--bg);
       background-image:
-        linear-gradient(var(--emerald-sub) 1px, transparent 1px),
-        linear-gradient(90deg, var(--emerald-sub) 1px, transparent 1px),
-        linear-gradient(var(--forest-deep) 2px, transparent 2px),
-        linear-gradient(90deg, var(--forest-deep) 2px, transparent 2px);
+        linear-gradient(var(--grid-minor-calibrated) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-minor-calibrated) 1px, transparent 1px),
+        linear-gradient(var(--grid-major-calibrated) 2px, transparent 2px),
+        linear-gradient(90deg, var(--grid-major-calibrated) 2px, transparent 2px);
       background-size:
         25px 25px,
         25px 25px,
@@ -132,11 +133,7 @@
     }
 
     /* ==========================================================================
-       AUTHENTIC ARCHITECTURAL CORNER CROP MARKS (SITTING DIRECTLY OUTSIDE)
-       - Inside edge of mark touches the outer edge of container border
-       - Long part of taper runs on the container side
-       - Dynamically spans 33% of the container wall
-       - Strict high-contrast rule (Gold/Orange on Dark; Forest/Black on Light/Wood)
+       AUTHENTIC ARCHITECTURAL OUTSIDE CORNER CROP MARKS
        ========================================================================== */
     .has-outside-corners {
       position: relative;
@@ -162,7 +159,7 @@
       background: var(--mark-c);
     }
 
-    /* Top-Left (TL) Outside: Sits 5.5px outside top and left */
+    /* Top-Left (TL) Outside */
     .corner-mark-out.tl {
       top: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -178,7 +175,7 @@
       clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 0 100%);
     }
 
-    /* Top-Right (TR) Outside: Sits 5.5px outside top and right */
+    /* Top-Right (TR) Outside */
     .corner-mark-out.tr {
       top: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -194,7 +191,7 @@
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip)));
     }
 
-    /* Bottom-Left (BL) Outside: Sits 5.5px outside bottom and left */
+    /* Bottom-Left (BL) Outside */
     .corner-mark-out.bl {
       bottom: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -210,7 +207,7 @@
       clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%);
     }
 
-    /* Bottom-Right (BR) Outside: Sits 5.5px outside bottom and right */
+    /* Bottom-Right (BR) Outside */
     .corner-mark-out.br {
       bottom: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -226,13 +223,51 @@
       clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%);
     }
 
-    /* High-Contrast Color Classes */
+    /* Color Classes */
     .c-gold { --mark-c: var(--gold); }
     .c-orange { --mark-c: var(--ember); }
     .c-forest { --mark-c: var(--forest-deep); }
     .c-black { --mark-c: var(--ink); }
-    .c-cream { --mark-c: #FAF6EE; }
-    .c-green { --mark-c: var(--mark-green); }
+
+    /* ==========================================================================
+       FRAMED MEDIA & BLACK IMAGE SQUARES (.bp-media--framed)
+       ========================================================================== */
+    .bp-media--framed {
+      width: 100%;
+      margin: 0.8rem 0;
+      border: 1.5px solid var(--gold);
+      border-radius: 4px;
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.85),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+        0 8px 20px -6px rgba(0, 0, 0, 0.6);
+      background: #08160E;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 140px;
+    }
+    .bp-media--framed img {
+      width: 100%;
+      height: 140px;
+      object-fit: contain;
+      display: block;
+      padding: 6px;
+    }
+    .bp-media-placeholder {
+      width: 100%;
+      height: 140px;
+      background: #0D1F15;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: var(--tan);
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.85rem;
+      border: 1px dashed rgba(217, 184, 114, 0.4);
+    }
 
     /* ==========================================================================
        ALL CARDS ARE SOLID (50/50 SOLID FAINT GRID & REAL TEXTURES)
@@ -323,7 +358,7 @@
       color: #1A1A1A;
     }
 
-    /* Green Title Header Bar on Wood Cards */
+    /* Green Title Header Bar */
     .card-title-bar-green {
       background: var(--forest-deep);
       color: #FAF6EE;
@@ -341,19 +376,19 @@
     .card-h {
       font-family: 'Rowdies', sans-serif;
       font-size: 1.3rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       line-height: 1.15;
     }
     .card-p {
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
+      font-size: 0.88rem;
+      margin-bottom: 0.8rem;
       line-height: 1.5;
     }
 
     /* Grid Layouts */
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 1.8rem;
     }
     .grid-small {
@@ -380,20 +415,14 @@
     }
     .btn-gold { background: var(--gold); color: var(--ink); }
     .btn-forest { background: var(--forest-deep); color: #FAF6EE; }
-    .btn-ember { background: var(--ember); color: #FAF6EE; }
     .btn-wood {
       background-color: #E2D5BE;
       background-image: url('../images/textures/trial-light-planks.png'), url('images/textures/trial-light-planks.png');
       background-size: cover;
       color: var(--ink);
     }
-    .btn-pill { border-radius: 999px; padding: 0.65rem 1.4rem; }
-    .btn-chamfer {
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-      border-radius: 0;
-    }
 
-    /* Graduated Showcase Container at Bottom */
+    /* Graduated Section */
     .graduated-zone {
       background: #1B241E;
       border: 3px solid var(--gold);
@@ -418,8 +447,8 @@
   <header class="inventory-header">
     <div class="wrap header-inner">
       <div>
-        <h1>Fence Frames — Component &amp; Box Inventory Lab</h1>
-        <p>Locked Canvas: Saturated Cream (#F4ECDC) &middot; 100% Solid Cards &middot; 50/50 Texture/Grid Mix &middot; Outside High-Contrast Corners</p>
+        <h1>Fence Frames — Component Inventory Lab (With Media &amp; Calibrated Grid)</h1>
+        <p>Calibrated Grid: 75% Trans Main &middot; 25% Sub &middot; Framed Media Visual Anchors &middot; 50/50 Texture/Grid Mix &middot; Outside Corners</p>
       </div>
       <div style="font-family:'Rowdies', sans-serif; font-size:0.85rem; color:var(--gold);">
         Trial Selection &amp; Graduation Board
@@ -430,35 +459,41 @@
   <div class="wrap">
 
     <!-- ====================================================================
-         SECTION 1: 50/50 LARGE CARDS (Wide & Tall)
+         SECTION 1: 50/50 LARGE CARDS (Wide & Tall With Images)
          ==================================================================== -->
     <section class="inventory-section">
       <div class="section-title-bar">
-        <h2 class="section-title">1. Large Cards (50/50 Real Wood Textures &amp; Solid Faint Grids)</h2>
-        <span class="section-desc">Contrasting Outside Corners (33% Taper on Container Side)</span>
+        <h2 class="section-title">1. Large Cards (With Media Anchors &amp; Calibrated Grid)</h2>
+        <span class="section-desc">Framed 2D Elevations, Blueprints &amp; Photos Breaking Up the Grid</span>
       </div>
 
       <div class="grid-3">
 
-        <!-- Card #01: Original Solid Green Card + Faint Grid -->
-        <div class="card-solid card-orig-green-grid has-outside-corners" style="min-height: 250px;">
+        <!-- Card #01: Original Solid Green Card + Faint Grid + Framed Media -->
+        <div class="card-solid card-orig-green-grid has-outside-corners">
           <!-- High-Contrast Outside Corners: Gold (TL) + Orange (BR) -->
           <span class="corner-mark-out tl c-gold"></span>
           <span class="corner-mark-out br c-orange"></span>
           
           <span class="item-badge">[Card #01 — Original Green Blueprint Plate]</span>
-          <div class="card-h">Original Green Print Takeoff</div>
+          <div class="card-h">Heritage Takeoff Blueprint</div>
           <p class="card-p" style="color:#C4B294;">
-            Solid forest green background with faint drafting grid. High-contrast Gold (TL) and Ember (BR) corner marks sit directly outside the container.
+            Solid forest green background with faint drafting grid and framed elevation illustration.
           </p>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+
+          <!-- Framed Black Media Mat -->
+          <div class="bp-media--framed">
+            <img src="../images/other/si-view-fence.png" onerror="this.src='images/other/si-view-fence.png'" alt="Heritage Fence Elevation" />
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.8rem;">
             <span style="font-family:'Rowdies',sans-serif; font-size:1.1rem; color:var(--gold);">$48.50 / Linear Foot</span>
             <button class="ff-btn btn-gold" style="font-size:0.8rem; padding:0.4rem 0.8rem;">Select Specs</button>
           </div>
         </div>
 
-        <!-- Card #02 (Candidate): Real Wood Planks-Knots Texture + Green Title Bar -->
-        <div class="card-solid card-tx-planks-knots has-outside-corners" style="min-height: 250px;">
+        <!-- Card #02 (Candidate): Real Wood Planks-Knots Texture + Green Title Bar + Media -->
+        <div class="card-solid card-tx-planks-knots has-outside-corners">
           <!-- High-Contrast Outside Corners on Wood: Orange (TR) + Forest (BL) -->
           <span class="corner-mark-out tr c-orange"></span>
           <span class="corner-mark-out bl c-forest"></span>
@@ -471,16 +506,22 @@
           <span class="item-badge">[Card #02 — Real Wood Planks Texture + Green Bar]</span>
           <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
           <p class="card-p">
-            Authentic lumber grain texture body paired with a solid dark green header bar. Deep Forest (BL) and Ember Orange (TR) outside corners.
+            Authentic lumber grain texture body paired with a solid dark green header bar and framed elevation.
           </p>
-          <div style="display:flex; gap:0.5rem; margin-top:1rem;">
+
+          <!-- Framed Black Media Mat -->
+          <div class="bp-media--framed">
+            <img src="../images/ai-generated-fences/Rancher Fence Illustration.jpg" onerror="this.src='images/ai-generated-fences/Rancher Fence Illustration.jpg'" alt="Cedar Fence Elevation" />
+          </div>
+
+          <div style="display:flex; gap:0.5rem; margin-top:0.8rem;">
             <button class="ff-btn btn-forest" style="font-size:0.78rem; padding:0.4rem 0.75rem;">Download PDF</button>
             <button class="ff-btn btn-wood" style="font-size:0.78rem; padding:0.4rem 0.75rem;">View Specs</button>
           </div>
         </div>
 
-        <!-- Card #03: Solid Tan with Faint Black Grid -->
-        <div class="card-solid card-solid-tan-grid has-outside-corners" style="min-height: 250px;">
+        <!-- Card #03: Solid Tan with Faint Black Grid + Media -->
+        <div class="card-solid card-solid-tan-grid has-outside-corners">
           <!-- High-Contrast Outside Corners: Black (TL) + Forest (BR) -->
           <span class="corner-mark-out tl c-black"></span>
           <span class="corner-mark-out br c-forest"></span>
@@ -488,11 +529,17 @@
           <span class="item-badge">[Card #03 — Solid Tan + Faint Black Grid]</span>
           <div class="card-h" style="color:var(--forest-deep);">3-Seat Contractor Pool</div>
           <p class="card-p">
-            Warm solid tan drafting surface with high-contrast black gridlines. Black (TL) and Forest (BR) crop ticks sitting on the outside perimeter.
+            Warm solid tan drafting surface with high-contrast black gridlines and photo anchor.
           </p>
-          <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:3px; padding:0.6rem; margin-top:1rem;">
-            <strong style="font-family:'Rowdies',sans-serif; font-size:0.85rem; color:var(--forest-deep);">72-Hour Lead Lock:</strong>
-            <span style="font-size:0.8rem;"> Capped matches guarantee zero contractor bidding spam.</span>
+
+          <!-- Framed Black Media Mat -->
+          <div class="bp-media--framed">
+            <img src="../images/fence-it-detailed.jpg" onerror="this.src='images/fence-it-detailed.jpg'" alt="Contractor Build" />
+          </div>
+
+          <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:3px; padding:0.5rem; margin-top:0.6rem;">
+            <strong style="font-family:'Rowdies',sans-serif; font-size:0.82rem; color:var(--forest-deep);">72-Hour Lead Lock:</strong>
+            <span style="font-size:0.78rem;"> Capped matches guarantee zero contractor bidding spam.</span>
           </div>
         </div>
 
@@ -504,7 +551,7 @@
          ==================================================================== -->
     <section class="inventory-section">
       <div class="section-title-bar">
-        <h2 class="section-title">2. Medium Cards (50/50 Texture &amp; Solid Plates)</h2>
+        <h2 class="section-title">2. Medium Cards (50/50 Texture &amp; Solid Plates With Media)</h2>
         <span class="section-desc">Real Finger-Joint Wood, Solid Forest Plate &amp; Solid Gold Grid</span>
       </div>
 
@@ -517,8 +564,13 @@
           
           <span class="item-badge">[Card #04 — Real Finger-Joint Wood Texture]</span>
           <div class="card-h" style="color:var(--forest-deep);">Framing &amp; Post Spacing</div>
+          
+          <div class="bp-media--framed" style="min-height:110px;">
+            <img src="../images/architectural-blueprint-fence-spec.png" onerror="this.src='images/architectural-blueprint-fence-spec.png'" style="height:110px;" alt="Framing Spec" />
+          </div>
+
           <p class="card-p">
-            Authentic finger-joint lumber board surface with high-contrast Forest Green (TR) and Ember Orange (BL) outside corners.
+            Authentic finger-joint lumber board surface with framed framing diagram.
           </p>
           <span style="font-family:'Rowdies',sans-serif; font-size:0.85rem; color:var(--forest-deep);">4x4 Pressure-Treated Posts &middot; 8ft O.C.</span>
         </div>
@@ -530,22 +582,31 @@
           
           <span class="item-badge" style="background:#FAF6EE; color:var(--ink);">[Card #05 — Solid Gold + Black Grid]</span>
           <div class="card-h">Instant 2D Takeoff</div>
+          
+          <div class="bp-media--framed" style="min-height:110px;">
+            <img src="../images/other/tool-designer-workspace.jpg" onerror="this.src='images/other/tool-designer-workspace.jpg'" style="height:110px;" alt="2D Takeoff Workspace" />
+          </div>
+
           <p class="card-p">
-            Solid rich gold backing overlaid with fine black grid. High-contrast Black (TL) and Forest (BR) outside corners.
+            Solid rich gold backing overlaid with fine black grid and tool workspace preview.
           </p>
           <button class="ff-btn btn-forest" style="width:100%; justify-content:center;">Launch Takeoff</button>
         </div>
 
         <!-- Card #06 (Candidate): Solid Dark Forest Grounding Plate -->
         <div class="card-solid has-outside-corners" style="background:var(--forest-deep); color:#FAF6EE;">
-          <!-- High-Contrast Outside Corners on Dark Green: Gold (TL) + Orange (BR) -->
           <span class="corner-mark-out tl c-gold"></span>
           <span class="corner-mark-out br c-orange"></span>
           
           <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #06 — Solid Forest Anchor Plate]</span>
           <div class="card-h" style="color:var(--gold);">Contractor Direct Dispatch</div>
+          
+          <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
+            <img src="../images/other/si-view-blueprint-clean.png" onerror="this.src='images/other/si-view-blueprint-clean.png'" style="height:110px;" alt="Blueprint Submittal" />
+          </div>
+
           <p class="card-p" style="color:#C4B294;">
-            Solid dark forest green background offering high visual grounding on the page. Glowing Gold (TL) and Ember Orange (BR) outside corners.
+            Solid dark forest green background with blueprint media mat and high-contrast outside corners.
           </p>
           <button class="ff-btn btn-gold" style="width:100%; justify-content:center;">Request 3 Bids</button>
         </div>
@@ -554,51 +615,7 @@
     </section>
 
     <!-- ====================================================================
-         SECTION 3: 50/50 SMALL CARDS & METRIC TILES
-         ==================================================================== -->
-    <section class="inventory-section">
-      <div class="section-title-bar">
-        <h2 class="section-title">3. Small Metric Tiles (50/50 Mix)</h2>
-        <span class="section-desc">Solid Cream, Real Red Cedar Texture &amp; Solid Tan Grid</span>
-      </div>
-
-      <div class="grid-small">
-
-        <!-- Card #07: Solid Cream + Green Grid -->
-        <div class="card-solid card-solid-cream-grid has-outside-corners">
-          <span class="corner-mark-out tl c-forest" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          <span class="corner-mark-out br c-orange" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          
-          <span class="item-badge">[Card #07 — Solid Cream Tile]</span>
-          <div style="font-family:'Rowdies',sans-serif; font-size:1.8rem; color:var(--forest-deep);">6′ 0″</div>
-          <p style="font-size:0.85rem; font-weight:600;">Maximum Bylaw Height</p>
-        </div>
-
-        <!-- Card #08: Real Red Cedar Wood Texture -->
-        <div class="card-solid card-tx-red-cedar has-outside-corners">
-          <span class="corner-mark-out tr c-forest" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          <span class="corner-mark-out bl c-black" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          
-          <span class="item-badge">[Card #08 — Real Red Cedar Tile]</span>
-          <div style="font-family:'Rowdies',sans-serif; font-size:1.8rem; color:var(--forest-deep);">3-Rail</div>
-          <p style="font-size:0.85rem; font-weight:600;">Structural Framing Spec</p>
-        </div>
-
-        <!-- Card #09: Solid Gold + Black Grid Tile -->
-        <div class="card-solid card-solid-gold-grid has-outside-corners">
-          <span class="corner-mark-out tl c-black" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          <span class="corner-mark-out br c-forest" style="width:40%; height:40%; min-width:18px; min-height:18px;"></span>
-          
-          <span class="item-badge" style="background:#FAF6EE; color:var(--ink);">[Card #09 — Solid Gold Tile]</span>
-          <div style="font-family:'Rowdies',sans-serif; font-size:1.8rem; color:var(--ink);">3-Seat</div>
-          <p style="font-size:0.85rem; font-weight:700;">Capped Lead Capacity</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         SECTION 4: GRADUATED / APPROVED SELECTIONS ROSTER
+         SECTION 3: GRADUATED & CANDIDATE SELECTIONS ROSTER
          ==================================================================== -->
     <section class="inventory-section">
       <div class="graduated-zone">
@@ -616,7 +633,7 @@
 
         <div class="grid-3">
 
-          <!-- Graduated Selection 1: Card #02 Evolution (Wood Grain + Green Title Bar) -->
+          <!-- Graduated Selection 1: Card #02 Evolution (Wood Grain + Green Title Bar + Media) -->
           <div class="card-solid card-tx-planks-knots has-outside-corners">
             <span class="corner-mark-out tr c-orange"></span>
             <span class="corner-mark-out bl c-forest"></span>
@@ -627,23 +644,31 @@
 
             <span class="item-badge badge-graduated">Graduated Selection #01 &middot; Wood + Green Header</span>
             <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
-            <p class="card-p">
-              <strong>Status:</strong> Close / Candidate for Official Component List. Real wood plank body + solid green header bar + contrasting outside corners (Orange TR / Forest BL).
-            </p>
-            <div style="display:flex; gap:0.5rem;">
-              <button class="ff-btn btn-forest" style="font-size:0.75rem; padding:0.35rem 0.7rem;">Download PDF</button>
+            
+            <div class="bp-media--framed" style="min-height:120px;">
+              <img src="../images/other/si-view-fence.png" onerror="this.src='images/other/si-view-fence.png'" style="height:120px;" alt="Si View Fence Elevation" />
             </div>
+
+            <p class="card-p">
+              <strong>Status:</strong> Close / Candidate for Official Component List. Real wood plank body + solid green header bar + framed elevation + contrasting outside corners (Orange TR / Forest BL).
+            </p>
+            <button class="ff-btn btn-forest" style="font-size:0.75rem; padding:0.35rem 0.7rem;">Download PDF</button>
           </div>
 
-          <!-- Graduated Selection 2: Card #06 Evolution (Solid Dark Forest Plate) -->
+          <!-- Graduated Selection 2: Card #06 Evolution (Solid Dark Forest Plate + Media) -->
           <div class="card-solid has-outside-corners" style="background:var(--forest-deep); color:#FAF6EE;">
             <span class="corner-mark-out tl c-gold"></span>
             <span class="corner-mark-out br c-orange"></span>
             
             <span class="item-badge badge-graduated">Graduated Selection #02 &middot; Solid Forest Plate</span>
             <div class="card-h" style="color:var(--gold);">Contractor Direct Dispatch</div>
+            
+            <div class="bp-media--framed" style="min-height:120px; border-color:var(--gold);">
+              <img src="../images/other/si-view-blueprint-clean.png" onerror="this.src='images/other/si-view-blueprint-clean.png'" style="height:120px;" alt="Blueprint Submittal" />
+            </div>
+
             <p class="card-p" style="color:#C4B294;">
-              <strong>Status:</strong> Close / Candidate for Official Component List. 100% Solid dark forest background with high-contrast Gold (TL) and Ember Orange (BR) outside corners.
+              <strong>Status:</strong> Close / Candidate for Official Component List. 100% Solid dark forest background with blueprint media mat + high-contrast Gold (TL) and Ember Orange (BR) outside corners.
             </p>
             <button class="ff-btn btn-gold" style="width:100%; justify-content:center; font-size:0.85rem; padding:0.5rem;">Request 3 Bids</button>
           </div>
