@@ -70,7 +70,7 @@
               <strong>Designer</strong>
               <span>Live canvas with real-time cost</span>
             </a>
-            <a class="nav-dd-item" href="#designs">
+            <a class="nav-dd-item" href="catalog.html">
               <strong>Catalog</strong>
               <span>Start from a preset fence line</span>
             </a>
@@ -329,7 +329,7 @@
           <img src="images/frame-it-detailed.png" alt="Frame It — timber frame with layout analysis overlay" loading="lazy" />
         </div>
         <div class="tool-cards">
-          <a class="tool-card has-marks has-marks--green" href="#designs">
+          <a class="tool-card has-marks has-marks--green" href="catalog.html">
             <div class="art">
               <img src="images/catalog-vpf-natural.svg" alt="Fence style catalog presets" loading="lazy" />
             </div>
@@ -377,551 +377,27 @@
         <!-- Shared title+body marks; green (TR+BL) so top mark meets right-aligned title -->
         <div class="step-copy step-align-right has-marks has-marks--diag has-marks--green">
           <span class="step-word step-fence">Fence it.</span>
-          <p class="step-body">The end product of Fence Frames is your free, complete <strong>Fence-Folio</strong>: an architectural blueprint, non-substitutable material schedule, and honest pricing ledger with ARC community specs &mdash; the exact package contractors need to quote accurately with no surprises.</p>
+          <p class="step-body">We help you assemble a full Spec Sheet: a builder&rsquo;s blueprint ensuring the fence is built the right way, a material list so cheap materials can&rsquo;t be substituted, and a pricing ledger so you know a fair price range before you ever haggle with a contractor.</p>
         </div>
-
-        <!-- FENCE-FOLIO DELIVERABLE CENTERPIECE -->
-        <div class="fence-folio-deliverable-wrap">
-          <div class="blueprint fence-handbook-widget has-marks has-marks--orange reveal in" id="fence-handbook-widget" aria-label="Fence-Folio interactive widget">
-            <!-- Interactive Next Page Flip Prompt (Right Edge) -->
-            <button class="hb-edge-flip-btn" id="hb-edge-flip-btn" type="button" onclick="navigateHandbook(1)" aria-label="Flip to next page" title="Flip to next page">
-              <span class="hb-edge-label">Next</span>
-              <span class="hb-edge-arrow" aria-hidden="true">&rsaquo;</span>
-            </button>
-
-            <!-- Handbook Header & Spine Tab Bar -->
-            <div class="hb-header">
-              <div class="hb-title-row">
-                <div class="hb-badge-brand">
-                  <span class="hb-spine-icon" aria-hidden="true">📖</span>
-                  <span class="hb-brand-name">FENCE-FOLIO</span>
-                </div>
-                <span class="bp-tag">HOA READY</span>
-              </div>
-
-              <!-- Main Spine Tab Bar -->
-              <nav class="hb-nav-tabs" role="tablist" aria-label="Fence-Folio Pages">
-                <button role="tab" class="hb-tab active" id="hb-tab-1" aria-selected="true" aria-controls="hb-page-1" data-page="1">1. Cover</button>
-                <button role="tab" class="hb-tab" id="hb-tab-2" aria-selected="false" aria-controls="hb-page-2" data-page="2">2. Community</button>
-                <button role="tab" class="hb-tab" id="hb-tab-3" aria-selected="false" aria-controls="hb-page-3" data-page="3">3. Materials</button>
-                <button role="tab" class="hb-tab" id="hb-tab-4" aria-selected="false" aria-controls="hb-page-4" data-page="4">4. Blueprint</button>
-                <button role="tab" class="hb-tab" id="hb-tab-5" aria-selected="false" aria-controls="hb-page-5" data-page="5">5. Add-ons</button>
-                <button role="tab" class="hb-tab" id="hb-tab-6" aria-selected="false" aria-controls="hb-page-6" data-page="6">6. Ledger</button>
-                <button role="tab" class="hb-tab hb-tab--hoa" id="hb-tab-hoa" aria-selected="false" aria-controls="hb-page-hoa" data-page="hoa">
-                  <span class="hb-hoa-star">★</span> HOA Chapter
-                </button>
-              </nav>
-            </div>
-
-            <!-- Handbook Pages Container -->
-            <div class="hb-pages-body">
-              
-              <!-- PAGE 1: COVER -->
-              <div role="tabpanel" class="hb-page active" id="hb-page-1" aria-labelledby="hb-tab-1">
-                <div class="bp-head">
-                  <div>
-                    <div class="bp-title">Heritage Cedar &mdash; 6&prime; Privacy</div>
-                    <div class="bp-sub">Sheet A-01 &middot; Elevation Spec</div>
-                  </div>
-                  <div class="hb-exemplar-tag">Exemplar: Si View</div>
-                </div>
-                <div class="bp-media">
-                  <img src="images/other/si-view-fence.png" alt="Si View Heritage Cedar Privacy Fence" loading="lazy" />
-                  <div class="tint" aria-hidden="true"></div>
-                </div>
-                <div class="bp-foot">
-                  <div>Est. price range<strong class="price-val" id="hb-cover-price-val">$42&ndash;$57 / LF</strong></div>
-                  <div>Material<strong class="mat-val">Western Red Cedar</strong></div>
-                  <div>Status<strong class="status-val">Pre-Checked HOA</strong></div>
-                </div>
-              </div>
-
-              <!-- PAGE 2: COMMUNITY LANDING -->
-              <div role="tabpanel" class="hb-page" id="hb-page-2" aria-labelledby="hb-tab-2" hidden>
-                <div class="hb-page-head">
-                  <div class="hb-page-title">Community Guidelines &amp; Landing</div>
-                  <div class="hb-page-sub">Si View &mdash; North Bend, WA Pre-Checked Rules</div>
-                </div>
-                <div class="hb-rules-grid">
-                  <div class="hb-rule-card">
-                    <span class="hb-rule-icon">📏</span>
-                    <div class="hb-rule-info">
-                      <strong>Approved Height Cap</strong>
-                      <span>6′ max for rear &amp; side yards · 4′ for front lines</span>
-                    </div>
-                  </div>
-                  <div class="hb-rule-card">
-                    <span class="hb-rule-icon">🌲</span>
-                    <div class="hb-rule-info">
-                      <strong>Material Standard</strong>
-                      <span>Western Red Cedar or PT Pine · No loose knots &gt; 1″</span>
-                    </div>
-                  </div>
-                  <div class="hb-rule-card">
-                    <span class="hb-rule-icon">🎨</span>
-                    <div class="hb-rule-info">
-                      <strong>Stain Palette</strong>
-                      <span>Natural Cedar, Oxford Brown, Emerald Spruce, Driftwood Gray</span>
-                    </div>
-                  </div>
-                  <div class="hb-rule-card">
-                    <span class="hb-rule-icon">📐</span>
-                    <div class="hb-rule-info">
-                      <strong>Orientation</strong>
-                      <span>Finished face outward toward neighbors/street</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="hb-hoa-cta-box">
-                  <div class="hb-hoa-cta-text">
-                    <strong>Need official HOA ARC submittal documents?</strong>
-                    <p>Unlock the complete HOA package including pitch cover, neighbor sign-offs, and compliance stamps.</p>
-                  </div>
-                  <button class="btn btn-gold btn-sm" type="button" onclick="switchHandbookPage('hoa')">
-                    Open HOA Chapter &rarr;
-                  </button>
-                </div>
-              </div>
-
-              <!-- PAGE 3: MATERIALS TAKEOFF -->
-              <div role="tabpanel" class="hb-page" id="hb-page-3" aria-labelledby="hb-tab-3" hidden>
-                <div class="hb-flex-head">
-                  <div class="hb-page-head">
-                    <div class="hb-page-title">Materials Takeoff Schedule</div>
-                    <div class="hb-page-sub">Non-Substitutable Spec &middot; Heritage Cedar Privacy</div>
-                  </div>
-                  <div class="hb-toggle-wrap">
-                    <button type="button" class="hb-toggle-btn active" id="hb-toggle-8ft" onclick="setMaterialMode('8ft')">8′ Panel</button>
-                    <button type="button" class="hb-toggle-btn" id="hb-toggle-100ft" onclick="setMaterialMode('100ft')">100 LF Run</button>
-                  </div>
-                </div>
-                <div class="hb-table-wrap">
-                  <table class="hb-table">
-                    <thead>
-                      <tr>
-                        <th>Material Item</th>
-                        <th class="text-right">Qty</th>
-                        <th class="text-right">Est. Cost</th>
-                      </tr>
-                    </thead>
-                    <tbody id="hb-materials-tbody">
-                      <!-- Populated via JS -->
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Total Materials:</th>
-                        <th></th>
-                        <th class="text-right" id="hb-materials-total">$245.00</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-
-              <!-- PAGE 4: BUILDER'S BLUEPRINT (4 SUB-FLIPS) -->
-              <div role="tabpanel" class="hb-page" id="hb-page-4" aria-labelledby="hb-tab-4" hidden>
-                <div class="hb-page-head">
-                  <div class="hb-page-title">Builder&rsquo;s Blueprint &amp; Construction Steps</div>
-                  <div class="hb-page-sub">Step-by-Step Framing, Pickets &amp; Finish Schedule</div>
-                </div>
-
-                <!-- Sub-flip Mini Tabs -->
-                <div class="hb-subflip-tabs" role="tablist" aria-label="Construction Phases">
-                  <button class="hb-subflip-tab active" data-subflip="1" onclick="setSubflip(1)">1. Prep</button>
-                  <button class="hb-subflip-tab" data-subflip="2" onclick="setSubflip(2)">2. Framing</button>
-                  <button class="hb-subflip-tab" data-subflip="3" onclick="setSubflip(3)">3. Fill &amp; Trim</button>
-                  <button class="hb-subflip-tab" data-subflip="4" onclick="setSubflip(4)">4. Finish</button>
-                </div>
-
-                <!-- Sub-flip Panels -->
-                <div class="hb-subflip-panels">
-                  <div class="hb-subflip-panel active" id="hb-subflip-1">
-                    <div class="hb-subflip-header">
-                      <h4>Phase 1: General Site Prep &amp; Layout</h4>
-                      <span class="hb-subflip-badge">Phase 1 of 4</span>
-                    </div>
-                    <p class="hb-subflip-desc">Clear property boundary line, locate underground utilities (call 811), pull stringlines between corner stakes, and stake out 8′ post centerlines.</p>
-                    <div class="hb-subflip-metrics">
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Labor Hours</span>
-                        <strong class="hb-m-val">1.0 hr ($75.00)</strong>
-                      </div>
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Material Subtotal</span>
-                        <strong class="hb-m-val">$45.00</strong>
-                      </div>
-                      <div class="hb-metric hb-metric--highlight">
-                        <span class="hb-m-label">Phase Total</span>
-                        <strong class="hb-m-val">$120.00</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="hb-subflip-panel" id="hb-subflip-2" hidden>
-                    <div class="hb-subflip-header">
-                      <h4>Phase 2: Post Hole Augering &amp; Rail Framing</h4>
-                      <span class="hb-subflip-badge">Phase 2 of 4</span>
-                    </div>
-                    <p class="hb-subflip-desc">Post hole augering (36″ depth), gravel base loading, plumbing 4x4 PT posts in concrete, and installing 3x 2x4 Cedar rails per panel.</p>
-                    <div class="hb-subflip-metrics">
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Labor Hours</span>
-                        <strong class="hb-m-val">6.5 hrs ($487.50)</strong>
-                      </div>
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Material Subtotal</span>
-                        <strong class="hb-m-val">$1,420.00</strong>
-                      </div>
-                      <div class="hb-metric hb-metric--highlight">
-                        <span class="hb-m-label">Phase Total</span>
-                        <strong class="hb-m-val">$1,907.50</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="hb-subflip-panel" id="hb-subflip-3" hidden>
-                    <div class="hb-subflip-header">
-                      <h4>Phase 3: Fill &amp; Trim (Pickets &amp; Top Cap)</h4>
-                      <span class="hb-subflip-badge">Phase 3 of 4</span>
-                    </div>
-                    <p class="hb-subflip-desc">Installing 1x6 Western Red Cedar pickets with stainless steel screws, plumb-checking every 4th picket, 2x6 top cap framing &amp; 1x4 fascia trim.</p>
-                    <div class="hb-subflip-metrics">
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Labor Hours</span>
-                        <strong class="hb-m-val">4.0 hrs ($300.00)</strong>
-                      </div>
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Material Subtotal</span>
-                        <strong class="hb-m-val">$1,680.00</strong>
-                      </div>
-                      <div class="hb-metric hb-metric--highlight">
-                        <span class="hb-m-label">Phase Total</span>
-                        <strong class="hb-m-val">$1,980.00</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="hb-subflip-panel" id="hb-subflip-4" hidden>
-                    <div class="hb-subflip-header">
-                      <h4>Phase 4: Finish (Hardware, Sand &amp; Stain)</h4>
-                      <span class="hb-subflip-badge">Phase 4 of 4</span>
-                    </div>
-                    <p class="hb-subflip-desc">Mounting copper post caps, gate hinges &amp; latch hardware, light surface sanding, and applying 2 coats of protective wood stain.</p>
-                    <div class="hb-subflip-metrics">
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Labor Hours</span>
-                        <strong class="hb-m-val">2.5 hrs ($187.50)</strong>
-                      </div>
-                      <div class="hb-metric">
-                        <span class="hb-m-label">Material Subtotal</span>
-                        <strong class="hb-m-val">$290.00</strong>
-                      </div>
-                      <div class="hb-metric hb-metric--highlight">
-                        <span class="hb-m-label">Phase Total</span>
-                        <strong class="hb-m-val">$477.50</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- PAGE 5: ADD-ONS & BADGES -->
-              <div role="tabpanel" class="hb-page" id="hb-page-5" aria-labelledby="hb-tab-5" hidden>
-                <div class="hb-page-head">
-                  <div class="hb-page-title">Selected Add-ons &amp; Status Badges</div>
-                  <div class="hb-page-sub">Custom Features &middot; HOA Compliance Flags</div>
-                </div>
-                <div class="hb-addons-grid">
-                  <!-- Section A: On This Fence -->
-                  <div class="hb-addons-col">
-                    <div class="hb-addons-col-title">Included on This Build</div>
-                    <div class="hb-addon-item">
-                      <div class="hb-addon-info">
-                        <strong>2x6 Western Red Cedar Top Cap</strong>
-                        <span>Protective horizontal cap rail</span>
-                      </div>
-                      <span class="hb-badge hb-badge--on">on</span>
-                    </div>
-                    <div class="hb-addon-item">
-                      <div class="hb-addon-info">
-                        <strong>1x4 Fascia Trim Board (Front)</strong>
-                        <span>Architectural top rail accent</span>
-                      </div>
-                      <span class="hb-badge hb-badge--on">on</span>
-                    </div>
-                    <div class="hb-addon-item">
-                      <div class="hb-addon-info">
-                        <strong>Copper Pyramid Post Caps (4x4)</strong>
-                        <span>End grain rot prevention</span>
-                      </div>
-                      <span class="hb-badge hb-badge--on">on</span>
-                    </div>
-                    <div class="hb-addon-item">
-                      <div class="hb-addon-info">
-                        <strong>Stainless Steel Ring Shank Screws</strong>
-                        <span>Zero black tannin stain bleed</span>
-                      </div>
-                      <span class="hb-badge hb-badge--on">on</span>
-                    </div>
-                  </div>
-
-                  <!-- Section B: Available to Add -->
-                  <div class="hb-addons-col">
-                    <div class="hb-addons-col-title">Available Upgrades &amp; Statuses</div>
-                    <div class="hb-addon-item hb-addon-item--selectable" id="addon-item-stain" data-addon="stain" onclick="toggleAddon('stain')">
-                      <div class="hb-addon-info">
-                        <strong>Premium Oil Stain Sealant Upgrade</strong>
-                        <span>5-year UV protective coat (+ $320)</span>
-                      </div>
-                      <button type="button" class="hb-badge hb-badge--available" id="addon-badge-stain">available</button>
-                    </div>
-                    <div class="hb-addon-item hb-addon-item--disabled" title="Gates not included in standard Si View build line">
-                      <div class="hb-addon-info">
-                        <strong>Gate Accent Hardware (Black Steel)</strong>
-                        <span>No gates in standard Si View build</span>
-                      </div>
-                      <span class="hb-badge hb-badge--style-na">style-n/a</span>
-                    </div>
-                    <div class="hb-addon-item hb-addon-item--disabled" title="Blocked by Si View 6′ height limit">
-                      <div class="hb-addon-info">
-                        <strong>12″ Decorative Lattice Top Accent</strong>
-                        <span>Exceeds Si View 6′ height cap</span>
-                      </div>
-                      <span class="hb-badge hb-badge--hoa-blocked">hoa-blocked</span>
-                    </div>
-                    <div class="hb-addon-item hb-addon-item--disabled" title="Incompatible with in-ground post specification">
-                      <div class="hb-addon-info">
-                        <strong>Steel Post Bracket Mounts</strong>
-                        <span>For concrete pad installation</span>
-                      </div>
-                      <span class="hb-badge hb-badge--style-na">style-n/a</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="hb-legend">
-                  <span class="hb-legend-title">Status Legend:</span>
-                  <span class="hb-badge hb-badge--on">on</span> Included
-                  <span class="hb-badge hb-badge--available">available</span> Optional
-                  <span class="hb-badge hb-badge--hoa-blocked">hoa-blocked</span> HOA Cap
-                  <span class="hb-badge hb-badge--style-na">style-n/a</span> Incompatible
-                </div>
-              </div>
-
-              <!-- PAGE 6: LEDGER -->
-              <div role="tabpanel" class="hb-page" id="hb-page-6" aria-labelledby="hb-tab-6" hidden>
-                <div class="hb-page-head">
-                  <div class="hb-page-title">Pricing Ledger &amp; Cost Summary</div>
-                  <div class="hb-page-sub">100 LF Heritage Cedar Privacy &middot; Local Cost Reconciliation</div>
-                </div>
-                <div class="hb-ledger-card">
-                  <div class="hb-ledger-row">
-                    <span>Materials Takeoff Total (Page 3)</span>
-                    <strong id="hb-ledger-mat-val">$3,435.00</strong>
-                  </div>
-                  <div class="hb-ledger-row">
-                    <span>Builder Labor Total (14.0 hrs @ $75/hr)</span>
-                    <strong id="hb-ledger-labor-val">$1,050.00</strong>
-                  </div>
-                  <div class="hb-ledger-row">
-                    <span>Site Delivery &amp; Equipment Rental Fee</span>
-                    <strong id="hb-ledger-delivery-val">$265.00</strong>
-                  </div>
-                  <div class="hb-ledger-row hb-ledger-row--addons">
-                    <span>Selected Add-ons / Upgrades (Page 5)</span>
-                    <strong id="hb-ledger-addons-val">$0.00</strong>
-                  </div>
-                  <div class="hb-ledger-row hb-ledger-row--subtotal">
-                    <span>Base Project Subtotal</span>
-                    <strong id="hb-ledger-subtotal-val">$4,750.00</strong>
-                  </div>
-                  <div class="hb-ledger-row hb-ledger-row--range">
-                    <div>
-                      <span class="hb-range-label">Honest Local Range</span>
-                      <span class="hb-range-sub">Si View &middot; 98045 benchmark</span>
-                    </div>
-                    <strong class="hb-range-val" id="hb-ledger-range-val">$4,200 &ndash; $5,700</strong>
-                  </div>
-                </div>
-                <p class="hb-contingency-note">
-                  * Note: Estimated price range includes a <strong>5&ndash;10% contingency buffer</strong> for soil variation, root clearing, and minor grade slopes.
-                </p>
-                <div class="hb-ledger-actions">
-                  <a class="btn btn-primary btn-sm" href="#pros">Connect with Vetted Local Contractors</a>
-                  <button class="btn btn-ghost on-dark btn-sm" type="button" onclick="openPdfPreview()">Print / Export Architectural PDF</button>
-                </div>
-              </div>
-
-              <!-- SPECIAL CHAPTER: HOA FENCE-FOLIO CHAPTER -->
-              <div role="tabpanel" class="hb-page hb-page--hoa" id="hb-page-hoa" aria-labelledby="hb-tab-hoa" hidden>
-                <div class="hb-page-head hb-hoa-head">
-                  <div>
-                    <div class="hb-page-title">HOA Fence-Folio Chapter</div>
-                    <div class="hb-page-sub">Si View ARC Pitch &amp; Specification Package</div>
-                  </div>
-                  <span class="hb-hoa-stamp">ARC VERIFIED</span>
-                </div>
-
-                <!-- HOA Sub-Tabs -->
-                <div class="hb-hoa-subtabs" role="tablist" aria-label="HOA Chapter Sections">
-                  <button class="hb-hoa-subtab active" data-hoasec="1" onclick="setHoaSection(1)">01 Community Specs</button>
-                  <button class="hb-hoa-subtab" data-hoasec="2" onclick="setHoaSection(2)">02 ARC Pitch Cover</button>
-                  <button class="hb-hoa-subtab" data-hoasec="3" onclick="setHoaSection(3)">03 Neighbor Agreement</button>
-                  <button class="hb-hoa-subtab" data-hoasec="4" onclick="setHoaSection(4)">04 Engineering Sheet</button>
-                </div>
-
-                <!-- HOA Section Panels -->
-                <div class="hb-hoa-panels">
-                  <!-- Section 1 -->
-                  <div class="hb-hoa-panel active" id="hb-hoasec-1">
-                    <h4>Section 1: Community Guidelines &amp; Stain Swatches</h4>
-                    <p>Pre-populated Si View standards. All pickets must be vertical Western Red Cedar or Pressure-Treated Pine with smooth face outward.</p>
-                    <div class="hb-swatch-list">
-                      <div class="hb-swatch-title">Approved Stain Palette:</div>
-                      <div class="hb-swatches">
-                        <div class="hb-swatch" style="background:#c88d54;"><span class="hb-swatch-name">Natural Cedar</span></div>
-                        <div class="hb-swatch" style="background:#5c3a21;"><span class="hb-swatch-name">Oxford Brown</span></div>
-                        <div class="hb-swatch" style="background:#2f4d3a;"><span class="hb-swatch-name">Emerald Spruce</span></div>
-                        <div class="hb-swatch" style="background:#8a8880;"><span class="hb-swatch-name">Driftwood Gray</span></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Section 2 -->
-                  <div class="hb-hoa-panel" id="hb-hoasec-2" hidden>
-                    <h4>Section 2: ARC Submission Pitch Package Cover</h4>
-                    <div class="hb-hoa-meta-grid">
-                      <div><strong>Property Owner:</strong> &mdash;</div>
-                      <div><strong>Contractor:</strong> &mdash;</div>
-                      <div><strong>Linear Feet:</strong> 100 LF Privacy Fence</div>
-                      <div><strong>Insurance:</strong> Vetted Contractor Network</div>
-                    </div>
-                    <div class="hb-hoa-checklist">
-                      <strong>ARC Submission Checklist:</strong>
-                      <ul>
-                        <li>✓ 1:1 Scale Architectural Elevation Drawing</li>
-                        <li>✓ Non-Substitutable Material Schedule</li>
-                        <li>✓ Si View CC&amp;R Height &amp; Material Alignment</li>
-                        <li>✓ Contractor Credentials Verification</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <!-- Section 3 -->
-                  <div class="hb-hoa-panel" id="hb-hoasec-3" hidden>
-                    <h4>Section 3: Neighbor Boundary Agreement Sheet</h4>
-                    <p class="hb-hoa-subtext">Printable paper sign-off template for property line notifications.</p>
-                    <div class="hb-boundary-table">
-                      <div class="hb-b-row">
-                        <span>Left Property Line:</span>
-                        <strong>Shared Boundary Template</strong>
-                      </div>
-                      <div class="hb-b-row">
-                        <span>Right Property Line:</span>
-                        <strong>Shared Boundary Template</strong>
-                      </div>
-                      <div class="hb-b-row">
-                        <span>Rear Property Line:</span>
-                        <strong>Shared Boundary Template</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Section 4 -->
-                  <div class="hb-hoa-panel" id="hb-hoasec-4" hidden>
-                    <h4>Section 4: Engineering Elevation &amp; Specification</h4>
-                    <div class="hb-eng-box">
-                      <div class="hb-eng-code">Doc Ref: PREVIEW</div>
-                      <p>Architectural drawing adheres to Si View CC&amp;R Section 4.2 height caps (6′ rear/side, 4′ front) &amp; Western Red Cedar material guidelines. Si View&ndash;aligned preview copy.</p>
-                      <div class="hb-compliance-stamp">
-                        <span class="hb-stamp-ico">🛡️</span>
-                        <span>SI VIEW&ndash;ALIGNED PREVIEW</span>
-                      </div>
-                    </div>
-                    <button class="btn btn-gold btn-sm" type="button" style="margin-top:12px;" onclick="openPdfPreview()">
-                      Open Full ARC Blueprint Package &rarr;
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Handbook Navigation Controls (Footer) -->
-            <div class="hb-controls-bar">
-              <button class="hb-nav-btn hb-prev" id="hb-prev-btn" type="button" onclick="navigateHandbook(-1)">
-                &lsaquo; Prev
-              </button>
-              <span class="hb-page-indicator" id="hb-page-indicator">Page 1 of 6</span>
-              <button class="hb-nav-btn hb-next" id="hb-next-btn" type="button" onclick="navigateHandbook(1)">
-                Next &rsaquo;
-              </button>
-            </div>
-          </div>
+        <div class="action-grid">
+          <a class="action-btn has-marks has-marks--diag has-marks--sm has-marks--green" href="#pros">
+            <span class="label">Find a Builder</span>
+            <span class="sub">Match with local pros who bid on your finished plan.</span>
+          </a>
+          <a class="action-btn has-marks has-marks--diag has-marks--sm has-marks--orange" href="wizard-demo.html">
+            <span class="label">Create Builder&rsquo;s Blueprint</span>
+            <span class="sub">Elevation + plan views ready for ARC or contractor handoff.</span>
+          </a>
+          <a class="action-btn has-marks has-marks--diag has-marks--sm has-marks--orange" href="wizard-demo.html">
+            <span class="label">Print Material List</span>
+            <span class="sub">Takeoff with quantities so substitutions can&rsquo;t sneak in.</span>
+          </a>
+          <a class="action-btn has-marks has-marks--diag has-marks--sm has-marks--green" href="wizard-demo.html">
+            <span class="label">Export Pricing Estimate</span>
+            <span class="sub">Honest &plusmn;15% range for your ZIP &mdash; not a hard quote.</span>
+          </a>
         </div>
-
-        <!-- Contractor Match CTA Bar -->
-        <div class="fence-cta-bar">
-          <div class="fence-cta-text">
-            <strong>Ready to build your plan?</strong>
-            <p>Connect with vetted local fence contractors who bid directly on your finalized Fence-Folio specification.</p>
-          </div>
-          <a class="btn btn-primary" href="#pros">Match with Local Pros &rarr;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CATALOG -->
-  <section id="designs" class="catalog-bg">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag-stamp"><span class="dot"></span>Fig. 2 &middot; Scale 1:24</span>
-        <p class="eyebrow">Design catalog</p>
-        <h2>Start from a style you love</h2>
-        <p>Every template is fully editable and priced for your ZIP. Pick one, make it yours.</p>
-      </div>
-      <div class="cards">
-        <article class="card has-marks has-marks--green reveal">
-          <div class="art">
-            <span class="price-tab">$$</span>
-            <img src="images/catalog-vpf-natural.svg" alt="Classic cedar privacy fence" loading="lazy" />
-          </div>
-          <div class="body">
-            <h3>Classic Privacy</h3>
-            <div class="meta">Cedar &middot; 6&prime; solid boards</div>
-            <p>The neighborhood standard &mdash; tall vertical cedar that blocks sightlines and sits comfortably in most community guidelines.</p>
-            <div class="price price-blur" title="Local pricing unlocks with your ZIP in v2">$36&ndash;$48 <span>/ linear ft</span></div>
-            <span class="tag">Most popular</span>
-          </div>
-        </article>
-
-        <article class="card has-marks has-marks--orange reveal">
-          <div class="art">
-            <span class="price-tab">$$$</span>
-            <img src="images/catalog-hf-horizontal.svg" alt="Modern horizontal cedar fence" loading="lazy" />
-          </div>
-          <div class="body">
-            <h3>Modern Horizontal</h3>
-            <div class="meta">Cedar &middot; stacked boards</div>
-            <p>Clean horizontal lines with intentional gaps &mdash; a contemporary look that feels architectural, not boxed-in.</p>
-            <div class="price price-blur" title="Local pricing unlocks with your ZIP in v2">$41&ndash;$55 <span>/ linear ft</span></div>
-            <span class="tag">Designer pick</span>
-          </div>
-        </article>
-
-        <article class="card has-marks has-marks--green reveal">
-          <div class="art">
-            <span class="price-tab">$</span>
-            <img src="images/catalog-fabric-lattice.svg" alt="Garden lattice fence" loading="lazy" />
-          </div>
-          <div class="body">
-            <h3>Garden Lattice</h3>
-            <div class="meta">Cedar lattice &middot; open weave</div>
-            <p>Light diamond lattice for garden borders and side yards &mdash; marks the line while keeping the view open.</p>
-            <div class="price price-blur" title="Local pricing unlocks with your ZIP in v2">$27&ndash;$37 <span>/ linear ft</span></div>
-            <span class="tag">Budget friendly</span>
-          </div>
-        </article>
+        <p class="action-note">Sample outputs for now &mdash; full Spec Sheet export ships with the live configurator.</p>
       </div>
     </div>
   </section>
@@ -939,24 +415,479 @@
         </div>
         <p class="disclaimer">Unofficial planning summaries &mdash; always confirm requirements with your association before building.</p>
       </div>
-      <div class="hoa-panel has-marks has-marks--green reveal">
-        <div class="hoa-panel-head">
-          <strong>Si View Community</strong>
-          <span class="pill">North Bend, WA</span>
+
+      <div class="blueprint fence-handbook-widget has-marks has-marks--orange reveal in" id="fence-handbook-widget" aria-label="Fence-Folio interactive widget">
+        <!-- Interactive Next Page Flip Prompt (Right Edge) -->
+        <button class="hb-edge-flip-btn" id="hb-edge-flip-btn" type="button" onclick="navigateHandbook(1)" aria-label="Flip to next page" title="Flip to next page">
+          <span class="hb-edge-label">Next</span>
+          <span class="hb-edge-arrow" aria-hidden="true">&rsaquo;</span>
+        </button>
+
+        <!-- Handbook Header & Spine Tab Bar -->
+        <div class="hb-header">
+          <div class="hb-title-row">
+            <div class="hb-badge-brand">
+              <span class="hb-spine-icon" aria-hidden="true">📖</span>
+              <span class="hb-brand-name">FENCE-FOLIO</span>
+            </div>
+            <span class="bp-tag">HOA READY</span>
+          </div>
+
+          <!-- Main Spine Tab Bar -->
+          <nav class="hb-nav-tabs" role="tablist" aria-label="Fence-Folio Pages">
+            <button role="tab" class="hb-tab active" id="hb-tab-1" aria-selected="true" aria-controls="hb-page-1" data-page="1">1. Cover</button>
+            <button role="tab" class="hb-tab" id="hb-tab-2" aria-selected="false" aria-controls="hb-page-2" data-page="2">2. Community</button>
+            <button role="tab" class="hb-tab" id="hb-tab-3" aria-selected="false" aria-controls="hb-page-3" data-page="3">3. Materials</button>
+            <button role="tab" class="hb-tab" id="hb-tab-4" aria-selected="false" aria-controls="hb-page-4" data-page="4">4. Blueprint</button>
+            <button role="tab" class="hb-tab" id="hb-tab-5" aria-selected="false" aria-controls="hb-page-5" data-page="5">5. Add-ons</button>
+            <button role="tab" class="hb-tab" id="hb-tab-6" aria-selected="false" aria-controls="hb-page-6" data-page="6">6. Ledger</button>
+            <button role="tab" class="hb-tab hb-tab--hoa" id="hb-tab-hoa" aria-selected="false" aria-controls="hb-page-hoa" data-page="hoa">
+              <span class="hb-hoa-star">★</span> HOA Chapter
+            </button>
+          </nav>
         </div>
-        <div class="row"><span>Fence type</span><span>Vertical privacy</span></div>
-        <div class="row"><span>Style</span><span>Cedar picket</span></div>
-        <div class="row"><span>Max height</span><span>6&prime; privacy</span></div>
-        <div class="row"><span>Post spacing</span><span>8&prime; on center max</span></div>
-        <div class="row"><span>Posts</span><span>4&times;4 PT (incised)</span></div>
-        <div class="row"><span>Rails</span><span>2&times;4 cedar &middot; top + bottom</span></div>
-        <div class="row"><span>Rail cap</span><span>2&times;4 cedar</span></div>
-        <div class="row"><span>Trim</span><span>1&times;4 cedar &middot; 1-tier</span></div>
-        <div class="row"><span>Pickets</span><span>1&times;4 / 1&times;6 cedar, flat top</span></div>
-        <div class="row"><span>Picket gap</span><span>&le;&frac14;&Prime;</span></div>
-        <div class="row"><span>Finish</span><span>SW Asteroid within 60 days</span></div>
-        <div class="row"><span>Corner setback</span><span>5&prime; from lot line</span></div>
-        <div class="row row--status"><span>Your design status</span><span>&#10003; Within guidelines</span></div>
+
+        <!-- Handbook Pages Container -->
+        <div class="hb-pages-body">
+          
+          <!-- PAGE 1: COVER -->
+          <div role="tabpanel" class="hb-page active" id="hb-page-1" aria-labelledby="hb-tab-1">
+            <div class="bp-head">
+              <div>
+                <div class="bp-title">Heritage Cedar &mdash; 6&prime; Privacy</div>
+                <div class="bp-sub">Sheet A-01 &middot; Elevation Spec &middot; Si View</div>
+              </div>
+              <div class="hb-cover-price-badge">
+                <span class="hb-cover-price-label">Est. Price</span>
+                <strong class="hb-cover-price-num" id="hb-cover-price-val">$42&ndash;$57 <span>/ LF</span></strong>
+              </div>
+            </div>
+            <div class="bp-media">
+              <img src="images/other/si-view-fence.png" alt="Si View Heritage Cedar Privacy Fence" loading="lazy" />
+              <div class="tint" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- PAGE 2: COMMUNITY LANDING -->
+          <div role="tabpanel" class="hb-page" id="hb-page-2" aria-labelledby="hb-tab-2" hidden>
+            <div class="hb-page-head">
+              <div class="hb-page-title">Community Guidelines &amp; Landing</div>
+              <div class="hb-page-sub">Si View &mdash; North Bend, WA Pre-Checked Rules</div>
+            </div>
+            <div class="hb-rules-grid">
+              <div class="hb-rule-card">
+                <span class="hb-rule-icon">📏</span>
+                <div class="hb-rule-info">
+                  <strong>Approved Height Cap</strong>
+                  <span>6′ max for rear &amp; side yards · 4′ for front lines</span>
+                </div>
+              </div>
+              <div class="hb-rule-card">
+                <span class="hb-rule-icon">🌲</span>
+                <div class="hb-rule-info">
+                  <strong>Material Standard</strong>
+                  <span>Western Red Cedar or PT Pine · No loose knots &gt; 1″</span>
+                </div>
+              </div>
+              <div class="hb-rule-card">
+                <span class="hb-rule-icon">🎨</span>
+                <div class="hb-rule-info">
+                  <strong>Stain Palette</strong>
+                  <span>Natural Cedar, Oxford Brown, Emerald Spruce, Driftwood Gray</span>
+                </div>
+              </div>
+              <div class="hb-rule-card">
+                <span class="hb-rule-icon">📐</span>
+                <div class="hb-rule-info">
+                  <strong>Orientation</strong>
+                  <span>Finished face outward toward neighbors/street</span>
+                </div>
+              </div>
+            </div>
+            <div class="hb-hoa-cta-box">
+              <div class="hb-hoa-cta-text">
+                <strong>Need official HOA ARC submittal documents?</strong>
+                <p>Unlock the complete HOA package including pitch cover, neighbor sign-offs, and compliance stamps.</p>
+              </div>
+              <button class="btn btn-gold btn-sm" type="button" onclick="switchHandbookPage('hoa')">
+                Open HOA Chapter &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- PAGE 3: MATERIALS TAKEOFF -->
+          <div role="tabpanel" class="hb-page" id="hb-page-3" aria-labelledby="hb-tab-3" hidden>
+            <div class="hb-flex-head">
+              <div class="hb-page-head">
+                <div class="hb-page-title">Materials Takeoff Schedule</div>
+                <div class="hb-page-sub">Non-Substitutable Spec &middot; Heritage Cedar Privacy</div>
+              </div>
+              <div class="hb-toggle-wrap">
+                <button type="button" class="hb-toggle-btn active" id="hb-toggle-8ft" onclick="setMaterialMode('8ft')">8′ Panel</button>
+                <button type="button" class="hb-toggle-btn" id="hb-toggle-100ft" onclick="setMaterialMode('100ft')">100 LF Run</button>
+              </div>
+            </div>
+            <div class="hb-table-wrap">
+              <table class="hb-table">
+                <thead>
+                  <tr>
+                    <th>Material Item</th>
+                    <th class="text-right">Qty</th>
+                    <th class="text-right">Est. Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="hb-materials-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Total Materials:</th>
+                    <th></th>
+                    <th class="text-right" id="hb-materials-total">$245.00</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- PAGE 4: BUILDER'S BLUEPRINT (4 SUB-FLIPS) -->
+          <div role="tabpanel" class="hb-page" id="hb-page-4" aria-labelledby="hb-tab-4" hidden>
+            <div class="hb-page-head">
+              <div class="hb-page-title">Builder&rsquo;s Blueprint &amp; Construction Steps</div>
+              <div class="hb-page-sub">Step-by-Step Framing, Pickets &amp; Finish Schedule</div>
+            </div>
+
+            <!-- Sub-flip Mini Tabs -->
+            <div class="hb-subflip-tabs" role="tablist" aria-label="Construction Phases">
+              <button class="hb-subflip-tab active" data-subflip="1" onclick="setSubflip(1)">1. Prep</button>
+              <button class="hb-subflip-tab" data-subflip="2" onclick="setSubflip(2)">2. Framing</button>
+              <button class="hb-subflip-tab" data-subflip="3" onclick="setSubflip(3)">3. Fill &amp; Trim</button>
+              <button class="hb-subflip-tab" data-subflip="4" onclick="setSubflip(4)">4. Finish</button>
+            </div>
+
+            <!-- Sub-flip Panels -->
+            <div class="hb-subflip-panels">
+              <div class="hb-subflip-panel active" id="hb-subflip-1">
+                <div class="hb-subflip-header">
+                  <h4>Phase 1: General Site Prep &amp; Layout</h4>
+                  <span class="hb-subflip-badge">Phase 1 of 4</span>
+                </div>
+                <p class="hb-subflip-desc">Clear property boundary line, locate underground utilities (call 811), pull stringlines between corner stakes, and stake out 8′ post centerlines.</p>
+                <div class="hb-subflip-metrics">
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Labor Hours</span>
+                    <strong class="hb-m-val">1.0 hr ($75.00)</strong>
+                  </div>
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Material Subtotal</span>
+                    <strong class="hb-m-val">$45.00</strong>
+                  </div>
+                  <div class="hb-metric hb-metric--highlight">
+                    <span class="hb-m-label">Phase Total</span>
+                    <strong class="hb-m-val">$120.00</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hb-subflip-panel" id="hb-subflip-2" hidden>
+                <div class="hb-subflip-header">
+                  <h4>Phase 2: Post Hole Augering &amp; Rail Framing</h4>
+                  <span class="hb-subflip-badge">Phase 2 of 4</span>
+                </div>
+                <p class="hb-subflip-desc">Post hole augering (36″ depth), gravel base loading, plumbing 4x4 PT posts in concrete, and installing 3x 2x4 Cedar rails per panel.</p>
+                <div class="hb-subflip-metrics">
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Labor Hours</span>
+                    <strong class="hb-m-val">6.5 hrs ($487.50)</strong>
+                  </div>
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Material Subtotal</span>
+                    <strong class="hb-m-val">$1,420.00</strong>
+                  </div>
+                  <div class="hb-metric hb-metric--highlight">
+                    <span class="hb-m-label">Phase Total</span>
+                    <strong class="hb-m-val">$1,907.50</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hb-subflip-panel" id="hb-subflip-3" hidden>
+                <div class="hb-subflip-header">
+                  <h4>Phase 3: Fill &amp; Trim (Pickets &amp; Top Cap)</h4>
+                  <span class="hb-subflip-badge">Phase 3 of 4</span>
+                </div>
+                <p class="hb-subflip-desc">Installing 1x6 Western Red Cedar pickets with stainless steel screws, plumb-checking every 4th picket, 2x6 top cap framing &amp; 1x4 fascia trim.</p>
+                <div class="hb-subflip-metrics">
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Labor Hours</span>
+                    <strong class="hb-m-val">4.0 hrs ($300.00)</strong>
+                  </div>
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Material Subtotal</span>
+                    <strong class="hb-m-val">$1,680.00</strong>
+                  </div>
+                  <div class="hb-metric hb-metric--highlight">
+                    <span class="hb-m-label">Phase Total</span>
+                    <strong class="hb-m-val">$1,980.00</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hb-subflip-panel" id="hb-subflip-4" hidden>
+                <div class="hb-subflip-header">
+                  <h4>Phase 4: Finish (Hardware, Sand &amp; Stain)</h4>
+                  <span class="hb-subflip-badge">Phase 4 of 4</span>
+                </div>
+                <p class="hb-subflip-desc">Mounting copper post caps, gate hinges &amp; latch hardware, light surface sanding, and applying 2 coats of protective wood stain.</p>
+                <div class="hb-subflip-metrics">
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Labor Hours</span>
+                    <strong class="hb-m-val">2.5 hrs ($187.50)</strong>
+                  </div>
+                  <div class="hb-metric">
+                    <span class="hb-m-label">Material Subtotal</span>
+                    <strong class="hb-m-val">$290.00</strong>
+                  </div>
+                  <div class="hb-metric hb-metric--highlight">
+                    <span class="hb-m-label">Phase Total</span>
+                    <strong class="hb-m-val">$477.50</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAGE 5: ADD-ONS & BADGES -->
+          <div role="tabpanel" class="hb-page" id="hb-page-5" aria-labelledby="hb-tab-5" hidden>
+            <div class="hb-page-head">
+              <div class="hb-page-title">Selected Add-ons &amp; Status Badges</div>
+              <div class="hb-page-sub">Custom Features &middot; HOA Compliance Flags</div>
+            </div>
+            <div class="hb-addons-grid">
+              <!-- Section A: On This Fence -->
+              <div class="hb-addons-col">
+                <div class="hb-addons-col-title">Included on This Build</div>
+                <div class="hb-addon-item">
+                  <div class="hb-addon-info">
+                    <strong>2x6 Western Red Cedar Top Cap</strong>
+                    <span>Protective horizontal cap rail</span>
+                  </div>
+                  <span class="hb-badge hb-badge--on">on</span>
+                </div>
+                <div class="hb-addon-item">
+                  <div class="hb-addon-info">
+                    <strong>1x4 Fascia Trim Board (Front)</strong>
+                    <span>Architectural top rail accent</span>
+                  </div>
+                  <span class="hb-badge hb-badge--on">on</span>
+                </div>
+                <div class="hb-addon-item">
+                  <div class="hb-addon-info">
+                    <strong>Copper Pyramid Post Caps (4x4)</strong>
+                    <span>End grain rot prevention</span>
+                  </div>
+                  <span class="hb-badge hb-badge--on">on</span>
+                </div>
+                <div class="hb-addon-item">
+                  <div class="hb-addon-info">
+                    <strong>Stainless Steel Ring Shank Screws</strong>
+                    <span>Zero black tannin stain bleed</span>
+                  </div>
+                  <span class="hb-badge hb-badge--on">on</span>
+                </div>
+              </div>
+
+              <!-- Section B: Available to Add -->
+              <div class="hb-addons-col">
+                <div class="hb-addons-col-title">Available Upgrades &amp; Statuses</div>
+                <div class="hb-addon-item hb-addon-item--selectable" id="addon-item-stain" data-addon="stain" onclick="toggleAddon('stain')">
+                  <div class="hb-addon-info">
+                    <strong>Premium Oil Stain Sealant Upgrade</strong>
+                    <span>5-year UV protective coat (+ $320)</span>
+                  </div>
+                  <button type="button" class="hb-badge hb-badge--available" id="addon-badge-stain">available</button>
+                </div>
+                <div class="hb-addon-item hb-addon-item--disabled" title="Gates not included in standard Si View build line">
+                  <div class="hb-addon-info">
+                    <strong>Gate Accent Hardware (Black Steel)</strong>
+                    <span>No gates in standard Si View build</span>
+                  </div>
+                  <span class="hb-badge hb-badge--style-na">style-n/a</span>
+                </div>
+                <div class="hb-addon-item hb-addon-item--disabled" title="Blocked by Si View 6′ height limit">
+                  <div class="hb-addon-info">
+                    <strong>12″ Decorative Lattice Top Accent</strong>
+                    <span>Exceeds Si View 6′ height cap</span>
+                  </div>
+                  <span class="hb-badge hb-badge--hoa-blocked">hoa-blocked</span>
+                </div>
+                <div class="hb-addon-item hb-addon-item--disabled" title="Incompatible with in-ground post specification">
+                  <div class="hb-addon-info">
+                    <strong>Steel Post Bracket Mounts</strong>
+                    <span>For concrete pad installation</span>
+                  </div>
+                  <span class="hb-badge hb-badge--style-na">style-n/a</span>
+                </div>
+              </div>
+            </div>
+            <div class="hb-legend">
+              <span class="hb-legend-title">Status Legend:</span>
+              <span class="hb-badge hb-badge--on">on</span> Included
+              <span class="hb-badge hb-badge--available">available</span> Optional
+              <span class="hb-badge hb-badge--hoa-blocked">hoa-blocked</span> HOA Cap
+              <span class="hb-badge hb-badge--style-na">style-n/a</span> Incompatible
+            </div>
+          </div>
+
+          <!-- PAGE 6: LEDGER -->
+          <div role="tabpanel" class="hb-page" id="hb-page-6" aria-labelledby="hb-tab-6" hidden>
+            <div class="hb-page-head">
+              <div class="hb-page-title">Pricing Ledger &amp; Cost Summary</div>
+              <div class="hb-page-sub">100 LF Heritage Cedar Privacy &middot; Local Cost Reconciliation</div>
+            </div>
+            <div class="hb-ledger-card">
+              <div class="hb-ledger-row">
+                <span>Materials Takeoff Total (Page 3)</span>
+                <strong id="hb-ledger-mat-val">$3,435.00</strong>
+              </div>
+              <div class="hb-ledger-row">
+                <span>Builder Labor Total (14.0 hrs @ $75/hr)</span>
+                <strong id="hb-ledger-labor-val">$1,050.00</strong>
+              </div>
+              <div class="hb-ledger-row">
+                <span>Site Delivery &amp; Equipment Rental Fee</span>
+                <strong id="hb-ledger-delivery-val">$265.00</strong>
+              </div>
+              <div class="hb-ledger-row hb-ledger-row--addons">
+                <span>Selected Add-ons / Upgrades (Page 5)</span>
+                <strong id="hb-ledger-addons-val">$0.00</strong>
+              </div>
+              <div class="hb-ledger-row hb-ledger-row--subtotal">
+                <span>Base Project Subtotal</span>
+                <strong id="hb-ledger-subtotal-val">$4,750.00</strong>
+              </div>
+              <div class="hb-ledger-row hb-ledger-row--range">
+                <div>
+                  <span class="hb-range-label">Honest Local Range</span>
+                  <span class="hb-range-sub">Si View &middot; 98045 benchmark</span>
+                </div>
+                <strong class="hb-range-val" id="hb-ledger-range-val">$4,200 &ndash; $5,700</strong>
+              </div>
+            </div>
+            <p class="hb-contingency-note">
+              * Note: Estimated price range includes a <strong>5&ndash;10% contingency buffer</strong> for soil variation, root clearing, and minor grade slopes.
+            </p>
+            <div class="hb-ledger-actions">
+              <a class="btn btn-primary btn-sm" href="#pros">Connect with Vetted Local Contractors</a>
+              <button class="btn btn-ghost on-dark btn-sm" type="button" onclick="openPdfPreview()">Print / Export Architectural PDF</button>
+            </div>
+          </div>
+
+          <!-- SPECIAL CHAPTER: HOA FENCE-FOLIO CHAPTER -->
+          <div role="tabpanel" class="hb-page hb-page--hoa" id="hb-page-hoa" aria-labelledby="hb-tab-hoa" hidden>
+            <div class="hb-page-head hb-hoa-head">
+              <div>
+                <div class="hb-page-title">HOA Fence-Folio Chapter</div>
+                <div class="hb-page-sub">Si View ARC Pitch &amp; Specification Package</div>
+              </div>
+              <span class="hb-hoa-stamp">ARC VERIFIED</span>
+            </div>
+
+            <!-- HOA Sub-Tabs -->
+            <div class="hb-hoa-subtabs" role="tablist" aria-label="HOA Chapter Sections">
+              <button class="hb-hoa-subtab active" data-hoasec="1" onclick="setHoaSection(1)">01 Community Specs</button>
+              <button class="hb-hoa-subtab" data-hoasec="2" onclick="setHoaSection(2)">02 ARC Pitch Cover</button>
+              <button class="hb-hoa-subtab" data-hoasec="3" onclick="setHoaSection(3)">03 Neighbor Agreement</button>
+              <button class="hb-hoa-subtab" data-hoasec="4" onclick="setHoaSection(4)">04 Engineering Sheet</button>
+            </div>
+
+            <!-- HOA Section Panels -->
+            <div class="hb-hoa-panels">
+              <!-- Section 1 -->
+              <div class="hb-hoa-panel active" id="hb-hoasec-1">
+                <h4>Section 1: Community Guidelines &amp; Stain Swatches</h4>
+                <p>Pre-populated Si View standards. All pickets must be vertical Western Red Cedar or Pressure-Treated Pine with smooth face outward.</p>
+                <div class="hb-swatch-list">
+                  <div class="hb-swatch-title">Approved Stain Palette:</div>
+                  <div class="hb-swatches">
+                    <div class="hb-swatch" style="background:#c88d54;"><span class="hb-swatch-name">Natural Cedar</span></div>
+                    <div class="hb-swatch" style="background:#5c3a21;"><span class="hb-swatch-name">Oxford Brown</span></div>
+                    <div class="hb-swatch" style="background:#2f4d3a;"><span class="hb-swatch-name">Emerald Spruce</span></div>
+                    <div class="hb-swatch" style="background:#8a8880;"><span class="hb-swatch-name">Driftwood Gray</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2 -->
+              <div class="hb-hoa-panel" id="hb-hoasec-2" hidden>
+                <h4>Section 2: ARC Submission Pitch Package Cover</h4>
+                <div class="hb-hoa-meta-grid">
+                  <div><strong>Property Owner:</strong> &mdash;</div>
+                  <div><strong>Contractor:</strong> &mdash;</div>
+                  <div><strong>Linear Feet:</strong> 100 LF Privacy Fence</div>
+                  <div><strong>Insurance:</strong> Vetted Contractor Network</div>
+                </div>
+                <div class="hb-hoa-checklist">
+                  <strong>ARC Submission Checklist:</strong>
+                  <ul>
+                    <li>✓ 1:1 Scale Architectural Elevation Drawing</li>
+                    <li>✓ Non-Substitutable Material Schedule</li>
+                    <li>✓ Si View CC&amp;R Height &amp; Material Alignment</li>
+                    <li>✓ Contractor Credentials Verification</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Section 3 -->
+              <div class="hb-hoa-panel" id="hb-hoasec-3" hidden>
+                <h4>Section 3: Neighbor Boundary Agreement Sheet</h4>
+                <p class="hb-hoa-subtext">Printable paper sign-off template for property line notifications.</p>
+                <div class="hb-boundary-table">
+                  <div class="hb-b-row">
+                    <span>Left Property Line:</span>
+                    <strong>Shared Boundary Template</strong>
+                  </div>
+                  <div class="hb-b-row">
+                    <span>Right Property Line:</span>
+                    <strong>Shared Boundary Template</strong>
+                  </div>
+                  <div class="hb-b-row">
+                    <span>Rear Property Line:</span>
+                    <strong>Shared Boundary Template</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 4 -->
+              <div class="hb-hoa-panel" id="hb-hoasec-4" hidden>
+                <h4>Section 4: Engineering Elevation &amp; Specification</h4>
+                <div class="hb-eng-box">
+                  <div class="hb-eng-code">Doc Ref: PREVIEW</div>
+                  <p>Architectural drawing adheres to Si View CC&amp;R Section 4.2 height caps (6′ rear/side, 4′ front) &amp; Western Red Cedar material guidelines. Si View&ndash;aligned preview copy.</p>
+                  <div class="hb-compliance-stamp">
+                    <span class="hb-stamp-ico">🛡️</span>
+                    <span>SI VIEW&ndash;ALIGNED PREVIEW</span>
+                  </div>
+                </div>
+                <button class="btn btn-gold btn-sm" type="button" style="margin-top:12px;" onclick="openPdfPreview()">
+                  Open Full ARC Blueprint Package &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Handbook Navigation Controls (Footer) -->
+        <div class="hb-controls-bar">
+          <button class="hb-nav-btn hb-prev" id="hb-prev-btn" type="button" onclick="navigateHandbook(-1)">
+            &lsaquo; Prev
+          </button>
+          <span class="hb-page-indicator" id="hb-page-indicator">Page 1 of 6</span>
+          <button class="hb-nav-btn hb-next" id="hb-next-btn" type="button" onclick="navigateHandbook(1)">
+            Next &rsaquo;
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -1006,7 +937,7 @@
           <h4>Product</h4>
           <ul>
             <li><a href="#find">How it works</a></li>
-            <li><a href="#designs">Design catalog</a></li>
+            <li><a href="catalog.html">Design catalog</a></li>
             <li><a href="#hoa">Community</a></li>
             <li><a href="#top">Pricing</a></li>
           </ul>
@@ -1032,6 +963,9 @@
       <div class="foot-bottom">
         <span>&copy; 2026 Fence Frames. Piloting at Si View, North Bend, WA.</span>
         <span class="made">Fence Frames is a design &amp; introduction service, not a contractor.</span>
+      </div>
+    </div>
+  </footer>
   <!-- ARCHITECTURAL BLUEPRINT & SPEC SHEET PDF PREVIEW MODAL -->
   <div class="hb-pdf-modal" id="hb-pdf-modal" hidden aria-hidden="true" role="dialog" aria-labelledby="pdf-modal-title">
     <div class="hb-pdf-backdrop" onclick="closePdfPreview()"></div>

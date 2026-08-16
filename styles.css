@@ -1232,21 +1232,45 @@ header.nav::after {
   position: relative; border: 1px solid rgba(196, 173, 152, 0.28);
   border-radius: 2px; overflow: hidden; background: #0a1610;
 }
-.bp-media img { width: 100%; height: 210px; object-fit: cover; display: block; }
+.bp-media img { width: 100%; height: 310px; object-fit: cover; object-position: center; display: block; }
 .bp-media .tint {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(8, 23, 17, 0.04) 0%, rgba(8, 23, 17, 0.38) 100%);
 }
 .bp-media .overlay-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.bp-foot {
-  position: relative; display: flex; justify-content: space-between;
-  margin-top: 14px; padding-top: 14px;
-  border-top: 1px solid rgba(196, 173, 152, 0.22); gap: 8px; flex-wrap: wrap;
+
+.hb-cover-price-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(217, 184, 114, 0.4);
+  padding: 4px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
-.bp-foot div { font-size: 11px; color: rgba(244, 239, 232, 0.65); }
-.bp-foot strong {
-  display: block; font-family: 'Rowdies', sans-serif; color: var(--cream);
-  font-size: 15px; font-weight: 400; margin-top: 2px;
+.hb-cover-price-label {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tan);
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  line-height: 1;
+}
+.hb-cover-price-num {
+  font-family: 'Rowdies', sans-serif;
+  font-size: 16px;
+  color: var(--gold);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+.hb-cover-price-num span {
+  font-size: 11px;
+  color: var(--tan-pale);
+  font-weight: 300;
 }
 
 .draw { stroke-dasharray: 6 5; animation: march 22s linear infinite; }
@@ -2454,7 +2478,7 @@ footer ul a:hover { opacity: 1; color: var(--gold); }
   box-shadow:
     -6px 0 16px -4px rgba(0, 0, 0, 0.4), /* spine depth shadow */
     0 24px 48px -28px rgba(47, 93, 58, 0.55);
-  min-height: 480px;
+  min-height: 520px;
   color: var(--cream);
   min-width: 0;
   max-width: 100%;
