@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Component Inventory &amp; Pattern Lab</title>
+  <title>Fence Frames — Component Inventory &amp; Card Trial Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ==========================================================================
-       CALIBRATED BACKGROUND GRID: 80% Main Grid (100px) & 40% Sub-Grid (25px)
+       CALIBRATED CANVAS GRID: 70% Main Grid (100px) & 40% Sub-Grid (25px)
        ========================================================================== */
     :root {
       --bg: #F4ECDC;
@@ -17,7 +17,7 @@
       --ink: #1a1a1a;
       --forest: #2f5d3a;
       --forest-deep: #16432D;
-      --grid-major: rgba(22, 67, 45, 0.80); /* 80% opacity 2px line */
+      --grid-major: rgba(22, 67, 45, 0.70); /* 70% opacity 2px line */
       --grid-minor: rgba(46, 139, 78, 0.40); /* 40% opacity 1px line */
       --gold: #d9b872;
       --gold-dark: #b89243;
@@ -132,9 +132,7 @@
       font-weight: 700;
     }
 
-    /* ==========================================================================
-       UNIVERSAL OPTIONAL TITLE BAR SYSTEM
-       ========================================================================== */
+    /* Universal Optional Title Bar System */
     .card-title-bar {
       padding: 0.55rem 0.9rem;
       border-radius: 2px;
@@ -153,9 +151,7 @@
     .title-tan { background: #E8DCC8; color: var(--forest-deep); }
     .title-gold { background: var(--gold); color: var(--ink); }
 
-    /* ==========================================================================
-       CORRECTED OUTSIDE CORNER CROP MARKS (CONTAINER = LONG / OUTSIDE = SHORT)
-       ========================================================================== */
+    /* Outside Corner Marks */
     .has-outside-corners {
       position: relative;
     }
@@ -180,7 +176,6 @@
       background: var(--mark-c);
     }
 
-    /* 1. Top-Left (TL) */
     .corner-mark-out.tl {
       top: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -196,7 +191,6 @@
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip)));
     }
 
-    /* 2. Top-Right (TR) */
     .corner-mark-out.tr {
       top: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -209,10 +203,9 @@
     .corner-mark-out.tr::after {
       top: 0; right: 0;
       width: var(--mark-th); height: 100%;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip)));
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 0 100%);
     }
 
-    /* 3. Bottom-Left (BL) */
     .corner-mark-out.bl {
       bottom: calc(-1 * var(--mark-th));
       left: calc(-1 * var(--mark-th));
@@ -228,7 +221,6 @@
       clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%);
     }
 
-    /* 4. Bottom-Right (BR) */
     .corner-mark-out.br {
       bottom: calc(-1 * var(--mark-th));
       right: calc(-1 * var(--mark-th));
@@ -244,15 +236,12 @@
       clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%);
     }
 
-    /* Color Classes */
     .c-gold { --mark-c: var(--gold); }
     .c-orange { --mark-c: var(--ember); }
     .c-forest { --mark-c: var(--forest-deep); }
     .c-black { --mark-c: var(--ink); }
 
-    /* ==========================================================================
-       SOLID CARDS & EMBEDDED MEDIA MATS (.bp-media--framed)
-       ========================================================================== */
+    /* Solid Cards & Framed Media */
     .card-solid {
       border: var(--line-ink) solid var(--ink);
       border-radius: var(--radius);
@@ -284,28 +273,49 @@
     }
 
     /* --------------------------------------------------------------------------
-       REAL WOOD TEXTURE SUITE TRIALS
+       REAL WOOD & SEEDED CARD TRIAL ASSET CLASSES
        -------------------------------------------------------------------------- */
-    .card-wood-red-cedar {
-      background-color: #C8A97E;
-      background-image:
-        repeating-linear-gradient(0deg, rgba(140, 95, 55, 0.22) 0px, rgba(140, 95, 55, 0.22) 2px, transparent 2px, transparent 10px),
-        linear-gradient(90deg, rgba(120, 80, 45, 0.18) 0%, rgba(245, 220, 185, 0.25) 50%, rgba(120, 80, 45, 0.18) 100%);
+    .card-trial-australian-cedar {
+      background-color: #C29668;
+      background-image: url('../images/card-trials/newtechwood-Australian-Red-Cedar-703x705.jpg'), url('images/card-trials/newtechwood-Australian-Red-Cedar-703x705.jpg'), linear-gradient(rgba(194, 150, 104, 0.9), rgba(194, 150, 104, 0.9));
+      background-size: cover;
+      background-position: center;
       color: #1A1A1A;
     }
-    .card-wood-sawn-tan {
-      background-color: #D6C4A2;
-      background-image:
-        repeating-linear-gradient(0deg, rgba(100, 75, 45, 0.15) 0px, rgba(100, 75, 45, 0.15) 3px, transparent 3px, transparent 18px),
-        linear-gradient(rgba(26, 26, 26, 0.08) 1px, transparent 1px);
+    .card-trial-teak-deck {
+      background-color: #B9905E;
+      background-image: url('../images/card-trials/Newtechwood_Teak-1.jpg'), url('images/card-trials/Newtechwood_Teak-1.jpg'), linear-gradient(rgba(185, 144, 94, 0.9), rgba(185, 144, 94, 0.9));
+      background-size: cover;
+      background-position: center;
       color: #1A1A1A;
     }
-    .card-wood-charcoal-grain {
-      background-color: #2B332D;
-      background-image:
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px, transparent 12px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0%, transparent 50%, rgba(0, 0, 0, 0.35) 100%);
+    .card-trial-timber-planks {
+      background-color: #D3C3A5;
+      background-image: url('../images/card-trials/pexels-fwstudio-33348-129723.jpg'), url('images/card-trials/pexels-fwstudio-33348-129723.jpg'), linear-gradient(rgba(211, 195, 165, 0.9), rgba(211, 195, 165, 0.9));
+      background-size: cover;
+      background-position: center;
+      color: #1A1A1A;
+    }
+    .card-trial-composite-deck {
+      background-color: #4A4036;
+      background-image: url('../images/card-trials/dark-multicolor-newtechwood-deck-board-samples-us-qd-zx-mcsi-64_1000.jpg'), url('images/card-trials/dark-multicolor-newtechwood-deck-board-samples-us-qd-zx-mcsi-64_1000.jpg'), linear-gradient(rgba(74, 64, 54, 0.9), rgba(74, 64, 54, 0.9));
+      background-size: cover;
+      background-position: center;
       color: #FAF6EE;
+    }
+    .card-trial-carpentry-cedar {
+      background-color: #D5B895;
+      background-image: url('../images/card-trials/beau-carpenter-CvgLy7yN-Fk-unsplash.jpg'), url('images/card-trials/beau-carpenter-CvgLy7yN-Fk-unsplash.jpg'), linear-gradient(rgba(213, 184, 149, 0.9), rgba(213, 184, 149, 0.9));
+      background-size: cover;
+      background-position: center;
+      color: #1A1A1A;
+    }
+    .card-trial-weathered-timber {
+      background-color: #CDC0AC;
+      background-image: url('../images/card-trials/annie-spratt-6a3nqQ1YwBw-unsplash.jpg'), url('images/card-trials/annie-spratt-6a3nqQ1YwBw-unsplash.jpg'), linear-gradient(rgba(205, 192, 172, 0.9), rgba(205, 192, 172, 0.9));
+      background-size: cover;
+      background-position: center;
+      color: #1A1A1A;
     }
 
     .card-h {
@@ -320,14 +330,12 @@
       line-height: 1.5;
     }
 
-    /* Grid Layouts */
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 1.8rem;
     }
 
-    /* Buttons */
     .ff-btn {
       display: inline-flex;
       align-items: center;
@@ -347,7 +355,6 @@
     .btn-forest { background: var(--forest-deep); color: #FAF6EE; }
     .btn-wood { background: #E2D5BE; color: var(--ink); }
 
-    /* Graduated Section at Bottom */
     .graduated-zone {
       background: #141B16;
       border: 3px solid var(--gold);
@@ -374,11 +381,11 @@
   <header class="inventory-header">
     <div class="wrap header-inner">
       <div>
-        <h1>Fence Frames — Component Inventory &amp; Pattern Lab</h1>
-        <p>Locked Canvas: 80% Forest Major &middot; 40% Emerald Sub-Grid &middot; Card #23 Graduated (9 Locked Standards) &middot; Real Wood Texture Suite</p>
+        <h1>Fence Frames — Component Inventory &amp; Card Trial Lab</h1>
+        <p>Canvas: 70% Forest Major &middot; 40% Emerald Sub-Grid &middot; 12 Graduated Official Standards &middot; Real Wood Images from Card Trials</p>
       </div>
       <div style="font-family:'Rowdies', sans-serif; font-size:0.85rem; color:var(--gold);">
-        9 Official Standards Graduated
+        12 Official Standards Locked
       </div>
     </div>
   </header>
@@ -386,105 +393,185 @@
   <div class="wrap">
 
     <!-- ====================================================================
-         SECTION 1: REAL WOOD TEXTURE SUITE TRIALS
+         SECTION 1: NEW REAL WOOD & IMAGE CARDS FROM CARD TRIALS FOLDER
          ==================================================================== -->
     <section class="inventory-section">
       <div class="section-title-bar">
-        <h2 class="section-title">1. Real Wood Texture Suite (50/50 Mix Candidates)</h2>
-        <span class="section-desc">Western Red Cedar, Rough-Sawn Tan &amp; Charred Charcoal Wood Grain</span>
+        <h2 class="section-title">1. Real Wood Texture &amp; Seeded Card Trial Suite</h2>
+        <span class="section-desc">Sourced from Background Heroes/Card Trial &middot; High-Contrast Outside Tapers</span>
       </div>
 
       <div class="grid-3">
 
-        <!-- Card #25: Western Red Cedar Grain -->
-        <div class="card-solid card-wood-red-cedar has-outside-corners">
+        <!-- Card #28: Australian Red Cedar -->
+        <div class="card-solid card-trial-australian-cedar has-outside-corners">
           <span class="corner-mark-out tr c-orange"></span>
           <span class="corner-mark-out bl c-forest"></span>
           
           <div class="card-title-bar title-green">
-            <span>Western Red Cedar Select</span>
-            <span style="font-size:0.75rem; color:var(--gold);">Clear Grade</span>
+            <span>Australian Red Cedar</span>
+            <span style="font-size:0.75rem; color:var(--gold);">HOA Grade</span>
           </div>
 
-          <span class="item-badge">[Card #25 — Western Red Cedar]</span>
-          <div class="card-h" style="color:var(--forest-deep);">Rich Cedar Grain</div>
+          <span class="item-badge">[Card #28 — Australian Red Cedar]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Rich Amber Cedar Grain</div>
           <p class="card-p">
-            Warm amber-cedar grain tone with contrasting solid green title bar and framed elevation drawing.
+            Real Australian red cedar lumber texture with rich grain density, contrasting solid green title bar, and framed elevation.
           </p>
 
           <div class="bp-media--framed">
             <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
               <rect width="320" height="140" fill="#08160E" />
-              <rect x="25" y="30" width="270" height="80" fill="#C8A97E" stroke="#1A1A1A" stroke-width="1.5" />
-              <text x="160" y="22" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">WESTERN RED CEDAR PRIVACY ELEVATION</text>
+              <rect x="25" y="30" width="270" height="80" fill="#C29668" stroke="#1A1A1A" stroke-width="1.5" />
+              <text x="160" y="22" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">AUSTRALIAN RED CEDAR 6FT PRIVACY</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Cedar Spec</button>
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Red Cedar</button>
         </div>
 
-        <!-- Card #26: Rough-Sawn Tan Lumber -->
-        <div class="card-solid card-wood-sawn-tan has-outside-corners">
+        <!-- Card #29: Natural Teak Decking -->
+        <div class="card-solid card-trial-teak-deck has-outside-corners">
           <span class="corner-mark-out tl c-black"></span>
           <span class="corner-mark-out br c-forest"></span>
           
           <div class="card-title-bar title-black">
-            <span>Rough-Sawn Lumber Tone</span>
-            <span style="font-size:0.75rem; color:var(--gold);">Architectural Standard</span>
+            <span>Natural Teak Decking Tone</span>
+            <span style="font-size:0.75rem; color:var(--gold);">Premium Grain</span>
           </div>
 
-          <span class="item-badge">[Card #26 — Rough-Sawn Tan]</span>
-          <div class="card-h" style="color:var(--forest-deep);">Rough-Sawn Tan Planks</div>
+          <span class="item-badge">[Card #29 — Natural Teak Planks]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Golden Teak Lumber</div>
           <p class="card-p">
-            Solid architectural sawn lumber surface with 18px horizontal grain steps and dark ink title bar.
+            Golden-brown teak board grain with dark ink header bar and high-contrast Black (TL) / Forest (BR) outside tapers.
           </p>
 
           <div class="bp-media--framed">
             <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
               <rect width="320" height="140" fill="#0A1610" />
-              <rect x="30" y="35" width="70" height="60" rx="2" fill="#D6C4A2" stroke="#1A1A1A" />
-              <rect x="125" y="35" width="70" height="60" rx="2" fill="#D6C4A2" stroke="#1A1A1A" />
-              <rect x="220" y="35" width="70" height="60" rx="2" fill="#D6C4A2" stroke="#1A1A1A" />
-              <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">ROUGH-SAWN 3-RAIL SYSTEM</text>
+              <rect x="30" y="35" width="70" height="60" rx="2" fill="#B9905E" stroke="#1A1A1A" />
+              <rect x="125" y="35" width="70" height="60" rx="2" fill="#B9905E" stroke="#1A1A1A" />
+              <rect x="220" y="35" width="70" height="60" rx="2" fill="#B9905E" stroke="#1A1A1A" />
+              <text x="160" y="24" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">TEAK 3-RAIL HORIZONTAL SPEC</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">View Sawn Lumber Specs</button>
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Configure Teak System</button>
         </div>
 
-        <!-- Card #27: Charred Charcoal Wood Grain -->
-        <div class="card-solid card-wood-charcoal-grain has-outside-corners">
+        <!-- Card #30: Architectural Timber Planks -->
+        <div class="card-solid card-trial-timber-planks has-outside-corners">
+          <span class="corner-mark-out tr c-orange"></span>
+          <span class="corner-mark-out bl c-forest"></span>
+          
+          <div class="card-title-bar title-green">
+            <span>Architectural Timber Planks</span>
+          </div>
+
+          <span class="item-badge">[Card #30 — Timber Planks]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Wide Timber Board Cladding</div>
+          <p class="card-p">
+            High-character wide timber lumber grain with distinct wood board boundaries and solid green title bar.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#08160E" />
+              <line x1="20" y1="70" x2="300" y2="70" stroke="#D9B872" stroke-width="2" />
+              <text x="160" y="55" font-family="'Rowdies', sans-serif" font-size="12" fill="#FAF6EE" text-anchor="middle">142 LF BLUEPRINT TAKEOFF</text>
+              <text x="160" y="95" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">STRUCTURAL POST SPACING CAD</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-wood" style="width:100%; justify-content:center; margin-top:0.5rem;">View Timber CAD</button>
+        </div>
+
+        <!-- Card #31: Modern Composite Multi-Tone Decking -->
+        <div class="card-solid card-trial-composite-deck has-outside-corners">
           <span class="corner-mark-out tl c-gold"></span>
           <span class="corner-mark-out br c-orange"></span>
           
           <div class="card-title-bar title-gold">
-            <span>Charred Shou Sugi Ban</span>
-            <span style="font-size:0.75rem; color:var(--ink);">Modern Black Finish</span>
+            <span>Multi-Tone Composite Deck</span>
+            <span style="font-size:0.75rem; color:var(--ink);">Engineered Plank</span>
           </div>
 
-          <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #27 — Charred Wood Grain]</span>
-          <div class="card-h" style="color:var(--gold);">Charred Charcoal Grain</div>
+          <span class="item-badge" style="background:var(--gold); color:var(--ink);">[Card #31 — Composite Multi-Tone]</span>
+          <div class="card-h" style="color:var(--gold);">Engineered Dark Composite</div>
           <p class="card-p" style="color:#C4B294;">
-            Deep modern charcoal wood grain texture with rich gold title bar and glowing Gold (TL) / Orange (BR) outside tapers.
+            Dark multi-tone composite board texture with rich gold header bar and high-contrast Gold (TL) / Orange (BR) outside tapers.
           </p>
 
           <div class="bp-media--framed" style="border-color:var(--gold);">
             <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
               <rect width="320" height="140" fill="#08160E" />
-              <line x1="30" y1="70" x2="290" y2="70" stroke="#D9B872" stroke-width="3" />
-              <text x="160" y="55" font-family="'Rowdies', sans-serif" font-size="12" fill="#FAF6EE" text-anchor="middle">MODERN BLACK STEEL + CHARRED WOOD</text>
-              <text x="160" y="95" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">PREMIUM ARCHITECTURAL COMBO</text>
+              <circle cx="160" cy="50" r="22" fill="#D9B872" />
+              <path d="M150 50 L157 57 L172 42" fill="none" stroke="#16432D" stroke-width="3" stroke-linecap="round" />
+              <text x="160" y="92" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">PRE-APPROVED COMPOSITE STANDARD</text>
             </svg>
           </div>
 
-          <button class="ff-btn btn-gold" style="width:100%; justify-content:center; margin-top:0.5rem;">Configure Modern Black</button>
+          <button class="ff-btn btn-gold" style="width:100%; justify-content:center; margin-top:0.5rem;">Select Composite Spec</button>
+        </div>
+
+        <!-- Card #32: Raw Carpentry Cedar Board -->
+        <div class="card-solid card-trial-carpentry-cedar has-outside-corners">
+          <span class="corner-mark-out tr c-orange"></span>
+          <span class="corner-mark-out bl c-forest"></span>
+          
+          <div class="card-title-bar title-orange">
+            <span>Raw Carpentry Cedar</span>
+            <span style="font-size:0.75rem; color:#FAF6EE;">Mill Finish</span>
+          </div>
+
+          <span class="item-badge">[Card #32 — Raw Carpentry Cedar]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Rough Mill Cedar Siding</div>
+          <p class="card-p">
+            Authentic carpentry lumber texture with natural knot detail and solid Ember Orange title bar.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#0A1610" />
+              <rect x="30" y="35" width="260" height="70" fill="none" stroke="#D9B872" stroke-width="2" />
+              <text x="160" y="75" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">MILL DIRECT LUMBER TAKEOFF</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Download Mill Spec</button>
+        </div>
+
+        <!-- Card #33: Fine Weathered Timber -->
+        <div class="card-solid card-trial-weathered-timber has-outside-corners">
+          <span class="corner-mark-out tl c-forest"></span>
+          <span class="corner-mark-out br c-orange"></span>
+          
+          <div class="card-title-bar title-green">
+            <span>Fine Weathered Timber Grain</span>
+          </div>
+
+          <span class="item-badge">[Card #33 — Weathered Timber]</span>
+          <div class="card-h" style="color:var(--forest-deep);">Subtle Timber Board Grain</div>
+          <p class="card-p">
+            Soft grey-tan weathered timber surface providing subtle natural grain rhythm without high contrast noise.
+          </p>
+
+          <div class="bp-media--framed">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="140" fill="#08160E" />
+              <text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="12" fill="#D9B872" text-anchor="middle">72-HOUR CAPPED LEAD POOL</text>
+              <text x="160" y="85" font-size="10" fill="#FAF6EE" text-anchor="middle">3 Pre-Screened Licensed Builders</text>
+            </svg>
+          </div>
+
+          <button class="ff-btn btn-forest" style="width:100%; justify-content:center; margin-top:0.5rem;">Request 3 Bids</button>
         </div>
 
       </div>
     </section>
 
     <!-- ====================================================================
-         SECTION 2: GRADUATED & APPROVED SELECTIONS ROSTER (9 LOCKED STANDARDS)
+         SECTION 2: GRADUATED & APPROVED SELECTIONS ROSTER (12 LOCKED STANDARDS)
          ==================================================================== -->
     <section class="inventory-section">
       <div class="graduated-zone">
@@ -494,10 +581,10 @@
               🎓 Graduated &amp; Approved Official Roster
             </h2>
             <p style="font-size:0.88rem; color:var(--tan); margin-top:0.25rem;">
-              9 Officially Locked Component Standards (Including Winner #23 Micro-Quad Mesh).
+              12 Officially Locked Component Standards with Universal Optional Title Bars and Outside Tapers.
             </p>
           </div>
-          <span class="item-badge badge-graduated" style="font-size:0.85rem; padding:0.35rem 0.8rem;">9 Standards Locked</span>
+          <span class="item-badge badge-graduated" style="font-size:0.85rem; padding:0.35rem 0.8rem;">12 Standards Locked</span>
         </div>
 
         <div class="grid-3">
@@ -506,14 +593,9 @@
           <div class="card-solid" style="background:#D8C7A5; background-image:repeating-linear-gradient(0deg, rgba(160, 130, 90, 0.18) 0px, rgba(160, 130, 90, 0.18) 2px, transparent 2px, transparent 8px);">
             <span class="corner-mark-out tr c-orange"></span>
             <span class="corner-mark-out bl c-forest"></span>
-            <div class="card-title-bar title-green">
-              <span>Si View HOA Pre-Approved Standard</span>
-            </div>
+            <div class="card-title-bar title-green"><span>Si View HOA Pre-Approved</span></div>
             <span class="item-badge badge-graduated">👑 Standard #01 &middot; Card #02 (Wood Planks)</span>
             <div class="card-h" style="color:var(--forest-deep);">Western Red Cedar 6ft</div>
-            <div class="bp-media--framed" style="min-height:110px;">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><rect x="25" y="25" width="270" height="60" fill="#CDB697" stroke="#1A1A1A" /><text x="160" y="18" font-family="'Rowdies', sans-serif" font-size="9" fill="#D9B872" text-anchor="middle">HOA ARCHITECTURAL STANDARD</text></svg>
-            </div>
             <p class="card-p">Solid wood plank grain + Green title bar + Orange TR / Forest BL outside corners.</p>
           </div>
 
@@ -521,14 +603,9 @@
           <div class="card-solid" style="background:#E8DCC8; background-image:linear-gradient(rgba(26, 26, 26, 0.22) 2px, transparent 2px), linear-gradient(90deg, rgba(26, 26, 26, 0.22) 2px, transparent 2px); background-size:50px 50px;">
             <span class="corner-mark-out tl c-black"></span>
             <span class="corner-mark-out br c-forest"></span>
-            <div class="card-title-bar title-green">
-              <span>Contractor Pool Matching</span>
-            </div>
+            <div class="card-title-bar title-green"><span>Contractor Pool Matching</span></div>
             <span class="item-badge badge-graduated">👑 Standard #02 &middot; Card #03 (Tan Black Grid)</span>
             <div class="card-h" style="color:var(--forest-deep);">3-Seat Contractor Pool</div>
-            <div class="bp-media--framed" style="min-height:110px;">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="12" fill="#D9B872" text-anchor="middle">72-HOUR LEAD LOCK POOL</text></svg>
-            </div>
             <p class="card-p">Solid tan + black grid + Green title bar + Black TL / Forest BR outside corners.</p>
           </div>
 
@@ -536,14 +613,9 @@
           <div class="card-solid" style="background:var(--forest-deep); color:#FAF6EE;">
             <span class="corner-mark-out tl c-gold"></span>
             <span class="corner-mark-out br c-orange"></span>
-            <div class="card-title-bar title-orange">
-              <span>Contractor Direct Dispatch</span>
-            </div>
+            <div class="card-title-bar title-orange"><span>Contractor Direct Dispatch</span></div>
             <span class="item-badge badge-graduated">👑 Standard #03 &middot; Card #06 (Solid Forest)</span>
             <div class="card-h" style="color:var(--gold);">Verified Lead Dispatch</div>
-            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><circle cx="160" cy="45" r="20" fill="#D9B872" /><text x="160" y="85" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED BONDED CONTRACTOR</text></svg>
-            </div>
             <p class="card-p" style="color:#C4B294;">Solid Forest green plate + Orange title bar + Gold TL / Orange BR outside corners.</p>
           </div>
 
@@ -551,14 +623,9 @@
           <div class="card-solid" style="background:#FAF6EE; background-image:repeating-linear-gradient(45deg, rgba(22, 67, 45, 0.10) 0px, rgba(22, 67, 45, 0.10) 1.5px, transparent 1.5px, transparent 10px);">
             <span class="corner-mark-out tl c-forest"></span>
             <span class="corner-mark-out br c-orange"></span>
-            <div class="card-title-bar title-green">
-              <span>45° Drafting Specification</span>
-            </div>
+            <div class="card-title-bar title-green"><span>45° Drafting Specification</span></div>
             <span class="item-badge badge-graduated">👑 Standard #04 &middot; Card #10 (Hatch Cream)</span>
             <div class="card-h">Diagonal Hatch Takeoff</div>
-            <div class="bp-media--framed" style="min-height:110px;">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">2D ARCHITECTURAL VECTOR DRAFT</text></svg>
-            </div>
             <p class="card-p">Solid cream + 45° green hatch + Green title bar + Forest TL / Orange BR outside corners.</p>
           </div>
 
@@ -566,14 +633,9 @@
           <div class="card-solid" style="background:#1B4332; color:#FAF6EE; background-image:repeating-linear-gradient(45deg, rgba(217, 184, 114, 0.15) 0px, rgba(217, 184, 114, 0.15) 1.5px, transparent 1.5px, transparent 12px);">
             <span class="corner-mark-out tr c-gold"></span>
             <span class="corner-mark-out bl c-orange"></span>
-            <div class="card-title-bar title-gold">
-              <span>Gold Hatch Blueprint Plate</span>
-            </div>
+            <div class="card-title-bar title-gold"><span>Gold Hatch Blueprint Plate</span></div>
             <span class="item-badge badge-graduated">👑 Standard #05 &middot; Card #11 (Hatch Forest)</span>
             <div class="card-h" style="color:var(--gold);">Gold Hatch Forest Plate</div>
-            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#FAF6EE" text-anchor="middle">PRE-SCREENED POOL MATCH</text></svg>
-            </div>
             <p class="card-p" style="color:#C4B294;">Solid Forest + 45° gold hatch + Gold title bar + Gold TR / Orange BL outside corners.</p>
           </div>
 
@@ -581,14 +643,9 @@
           <div class="card-solid" style="background:#D9B872; background-image:repeating-linear-gradient(-45deg, rgba(26, 26, 26, 0.12) 0px, rgba(26, 26, 26, 0.12) 1.5px, transparent 1.5px, transparent 10px);">
             <span class="corner-mark-out tl c-black"></span>
             <span class="corner-mark-out br c-forest"></span>
-            <div class="card-title-bar title-black">
-              <span>Instant 2D Takeoff Calculator</span>
-            </div>
+            <div class="card-title-bar title-black"><span>Instant 2D Takeoff Calculator</span></div>
             <span class="item-badge badge-graduated">👑 Standard #06 &middot; Card #12 (Hatch Gold)</span>
             <div class="card-h">Angled Hatch Gold Plate</div>
-            <div class="bp-media--framed" style="min-height:110px;">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">TOTAL PERIMETER: 164 LF</text></svg>
-            </div>
             <p class="card-p">Solid Gold + angled black hatch + Black title bar + Black TL / Forest BR outside corners.</p>
           </div>
 
@@ -596,14 +653,9 @@
           <div class="card-solid" style="background:#D8C7A5; background-image:repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.18) 0px, rgba(26, 26, 26, 0.18) 2px, transparent 2px, transparent 32px);">
             <span class="corner-mark-out tl c-forest"></span>
             <span class="corner-mark-out br c-orange"></span>
-            <div class="card-title-bar title-green">
-              <span>Double-Pinstripe Siding</span>
-            </div>
+            <div class="card-title-bar title-green"><span>Double-Pinstripe Siding</span></div>
             <span class="item-badge badge-graduated">👑 Standard #07 &middot; Card #15 (Double-Plank)</span>
             <div class="card-h" style="color:var(--forest-deep);">Tongue &amp; Groove Rhythm</div>
-            <div class="bp-media--framed" style="min-height:110px;">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#0A1610" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="10" fill="#D9B872" text-anchor="middle">LUMBER SPECIES SELECTOR</text></svg>
-            </div>
             <p class="card-p">Solid lumber tone + dual horizontal lines + Green title bar + Forest TL / Orange BR outside corners.</p>
           </div>
 
@@ -611,30 +663,50 @@
           <div class="card-solid" style="background:#16432D; color:#FAF6EE; background-image:linear-gradient(rgba(217, 184, 114, 0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(217, 184, 114, 0.25) 2px, transparent 2px); background-size:60px 60px;">
             <span class="corner-mark-out tl c-gold"></span>
             <span class="corner-mark-out br c-orange"></span>
-            <div class="card-title-bar title-gold">
-              <span>60px Major Square Blueprint</span>
-            </div>
+            <div class="card-title-bar title-gold"><span>60px Major Square Blueprint</span></div>
             <span class="item-badge badge-graduated">👑 Standard #08 &middot; Card #17 (Major Forest)</span>
             <div class="card-h" style="color:var(--gold);">Major-Only Forest Squares</div>
-            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><text x="160" y="60" font-family="'Rowdies', sans-serif" font-size="11" fill="#D9B872" text-anchor="middle">CLEAN 60PX DRAFTING FRAME</text></svg>
-            </div>
-            <p class="card-p" style="color:#C4B294;">Solid Forest + bold 60px gold squares (no subgrid) + Gold title bar + Gold TL / Orange BR outside corners.</p>
+            <p class="card-p" style="color:#C4B294;">Solid Forest + bold 60px gold squares + Gold title bar + Gold TL / Orange BR outside corners.</p>
           </div>
 
-          <!-- 9. Card #23: WINNER - Engineering Micro-Quad (Forest) + Gold Title Bar -->
+          <!-- 9. Card #23: Engineering Micro-Quad (Forest) + Gold Title Bar -->
           <div class="card-solid" style="background:#1F4A32; color:#FAF6EE; background-image:linear-gradient(rgba(250, 246, 238, 0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(250, 246, 238, 0.10) 1px, transparent 1px); background-size:10px 10px;">
             <span class="corner-mark-out tl c-gold"></span>
             <span class="corner-mark-out br c-orange"></span>
-            <div class="card-title-bar title-gold">
-              <span>Engineering Micro-Quad Mesh</span>
-            </div>
+            <div class="card-title-bar title-gold"><span>Engineering Micro-Quad Mesh</span></div>
             <span class="item-badge badge-graduated">👑 Standard #09 &middot; Card #23 (Micro-Quad Winner)</span>
             <div class="card-h" style="color:var(--gold);">10px CAD Drafting Mesh</div>
-            <div class="bp-media--framed" style="min-height:110px; border-color:var(--gold);">
-              <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="110" fill="#08160E" /><circle cx="160" cy="45" r="22" fill="#D9B872" /><path d="M150 45 L157 52 L172 37" fill="none" stroke="#16432D" stroke-width="3" stroke-linecap="round" /><text x="160" y="85" font-family="'Rowdies', sans-serif" font-size="10" fill="#FAF6EE" text-anchor="middle">VERIFIED CAD BLUEPRINT MESH</text></svg>
-            </div>
-            <p class="card-p" style="color:#C4B294;">Solid dark forest green + 10px ultra-fine quad drafting mesh + Gold title bar + Gold TL / Orange BR outside corners.</p>
+            <p class="card-p" style="color:#C4B294;">Solid dark forest green + 10px quad drafting mesh + Gold title bar + Gold TL / Orange BR outside corners.</p>
+          </div>
+
+          <!-- 10. Card #25: Western Red Cedar Select + Green Title Bar -->
+          <div class="card-solid card-wood-red-cedar has-outside-corners">
+            <span class="corner-mark-out tr c-orange"></span>
+            <span class="corner-mark-out bl c-forest"></span>
+            <div class="card-title-bar title-green"><span>Western Red Cedar Select</span></div>
+            <span class="item-badge badge-graduated">👑 Standard #10 &middot; Card #25 (Cedar Select)</span>
+            <div class="card-h" style="color:var(--forest-deep);">Rich Cedar Grain</div>
+            <p class="card-p">Rich warm cedar grain + Green title bar + Orange TR / Forest BL outside corners.</p>
+          </div>
+
+          <!-- 11. Card #26: Rough-Sawn Tan Lumber + Black Title Bar -->
+          <div class="card-solid card-wood-sawn-tan has-outside-corners">
+            <span class="corner-mark-out tl c-black"></span>
+            <span class="corner-mark-out br c-forest"></span>
+            <div class="card-title-bar title-black"><span>Rough-Sawn Lumber Tone</span></div>
+            <span class="item-badge badge-graduated">👑 Standard #11 &middot; Card #26 (Rough-Sawn Tan)</span>
+            <div class="card-h" style="color:var(--forest-deep);">Rough-Sawn Tan Planks</div>
+            <p class="card-p">Solid architectural sawn lumber surface + Black title bar + Black TL / Forest BR outside corners.</p>
+          </div>
+
+          <!-- 12. Card #27: Charred Shou Sugi Ban + Gold Title Bar -->
+          <div class="card-solid card-wood-charcoal-grain has-outside-corners">
+            <span class="corner-mark-out tl c-gold"></span>
+            <span class="corner-mark-out br c-orange"></span>
+            <div class="card-title-bar title-gold"><span>Charred Shou Sugi Ban</span></div>
+            <span class="item-badge badge-graduated">👑 Standard #12 &middot; Card #27 (Charred Wood)</span>
+            <div class="card-h" style="color:var(--gold);">Charred Charcoal Grain</div>
+            <p class="card-p" style="color:#C4B294;">Modern charcoal black wood grain + Gold title bar + Gold TL / Orange BR outside corners.</p>
           </div>
 
         </div>
