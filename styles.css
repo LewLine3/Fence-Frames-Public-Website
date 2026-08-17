@@ -5,14 +5,14 @@
    ========================================================================== */
 
 :root {
-  --bg: #f8f4ec;
-  --bg-soft: #faf6ee;
+  --bg: #F4ECDC;
+  --bg-soft: #FAF6EE;
   --ink: #1a1a1a;
   --ink-muted: rgba(26, 26, 26, 0.72);
   --ink-faint: rgba(26, 26, 26, 0.48);
 
   --forest: #2f5d3a;
-  --forest-deep: #1b4332;
+  --forest-deep: #16432D;
   --forest-mid: #264a32;
   --green: #2f5d3a;
   --green-bright: #3f8a52;
@@ -31,24 +31,6 @@
   --wood-wash: rgba(250, 246, 232, 0.28);
   --wood-wash-hero: rgba(250, 246, 232, 0.18);
 
-  /*
-   * Texture trial rack — swap into --wood-grain-cards / --wood-grain-buttons /
-   * --wood-grain-hero / --nav-left-wood.
-   *
-   * WORKHORSES: --tx-light-planks, --tx-planks-knots (interchangeable)
-   * OK card: --tx-red-cedar
-   * MAYBE (keep on list): --tx-mixed-planks, --tx-pale-veneer,
-   *   --tx-oak-cathedral, --tx-cream-stain
-   * PARKED cards (favorite for now): --tx-finger-joint
-   * MAYBE buttons-only: --tx-brushed-ochre, --tx-field-streaks
-   * MAYBE section/no-text bg: --tx-plank-pile
-   * OUT / not bg: cedar-trim*, weathered, cedar-picket, deck-mosaic,
-   *   fence-planks-v, parchment, teak, raw-fiber, charred-planks (not hero),
-   *   grey-weathered, slats-tan (not hero)
-   * HERO: --tx-planks-knots (workhorse)
-   *
-   * Card queue: paused — finger-joint parked
-   */
   --tx-teak: url('images/textures/trial-teak.png');
   --tx-red-cedar: url('images/textures/trial-red-cedar.png');
   --tx-light-planks: url('images/textures/trial-light-planks.png');
@@ -61,71 +43,62 @@
   --tx-ribbed-taupe: url('images/textures/trial-ribbed-taupe.png');
   --tx-ribbed-cocoa: url('images/textures/trial-ribbed-cocoa.png');
   --tx-ribbed-umber: url('images/textures/trial-ribbed-umber.png');
-  --tx-mixed-planks: url('images/textures/trial-mixed-planks.png'); /* MAYBE */
+  --tx-mixed-planks: url('images/textures/trial-mixed-planks.png');
   --tx-fence-planks-v: url('images/textures/trial-fence-planks-v.png');
   --tx-deck-mosaic: url('images/textures/trial-deck-mosaic.png');
-  /* Batch 3 */
-  --tx-raw-fiber: url('images/textures/trial-raw-fiber.png'); /* OUT */
-  --tx-plank-pile: url('images/textures/trial-plank-pile.png'); /* MAYBE section/no-text bg */
-  --tx-grey-weathered: url('images/textures/trial-grey-weathered.png'); /* OUT */
-  --tx-field-streaks: url('images/textures/trial-field-streaks.png'); /* MAYBE buttons-only */
-  --tx-finger-joint: url('images/textures/trial-finger-joint.png'); /* PARKED cards favorite */
-  --tx-oak-cathedral: url('images/textures/trial-oak-cathedral.png'); /* MAYBE */
+  --tx-raw-fiber: url('images/textures/trial-raw-fiber.png');
+  --tx-plank-pile: url('images/textures/trial-plank-pile.png');
+  --tx-grey-weathered: url('images/textures/trial-grey-weathered.png');
+  --tx-field-streaks: url('images/textures/trial-field-streaks.png');
+  --tx-finger-joint: url('images/textures/trial-finger-joint.png');
+  --tx-oak-cathedral: url('images/textures/trial-oak-cathedral.png');
   --tx-sawn-tan: url('images/textures/trial-sawn-tan.png');
-  --tx-pale-veneer: url('images/textures/trial-pale-veneer.png'); /* MAYBE */
-  --tx-charred-planks: url('images/textures/trial-charred-planks.png'); /* OUT hero */
-  --tx-brushed-ochre: url('images/textures/trial-brushed-ochre.png'); /* MAYBE buttons-only */
-  --tx-cream-stain: url('images/textures/trial-cream-stain.png'); /* MAYBE */
-  --tx-slats-tan: url('images/textures/trial-slats-tan.png'); /* OUT hero */
+  --tx-pale-veneer: url('images/textures/trial-pale-veneer.png');
+  --tx-charred-planks: url('images/textures/trial-charred-planks.png');
+  --tx-brushed-ochre: url('images/textures/trial-brushed-ochre.png');
+  --tx-cream-stain: url('images/textures/trial-cream-stain.png');
+  --tx-slats-tan: url('images/textures/trial-slats-tan.png');
 
   /* Active */
-  --wood-grain-buttons: var(--tx-light-planks); /* locked workhorse */
-  --wood-grain-hero: var(--tx-planks-knots); /* locked workhorse */
-  --wood-grain-cards: var(--tx-finger-joint); /* parked favorite */
+  --wood-grain-buttons: var(--tx-light-planks);
+  --wood-grain-hero: var(--tx-planks-knots);
+  --wood-grain-cards: var(--tx-finger-joint);
   --nav-left-wood: var(--tx-black-wood-h);
-  --wood-grain: var(--wood-grain-buttons); /* legacy alias */
+  --wood-grain: var(--wood-grain-buttons);
 
-  --line-ink: 2.5px; /* beefed black outlines */
+  --line-ink: 2.5px;
   --gold: #d9b872;
   --gold-dark: #ae8732;
   --ember: #c2622d;
   --ember-bright: #d4732f;
 
-  --cream: #f8f4ec;
-  --cream-panel: #faf6ee;
+  --cream: #F4ECDC;
+  --cream-panel: #FAF6EE;
   --sand: #dbd0bd;
   --charcoal: #383b3e;
-  --black: #000000;
+  --black: #1a1a1a;
   --white: #ffffff;
 
-  /* Nav — same forest family as hero chips / green plates */
+  /* Nav */
   --nav-green: #2f5d3a;
   --nav-green-mid: #3a7048;
   --nav-green-edge: #264a32;
   --nav-tan: #ebe4d4;
 
-  /* Crop-mark corners — horizontal legs long, vertical legs slightly longer; stroke ~1.5× prior */
-  --mark-th: 5.25px;
+  /* Outside contrasting crop-mark corners */
+  --mark-th: 5.5px;
   --mark-th-sm: 4.5px;
-  --mark-h: 48px;       /* horizontal leg */
-  --mark-v: 34px;       /* vertical leg */
-  --mark-h-sm: 28px;
-  --mark-v-sm: 18px;
-  /* legacy aliases (square marks / older refs) */
-  --mark-len: var(--mark-h);
-  --mark-len-sm: var(--mark-h-sm);
+  --mark-tip: 18px;
   --mark-orange: var(--ember);
-  --mark-green: #5aab6a; /* lighter than forest — readable on wood plates */
+  --mark-green: #5aab6a;
   --mark-black: var(--black);
 
-  --grid-major: 100px;
-  --grid-minor: 25px;
-  --grid-line-major: rgba(27, 67, 50, 0.24);
-  --grid-line-minor: rgba(27, 67, 50, 0.1);
+  --grid-major: rgba(22, 67, 45, 0.70);
+  --grid-minor: rgba(46, 139, 78, 0.40);
 
-  --radius: 3px;
+  --radius: 5px;
   --radius-lg: 6px;
-  --maxw: 1120px;
+  --maxw: 1240px;
 
   color-scheme: light;
 }
@@ -139,16 +112,12 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   background-image:
-    linear-gradient(var(--grid-line-minor) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line-minor) 1px, transparent 1px),
-    linear-gradient(var(--grid-line-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line-major) 1px, transparent 1px);
-  background-size:
-    var(--grid-minor) var(--grid-minor),
-    var(--grid-minor) var(--grid-minor),
-    var(--grid-major) var(--grid-major),
-    var(--grid-major) var(--grid-major);
-  background-position: 0 0;
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(var(--grid-major) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grid-major) 2px, transparent 2px);
+  background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+  background-position: calc(50% - 620px) 0;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -3752,6 +3721,172 @@ footer ul a:hover { opacity: 1; color: var(--gold); }
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   LOCKED CORNER-MARK-OUT & COMPONENT BUTTON STANDARDS (5PX RADIUS CANON)
+   ========================================================================== */
+
+.has-outside-corners { position: relative; }
+.corner-mark-out {
+  position: absolute;
+  width: 33%;
+  height: 33%;
+  min-width: 24px;
+  min-height: 24px;
+  max-width: 140px;
+  max-height: 100px;
+  pointer-events: none;
+  z-index: 15;
+  --mark-th: 5.5px;
+  --mark-tip: 18px;
+  --mark-c: var(--gold);
+}
+.corner-mark-out::before, .corner-mark-out::after { content: ""; position: absolute; background: var(--mark-c); }
+.corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+.corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+.corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+.corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+.corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+.corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 0 100%); }
+.corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+.corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+.corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+.corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+.corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+.corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+.c-gold { --mark-c: var(--gold); }
+.c-orange { --mark-c: var(--ember); }
+.c-forest { --mark-c: var(--forest-deep); }
+.c-black { --mark-c: var(--ink); }
+
+/* Card Standards Container Base */
+.card-solid {
+  border: var(--line-ink) solid var(--ink);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 5px 16px rgba(0,0,0,0.12);
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-title-bar {
+  padding: 0.55rem 0.9rem;
+  border-radius: 2px;
+  font-family: 'Rowdies', sans-serif;
+  font-size: 0.95rem;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title-green { background: var(--forest-deep); color: #FAF6EE; }
+.title-black { background: var(--ink); color: var(--gold); }
+.title-orange { background: var(--ember); color: #FAF6EE; }
+.title-gold { background: var(--gold); color: var(--ink); }
+
+.card-content-wrap {
+  background: rgba(250, 246, 238, 0.94);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.85rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.card-content-wrap.dark { background: rgba(20, 27, 22, 0.94); color: #FAF6EE; }
+.card-h { font-family: 'Rowdies', sans-serif; font-size: 1.22rem; margin-bottom: 0.25rem; line-height: 1.15; }
+.card-p { font-size: 0.86rem; line-height: 1.45; }
+
+/* 11 Locked Button Shapes Standard */
+.ff-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: 'Rowdies', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.7rem 1.35rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.ff-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-forest { background: var(--forest-deep); color: #FAF6EE; }
+.btn-ember { background: var(--ember); color: #FAF6EE; }
+.btn-ink { background: var(--ink); color: var(--gold); }
+.btn-cream { background: #FAF6EE; color: var(--forest-deep); }
+.btn-pill { border-radius: 999px; padding: 0.65rem 1.4rem; }
+.btn-chamfer { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); border-radius: 0; }
+.btn-tab { border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.btn-ticket { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); border-radius: 0; }
+.btn-banner { clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%); border-radius: 0; padding-right: 1.6rem; }
+.btn-chevron { clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%); border-radius: 0; padding-left: 1.4rem; padding-right: 1.4rem; }
+.btn-skew { transform: skewX(-10deg); border-radius: 2px; }
+.btn-skew > span { transform: skewX(10deg); display: inline-block; }
+.btn-lip { clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); border-radius: 0; border-top: 3.5px solid var(--gold); }
+.btn-dual-wrap { display: inline-flex; border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.btn-dual-wrap button { font-family: 'Rowdies', sans-serif; font-size: 0.82rem; border: none; padding: 0.5rem 0.9rem; cursor: pointer; }
+
+/* ========================================================================= */
+/* Outside Corner Markers Standard (50% Span & Docked Taper Law)            */
+/* ========================================================================= */
+.has-outside-corners { position: relative; }
+.corner-mark-out {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  pointer-events: none;
+  z-index: 15;
+  --mark-th: 5.5px;
+  --mark-tip: 24px;
+  --mark-c: var(--gold-sun);
+}
+.corner-mark-out::before, .corner-mark-out::after {
+  content: "";
+  position: absolute;
+  background: var(--mark-c);
+}
+
+/* Top-Left (.tl) */
+.corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+.corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+.corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+/* Top-Right (.tr) */
+.corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+.corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+.corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 0 100%, 0 calc(100% - var(--mark-tip))); }
+
+/* Bottom-Left (.bl) */
+.corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+.corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+.corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+
+/* Bottom-Right (.br) */
+.corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+.corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+.corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+.c-gold { --mark-c: var(--gold-sun, #E5B842); }
+.c-orange { --mark-c: var(--ember, #F27A22); }
+.c-forest { --mark-c: var(--forest-deep, #16432D); }
+.c-black { --mark-c: var(--ink, #1a1a1a); }
+
+
 
 
 
