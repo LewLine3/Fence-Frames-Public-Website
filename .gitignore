@@ -21,3 +21,6 @@ _antigravity/
 *payroll*
 *credit_card*
 *transaction_log*
+
+# Local design preview screenshots (never ship)
+_preview*.png

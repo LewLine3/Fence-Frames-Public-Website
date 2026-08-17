@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Graduated Component & Card Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    :root {
+      --bg: #F4ECDC;
+      --bg-soft: #FAF6EE;
+      --ink: #1a1a1a;
+      --forest: #2f5d3a;
+      --forest-deep: #16432D;
+      --grid-major: rgba(22, 67, 45, 0.70);
+      --grid-minor: rgba(46, 139, 78, 0.40);
+      --gold-sun: #E5B842;
+      --gold-brass: #D4AF37;
+      --gold-bright: #F5C84C;
+      --ember: #c2622d;
+      --tan: #c4b294;
+      --radius: 5px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(var(--grid-major) 2px, transparent 2px),
+        linear-gradient(90deg, var(--grid-major) 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+      background-position: calc(50% - 620px) 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Studio Header */
+    .studio-header {
+      background: #141B16;
+      border-bottom: 3px solid var(--ink);
+      color: #FAF6EE;
+      padding: 0.85rem 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .studio-brand {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .studio-nav-links {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    /* Main Studio App Grid */
+    .studio-app-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      flex: 1;
+      height: calc(100vh - 65px);
+      overflow: hidden;
+    }
+    @media (max-width: 1020px) {
+      .studio-app-grid { grid-template-columns: 1fr; height: auto; overflow: visible; }
+    }
+
+    /* Left Control Sidebar */
+    .control-sidebar {
+      background: #FAF6EE;
+      border-right: 2.5px solid var(--ink);
+      overflow-y: auto;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.06);
+    }
+    .control-panel-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      color: var(--forest-deep);
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .control-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+    }
+    .control-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    /* Swatch Palette */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.4rem;
+    }
+    .swatch-btn {
+      width: 100%;
+      height: 34px;
+      border-radius: 4px;
+      border: 2px solid var(--ink);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      position: relative;
+    }
+    .swatch-btn:hover {
+      transform: scale(1.1);
+      z-index: 5;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    }
+    .swatch-btn.active {
+      outline: 3px solid var(--forest-deep);
+      outline-offset: 1px;
+    }
+
+    /* Texture Selection Grid */
+    .texture-thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      max-height: 180px;
+      overflow-y: auto;
+      padding: 0.3rem;
+      background: #E8DCC8;
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+    }
+    .texture-thumb-btn {
+      height: 52px;
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.65rem;
+      color: #FAF6EE;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+      display: flex;
+      align-items: flex-end;
+      padding: 0.2rem 0.3rem;
+      transition: transform 0.1s ease;
+    }
+    .texture-thumb-btn:hover { transform: scale(1.04); }
+    .texture-thumb-btn.active {
+      border: 2.5px solid var(--gold-sun);
+      box-shadow: 0 0 0 2px var(--ink);
+    }
+
+    /* Right Staging Workspace */
+    .staging-workspace {
+      position: relative;
+      overflow: auto;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    /* Master Interactive Canvas Box */
+    .interactive-stage-card {
+      position: relative;
+      border: var(--line-ink) solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+      transition: box-shadow 0.2s ease;
+      min-width: 240px;
+      min-height: 160px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.6rem;
+      user-select: none;
+    }
+
+    /* Live Resizing Handles */
+    .resize-handle {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--gold-sun);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      z-index: 30;
+    }
+    .handle-br { bottom: -7px; right: -7px; cursor: nwse-resize; }
+    .handle-r { top: calc(50% - 7px); right: -7px; cursor: ew-resize; }
+    .handle-b { bottom: -7px; left: calc(50% - 7px); cursor: ns-resize; }
+
+    /* Code Export Modal / Drawer */
+    .code-export-box {
+      background: #141B16;
+      color: #A3E635;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      padding: 1rem;
+      border: 2px solid var(--gold-sun);
+      border-radius: var(--radius);
+      max-height: 160px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin-top: 0.6rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Studio Bar -->
+  <header class="studio-header">
+    <div class="studio-brand">
+      <span>📐 Fence <span style="color:var(--gold-sun)">Frames</span></span>
+      <span style="font-size:0.8rem; background:var(--forest-deep); color:#FAF6EE; padding:0.2rem 0.5rem; border-radius:3px;">Graduated Card Studio</span>
+    </div>
+    <div class="studio-nav-links">
+      <a href="../homepage-prototype.html" class="ff-btn btn-gold btn-ticket" style="padding:0.4rem 0.9rem; font-size:0.8rem;">
+        &larr; Return to Prototype
+      </a>
+      <button class="ff-btn btn-forest btn-chamfer" style="padding:0.4rem 0.9rem; font-size:0.8rem;" onclick="copyActiveCode()">
+        📋 Copy HTML / CSS
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Layout -->
+  <div class="studio-app-grid">
+
+    <!-- Left Controls Sidebar -->
+    <aside class="control-sidebar">
+      
+      <!-- 1. Dimension Controls -->
+      <div>
+        <div class="control-panel-title">
+          <span>1. Sizing &amp; Dimensions</span>
+          <span id="dim-readout" style="font-family:'Fira Code',monospace; font-size:0.8rem; color:var(--forest-deep);">560px &times; 380px</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Width: <span id="w-val">560</span>px</span>
+            <span style="font-size:0.7rem; color:var(--tan);">Snap 25px</span>
+          </div>
+          <input type="range" id="slider-w" min="260" max="1100" step="25" value="560" oninput="updateStageSize()" style="width:100%; accent-color:var(--forest-deep);" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Height: <span id="h-val">380</span>px</span>
+            <span style="font-size:0.7rem; color:var(--tan);">Snap 25px</span>
+          </div>
+          <input type="range" id="slider-h" min="180" max="750" step="25" value="380" oninput="updateStageSize()" style="width:100%; accent-color:var(--forest-deep);" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Corner Radius: <span id="r-val">5</span>px</span>
+          </div>
+          <input type="range" id="slider-r" min="0" max="24" step="1" value="5" oninput="updateStageRadius()" style="width:100%; accent-color:var(--gold-sun);" />
+        </div>
+      </div>
+
+      <!-- 2. Background Texture / Color -->
+      <div>
+        <div class="control-panel-title">
+          <span>2. Background / Texture</span>
+          <span style="font-size:0.75rem; background:var(--gold-sun); color:var(--ink); padding:0.1rem 0.4rem; border-radius:2px;">12 Textures</span>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Base Surface Mode:</label>
+          <div class="control-row">
+            <button class="ff-btn btn-cream" style="flex:1; padding:0.4rem;" onclick="setSurfaceType('white-overlay')">White Overlay</button>
+            <button class="ff-btn btn-forest" style="flex:1; padding:0.4rem;" onclick="setSurfaceType('green-grid')">Green Grid</button>
+            <button class="ff-btn btn-gold" style="flex:1; padding:0.4rem;" onclick="setSurfaceType('wood-texture')">Wood Texture</button>
+          </div>
+        </div>
+
+        <div class="control-group" id="white-opacity-group">
+          <div class="control-label">
+            <span>White Overlay Opacity: <span id="op-val">90</span>%</span>
+          </div>
+          <input type="range" id="slider-opacity" min="40" max="100" step="2" value="90" oninput="updateOverlayOpacity()" style="width:100%; accent-color:var(--forest-deep);" />
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Batch 4 Real Wood Textures:</label>
+          <div class="texture-thumb-grid">
+            <div class="texture-thumb-btn active" style="background-image:url('data:image/jpeg;base64,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');" onclick="selectWoodTexture('honey')">Honey</div>
+            <div class="texture-thumb-btn" style="background-image:url('data:image/jpeg;base64,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');" onclick="selectWoodTexture('golden')">Golden</div>
+            <div class="texture-thumb-btn" style="background:#264A32;" onclick="selectWoodTexture('dark-forest')">Forest</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Corner Taper Details & Color Swatches -->
+      <div>
+        <div class="control-panel-title">
+          <span>3. Corner Taper Details</span>
+          <span id="corner-color-readout" style="font-family:'Fira Code',monospace; font-size:0.75rem; color:var(--gold-sun);">#E5B842</span>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Corner Placement:</label>
+          <div class="control-row">
+            <button class="ff-btn btn-cream active" id="cpos-diag1" style="flex:1; padding:0.35rem 0.5rem; font-size:0.78rem;" onclick="setCornerPlacement('tl-br')">TL + BR</button>
+            <button class="ff-btn btn-cream" id="cpos-diag2" style="flex:1; padding:0.35rem 0.5rem; font-size:0.78rem;" onclick="setCornerPlacement('tr-bl')">TR + BL</button>
+            <button class="ff-btn btn-cream" id="cpos-all" style="flex:1; padding:0.35rem 0.5rem; font-size:0.78rem;" onclick="setCornerPlacement('all')">All 4</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Pick Corner Color Swatch:</label>
+          <div class="swatch-grid">
+            <button class="swatch-btn active" style="background:#E5B842;" title="Sunlit Warm Gold (#E5B842)" onclick="setCornerColor('#E5B842')"></button>
+            <button class="swatch-btn" style="background:#D4AF37;" title="Drafting Brass (#D4AF37)" onclick="setCornerColor('#D4AF37')"></button>
+            <button class="swatch-btn" style="background:#F5C84C;" title="Canary Gold (#F5C84C)" onclick="setCornerColor('#F5C84C')"></button>
+            <button class="swatch-btn" style="background:#16432D;" title="Forest Deep (#16432D)" onclick="setCornerColor('#16432D')"></button>
+            <button class="swatch-btn" style="background:#C2622D;" title="Ember Orange (#C2622D)" onclick="setCornerColor('#C2622D')"></button>
+            <button class="swatch-btn" style="background:#1A1A1A;" title="Ink Black (#1A1A1A)" onclick="setCornerColor('#1A1A1A')"></button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Custom Color Input / Dropper:</span>
+          </div>
+          <div class="control-row">
+            <input type="color" id="custom-color-input" value="#E5B842" oninput="setCornerColor(this.value)" style="width:40px; height:32px; border:1.5px solid var(--ink); border-radius:3px; cursor:pointer;" />
+            <input type="text" id="custom-hex-text" value="#E5B842" onchange="setCornerColor(this.value)" style="flex:1; padding:0.35rem 0.6rem; border:1.5px solid var(--ink); border-radius:3px; font-family:'Fira Code',monospace; font-size:0.85rem;" />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Mark Thickness: <span id="th-val">5.5</span>px</span>
+          </div>
+          <input type="range" id="slider-th" min="2" max="10" step="0.5" value="5.5" oninput="updateMarkThickness()" style="width:100%; accent-color:var(--gold-sun);" />
+        </div>
+      </div>
+
+      <!-- 4. Content Selector -->
+      <div>
+        <div class="control-panel-title">
+          <span>4. Content Preset Selector</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-row" style="flex-wrap:wrap;">
+            <button class="ff-btn btn-forest" style="flex:1; min-width:100px; padding:0.4rem;" onclick="setContentPreset('lumber-spec')">Lumber Spec</button>
+            <button class="ff-btn btn-gold" style="flex:1; min-width:100px; padding:0.4rem;" onclick="setContentPreset('hero-text')">Hero Explainer</button>
+            <button class="ff-btn btn-cream" style="flex:1; min-width:100px; padding:0.4rem;" onclick="setContentPreset('fence-image')">Holo Fence Image</button>
+            <button class="ff-btn btn-ember" style="flex:1; min-width:100px; padding:0.4rem;" onclick="setContentPreset('action-bids')">3-Seat Bids</button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Right Staging Workspace -->
+    <main class="staging-workspace">
+      
+      <!-- Staging Instruction Hint -->
+      <div style="background:rgba(20,27,22,0.92); color:#FAF6EE; padding:0.5rem 1rem; border-radius:var(--radius); border:1.5px solid var(--gold-sun); margin-bottom:1.5rem; font-size:0.82rem; display:flex; align-items:center; gap:0.6rem;">
+        <span>🎯 <strong>Live Interactive Stager:</strong> Change dimensions, surfaces, corner marks, and content presets to customize any box live.</span>
+      </div>
+
+      <!-- The Live Resizable Box -->
+      <div id="stage-card" class="interactive-stage-card has-outside-corners" style="width:560px; height:380px; background-color:rgba(254,252,248,0.90); backdrop-filter:blur(3px);">
+        
+        <!-- Corner Marks -->
+        <span class="corner-mark-out tl" id="mark-tl" style="--mark-c: #E5B842;"></span>
+        <span class="corner-mark-out tr" id="mark-tr" style="--mark-c: #E5B842; display:none;"></span>
+        <span class="corner-mark-out bl" id="mark-bl" style="--mark-c: #E5B842; display:none;"></span>
+        <span class="corner-mark-out br" id="mark-br" style="--mark-c: #E5B842;"></span>
+
+        <!-- Card Interior Dynamic Content -->
+        <div id="stage-content-wrap">
+          <!-- Dynamic Content Loaded via JS -->
+        </div>
+
+        <!-- Resize Handles -->
+        <div class="resize-handle handle-r"></div>
+        <div class="resize-handle handle-b"></div>
+        <div class="resize-handle handle-br"></div>
+      </div>
+
+      <!-- Live Generated CSS & HTML Snippet -->
+      <div style="width:100%; max-width:760px; margin-top:2.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Rowdies',sans-serif; font-size:0.95rem; color:var(--forest-deep);">Exported Component Specification</span>
+          <button class="ff-btn btn-gold btn-ticket" style="padding:0.35rem 0.8rem; font-size:0.78rem;" onclick="copyActiveCode()">Copy Code</button>
+        </div>
+        <div class="code-export-box" id="code-snippet-box"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // State
+    let currentWidth = 560;
+    let currentHeight = 380;
+    let currentRadius = 5;
+    let currentSurface = 'white-overlay';
+    let currentOpacity = 90;
+    let currentCornerColor = '#E5B842';
+    let currentCornerPos = 'tl-br';
+    let currentMarkThickness = 5.5;
+    let currentContent = 'lumber-spec';
+
+    const contentPresets = {
+      'lumber-spec': `
+        <div>
+          <div class="card-title-bar title-green">
+            <span>WESTERN RED CEDAR &middot; LUMBER SPEC</span>
+            <span style="font-size:0.75rem; background:var(--gold-sun); color:var(--ink); padding:0.15rem 0.45rem; border-radius:2px;">[Card #70 &middot; Graduated Spec]</span>
+          </div>
+          <div class="card-content-wrap">
+            <div class="card-h" style="color:var(--forest-deep); font-size:1.15rem; margin-bottom:0.4rem;">
+              Pacific Northwest Architectural Grade Schedule
+            </div>
+            <div style="font-size:0.8rem; line-height:1.45; color:var(--ink); display:flex; flex-direction:column; gap:0.35rem;">
+              <div><strong>Grade:</strong> #1 Architectural Tight-Knot &amp; CVG Cedar</div>
+              <div><strong>Pickets:</strong> 1&times;6&times;6′ Rough-Sawn Natural Cedar (7/8″ True)</div>
+              <div><strong>Rails:</strong> 2&times;4 S4S Kiln-Dried Select Rails</div>
+              <div><strong>Posts:</strong> 4&times;4 / 4&times;6 Ground Contact .40 PT Incised Fir</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; margin-top:0.8rem;">
+          <button class="ff-btn btn-forest btn-tab" style="flex:1; padding:0.45rem;">View Takeoff &rarr;</button>
+          <button class="ff-btn btn-gold btn-ticket" style="flex:1; padding:0.45rem;">140+ HOA Rules</button>
+        </div>
+      `,
+      'hero-text': `
+        <div>
+          <div class="card-title-bar title-green">
+            <span>FRAME YOUR VISION &middot; FIND YOUR FENCE</span>
+            <span style="font-size:0.75rem; background:var(--gold-sun); color:var(--ink); padding:0.15rem 0.45rem; border-radius:2px;">Canon Standard</span>
+          </div>
+          <h2 style="font-family:'Rowdies',sans-serif; font-size:1.4rem; color:var(--forest-deep); line-height:1.2; margin-bottom:0.5rem;">
+            Professional Fence Clarity for Washington Homeowners
+          </h2>
+          <p style="font-size:0.86rem; line-height:1.4; color:var(--ink); margin-bottom:0.8rem;">
+            Built by a former fence contractor to replace vague estimates with authentic 2D vector CAD drafting and verified 3-seat contractor matching.
+          </p>
+          <div style="background:rgba(232,220,200,0.6); border:1.5px solid var(--forest-deep); border-radius:var(--radius); padding:0.6rem; font-size:0.78rem;">
+            <div><strong>1. Find It:</strong> Surface HOA rules &middot; <strong>2. Frame It:</strong> CAD Canvas &middot; <strong>3. Fence It:</strong> 3 Bids</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.4rem; margin-top:0.6rem;">
+          <button class="ff-btn btn-forest btn-tab" style="flex:1; padding:0.4rem; font-size:0.75rem;">1. Find It</button>
+          <button class="ff-btn btn-gold btn-tab" style="flex:1; padding:0.4rem; font-size:0.75rem;">2. Frame It</button>
+          <button class="ff-btn btn-ember btn-tab" style="flex:1; padding:0.4rem; font-size:0.75rem;">3. Fence It</button>
+        </div>
+      `,
+      'fence-image': `
+        <div style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--ink); padding-bottom:0.4rem;">
+            <strong style="font-family:'Rowdies',sans-serif; font-size:1.05rem; color:var(--forest-deep);">Holographic Picket Transition</strong>
+            <span style="font-size:0.75rem; background:var(--forest-deep); color:#FAF6EE; padding:0.15rem 0.5rem; border-radius:3px;">1:24 CAD</span>
+          </div>
+          <div style="height:180px; border:2px solid var(--ink); border-radius:var(--radius); overflow:hidden; margin:0.6rem 0; background:#141B16;">
+            <img src="../images/Holographic fence icons/Fence-It-Holographic-Fence.png" alt="Holographic Fence" style="width:100%; height:100%; object-fit:cover;" />
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem;">
+            <span>Si View Approved Elevation</span>
+            <button class="ff-btn btn-gold btn-ticket" style="padding:0.35rem 0.7rem; font-size:0.78rem;">Explore Specs &rarr;</button>
+          </div>
+        </div>
+      `,
+      'action-bids': `
+        <div>
+          <div class="card-title-bar title-orange">
+            <span>3-SEAT CONTRACTOR DISPATCH</span>
+            <span style="font-size:0.75rem; background:var(--ink); color:var(--gold-sun); padding:0.15rem 0.45rem; border-radius:2px;">72h Bidding</span>
+          </div>
+          <h3 style="font-family:'Rowdies',sans-serif; font-size:1.25rem; color:var(--ember); margin-bottom:0.4rem;">
+            Guaranteed 3 Local Contractor Bids
+          </h3>
+          <p style="font-size:0.86rem; color:var(--ink); margin-bottom:0.8rem;">
+            Exact takeoff blueprint packages dispatched to a capped pool of 3 local licensed contractors. No spam, transparent &plusmn;15% ledger guarantees.
+          </p>
+          <div style="background:#141B16; color:#DBD0BD; border:1px solid var(--gold-sun); border-radius:var(--radius); padding:0.6rem; font-size:0.78rem;">
+            <span style="color:#A3E635; font-weight:700;">● 3 Seats Open</span> &middot; Cascade Fence, Snoqualmie Craftsmen, Eastside Pros.
+          </div>
+        </div>
+        <button class="ff-btn btn-ember btn-banner" style="width:100%; margin-top:0.8rem; padding:0.55rem;">Lock 72h Bid Pool &rarr;</button>
+      `
+    };
+
+    function initStudio() {
+      setContentPreset('lumber-spec');
+      updateStageSize();
+      updateStageRadius();
+      setCornerPlacement('tl-br');
+      setCornerColor('#E5B842');
+    }
+
+    function updateStageSize() {
+      currentWidth = document.getElementById('slider-w').value;
+      currentHeight = document.getElementById('slider-h').value;
+      document.getElementById('w-val').textContent = currentWidth;
+      document.getElementById('h-val').textContent = currentHeight;
+      document.getElementById('dim-readout').textContent = `${currentWidth}px × ${currentHeight}px`;
+
+      const stage = document.getElementById('stage-card');
+      stage.style.width = currentWidth + 'px';
+      stage.style.height = currentHeight + 'px';
+      generateCodeSnippet();
+    }
+
+    function updateStageRadius() {
+      currentRadius = document.getElementById('slider-r').value;
+      document.getElementById('r-val').textContent = currentRadius;
+      document.getElementById('stage-card').style.borderRadius = currentRadius + 'px';
+      generateCodeSnippet();
+    }
+
+    function setSurfaceType(type) {
+      currentSurface = type;
+      const stage = document.getElementById('stage-card');
+      const opGroup = document.getElementById('white-opacity-group');
+
+      if (type === 'white-overlay') {
+        opGroup.style.display = 'flex';
+        stage.style.backgroundImage = 'none';
+        stage.style.backgroundColor = `rgba(254, 252, 248, ${currentOpacity / 100})`;
+        stage.style.color = '#1A1A1A';
+      } else if (type === 'green-grid') {
+        opGroup.style.display = 'none';
+        stage.style.backgroundColor = '#141B16';
+        stage.style.backgroundImage = 'linear-gradient(rgba(46, 139, 78, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.35) 1px, transparent 1px)';
+        stage.style.backgroundSize = '20px 20px';
+        stage.style.color = '#FAF6EE';
+      } else if (type === 'wood-texture') {
+        opGroup.style.display = 'none';
+        selectWoodTexture('honey');
+      }
+      generateCodeSnippet();
+    }
+
+    function updateOverlayOpacity() {
+      currentOpacity = document.getElementById('slider-opacity').value;
+      document.getElementById('op-val').textContent = currentOpacity;
+      if (currentSurface === 'white-overlay') {
+        document.getElementById('stage-card').style.backgroundColor = `rgba(254, 252, 248, ${currentOpacity / 100})`;
+      }
+      generateCodeSnippet();
+    }
+
+    function selectWoodTexture(name) {
+      currentSurface = 'wood-' + name;
+      const stage = document.getElementById('stage-card');
+      stage.style.color = '#1A1A1A';
+      
+      const thumbs = document.querySelectorAll('.texture-thumb-btn');
+      thumbs.forEach(t => t.classList.remove('active'));
+
+      if (name === 'honey') {
+        stage.style.backgroundImage = "url('data:image/jpeg;base64,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')";
+      } else if (name === 'golden') {
+        stage.style.backgroundImage = "url('data:image/jpeg;base64,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')";
+      } else if (name === 'dark-forest') {
+        stage.style.backgroundColor = '#16432D';
+        stage.style.backgroundImage = 'none';
+        stage.style.color = '#FAF6EE';
+      }
+      generateCodeSnippet();
+    }
+
+    function setCornerPlacement(pos) {
+      currentCornerPos = pos;
+      const tl = document.getElementById('mark-tl');
+      const tr = document.getElementById('mark-tr');
+      const bl = document.getElementById('mark-bl');
+      const br = document.getElementById('mark-br');
+
+      document.querySelectorAll('#cpos-diag1, #cpos-diag2, #cpos-all').forEach(b => b.classList.remove('active'));
+
+      if (pos === 'tl-br') {
+        document.getElementById('cpos-diag1').classList.add('active');
+        tl.style.display = 'block';
+        br.style.display = 'block';
+        tr.style.display = 'none';
+        bl.style.display = 'none';
+      } else if (pos === 'tr-bl') {
+        document.getElementById('cpos-diag2').classList.add('active');
+        tr.style.display = 'block';
+        bl.style.display = 'block';
+        tl.style.display = 'none';
+        br.style.display = 'none';
+      } else if (pos === 'all') {
+        document.getElementById('cpos-all').classList.add('active');
+        tl.style.display = 'block';
+        tr.style.display = 'block';
+        bl.style.display = 'block';
+        br.style.display = 'block';
+      }
+      generateCodeSnippet();
+    }
+
+    function setCornerColor(hex) {
+      currentCornerColor = hex;
+      document.getElementById('corner-color-readout').textContent = hex;
+      document.getElementById('custom-color-input').value = hex;
+      document.getElementById('custom-hex-text').value = hex;
+
+      document.querySelectorAll('.corner-mark-out').forEach(m => {
+        m.style.setProperty('--mark-c', hex);
+      });
+
+      document.querySelectorAll('.swatch-btn').forEach(b => {
+        b.classList.toggle('active', b.style.backgroundColor === hex || b.getAttribute('title').includes(hex));
+      });
+      generateCodeSnippet();
+    }
+
+    function updateMarkThickness() {
+      currentMarkThickness = document.getElementById('slider-th').value;
+      document.getElementById('th-val').textContent = currentMarkThickness;
+      document.querySelectorAll('.corner-mark-out').forEach(m => {
+        m.style.setProperty('--mark-th', currentMarkThickness + 'px');
+      });
+      generateCodeSnippet();
+    }
+
+    function setContentPreset(presetKey) {
+      currentContent = presetKey;
+      document.getElementById('stage-content-wrap').innerHTML = contentPresets[presetKey] || '';
+      generateCodeSnippet();
+    }
+
+    function generateCodeSnippet() {
+      const code = `<!-- Fence Frames Custom Graduated Component Card -->
+<div class="card-solid has-outside-corners" style="
+  width: ${currentWidth}px;
+  height: ${currentHeight}px;
+  border-radius: ${currentRadius}px;
+  background-color: ${currentSurface === 'white-overlay' ? `rgba(254, 252, 248, ${currentOpacity/100})` : (currentSurface === 'green-grid' ? '#141B16' : '#FAF6EE')};
+  ${currentSurface === 'green-grid' ? "background-image: linear-gradient(rgba(46, 139, 78, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.35) 1px, transparent 1px); background-size: 20px 20px;" : ""}
+">
+  <!-- Corner Taper Details (${currentCornerPos.toUpperCase()}) -->
+  ${currentCornerPos === 'tl-br' || currentCornerPos === 'all' ? `<span class="corner-mark-out tl" style="--mark-c: ${currentCornerColor}; --mark-th: ${currentMarkThickness}px;"></span>\n  <span class="corner-mark-out br" style="--mark-c: ${currentCornerColor}; --mark-th: ${currentMarkThickness}px;"></span>` : ''}
+  ${currentCornerPos === 'tr-bl' || currentCornerPos === 'all' ? `<span class="corner-mark-out tr" style="--mark-c: ${currentCornerColor}; --mark-th: ${currentMarkThickness}px;"></span>\n  <span class="corner-mark-out bl" style="--mark-c: ${currentCornerColor}; --mark-th: ${currentMarkThickness}px;"></span>` : ''}
+
+  <!-- Card Content -->
+  ${document.getElementById('stage-content-wrap').innerHTML.trim()}
+</div>`;
+
+      document.getElementById('code-snippet-box').textContent = code;
+    }
+
+    function copyActiveCode() {
+      const text = document.getElementById('code-snippet-box').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied Graduated Component HTML & CSS to clipboard!');
+      });
+    }
+
+    // Drag-to-Resize Implementation on Staging Card
+    const stage = document.getElementById('stage-card');
+    const handleBR = document.querySelector('.handle-br');
+    const handleR = document.querySelector('.handle-r');
+    const handleB = document.querySelector('.handle-b');
+
+    let isResizing = false;
+    let resizeDir = '';
+    let startX, startY, startW, startH;
+
+    function startResize(e, dir) {
+      isResizing = true;
+      resizeDir = dir;
+      startX = e.clientX;
+      startY = e.clientY;
+      startW = parseInt(stage.style.width, 10);
+      startH = parseInt(stage.style.height, 10);
+      document.addEventListener('mousemove', handleResizeMove);
+      document.addEventListener('mouseup', stopResize);
+      e.preventDefault();
+    }
+
+    handleBR.addEventListener('mousedown', (e) => startResize(e, 'br'));
+    handleR.addEventListener('mousedown', (e) => startResize(e, 'r'));
+    handleB.addEventListener('mousedown', (e) => startResize(e, 'b'));
+
+    function handleResizeMove(e) {
+      if (!isResizing) return;
+      let newW = startW;
+      let newH = startH;
+
+      if (resizeDir === 'br' || resizeDir === 'r') {
+        const dx = e.clientX - startX;
+        newW = Math.max(260, Math.min(1100, Math.round((startW + dx) / 25) * 25));
+        document.getElementById('slider-w').value = newW;
+      }
+      if (resizeDir === 'br' || resizeDir === 'b') {
+        const dy = e.clientY - startY;
+        newH = Math.max(180, Math.min(750, Math.round((startH + dy) / 25) * 25));
+        document.getElementById('slider-h').value = newH;
+      }
+
+      updateStageSize();
+    }
+
+    function stopResize() {
+      isResizing = false;
+      document.removeEventListener('mousemove', handleResizeMove);
+      document.removeEventListener('mouseup', stopResize);
+    }
+
+    window.addEventListener('DOMContentLoaded', initStudio);
+  </script>
+</body>
+</html>
