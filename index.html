@@ -208,57 +208,250 @@
   <!-- ========================================================================= -->
   <!-- 1. TOP GLOBAL NAVIGATION BAR (LOCKED FENCE FRAMES STANDARD)              -->
   <!-- ========================================================================= -->
+  <!-- ========================================================================= -->
+  <!-- 1. TOP GLOBAL NAVIGATION BAR (MODULAR DOCKED SYSTEM)                      -->
+  <!-- ========================================================================= -->
   <header class="nav">
-    <div class="wrap nav-inner">
-      <div class="nav-left">
-        <a class="brand" href="#top" aria-label="Fence Frames home">
-          <span class="name"><span class="nav-fence">Fence</span>&nbsp;<span class="nav-frames">Frames</span></span>
-          <span class="home-ico" aria-hidden="true">
+    <div class="nav-container-docked">
+      
+      <!-- LEFT ZONE: Brand Module + Stacked 3-Pillar Buttons -->
+      <div class="nav-left-zone">
+        <!-- Far-Left Brand Module -->
+        <a class="nav-brand-module" href="#top" aria-label="Fence Frames Home">
+          <div class="nav-brand-wordmark">
+            <span class="brand-fence">FENCE</span>
+            <span class="brand-frames">FRAMES</span>
+          </div>
+          <div class="nav-brand-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path class="fi-grass" d="M2 20c2-2.4 4-2.4 5.5-.6C9 21.2 11 21.2 12 19c1-2.2 3-2.2 4.5-.4C18 20.4 20 20.4 22 18" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path class="fi-fence" d="M4 20V9M4 9l-2 3M4 9l2 3M9.5 20V7M9.5 7l-2 3M9.5 7l2 3M15 20V9M15 9l-2 3M15 9l2 3M20.5 20V11M20.5 11l-2 3M20.5 11l2 3" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path class="fi-rail" d="M2.5 13.5h19M2.5 17h19" fill="none" stroke-width="1.4" stroke-linecap="round"/>
+              <path class="fi-grass" d="M2 20c2-2.4 4-2.4 5.5-.6C9 21.2 11 21.2 12 19c1-2.2 3-2.2 4.5-.4C18 20.4 20 20.4 22 18" fill="none" stroke="var(--gold-sun, #E5B842)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="fi-fence" d="M4 20V9M4 9l-2 3M4 9l2 3M9.5 20V7M9.5 7l-2 3M9.5 7l2 3M15 20V9M15 9l-2 3M15 9l2 3M20.5 20V11M20.5 11l-2 3M20.5 11l2 3" fill="none" stroke="var(--ember, #F27A22)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="fi-rail" d="M2.5 13.5h19M2.5 17h19" fill="none" stroke="var(--forest-bright, #4ADE80)" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
-          </span>
+          </div>
         </a>
-      </div>
 
-      <div class="nav-mid" id="navMid">
-        <div class="nav-dd" data-dd="find">
-          <button type="button" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false" onclick="openModal('modal-hoa')">
-            <span class="nav-step-label">Find It</span>
-            <span class="nav-step-sub">(Location)</span>
+        <!-- Stacked 3 Pillar Buttons (Attached directly to right wall of brand module) -->
+        <div class="nav-pillar-stack">
+          <!-- Button 1: FIND -->
+          <button type="button" class="nav-pillar-btn btn-pillar-find" id="nav-btn-find" onclick="toggleNavDropdown('dd-find', this)">
+            FIND
           </button>
-        </div>
 
-        <a class="nav-text-link" href="#communities" onclick="openModal('modal-hoa'); return false;">Communities (140+)</a>
-
-        <div class="nav-dd" data-dd="frame">
-          <button type="button" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false" onclick="document.getElementById('frame-pillar').scrollIntoView({behavior:'smooth'})">
-            <span class="nav-step-label">Frame It</span>
-            <span class="nav-step-sub">(Design)</span>
+          <!-- Button 2: FRAME -->
+          <button type="button" class="nav-pillar-btn btn-pillar-frame" id="nav-btn-frame" onclick="toggleNavDropdown('dd-frame', this)">
+            FRAME
           </button>
-        </div>
 
-        <a class="nav-text-link nav-text-link--contractors" href="#contractors" onclick="openModal('modal-contractor'); return false;">Contractors</a>
-
-        <div class="nav-dd" data-dd="fence">
-          <button type="button" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false" onclick="openModal('modal-blueprint')">
-            <span class="nav-step-label">Fence It</span>
-            <span class="nav-step-sub">(Build)</span>
+          <!-- Button 3: FENCE -->
+          <button type="button" class="nav-pillar-btn btn-pillar-fence" id="nav-btn-fence" onclick="toggleNavDropdown('dd-fence', this)">
+            FENCE
           </button>
         </div>
       </div>
 
-      <div class="nav-end" id="navRightZone" style="display:flex; gap:0.5rem; align-items:center;">
-        <a href="trials/graduated-component-studio.html" class="ff-btn btn-forest btn-tab" style="padding:0.4rem 0.8rem; font-size:0.78rem;">
-          📐 Card Studio
-        </a>
-        <button class="ff-btn btn-gold btn-chamfer" style="padding:0.45rem 1rem; font-size:0.84rem;" onclick="openModal('modal-signin')">
-          Sign In
+      <!-- RIGHT ZONE: Guest Module + Hamburger Menu -->
+      <div class="nav-right-zone">
+        <!-- Guest Name Module (Docked left of hamburger) -->
+        <button type="button" class="nav-guest-module" id="nav-guest-bar" onclick="handleGuestModuleClick(this)">
+          <span class="guest-status-indicator"></span>
+          <span class="guest-name" id="nav-user-name">Guest</span>
+        </button>
+
+        <!-- Hamburger Menu Module (Furthest Right 3-line icon) -->
+        <button type="button" class="nav-hamburger-module" id="nav-hamburger-btn" aria-label="Open Site Menu" onclick="toggleNavDropdown('dd-auth', this)">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- LEFT DOCKED DROPDOWN PANELS (Docked to bottom of nav & left screen edge)   -->
+    <!-- ========================================================================= -->
+
+    <!-- Panel 1: FIND DROPDOWN -->
+    <div class="nav-docked-dropdown nav-dd-left" id="dd-find" hidden>
+      <div class="nav-dd-header">
+        <div class="dd-title-badge" style="background:var(--gold-sun, #E5B842); color:var(--ink, #1A1A1A);">STEP 1 &middot; FIND IT</div>
+        <h4>Washington Community &amp; Code Matcher</h4>
+        <p>Enter your ZIP code to verify local building codes and select your HOA community presets.</p>
+      </div>
+      <div class="nav-dd-body">
+        <div class="find-form-grid">
+          <div class="form-group">
+            <label for="nav-zip-input">Washington ZIP Code</label>
+            <div class="zip-input-wrap">
+              <input type="text" id="nav-zip-input" placeholder="e.g. 98045" maxlength="5" />
+              <button type="button" class="btn-check-zip" onclick="checkNavZip()">CHECK</button>
+            </div>
+            <div id="nav-zip-result" style="font-size:0.8rem; font-family:'Rowdies',sans-serif; margin-top:4px;"></div>
+          </div>
+          <div class="form-group">
+            <label for="nav-community-select">Select Community within ZIP</label>
+            <select id="nav-community-select" onchange="handleNavCommunitySelect(this.value)">
+              <option value="">-- Choose Community --</option>
+              <option value="si-view">Si View (North Bend, WA)</option>
+              <option value="snoqualmie-ridge">Snoqualmie Ridge (Snoqualmie, WA)</option>
+              <option value="issaquah-highlands">Issaquah Highlands (Issaquah, WA)</option>
+              <option value="klahanie">Klahanie (Sammamish, WA)</option>
+              <option value="somerset">Somerset (Bellevue, WA)</option>
+              <option value="no-hoa">No HOA / Open Design Zone</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn btn-gold btn-full" style="width:100%;" onclick="openModal('modal-hoa'); closeAllNavDropdowns();">
+          VIEW FULL CC&amp;R DIRECTORY &rarr;
         </button>
       </div>
     </div>
+
+    <!-- Panel 2: FRAME DROPDOWN -->
+    <div class="nav-docked-dropdown nav-dd-left" id="dd-frame" hidden>
+      <div class="nav-dd-header">
+        <div class="dd-title-badge" style="background:var(--ember, #F27A22); color:#FFFFFF;">STEP 2 &middot; FRAME IT</div>
+        <h4>Choose Your Design Mode</h4>
+        <p>Explore pre-approved styles, compose a custom modular design, or walk through our guided takeoff wizard.</p>
+      </div>
+      <div class="nav-dd-tools-grid">
+        <!-- Mode 1: Catalog -->
+        <a href="#catalog" class="nav-tool-card" onclick="document.getElementById('frame-pillar').scrollIntoView({behavior:'smooth'}); closeAllNavDropdowns();">
+          <div class="tool-icon-wrap" style="color:var(--ember, #F27A22);">📚</div>
+          <div class="tool-info">
+            <div class="tool-name">Greatest Hits Catalog</div>
+            <div class="tool-desc">Pre-approved community styles and standard regional presets. Fast &amp; direct.</div>
+          </div>
+        </a>
+        <!-- Mode 2: Custom Designer -->
+        <a href="trials/graduated-component-studio.html" class="nav-tool-card" onclick="closeAllNavDropdowns();">
+          <div class="tool-icon-wrap" style="color:var(--gold-sun, #E5B842);">📐</div>
+          <div class="tool-info">
+            <div class="tool-name">Custom Modular Designer</div>
+            <div class="tool-desc">Interactive 2D vector stack composer. Full creative control over posts, rails, pickets &amp; trim.</div>
+          </div>
+        </a>
+        <!-- Mode 3: Guided Wizard -->
+        <a href="#wizard" class="nav-tool-card" onclick="document.getElementById('frame-pillar').scrollIntoView({behavior:'smooth'}); closeAllNavDropdowns();">
+          <div class="tool-icon-wrap" style="color:var(--forest-bright, #4ADE80);">🧙</div>
+          <div class="tool-info">
+            <div class="tool-name">Guided Detail Wizard</div>
+            <div class="tool-desc">Step-by-step progressive takeoff questionnaire and live ballpark quote calculator.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Panel 3: FENCE DROPDOWN -->
+    <div class="nav-docked-dropdown nav-dd-left" id="dd-fence" hidden>
+      <div class="nav-dd-header">
+        <div class="dd-title-badge" style="background:var(--forest-bright, #4ADE80); color:var(--ink, #1A1A1A);">STEP 3 &middot; FENCE IT</div>
+        <h4>Fence-Folio &amp; Project Hub</h4>
+        <p>Review your project blueprints, detailed BOM cut-lists, cost ledgers, and contractor scramble.</p>
+      </div>
+      
+      <!-- Sign-in Prompt Banner (Always visible in guest mode) -->
+      <div class="nav-auth-prompt-banner" id="fence-auth-prompt">
+        <div class="banner-icon">🔒</div>
+        <div class="banner-text">
+          <strong>Guest Session:</strong> Sign in or create a free account to save designs and unlock contractor quote requests.
+        </div>
+        <button type="button" class="btn-banner-signin" onclick="openModal('modal-signin'); closeAllNavDropdowns();">Sign In</button>
+      </div>
+
+      <div class="nav-folio-options-list">
+        <a href="#saved-designs" class="folio-option-row" onclick="handleFenceAction('Saved Designs')">
+          <span class="opt-icon">💾</span>
+          <div class="opt-content">
+            <div class="opt-title">Saved Designs</div>
+            <div class="opt-sub">Access and continue working on your customized fence models.</div>
+          </div>
+          <span class="opt-arrow">&rsaquo;</span>
+        </a>
+        <a href="#fence-folio" class="folio-option-row" onclick="handleFenceAction('Fence-Folio Chapter')">
+          <span class="opt-icon">📑</span>
+          <div class="opt-content">
+            <div class="opt-title">Fence-Folios</div>
+            <div class="opt-sub">Complete 6-chapter architectural presentation book for HOA submission.</div>
+          </div>
+          <span class="opt-arrow">&rsaquo;</span>
+        </a>
+        <a href="#blueprints" class="folio-option-row" onclick="openModal('modal-blueprint'); closeAllNavDropdowns();">
+          <span class="opt-icon">📐</span>
+          <div class="opt-content">
+            <div class="opt-title">Builders Blueprints</div>
+            <div class="opt-sub">1-Page ARC Architectural Elevation and engineering drafting sheet.</div>
+          </div>
+          <span class="opt-arrow">&rsaquo;</span>
+        </a>
+        <a href="#takeoff" class="folio-option-row" onclick="handleFenceAction('Material Lists')">
+          <span class="opt-icon">🪵</span>
+          <div class="opt-content">
+            <div class="opt-title">Material Lists (Takeoff &amp; BOM)</div>
+            <div class="opt-sub">Lumber cut-lists, hardware counts, and supplier SKU exports.</div>
+          </div>
+          <span class="opt-arrow">&rsaquo;</span>
+        </a>
+        <a href="#ledger" class="folio-option-row" onclick="openModal('modal-contractor'); closeAllNavDropdowns();">
+          <span class="opt-icon">📊</span>
+          <div class="opt-content">
+            <div class="opt-title">Project Ledgers &amp; Contractor Match</div>
+            <div class="opt-sub">Transparent cost ledgers and 3-seat contractor scramble.</div>
+          </div>
+          <span class="opt-arrow">&rsaquo;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- RIGHT DOCKED DROPDOWN PANEL (Docked to bottom of nav & right screen edge) -->
+    <!-- ========================================================================= -->
+
+    <!-- Panel: AUTH & PARTNERS DROPDOWN -->
+    <div class="nav-docked-dropdown nav-dd-right" id="dd-auth" hidden>
+      <div class="nav-dd-header">
+        <div class="user-greeting-row">
+          <div class="user-avatar-circle">👤</div>
+          <div>
+            <div class="user-status-title" id="dd-user-title">Guest User</div>
+            <div class="user-status-sub" id="dd-user-sub">Sign in to save builds &amp; export blueprints</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-auth-links-list">
+        <a href="#login" class="auth-menu-item" onclick="openModal('modal-signin'); closeAllNavDropdowns(); return false;">
+          <span class="item-icon">🔑</span>
+          <div>
+            <div class="item-title">Log In</div>
+            <div class="item-sub">Access your existing account &amp; saved folios</div>
+          </div>
+        </a>
+        <a href="#register" class="auth-menu-item auth-highlight" onclick="openModal('modal-signin'); closeAllNavDropdowns(); return false;">
+          <span class="item-icon">✨</span>
+          <div>
+            <div class="item-title">Create an Account (Free)</div>
+            <div class="item-sub">Free account to save designs &amp; blueprint sheets</div>
+          </div>
+        </a>
+        <div class="auth-menu-divider"></div>
+        <a href="#community-partners" class="auth-menu-item" onclick="openModal('modal-hoa'); closeAllNavDropdowns(); return false;">
+          <span class="item-icon">🏛️</span>
+          <div>
+            <div class="item-title">Community Partners</div>
+            <div class="item-sub">Portal for HOA boards &amp; community managers</div>
+          </div>
+        </a>
+        <a href="#contractor-partners" class="auth-menu-item" onclick="openModal('modal-contractor'); closeAllNavDropdowns(); return false;">
+          <span class="item-icon">🔨</span>
+          <div>
+            <div class="item-title">Contractor Partners</div>
+            <div class="item-sub">Job board access &amp; verification for builders</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
   </header>
 
   <!-- ========================================================================= -->

@@ -3886,8 +3886,837 @@ footer ul a:hover { opacity: 1; color: var(--gold); }
 .c-forest { --mark-c: var(--forest-deep, #16432D); }
 .c-black { --mark-c: var(--ink, #1a1a1a); }
 
+/* ========================================================================= */
+/* MODULAR DOCKED TOP NAVIGATION SYSTEM (CANONICAL USER SPEC)                 */
+/* ========================================================================= */
 
+header.nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: linear-gradient(180deg, #141B16 0%, #16432D 100%);
+  border-bottom: 3px solid var(--ink, #1A1A1A);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
 
+.nav-container-docked {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  min-height: 58px;
+}
 
+/* Left Zone: Brand Module + 3 Pillar Buttons */
+.nav-left-zone {
+  display: flex;
+  align-items: stretch;
+  gap: 0; /* Stacked directly against each other */
+}
 
+.nav-brand-module {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink, #1A1A1A);
+  padding: 0 20px;
+  border-right: 2px solid #000;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+.nav-brand-module:hover {
+  background: #252525;
+}
 
+.nav-brand-wordmark {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.nav-brand-wordmark .brand-fence {
+  color: var(--forest-bright, #4ADE80);
+}
+.nav-brand-wordmark .brand-frames {
+  color: var(--ember, #F27A22);
+}
+
+.nav-brand-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-brand-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 3-Pillar Stacked Buttons (Attached directly to right wall of brand module) */
+.nav-pillar-stack {
+  display: flex;
+  align-items: stretch;
+  border-left: 2px solid var(--ink, #1A1A1A);
+}
+
+.nav-pillar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-right: 2px solid var(--ink, #1A1A1A);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+  position: relative;
+  user-select: none;
+}
+.nav-pillar-btn:hover {
+  filter: brightness(1.12);
+}
+.nav-pillar-btn:active {
+  filter: brightness(0.92);
+}
+.nav-pillar-btn.is-active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #000;
+}
+
+.btn-pillar-find {
+  background: var(--gold-sun, #E5B842);
+  color: var(--ink, #1A1A1A);
+}
+.btn-pillar-frame {
+  background: var(--ember, #F27A22);
+  color: #FFFFFF;
+}
+.btn-pillar-fence {
+  background: var(--forest-bright, #4ADE80);
+  color: var(--ink, #1A1A1A);
+}
+
+/* Right Zone: Guest Module + Hamburger */
+.nav-right-zone {
+  display: flex;
+  align-items: stretch;
+  margin-left: auto;
+  gap: 0;
+}
+
+.nav-guest-module {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 15, 12, 0.85);
+  border: 2px solid var(--ink, #1A1A1A);
+  border-right: 1px solid var(--ink, #1A1A1A);
+  color: #FAF6EE;
+  padding: 0 16px;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 400;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.nav-guest-module:hover {
+  background: rgba(20, 27, 22, 0.95);
+  border-color: var(--gold-sun, #E5B842);
+}
+.guest-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-sun, #E5B842);
+  display: inline-block;
+}
+.guest-name {
+  color: #FAF6EE;
+}
+
+.nav-hamburger-module {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: var(--ink, #1A1A1A);
+  border: 2px solid var(--ink, #1A1A1A);
+  border-left: 1px solid #333;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.nav-hamburger-module:hover {
+  background: #282828;
+}
+.hamburger-line {
+  width: 22px;
+  height: 2.5px;
+  background: #FAF6EE;
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* ========================================================================= */
+/* DOCKED DROPDOWN PANELS (Left & Right Screen Docking)                      */
+/* ========================================================================= */
+
+.nav-docked-dropdown {
+  position: absolute;
+  top: 100%;
+  z-index: 300;
+  background: rgba(18, 24, 20, 0.98);
+  backdrop-filter: blur(12px);
+  border: 3px solid var(--ink, #1A1A1A);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+  color: #FAF6EE;
+  overflow: hidden;
+  animation: navDdSlideDown 0.18s ease-out;
+}
+
+@keyframes navDdSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Left Docked Dropdown (Docked to Left Screen Edge & Bottom of Branding) */
+.nav-dd-left {
+  left: 0;
+  width: 480px;
+  max-width: calc(100vw - 24px);
+  border-top: none;
+}
+
+/* Right Docked Dropdown (Docked to Right Screen Edge & Bottom of Guest/Hamburger) */
+.nav-dd-right {
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 24px);
+  border-top: none;
+}
+
+/* Dropdown Content Header */
+.nav-dd-header {
+  padding: 1.2rem 1.4rem 1rem;
+  background: rgba(10, 15, 12, 0.95);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+}
+.dd-title-badge {
+  display: inline-block;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 0.4rem;
+}
+.nav-dd-header h4 {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #FAF6EE;
+  margin: 0 0 0.3rem 0;
+}
+.nav-dd-header p {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: #B5C2BA;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Form controls inside Find Dropdown */
+.nav-dd-body {
+  padding: 1.2rem 1.4rem;
+}
+.find-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.find-form-grid .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.find-form-grid label {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--gold-sun, #E5B842);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.zip-input-wrap {
+  display: flex;
+  gap: 6px;
+}
+.zip-input-wrap input,
+.find-form-grid select {
+  flex: 1;
+  background: #FAF6EE;
+  border: 2px solid var(--ink, #1A1A1A);
+  color: var(--ink, #1A1A1A);
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 4px;
+  outline: none;
+}
+.zip-input-wrap input:focus,
+.find-form-grid select:focus {
+  border-color: var(--gold-sun, #E5B842);
+  box-shadow: 0 0 0 2px rgba(229, 184, 66, 0.3);
+}
+.btn-check-zip {
+  background: var(--ink, #1A1A1A);
+  color: var(--gold-sun, #E5B842);
+  border: 2px solid var(--ink, #1A1A1A);
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-check-zip:hover {
+  background: #333;
+}
+
+/* Tools Grid inside Frame Dropdown */
+.nav-dd-tools-grid {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+  gap: 0.4rem;
+}
+.nav-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.nav-tool-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--ember, #F27A22);
+  transform: translateX(3px);
+}
+.tool-icon-wrap {
+  font-size: 1.5rem;
+  flex: none;
+}
+.tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tool-name {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #FAF6EE;
+}
+.tool-desc {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: #B5C2BA;
+  line-height: 1.35;
+}
+
+/* Fence Folio Options List inside Fence Dropdown */
+.nav-auth-prompt-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(229, 184, 66, 0.12);
+  border-bottom: 2px solid var(--gold-sun, #E5B842);
+  padding: 0.8rem 1.2rem;
+}
+.banner-icon {
+  font-size: 1.2rem;
+  flex: none;
+}
+.banner-text {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: #FAF6EE;
+  line-height: 1.35;
+}
+.banner-text strong {
+  font-weight: 700;
+  color: var(--gold-sun, #E5B842);
+}
+.btn-banner-signin {
+  background: var(--gold-sun, #E5B842);
+  color: var(--ink, #1A1A1A);
+  border: 2px solid var(--ink, #1A1A1A);
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+
+.nav-folio-options-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+.folio-option-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #FAF6EE;
+  transition: background 0.15s ease;
+}
+.folio-option-row:hover {
+  background: rgba(74, 222, 128, 0.08);
+}
+.opt-icon {
+  font-size: 1.25rem;
+  flex: none;
+}
+.opt-content {
+  flex: 1;
+}
+.opt-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #FAF6EE;
+}
+.opt-sub {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: #B5C2BA;
+}
+.opt-arrow {
+  font-size: 1.2rem;
+  color: var(--forest-bright, #4ADE80);
+  font-weight: bold;
+}
+
+/* Auth / Right Menu Items */
+.user-greeting-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid var(--gold-sun, #E5B842);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.user-status-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #FAF6EE;
+}
+.user-status-sub {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: #B5C2BA;
+}
+
+.nav-auth-links-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+}
+.auth-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #FAF6EE;
+  transition: background 0.15s ease;
+}
+.auth-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.auth-menu-item.auth-highlight {
+  background: rgba(229, 184, 66, 0.12);
+  border: 1px solid var(--gold-sun, #E5B842);
+  margin-top: 4px;
+}
+.auth-menu-item.auth-highlight .item-title {
+  color: var(--gold-sun, #E5B842);
+}
+.item-icon {
+  font-size: 1.2rem;
+  flex: none;
+}
+.item-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.item-sub {
+}
+
+/* Tools Grid inside Frame Dropdown */
+.nav-dd-tools-grid {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+  gap: 0.4rem;
+}
+.nav-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.nav-tool-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--ember, #F27A22);
+  transform: translateX(3px);
+}
+.tool-icon-wrap {
+  font-size: 1.5rem;
+  flex: none;
+}
+.tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tool-name {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #FAF6EE;
+}
+.tool-desc {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: #B5C2BA;
+  line-height: 1.35;
+}
+
+/* Fence Folio Options List inside Fence Dropdown */
+.nav-auth-prompt-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(229, 184, 66, 0.12);
+  border-bottom: 2px solid var(--gold-sun, #E5B842);
+  padding: 0.8rem 1.2rem;
+}
+.banner-icon {
+  font-size: 1.2rem;
+  flex: none;
+}
+.banner-text {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: #FAF6EE;
+  line-height: 1.35;
+}
+.banner-text strong {
+  font-weight: 700;
+  color: var(--gold-sun, #E5B842);
+}
+.btn-banner-signin {
+  background: var(--gold-sun, #E5B842);
+  color: var(--ink, #1A1A1A);
+  border: 2px solid var(--ink, #1A1A1A);
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+
+.nav-folio-options-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+.folio-option-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #FAF6EE;
+  transition: background 0.15s ease;
+}
+.folio-option-row:hover {
+  background: rgba(74, 222, 128, 0.08);
+}
+.opt-icon {
+  font-size: 1.25rem;
+  flex: none;
+}
+.opt-content {
+  flex: 1;
+}
+.opt-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #FAF6EE;
+}
+.opt-sub {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: #B5C2BA;
+}
+.opt-arrow {
+  font-size: 1.2rem;
+  color: var(--forest-bright, #4ADE80);
+  font-weight: bold;
+}
+
+/* Auth / Right Menu Items */
+.user-greeting-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid var(--gold-sun, #E5B842);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.user-status-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #FAF6EE;
+}
+.user-status-sub {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: #B5C2BA;
+}
+
+.nav-auth-links-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+}
+.auth-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #FAF6EE;
+  transition: background 0.15s ease;
+}
+.auth-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.auth-menu-item.auth-highlight {
+  background: rgba(229, 184, 66, 0.12);
+  border: 1px solid var(--gold-sun, #E5B842);
+  margin-top: 4px;
+}
+.auth-menu-item.auth-highlight .item-title {
+  color: var(--gold-sun, #E5B842);
+}
+.item-icon {
+  font-size: 1.2rem;
+  flex: none;
+}
+.item-title {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.item-sub {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+  font-size: 0.72rem;
+  color: #B5C2BA;
+}
+.auth-menu-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0.5rem 0;
+}
+
+/* ========================================================================= */
+/* COMMUNITY-AWARE OPTION GLOW HIGHLIGHTING & HOA CONFLICT TOOLTIPS          */
+/* ========================================================================= */
+
+/* Approved Option Cards (Subtle Forest Green Tint & Border Glow) */
+.option-card.hoa-approved,
+.tool-card.hoa-approved,
+.preset-card.hoa-approved {
+  border-color: var(--forest-bright, #4ADE80) !important;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.25), inset 0 0 16px rgba(74, 222, 128, 0.08) !important;
+  position: relative;
+}
+.option-card.hoa-approved::after {
+  content: "✓ HOA Approved";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  background: rgba(20, 27, 22, 0.9);
+  color: var(--forest-bright, #4ADE80);
+  border: 1px solid var(--forest-bright, #4ADE80);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Non-Approved / Conflict Option Cards (Subtle Warning Amber/Coral Tint & Glow) */
+.option-card.hoa-warning,
+.tool-card.hoa-warning,
+.preset-card.hoa-warning {
+  border-color: var(--ember, #F27A22) !important;
+  box-shadow: 0 0 12px rgba(242, 122, 34, 0.28), inset 0 0 16px rgba(242, 122, 34, 0.10) !important;
+  position: relative;
+}
+.option-card.hoa-warning::after {
+  content: "⚠️ Non-Standard";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  background: rgba(20, 27, 22, 0.9);
+  color: var(--ember, #F27A22);
+  border: 1px solid var(--ember, #F27A22);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Interactive Conflict Popover Tooltip */
+.hoa-conflict-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(242, 122, 34, 0.12);
+  border: 2px solid var(--ember, #F27A22);
+  border-radius: var(--radius, 4px);
+  padding: 0.8rem 1.2rem;
+  color: #FAF6EE;
+  font-family: 'Rowdies', sans-serif;
+  position: relative;
+  cursor: pointer;
+}
+.hoa-conflict-banner .banner-text {
+  font-weight: 400;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+/* Tooltip Popup on Hover / Touch */
+.hoa-conflict-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background: #141B16;
+  border: 2px solid var(--ember, #F27A22);
+  border-radius: var(--radius, 4px);
+  padding: 1rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  z-index: 50;
+  display: none;
+  pointer-events: none;
+}
+.hoa-conflict-banner:hover .hoa-conflict-tooltip,
+.hoa-conflict-banner:focus .hoa-conflict-tooltip,
+.hoa-conflict-banner.active .hoa-conflict-tooltip {
+  display: block;
+  pointer-events: auto;
+}
+.hoa-conflict-tooltip h5 {
+  font-size: 0.82rem;
+  color: var(--ember, #F27A22);
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.hoa-conflict-tooltip ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.78rem;
+  color: #B5C2BA;
+  line-height: 1.4;
+}
+.hoa-conflict-tooltip ul li {
+  margin-bottom: 0.35rem;
+}
+.hoa-conflict-tooltip ul li strong {
+  color: #FAF6EE;
+}

@@ -161,47 +161,89 @@ function initNavFindZip() {
 }
 
 /**
- * Dropdown menus — one open at a time; click outside / Esc closes.
+ * Global Nav Dropdown Controller (Modular Docked Nav)
  */
-function initNavDropdowns() {
-  const dropdowns = Array.from(document.querySelectorAll('.nav-dd'));
-  if (!dropdowns.length) return;
+let currentUser = null; // null = Guest, or { name: 'Lew', role: 'member' }
 
-  function closeAll(except) {
-    dropdowns.forEach((dd) => {
-      if (dd === except) return;
-      dd.classList.remove('is-open');
-      const btn = dd.querySelector('.nav-dd-trigger');
-      const panel = dd.querySelector('.nav-dd-panel');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-      if (panel) panel.hidden = true;
-    });
+function closeAllNavDropdowns() {
+  document.querySelectorAll('.nav-docked-dropdown').forEach(panel => {
+    panel.hidden = true;
+  });
+  document.querySelectorAll('.nav-pillar-btn').forEach(btn => {
+    btn.classList.remove('is-active');
+  });
+  const guestBtn = document.getElementById('nav-guest-bar');
+  if (guestBtn) guestBtn.classList.remove('is-active');
+  const burgerBtn = document.getElementById('nav-hamburger-btn');
+  if (burgerBtn) burgerBtn.classList.remove('is-active');
+}
+
+function toggleNavDropdown(panelId, triggerBtn) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  const isCurrentlyOpen = !panel.hidden;
+
+  closeAllNavDropdowns();
+
+  if (!isCurrentlyOpen) {
+    panel.hidden = false;
+    if (triggerBtn) triggerBtn.classList.add('is-active');
   }
+}
 
-  dropdowns.forEach((dd) => {
-    const btn = dd.querySelector('.nav-dd-trigger');
-    const panel = dd.querySelector('.nav-dd-panel');
-    if (!btn || !panel) return;
+function handleGuestModuleClick(btn) {
+  if (currentUser) {
+    // If logged in, navigate to account
+    alert(`Welcome back, ${currentUser.name}! Navigating to your Account & Projects page...`);
+  } else {
+    // If guest, toggle auth/partners dropdown
+    toggleNavDropdown('dd-auth', btn);
+  }
+}
 
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = panel.hidden;
-      closeAll(willOpen ? dd : null);
-      panel.hidden = !willOpen;
-      dd.classList.toggle('is-open', willOpen);
-      btn.setAttribute('aria-expanded', String(willOpen));
-    });
+function handleNavCommunitySelect(communityVal) {
+  if (!communityVal) return;
+  const zipInput = document.getElementById('nav-zip-input');
+  const zipResult = document.getElementById('nav-zip-result');
+  if (communityVal === 'si-view') {
+    if (zipInput) zipInput.value = '98045';
+    if (zipResult) {
+      zipResult.textContent = '✓ Live in Si View (North Bend, WA). CC&R Privacy Fence preset active.';
+      zipResult.style.color = '#4ADE80';
+    }
+  } else if (communityVal === 'no-hoa') {
+    if (zipResult) {
+      zipResult.textContent = 'No HOA limits — open design freedom enabled.';
+      zipResult.style.color = '#E5B842';
+    }
+  } else {
+    if (zipResult) {
+      zipResult.textContent = `✓ Selected: ${communityVal}. Verified presets available.`;
+      zipResult.style.color = '#E5B842';
+    }
+  }
+}
 
-    panel.addEventListener('click', (e) => e.stopPropagation());
+function handleFenceAction(actionName) {
+  if (!currentUser) {
+    openModal('modal-signin');
+    closeAllNavDropdowns();
+  } else {
+    alert(`Opening ${actionName}...`);
+    closeAllNavDropdowns();
+  }
+}
+
+function initNavDropdowns() {
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('header.nav')) {
+      closeAllNavDropdowns();
+    }
   });
-
-  document.addEventListener('click', () => closeAll());
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAll();
-  });
-
-  document.querySelectorAll('.nav-dd-panel a[href^="#"]').forEach((a) => {
-    a.addEventListener('click', () => closeAll());
+    if (e.key === 'Escape') {
+      closeAllNavDropdowns();
+    }
   });
 }
 
