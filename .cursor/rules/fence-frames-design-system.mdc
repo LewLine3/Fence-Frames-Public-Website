@@ -1,0 +1,14 @@
+---
+description: UI & Design System Law - Rowdies Typography & 3-Pillar Color Mapping
+globs: ["app/**", "components/**", "styles/**", "*.html", "*.css", "*.tsx", "*.jsx"]
+alwaysApply: true
+---
+
+# Fence Frames Design System Law
+- **Typography**: Rowdies Bold (`700`) for headers/titles, Rowdies Regular (`400`) for buttons/labels/selects, Rowdies Light (`300`) for body text.
+- **3-Pillar Colors**:
+  - **Find It** (Step 1): Sun Gold (`#E5B842` / `var(--gold-sun)`)
+  - **Frame It** (Step 2): Ember Orange (`#F27A22` / `var(--ember)`)
+  - **Fence It** (Step 3): Bright Green (`#4ADE80` / `var(--forest-bright)`)
+- **Outside Corner Markers**: Must span 50% of container wall with longer taper on docked card side.
+- **Buttons**: Solid black borders (`2px solid var(--ink)`), phase-coded backgrounds.

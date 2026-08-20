@@ -1,51 +1,81 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "Fence Frames — Graduated Asset Registry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated_at": "2026-08-17",
   "policy": {
-    "rule": "Handbook-Acceptable Pool",
+    "rule": "Handbook-Acceptable Graduated Pool",
     "description": "Any asset registered in this file or placed inside the designated graduated folders is immediately authorized and graduated for use across cards, backgrounds, heroes, blueprints, or UI without requiring a separate decision questionnaire or rewrite session lock."
   },
   "asset_roots": {
-    "textures": "images/graduated-textures/",
-    "decorative": "images/decorative/",
-    "components": "images/fence-components/"
+    "backgrounds": "images/graduated/backgrounds/",
+    "decorative": "images/graduated/decorative/",
+    "hero_images": "images/graduated/hero-images/",
+    "components": "images/graduated/components/"
   },
-  "graduated_textures": [
+  "subfolder_taxonomy": {
+    "backgrounds": [
+      "wood-grain",
+      "stone-concrete",
+      "parchment-canvas",
+      "drafting-grids"
+    ],
+    "decorative": [
+      "pillar-badges",
+      "step-illustrations",
+      "icons",
+      "holographic",
+      "overlays"
+    ],
+    "hero_images": [
+      "classic-privacy",
+      "modern-horizontal",
+      "board-on-board",
+      "picture-frame",
+      "garden-lattice",
+      "welded-wire",
+      "traditional-picket",
+      "ranch-split-rail",
+      "modern-steel",
+      "shadowbox",
+      "si-view-community"
+    ],
+    "components": [
+      "general",
+      "posts",
+      "rails",
+      "fill",
+      "trim",
+      "stain",
+      "hardware",
+      "gates"
+    ]
+  },
+  "graduated_backgrounds": [
     {
-      "id": "tex-cedar-hero",
+      "id": "bg-woodgrain-cedar-hero",
       "name": "Cedar Wood Grain Hero",
       "category": "wood_grain",
-      "path": "images/card-trials/pexels-sergeispas-1151756-34615194.jpg",
-      "fallback_path": "images/graduated-textures/cedar-hero-woodgrain.jpg",
+      "path": "images/graduated/backgrounds/wood-grain/cedar-hero-woodgrain.jpg",
+      "fallback_path": "images/card-trials/pexels-sergeispas-1151756-34615194.jpg",
       "usage": "Primary background for Right Hero Column Wood Grain Graduated Cards (.card-wood-grain)",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
     },
     {
-      "id": "tex-wood-grain-pale",
+      "id": "bg-woodgrain-pale",
       "name": "Pale Wood Grain",
       "category": "wood_grain",
-      "path": "images/wood-grain-pale.jpg",
-      "fallback_path": "images/graduated-textures/wood-grain-pale.jpg",
+      "path": "images/graduated/backgrounds/wood-grain/wood-grain-pale.jpg",
+      "fallback_path": "images/wood-grain-pale.jpg",
       "usage": "Light cedar tone alternative for cards, headers, and preview backdrops",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
     },
     {
-      "id": "tex-cedar-trim-solid",
-      "name": "Cedar Trim Solid Plate",
-      "category": "wood_grain",
-      "path": "images/textures/cedar-trim-plate-solid.jpg",
-      "usage": "Dark cedar accent plates and card headers",
-      "status": "graduated_canon",
-      "added_at": "2026-08-17"
-    },
-    {
-      "id": "tex-parchment-base",
+      "id": "bg-parchment-base",
       "name": "Architectural Parchment Base",
-      "category": "color_texture",
+      "category": "parchment_canvas",
       "hex": "#F4ECDC",
       "css_var": "var(--bg)",
       "usage": "Base parchment canvas background for marketing and blueprints",
@@ -53,9 +83,9 @@
       "added_at": "2026-08-17"
     },
     {
-      "id": "tex-drafting-grid",
+      "id": "bg-drafting-grid",
       "name": "20px Architectural Drafting Grid",
-      "category": "overlay_grid",
+      "category": "drafting_grids",
       "css_pattern": "rgba(255, 255, 255, 0.08) 20px grid or rgba(22, 67, 45, 0.70) on parchment",
       "usage": "Engineering and blueprint drafting grid overlays",
       "status": "graduated_canon",
@@ -66,9 +96,9 @@
     {
       "id": "dec-step1-matcher",
       "name": "Step 1 Community Matcher Illustration",
-      "category": "step_illustration",
-      "path": "images/card-trials/step1-overlay-illustration.png",
-      "fallback_path": "images/decorative/step1-matcher-illustration.png",
+      "category": "step_illustrations",
+      "path": "images/graduated/decorative/step-illustrations/step1-matcher-illustration.png",
+      "fallback_path": "images/card-trials/step1-overlay-illustration.png",
       "usage": "Docked explainer viewport illustration for Step 1 (Find It)",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -76,8 +106,9 @@
     {
       "id": "dec-find-it-badge",
       "name": "Find It Detailed Badge",
-      "category": "pillar_badge",
-      "path": "images/find-it-detailed.png",
+      "category": "pillar_badges",
+      "path": "images/graduated/decorative/pillar-badges/find-it-detailed.png",
+      "fallback_path": "images/find-it-detailed.png",
       "usage": "Step 1 (Find It) high-res graphic badge",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -85,8 +116,9 @@
     {
       "id": "dec-frame-it-badge",
       "name": "Frame It Detailed Badge",
-      "category": "pillar_badge",
-      "path": "images/frame-it-detailed.png",
+      "category": "pillar_badges",
+      "path": "images/graduated/decorative/pillar-badges/frame-it-detailed.png",
+      "fallback_path": "images/frame-it-detailed.png",
       "usage": "Step 2 (Frame It) high-res graphic badge",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -94,8 +126,9 @@
     {
       "id": "dec-fence-it-badge",
       "name": "Fence It Detailed Badge",
-      "category": "pillar_badge",
-      "path": "images/fence-it-detailed.png",
+      "category": "pillar_badges",
+      "path": "images/graduated/decorative/pillar-badges/fence-it-detailed.png",
+      "fallback_path": "images/fence-it-detailed.png",
       "usage": "Step 3 (Fence It) high-res graphic badge",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -103,8 +136,9 @@
     {
       "id": "dec-icon-find-it",
       "name": "Find It SVG Icon",
-      "category": "icon",
-      "path": "images/ff-icon-find-it.svg",
+      "category": "icons",
+      "path": "images/graduated/decorative/icons/ff-icon-find-it.svg",
+      "fallback_path": "images/ff-icon-find-it.svg",
       "usage": "Step 1 vector icon",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -112,8 +146,9 @@
     {
       "id": "dec-icon-frame-it",
       "name": "Frame It SVG Icon",
-      "category": "icon",
-      "path": "images/ff-icon-frame-it.svg",
+      "category": "icons",
+      "path": "images/graduated/decorative/icons/ff-icon-frame-it.svg",
+      "fallback_path": "images/ff-icon-frame-it.svg",
       "usage": "Step 2 vector icon",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -121,8 +156,9 @@
     {
       "id": "dec-icon-fence-it",
       "name": "Fence It SVG Icon",
-      "category": "icon",
-      "path": "images/ff-icon-fence-it.svg",
+      "category": "icons",
+      "path": "images/graduated/decorative/icons/ff-icon-fence-it.svg",
+      "fallback_path": "images/ff-icon-fence-it.svg",
       "usage": "Step 3 vector icon",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
@@ -137,66 +173,71 @@
       "added_at": "2026-08-17"
     }
   ],
-  "fence_components": [
+  "hero_images": [
     {
-      "id": "cmp-heritage-vpf",
-      "name": "Heritage VPF Vector Elevation Module",
-      "category": "svg_elevation",
-      "path": "public/configure/heritage-v1/pilot-fences/vpf/heritage/",
-      "usage": "Live interactive vector stack for pilot fence configurator and blueprint",
+      "id": "hero-classic-privacy",
+      "name": "Classic Cedar Privacy Hero Vector",
+      "style": "classic-privacy",
+      "path": "images/graduated/hero-images/classic-privacy/catalog-vpf-natural.svg",
+      "fallback_path": "images/catalog-vpf-natural.svg",
+      "front_elevation": "images/graduated/hero-images/classic-privacy/catalog-vpf-natural-front.svg",
+      "usage": "Greatest Hits Catalog Card 1 & Designer Preset",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
     },
     {
-      "id": "cmp-modern-steel-frame",
+      "id": "hero-modern-horizontal",
+      "name": "Modern Horizontal Cedar Hero Vector",
+      "style": "modern-horizontal",
+      "path": "images/graduated/hero-images/modern-horizontal/catalog-hf-horizontal.svg",
+      "fallback_path": "images/catalog-hf-horizontal.svg",
+      "front_elevation": "images/graduated/hero-images/modern-horizontal/catalog-hf-horizontal-picket-front.svg",
+      "usage": "Greatest Hits Catalog Card 2 & Designer Preset",
+      "status": "graduated_canon",
+      "added_at": "2026-08-17"
+    },
+    {
+      "id": "hero-garden-lattice",
+      "name": "Garden Lattice Hero Vector",
+      "style": "garden-lattice",
+      "path": "images/graduated/hero-images/garden-lattice/catalog-fabric-lattice.svg",
+      "fallback_path": "images/catalog-fabric-lattice.svg",
+      "front_elevation": "images/graduated/hero-images/garden-lattice/catalog-fabric-lattice-front.svg",
+      "usage": "Greatest Hits Catalog Card 3 & Designer Preset",
+      "status": "graduated_canon",
+      "added_at": "2026-08-17"
+    },
+    {
+      "id": "hero-modern-steel",
       "name": "Modern Black Steel Fence Frame",
-      "category": "photography_spec",
-      "path": "images/modern-black-steel-fence-frame.png",
+      "style": "modern-steel",
+      "path": "images/graduated/hero-images/modern-steel/modern-black-steel-fence-frame.png",
+      "fallback_path": "images/modern-black-steel-fence-frame.png",
       "usage": "Modern steel framing catalog preset hero",
+      "status": "graduated_canon",
+      "added_at": "2026-08-17"
+    }
+  ],
+  "components": [
+    {
+      "id": "cmp-blueprint-spec-sheet",
+      "name": "Architectural Blueprint Fence Spec",
+      "category": "general",
+      "path": "images/graduated/components/general/architectural-blueprint-fence-spec.png",
+      "fallback_path": "images/architectural-blueprint-fence-spec.png",
+      "usage": "Blueprint mode reference and marketing proof",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
     },
     {
       "id": "cmp-steel-gate-assembly",
       "name": "Steel Gate Frame Assembly",
-      "category": "photography_spec",
-      "path": "images/steel-gate-frame-assembly.png",
+      "category": "gates",
+      "path": "images/graduated/components/gates/steel-gate-frame-assembly.png",
+      "fallback_path": "images/steel-gate-frame-assembly.png",
       "usage": "Gate studio hardware and assembly spec preview",
       "status": "graduated_canon",
       "added_at": "2026-08-17"
-    },
-    {
-      "id": "cmp-blueprint-spec-sheet",
-      "name": "Architectural Blueprint Fence Spec",
-      "category": "blueprint_sample",
-      "path": "images/architectural-blueprint-fence-spec.png",
-      "usage": "Blueprint mode reference and marketing proof",
-      "status": "graduated_canon",
-      "added_at": "2026-08-17"
-    },
-    {
-      "id": "cmp-real-structures",
-      "name": "Real Fences & Structures Catalog",
-      "category": "field_photos",
-      "path": "images/real-fences-structures/",
-      "usage": "Real built fences library for Greatest Hits catalog cards",
-      "status": "graduated_canon",
-      "added_at": "2026-08-17"
-    },
-    {
-      "id": "cmp-ai-fences",
-      "name": "AI Generated Fences Reference Set",
-      "category": "reference_art",
-      "path": "images/ai-generated-fences/",
-      "usage": "Design catalog style exploration and reference presets",
-      "status": "graduated_canon",
-      "added_at": "2026-08-17"
     }
-  ],
-  "subfolder_architecture_guidelines": {
-    "textures_branching": "images/graduated-textures/{category}/ (e.g. wood-grain/, stone/, metal/)",
-    "decorative_branching": "images/decorative/{type}/ (e.g. badges/, icons/, illustrations/)",
-    "fence_components_branching": "images/fence-components/{style_or_type}/ (e.g. vpf-heritage/, modern-steel/, gates/, hardware/)",
-    "graduation_workflow": "1. Save asset to target folder. 2. Append entry to this file. 3. Asset is immediately valid and graduated."
-  }
+  ]
 }

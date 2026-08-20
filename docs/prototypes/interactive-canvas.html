@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Interactive Drag & Drop Architecture Canvas (Canon Edition)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F4ECDC;
+      --bg-soft: #FAF6EE;
+      --ink: #1A1A1A;
+      --forest-deep: #16432D;
+      --forest-bright: #4ADE80;
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --grid-major: rgba(22, 67, 45, 0.65);
+      --grid-minor: rgba(46, 139, 78, 0.35);
+      --radius: 4px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 300;
+      background-color: var(--bg);
+      color: var(--ink);
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: #141B16;
+      border-bottom: 2.5px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+
+    .brand-title {
+      color: #FAF6EE;
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-title span.tag {
+      font-size: 0.75rem;
+      font-weight: 400;
+      padding: 0.2rem 0.5rem;
+      background: var(--gold-sun);
+      color: var(--ink);
+      border-radius: 3px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-tool {
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      padding: 0.45rem 0.85rem;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+    .btn-tool:hover { transform: translateY(-1.5px); }
+    .btn-gold { background: var(--gold-sun); color: var(--ink); }
+    .btn-ember { background: var(--ember); color: #FFF; }
+    .btn-forest { background: var(--forest-bright); color: var(--ink); }
+    .btn-dark { background: #2A362D; color: #FAF6EE; border-color: var(--gold-sun); }
+
+    #canvas-viewport {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: grab;
+      background-image:
+        linear-gradient(var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(var(--grid-major) 2px, transparent 2px),
+        linear-gradient(90deg, var(--grid-major) 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+    }
+    #canvas-viewport.panning { cursor: grabbing; }
+
+    #canvas-world {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
+      width: 6000px;
+      height: 6000px;
+    }
+
+    #svg-connections {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .conn-path {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 3.5px;
+      stroke-linecap: round;
+      pointer-events: stroke;
+      cursor: pointer;
+      transition: stroke 0.15s;
+    }
+    .conn-path:hover { stroke: var(--ember); stroke-width: 5px; }
+    .conn-path.selected {
+      stroke: #FFF !important;
+      stroke-width: 5px !important;
+      filter: drop-shadow(0 0 6px var(--ember)) drop-shadow(0 0 10px rgba(242,122,34,0.8));
+    }
+    .conn-path.temp-preview {
+      stroke: var(--ember) !important;
+      stroke-width: 3.5px;
+      stroke-dasharray: 8, 5;
+      animation: dashMove 0.8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes dashMove {
+      from { stroke-dashoffset: 26; }
+      to { stroke-dashoffset: 0; }
+    }
+    .conn-path.c-gold { stroke: var(--gold-sun); }
+    .conn-path.c-ember { stroke: var(--ember); }
+    .conn-path.c-forest { stroke: var(--forest-bright); }
+    .conn-path.c-slate { stroke: #829D8D; }
+
+    .conn-label {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      fill: #1A1A1A;
+      paint-order: stroke;
+      stroke: #FAF6EE;
+      stroke-width: 4px;
+      text-anchor: middle;
+      cursor: pointer;
+      user-select: none;
+    }
+    .conn-label:hover { fill: var(--ember); font-weight: 700; }
+
+    .btn-tool.active {
+      background: var(--ember) !important;
+      color: #FFF !important;
+      border-color: #FAF6EE !important;
+      box-shadow: 0 0 12px rgba(242,122,34,0.8);
+      transform: translateY(-1.5px);
+    }
+
+    #canvas-viewport.draw-arrow-mode { cursor: crosshair !important; }
+    #canvas-viewport.draw-arrow-mode .node-card { cursor: crosshair !important; }
+
+    .node-card {
+      position: absolute;
+      width: 360px;
+      background: var(--bg-soft);
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      cursor: move;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .node-card.selected {
+      border-color: var(--forest-bright);
+      box-shadow: 0 0 0 3px var(--forest-bright), 0 12px 30px rgba(0,0,0,0.3);
+    }
+    .node-card.arrow-source-node {
+      border-color: var(--ember) !important;
+      box-shadow: 0 0 0 3px var(--ember), 0 0 20px rgba(242,122,34,0.6) !important;
+    }
+
+    .node-header {
+      padding: 0.65rem 0.9rem;
+      background: var(--ink);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    }
+    .node-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--gold-sun);
+      outline: none;
+    }
+    .node-badge {
+      font-size: 0.7rem;
+      font-weight: 400;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .theme-gold .node-header { background: #1F190B; border-bottom: 2px solid var(--gold-sun); }
+    .theme-gold .node-title { color: var(--gold-sun); }
+    .theme-ember .node-header { background: #26140A; border-bottom: 2px solid var(--ember); }
+    .theme-ember .node-title { color: var(--ember); }
+    .theme-forest .node-header { background: #0E2417; border-bottom: 2px solid var(--forest-bright); }
+    .theme-forest .node-title { color: var(--forest-bright); }
+    .theme-slate .node-header { background: #16241D; border-bottom: 2px solid #829D8D; }
+    .theme-slate .node-title { color: #A5D6B7; }
+
+    .theme-royal .node-header { background: #0F172A; border-bottom: 2px solid #3B82F6; }
+    .theme-royal .node-title { color: #60A5FA; }
+    .btn-royal { background: #1D4ED8; color: #FFF; border-color: #60A5FA; }
+    .conn-path.c-royal { stroke: #3B82F6; }
+
+    /* Pillar Corner Dot Indicator */
+    .pillar-indicator {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.7);
+      z-index: 5;
+    }
+    .pillar-gold { background: #E5B842; box-shadow: 0 0 6px #E5B842; }
+    .pillar-ember { background: #F27A22; box-shadow: 0 0 6px #F27A22; }
+    .pillar-forest { background: #4ADE80; box-shadow: 0 0 6px #4ADE80; }
+    .pillar-royal { background: #3B82F6; box-shadow: 0 0 6px #3B82F6; }
+    .pillar-slate { background: #94A3B8; box-shadow: 0 0 6px #94A3B8; }
+
+    /* Level Badges */
+    .lvl-badge {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      font-family: 'Rowdies', sans-serif;
+    }
+    .lvl-1 { font-size: 1.05rem; font-weight: 700; color: #FFF; border: 1.5px solid #F59E0B; background: rgba(245,158,11,0.25); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+    .lvl-2 { font-size: 0.85rem; font-weight: 700; color: #E2E8F0; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); }
+    .lvl-3 { font-size: 0.72rem; font-weight: 300; color: #94A3B8; border: 1px dashed rgba(255,255,255,0.2); }
+
+    /* Status Font Color Coding */
+    .status-red { color: #EF4444 !important; }
+    .status-orange { color: #F59E0B !important; }
+    .status-blue { color: #60A5FA !important; }
+    .status-green { color: #10B981 !important; }
+
+    .status-pill {
+      font-size: 0.65rem;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 6px;
+      display: inline-block;
+    }
+    .status-pill.status-red { background: rgba(239, 68, 68, 0.2); border: 1px solid #EF4444; color: #EF4444; }
+    .status-pill.status-orange { background: rgba(245, 158, 11, 0.2); border: 1px solid #F59E0B; color: #F59E0B; }
+    .status-pill.status-blue { background: rgba(59, 130, 246, 0.2); border: 1px solid #3B82F6; color: #60A5FA; }
+    .status-pill.status-green { background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; color: #10B981; }
+
+    .node-header-top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .node-body {
+      padding: 0.85rem 1rem;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--ink);
+      outline: none;
+      user-select: text;
+    }
+    .node-body ul { margin-left: 1.2rem; margin-top: 0.3rem; }
+    .node-body li { margin-bottom: 0.25rem; font-weight: 300; }
+    .node-body strong { font-weight: 700; }
+    .node-body code { font-family: 'Fira Code', monospace; font-size: 0.75rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.3rem; border-radius: 3px; }
+
+    .port {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gold-sun);
+      border: 2px solid var(--ink);
+      cursor: crosshair;
+      z-index: 30;
+      opacity: 0;
+      transition: opacity 0.15s, transform 0.15s, background-color 0.15s;
+    }
+    .node-card:hover .port, body.connecting .port, #canvas-viewport.draw-arrow-mode .port { opacity: 1; }
+    .port:hover, .port.active-source { transform: scale(1.45); background: var(--ember); box-shadow: 0 0 10px var(--ember); }
+    .port.target-candidate { transform: scale(1.25); background: var(--forest-bright); box-shadow: 0 0 10px var(--forest-bright); opacity: 1 !important; }
+    .port.p-top { top: -8px; left: 50%; transform: translateX(-50%); }
+    .port.p-right { right: -8px; top: 50%; transform: translateY(-50%); }
+    .port.p-bottom { bottom: -8px; left: 50%; transform: translateX(-50%); }
+    .port.p-left { left: -8px; top: 50%; transform: translateY(-50%); }
+    .port.p-top:hover { transform: translateX(-50%) scale(1.45); }
+    .port.p-right:hover { transform: translateY(-50%) scale(1.45); }
+    .port.p-bottom:hover { transform: translateX(-50%) scale(1.45); }
+    .port.p-left:hover { transform: translateY(-50%) scale(1.45); }
+
+    /* ==========================================================================
+       BIG TITLE & SLUG MACRO MODE (Zoomed-Out Readability)
+       ========================================================================== */
+    body.macro-mode .node-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #141B16 !important;
+      border: 3px solid var(--gold-sun) !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    body.macro-mode .node-header {
+      background: transparent !important;
+      border-bottom: none !important;
+      padding: 1.2rem 1.2rem 0.4rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    body.macro-mode .node-header > div:first-child {
+      width: 100%;
+    }
+    body.macro-mode .lvl-badge {
+      font-size: 1.35rem !important;
+      padding: 4px 10px !important;
+      font-weight: 700 !important;
+      border-width: 2px !important;
+    }
+    body.macro-mode .status-pill {
+      font-size: 0.95rem !important;
+      padding: 4px 10px !important;
+      font-weight: 700 !important;
+      border-width: 2px !important;
+      margin-left: 8px !important;
+    }
+    body.macro-mode .node-title {
+      font-size: 1.65rem !important;
+      font-weight: 700 !important;
+      line-height: 1.25 !important;
+      margin-top: 0.75rem !important;
+      color: #FAF6EE !important;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.9);
+      word-break: break-word;
+    }
+    body.macro-mode .node-title.status-red { color: #F87171 !important; }
+    body.macro-mode .node-title.status-orange { color: #FBBF24 !important; }
+    body.macro-mode .node-title.status-blue { color: #93C5FD !important; }
+    body.macro-mode .node-title.status-green { color: #34D399 !important; }
+
+    body.macro-mode .node-badge {
+      font-size: 1.2rem !important;
+      font-weight: 700 !important;
+      color: #FAF6EE !important;
+      background: #0B0E0C !important;
+      border: 2px solid var(--gold-sun) !important;
+      border-radius: 6px !important;
+      padding: 0.65rem 0.85rem !important;
+      margin: 0.75rem 1.2rem 1.2rem 1.2rem !important;
+      display: block !important;
+      width: calc(100% - 2.4rem) !important;
+      box-sizing: border-box !important;
+      text-align: center !important;
+      word-break: break-all !important;
+      letter-spacing: 0.5px;
+    }
+    body.macro-mode .node-body {
+      display: none !important;
+    }
+    body.macro-mode .pillar-indicator {
+      width: 16px !important;
+      height: 16px !important;
+      top: 14px !important;
+      right: 14px !important;
+      border-width: 2px !important;
+    }
+
+    .hud-zoom {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #141B16;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+      z-index: 1000;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+    .btn-hud {
+      width: 34px;
+      height: 34px;
+      background: #232E27;
+      color: #FAF6EE;
+      border: 1px solid var(--gold-sun);
+      border-radius: 3px;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-hud:hover { background: var(--gold-sun); color: var(--ink); }
+
+    .help-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(20, 27, 22, 0.92);
+      color: #FAF6EE;
+      border: 1.5px solid var(--gold-sun);
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      z-index: 1000;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="brand-title">
+      FENCE FRAMES <span class="tag">Master Architecture & Business Canvas</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn-tool btn-gold" id="btn-add-gold">+ Find Box</button>
+      <button class="btn-tool btn-ember" id="btn-add-ember">+ Frame Box</button>
+      <button class="btn-tool btn-forest" id="btn-add-forest">+ Fence Box</button>
+      <button class="btn-tool btn-royal" id="btn-add-royal">+ Account / Portal</button>
+      <button class="btn-tool btn-gold" id="btn-toggle-macro" title="Toggle Big Title & Slug view for zoomed-out readability (Press M)">🔍 Macro View: OFF</button>
+      <button class="btn-tool btn-ember" id="btn-draw-arrow">✏️ Draw Arrow</button>
+      <button class="btn-tool btn-dark" id="btn-delete">🗑️ Delete</button>
+      <button class="btn-tool btn-dark" id="btn-import">📂 Import</button>
+      <button class="btn-tool btn-dark" id="btn-export">💾 Export</button>
+      <button class="btn-tool btn-dark" id="btn-reset">🔄 Canonical Map</button>
+      <input type="file" id="file-input" accept=".json" style="display: none;" />
+    </div>
+  </div>
+
+  <div id="canvas-viewport">
+    <div id="canvas-world">
+      <svg id="svg-connections">
+        <defs>
+          <marker id="arrow-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#E5B842" />
+          </marker>
+          <marker id="arrow-ember" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F27A22" />
+          </marker>
+          <marker id="arrow-forest" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#4ADE80" />
+          </marker>
+          <marker id="arrow-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#829D8D" />
+          </marker>
+        
+          <marker id="arrow-royal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#3B82F6" />
+          </marker>
+        </defs>
+        <path id="temp-connection-path" class="conn-path temp-preview" marker-end="url(#arrow-ember)" style="display: none;"></path>
+      </svg>
+      <div id="nodes-container"></div>
+    </div>
+  </div>
+
+  <div class="hud-zoom">
+    <button class="btn-hud" id="btn-zoom-in" title="Zoom In">+</button>
+    <button class="btn-hud" id="btn-zoom-out" title="Zoom Out">-</button>
+    <button class="btn-hud" id="btn-zoom-reset" title="Reset View">⟲</button>
+  </div>
+
+  <div class="help-hint">
+    💡 <strong>Tips:</strong> Drag ports (●) to draw arrows • Click "Draw Arrow" to link cards • Click arrows to select/delete • Double-click arrow to edit label
+  </div>
+
+  <script>
+    const CANONICAL_NODES = [
+  {
+    "id": "node-home",
+    "title": "CORE-01: Master Homepage",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-gold",
+    "badge": "CORE-01 • / (app/page.tsx)",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": -600,
+    "content": "<strong>2-Column Hero Front Door:</strong><p>Left (55%): Value narrative & ZIP search. Right (45%): Wood grain card with 180px docked media. Entryway to Location Hubs, Catalog, Designer, & Login.</p>"
+  },
+  {
+    "id": "node-auth",
+    "title": "CORE-02: Auth & Backcheck Gate",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-royal",
+    "badge": "CORE-02 • /log-in",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 0,
+    "content": "<strong>Membership & IP Security Gate:</strong><p>Intercepts unauthenticated saves. Locks proprietary BOM & elevations behind SMS OTP verification (Name, Email, Phone, WA ZIP). Compiles static Fence-Folio.</p>"
+  },
+  {
+    "id": "node-homeowner",
+    "title": "HOME-01: Homeowner Showcase",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-royal",
+    "badge": "HOME-01 • /homeowner",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 450,
+    "content": "<strong>Homeowner Account & Showcase:</strong><p>Library of 3–5 compiled static Fence-Folios. Options side panel: 1-click Portrait PDF export, pricing toggle, live Targeted Match bid status, & re-open in Designer.</p>"
+  },
+  {
+    "id": "node-folio-doc",
+    "title": "HOME-02: Static Portrait Fence-Folio",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-forest",
+    "badge": "HOME-02 • 8.5x11 Portrait PDF",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 900,
+    "content": "<strong>Unlocked End-Product Submittal:</strong><p>Pre-compiled 8.5\" x 11\" Portrait Flipbook. 6 Spine Chapters (Cover, Community, Materials, Blueprint/BOM, Add-ons, Ledger) + 4 Sub-Flips for print & contractor bidding.</p>"
+  },
+  {
+    "id": "node-blueprint",
+    "title": "CORE-03: Portrait ARC Blueprint",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-forest",
+    "badge": "CORE-03 • /blueprint",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 1350,
+    "content": "<strong>ARC Submittal Sheet Engine:</strong><p>Page 1: Exploded elevation + itemized BOM (Mat. & Adm.). Pages 2+: Wizard breakdown (Lab. & Adm.). Pricing toggle: ON (Default with sub-ledgers) / OFF (Clean ARC).</p>"
+  },
+  {
+    "id": "node-contractors",
+    "title": "PRO-04: Marketplace Dispatch",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-forest",
+    "badge": "PRO-04 • /contractors",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 1800,
+    "content": "<strong>Lead Dispatch Center:</strong><p>Dispatches verified BOM & footage to local pros. Houses the ⚡ Targeted Match SMS scramble engine with 72-hr FILLED public board.</p>"
+  },
+  {
+    "id": "node-match",
+    "title": "PRO-05: Targeted Match (SMS Blast)",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-forest",
+    "badge": "PRO-05 • /contractor/match",
+    "theme": "theme-card",
+    "x": 4800,
+    "y": 2250,
+    "content": "<strong>Capped 3-Seat Scramble Broadcast:</strong><p>Pushed via Telnyx SMS to verified contractors servicing that City. First 3 to claim secure a seat ($19–$99). Instant lead push.</p>"
+  },
+  {
+    "id": "node-catalog-hub",
+    "title": "DSGN-01: Design Tools Hub",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-ember",
+    "badge": "DSGN-01 • /catalog",
+    "theme": "theme-card",
+    "x": 6200,
+    "y": 0,
+    "content": "<strong>Design Exploration Front Door:</strong><p>Gateway to pathways: 1. Select Pre-Built Carousel (/catalog/[fencestyle]), 2. Custom Designer (/designer/[fencestyle]), or 3. Guided Wizard (/wizard).</p>"
+  },
+  {
+    "id": "node-catalog-gallery",
+    "title": "DSGN-02: Pre-Built Catalog",
+    "lvl": "LVL 1",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-ember",
+    "badge": "DSGN-02 • /catalog/[fencestyle]",
+    "theme": "theme-card",
+    "x": 5500,
+    "y": 450,
+    "content": "<strong>Pre-Assembled 3-Card Carousel:</strong><p>Desktop: 3 pre-built fences at a time with click arrows. Mobile: 1-card swiper. Dropdown filters. Initial groups owner-curated; tail proceduralized from modular parts.</p>"
+  },
+  {
+    "id": "node-designer",
+    "title": "DSGN-03: The Designer Configurator",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-ember",
+    "badge": "DSGN-03 • /designer/[fencestyle]",
+    "theme": "theme-card",
+    "x": 6200,
+    "y": 450,
+    "content": "<strong>Universal Live Configurator:</strong><p>Live 2D visual canvas + interactive footage slider. Fine-tune pickets, rails, posts, caps, and stains in guest session. Ships design to Auth Gate to unlock BOM.</p>"
+  },
+  {
+    "id": "node-wizard",
+    "title": "DSGN-05: 4-Step Style Wizard",
+    "lvl": "LVL 2",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-ember",
+    "badge": "DSGN-05 • /wizard/[fencestyle]",
+    "theme": "theme-card",
+    "x": 6900,
+    "y": 450,
+    "content": "<strong>Guided Matching Questionnaire:</strong><p>1. Purpose (Privacy/Pets) • 2. Terrain & Wind • 3. Budget & HOA. Ports recommended style preset directly into The Designer (/designer/[fencestyle]).</p>"
+  },
+  {
+    "id": "node-admin",
+    "title": "ADM-01: Global Admin Console",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "ADM-01 • /admin",
+    "theme": "theme-card",
+    "x": 450,
+    "y": -300,
+    "content": "<strong>Operations & Compliance Hub:</strong><p>Contractor L&I license verification queue (review_flag), municipal height limits/bylaws editor, SMS lead dispatch audit, and global kill-switch.</p>"
+  },
+  {
+    "id": "node-partners",
+    "title": "PRO-01: Partners Portal Hub",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "PRO-01 • /partners",
+    "theme": "theme-card",
+    "x": 450,
+    "y": 150,
+    "content": "<strong>B2B Partner Ecosystem Landing:</strong><p>Landing page for Contractors, HOAs, and Lumberyards. Widget embed builder (copy-paste JS for $0 leads) and quick switch to Homeowner Login.</p>"
+  },
+  {
+    "id": "node-contractor-acct",
+    "title": "PRO-02: Contractor City Setup",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "PRO-02 • /partners/contractor",
+    "theme": "theme-card",
+    "x": 200,
+    "y": 600,
+    "content": "<strong>City Coverage & Alerts Matrix:</strong><p>Contractors claim specific cities they service to receive instant Telnyx SMS job alerts. Manage free $0 embed widget for contractor website.</p>"
+  },
+  {
+    "id": "node-contractor-feed",
+    "title": "PRO-03: Contractor Lead Feed",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "PRO-03 • /contractor/projects",
+    "theme": "theme-card",
+    "x": 700,
+    "y": 600,
+    "content": "<strong>Live City Scramble Lead Feed:</strong><p>Real-time push alerts for claimed service cities. 1-click seat reservation (1/3 shared or exclusive). Download verified BOM, linear footage, & Fence-Folio.</p>"
+  },
+  {
+    "id": "node-hoa-admin",
+    "title": "HOA-01: Community HOA Portal",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "HOA-01 • /partner/hoa",
+    "theme": "theme-card",
+    "x": 200,
+    "y": 1050,
+    "content": "<strong>1:1 Community-Bound Portal:</strong><p>Corresponds to an individual neighborhood. Publishes pre-approved styles (Designs 01–04) and provides 1-click ARC submittal review & stamp.</p>"
+  },
+  {
+    "id": "node-city-contractor-dir",
+    "title": "PRO-06: City Contractor Directory",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-royal",
+    "badge": "PRO-06 • /{state}/.../{city}/contractors",
+    "theme": "theme-card",
+    "x": 700,
+    "y": 1050,
+    "content": "<strong>Searchable City Pro Showcase:</strong><p>Homeowners scroll verified contractors servicing their city. Links to contractor profile pages with verified L&I license, ratings, & gallery.</p>"
+  },
+  {
+    "id": "node-state-root",
+    "title": "GEO-ST-01: Washington Directory",
+    "lvl": "LVL 2",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-gold",
+    "badge": "GEO-ST-01 • /wa (app/[state]/page.tsx)",
+    "theme": "theme-card",
+    "x": 2750,
+    "y": 0,
+    "content": "<strong>Statewide SEO Directory (/{state}):</strong><p>Nationwide schema: /{state}/{county}/{city}/{community}. Active Pilot: Washington State (/wa). State wind loads & frost line standards.</p>"
+  },
+  {
+    "id": "node-snohomish-county",
+    "title": "GEO-CTY-02: Snohomish County",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CTY-02 • /wa/snohomish",
+    "theme": "theme-card",
+    "x": 1750,
+    "y": 450,
+    "content": "<strong>County Sub-Hub:</strong><p>Snohomish County building codes & wind limits. Fans out to: Everett, Snohomish, Monroe. Local lumberyard lookup.</p>"
+  },
+  {
+    "id": "node-everett",
+    "title": "GEO-CIT-04: Everett City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-04 • /wa/snohomish/everett",
+    "theme": "theme-card",
+    "x": 1400,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Everett setback bylaws & height rules. Fans out to: Silver Lake. City contractor directory link.</p>"
+  },
+  {
+    "id": "node-everett-comm",
+    "title": "GEO-COM-04: Everett: Silver Lake",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-04 • .../everett/silver-lake",
+    "theme": "theme-card",
+    "x": 1400,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Silver Lake HOA standards. Pre-configured cedar privacy specs with 1-click launch into The Designer (/designer/silver-lake-privacy).</p>"
+  },
+  {
+    "id": "node-snohomish-city",
+    "title": "GEO-CIT-05: Snohomish City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-05 • /wa/snohomish/snohomish",
+    "theme": "theme-card",
+    "x": 1750,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Snohomish rural/suburban fence codes. Fans out to: Dutch Hill. Local contractor dispatch matrix.</p>"
+  },
+  {
+    "id": "node-snohomish-comm",
+    "title": "GEO-COM-05: Snohomish: Dutch Hill",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-05 • .../snohomish/dutch-hill",
+    "theme": "theme-card",
+    "x": 1750,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Dutch Hill equestrian & boundary fence rules. Pre-configured split-rail presets into The Designer (/designer/dutch-hill-split-rail).</p>"
+  },
+  {
+    "id": "node-monroe-city",
+    "title": "GEO-CIT-06: Monroe City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-06 • /wa/snohomish/monroe",
+    "theme": "theme-card",
+    "x": 2100,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Monroe valley wind exposure requirements. Fans out to: Fryelands. Local contractor dispatch matrix.</p>"
+  },
+  {
+    "id": "node-monroe-comm",
+    "title": "GEO-COM-06: Monroe: Fryelands",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-06 • .../monroe/fryelands",
+    "theme": "theme-card",
+    "x": 2100,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Fryelands HOA vertical cedar presets. Standardized ARC submittal format into The Designer (/designer/fryelands-cedar).</p>"
+  },
+  {
+    "id": "node-king-county",
+    "title": "GEO-CTY-01: King County Hub",
+    "lvl": "LVL 2",
+    "status": "orange",
+    "statusLabel": "In Progress",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CTY-01 • /wa/king",
+    "theme": "theme-card",
+    "x": 2750,
+    "y": 450,
+    "content": "<strong>Primary Pilot County:</strong><p>King County code guides (6ft height max, setbacks). Eastside corridor & Snoqualmie Valley focus. Fans out to: Issaquah, North Bend, Bellevue.</p>"
+  },
+  {
+    "id": "node-issaquah-city",
+    "title": "GEO-CIT-02: Issaquah City Guide",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-02 • /wa/king/issaquah",
+    "theme": "theme-card",
+    "x": 2400,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Issaquah municipal codes, slopes, and soil notes. Fans out to: Issaquah Highlands. Local contractor directory link.</p>"
+  },
+  {
+    "id": "node-issaquah-comm",
+    "title": "GEO-COM-02: Issaquah: Highlands",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-02 • .../issaquah-highlands",
+    "theme": "theme-card",
+    "x": 2400,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Issaquah Highlands architectural review guidelines. Approved horizontal clear cedar styles into The Designer (/designer/highlands-horizontal).</p>"
+  },
+  {
+    "id": "node-northbend-city",
+    "title": "GEO-CIT-01: North Bend Hub",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-01 • /wa/king/north-bend",
+    "theme": "theme-card",
+    "x": 2750,
+    "y": 900,
+    "content": "<strong>Pilot Flagship City Hub:</strong><p>North Bend wind guidelines (Mt. Si gusts). Fans out exclusively to 3 Pilot Communities: Riverbend, Si View, Forster Woods. Local contractor directory link.</p>"
+  },
+  {
+    "id": "node-nb-riverbend",
+    "title": "GEO-COM-03: North Bend: Riverbend",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-03 • .../north-bend/riverbend",
+    "theme": "theme-card",
+    "x": 2650,
+    "y": 1350,
+    "content": "<strong>North Bend HOA Community:</strong><p>Riverbend HOA height & staining regulations. Tied to Riverbend HOA Admin portal. Configure in The Designer (/designer/riverbend-cedar).</p>"
+  },
+  {
+    "id": "node-nb-siview",
+    "title": "GEO-COM-01: Si View Flagship",
+    "lvl": "LVL 1",
+    "status": "blue",
+    "statusLabel": "Working / Tweaks",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-01 • .../north-bend/si-view",
+    "theme": "theme-card",
+    "x": 2950,
+    "y": 1350,
+    "content": "<strong>Flagship HOA Pilot Preset:</strong><p>Si View HOA pre-approved Designs 01–04. Tied to Si View HOA ARC Admin portal. 1-click launch flat: /designer/si-view-design-01.</p>"
+  },
+  {
+    "id": "node-nb-forster",
+    "title": "GEO-COM-04: Forster Woods",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-04 • .../forster-woods",
+    "theme": "theme-card",
+    "x": 3250,
+    "y": 1350,
+    "content": "<strong>North Bend HOA Community:</strong><p>Forster Woods architectural review board checklist. Tied to Forster Woods HOA Admin portal. Pre-populated form in /designer/forster-woods-preset.</p>"
+  },
+  {
+    "id": "node-bellevue-city",
+    "title": "GEO-CIT-03: Bellevue City Guide",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-03 • /wa/king/bellevue",
+    "theme": "theme-card",
+    "x": 3450,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Bellevue setback bylaws & architectural rules. Fans out to: Somerset. Premium horizontal modern presets in /designer/somerset-modern.</p>"
+  },
+  {
+    "id": "node-bellevue-comm",
+    "title": "GEO-COM-05: Bellevue: Somerset",
+    "lvl": "LVL 2",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-05 • .../bellevue/somerset",
+    "theme": "theme-card",
+    "x": 3450,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Somerset view-preservation height restrictions (4ft–6ft). Approved horizontal modern cedar templates into The Designer (/designer/somerset-modern).</p>"
+  },
+  {
+    "id": "node-pierce-county",
+    "title": "GEO-CTY-03: Pierce County Hub",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CTY-03 • /wa/pierce",
+    "theme": "theme-card",
+    "x": 3950,
+    "y": 450,
+    "content": "<strong>County Sub-Hub:</strong><p>Pierce County building standards & utility locator. Fans out to: Tacoma, Puyallup, Gig Harbor. Local contractor coverage matrix.</p>"
+  },
+  {
+    "id": "node-tacoma-city",
+    "title": "GEO-CIT-07: Tacoma City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-07 • /wa/pierce/tacoma",
+    "theme": "theme-card",
+    "x": 3650,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Tacoma urban lot setbacks & historic overlay rules. Fans out to: North End. Local contractor directory link.</p>"
+  },
+  {
+    "id": "node-tacoma-comm",
+    "title": "GEO-COM-07: Tacoma: North End",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-07 • .../tacoma/north-end",
+    "theme": "theme-card",
+    "x": 3650,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Historic craftsman & picture frame styles. Solid cedar staining requirements. 1-click launch into The Designer (/designer/tacoma-craftsman).</p>"
+  },
+  {
+    "id": "node-puyallup-city",
+    "title": "GEO-CIT-08: Puyallup City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-08 • /wa/pierce/puyallup",
+    "theme": "theme-card",
+    "x": 3950,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Puyallup valley wind & soil requirements. Fans out to: South Hill. Local contractor dispatch matrix.</p>"
+  },
+  {
+    "id": "node-puyallup-comm",
+    "title": "GEO-COM-08: Puyallup: South Hill",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-08 • .../puyallup/south-hill",
+    "theme": "theme-card",
+    "x": 3950,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>South Hill master planned HOA standards. Pre-approved Good Neighbor 6ft cedar templates into The Designer (/designer/south-hill-good-neighbor).</p>"
+  },
+  {
+    "id": "node-gigharbor-city",
+    "title": "GEO-CIT-09: Gig Harbor City Guide",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-CIT-09 • /wa/pierce/gig-harbor",
+    "theme": "theme-card",
+    "x": 4250,
+    "y": 900,
+    "content": "<strong>City Contractor & Code Guide:</strong><p>Gig Harbor coastal maritime wind & moisture codes. Fans out to: Canterwood. Local contractor directory link.</p>"
+  },
+  {
+    "id": "node-gigharbor-comm",
+    "title": "GEO-COM-09: Gig Harbor: Canterwood",
+    "lvl": "LVL 3",
+    "status": "red",
+    "statusLabel": "Not Started",
+    "pillar": "pillar-gold",
+    "badge": "GEO-COM-09 • .../canterwood",
+    "theme": "theme-card",
+    "x": 4250,
+    "y": 1350,
+    "content": "<strong>Community Guidelines:</strong><p>Canterwood gated golf community ARC rules. Strict premium cedar & lattice accent requirements into The Designer (/designer/canterwood-lattice).</p>"
+  }
+];
+
+    const CANONICAL_EDGES = [
+  {
+    "from": "node-home",
+    "to": "node-state-root",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Find Location (/{state})"
+  },
+  {
+    "from": "node-home",
+    "to": "node-catalog-hub",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Explore Pre-Built Catalog"
+  },
+  {
+    "from": "node-home",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Custom Designer (/designer)"
+  },
+  {
+    "from": "node-home",
+    "to": "node-wizard",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Help Me Choose (/wizard)"
+  },
+  {
+    "from": "node-home",
+    "to": "node-auth",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "Sign In / Sign Up"
+  },
+  {
+    "from": "node-home",
+    "to": "node-partners",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "Partner Portal (/partners)"
+  },
+  {
+    "from": "node-auth",
+    "to": "node-partners",
+    "fromPort": "p-left",
+    "toPort": "p-right",
+    "color": "c-royal",
+    "label": "Switch to Partner Login"
+  },
+  {
+    "from": "node-partners",
+    "to": "node-auth",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "Switch to Homeowner Login"
+  },
+  {
+    "from": "node-auth",
+    "to": "node-homeowner",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "Compile Portrait Fence-Folio"
+  },
+  {
+    "from": "node-auth",
+    "to": "node-admin",
+    "fromPort": "p-left",
+    "toPort": "p-right",
+    "color": "c-royal",
+    "label": "Admin Security Access"
+  },
+  {
+    "from": "node-homeowner",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-ember",
+    "label": "Edit Build in /designer"
+  },
+  {
+    "from": "node-homeowner",
+    "to": "node-folio-doc",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-forest",
+    "label": "Open Portrait Flipbook (8.5x11)"
+  },
+  {
+    "from": "node-homeowner",
+    "to": "node-contractors",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-forest",
+    "label": "Request Contractor Bids"
+  },
+  {
+    "from": "node-contractors",
+    "to": "node-match",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-forest",
+    "label": "Launch Targeted Match"
+  },
+  {
+    "from": "node-match",
+    "to": "node-contractor-feed",
+    "fromPort": "p-left",
+    "toPort": "p-bottom",
+    "color": "c-royal",
+    "label": "Telnyx SMS Scramble Blast"
+  },
+  {
+    "from": "node-catalog-hub",
+    "to": "node-catalog-gallery",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Filter Pre-Built (/catalog/[fencestyle])"
+  },
+  {
+    "from": "node-catalog-hub",
+    "to": "node-designer",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Custom Build (/designer)"
+  },
+  {
+    "from": "node-catalog-hub",
+    "to": "node-wizard",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-ember",
+    "label": "Scoped Quiz (/wizard/[fencestyle])"
+  },
+  {
+    "from": "node-catalog-gallery",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-ember",
+    "label": "Load into /designer/[fencestyle]"
+  },
+  {
+    "from": "node-wizard",
+    "to": "node-designer",
+    "fromPort": "p-left",
+    "toPort": "p-right",
+    "color": "c-forest",
+    "label": "Port Preset to /designer"
+  },
+  {
+    "from": "node-designer",
+    "to": "node-auth",
+    "fromPort": "p-left",
+    "toPort": "p-right",
+    "color": "c-royal",
+    "label": "Save Design -> Auth Gate"
+  },
+  {
+    "from": "node-admin",
+    "to": "node-contractor-acct",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "License Verification Queue"
+  },
+  {
+    "from": "node-admin",
+    "to": "node-hoa-admin",
+    "fromPort": "p-bottom",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "Bylaws & Height Limits"
+  },
+  {
+    "from": "node-admin",
+    "to": "node-match",
+    "fromPort": "p-bottom",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "SMS Blast Audit & Kill-Switch"
+  },
+  {
+    "from": "node-partners",
+    "to": "node-contractor-acct",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "Contractor Onboarding"
+  },
+  {
+    "from": "node-partners",
+    "to": "node-hoa-admin",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-royal",
+    "label": "HOA ARC Portal"
+  },
+  {
+    "from": "node-contractor-acct",
+    "to": "node-contractor-feed",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "City Lead Alerts"
+  },
+  {
+    "from": "node-contractor-acct",
+    "to": "node-city-contractor-dir",
+    "fromPort": "p-bottom",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "Verified Public Profile"
+  },
+  {
+    "from": "node-state-root",
+    "to": "node-snohomish-county",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Snohomish County"
+  },
+  {
+    "from": "node-state-root",
+    "to": "node-king-county",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "King County (Pilot)"
+  },
+  {
+    "from": "node-state-root",
+    "to": "node-pierce-county",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Pierce County"
+  },
+  {
+    "from": "node-snohomish-county",
+    "to": "node-everett",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Everett"
+  },
+  {
+    "from": "node-snohomish-county",
+    "to": "node-snohomish-city",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Snohomish"
+  },
+  {
+    "from": "node-snohomish-county",
+    "to": "node-monroe-city",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Monroe"
+  },
+  {
+    "from": "node-everett",
+    "to": "node-everett-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Silver Lake"
+  },
+  {
+    "from": "node-snohomish-city",
+    "to": "node-snohomish-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Dutch Hill"
+  },
+  {
+    "from": "node-monroe-city",
+    "to": "node-monroe-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Fryelands"
+  },
+  {
+    "from": "node-king-county",
+    "to": "node-issaquah-city",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Issaquah"
+  },
+  {
+    "from": "node-king-county",
+    "to": "node-northbend-city",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "North Bend Flagship"
+  },
+  {
+    "from": "node-king-county",
+    "to": "node-bellevue-city",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Bellevue"
+  },
+  {
+    "from": "node-issaquah-city",
+    "to": "node-issaquah-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Issaquah Highlands"
+  },
+  {
+    "from": "node-northbend-city",
+    "to": "node-nb-riverbend",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Riverbend"
+  },
+  {
+    "from": "node-northbend-city",
+    "to": "node-nb-siview",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Si View Flagship"
+  },
+  {
+    "from": "node-northbend-city",
+    "to": "node-nb-forster",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Forster Woods"
+  },
+  {
+    "from": "node-bellevue-city",
+    "to": "node-bellevue-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Somerset"
+  },
+  {
+    "from": "node-pierce-county",
+    "to": "node-tacoma-city",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Tacoma"
+  },
+  {
+    "from": "node-pierce-county",
+    "to": "node-puyallup-city",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Puyallup"
+  },
+  {
+    "from": "node-pierce-county",
+    "to": "node-gigharbor-city",
+    "fromPort": "p-right",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Gig Harbor"
+  },
+  {
+    "from": "node-tacoma-city",
+    "to": "node-tacoma-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "North End"
+  },
+  {
+    "from": "node-puyallup-city",
+    "to": "node-puyallup-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "South Hill"
+  },
+  {
+    "from": "node-gigharbor-city",
+    "to": "node-gigharbor-comm",
+    "fromPort": "p-bottom",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Canterwood"
+  },
+  {
+    "from": "node-nb-siview",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Si View Style into /designer"
+  },
+  {
+    "from": "node-nb-riverbend",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Riverbend Style into /designer"
+  },
+  {
+    "from": "node-nb-forster",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Forster Woods Style into /designer"
+  },
+  {
+    "from": "node-issaquah-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Highlands Style into /designer"
+  },
+  {
+    "from": "node-bellevue-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Somerset Style into /designer"
+  },
+  {
+    "from": "node-everett-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Silver Lake Style into /designer"
+  },
+  {
+    "from": "node-snohomish-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Dutch Hill Style into /designer"
+  },
+  {
+    "from": "node-monroe-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Fryelands Style into /designer"
+  },
+  {
+    "from": "node-tacoma-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Tacoma Style into /designer"
+  },
+  {
+    "from": "node-puyallup-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load South Hill Style into /designer"
+  },
+  {
+    "from": "node-gigharbor-comm",
+    "to": "node-designer",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-forest",
+    "label": "Load Canterwood Style into /designer"
+  },
+  {
+    "from": "node-contractor-acct",
+    "to": "node-northbend-city",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "Contractor Selects Cities"
+  },
+  {
+    "from": "node-hoa-admin",
+    "to": "node-nb-siview",
+    "fromPort": "p-right",
+    "toPort": "p-left",
+    "color": "c-royal",
+    "label": "Si View HOA ARC Portal"
+  },
+  {
+    "from": "node-northbend-city",
+    "to": "node-city-contractor-dir",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Search Local Pros"
+  },
+  {
+    "from": "node-everett",
+    "to": "node-city-contractor-dir",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Search Everett Pros"
+  },
+  {
+    "from": "node-tacoma-city",
+    "to": "node-city-contractor-dir",
+    "fromPort": "p-left",
+    "toPort": "p-top",
+    "color": "c-gold",
+    "label": "Search Tacoma Pros"
+  }
+];
+
+    let nodes = JSON.parse(JSON.stringify(CANONICAL_NODES));
+    let edges = JSON.parse(JSON.stringify(CANONICAL_EDGES));
+
+    let zoom = 0.9;
+    let panX = 80;
+    let panY = 100;
+    let isPanning = false;
+    let startPanX = 0;
+    let startPanY = 0;
+
+    let selectedNodeId = null;
+    let selectedEdgeIndex = null;
+
+    // Arrow drawing states
+    let isDrawingArrowMode = false;
+    let arrowSourceNodeId = null;
+
+    // Port drag connection states
+    let isDraggingConnection = false;
+    let connectSource = null; // { nodeId, port }
+
+    const viewport = document.getElementById("canvas-viewport");
+    const world = document.getElementById("canvas-world");
+    const nodesContainer = document.getElementById("nodes-container");
+    const svgConnections = document.getElementById("svg-connections");
+    const tempPath = document.getElementById("temp-connection-path");
+    const btnDrawArrow = document.getElementById("btn-draw-arrow");
+
+    function updateTransform() {
+      world.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    }
+
+    function screenToWorld(clientX, clientY) {
+      return {
+        x: (clientX - panX) / zoom,
+        y: (clientY - panY) / zoom
+      };
+    }
+
+    function renderNodes() {
+      nodesContainer.innerHTML = "";
+      nodes.forEach(node => {
+        const el = document.createElement("div");
+        const isSelected = selectedNodeId === node.id;
+        const isArrowSource = arrowSourceNodeId === node.id;
+        el.className = `node-card ${node.theme} ${isSelected ? "selected" : ""} ${isArrowSource ? "arrow-source-node" : ""}`;
+        el.id = node.id;
+        el.style.left = `${node.x}px`;
+        el.style.top = `${node.y}px`;
+
+        el.innerHTML = `
+          <div class="port p-top" data-port="p-top" data-node="${node.id}" title="Connect from Top"></div>
+          <div class="port p-right" data-port="p-right" data-node="${node.id}" title="Connect from Right"></div>
+          <div class="port p-bottom" data-port="p-bottom" data-node="${node.id}" title="Connect from Bottom"></div>
+          <div class="port p-left" data-port="p-left" data-node="${node.id}" title="Connect from Left"></div>
+          <div class="pillar-indicator ${node.pillar || 'pillar-gold'}" title="Pillar Category"></div>
+          <div class="node-header">
+            <div>
+              <div class="node-header-top">
+                <span class="lvl-badge ${node.lvl === 'LVL 1' ? 'lvl-1' : (node.lvl === 'LVL 2' ? 'lvl-2' : 'lvl-3')}">${node.lvl || 'LVL 1'}</span>
+                <span class="status-pill status-${node.status || 'blue'}">${node.statusLabel || 'ACTIVE'}</span>
+              </div>
+              <div class="node-title status-${node.status || 'blue'}" contenteditable="true">${node.title}</div>
+            </div>
+            <div class="node-badge">${node.badge}</div>
+          </div>
+          <div class="node-body" contenteditable="true">${node.content}</div>
+        `;
+
+        // Card selection and dragging or draw-arrow click
+        el.addEventListener("mousedown", (e) => {
+          if (e.target.classList.contains("port") || e.target.getAttribute("contenteditable") === "true") return;
+          e.stopPropagation();
+
+          if (isDrawingArrowMode) {
+            handleArrowModeNodeClick(node.id);
+            return;
+          }
+
+          selectedNodeId = node.id;
+          selectedEdgeIndex = null;
+          renderNodes();
+          startDraggingNode(node, el, e);
+        });
+
+        // Content editable sync
+        el.querySelector(".node-title").addEventListener("blur", (e) => { node.title = e.target.innerText; });
+        el.querySelector(".node-body").addEventListener("blur", (e) => { node.content = e.target.innerHTML; });
+
+        // Port Drag / Click Connection Setup
+        el.querySelectorAll(".port").forEach(portEl => {
+          portEl.addEventListener("mousedown", (e) => {
+            e.stopPropagation();
+            startConnectionDrag(node.id, portEl.dataset.port, e);
+          });
+
+          portEl.addEventListener("mouseup", (e) => {
+            if (isDraggingConnection) {
+              e.stopPropagation();
+              finishConnectionDrag(node.id, portEl.dataset.port);
+            }
+          });
+        });
+
+        // Drop directly onto card body
+        el.addEventListener("mouseup", (e) => {
+          if (isDraggingConnection && connectSource && connectSource.nodeId !== node.id) {
+            e.stopPropagation();
+            const startPt = getPortCoordinates(connectSource.nodeId, connectSource.port);
+            const bestTargetPort = getBestPortForTarget(node, startPt);
+            finishConnectionDrag(node.id, bestTargetPort);
+          }
+        });
+
+        nodesContainer.appendChild(el);
+      });
+      renderConnections();
+    }
+
+    function startDraggingNode(node, el, e) {
+      const startMouseX = e.clientX;
+      const startMouseY = e.clientY;
+      const startNodeX = node.x;
+      const startNodeY = node.y;
+
+      function onMouseMove(moveEv) {
+        const dx = (moveEv.clientX - startMouseX) / zoom;
+        const dy = (moveEv.clientY - startMouseY) / zoom;
+        node.x = Math.round(startNodeX + dx);
+        node.y = Math.round(startNodeY + dy);
+        el.style.left = `${node.x}px`;
+        el.style.top = `${node.y}px`;
+        renderConnections();
+      }
+
+      function onMouseUp() {
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      }
+
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
+    }
+
+    function getPortCoordinates(nodeId, portType) {
+      const node = nodes.find(n => n.id === nodeId);
+      if (!node) return { x: 0, y: 0 };
+      const el = document.getElementById(nodeId);
+      const width = el ? el.offsetWidth : 360;
+      const height = el ? el.offsetHeight : 240;
+
+      switch(portType) {
+        case "p-top": return { x: node.x + width / 2, y: node.y };
+        case "p-right": return { x: node.x + width, y: node.y + height / 2 };
+        case "p-bottom": return { x: node.x + width / 2, y: node.y + height };
+        case "p-left": return { x: node.x, y: node.y + height / 2 };
+        default: return { x: node.x + width / 2, y: node.y + height / 2 };
+      }
+    }
+
+    function getBestPortsBetweenNodes(fromNode, toNode) {
+      const elFrom = document.getElementById(fromNode.id);
+      const elTo = document.getElementById(toNode.id);
+      const wFrom = elFrom ? elFrom.offsetWidth : 360;
+      const hFrom = elFrom ? elFrom.offsetHeight : 240;
+      const wTo = elTo ? elTo.offsetWidth : 360;
+      const hTo = elTo ? elTo.offsetHeight : 240;
+
+      const c1x = fromNode.x + wFrom / 2;
+      const c1y = fromNode.y + hFrom / 2;
+      const c2x = toNode.x + wTo / 2;
+      const c2y = toNode.y + hTo / 2;
+
+      const dx = c2x - c1x;
+      const dy = c2y - c1y;
+
+      if (Math.abs(dx) >= Math.abs(dy)) {
+        return dx > 0
+          ? { fromPort: "p-right", toPort: "p-left" }
+          : { fromPort: "p-left", toPort: "p-right" };
+      } else {
+        return dy > 0
+          ? { fromPort: "p-bottom", toPort: "p-top" }
+          : { fromPort: "p-top", toPort: "p-bottom" };
+      }
+    }
+
+    function getBestPortForTarget(targetNode, sourcePoint) {
+      const el = document.getElementById(targetNode.id);
+      const w = el ? el.offsetWidth : 360;
+      const h = el ? el.offsetHeight : 240;
+      const cx = targetNode.x + w / 2;
+      const cy = targetNode.y + h / 2;
+
+      const dx = sourcePoint.x - cx;
+      const dy = sourcePoint.y - cy;
+
+      if (Math.abs(dx) >= Math.abs(dy)) {
+        return dx > 0 ? "p-right" : "p-left";
+      } else {
+        return dy > 0 ? "p-bottom" : "p-top";
+      }
+    }
+
+    function computeSmoothBezierPath(p1, p2, fromPort, toPort) {
+      const dx = Math.abs(p2.x - p1.x);
+      const dy = Math.abs(p2.y - p1.y);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const offset = Math.min(Math.max(40, dist * 0.4), 180);
+
+      let c1x = p1.x;
+      let c1y = p1.y;
+      let c2x = p2.x;
+      let c2y = p2.y;
+
+      // Handle fromPort tangents
+      if (fromPort === "p-right") c1x += offset;
+      else if (fromPort === "p-left") c1x -= offset;
+      else if (fromPort === "p-bottom") c1y += offset;
+      else if (fromPort === "p-top") c1y -= offset;
+      else c1x += (p2.x > p1.x ? offset : -offset);
+
+      // Handle toPort tangents
+      if (toPort === "p-left") c2x -= offset;
+      else if (toPort === "p-right") c2x += offset;
+      else if (toPort === "p-top") c2y -= offset;
+      else if (toPort === "p-bottom") c2y += offset;
+      else c2x += (p1.x > p2.x ? offset : -offset);
+
+      return `M ${p1.x} ${p1.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p2.x} ${p2.y}`;
+    }
+
+    function renderConnections() {
+      const paths = svgConnections.querySelectorAll(".conn-item");
+      paths.forEach(p => p.remove());
+
+      edges.forEach((edge, idx) => {
+        const p1 = getPortCoordinates(edge.from, edge.fromPort);
+        const p2 = getPortCoordinates(edge.to, edge.toPort);
+
+        const pathD = computeSmoothBezierPath(p1, p2, edge.fromPort, edge.toPort);
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.className.baseVal = "conn-item";
+
+        const isSelected = selectedEdgeIndex === idx;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", pathD);
+        path.setAttribute("class", `conn-path ${edge.color || "c-gold"} ${isSelected ? "selected" : ""}`);
+
+        let marker = "url(#arrow-gold)";
+        if (edge.color === "c-ember") marker = "url(#arrow-ember)";
+        else if (edge.color === "c-forest") marker = "url(#arrow-forest)";
+        else if (edge.color === "c-slate") marker = "url(#arrow-slate)";
+        path.setAttribute("marker-end", marker);
+
+        // Click to select arrow
+        path.addEventListener("click", (e) => {
+          e.stopPropagation();
+          selectedEdgeIndex = idx;
+          selectedNodeId = null;
+          renderNodes();
+          renderConnections();
+        });
+
+        // Double click to edit label
+        path.addEventListener("dblclick", (e) => {
+          e.stopPropagation();
+          const newLabel = prompt("Enter connection label (or leave blank to remove):", edge.label || "");
+          if (newLabel !== null) {
+            edge.label = newLabel.trim();
+            renderConnections();
+          }
+        });
+
+        g.appendChild(path);
+
+        if (edge.label) {
+          const midX = (p1.x + p2.x) / 2;
+          const midY = (p1.y + p2.y) / 2;
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", midX);
+          text.setAttribute("y", midY - 6);
+          text.setAttribute("class", "conn-label");
+          text.textContent = edge.label;
+
+          text.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const newLabel = prompt("Edit label:", edge.label || "");
+            if (newLabel !== null) {
+              edge.label = newLabel.trim();
+              renderConnections();
+            }
+          });
+
+          g.appendChild(text);
+        }
+
+        svgConnections.appendChild(g);
+      });
+    }
+
+    // Port drag connection handlers
+    function startConnectionDrag(nodeId, port, e) {
+      isDraggingConnection = true;
+      connectSource = { nodeId, port };
+      document.body.classList.add("connecting");
+
+      // Highlight target candidate ports
+      document.querySelectorAll(`.port:not([data-node="${nodeId}"])`).forEach(p => p.classList.add("target-candidate"));
+
+      const sourcePortEl = document.querySelector(`.port[data-node="${nodeId}"][data-port="${port}"]`);
+      if (sourcePortEl) sourcePortEl.classList.add("active-source");
+
+      tempPath.style.display = "block";
+      updateTempConnectionPath(e);
+    }
+
+    function updateTempConnectionPath(e) {
+      if (!isDraggingConnection || !connectSource) return;
+      const startPt = getPortCoordinates(connectSource.nodeId, connectSource.port);
+      const mousePt = screenToWorld(e.clientX, e.clientY);
+      const pathD = computeSmoothBezierPath(startPt, mousePt, connectSource.port, "auto");
+      tempPath.setAttribute("d", pathD);
+    }
+
+    function finishConnectionDrag(targetNodeId, targetPort) {
+      if (connectSource && connectSource.nodeId !== targetNodeId) {
+        let edgeColor = "c-gold";
+        const sourceNode = nodes.find(n => n.id === connectSource.nodeId);
+        if (sourceNode && sourceNode.theme.includes("ember")) edgeColor = "c-ember";
+        else if (sourceNode && sourceNode.theme.includes("forest")) edgeColor = "c-forest";
+        else if (sourceNode && sourceNode.theme.includes("slate")) edgeColor = "c-slate";
+
+        edges.push({
+          from: connectSource.nodeId,
+          to: targetNodeId,
+          fromPort: connectSource.port,
+          toPort: targetPort,
+          color: edgeColor,
+          label: ""
+        });
+      }
+
+      cleanupConnectionDrag();
+      renderConnections();
+    }
+
+    function cleanupConnectionDrag() {
+      isDraggingConnection = false;
+      connectSource = null;
+      document.body.classList.remove("connecting");
+      document.querySelectorAll(".port").forEach(p => p.classList.remove("target-candidate", "active-source"));
+      tempPath.style.display = "none";
+    }
+
+    // Dedicated Draw Arrow Tool Mode
+    btnDrawArrow.addEventListener("click", () => {
+      isDrawingArrowMode = !isDrawingArrowMode;
+      arrowSourceNodeId = null;
+      btnDrawArrow.classList.toggle("active", isDrawingArrowMode);
+      viewport.classList.toggle("draw-arrow-mode", isDrawingArrowMode);
+      tempPath.style.display = "none";
+      renderNodes();
+    });
+
+    function handleArrowModeNodeClick(targetNodeId) {
+      if (!arrowSourceNodeId) {
+        // Step 1: Pick source card
+        arrowSourceNodeId = targetNodeId;
+        renderNodes();
+      } else {
+        // Step 2: Pick target card
+        if (arrowSourceNodeId !== targetNodeId) {
+          const sourceNode = nodes.find(n => n.id === arrowSourceNodeId);
+          const targetNode = nodes.find(n => n.id === targetNodeId);
+          const best = getBestPortsBetweenNodes(sourceNode, targetNode);
+
+          let edgeColor = "c-gold";
+          if (sourceNode && sourceNode.theme.includes("ember")) edgeColor = "c-ember";
+          else if (sourceNode && sourceNode.theme.includes("forest")) edgeColor = "c-forest";
+          else if (sourceNode && sourceNode.theme.includes("slate")) edgeColor = "c-slate";
+
+          edges.push({
+            from: arrowSourceNodeId,
+            to: targetNodeId,
+            fromPort: best.fromPort,
+            toPort: best.toPort,
+            color: edgeColor,
+            label: ""
+          });
+          renderConnections();
+        }
+
+        arrowSourceNodeId = null;
+        renderNodes();
+      }
+    }
+
+    // Canvas panning & interaction
+    viewport.addEventListener("mousedown", (e) => {
+      if (e.target.closest(".node-card") || e.target.closest(".top-bar") || e.target.closest(".hud-zoom")) return;
+      isPanning = true;
+      startPanX = e.clientX - panX;
+      startPanY = e.clientY - panY;
+      viewport.classList.add("panning");
+      selectedNodeId = null;
+      selectedEdgeIndex = null;
+      renderNodes();
+      renderConnections();
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (isDraggingConnection) {
+        updateTempConnectionPath(e);
+        return;
+      }
+      if (!isPanning) return;
+      panX = e.clientX - startPanX;
+      panY = e.clientY - startPanY;
+      updateTransform();
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (isDraggingConnection) {
+        cleanupConnectionDrag();
+      }
+      isPanning = false;
+      viewport.classList.remove("panning");
+    });
+
+    // Keyboard Shortcuts: Delete or Escape
+    window.addEventListener("keydown", (e) => {
+      if (e.target.getAttribute("contenteditable") === "true") return;
+
+      if (e.key === "Delete" || e.key === "Backspace") {
+        if (selectedNodeId) {
+          nodes = nodes.filter(n => n.id !== selectedNodeId);
+          edges = edges.filter(ed => ed.from !== selectedNodeId && ed.to !== selectedNodeId);
+          selectedNodeId = null;
+          renderNodes();
+        } else if (selectedEdgeIndex !== null) {
+          edges.splice(selectedEdgeIndex, 1);
+          selectedEdgeIndex = null;
+          renderConnections();
+        }
+      } else if (e.key === "Escape") {
+        if (isDrawingArrowMode) {
+          isDrawingArrowMode = false;
+          arrowSourceNodeId = null;
+          btnDrawArrow.classList.remove("active");
+          viewport.classList.remove("draw-arrow-mode");
+          renderNodes();
+        }
+        cleanupConnectionDrag();
+        selectedNodeId = null;
+        selectedEdgeIndex = null;
+        renderNodes();
+      }
+    });
+
+    // Zoom controls
+    viewport.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      zoom = Math.min(Math.max(0.3, zoom * zoomFactor), 2.2);
+      updateTransform();
+    });
+
+    document.getElementById("btn-zoom-in").onclick = () => { zoom = Math.min(2.2, zoom * 1.15); updateTransform(); };
+    document.getElementById("btn-zoom-out").onclick = () => { zoom = Math.max(0.3, zoom * 0.85); updateTransform(); };
+    document.getElementById("btn-zoom-reset").onclick = () => { zoom = 0.9; panX = 80; panY = 100; updateTransform(); };
+
+    function addNewBox(theme, titlePrefix) {
+      const id = "node-" + Date.now();
+      nodes.push({
+        id: id,
+        title: `${titlePrefix} Box`,
+        badge: "Custom",
+        theme: theme,
+        x: Math.round((-panX + 300) / zoom),
+        y: Math.round((-panY + 200) / zoom),
+        content: "Click to write your text..."
+      });
+      selectedNodeId = id;
+      selectedEdgeIndex = null;
+      renderNodes();
+    }
+
+    document.getElementById("btn-add-gold").onclick = () => addNewBox("theme-gold", "🔍 Find");
+    document.getElementById("btn-add-ember").onclick = () => addNewBox("theme-ember", "🖼️ Frame");
+    document.getElementById("btn-add-forest").onclick = () => addNewBox("theme-forest", "🌲 Fence");
+
+    document.getElementById("btn-delete").onclick = () => {
+      if (selectedNodeId) {
+        nodes = nodes.filter(n => n.id !== selectedNodeId);
+        edges = edges.filter(e => e.from !== selectedNodeId && e.to !== selectedNodeId);
+        selectedNodeId = null;
+        renderNodes();
+      } else if (selectedEdgeIndex !== null) {
+        edges.splice(selectedEdgeIndex, 1);
+        selectedEdgeIndex = null;
+        renderConnections();
+      } else {
+        alert("Click a card or arrow to select it first!");
+      }
+    };
+
+    const SCHEMA_VERSION = "v7_non_overlapping_layout";
+
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem("ff_canvas_state", JSON.stringify({ version: SCHEMA_VERSION, nodes, edges, panX, panY, zoom }));
+      } catch (err) {}
+    }
+
+    function loadFromStorageOrCanonical() {
+      try {
+        const saved = localStorage.getItem("ff_canvas_state");
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data.version === SCHEMA_VERSION && Array.isArray(data.nodes) && Array.isArray(data.edges) && data.nodes.length > 0) {
+            nodes = data.nodes;
+            edges = data.edges;
+            if (data.panX !== undefined) panX = data.panX;
+            if (data.panY !== undefined) panY = data.panY;
+            if (data.zoom !== undefined) zoom = data.zoom;
+            return;
+          }
+        }
+      } catch (err) {}
+      nodes = JSON.parse(JSON.stringify(CANONICAL_NODES));
+      edges = JSON.parse(JSON.stringify(CANONICAL_EDGES));
+    }
+
+    // Wrap renderNodes to trigger auto-save
+    const originalRenderNodes = renderNodes;
+    renderNodes = function() {
+      originalRenderNodes();
+      saveToLocalStorage();
+    };
+
+    document.getElementById("btn-reset").onclick = () => {
+      if (confirm("Reset canvas to the master canonical Fence Frames site architecture?")) {
+        localStorage.removeItem("ff_canvas_state");
+        nodes = JSON.parse(JSON.stringify(CANONICAL_NODES));
+        edges = JSON.parse(JSON.stringify(CANONICAL_EDGES));
+        selectedNodeId = null;
+        selectedEdgeIndex = null;
+        zoom = 0.9;
+        panX = 80;
+        panY = 100;
+        updateTransform();
+        renderNodes();
+      }
+    };
+
+    document.getElementById("btn-export").onclick = () => {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ nodes, edges, panX, panY, zoom }, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", "fence-frames-architecture-canvas.json");
+      dlAnchor.click();
+    };
+
+    document.getElementById("btn-import").onclick = () => {
+      document.getElementById("file-input").click();
+    };
+
+    document.getElementById("file-input").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (Array.isArray(data.nodes) && Array.isArray(data.edges)) {
+            nodes = data.nodes;
+            edges = data.edges;
+            if (data.panX !== undefined) panX = data.panX;
+            if (data.panY !== undefined) panY = data.panY;
+            if (data.zoom !== undefined) zoom = data.zoom;
+            updateTransform();
+            renderNodes();
+            alert("Canvas successfully restored from your JSON file!");
+          } else {
+            alert("Invalid canvas JSON structure.");
+          }
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    });
+
+    // =========================================================================
+    // MACRO VIEW TOGGLE (Big Title & Slug Mode)
+    // =========================================================================
+    let isMacroMode = localStorage.getItem("ff_canvas_macro_mode") === "true";
+    const btnToggleMacro = document.getElementById("btn-toggle-macro");
+
+    function applyMacroMode(active) {
+      isMacroMode = active;
+      if (isMacroMode) {
+        document.body.classList.add("macro-mode");
+        if (btnToggleMacro) {
+          btnToggleMacro.textContent = "🔍 Macro View: ON";
+          btnToggleMacro.classList.add("active");
+        }
+      } else {
+        document.body.classList.remove("macro-mode");
+        if (btnToggleMacro) {
+          btnToggleMacro.textContent = "🔍 Macro View: OFF";
+          btnToggleMacro.classList.remove("active");
+        }
+      }
+      localStorage.setItem("ff_canvas_macro_mode", isMacroMode ? "true" : "false");
+      renderConnections();
+    }
+
+    if (btnToggleMacro) {
+      btnToggleMacro.onclick = () => {
+        applyMacroMode(!isMacroMode);
+      };
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "m" || e.key === "M") {
+        if (e.target.getAttribute("contenteditable") === "true" || e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+        applyMacroMode(!isMacroMode);
+      }
+    });
+
+    loadFromStorageOrCanonical();
+    updateTransform();
+    renderNodes();
+    applyMacroMode(isMacroMode);
+  </script>
+</body>
+</html>
