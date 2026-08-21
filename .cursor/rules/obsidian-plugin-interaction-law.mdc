@@ -1,0 +1,37 @@
+---
+description: Law governing how AI agents author and interact with Obsidian notes using the 73-plugin ecosystem
+globs: **/*.md
+---
+
+# Obsidian Plugin Interaction & Note Formatting Law (Mandatory for All AI Agents)
+
+When creating, editing, or refactoring Markdown documentation, specs, dashboards, or tasks within `Lew-Line-Workspaces` or any of its child vaults (`Document-Hub`, `Founder-Notebook`), agents MUST proactively format notes using the active 73-plugin capabilities without requiring explicit prompting from the user:
+
+## 1. Standardized YAML Frontmatter (Mandatory on All Notes)
+Every note MUST start with valid YAML containing at minimum:
+```yaml
+---
+title: "Descriptive Note Title"
+type: spec | handbook | canon | dashboard | task | reference | project
+category: fence-frames | two-lew | planters | design | founder
+updated: YYYY-MM-DD
+tags: [kebab-case-tag1, kebab-case-tag2]
+---
+```
+
+## 2. Interactive UI, Forms & Calculators
+* **Sliders & Toggles**: Use `Meta Bind` syntax (`INPUT[slider(minValue:0, maxValue:100):footage]`, `INPUT[toggle:has_gate]`).
+* **Live Math & Formulas**: Use `Numerals` inline equations (`120 ft * $110/ft = $13,200`) and Meta Bind `VIEW[math(...)]`.
+
+## 3. Visuals, Maps & Layouts
+* **Comparative Specs & Multi-Column**: Use `Multi-Column Markdown` (`:::col ... :::col`).
+* **GIS & Communities**: Embed GPS coordinates and markers using `Obsidian Leaflet` code blocks (```` ```leaflet ````).
+* **Architecture Diagrams**: Author visual flows using native `Mermaid` syntax (```` ```mermaid ````).
+
+## 4. Tasks & Command Buttons
+* **Actionable Tasks**: Format checkboxes with priority and due dates: `- [ ] #task Review Si View HOA submittal ⏫ 📅 YYYY-MM-DD`.
+* **1-Click Actions**: Use `Buttons` syntax (```` ```button ````) for launching localhost dev servers (`:3000`, `:5199`, `:4200`) or jumping to calculators.
+
+## 5. Codeblocks & Typography
+* **Codeblock Titles**: Always specify language and file path (e.g. ```` ```typescript:components/ff/hero.tsx ````) so `Code Styler` renders IDE title bars.
+* **Typographic Spacing**: Maintain standard Markdown heading hierarchies (`#`, `##`, `###`) for `Contextual Typography` and `Minimal Theme` compatibility.
