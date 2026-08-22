@@ -1,0 +1,59 @@
+/**
+ * FenceBook Heritage V2 Configurator — Theme Tokens
+ * Location: public/configure/heritage-v2/theme-tokens.css
+ *
+ * Signature Black & Gold / Obsidian Design System Tokens
+ */
+
+:root {
+  /* ==========================================================================
+     1. SIGNATURE BLACK & GOLD COLOR PALETTE
+     ========================================================================== */
+
+  /* Primary Accent: Warm Amber Gold */
+  --color-gold: #E08230;
+  --color-gold-hover: #F09240;
+  --color-gold-muted: rgba(224, 130, 48, 0.25);
+  --color-gold-glow: rgba(224, 130, 48, 0.4);
+  --color-gold-light: #F4BA7A;
+
+  /* Obsidian & Charcoal Surfaces */
+  --color-scheme: dark;
+  --bg-base: #121316;             /* Deep Obsidian page background */
+  --bg-surface: #191B20;          /* Elevating card background */
+  --bg-surface-elevated: #21242C; /* Active / Modal background */
+
+  /* Glassmorphism Panels */
+  --color-card-bg: rgba(25, 27, 32, 0.85);
+  --color-card-bg-hover: rgba(33, 36, 44, 0.95);
+  --color-card-border: rgba(224, 130, 48, 0.25);
+  --color-card-border-active: #E08230;
+
+  /* Badges & Status */
+  --color-badge-bg: rgba(224, 130, 48, 0.12);
+  --color-badge-border: rgba(224, 130, 48, 0.3);
+  --color-badge-text: #F4BA7A;
+
+  --color-emerald-green: #297A4D;
+  --color-emerald-text: #34D399;
+
+  /* Typography Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #C8CFD8;
+  --text-muted: #8A94A4;
+
+  /* Shadows & Depth */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(224, 130, 48, 0.15);
+
+  /* Typography Scale */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+}

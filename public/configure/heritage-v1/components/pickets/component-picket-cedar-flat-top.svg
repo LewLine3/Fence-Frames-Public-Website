@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 112" width="140in" height="112in">
+  <title>Cedar Flat Top Picket</title>
+  <desc>FenceBook overlay. 1 viewBox unit = 1 inch. Artboard 140×112 in. Panel (22,20)–(118,92). Bleed 14–126.</desc>
+  <defs>
+    <pattern id="pt-incision" patternUnits="userSpaceOnUse" width="1.25" height="1.25">
+      <rect width="1.25" height="1.25" fill="#6b4535"/>
+      <line x1="0" y1="1.25" x2="1.25" y2="0" stroke="#523328" stroke-width="0.1"/>
+      <line x1="0.15" y1="1.1" x2="0.4" y2="0.85" stroke="#523328" stroke-width="0.08"/>
+    </pattern>
+  </defs>
+  <style>
+    .stain-pt-ground-contact { fill: url(#pt-incision); stroke: #523328; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-cedar-natural { fill: #b8886b; stroke: #6b4f3a; stroke-width: 0.15; paint-order: stroke fill; }
+    .stain-metal-dark { fill: #6b7280; stroke: #374151; stroke-width: 0.15; paint-order: stroke fill; }
+  </style>
+  <g id="component-picket-cedar-flat-top">
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="26.5" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="32.75" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="39" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="45.25" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="51.5" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="57.75" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="64" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="70.25" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="76.5" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="82.75" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="89" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="95.25" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="101.5" y="21" width="5.75" height="71" />
+    <rect class="stain-cedar-natural" stroke-alignment="inner" x="107.75" y="21" width="5.75" height="71" />
+  </g>
+</svg>
