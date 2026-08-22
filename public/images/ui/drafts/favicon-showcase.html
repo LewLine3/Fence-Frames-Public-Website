@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence Frames — Multi-Scale Pixel Grid Adherence & Icon Suite Test Bench</title>
+  <title>Fence Frames — Equal 3-Void & Proportional Bay Lab (Live Showcase)</title>
   
   <!-- Rowdies Font Canonical Standard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,16 +17,13 @@
       --emerald-bright: #2EA055;
       --pine-boosted: #3B7D57;
       --forest-bright: #4ADE80;
+      --golden-tan: #DEB35E;
+      --cedar-tan: #C4B294;
+      --douglas-fir: #D69E42;
       --soil-brown: #6A481B;
-      --soil-glow: rgba(106, 72, 27, 0.35);
       --ink: #0B0E0C;
       --ink-surface: #141B16;
       --ink-border: #1E2B22;
-      --cedar: #C4B294;
-      --pt-wood: #754E36;
-      --parchment: #F4ECDC;
-      --parchment-soft: #FAF6EE;
-      --ember: #F27A22;
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
@@ -54,11 +51,10 @@
     }
 
     .container {
-      max-width: 1480px;
+      max-width: 1560px;
       margin: 0 auto;
     }
 
-    /* Brand Header */
     .brand-header {
       text-align: center;
       margin-bottom: 32px;
@@ -119,16 +115,15 @@
     }
 
     .brand-desc {
-      max-width: 860px;
+      max-width: 920px;
       margin: 0 auto;
-      font-size: 0.92rem;
-      color: var(--cedar);
+      font-size: 0.95rem;
+      color: var(--cedar-tan);
       font-weight: 300;
     }
 
-    /* Section Banner */
     .section-banner {
-      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(106, 72, 27, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
+      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(222, 179, 94, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
       border: 1.5px solid var(--forest-bright);
       border-radius: var(--radius-md);
       padding: 16px 24px;
@@ -153,200 +148,331 @@
       color: var(--forest-bright);
     }
 
-    /* Multi-Scale Production Grid Deck */
-    .scale-deck {
+    /* Math Spec Card */
+    .spec-deck {
       background: var(--ink-surface);
       border: 2px solid var(--gold-sun);
       border-radius: var(--radius-lg);
-      padding: 28px;
+      padding: 24px;
       margin-bottom: 36px;
       box-shadow: 0 0 36px var(--gold-sun-glow);
     }
 
-    .scale-deck-title {
+    .spec-deck-title {
       font-size: 1.35rem;
       font-weight: 700;
       color: var(--gold-sun);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .scale-deck-subtitle {
-      font-size: 0.85rem;
-      color: var(--cedar);
-      margin-bottom: 24px;
+    .spec-deck-subtitle {
+      font-size: 0.88rem;
+      color: var(--cedar-tan);
+      margin-bottom: 20px;
     }
 
-    .scale-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: flex-end;
-      justify-content: space-around;
-      padding: 24px;
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .spec-card {
       background: #111613;
       border: 1.5px solid var(--ink-border);
       border-radius: var(--radius-md);
-      margin-bottom: 24px;
+      padding: 16px;
     }
 
-    .scale-box {
+    .spec-card-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .spec-card p {
+      font-size: 0.82rem;
+      color: #E2E8F0;
+      line-height: 1.55;
+    }
+
+    .spec-card code {
+      color: var(--gold-sun);
+      background: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Grid of Concepts */
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 22px;
+      margin-bottom: 48px;
+    }
+
+    .concept-card {
+      background: var(--ink-surface);
+      border: 2px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
     }
 
-    .scale-preview-wrapper {
+    .concept-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--forest-bright);
+      box-shadow: 0 20px 48px rgba(46, 160, 85, 0.3);
+    }
+
+    .concept-card.featured-card {
+      border-color: var(--gold-sun);
+      box-shadow: 0 0 32px var(--gold-sun-glow);
+    }
+
+    .card-topbar {
+      background: var(--ink);
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--ink-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .concept-number {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--forest-bright);
+      background: rgba(74, 222, 128, 0.15);
+      border: 1px solid var(--forest-bright);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .concept-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .master-preview.transparent-preview {
       background-color: #1a1a1a;
       background-image: 
         linear-gradient(45deg, #242424 25%, transparent 25%), 
         linear-gradient(-45deg, #242424 25%, transparent 25%), 
         linear-gradient(45deg, transparent 75%, #242424 75%), 
         linear-gradient(-45deg, transparent 75%, #242424 75%);
-      background-size: 8px 8px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-    }
-
-    .scale-box.white-bg .scale-preview-wrapper {
-      background: #FFFFFF;
-      background-image: none;
-    }
-
-    .scale-box.dark-bg .scale-preview-wrapper {
-      background: #141B16;
-      background-image: none;
-    }
-
-    .scale-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--forest-bright);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .scale-use {
-      font-size: 0.65rem;
-      color: var(--cedar);
-      max-width: 110px;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    /* Apple Touch Icon Squircle Showcase */
-    .apple-icon-deck {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      margin-bottom: 36px;
-    }
-
-    .apple-icon-card {
-      flex: 1;
-      min-width: 320px;
-      background: var(--ink-surface);
-      border: 1.5px solid var(--ink-border);
-      border-radius: var(--radius-md);
-      padding: 20px;
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      padding: 28px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
-    }
-
-    .squircle-preview {
-      width: 120px;
-      height: 120px;
-      border-radius: 26px;
-      background: linear-gradient(145deg, #1C241E 0%, #0B0E0C 100%);
-      border: 1.5px solid rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      box-shadow: 0 16px 32px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2);
-    }
-
-    .squircle-preview.light-squircle {
-      background: linear-gradient(145deg, #FFFFFF 0%, #E8ECE9 100%);
-      border-color: rgba(0,0,0,0.1);
-    }
-
-    .squircle-preview img {
-      width: 86px;
-      height: 86px;
-    }
-
-    /* Pixel Grid Math Report Table */
-    .grid-table-box {
-      background: #111613;
-      border: 1.5px solid var(--ink-border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-top: 24px;
-    }
-
-    .grid-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      text-align: left;
-    }
-
-    .grid-table th {
-      background: rgba(255,255,255,0.06);
-      padding: 12px 16px;
-      color: var(--gold-sun);
-      font-weight: 700;
       border-bottom: 1.5px solid var(--ink-border);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      position: relative;
     }
 
-    .grid-table td {
-      padding: 10px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      color: #E2E8F0;
+    .hero-svg-wrapper {
+      width: 135px;
+      height: 135px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.8));
+      transition: transform 0.3s ease;
     }
 
-    .grid-table tr:hover td {
-      background: rgba(46, 160, 85, 0.08);
+    .hero-svg-wrapper:hover {
+      transform: scale(1.08);
     }
 
-    .grid-table td code {
+    .master-preview .dim-label {
+      margin-top: 10px;
+      font-size: 0.72rem;
       color: var(--forest-bright);
-      background: rgba(0,0,0,0.4);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-    }
-
-    .badge-status {
-      display: inline-block;
+      background: rgba(11, 14, 12, 0.85);
       padding: 2px 8px;
       border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .badge-perfect {
-      background: rgba(74, 222, 128, 0.2);
+    .testbench-section {
+      padding: 16px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .test-box {
+      background: var(--ink);
+      border: 1px solid var(--ink-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+
+    .test-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .test-box-title {
+      font-size: 0.75rem;
+      font-weight: 400;
       color: var(--forest-bright);
-      border: 1px solid var(--forest-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .badge-clean {
-      background: rgba(229, 184, 66, 0.2);
-      color: var(--gold-sun);
-      border: 1px solid var(--gold-sun);
+    .test-box-badge {
+      font-size: 0.65rem;
+      color: var(--cedar-tan);
+    }
+
+    .browser-bar {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .browser-bar.dark-theme {
+      background: #1E1F22;
+    }
+
+    .browser-bar.light-theme {
+      background: #E8EAED;
+      margin-top: 8px;
+    }
+
+    .tab-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      max-width: 220px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dark-theme .tab-item {
+      background: #2B2D30;
+      color: #E6E6E6;
+      border-top: 2px solid var(--emerald-bright);
+    }
+
+    .light-theme .tab-item {
+      background: #FFFFFF;
+      color: #202124;
+      border-top: 2px solid var(--pine-boosted);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .tab-favicon-16 {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .rationale-box {
+      background: rgba(46, 160, 85, 0.2);
+      border-left: 3px solid var(--forest-bright);
+      padding: 10px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.45;
+    }
+
+    .rationale-box strong {
+      color: var(--forest-bright);
+      font-weight: 700;
+    }
+
+    .swatches-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .swatch-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      background: var(--ink);
+      border: 1px solid var(--ink-border);
+      border-radius: 4px;
+      color: var(--cedar-tan);
+    }
+
+    .swatch-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      background: var(--ink);
+      border-top: 1.5px solid var(--ink-border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 8px 10px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-green {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink);
+    }
+
+    .btn-green:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+      box-shadow: 0 0 16px rgba(46, 160, 85, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest-bright);
+      color: var(--forest-bright);
     }
   </style>
 </head>
@@ -357,244 +483,286 @@
   <header class="brand-header">
     <div class="badge-phase">
       <span class="pulse-dot"></span>
-      Multi-Scale Pixel Grid Adherence & Production Icon Suite Test Bench
+      3 Equal Horizontal Voids & Proportional Bay Lab (Phase 1)
     </div>
     <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
     <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
     <p class="brand-desc">
-      Rigorous multi-scale validation of <strong>Concept 1BN</strong> across all standard web, iOS, Android, and PWA icon sizes (16×16 to 512×512).
+      Middle rail and Post 2 raised so that <strong>Gap 1 = Gap 2 = Gap 3 = 62.0px</strong>! Testing <strong>66% (42px)</strong> vs <strong>75% (48px)</strong> vs <strong>50% (32px)</strong> Bay widths and new <strong>Golden-Tan (#DEB35E)</strong> & <strong>Alpine Forest (#1E6B3D)</strong> hues.
     </p>
   </header>
 
   <!-- Section Banner -->
   <div class="section-banner">
-    <h2>🌲 Validated Production Candidate: Concept 1BN (Master Grid Optimized)</h2>
-    <span>Master Vector: <code>public/images/ui/drafts/favicon-concept-1bn-rail-pattern-seam-calibrated.svg</code></span>
+    <h2>🌲 Active Front-Runner: Concept 1CA (3 Equal 62px Voids + 66% 42px Bay + Golden-Tan & Emerald)</h2>
+    <span>Saved to <code>public/images/ui/drafts/favicon-concept-1ca-equal-3voids-66pct-bay-golden-tan.svg</code></span>
   </div>
 
-  <!-- MULTI-SCALE PRODUCTION GRID SUITE DECK -->
-  <section class="scale-deck">
-    <h3 class="scale-deck-title">📐 Live Multi-Scale Pixel Test Suite (Concept 1BN)</h3>
-    <p class="scale-deck-subtitle">Every icon size rendered at exact 1:1 hardware pixels on transparent, dark, and white surfaces</p>
+  <!-- MATHEMATICAL CALIBRATION DECK -->
+  <section class="spec-deck">
+    <h3 class="spec-deck-title">📐 Geometry Tuning: Equal 62px Voids & Harmonic Bay Ratios</h3>
+    <p class="spec-deck-subtitle">Exact vertical elevations and horizontal bay proportionality</p>
 
-    <!-- Transparent Background Test Row -->
-    <div style="font-size:0.85rem; font-weight:700; color:var(--forest-bright); margin-bottom:8px; text-transform:uppercase;">
-      1. Transparent Background (1:1 Hardware Scale)
-    </div>
-    <div class="scale-row">
-      <!-- 16x16 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:24px; height:24px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="16" height="16" alt="16x16">
-        </div>
-        <span class="scale-label">16×16</span>
-        <span class="scale-use">Standard Browser Tab</span>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-card-title">1. All 3 Horizontal Gaps = 62px!</div>
+        <p>
+          • <strong>Top &rarr; Mid Rail Void:</strong> <code>62.0 px</code> (y=120 &rarr; y=182)<br>
+          • <strong>Mid &rarr; Bot Rail Void:</strong> <code>62.0 px</code> (y=242 &rarr; y=304)<br>
+          • <strong>Bot &rarr; Ground Dirt Void:</strong> <code>62.0 px</code> (y=358 &rarr; y=420)<br>
+          <em>Middle rail and Post 2 raised by 12px for 100% equal void rhythm!</em>
+        </p>
       </div>
 
-      <!-- 32x32 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:40px; height:40px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="32" height="32" alt="32x32">
-        </div>
-        <span class="scale-label">32×32</span>
-        <span class="scale-use">Retina Tab / Taskbar</span>
+      <div class="spec-card">
+        <div class="spec-card-title">2. Bay Width Ratios Tested</div>
+        <p>
+          • <strong>66% (2/3) Ratio (Concept 1CA):</strong> Bay = <code>42 px</code> (Perfect balance!)<br>
+          • <strong>75% (3/4) Ratio (Concept 1CB):</strong> Bay = <code>48 px</code> (Slightly wider)<br>
+          • <strong>50% (1/2) Ratio (Concept 1CC):</strong> Bay = <code>32 px</code> (Ultra compact)
+        </p>
       </div>
 
-      <!-- 48x48 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:56px; height:56px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="48" height="48" alt="48x48">
-        </div>
-        <span class="scale-label">48×48</span>
-        <span class="scale-use">Google Search / Win Icon</span>
+      <div class="spec-card">
+        <div class="spec-card-title">3. New Color Chemistry</div>
+        <p>
+          • <strong>Golden-Tan Hybrid (<code>#DEB35E</code>):</strong> Warm wheat & amber, bridging Cedar Tan and Sunlit Gold.<br>
+          • <strong>Alpine Forest Green (<code>#1E6B3D</code>):</strong> Deep Pacific mountain forest green.
+        </p>
       </div>
-
-      <!-- 64x64 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:72px; height:72px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="64" height="64" alt="64x64">
-        </div>
-        <span class="scale-label">64×64</span>
-        <span class="scale-use">High-DPI Bookmark</span>
-      </div>
-
-      <!-- 96x96 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:104px; height:104px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="96" height="96" alt="96x96">
-        </div>
-        <span class="scale-label">96×96</span>
-        <span class="scale-use">Google TV / Android Icon</span>
-      </div>
-
-      <!-- 128x128 -->
-      <div class="scale-box">
-        <div class="scale-preview-wrapper" style="width:136px; height:136px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="128" height="128" alt="128x128">
-        </div>
-        <span class="scale-label">128×128</span>
-        <span class="scale-use">Chrome Store / Mac Dock</span>
-      </div>
-    </div>
-
-    <!-- Pure White Surface Test Row -->
-    <div style="font-size:0.85rem; font-weight:700; color:var(--forest-bright); margin-bottom:8px; text-transform:uppercase;">
-      2. Pure White Surface (#FFFFFF Google & Light Web)
-    </div>
-    <div class="scale-row" style="background:#F5F5F5;">
-      <!-- 16x16 White -->
-      <div class="scale-box white-bg">
-        <div class="scale-preview-wrapper" style="width:24px; height:24px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="16" height="16" alt="16x16">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">16×16</span>
-      </div>
-
-      <!-- 32x32 White -->
-      <div class="scale-box white-bg">
-        <div class="scale-preview-wrapper" style="width:40px; height:40px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="32" height="32" alt="32x32">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">32×32</span>
-      </div>
-
-      <!-- 48x48 White -->
-      <div class="scale-box white-bg">
-        <div class="scale-preview-wrapper" style="width:56px; height:56px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="48" height="48" alt="48x48">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">48×48 (Google)</span>
-      </div>
-
-      <!-- 64x64 White -->
-      <div class="scale-box white-bg">
-        <div class="scale-preview-wrapper" style="width:72px; height:72px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="64" height="64" alt="64x64">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">64×64</span>
-      </div>
-
-      <!-- 128x128 White -->
-      <div class="scale-box white-bg">
-        <div class="scale-preview-wrapper" style="width:136px; height:136px;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" width="128" height="128" alt="128x128">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">128×128</span>
-      </div>
-    </div>
-
-    <!-- Apple iOS / Android PWA Squircle Deck -->
-    <div style="font-size:0.85rem; font-weight:700; color:var(--forest-bright); margin-bottom:8px; text-transform:uppercase;">
-      3. Mobile App Icons (Apple Touch Icon 180×180 & Android Chrome 192×192)
-    </div>
-    <div class="apple-icon-deck">
-      <div class="apple-icon-card">
-        <div class="squircle-preview">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" alt="iOS Dark">
-        </div>
-        <span class="scale-label">Apple Touch Icon (Dark Squircle)</span>
-        <span class="scale-use"><code>public/apple-icon.png</code> (180×180)</span>
-      </div>
-
-      <div class="apple-icon-card">
-        <div class="squircle-preview light-squircle">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" alt="iOS Light">
-        </div>
-        <span class="scale-label" style="color:#0B0E0C;">Apple Touch Icon (Light Squircle)</span>
-        <span class="scale-use" style="color:#444;">Light Mode Alternative</span>
-      </div>
-
-      <div class="apple-icon-card">
-        <div class="squircle-preview" style="border-radius:50%;">
-          <img src="favicon-concept-1bn-rail-pattern-seam-calibrated.svg" alt="Android Round">
-        </div>
-        <span class="scale-label">Android Adaptive Circle</span>
-        <span class="scale-use">Pixel & Samsung Round Launcher</span>
-      </div>
-    </div>
-
-    <!-- Pixel Grid Adherence & Math Alignment Report -->
-    <div class="grid-table-box">
-      <table class="grid-table">
-        <thead>
-          <tr>
-            <th>Element / Feature</th>
-            <th>512px Vector Value</th>
-            <th>32×32 Grid Ratio</th>
-            <th>64×64 Grid Ratio</th>
-            <th>Adherence Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Framed Dirt Baseplate Height</strong></td>
-            <td><code>16.0 px</code> (y=428..444)</td>
-            <td><code>1.00 px</code> screen int</td>
-            <td><code>2.00 px</code> screen int</td>
-            <td><span class="badge-status badge-perfect">100% Exact Snap</span></td>
-          </tr>
-          <tr>
-            <td><strong>Dirt Line Bottom Anchor</strong></td>
-            <td><code>444.0 px</code></td>
-            <td><code>27.75 px</code></td>
-            <td><code>55.50 px</code></td>
-            <td><span class="badge-status badge-perfect">Balanced Bottom Pad</span></td>
-          </tr>
-          <tr>
-            <td><strong>Stair-Step Rail Breaks</strong></td>
-            <td><code>33.0 px</code> uniform delta</td>
-            <td><code>2.06 px</code> (~2px step)</td>
-            <td><code>4.12 px</code> (~4px step)</td>
-            <td><span class="badge-status badge-clean">Smooth Stair Rhythm</span></td>
-          </tr>
-          <tr>
-            <td><strong>Green Ribbon Width</strong></td>
-            <td><code>4.0 px</code></td>
-            <td><code>0.25 px</code> boundary</td>
-            <td><code>0.50 px</code> subpixel</td>
-            <td><span class="badge-status badge-perfect">Optimal Crisp Glow</span></td>
-          </tr>
-          <tr>
-            <td><strong>Outer Black Keyline</strong></td>
-            <td><code>1.5 px</code> visible</td>
-            <td>Anti-aliased silhouette</td>
-            <td>Anti-aliased silhouette</td>
-            <td><span class="badge-status badge-perfect">White Washout Immunity</span></td>
-          </tr>
-          <tr>
-            <td><strong>Post 1 Width (Big F)</strong></td>
-            <td><code>76.0 px</code> (56..132)</td>
-            <td><code>4.75 px</code></td>
-            <td><code>9.50 px</code></td>
-            <td><span class="badge-status badge-clean">Golden Ratio Stance</span></td>
-          </tr>
-          <tr>
-            <td><strong>Post 2 Width (Small F)</strong></td>
-            <td><code>76.0 px</code> (192..268)</td>
-            <td><code>4.75 px</code></td>
-            <td><code>9.50 px</code></td>
-            <td><span class="badge-status badge-clean">Identical Symmetry</span></td>
-          </tr>
-          <tr>
-            <td><strong>Post 1 & Post 2 Gap</strong></td>
-            <td><code>60.0 px</code> (132..192)</td>
-            <td><code>3.75 px</code></td>
-            <td><code>7.50 px</code></td>
-            <td><span class="badge-status badge-perfect">Clean Interlocking Bay</span></td>
-          </tr>
-          <tr>
-            <td><strong>Post Collar / Shoulder Height</strong></td>
-            <td><code>13.0 px</code> (y=43..56)</td>
-            <td><code>0.81 px</code> (~1px)</td>
-            <td><code>1.62 px</code> (~1.5px)</td>
-            <td><span class="badge-status badge-clean">Solid Cap Grounding</span></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </section>
 
+  <!-- Main Concepts Grid -->
+  <main class="concepts-grid">
+
+    <!-- CONCEPT 1CA: 3 EQUAL 62px VOIDS + 66% (42px) BAY + GOLDEN-TAN & EMERALD (RECOMMENDED) -->
+    <article class="concept-card featured-card">
+      <div class="card-topbar">
+        <span class="concept-title">Concept 1CA: 3 Equal Voids (66% Bay)</span>
+        <span class="concept-number">#FF-01CA ★ (RECOMMENDED)</span>
+      </div>
+
+      <div class="master-preview transparent-preview">
+        <div class="hero-svg-wrapper">
+          <img src="favicon-concept-1ca-equal-3voids-66pct-bay-golden-tan.svg" alt="Concept 1CA" width="135" height="135">
+        </div>
+        <span class="dim-label">Gap1=Gap2=Gap3=62px • 42px Bay (66%) • Golden-Tan (#DEB35E) & Emerald</span>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Concept 1CA Specification:</strong>
+          <br>• <strong>3 Equal 62px Voids:</strong> Perfect vertical negative space rhythm.
+          <br>• <strong>66% (42px) Bay:</strong> Tight, athletic 2:3 ratio against 64px posts.
+          <br>• <strong>Golden-Tan (#DEB35E):</strong> Warm sunlit woodcraft tone between Tan & Gold!
+        </div>
+
+        <div class="test-box">
+          <div class="test-box-header">
+            <span class="test-box-title">Browser Tab Simulation</span>
+            <span class="test-box-badge">16×16</span>
+          </div>
+
+          <div class="browser-bar dark-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1ca-equal-3voids-66pct-bay-golden-tan.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Concept 1CA...</span>
+            </div>
+          </div>
+
+          <div class="browser-bar light-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1ca-equal-3voids-66pct-bay-golden-tan.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Blueprint...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swatches-row">
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#0B0E0C;"></span> Black Caps</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="favicon-concept-1ca-equal-3voids-66pct-bay-golden-tan.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <button class="btn-action btn-outline" onclick="selectWinner('Concept 1CA: 3 Equal Voids (66% Bay)')">Vote Winner</button>
+      </div>
+    </article>
+
+
+    <!-- CONCEPT 1CB: 3 EQUAL 62px VOIDS + 75% (48px) BAY -->
+    <article class="concept-card">
+      <div class="card-topbar">
+        <span class="concept-title">Concept 1CB: 3 Equal Voids (75% Bay)</span>
+        <span class="concept-number">#FF-01CB (75% Bay)</span>
+      </div>
+
+      <div class="master-preview transparent-preview">
+        <div class="hero-svg-wrapper">
+          <img src="favicon-concept-1cb-equal-3voids-75pct-bay.svg" alt="Concept 1CB" width="135" height="135">
+        </div>
+        <span class="dim-label">Gap1=Gap2=Gap3=62px • 48px Bay (75%) • Golden-Tan & Emerald</span>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Concept 1CB:</strong> 75% (3/4) Bay width (48px) with 3 equal 62px vertical openings.
+        </div>
+
+        <div class="test-box">
+          <div class="test-box-header">
+            <span class="test-box-title">Browser Tab Simulation</span>
+            <span class="test-box-badge">16×16</span>
+          </div>
+
+          <div class="browser-bar dark-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cb-equal-3voids-75pct-bay.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Concept 1CB...</span>
+            </div>
+          </div>
+
+          <div class="browser-bar light-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cb-equal-3voids-75pct-bay.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Blueprint...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swatches-row">
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#0B0E0C;"></span> Black Caps</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="favicon-concept-1cb-equal-3voids-75pct-bay.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <button class="btn-action btn-outline" onclick="selectWinner('Concept 1CB: 3 Equal Voids (75% Bay)')">Vote Winner</button>
+      </div>
+    </article>
+
+
+    <!-- CONCEPT 1CD: ALPINE FOREST GREEN + RICH DOUGLAS FIR TAN -->
+    <article class="concept-card">
+      <div class="card-topbar">
+        <span class="concept-title">Concept 1CD: Alpine Forest & Fir</span>
+        <span class="concept-number">#FF-01CD (Deep Forest)</span>
+      </div>
+
+      <div class="master-preview transparent-preview">
+        <div class="hero-svg-wrapper">
+          <img src="favicon-concept-1cd-alpine-forest-and-fir.svg" alt="Concept 1CD" width="135" height="135">
+        </div>
+        <span class="dim-label">Deep Alpine Forest (#1E6B3D) • Douglas Fir Tan (#D69E42)</span>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Concept 1CD:</strong> Deep Alpine Forest Green (`#1E6B3D`) on Post 1 with rich Douglas Fir Tan (`#D69E42`) on Post 2.
+        </div>
+
+        <div class="test-box">
+          <div class="test-box-header">
+            <span class="test-box-title">Browser Tab Simulation</span>
+            <span class="test-box-badge">16×16</span>
+          </div>
+
+          <div class="browser-bar dark-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cd-alpine-forest-and-fir.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Concept 1CD...</span>
+            </div>
+          </div>
+
+          <div class="browser-bar light-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cd-alpine-forest-and-fir.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Blueprint...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swatches-row">
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#1E6B3D;"></span> Alpine Green</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#D69E42;"></span> Fir Tan</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#0B0E0C;"></span> Black Caps</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="favicon-concept-1cd-alpine-forest-and-fir.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <button class="btn-action btn-outline" onclick="selectWinner('Concept 1CD: Alpine Forest & Fir')">Vote Winner</button>
+      </div>
+    </article>
+
+
+    <!-- CONCEPT 1CC: 3 EQUAL 62px VOIDS + 50% (32px) BAY -->
+    <article class="concept-card">
+      <div class="card-topbar">
+        <span class="concept-title">Concept 1CC: 3 Equal Voids (50% Bay)</span>
+        <span class="concept-number">#FF-01CC (50% Bay)</span>
+      </div>
+
+      <div class="master-preview transparent-preview">
+        <div class="hero-svg-wrapper">
+          <img src="favicon-concept-1cc-equal-3voids-50pct-bay.svg" alt="Concept 1CC" width="135" height="135">
+        </div>
+        <span class="dim-label">Gap1=Gap2=Gap3=62px • 32px Bay (50%) • Ultra Compact</span>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Concept 1CC:</strong> 50% (1/2) Bay width (32px) for an ultra-compact, dense monogram lockup.
+        </div>
+
+        <div class="test-box">
+          <div class="test-box-header">
+            <span class="test-box-title">Browser Tab Simulation</span>
+            <span class="test-box-badge">16×16</span>
+          </div>
+
+          <div class="browser-bar dark-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cc-equal-3voids-50pct-bay.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Concept 1CC...</span>
+            </div>
+          </div>
+
+          <div class="browser-bar light-theme">
+            <div class="tab-item">
+              <img src="favicon-concept-1cc-equal-3voids-50pct-bay.svg" class="tab-favicon-16" alt="16px">
+              <span>Fence Frames | Blueprint...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swatches-row">
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
+          <div class="swatch-pill"><span class="swatch-dot" style="background:#0B0E0C;"></span> Black Caps</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="favicon-concept-1cc-equal-3voids-50pct-bay.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <button class="btn-action btn-outline" onclick="selectWinner('Concept 1CC: 3 Equal Voids (50% Bay)')">Vote Winner</button>
+      </div>
+    </article>
+
+  </main>
+
 </div>
+
+<script>
+  function selectWinner(conceptName) {
+    alert('Selected: ' + conceptName + '\n\nNotify Antigravity in chat to promote this winner to public/images/ui/winners/ and update public/icon.svg & public/apple-icon.png!');
+  }
+</script>
 
 </body>
 </html>
