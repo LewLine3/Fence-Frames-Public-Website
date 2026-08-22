@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Founder Pre-Flight Review & Page Inspector Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #0E1310; color: #FAF6EE; }
+    iframe { border: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Top Navigation Header -->
+  <header class="bg-[#141B16] border-b-2 border-[#E5B842]/40 px-4 py-3 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 shadow-2xl">
+    <div class="flex items-center gap-3">
+      <span class="font-bold text-sm text-[#E5B842] flex items-center gap-1.5">
+        <span>🌲</span>
+        <span>FENCE FRAMES</span>
+      </span>
+      <span class="text-white/30">|</span>
+      <span class="text-xs font-bold text-white bg-[#1C241E] px-2.5 py-1 rounded border border-white/10">
+        FOUNDER PRE-FLIGHT REVIEW COCKPIT
+      </span>
+    </div>
+
+    <!-- Slideshow Controls -->
+    <div class="flex items-center gap-2">
+      <button id="prevBtn" onclick="prevSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/15 text-xs font-bold transition">
+        ◀ Prev Page
+      </button>
+      <select id="pageSelect" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border border-[#E5B842] text-xs font-bold text-[#E5B842] rounded px-3 py-1.5 focus:outline-none">
+      </select>
+      <button id="nextBtn" onclick="nextSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/15 text-xs font-bold transition">
+        Next Page ▶
+      </button>
+    </div>
+
+    <!-- Zoom & Device Controls -->
+    <div class="flex items-center gap-2">
+      <div class="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs">
+        <button onclick="setDevice('desktop')" id="btnDesktop" class="px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold">🖥️ Desktop</button>
+        <button onclick="setDevice('tablet')" id="btnTablet" class="px-2.5 py-1 rounded text-white/60">📱 Tablet</button>
+        <button onclick="setDevice('mobile')" id="btnMobile" class="px-2.5 py-1 rounded text-white/60">📱 Mobile</button>
+      </div>
+      <div class="flex items-center bg-[#111713] border border-white/15 rounded p-0.5 text-xs text-white">
+        <button onclick="zoom(-0.1)" class="px-2 py-0.5 hover:bg-white/10 rounded">-</button>
+        <span id="zoomReadout" class="px-1.5 text-white/70">75%</span>
+        <button onclick="zoom(0.1)" class="px-2 py-0.5 hover:bg-white/10 rounded">+</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2-Column Split Workspace -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-65px)]">
+    <!-- Left Column: Zoomed Live Sandbox -->
+    <section class="lg:col-span-7 bg-[#141815] border-r-2 border-white/10 p-4 flex flex-col items-center justify-start overflow-auto">
+      <div class="w-full flex items-center justify-between mb-2 text-xs font-light text-white/60">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse"></span>
+          <span>Live Interactive Sandbox: <strong id="routeReadout" class="text-white font-normal">/designer</strong></span>
+        </div>
+        <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="text-[#E5B842] hover:underline font-normal flex items-center gap-1">
+          <span>Open Full Tab</span>
+          <span>↗</span>
+        </a>
+      </div>
+
+      <div class="w-full h-full bg-[#111713] rounded-lg border-2 border-white/20 shadow-2xl overflow-hidden flex items-center justify-center p-2 min-h-[680px]">
+        <div id="viewportContainer" style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: all 0.2s ease;" class="h-full rounded border border-white/10 overflow-hidden bg-black">
+          <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[950px]"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Inspector & Approval Console -->
+    <aside class="lg:col-span-5 bg-[#111713] p-5 overflow-y-auto max-h-[calc(100vh-65px)] flex flex-col gap-5">
+      <!-- Identity Card -->
+      <div class="bg-[#18201B] border-2 border-[#141B16] p-4 rounded-md shadow-lg">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <span id="badgeId" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">DSGN-03 · Tier 1</span>
+          <span id="badgePillar" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+        </div>
+        <h2 id="pageTitle" class="text-lg font-bold text-white mb-1.5">The Universal 2D Designer Configurator</h2>
+        <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
+      </div>
+
+      <!-- Outbound Links -->
+      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
+        <h3 class="text-xs font-bold text-[#E5B842] uppercase mb-2 flex items-center gap-1.5">
+          <span>🗺️</span>
+          <span>Outbound Link & Action Map</span>
+        </h3>
+        <div id="linksList" class="space-y-2 text-xs font-light"></div>
+      </div>
+
+      <!-- Controls & Form Elements -->
+      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
+        <h3 class="text-xs font-bold text-[#F27A22] uppercase mb-2 flex items-center gap-1.5">
+          <span>🎛️</span>
+          <span>Interactive Controls & Form Elements</span>
+        </h3>
+        <div id="controlsList" class="space-y-2 text-xs font-light"></div>
+      </div>
+
+      <!-- Special Notes -->
+      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
+        <h3 class="text-xs font-bold text-[#4ADE80] uppercase mb-2 flex items-center gap-1.5">
+          <span>⚖️</span>
+          <span>Architectural & Compliance Notes</span>
+        </h3>
+        <ul id="notesList" class="list-disc list-inside space-y-1.5 text-xs text-white/80 font-light"></ul>
+      </div>
+
+      <!-- Founder Approval Console -->
+      <div class="bg-[#1C2620] border-2 border-[#E5B842] p-4 rounded-md shadow-xl flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
+            <span>🛡️</span>
+            <span>Founder Sign-off Console</span>
+          </h3>
+          <span id="approvalStatusPill" class="text-[10px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
+            PENDING
+          </span>
+        </div>
+        <textarea id="founderNote" oninput="saveNote(this.value)" placeholder="Add founder review feedback or copy tweak instructions..." rows="3" class="w-full bg-[#111713] border border-white/20 text-white rounded p-2.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"></textarea>
+        <div class="flex items-center gap-2">
+          <button onclick="setApproval('approved')" class="flex-1 bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs py-2 rounded border border-[#141B16] transition">
+            ✓ Approve Page for Production
+          </button>
+          <button onclick="setApproval('changes-requested')" class="flex-1 bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs py-2 rounded border border-[#EF4444]/40 transition">
+            ⚠️ Request Edits
+          </button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const PAGES = [
+      {
+        id: 'CORE-01',
+        title: 'Master Homepage & Brand Portal',
+        srcUrl: '/homepage.html',
+        displayRoute: '/',
+        pillar: 'Multi-Pillar Convergence',
+        pillarColor: '#E5B842',
+        purpose: 'The central front door for Fence Frames. Converts visitors into active design sessions via 3 clear pathways (Code/HOA Matcher, Design Catalog, Instant Configurator).',
+        links: [
+          { label: 'Start Designing', route: '/designer', trigger: 'Hero Primary CTA' },
+          { label: 'Si View HOA Hub', route: '/wa/king-county/north-bend/si-view', trigger: 'Featured HOA Card' },
+          { label: 'Browse 12+ Styles', route: '/catalog', trigger: 'Frame It Catalog section' },
+        ],
+        controls: [
+          { name: 'ZIP Code & HOA Search Input', type: 'Text Input', purpose: 'Matches user to city/HOA pre-approved fence codes.' },
+          { name: '3-Pillar Step Cards', type: 'Hover Cards', purpose: 'Educates visitors on the Find, Frame, Fence workflow.' },
+        ],
+        notes: [
+          'Pre-loads Rowdies 700/400/300 font.',
+          'Protected with search engine noindex meta tags for stealth staging.',
+        ]
+      },
+      {
+        id: 'DSGN-03',
+        title: 'The Universal 2D Designer Configurator',
+        srcUrl: '/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html',
+        displayRoute: '/designer',
+        pillar: 'Frame It (Ember Orange)',
+        pillarColor: '#F27A22',
+        purpose: 'The universal parametric CAD engine. Renders dual Front & Back elevations in real time with 8 pricing metrics, dynamic style switching, and live BOM calculation.',
+        links: [
+          { label: 'Portrait ARC Blueprint', route: '/blueprint', trigger: 'Save Fence-Folio & Get Blueprint CTA' },
+          { label: 'Auth Gate', route: '/log-in', trigger: 'Guest draft preservation bridge' },
+          { label: 'Contractor Match', route: '/contractors/match', trigger: 'Match 3 Local Builders CTA' },
+        ],
+        controls: [
+          { name: 'Linear Footage Slider (10-400 LF)', type: 'Range Slider', purpose: 'Recalculates all 8 pricing metrics in real time.' },
+          { name: 'Sub-Flip Tabs (1 to 8)', type: 'Accordion Horizontal Bar', purpose: 'Controls Height, Posts, Rails, Fill, Stain, Trim, Fasteners, Gates.' },
+          { name: 'Dual CAD Canvas View Toggles', type: 'Segmented Button', purpose: 'Switches between Dual View, Front Face, and Back Framing.' },
+          { name: 'Custom Gate Studio Modal', type: 'Modal Dialog', purpose: 'Adds 4ft/5ft Walk Gates and 10ft/12ft Double Drive Gates.' },
+        ],
+        notes: [
+          'Strictly implements the Canonical 8-Metric Pricing Architecture.',
+          'Metric #4 (Fill Material) dynamically morphs options when changing from Vertical to Horizontal, Fabric, or Lattice.',
+          'Saves full design state into browser sessionStorage for zero-data-loss auth handoff.',
+        ]
+      },
+      {
+        id: 'CORE-03',
+        title: 'Portrait 8.5" × 11" ARC Blueprint',
+        srcUrl: '/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html',
+        displayRoute: '/blueprint',
+        pillar: 'Fence It (Forest Green)',
+        pillarColor: '#4ADE80',
+        purpose: 'The official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
+        links: [
+          { label: 'Back to Designer', route: '/designer', trigger: 'Edit Design Parameters button' },
+          { label: 'Homeowner Dashboard', route: '/homeowner', trigger: 'Save to My Account CTA' },
+        ],
+        controls: [
+          { name: 'Print Blueprint Button', type: 'Dedicated Print CTA', purpose: 'Triggers browser window.print() formatted for portrait 8.5x11 PDF.' },
+          { name: 'Pricing ON / OFF Toggle', type: 'Compliance Switch', purpose: 'Hides dollar amounts when submitting to HOA ARC committees (as required by law).' },
+        ],
+        notes: [
+          'Implements clean CSS @media print layout with page-break-inside avoid.',
+          'Supports dual-mode: Pricing OFF (for HOA review) vs Pricing ON (for contractor quotes).',
+        ]
+      },
+      {
+        id: 'DSGN-SYS',
+        title: 'Design System & Graduated Cards Guide',
+        srcUrl: '/design-system-guide.html',
+        displayRoute: '/design-system-guide',
+        pillar: 'Core Design Law',
+        pillarColor: '#E5B842',
+        purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
+        links: [
+          { label: 'Interactive Canvas', route: '/interactive-canvas.html', trigger: 'System Architecture Link' }
+        ],
+        controls: [
+          { name: 'Theme Preview Cards', type: 'UI Showcase', purpose: 'Demonstrates Wood Grain, Docked Explainer Plates, Dark Control Plates.' }
+        ],
+        notes: [
+          'Canonical design rules source for all frontend interfaces.'
+        ]
+      }
+    ];
+
+    let currentIndex = 1;
+    let currentZoom = 0.75;
+    let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
+
+    function init() {
+      const select = document.getElementById('pageSelect');
+      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">[${i+1}/${PAGES.length}] ${p.id}: ${p.title}</option>`).join('');
+      renderPage();
+    }
+
+    function renderPage() {
+      const p = PAGES[currentIndex];
+      document.getElementById('pageSelect').value = currentIndex;
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('nextBtn').disabled = currentIndex === PAGES.length - 1;
+
+      document.getElementById('routeReadout').innerText = p.displayRoute;
+      document.getElementById('externalLink').href = p.srcUrl;
+      document.getElementById('pageIframe').src = p.srcUrl;
+
+      document.getElementById('badgeId').innerText = p.id + ' · Tier 1';
+      document.getElementById('badgePillar').innerText = p.pillar;
+      document.getElementById('badgePillar').style.backgroundColor = p.pillarColor;
+      document.getElementById('pageTitle').innerText = p.title;
+      document.getElementById('pagePurpose').innerText = p.purpose;
+
+      document.getElementById('linksList').innerHTML = p.links.map(l => `
+        <div class="bg-[#111713] p-2.5 rounded border border-white/5 flex flex-col gap-0.5">
+          <div class="flex justify-between items-center">
+            <strong class="font-normal text-white">${l.label}</strong>
+            <span class="text-[10px] text-[#4ADE80] font-mono">${l.route}</span>
+          </div>
+          <span class="text-[10px] text-white/50">Trigger: ${l.trigger}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('controlsList').innerHTML = p.controls.map(c => `
+        <div class="bg-[#111713] p-2.5 rounded border border-white/5">
+          <div class="flex justify-between items-center mb-1">
+            <strong class="font-normal text-white/95">${c.name}</strong>
+            <span class="text-[10px] bg-[#242C26] px-2 py-0.5 rounded text-white/70">${c.type}</span>
+          </div>
+          <p class="text-[11px] text-white/60">${c.purpose}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('notesList').innerHTML = p.notes.map(n => `<li class="leading-snug">${n}</li>`).join('');
+
+      const app = approvals[p.id] || { status: 'pending', note: '' };
+      document.getElementById('founderNote').value = app.note || '';
+      const pill = document.getElementById('approvalStatusPill');
+      pill.innerText = app.status.toUpperCase().replace('-', ' ');
+      pill.className = `text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+        app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
+        app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
+      }`;
+    }
+
+    function prevSlide() { if (currentIndex > 0) { currentIndex--; renderPage(); } }
+    function nextSlide() { if (currentIndex < PAGES.length - 1) { currentIndex++; renderPage(); } }
+    function jumpSlide(idx) { currentIndex = Number(idx); renderPage(); }
+
+    function zoom(delta) {
+      currentZoom = Math.min(1.2, Math.max(0.4, currentZoom + delta));
+      document.getElementById('viewportContainer').style.transform = `scale(${currentZoom})`;
+      document.getElementById('zoomReadout').innerText = `${Math.round(currentZoom * 100)}%`;
+    }
+
+    function setDevice(device) {
+      const container = document.getElementById('viewportContainer');
+      document.getElementById('btnDesktop').className = device === 'desktop' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
+      document.getElementById('btnTablet').className = device === 'tablet' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
+      document.getElementById('btnMobile').className = device === 'mobile' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
+      container.style.width = device === 'mobile' ? '390px' : device === 'tablet' ? '768px' : '100%';
+    }
+
+    function setApproval(status) {
+      const p = PAGES[currentIndex];
+      approvals[p.id] = { status, note: document.getElementById('founderNote').value };
+      localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
+      renderPage();
+    }
+
+    function saveNote(note) {
+      const p = PAGES[currentIndex];
+      approvals[p.id] = { status: approvals[p.id]?.status || 'pending', note };
+      localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
