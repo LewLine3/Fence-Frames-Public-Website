@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Bright Emerald Green (Big 'F' - 1AD Canonical) -->
+    <linearGradient id="brightEmeraldGrad1an" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80" />
+      <stop offset="45%" stop-color="#2EA055" />
+      <stop offset="100%" stop-color="#1E7A3E" />
+    </linearGradient>
+
+    <linearGradient id="brightEmeraldCapLeft1an" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2EA055" />
+      <stop offset="50%" stop-color="#3DC06F" />
+      <stop offset="100%" stop-color="#6EE7A0" />
+    </linearGradient>
+
+    <linearGradient id="brightEmeraldCapRight1an" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2EA055" />
+      <stop offset="50%" stop-color="#1B7A45" />
+      <stop offset="100%" stop-color="#12562F" />
+    </linearGradient>
+
+    <!-- Muted Sage-Spruce Green (Small 'F' - 1AD Canonical) -->
+    <linearGradient id="sageSpruceGrad1an" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C8564" />
+      <stop offset="45%" stop-color="#366A4D" />
+      <stop offset="100%" stop-color="#254F38" />
+    </linearGradient>
+
+    <linearGradient id="sageSpruceCapLeft1an" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#366A4D" />
+      <stop offset="50%" stop-color="#4A8462" />
+      <stop offset="100%" stop-color="#619E7A" />
+    </linearGradient>
+
+    <linearGradient id="sageSpruceCapRight1an" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#366A4D" />
+      <stop offset="50%" stop-color="#28543B" />
+      <stop offset="100%" stop-color="#1A3E2A" />
+    </linearGradient>
+
+    <!-- Warm Golden-Brown Pressure Treated Tone -->
+    <linearGradient id="ptWarmWoodGrad1an" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="35%" stop-color="#754E36" />
+      <stop offset="75%" stop-color="#633F2A" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <!-- Precision Incision Grid for Posts -->
+    <pattern id="pt-grid-post-1an" width="26" height="34" patternUnits="userSpaceOnUse">
+      <rect x="4" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="17" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="10.5" y="21" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- Precision Incision Grid for Rails -->
+    <pattern id="pt-grid-rail-1an" width="34" height="26" patternUnits="userSpaceOnUse">
+      <rect x="4" y="4" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="4" y="17" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="21" y="10.5" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- 1AD ORGANIC GRASS TUFT DEFINITIONS -->
+    <g id="grass-tuft-1an-A">
+      <path d="M 14 30 C 12 18 5 6 0 0 C 9 9 18 19 18 30 Z" fill="#0C3D20" />
+      <path d="M 22 30 C 24 15 31 4 38 0 C 33 9 29 19 26 30 Z" fill="#1B7A45" />
+      <path d="M 34 30 C 36 11 46 2 58 0 C 48 9 43 19 38 30 Z" fill="#4ADE80" />
+      <path d="M 46 30 C 43 17 38 9 31 2 C 41 9 48 19 50 30 Z" fill="#28874B" />
+      <path d="M 56 30 C 60 13 67 2 77 0 C 70 11 62 21 60 30 Z" fill="#1B7A45" />
+      <path d="M 66 30 C 68 17 75 9 85 4 C 77 13 72 21 70 30 Z" fill="#4ADE80" />
+      <path d="M 80 30 C 82 19 92 11 102 6 C 94 15 90 23 85 30 Z" fill="#0C3D20" />
+    </g>
+
+    <g id="grass-tuft-1an-B">
+      <path d="M 12 30 C 10 17 2 9 0 2 C 10 9 17 19 17 30 Z" fill="#1B7A45" />
+      <path d="M 22 30 C 27 13 34 2 44 0 C 36 9 31 19 26 30 Z" fill="#4ADE80" />
+      <path d="M 36 30 C 39 17 46 9 56 4 C 48 13 43 21 41 30 Z" fill="#0C3D20" />
+      <path d="M 53 30 C 51 13 46 4 39 0 C 48 6 56 17 58 30 Z" fill="#28874B" />
+      <path d="M 65 30 C 70 11 80 2 92 0 C 82 9 75 19 70 30 Z" fill="#4ADE80" />
+      <path d="M 82 30 C 84 17 94 9 104 4 C 96 13 92 21 87 30 Z" fill="#1B7A45" />
+      <path d="M 97 30 C 99 19 109 11 119 6 C 111 15 107 23 102 30 Z" fill="#0C3D20" />
+    </g>
+
+    <g id="grass-tuft-1an-C">
+      <path d="M 14 30 C 12 18 5 6 0 0 C 10 9 19 19 19 30 Z" fill="#0C3D20" />
+      <path d="M 27 30 C 31 13 41 2 53 0 C 43 9 36 19 31 30 Z" fill="#4ADE80" />
+      <path d="M 43 30 C 46 17 55 9 65 4 C 58 13 53 21 48 30 Z" fill="#1B7A45" />
+      <path d="M 60 30 C 65 15 75 6 87 2 C 77 11 70 19 65 30 Z" fill="#28874B" />
+      <path d="M 77 30 C 79 19 89 11 99 6 C 91 15 87 23 82 30 Z" fill="#4ADE80" />
+      <path d="M 92 30 C 94 21 104 13 113 9 C 106 17 101 23 97 30 Z" fill="#0C3D20" />
+    </g>
+
+    <!-- Soft Depth Shadow -->
+    <filter id="shadow1an" x="-15%" y="-15%" width="135%" height="135%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- 100% PURE TRANSPARENT CANVAS -->
+  <!-- 1AD CANONICAL MONOGRAM (BRIGHT EMERALD BIG 'F' + SAGE-SPRUCE SMALL 'F') -->
+  <!-- BROWN DIRT LINE ANCHORED AT BOTTOM (y=434..444, TOP 50% REMOVED) -->
+  <!-- 1AD GRASS TUFTS (ORIGINAL + HORIZONTALLY FLIPPED DUPLICATES) ALIGNED AT y=414 -->
+  <!-- ======================================================== -->
+  <g filter="url(#shadow1an)">
+
+    <!-- ======================================================== -->
+    <!-- 1ST BIG 'F' (BRIGHT EMERALD GREEN #2EA055) -->
+    <!-- Extended down to y=434 to sit flush against lowered dirt line -->
+    <!-- ======================================================== -->
+    <g id="Big-F-Bright-Emerald">
+      
+      <!-- Outer Black Keyline Layer -->
+      <path d="M 56 54 L 132 54 L 434 54 C 440 54 444 58 444 64 L 444 112 C 444 118 440 122 434 122 L 132 122 L 132 196 L 192 196 L 192 260 L 132 260 L 132 434 L 56 434 Z" 
+            fill="none" 
+            stroke="#0B0E0C" 
+            stroke-width="7.5" 
+            stroke-linejoin="round" />
+
+      <!-- Bright Emerald Green Outline & Timber Fill -->
+      <path d="M 56 54 L 132 54 L 434 54 C 440 54 444 58 444 64 L 444 112 C 444 118 440 122 434 122 L 132 122 L 132 196 L 192 196 L 192 260 L 132 260 L 132 434 L 56 434 Z" 
+            fill="url(#ptWarmWoodGrad1an)" 
+            stroke="#2EA055" 
+            stroke-width="4.5" 
+            stroke-linejoin="round" />
+
+      <!-- Timber Incision Texture Overlay -->
+      <rect x="58" y="56" width="72" height="376" fill="url(#pt-grid-post-1an)" />
+      <rect x="134" y="56" width="298" height="64" fill="url(#pt-grid-rail-1an)" />
+      <rect x="134" y="198" width="56" height="60" fill="url(#pt-grid-rail-1an)" />
+
+      <!-- Top Micro Trim -->
+      <path d="M 434 54 L 438 54 C 442 54 444 58 444 64 L 444 112 C 444 118 442 122 438 122 L 434 122 Z" 
+            fill="url(#brightEmeraldGrad1an)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <!-- Post 1 Pyramid Cap -->
+      <rect x="46" y="48" width="96" height="8" rx="3" fill="#2EA055" stroke="#0B0E0C" stroke-width="2.5" />
+      <path d="M 48 48 L 94 28 L 94 48 Z" fill="url(#brightEmeraldCapLeft1an)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 94 28 L 140 48 L 94 48 Z" fill="url(#brightEmeraldCapRight1an)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="94" cy="28" r="3" fill="#6EE7A0" stroke="#0B0E0C" stroke-width="1.5" />
+
+      <!-- Fine 2px Black Internal Carpentry Seams -->
+      <line x1="132" y1="54" x2="132" y2="122" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="132" y1="196" x2="132" y2="260" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="192" y1="196" x2="192" y2="260" stroke="#0B0E0C" stroke-width="2" />
+    </g>
+
+
+    <!-- ======================================================== -->
+    <!-- 2ND SMALL 'F' (MUTED SAGE-SPRUCE GREEN #366A4D) -->
+    <!-- Extended down to y=434 to sit flush against lowered dirt line -->
+    <!-- ======================================================== -->
+    <g id="Small-F-Muted-Sage-Spruce">
+
+      <!-- Outer Black Keyline Layer -->
+      <path d="M 192 196 L 268 196 L 406 196 C 410 196 414 200 414 206 L 414 250 C 414 256 410 260 406 260 L 268 260 L 268 312 L 370 312 C 374 312 378 316 378 321 L 378 357 C 378 362 374 366 370 366 L 268 366 L 268 434 L 192 434 Z" 
+            fill="none" 
+            stroke="#0B0E0C" 
+            stroke-width="7.5" 
+            stroke-linejoin="round" />
+
+      <!-- Muted Sage-Spruce Green Outline & Timber Fill -->
+      <path d="M 192 196 L 268 196 L 406 196 C 410 196 414 200 414 206 L 414 250 C 414 256 410 260 406 260 L 268 260 L 268 312 L 370 312 C 374 312 378 316 378 321 L 378 357 C 378 362 374 366 370 366 L 268 366 L 268 434 L 192 434 Z" 
+            fill="url(#ptWarmWoodGrad1an)" 
+            stroke="#366A4D" 
+            stroke-width="4.5" 
+            stroke-linejoin="round" />
+
+      <!-- Timber Incision Texture Overlay -->
+      <rect x="194" y="198" width="72" height="234" fill="url(#pt-grid-post-1an)" />
+      <rect x="270" y="198" width="134" height="60" fill="url(#pt-grid-rail-1an)" />
+      <rect x="270" y="314" width="98" height="50" fill="url(#pt-grid-rail-1an)" />
+
+      <!-- Micro Muted Sage-Spruce End Trims -->
+      <path d="M 406 196 L 408 196 C 412 196 414 200 414 206 L 414 250 C 414 256 412 260 408 260 L 406 260 Z" 
+            fill="url(#sageSpruceGrad1an)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <path d="M 370 312 L 372 312 C 376 312 378 316 378 321 L 378 357 C 378 362 376 366 372 366 L 370 366 Z" 
+            fill="url(#sageSpruceGrad1an)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <!-- Post 2 Pyramid Cap -->
+      <rect x="182" y="190" width="96" height="8" rx="3" fill="#366A4D" stroke="#0B0E0C" stroke-width="2.5" />
+      <path d="M 184 190 L 230 170 L 230 190 Z" fill="url(#sageSpruceCapLeft1an)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 230 170 L 276 190 L 230 190 Z" fill="url(#sageSpruceCapRight1an)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="230" cy="170" r="3" fill="#619E7A" stroke="#0B0E0C" stroke-width="1.5" />
+
+      <!-- Fine 2px Black Internal Carpentry Seams -->
+      <line x1="268" y1="196" x2="268" y2="260" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="268" y1="312" x2="268" y2="366" stroke="#0B0E0C" stroke-width="2" />
+    </g>
+
+
+    <!-- ======================================================== -->
+    <!-- BROWN DIRT GROUND ANCHORED AT BOTTOM (y=434 to y=444) -->
+    <!-- Top 50% removed; bottom line stays firmly at y=444 -->
+    <!-- ======================================================== -->
+    <rect x="36" y="434" width="440" height="10" rx="3" fill="#6A481B" stroke="#0B0E0C" stroke-width="2" />
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 1AD ORGANIC GRASS SYSTEM: ORIGINAL + HORIZONTALLY FLIPPED DUPLICATES -->
+  <!-- Aligned at y=414 so grass roots cleanly at y=444 (bottom of dirt line) -->
+  <!-- ======================================================== -->
+  <g id="Front-Grass-Layer-1an" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))">
+
+    <!-- 1. ORIGINAL TUFT 1 (Left Flank & Post 1 Base: x=28..130) -->
+    <g transform="translate(28, 414)">
+      <use href="#grass-tuft-1an-A" />
+    </g>
+
+    <!-- 2. MIRRORED TUFT 1 (Flipped horizontally, placed at x=118 to fill blank gap between Post 1 & Post 2) -->
+    <g transform="translate(224, 414) scale(-1, 1)">
+      <use href="#grass-tuft-1an-A" />
+    </g>
+
+    <!-- 3. ORIGINAL TUFT 2 (Center Bay & Post 2 Base: x=164..283) -->
+    <g transform="translate(164, 414)">
+      <use href="#grass-tuft-1an-B" />
+    </g>
+
+    <!-- 4. MIRRORED TUFT 2 (Flipped horizontally, placed at x=265 to fill blank gap after Post 2) -->
+    <g transform="translate(390, 414) scale(-1, 1)">
+      <use href="#grass-tuft-1an-B" />
+    </g>
+
+    <!-- 5. ORIGINAL TUFT 3 (Right Ground Flank: x=340..453) -->
+    <g transform="translate(340, 414)">
+      <use href="#grass-tuft-1an-C" />
+    </g>
+
+    <!-- 6. MIRRORED TUFT 3 (Flipped horizontally, placed to fill remaining right edge to x=476) -->
+    <g transform="translate(476, 414) scale(-0.95, 1)">
+      <use href="#grass-tuft-1an-C" />
+    </g>
+
+  </g>
+</svg>

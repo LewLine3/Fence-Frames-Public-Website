@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0E0C" />
+      <stop offset="100%" stop-color="#141B16" />
+    </linearGradient>
+
+    <!-- Sun Gold Gradient -->
+    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5CE68" />
+      <stop offset="100%" stop-color="#E5B842" />
+    </linearGradient>
+
+    <!-- Forest Bright Green Gradient -->
+    <linearGradient id="greenGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86EFAC" />
+      <stop offset="100%" stop-color="#4ADE80" />
+    </linearGradient>
+
+    <!-- Cedar Wood Gradient -->
+    <linearGradient id="cedarGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D8C7AB" />
+      <stop offset="100%" stop-color="#C4B294" />
+    </linearGradient>
+
+    <!-- Drop Shadow for layered architectural depth -->
+    <filter id="shadow1" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Container (App Icon & Favicon Canvas) -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad1)" />
+  <rect width="500" height="500" x="6" y="6" rx="106" fill="none" stroke="#E5B842" stroke-width="4" stroke-opacity="0.3" />
+
+  <!-- Subtle Architectural Snap Grid in Background -->
+  <g opacity="0.07" stroke="#4ADE80" stroke-width="2">
+    <line x1="64" y1="0" x2="64" y2="512" />
+    <line x1="128" y1="0" x2="128" y2="512" />
+    <line x1="192" y1="0" x2="192" y2="512" />
+    <line x1="256" y1="0" x2="256" y2="512" />
+    <line x1="320" y1="0" x2="320" y2="512" />
+    <line x1="384" y1="0" x2="384" y2="512" />
+    <line x1="448" y1="0" x2="448" y2="512" />
+    <line x1="0" y1="64" x2="512" y2="64" />
+    <line x1="0" y1="128" x2="512" y2="128" />
+    <line x1="0" y1="192" x2="512" y2="192" />
+    <line x1="0" y1="256" x2="512" y2="256" />
+    <line x1="0" y1="320" x2="512" y2="320" />
+    <line x1="0" y1="384" x2="512" y2="384" />
+    <line x1="0" y1="448" x2="512" y2="448" />
+  </g>
+
+  <!-- Outside Corner Framing Accents (Fence Frames Design Law) -->
+  <!-- Top-Left Corner Bracket (Sun Gold) -->
+  <path d="M 36 128 L 36 36 L 128 36 L 108 56 L 56 56 L 56 108 Z" fill="#E5B842" />
+  <!-- Bottom-Right Corner Bracket (Bright Green) -->
+  <path d="M 476 384 L 476 476 L 384 476 L 404 456 L 456 456 L 456 404 Z" fill="#4ADE80" />
+
+  <!-- THE ARCHITECTURAL DOUBLE-F MONOGRAM (Post & Rail Structure) -->
+  <g filter="url(#shadow1)">
+    <!-- Primary Post 1: Left Vertical Pillar (Cedar & Gold Cap) -->
+    <!-- Cap -->
+    <path d="M 96 120 L 128 92 L 160 120 Z" fill="url(#goldGrad1)" />
+    <!-- Post Body -->
+    <rect x="96" y="120" width="64" height="296" rx="6" fill="url(#cedarGrad1)" />
+    <!-- Post Shadow & Bevel -->
+    <rect x="144" y="120" width="16" height="296" rx="3" fill="#000000" opacity="0.2" />
+
+    <!-- Primary Top Rail: Forms the Top Bar of 1st 'F' (Sun Gold) -->
+    <path d="M 160 136 L 400 136 C 410 136 416 144 416 154 L 416 186 C 416 194 408 200 400 200 L 160 200 Z" fill="url(#goldGrad1)" />
+    <!-- Bevel Notch on Top Rail End -->
+    <path d="M 388 136 L 416 136 L 388 200 Z" fill="#FFFFFF" opacity="0.25" />
+
+    <!-- Secondary Post 2: Center-Right Vertical Pillar (Interlocking 2nd 'F' Spine) -->
+    <!-- Cap -->
+    <path d="M 236 212 L 268 184 L 300 212 Z" fill="url(#goldGrad1)" />
+    <!-- Post Body -->
+    <rect x="236" y="212" width="64" height="204" rx="6" fill="url(#cedarGrad1)" />
+    <!-- Post Shadow & Bevel -->
+    <rect x="284" y="212" width="16" height="204" rx="3" fill="#000000" opacity="0.2" />
+
+    <!-- Primary Mid Rail / Secondary Top Rail: Forms 1st 'F' Mid-Bar and 2nd 'F' Top-Bar -->
+    <path d="M 160 248 L 380 248 C 390 248 396 254 396 264 L 396 296 C 396 304 388 312 380 312 L 160 312 Z" fill="url(#greenGrad1)" />
+    <!-- Green Rail Accent Glint -->
+    <rect x="160" y="248" width="220" height="8" fill="#FFFFFF" opacity="0.3" />
+
+    <!-- Secondary Mid Rail: Forms the Mid-Bar of the 2nd 'F' (Sun Gold) -->
+    <path d="M 300 344 L 368 344 C 374 344 380 350 380 356 L 380 384 C 380 390 374 396 368 396 L 300 396 Z" fill="url(#goldGrad1)" />
+
+    <!-- Structural Bottom Baseplate / Kickboard Ground Beam -->
+    <rect x="80" y="416" width="352" height="24" rx="6" fill="#16432D" stroke="#4ADE80" stroke-width="3" />
+
+    <!-- Precision Joinery Fastener Bolts (Gold Rivets) -->
+    <circle cx="128" cy="168" r="7" fill="#0B0E0C" />
+    <circle cx="128" cy="168" r="4" fill="#E5B842" />
+
+    <circle cx="128" cy="280" r="7" fill="#0B0E0C" />
+    <circle cx="128" cy="280" r="4" fill="#4ADE80" />
+
+    <circle cx="268" cy="280" r="7" fill="#0B0E0C" />
+    <circle cx="268" cy="280" r="4" fill="#4ADE80" />
+
+    <circle cx="268" cy="370" r="7" fill="#0B0E0C" />
+    <circle cx="268" cy="370" r="4" fill="#E5B842" />
+  </g>
+</svg>

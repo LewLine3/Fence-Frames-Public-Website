@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad1b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0E0C" />
+      <stop offset="60%" stop-color="#141B16" />
+      <stop offset="100%" stop-color="#16432D" />
+    </linearGradient>
+
+    <!-- Sun Gold Gradient -->
+    <linearGradient id="goldGrad1b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE18B" />
+      <stop offset="50%" stop-color="#E5B842" />
+      <stop offset="100%" stop-color="#B88A1B" />
+    </linearGradient>
+
+    <!-- Pressure Treated Wood Tone Gradient (Incised & Appearance Base) -->
+    <linearGradient id="ptWoodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7B533E" />
+      <stop offset="30%" stop-color="#6C4834" />
+      <stop offset="70%" stop-color="#5E3C29" />
+      <stop offset="100%" stop-color="#4C2F1E" />
+    </linearGradient>
+
+    <linearGradient id="ptRailGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7B533E" />
+      <stop offset="40%" stop-color="#6C4834" />
+      <stop offset="100%" stop-color="#4C2F1E" />
+    </linearGradient>
+
+    <!-- Pressure-Treated Incised Dash Pattern for Vertical Posts -->
+    <pattern id="pt-incised-post" width="24" height="36" patternUnits="userSpaceOnUse">
+      <rect x="4" y="2" width="2.5" height="12" rx="1" fill="#22120B" opacity="0.8" />
+      <rect x="16" y="6" width="2.5" height="12" rx="1" fill="#1A0D07" opacity="0.85" />
+      <rect x="10" y="20" width="2.5" height="12" rx="1" fill="#22120B" opacity="0.8" />
+      <rect x="2" y="24" width="2.5" height="10" rx="1" fill="#1A0D07" opacity="0.75" />
+      <!-- Incision Highlight Slit -->
+      <line x1="6.5" y1="2" x2="6.5" y2="14" stroke="#8A6548" stroke-width="0.75" opacity="0.5" />
+      <line x1="18.5" y1="6" x2="18.5" y2="18" stroke="#8A6548" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <!-- Pressure-Treated Incised Dash Pattern for Horizontal Rails -->
+    <pattern id="pt-incised-rail" width="36" height="24" patternUnits="userSpaceOnUse">
+      <rect x="2" y="4" width="12" height="2.5" rx="1" fill="#22120B" opacity="0.8" />
+      <rect x="6" y="16" width="12" height="2.5" rx="1" fill="#1A0D07" opacity="0.85" />
+      <rect x="20" y="10" width="12" height="2.5" rx="1" fill="#22120B" opacity="0.8" />
+      <rect x="24" y="2" width="10" height="2.5" rx="1" fill="#1A0D07" opacity="0.75" />
+      <line x1="2" y1="6.5" x2="14" y2="6.5" stroke="#8A6548" stroke-width="0.75" opacity="0.5" />
+      <line x1="20" y1="12.5" x2="32" y2="12.5" stroke="#8A6548" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="ptShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Container -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad1b)" />
+  <rect width="500" height="500" x="6" y="6" rx="106" fill="none" stroke="#E5B842" stroke-width="4" stroke-opacity="0.35" />
+
+  <!-- Subtle Blueprint Drafting Grid -->
+  <g opacity="0.06" stroke="#4ADE80" stroke-width="2">
+    <line x1="64" y1="0" x2="64" y2="512" /><line x1="128" y1="0" x2="128" y2="512" /><line x1="192" y1="0" x2="192" y2="512" />
+    <line x1="256" y1="0" x2="256" y2="512" /><line x1="320" y1="0" x2="320" y2="512" /><line x1="384" y1="0" x2="384" y2="512" /><line x1="448" y1="0" x2="448" y2="512" />
+    <line x1="0" y1="64" x2="512" y2="64" /><line x1="0" y1="128" x2="512" y2="128" /><line x1="0" y1="192" x2="512" y2="192" />
+    <line x1="0" y1="256" x2="512" y2="256" /><line x1="0" y1="320" x2="512" y2="320" /><line x1="0" y1="384" x2="512" y2="384" /><line x1="0" y1="448" x2="512" y2="448" />
+  </g>
+
+  <!-- Outside Framing Brackets (Fence Frames Canon Law §5) -->
+  <path d="M 32 120 L 32 32 L 120 32 L 100 52 L 52 52 L 52 100 Z" fill="#E5B842" />
+  <path d="M 480 392 L 480 480 L 392 480 L 412 460 L 460 460 L 460 412 Z" fill="#4ADE80" />
+
+  <!-- THE ARCHITECTURAL DOUBLE-F (PRESSURE-TREATED LUMBER WITH INCISED TEXTURE) -->
+  <g filter="url(#ptShadow)">
+    
+    <!-- POST 1: LEFT VERTICAL PT 4x4 POST (Primary 'F' Backbone) -->
+    <!-- Post Gold Pyramid Cap -->
+    <path d="M 96 112 L 130 84 L 164 112 Z" fill="url(#goldGrad1b)" stroke="#0B0E0C" stroke-width="2" />
+    <rect x="92" y="112" width="76" height="10" rx="2" fill="#E5B842" stroke="#0B0E0C" stroke-width="2" />
+
+    <!-- Post Body Base -->
+    <rect x="98" y="122" width="64" height="294" rx="4" fill="url(#ptWoodGrad)" stroke="#0B0E0C" stroke-width="3.5" />
+    <!-- Incised Texture Overlay -->
+    <rect x="100" y="124" width="60" height="290" fill="url(#pt-incised-post)" />
+    <!-- Flow Grain Lines on Left Post -->
+    <path d="M 112 122 Q 110 200 114 280 T 112 416" fill="none" stroke="#3D2418" stroke-width="1.5" opacity="0.6" />
+    <path d="M 134 122 Q 138 220 132 320 T 136 416" fill="none" stroke="#FAF6EE" stroke-width="1" opacity="0.25" />
+    <rect x="148" y="124" width="12" height="290" fill="#000000" opacity="0.22" />
+
+    <!-- TOP RAIL: PT 2x4 LUMBER (Forms Top Bar of 1st 'F') -->
+    <!-- Rail Shell & Fill -->
+    <rect x="162" y="136" width="244" height="58" rx="6" fill="url(#ptRailGrad)" stroke="#0B0E0C" stroke-width="3.5" />
+    <!-- Incised Texture Overlay on Top Rail -->
+    <rect x="164" y="138" width="240" height="54" fill="url(#pt-incised-rail)" />
+    <!-- Top Rail Sun Gold End Bracket & Fastener Trim -->
+    <path d="M 390 136 L 406 136 C 412 136 416 140 416 146 L 416 184 C 416 190 412 194 406 194 L 390 194 Z" fill="url(#goldGrad1b)" stroke="#0B0E0C" stroke-width="2" />
+    <!-- Rail Grain Flow Lines -->
+    <line x1="164" y1="152" x2="388" y2="152" stroke="#FAF6EE" stroke-width="1" stroke-opacity="0.3" />
+    <line x1="164" y1="174" x2="388" y2="174" stroke="#22120B" stroke-width="1.5" stroke-opacity="0.6" />
+
+
+    <!-- POST 2: SECONDARY PT 4x4 POST (Spine of 2nd 'F') -->
+    <!-- Gold Post Cap -->
+    <path d="M 238 200 L 270 174 L 302 200 Z" fill="url(#goldGrad1b)" stroke="#0B0E0C" stroke-width="2" />
+    <rect x="234" y="200" width="72" height="8" rx="2" fill="#E5B842" stroke="#0B0E0C" stroke-width="2" />
+
+    <!-- Post Body Base -->
+    <rect x="238" y="208" width="64" height="208" rx="4" fill="url(#ptWoodGrad)" stroke="#0B0E0C" stroke-width="3.5" />
+    <!-- Incised Texture Overlay -->
+    <rect x="240" y="210" width="60" height="204" fill="url(#pt-incised-post)" />
+    <!-- Flow Grain on 2nd Post -->
+    <path d="M 254 208 Q 252 280 256 360 T 254 416" fill="none" stroke="#3D2418" stroke-width="1.5" opacity="0.6" />
+    <path d="M 276 208 Q 280 300 274 380 T 276 416" fill="none" stroke="#FAF6EE" stroke-width="1" opacity="0.25" />
+    <rect x="288" y="210" width="12" height="204" fill="#000000" opacity="0.22" />
+
+
+    <!-- MID RAIL: PT 2x4 LUMBER (Forms Mid Bar of 1st 'F' & Top Bar of 2nd 'F') -->
+    <rect x="162" y="248" width="224" height="56" rx="6" fill="url(#ptRailGrad)" stroke="#0B0E0C" stroke-width="3.5" />
+    <rect x="164" y="250" width="220" height="52" fill="url(#pt-incised-rail)" />
+    <!-- Bright Green Blueprint Accent Stripe on Mid Rail -->
+    <rect x="162" y="248" width="224" height="8" fill="#4ADE80" opacity="0.9" />
+    <!-- Mid Rail End Gold Bracket -->
+    <path d="M 372 248 L 386 248 C 392 248 396 252 396 258 L 396 294 C 396 300 392 304 386 304 L 372 304 Z" fill="url(#goldGrad1b)" stroke="#0B0E0C" stroke-width="2" />
+
+
+    <!-- LOWER MID RAIL: PT 2x4 LUMBER (Forms Lower Bar of 2nd 'F') -->
+    <rect x="302" y="344" width="76" height="48" rx="5" fill="url(#ptRailGrad)" stroke="#0B0E0C" stroke-width="3" />
+    <rect x="304" y="346" width="72" height="44" fill="url(#pt-incised-rail)" />
+    <rect x="366" y="344" width="12" height="48" rx="2" fill="url(#goldGrad1b)" stroke="#0B0E0C" stroke-width="1.5" />
+
+
+    <!-- HEAVY TIMBER GROUND BASEPLATE / DIRT BAR -->
+    <!-- Dirt / Soil Bar -->
+    <rect x="76" y="416" width="360" height="18" rx="4" fill="#6A481B" stroke="#0B0E0C" stroke-width="2.5" />
+    <rect x="76" y="426" width="360" height="8" rx="2" fill="#3D2418" opacity="0.8" />
+
+
+    <!-- STRUCTURAL JOINERY BOLTS (Precision Fastener Studs) -->
+    <circle cx="130" cy="165" r="7" fill="#0B0E0C" />
+    <circle cx="130" cy="165" r="4" fill="#E5B842" />
+
+    <circle cx="130" cy="276" r="7" fill="#0B0E0C" />
+    <circle cx="130" cy="276" r="4" fill="#4ADE80" />
+
+    <circle cx="270" cy="276" r="7" fill="#0B0E0C" />
+    <circle cx="270" cy="276" r="4" fill="#4ADE80" />
+
+    <circle cx="270" cy="368" r="7" fill="#0B0E0C" />
+    <circle cx="270" cy="368" r="4" fill="#E5B842" />
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- PACIFIC NORTHWEST NATURAL GRASS BLADES (OFFICIAL CANON) -->
+  <!-- Layered at the base of the posts with crisp vector shapes -->
+  <!-- ======================================================== -->
+  <g id="Front-Grass-Layer" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.6))">
+    
+    <!-- Left Grass Patch (Anchoring Left Post) -->
+    <g transform="translate(68, 396)">
+      <!-- Blade 1 (Dark green back) -->
+      <path d="M 12 28 C 10 16 4 6 0 0 C 8 8 16 18 16 28 Z" fill="#113016" />
+      <!-- Blade 2 (Emerald mid) -->
+      <path d="M 18 28 C 20 14 26 4 32 0 C 28 8 24 18 22 28 Z" fill="#227E1F" />
+      <!-- Blade 3 (Bright Green Hero Blade) -->
+      <path d="M 28 28 C 30 10 38 2 48 0 C 40 8 36 18 32 28 Z" fill="#4ADE80" />
+      <!-- Blade 4 (Cedar green accent) -->
+      <path d="M 38 28 C 36 16 32 8 26 2 C 34 8 40 18 42 28 Z" fill="#318116" />
+      <!-- Blade 5 (Tall spike overlapping post) -->
+      <path d="M 46 28 C 50 12 56 2 64 0 C 58 10 52 20 50 28 Z" fill="#227E1F" />
+      <!-- Blade 6 (Foreground sharp tuft) -->
+      <path d="M 54 28 C 56 16 62 8 70 4 C 64 12 60 20 58 28 Z" fill="#4ADE80" />
+      <path d="M 66 28 C 68 18 76 10 84 6 C 78 14 74 22 70 28 Z" fill="#113016" />
+    </g>
+
+    <!-- Center Grass Patch (Between and Anchoring Secondary Post) -->
+    <g transform="translate(196, 396)">
+      <!-- Blade 1 -->
+      <path d="M 10 28 C 8 16 2 8 0 2 C 8 8 14 18 14 28 Z" fill="#227E1F" />
+      <!-- Blade 2 (Hero Bright Overlap) -->
+      <path d="M 18 28 C 22 12 28 2 36 0 C 30 8 26 18 22 28 Z" fill="#4ADE80" />
+      <!-- Blade 3 -->
+      <path d="M 30 28 C 32 16 38 8 46 4 C 40 12 36 20 34 28 Z" fill="#113016" />
+      <!-- Blade 4 (Overlapping 2nd Post Base) -->
+      <path d="M 44 28 C 42 12 38 4 32 0 C 40 6 46 16 48 28 Z" fill="#318116" />
+      <!-- Blade 5 -->
+      <path d="M 54 28 C 58 10 66 2 76 0 C 68 8 62 18 58 28 Z" fill="#4ADE80" />
+      <!-- Blade 6 -->
+      <path d="M 68 28 C 70 16 78 8 86 4 C 80 12 76 20 72 28 Z" fill="#227E1F" />
+      <!-- Blade 7 -->
+      <path d="M 80 28 C 82 18 90 10 98 6 C 92 14 88 22 84 28 Z" fill="#113016" />
+    </g>
+
+    <!-- Right Grass Patch (Grounding Right Rail Overhang) -->
+    <g transform="translate(328, 396)">
+      <path d="M 12 28 C 10 16 4 6 0 0 C 8 8 16 18 16 28 Z" fill="#113016" />
+      <path d="M 22 28 C 26 12 34 2 44 0 C 36 8 30 18 26 28 Z" fill="#4ADE80" />
+      <path d="M 36 28 C 38 16 46 8 54 4 C 48 12 44 20 40 28 Z" fill="#227E1F" />
+      <path d="M 50 28 C 54 14 62 6 72 2 C 64 10 58 18 54 28 Z" fill="#318116" />
+      <path d="M 64 28 C 66 18 74 10 82 6 C 76 14 72 22 68 28 Z" fill="#4ADE80" />
+      <path d="M 76 28 C 78 20 86 12 94 8 C 88 16 84 22 80 28 Z" fill="#113016" />
+    </g>
+  </g>
+</svg>

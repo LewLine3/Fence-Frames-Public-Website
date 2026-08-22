@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Sun Gold Gradient -->
+    <linearGradient id="goldGrad1j" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE18B" />
+      <stop offset="45%" stop-color="#E5B842" />
+      <stop offset="100%" stop-color="#C29424" />
+    </linearGradient>
+
+    <!-- Warm Golden-Brown Pressure Treated Tone (1I Favorite Palette) -->
+    <linearGradient id="ptWarmWoodGrad1j" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="35%" stop-color="#754E36" />
+      <stop offset="75%" stop-color="#633F2A" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <linearGradient id="ptWarmRailGrad1j" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="45%" stop-color="#754E36" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <!-- Precision Consistent Geometric Incision Grid for Posts (Clean, Sparsely Spaced, Defined) -->
+    <pattern id="pt-grid-post-clean" width="28" height="36" patternUnits="userSpaceOnUse">
+      <!-- Staggered Row 1 -->
+      <rect x="5" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="19" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <!-- Staggered Row 2 -->
+      <rect x="12" y="22" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- Precision Consistent Geometric Incision Grid for Rails -->
+    <pattern id="pt-grid-rail-clean" width="36" height="28" patternUnits="userSpaceOnUse">
+      <!-- Staggered Col 1 -->
+      <rect x="4" y="5" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="4" y="19" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <!-- Staggered Col 2 -->
+      <rect x="22" y="12" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- Floating Depth Shadow -->
+    <filter id="shadow1j" x="-15%" y="-15%" width="135%" height="135%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- 100% PURE TRANSPARENT CANVAS -->
+  <!-- Middle Rail Breaks at 2nd Post (Attaching Directly) -->
+  <!-- Consistent Grid-Spaced Incision Texture -->
+  <!-- ======================================================== -->
+  <g filter="url(#shadow1j)">
+    
+    <!-- POST 1: LEFT VERTICAL PT 4x4 POST (Primary 'F' Backbone) -->
+    <!-- Gold Post Cap -->
+    <path d="M 68 84 L 108 52 L 148 84 Z" fill="url(#goldGrad1j)" stroke="#0B0E0C" stroke-width="3" />
+    <rect x="64" y="84" width="88" height="12" rx="2" fill="#E5B842" stroke="#0B0E0C" stroke-width="3" />
+
+    <!-- Post Body -->
+    <rect x="70" y="96" width="76" height="328" rx="5" fill="url(#ptWarmWoodGrad1j)" stroke="#0B0E0C" stroke-width="4" />
+    <rect x="72" y="98" width="72" height="324" fill="url(#pt-grid-post-clean)" />
+
+    <!-- TOP RAIL: PT 2x4 LUMBER (Forms Top Bar of 1st 'F') -->
+    <rect x="146" y="112" width="286" height="68" rx="8" fill="url(#ptWarmRailGrad1j)" stroke="#0B0E0C" stroke-width="4" />
+    <rect x="148" y="114" width="282" height="64" fill="url(#pt-grid-rail-clean)" />
+    <!-- Gold End Trim Bracket -->
+    <path d="M 412 112 L 432 112 C 438 112 444 118 444 126 L 444 168 C 444 176 438 180 432 180 L 412 180 Z" fill="url(#goldGrad1j)" stroke="#0B0E0C" stroke-width="3" />
+
+
+    <!-- ======================================================== -->
+    <!-- MIDDLE RAIL: SPLIT & ATTACHED DIRECTLY TO POST 2 -->
+    <!-- (No horizontal rail overlaps Post 2) -->
+    <!-- ======================================================== -->
+
+    <!-- MID RAIL SEGMENT 1 (Left: Spans from Post 1 to Post 2) -->
+    <rect x="146" y="244" width="88" height="66" rx="6" fill="url(#ptWarmRailGrad1j)" stroke="#0B0E0C" stroke-width="4" />
+    <rect x="148" y="246" width="84" height="62" fill="url(#pt-grid-rail-clean)" />
+    <!-- Bright Green Blueprint Accent Stripe -->
+    <rect x="146" y="244" width="88" height="8" fill="#4ADE80" opacity="0.95" />
+
+
+    <!-- POST 2: SECONDARY PT 4x4 POST (Continuous Unbroken Spine) -->
+    <!-- Gold Post Cap -->
+    <path d="M 234 184 L 272 154 L 310 184 Z" fill="url(#goldGrad1j)" stroke="#0B0E0C" stroke-width="3" />
+    <rect x="230" y="184" width="84" height="10" rx="2" fill="#E5B842" stroke="#0B0E0C" stroke-width="3" />
+
+    <!-- Continuous Post Body (Cleanly visible through the middle intersection) -->
+    <rect x="234" y="194" width="76" height="230" rx="5" fill="url(#ptWarmWoodGrad1j)" stroke="#0B0E0C" stroke-width="4" />
+    <rect x="236" y="196" width="72" height="226" fill="url(#pt-grid-post-clean)" />
+
+
+    <!-- MID RAIL SEGMENT 2 (Right: Extends out from Post 2 to right terminus) -->
+    <rect x="310" y="244" width="98" height="66" rx="6" fill="url(#ptWarmRailGrad1j)" stroke="#0B0E0C" stroke-width="4" />
+    <rect x="312" y="246" width="94" height="62" fill="url(#pt-grid-rail-clean)" />
+    <!-- Bright Green Accent Stripe on Right Segment -->
+    <rect x="310" y="244" width="98" height="8" fill="#4ADE80" opacity="0.95" />
+    <!-- Gold End Bracket -->
+    <path d="M 390 244 L 408 244 C 414 244 418 248 418 254 L 418 298 C 418 304 414 310 408 310 L 390 310 Z" fill="url(#goldGrad1j)" stroke="#0B0E0C" stroke-width="3" />
+
+
+    <!-- LOWER MID RAIL: PT 2x4 (Forms Lower Bar of 2nd 'F', Attaching to Post 2) -->
+    <rect x="310" y="356" width="94" height="56" rx="6" fill="url(#ptWarmRailGrad1j)" stroke="#0B0E0C" stroke-width="3.5" />
+    <rect x="312" y="358" width="90" height="52" fill="url(#pt-grid-rail-clean)" />
+    <rect x="388" y="356" width="16" height="56" rx="2" fill="url(#goldGrad1j)" stroke="#0B0E0C" stroke-width="2" />
+
+
+    <!-- DIRT / EARTH GROUND BASEPLATE -->
+    <rect x="44" y="424" width="424" height="20" rx="5" fill="#6A481B" stroke="#0B0E0C" stroke-width="3" />
+
+
+    <!-- PRECISION JOINERY FASTENER BOLTS -->
+    <!-- Post 1 Top Rail Bolt -->
+    <circle cx="108" cy="146" r="8" fill="#0B0E0C" /><circle cx="108" cy="146" r="4.5" fill="#E5B842" />
+    
+    <!-- Post 1 Mid Rail Bolt -->
+    <circle cx="108" cy="277" r="8" fill="#0B0E0C" /><circle cx="108" cy="277" r="4.5" fill="#4ADE80" />
+    
+    <!-- Post 2 Mid Rail In-Feed Connection Bolt (Left) -->
+    <circle cx="250" cy="277" r="7" fill="#0B0E0C" /><circle cx="250" cy="277" r="3.8" fill="#4ADE80" />
+    
+    <!-- Post 2 Mid Rail Out-Feed Connection Bolt (Right) -->
+    <circle cx="294" cy="277" r="7" fill="#0B0E0C" /><circle cx="294" cy="277" r="3.8" fill="#4ADE80" />
+    
+    <!-- Post 2 Lower Mid Rail Bolt -->
+    <circle cx="272" cy="384" r="8" fill="#0B0E0C" /><circle cx="272" cy="384" r="4.5" fill="#E5B842" />
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- PACIFIC NORTHWEST NATURAL GRASS BLADES -->
+  <!-- Grounding the structure with natural emerald blades -->
+  <!-- ======================================================== -->
+  <g id="Front-Grass-Layer-1j" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))">
+    <g transform="translate(36, 402)">
+      <path d="M 14 30 C 12 18 5 6 0 0 C 9 9 18 19 18 30 Z" fill="#113016" />
+      <path d="M 22 30 C 24 15 31 4 38 0 C 33 9 29 19 26 30 Z" fill="#227E1F" />
+      <path d="M 34 30 C 36 11 46 2 58 0 C 48 9 43 19 38 30 Z" fill="#4ADE80" />
+      <path d="M 46 30 C 43 17 38 9 31 2 C 41 9 48 19 50 30 Z" fill="#318116" />
+      <path d="M 56 30 C 60 13 67 2 77 0 C 70 11 62 21 60 30 Z" fill="#227E1F" />
+      <path d="M 66 30 C 68 17 75 9 85 4 C 77 13 72 21 70 30 Z" fill="#4ADE80" />
+      <path d="M 80 30 C 82 19 92 11 102 6 C 94 15 90 23 85 30 Z" fill="#113016" />
+    </g>
+
+    <g transform="translate(190, 402)">
+      <path d="M 12 30 C 10 17 2 9 0 2 C 10 9 17 19 17 30 Z" fill="#227E1F" />
+      <path d="M 22 30 C 27 13 34 2 44 0 C 36 9 31 19 26 30 Z" fill="#4ADE80" />
+      <path d="M 36 30 C 39 17 46 9 56 4 C 48 13 43 21 41 30 Z" fill="#113016" />
+      <path d="M 53 30 C 51 13 46 4 39 0 C 48 6 56 17 58 30 Z" fill="#318116" />
+      <path d="M 65 30 C 70 11 80 2 92 0 C 82 9 75 19 70 30 Z" fill="#4ADE80" />
+      <path d="M 82 30 C 84 17 94 9 104 4 C 96 13 92 21 87 30 Z" fill="#227E1F" />
+      <path d="M 97 30 C 99 19 109 11 119 6 C 111 15 107 23 102 30 Z" fill="#113016" />
+    </g>
+
+    <g transform="translate(348, 402)">
+      <path d="M 14 30 C 12 18 5 6 0 0 C 10 9 19 19 19 30 Z" fill="#113016" />
+      <path d="M 27 30 C 31 13 41 2 53 0 C 43 9 36 19 31 30 Z" fill="#4ADE80" />
+      <path d="M 43 30 C 46 17 55 9 65 4 C 58 13 53 21 48 30 Z" fill="#227E1F" />
+      <path d="M 60 30 C 65 15 75 6 87 2 C 77 11 70 19 65 30 Z" fill="#318116" />
+      <path d="M 77 30 C 79 19 89 11 99 6 C 91 15 87 23 82 30 Z" fill="#4ADE80" />
+      <path d="M 92 30 C 94 21 104 13 113 9 C 106 17 101 23 97 30 Z" fill="#113016" />
+    </g>
+  </g>
+</svg>

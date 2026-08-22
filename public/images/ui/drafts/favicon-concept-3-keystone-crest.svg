@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Dark Ink / Obsidian Base Gradient -->
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0E0C" />
+      <stop offset="60%" stop-color="#141B16" />
+      <stop offset="100%" stop-color="#16432D" />
+    </linearGradient>
+
+    <!-- Sun Gold Luster Gradient -->
+    <linearGradient id="goldGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE592" />
+      <stop offset="40%" stop-color="#E5B842" />
+      <stop offset="100%" stop-color="#B88A1B" />
+    </linearGradient>
+
+    <!-- Blueprint Green Gradient -->
+    <linearGradient id="greenGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86EFAC" />
+      <stop offset="100%" stop-color="#4ADE80" />
+    </linearGradient>
+
+    <!-- Cedar Tan Gradient -->
+    <linearGradient id="cedarGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E2D4BC" />
+      <stop offset="50%" stop-color="#C4B294" />
+      <stop offset="100%" stop-color="#9E8867" />
+    </linearGradient>
+
+    <filter id="shadow3" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Crest Canvas -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad3)" />
+  
+  <!-- Outer Gold Architectural Chamfer Border -->
+  <rect width="480" height="480" x="16" y="16" rx="96" fill="none" stroke="url(#goldGrad3)" stroke-width="8" />
+  <rect width="456" height="456" x="28" y="28" rx="84" fill="none" stroke="#4ADE80" stroke-width="2" stroke-opacity="0.4" stroke-dasharray="8 6" />
+
+  <!-- Center Crest Structure -->
+  <g filter="url(#shadow3)">
+    <!-- Architectural Gate Frame (Outer Perimeter Beams) -->
+    <!-- Top Header Beam -->
+    <rect x="76" y="132" width="360" height="32" rx="6" fill="#0B0E0C" stroke="#E5B842" stroke-width="4" />
+    <!-- Bottom Ground Beam -->
+    <rect x="76" y="380" width="360" height="36" rx="6" fill="#0B0E0C" stroke="#E5B842" stroke-width="4" />
+    <!-- Left Post Beam -->
+    <rect x="76" y="132" width="36" height="284" rx="6" fill="url(#cedarGrad3)" stroke="#0B0E0C" stroke-width="3" />
+    <!-- Right Post Beam -->
+    <rect x="400" y="132" width="36" height="284" rx="6" fill="url(#cedarGrad3)" stroke="#0B0E0C" stroke-width="3" />
+
+    <!-- ARCHITECTURAL CROSS-BUCK "X" BRACING (Blueprint Structural Geometry) -->
+    <!-- Diagonal Strut 1: Top-Left to Bottom-Right -->
+    <path d="M 104 164 L 408 388 L 384 404 L 80 180 Z" fill="url(#greenGrad3)" opacity="0.9" />
+    <!-- Diagonal Strut 2: Top-Right to Bottom-Left -->
+    <path d="M 408 180 L 104 404 L 80 388 L 384 164 Z" fill="url(#greenGrad3)" opacity="0.9" />
+
+    <!-- Keystone Center Joinery Rosette / Boss -->
+    <circle cx="256" cy="284" r="28" fill="#0B0E0C" stroke="url(#goldGrad3)" stroke-width="5" />
+    <circle cx="256" cy="284" r="10" fill="#4ADE80" />
+
+    <!-- CENTRAL HERO KEYSTONE POST (Pacific Northwest 6x6 Pillar) -->
+    <!-- Gable / Pyramid Cap (Sun Gold) -->
+    <path d="M 212 112 L 256 64 L 300 112 Z" fill="url(#goldGrad3)" stroke="#0B0E0C" stroke-width="3" />
+    <!-- Cap Trim Baseplate -->
+    <rect x="204" y="112" width="104" height="16" rx="3" fill="#FAF6EE" stroke="#0B0E0C" stroke-width="3" />
+
+    <!-- Center Keystone Pillar Spine -->
+    <rect x="224" y="128" width="64" height="272" rx="4" fill="url(#cedarGrad3)" stroke="#0B0E0C" stroke-width="4" />
+    <line x1="256" y1="128" x2="256" y2="400" stroke="#FAF6EE" stroke-width="3" stroke-opacity="0.6" />
+    <rect x="264" y="128" width="24" height="272" fill="#000000" opacity="0.18" />
+
+    <!-- Precision Joinery Studs -->
+    <circle cx="256" cy="156" r="6" fill="#0B0E0C" />
+    <circle cx="256" cy="156" r="3" fill="#E5B842" />
+
+    <circle cx="256" cy="356" r="6" fill="#0B0E0C" />
+    <circle cx="256" cy="356" r="3" fill="#E5B842" />
+
+    <!-- Left & Right Corner Accent Studs -->
+    <circle cx="94" cy="148" r="5" fill="#4ADE80" />
+    <circle cx="418" cy="148" r="5" fill="#4ADE80" />
+    <circle cx="94" cy="398" r="5" fill="#4ADE80" />
+    <circle cx="418" cy="398" r="5" fill="#4ADE80" />
+  </g>
+</svg>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Deep Forest Gradient Base -->
+    <linearGradient id="forestGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141B16" />
+      <stop offset="50%" stop-color="#16432D" />
+      <stop offset="100%" stop-color="#0E2B1D" />
+    </linearGradient>
+
+    <!-- Sun Gold Metallic Gradient -->
+    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE18B" />
+      <stop offset="60%" stop-color="#E5B842" />
+      <stop offset="100%" stop-color="#C29424" />
+    </linearGradient>
+
+    <!-- Cedar Wood Grain Tone -->
+    <linearGradient id="cedarGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E2D4BC" />
+      <stop offset="30%" stop-color="#C4B294" />
+      <stop offset="100%" stop-color="#A59170" />
+    </linearGradient>
+
+    <!-- Bright Green Accent -->
+    <linearGradient id="greenGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ADE80" />
+      <stop offset="100%" stop-color="#22C55E" />
+    </linearGradient>
+
+    <filter id="shadow2" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Card Container -->
+  <rect width="512" height="512" rx="112" fill="url(#forestGrad2)" />
+  <rect width="502" height="502" x="5" y="5" rx="107" fill="none" stroke="#0B0E0C" stroke-width="6" />
+
+  <!-- Blueprint 48px Grid Matrix -->
+  <g opacity="0.12" stroke="#4ADE80" stroke-width="2" stroke-dasharray="4 4">
+    <line x1="96" y1="40" x2="96" y2="472" />
+    <line x1="176" y1="40" x2="176" y2="472" />
+    <line x1="256" y1="40" x2="256" y2="472" />
+    <line x1="336" y1="40" x2="336" y2="472" />
+    <line x1="416" y1="40" x2="416" y2="472" />
+    <line x1="40" y1="96" x2="472" y2="96" />
+    <line x1="40" y1="176" x2="472" y2="176" />
+    <line x1="40" y1="256" x2="472" y2="256" />
+    <line x1="40" y1="336" x2="472" y2="336" />
+    <line x1="40" y1="416" x2="472" y2="416" />
+  </g>
+
+  <!-- CANONICAL 4-CORNER DOCKED OUTSIDE BRACKETS (DESIGN LAW §5) -->
+  <!-- Top-Left Corner Bracket (50% wall span with docked taper) -->
+  <path d="M 28 220 L 28 48 C 28 36 36 28 48 28 L 220 28 L 180 64 L 64 64 L 64 180 Z" fill="url(#goldGrad2)" />
+  <!-- Top-Right Corner Bracket -->
+  <path d="M 292 28 L 464 28 C 476 28 484 36 484 48 L 484 220 L 448 180 L 448 64 L 332 64 Z" fill="url(#goldGrad2)" />
+  <!-- Bottom-Left Corner Bracket -->
+  <path d="M 28 292 L 28 464 C 28 476 36 484 48 484 L 220 484 L 180 448 L 64 448 L 64 332 Z" fill="url(#greenGrad2)" />
+  <!-- Bottom-Right Corner Bracket -->
+  <path d="M 484 292 L 484 464 C 484 476 476 484 464 484 L 292 484 L 332 448 L 448 448 L 448 332 Z" fill="url(#goldGrad2)" />
+
+  <!-- CENTER FENCE ELEVATION (Pickets & Rails) -->
+  <g filter="url(#shadow2)">
+    <!-- Top Framing Rail (Heavy Structural Header) -->
+    <rect x="88" y="160" width="336" height="36" rx="6" fill="#0B0E0C" stroke="#E5B842" stroke-width="4" />
+
+    <!-- Bottom Framing Rail / Base Kickplate -->
+    <rect x="88" y="372" width="336" height="36" rx="6" fill="#0B0E0C" stroke="#4ADE80" stroke-width="4" />
+
+    <!-- 3 VERTICAL ARCHITECTURAL CEDAR PICKETS -->
+    <!-- Picket 1: Left -->
+    <g>
+      <!-- Spear Tip / Dog-Ear Chamfer Top -->
+      <path d="M 124 136 L 156 100 L 188 136 L 188 412 L 124 412 Z" fill="url(#cedarGrad2)" />
+      <!-- Picket Inner Highlight / Ridge -->
+      <line x1="156" y1="104" x2="156" y2="412" stroke="#FAF6EE" stroke-width="2.5" stroke-opacity="0.4" />
+      <rect x="176" y="136" width="12" height="276" fill="#000000" opacity="0.18" />
+    </g>
+
+    <!-- Picket 2: Center (Elevated Hero Picket) -->
+    <g>
+      <!-- Taller Spear Tip Top -->
+      <path d="M 224 116 L 256 76 L 288 116 L 288 412 L 224 412 Z" fill="url(#cedarGrad2)" />
+      <line x1="256" y1="80" x2="256" y2="412" stroke="#FAF6EE" stroke-width="3" stroke-opacity="0.6" />
+      <rect x="276" y="116" width="12" height="296" fill="#000000" opacity="0.18" />
+    </g>
+
+    <!-- Picket 3: Right -->
+    <g>
+      <!-- Spear Tip Top -->
+      <path d="M 324 136 L 356 100 L 388 136 L 388 412 L 324 412 Z" fill="url(#cedarGrad2)" />
+      <line x1="356" y1="104" x2="356" y2="412" stroke="#FAF6EE" stroke-width="2.5" stroke-opacity="0.4" />
+      <rect x="376" y="136" width="12" height="276" fill="#000000" opacity="0.18" />
+    </g>
+
+    <!-- Mid-Section Cross Rail (Sun Gold Precision Beam with Fastener Studs) -->
+    <rect x="76" y="260" width="360" height="32" rx="6" fill="url(#goldGrad2)" stroke="#0B0E0C" stroke-width="4" />
+    <circle cx="156" cy="276" r="6" fill="#0B0E0C" />
+    <circle cx="156" cy="276" r="3" fill="#4ADE80" />
+    <circle cx="256" cy="276" r="6" fill="#0B0E0C" />
+    <circle cx="256" cy="276" r="3" fill="#FAF6EE" />
+    <circle cx="356" cy="276" r="6" fill="#0B0E0C" />
+    <circle cx="356" cy="276" r="3" fill="#4ADE80" />
+  </g>
+</svg>

@@ -1,0 +1,326 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Bright Emerald Green (Big 'F' - 1AD Standard) -->
+    <linearGradient id="brightEmeraldGrad1ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80" />
+      <stop offset="45%" stop-color="#2EA055" />
+      <stop offset="100%" stop-color="#1E7A3E" />
+    </linearGradient>
+
+    <linearGradient id="brightEmeraldCapLeft1ai" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2EA055" />
+      <stop offset="50%" stop-color="#3DC06F" />
+      <stop offset="100%" stop-color="#6EE7A0" />
+    </linearGradient>
+
+    <linearGradient id="brightEmeraldCapRight1ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2EA055" />
+      <stop offset="50%" stop-color="#1B7A45" />
+      <stop offset="100%" stop-color="#12562F" />
+    </linearGradient>
+
+    <!-- Muted Sage-Spruce Green (Small 'F' - 1AD Standard) -->
+    <linearGradient id="sageSpruceGrad1ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C8564" />
+      <stop offset="45%" stop-color="#366A4D" />
+      <stop offset="100%" stop-color="#254F38" />
+    </linearGradient>
+
+    <linearGradient id="sageSpruceCapLeft1ai" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#366A4D" />
+      <stop offset="50%" stop-color="#4A8462" />
+      <stop offset="100%" stop-color="#619E7A" />
+    </linearGradient>
+
+    <linearGradient id="sageSpruceCapRight1ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#366A4D" />
+      <stop offset="50%" stop-color="#28543B" />
+      <stop offset="100%" stop-color="#1A3E2A" />
+    </linearGradient>
+
+    <!-- Warm Golden-Brown Pressure Treated Tone -->
+    <linearGradient id="ptWarmWoodGrad1ai" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="35%" stop-color="#754E36" />
+      <stop offset="75%" stop-color="#633F2A" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <linearGradient id="ptWarmRailGrad1ai" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="45%" stop-color="#754E36" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <!-- Rich Earth Brown Soil Gradient -->
+    <linearGradient id="soilGrad1ai" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#754E29" />
+      <stop offset="40%" stop-color="#5A3818" />
+      <stop offset="100%" stop-color="#3D230D" />
+    </linearGradient>
+
+    <!-- Precision Incision Grid for Posts -->
+    <pattern id="pt-grid-post-1ai" width="26" height="34" patternUnits="userSpaceOnUse">
+      <rect x="4" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="17" y="4" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="10.5" y="21" width="2.5" height="9" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- Precision Incision Grid for Rails -->
+    <pattern id="pt-grid-rail-1ai" width="34" height="26" patternUnits="userSpaceOnUse">
+      <rect x="4" y="4" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="4" y="17" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+      <rect x="21" y="10.5" width="9" height="2.5" rx="0.5" fill="#381E11" opacity="0.75" />
+    </pattern>
+
+    <!-- Soft Depth Shadow -->
+    <filter id="shadow1ai" x="-15%" y="-15%" width="135%" height="135%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- 100% PURE TRANSPARENT CANVAS -->
+  <!-- 1AD CANONICAL MONOGRAM (VIBRANT EMERALD BIG 'F' + SAGE-SPRUCE SMALL 'F') -->
+  <!-- THIN BROWN SOIL LINE + DENSE SHORT GRASS WITH NATURAL SOIL GAPS -->
+  <!-- ======================================================== -->
+  <g filter="url(#shadow1ai)">
+
+    <!-- ======================================================== -->
+    <!-- 1ST BIG 'F' (BRIGHT EMERALD GREEN #2EA055) -->
+    <!-- ======================================================== -->
+    <g id="Big-F-Bright-Emerald">
+      
+      <!-- Outer Black Keyline Layer -->
+      <path d="M 56 54 L 132 54 L 434 54 C 440 54 444 58 444 64 L 444 112 C 444 118 440 122 434 122 L 132 122 L 132 196 L 192 196 L 192 260 L 132 260 L 132 424 L 56 424 Z" 
+            fill="none" 
+            stroke="#0B0E0C" 
+            stroke-width="7.5" 
+            stroke-linejoin="round" />
+
+      <!-- Bright Emerald Green Outline & Timber Fill -->
+      <path d="M 56 54 L 132 54 L 434 54 C 440 54 444 58 444 64 L 444 112 C 444 118 440 122 434 122 L 132 122 L 132 196 L 192 196 L 192 260 L 132 260 L 132 424 L 56 424 Z" 
+            fill="url(#ptWarmWoodGrad1ai)" 
+            stroke="#2EA055" 
+            stroke-width="4.5" 
+            stroke-linejoin="round" />
+
+      <!-- Timber Incision Texture Overlay -->
+      <rect x="58" y="56" width="72" height="366" fill="url(#pt-grid-post-1ai)" />
+      <rect x="134" y="56" width="298" height="64" fill="url(#pt-grid-rail-1ai)" />
+      <rect x="134" y="198" width="56" height="60" fill="url(#pt-grid-rail-1ai)" />
+
+      <!-- Top Micro Trim -->
+      <path d="M 434 54 L 438 54 C 442 54 444 58 444 64 L 444 112 C 444 118 442 122 438 122 L 434 122 Z" 
+            fill="url(#brightEmeraldGrad1ai)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <!-- Post 1 Pyramid Cap -->
+      <rect x="46" y="48" width="96" height="8" rx="3" fill="#2EA055" stroke="#0B0E0C" stroke-width="2.5" />
+      <path d="M 48 48 L 94 28 L 94 48 Z" fill="url(#brightEmeraldCapLeft1ai)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 94 28 L 140 48 L 94 48 Z" fill="url(#brightEmeraldCapRight1ai)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="94" cy="28" r="3" fill="#6EE7A0" stroke="#0B0E0C" stroke-width="1.5" />
+
+      <!-- Fine 2px Black Internal Carpentry Seams -->
+      <line x1="132" y1="54" x2="132" y2="122" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="132" y1="196" x2="132" y2="260" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="192" y1="196" x2="192" y2="260" stroke="#0B0E0C" stroke-width="2" />
+    </g>
+
+
+    <!-- ======================================================== -->
+    <!-- 2ND SMALL 'F' (MUTED SAGE-SPRUCE GREEN #366A4D) -->
+    <!-- ======================================================== -->
+    <g id="Small-F-Muted-Sage-Spruce">
+
+      <!-- Outer Black Keyline Layer -->
+      <path d="M 192 196 L 268 196 L 406 196 C 410 196 414 200 414 206 L 414 250 C 414 256 410 260 406 260 L 268 260 L 268 312 L 370 312 C 374 312 378 316 378 321 L 378 357 C 378 362 374 366 370 366 L 268 366 L 268 424 L 192 424 Z" 
+            fill="none" 
+            stroke="#0B0E0C" 
+            stroke-width="7.5" 
+            stroke-linejoin="round" />
+
+      <!-- Muted Sage-Spruce Green Outline & Timber Fill -->
+      <path d="M 192 196 L 268 196 L 406 196 C 410 196 414 200 414 206 L 414 250 C 414 256 410 260 406 260 L 268 260 L 268 312 L 370 312 C 374 312 378 316 378 321 L 378 357 C 378 362 374 366 370 366 L 268 366 L 268 424 L 192 424 Z" 
+            fill="url(#ptWarmWoodGrad1ai)" 
+            stroke="#366A4D" 
+            stroke-width="4.5" 
+            stroke-linejoin="round" />
+
+      <!-- Timber Incision Texture Overlay -->
+      <rect x="194" y="198" width="72" height="224" fill="url(#pt-grid-post-1ai)" />
+      <rect x="270" y="198" width="134" height="60" fill="url(#pt-grid-rail-1ai)" />
+      <rect x="270" y="314" width="98" height="50" fill="url(#pt-grid-rail-1ai)" />
+
+      <!-- Micro Muted Sage-Spruce End Trims -->
+      <path d="M 406 196 L 408 196 C 412 196 414 200 414 206 L 414 250 C 414 256 412 260 408 260 L 406 260 Z" 
+            fill="url(#sageSpruceGrad1ai)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <path d="M 370 312 L 372 312 C 376 312 378 316 378 321 L 378 357 C 378 362 376 366 372 366 L 370 366 Z" 
+            fill="url(#sageSpruceGrad1ai)" 
+            stroke="#0B0E0C" 
+            stroke-width="1.2" />
+
+      <!-- Post 2 Pyramid Cap -->
+      <rect x="182" y="190" width="96" height="8" rx="3" fill="#366A4D" stroke="#0B0E0C" stroke-width="2.5" />
+      <path d="M 184 190 L 230 170 L 230 190 Z" fill="url(#sageSpruceCapLeft1ai)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 230 170 L 276 190 L 230 190 Z" fill="url(#sageSpruceCapRight1ai)" stroke="#0B0E0C" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="230" cy="170" r="3" fill="#619E7A" stroke="#0B0E0C" stroke-width="1.5" />
+
+      <!-- Fine 2px Black Internal Carpentry Seams -->
+      <line x1="268" y1="196" x2="268" y2="260" stroke="#0B0E0C" stroke-width="2" />
+      <line x1="268" y1="312" x2="268" y2="366" stroke="#0B0E0C" stroke-width="2" />
+    </g>
+
+
+    <!-- ======================================================== -->
+    <!-- THIN RICH BROWN EARTH / SOIL GROUND LINE -->
+    <!-- Sits at y=424 with visible dirt patches between grass tufts -->
+    <!-- ======================================================== -->
+    <rect x="36" y="424" width="440" height="12" rx="3" fill="url(#soilGrad1ai)" stroke="#0B0E0C" stroke-width="2" />
+
+    <!-- Soil Micro Highlights & Grain -->
+    <line x1="44" y1="426" x2="160" y2="426" stroke="#8A5E33" stroke-width="1" opacity="0.6" stroke-linecap="round" />
+    <line x1="180" y1="426" x2="310" y2="426" stroke="#8A5E33" stroke-width="1" opacity="0.6" stroke-linecap="round" />
+    <line x1="330" y1="426" x2="468" y2="426" stroke="#8A5E33" stroke-width="1" opacity="0.6" stroke-linecap="round" />
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- DENSE SHORT GRASS LAWN WITH NATURAL SOIL GAPS -->
+  <!-- Short, dense blades clustering along bottom, leaving soil visible in spots -->
+  <!-- ======================================================== -->
+  <g id="Dense-Short-Grass-System-1ai" filter="drop-shadow(0 3px 5px rgba(0,0,0,0.5))">
+
+    <!-- CLUSTER 1: LEFT GROUND & POST 1 FLANK (x = 32 to 142) -->
+    <!-- Dense short blades covering soil, with soil gap around x=148 -->
+    <g transform="translate(32, 412)">
+      <!-- Back Shadow Blades (Dark Pine #11522C / #0C3D20) -->
+      <path d="M 6 18 C 5 11 2 4 0 0 C 4 5 7 11 8 18 Z" fill="#0C3D20" />
+      <path d="M 14 18 C 15 9 19 3 24 0 C 21 6 18 12 16 18 Z" fill="#11522C" />
+      <path d="M 22 18 C 21 10 17 4 14 0 C 19 5 24 11 25 18 Z" fill="#0C3D20" />
+      <path d="M 32 18 C 34 8 40 2 46 0 C 41 6 37 12 34 18 Z" fill="#11522C" />
+      <path d="M 44 18 C 42 9 37 3 32 0 C 38 5 44 11 46 18 Z" fill="#0C3D20" />
+      <path d="M 54 18 C 57 8 62 2 68 0 C 63 6 59 12 56 18 Z" fill="#11522C" />
+      <path d="M 66 18 C 65 10 61 4 57 0 C 62 5 67 11 68 18 Z" fill="#0C3D20" />
+      <path d="M 76 18 C 78 8 84 2 90 0 C 85 6 81 12 78 18 Z" fill="#11522C" />
+      <path d="M 88 18 C 86 9 82 3 77 0 C 83 5 88 11 90 18 Z" fill="#0C3D20" />
+      <path d="M 98 18 C 101 8 107 2 114 0 C 108 6 103 12 100 18 Z" fill="#11522C" />
+
+      <!-- Mid Turf Layer (Sage-Spruce #366A4D) -->
+      <path d="M 10 18 C 12 10 17 4 22 1 C 18 7 15 12 13 18 Z" fill="#366A4D" />
+      <path d="M 28 18 C 26 11 21 5 16 1 C 22 6 28 12 30 18 Z" fill="#287545" />
+      <path d="M 38 18 C 41 9 47 3 53 1 C 47 7 42 12 40 18 Z" fill="#366A4D" />
+      <path d="M 50 18 C 48 10 43 4 38 1 C 44 6 50 12 52 18 Z" fill="#287545" />
+      <path d="M 60 18 C 63 9 70 3 76 1 C 70 7 65 12 62 18 Z" fill="#366A4D" />
+      <path d="M 72 18 C 70 10 65 5 60 1 C 66 6 72 12 74 18 Z" fill="#287545" />
+      <path d="M 82 18 C 85 9 92 3 98 1 C 92 7 87 12 84 18 Z" fill="#366A4D" />
+      <path d="M 94 18 C 92 10 87 5 82 1 C 88 6 94 12 96 18 Z" fill="#287545" />
+      <path d="M 104 18 C 106 10 112 4 118 2 C 112 8 108 13 106 18 Z" fill="#366A4D" />
+
+      <!-- Front Sunlit Blades (Bright Emerald #2EA055 & Mint #6EE7A0) -->
+      <path d="M 4 18 C 6 12 10 6 15 3 C 12 8 9 13 7 18 Z" fill="#2EA055" />
+      <path d="M 18 18 C 16 12 12 7 8 4 C 13 8 18 13 20 18 Z" fill="#6EE7A0" />
+      <path d="M 24 18 C 27 11 32 5 37 2 C 32 7 28 12 26 18 Z" fill="#2EA055" />
+      <path d="M 34 18 C 32 12 28 7 24 4 C 29 8 34 13 36 18 Z" fill="#6EE7A0" />
+      <path d="M 46 18 C 49 11 55 5 61 2 C 55 7 50 12 48 18 Z" fill="#2EA055" />
+      <path d="M 56 18 C 54 12 50 7 46 4 C 51 8 56 13 58 18 Z" fill="#6EE7A0" />
+      <path d="M 68 18 C 71 11 77 5 83 2 C 77 7 72 12 70 18 Z" fill="#2EA055" />
+      <path d="M 78 18 C 76 12 72 7 68 4 C 73 8 78 13 80 18 Z" fill="#6EE7A0" />
+      <path d="M 90 18 C 93 11 99 5 105 2 C 99 7 94 12 92 18 Z" fill="#2EA055" />
+      <path d="M 100 18 C 98 12 94 7 90 4 C 95 8 100 13 102 18 Z" fill="#6EE7A0" />
+    </g>
+
+    <!-- [VISIBLE SOIL GAP 1: Around x = 145 to 160] (Dirt line peeks through cleanly) -->
+
+    <!-- CLUSTER 2: CENTER BAY & POST 2 BASE (x = 162 to 300) -->
+    <g transform="translate(162, 412)">
+      <!-- Back Shadow Blades -->
+      <path d="M 6 18 C 5 11 2 4 0 0 C 4 5 7 11 8 18 Z" fill="#0C3D20" />
+      <path d="M 16 18 C 18 8 24 2 30 0 C 25 6 21 12 18 18 Z" fill="#11522C" />
+      <path d="M 28 18 C 26 9 21 3 16 0 C 22 5 27 11 29 18 Z" fill="#0C3D20" />
+      <path d="M 38 18 C 41 8 47 2 54 0 C 48 6 43 12 40 18 Z" fill="#11522C" />
+      <path d="M 50 18 C 48 9 44 3 39 0 C 45 5 50 11 52 18 Z" fill="#0C3D20" />
+      <path d="M 62 18 C 65 8 71 2 78 0 C 72 6 67 12 64 18 Z" fill="#11522C" />
+      <path d="M 74 18 C 72 9 68 3 63 0 C 69 5 74 11 76 18 Z" fill="#0C3D20" />
+      <path d="M 86 18 C 89 8 95 2 102 0 C 96 6 91 12 88 18 Z" fill="#11522C" />
+      <path d="M 98 18 C 96 9 92 3 87 0 C 93 5 98 11 100 18 Z" fill="#0C3D20" />
+      <path d="M 110 18 C 113 8 119 2 126 0 C 120 6 115 12 112 18 Z" fill="#11522C" />
+      <path d="M 122 18 C 120 10 116 4 112 0 C 117 5 122 11 124 18 Z" fill="#0C3D20" />
+
+      <!-- Mid Turf Layer -->
+      <path d="M 12 18 C 14 10 19 4 25 1 C 20 7 16 12 14 18 Z" fill="#366A4D" />
+      <path d="M 24 18 C 22 10 17 5 12 1 C 18 6 24 12 26 18 Z" fill="#287545" />
+      <path d="M 34 18 C 37 9 44 3 50 1 C 44 7 39 12 36 18 Z" fill="#366A4D" />
+      <path d="M 46 18 C 44 10 39 5 34 1 C 40 6 46 12 48 18 Z" fill="#287545" />
+      <path d="M 58 18 C 61 9 68 3 74 1 C 68 7 63 12 60 18 Z" fill="#366A4D" />
+      <path d="M 70 18 C 68 10 63 5 58 1 C 64 6 70 12 72 18 Z" fill="#287545" />
+      <path d="M 82 18 C 85 9 92 3 98 1 C 92 7 87 12 84 18 Z" fill="#366A4D" />
+      <path d="M 94 18 C 92 10 87 5 82 1 C 88 6 94 12 96 18 Z" fill="#287545" />
+      <path d="M 106 18 C 109 9 116 3 122 1 C 116 7 111 12 108 18 Z" fill="#366A4D" />
+      <path d="M 118 18 C 116 10 111 5 106 1 C 112 6 118 12 120 18 Z" fill="#287545" />
+
+      <!-- Front Sunlit Layer -->
+      <path d="M 8 18 C 10 12 14 6 19 3 C 15 8 12 13 10 18 Z" fill="#2EA055" />
+      <path d="M 20 18 C 18 12 14 7 10 4 C 15 8 20 13 22 18 Z" fill="#6EE7A0" />
+      <path d="M 30 18 C 33 11 38 5 43 2 C 38 7 34 12 32 18 Z" fill="#2EA055" />
+      <path d="M 42 18 C 40 12 36 7 32 4 C 37 8 42 13 44 18 Z" fill="#6EE7A0" />
+      <path d="M 54 18 C 57 11 62 5 67 2 C 62 7 57 12 55 18 Z" fill="#2EA055" />
+      <path d="M 66 18 C 64 12 60 7 56 4 C 61 8 66 13 68 18 Z" fill="#6EE7A0" />
+      <path d="M 78 18 C 81 11 86 5 91 2 C 86 7 81 12 79 18 Z" fill="#2EA055" />
+      <path d="M 90 18 C 88 12 84 7 80 4 C 85 8 90 13 92 18 Z" fill="#6EE7A0" />
+      <path d="M 102 18 C 105 11 110 5 115 2 C 110 7 105 12 103 18 Z" fill="#2EA055" />
+      <path d="M 114 18 C 112 12 108 7 104 4 C 109 8 114 13 116 18 Z" fill="#6EE7A0" />
+      <path d="M 124 18 C 126 12 130 6 134 3 C 130 8 127 13 125 18 Z" fill="#2EA055" />
+    </g>
+
+    <!-- [VISIBLE SOIL GAP 2: Around x = 305 to 320] (Dirt line peeks through cleanly) -->
+
+    <!-- CLUSTER 3: RIGHT GROUND FLANK (x = 322 to 468) -->
+    <g transform="translate(322, 412)">
+      <!-- Back Shadow Blades -->
+      <path d="M 6 18 C 5 11 2 4 0 0 C 4 5 7 11 8 18 Z" fill="#0C3D20" />
+      <path d="M 16 18 C 18 8 24 2 30 0 C 25 6 21 12 18 18 Z" fill="#11522C" />
+      <path d="M 28 18 C 26 9 21 3 16 0 C 22 5 27 11 29 18 Z" fill="#0C3D20" />
+      <path d="M 40 18 C 43 8 49 2 56 0 C 50 6 45 12 42 18 Z" fill="#11522C" />
+      <path d="M 52 18 C 50 9 46 3 41 0 C 47 5 52 11 54 18 Z" fill="#0C3D20" />
+      <path d="M 64 18 C 67 8 73 2 80 0 C 74 6 69 12 66 18 Z" fill="#11522C" />
+      <path d="M 76 18 C 74 9 70 3 65 0 C 71 5 76 11 78 18 Z" fill="#0C3D20" />
+      <path d="M 88 18 C 91 8 97 2 104 0 C 98 6 93 12 90 18 Z" fill="#11522C" />
+      <path d="M 100 18 C 98 9 94 3 89 0 C 95 5 100 11 102 18 Z" fill="#0C3D20" />
+      <path d="M 112 18 C 115 8 121 2 128 0 C 122 6 117 12 114 18 Z" fill="#11522C" />
+      <path d="M 124 18 C 122 9 118 3 113 0 C 119 5 124 11 126 18 Z" fill="#0C3D20" />
+      <path d="M 136 18 C 138 9 143 3 148 0 C 143 6 139 12 137 18 Z" fill="#11522C" />
+
+      <!-- Mid Turf Layer -->
+      <path d="M 12 18 C 14 10 19 4 25 1 C 20 7 16 12 14 18 Z" fill="#366A4D" />
+      <path d="M 24 18 C 22 10 17 5 12 1 C 18 6 24 12 26 18 Z" fill="#287545" />
+      <path d="M 36 18 C 39 9 46 3 52 1 C 46 7 41 12 38 18 Z" fill="#366A4D" />
+      <path d="M 48 18 C 46 10 41 5 36 1 C 42 6 48 12 50 18 Z" fill="#287545" />
+      <path d="M 60 18 C 63 9 70 3 76 1 C 70 7 65 12 62 18 Z" fill="#366A4D" />
+      <path d="M 72 18 C 70 10 65 5 60 1 C 66 6 72 12 74 18 Z" fill="#287545" />
+      <path d="M 84 18 C 87 9 94 3 100 1 C 94 7 89 12 86 18 Z" fill="#366A4D" />
+      <path d="M 96 18 C 94 10 89 5 84 1 C 90 6 96 12 98 18 Z" fill="#287545" />
+      <path d="M 108 18 C 111 9 118 3 124 1 C 118 7 113 12 110 18 Z" fill="#366A4D" />
+      <path d="M 120 18 C 118 10 113 5 108 1 C 114 6 120 12 122 18 Z" fill="#287545" />
+      <path d="M 132 18 C 134 10 140 4 145 1 C 140 7 136 12 133 18 Z" fill="#366A4D" />
+
+      <!-- Front Sunlit Layer -->
+      <path d="M 8 18 C 10 12 14 6 19 3 C 15 8 12 13 10 18 Z" fill="#2EA055" />
+      <path d="M 20 18 C 18 12 14 7 10 4 C 15 8 20 13 22 18 Z" fill="#6EE7A0" />
+      <path d="M 32 18 C 35 11 40 5 45 2 C 40 7 36 12 34 18 Z" fill="#2EA055" />
+      <path d="M 44 18 C 42 12 38 7 34 4 C 39 8 44 13 46 18 Z" fill="#6EE7A0" />
+      <path d="M 56 18 C 59 11 64 5 69 2 C 64 7 59 12 57 18 Z" fill="#2EA055" />
+      <path d="M 68 18 C 66 12 62 7 58 4 C 63 8 68 13 70 18 Z" fill="#6EE7A0" />
+      <path d="M 80 18 C 83 11 88 5 93 2 C 88 7 83 12 81 18 Z" fill="#2EA055" />
+      <path d="M 92 18 C 90 12 86 7 82 4 C 87 8 92 13 94 18 Z" fill="#6EE7A0" />
+      <path d="M 104 18 C 107 11 112 5 117 2 C 112 7 107 12 105 18 Z" fill="#2EA055" />
+      <path d="M 116 18 C 114 12 110 7 106 4 C 111 8 116 13 118 18 Z" fill="#6EE7A0" />
+      <path d="M 128 18 C 131 11 136 5 141 2 C 136 7 131 12 129 18 Z" fill="#2EA055" />
+      <path d="M 140 18 C 138 12 134 7 130 4 C 135 8 140 13 142 18 Z" fill="#6EE7A0" />
+    </g>
+
+  </g>
+</svg>

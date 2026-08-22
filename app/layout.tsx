@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: 'Fence Frames — Frame Your Vision | Find Your Fence',
   description:
     'Fence Frames is a modern fence design platform built by a former fencing contractor. Design your fence, generate HOA-ready blueprints, and match with 3 vetted local contractors.',
+  robots: {
+    index: false,
+    follow: false,
+  },
   generator: 'v0.app',
 }
 
