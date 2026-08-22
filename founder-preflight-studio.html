@@ -3,128 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence Frames — Founder Pre-Flight Review & Page Inspector Studio</title>
+  <title>Fence Frames — Founder Pre-Flight Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #0B100D; color: #FAF6EE; }
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #080D0A; color: #FAF6EE; }
     iframe { border: none; }
-    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #111713; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0F1612; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 3px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col custom-scrollbar">
+<body class="min-h-screen flex flex-col custom-scrollbar pb-20">
 
   <!-- ========================================================================= -->
-  <!-- MASTER TOP STICKY TOOLBAR -->
+  <!-- TOP NON-STICKY HEADER (Rolls away on scroll to maximize screen space) -->
   <!-- ========================================================================= -->
-  <header class="bg-[#141B16] border-b-2 border-[#E5B842]/50 px-4 py-2.5 sticky top-0 z-50 shadow-2xl flex flex-wrap items-center justify-between gap-3">
-    {/* Left: Brand & Title */}
-    <div class="flex items-center gap-3">
-      <span class="font-bold text-sm text-[#E5B842] flex items-center gap-1.5">
+  <header class="bg-[#121814] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
+    <div class="flex items-center gap-2.5">
+      <span class="font-bold text-xs text-[#E5B842] flex items-center gap-1">
         <span>🌲</span>
         <span>FENCE FRAMES</span>
       </span>
       <span class="text-white/20">|</span>
-      <span class="text-xs font-bold text-white bg-[#1C241E] px-2.5 py-1 rounded border border-white/10 flex items-center gap-1.5">
-        <span>🚀</span>
-        <span>PRE-FLIGHT COCKPIT</span>
+      <span class="text-[11px] font-normal text-white/70">
+        FOUNDER PRE-FLIGHT INSPECTOR &amp; LIVE DEMO COCKPIT
       </span>
     </div>
 
-    {/* Center: Slideshow Page Selector & Navigation */}
-    <div class="flex items-center gap-2">
-      <button id="prevBtn" onclick="prevSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/20 text-xs font-bold transition flex items-center gap-1">
-        <span>◀</span>
-        <span class="hidden sm:inline">Prev</span>
-      </button>
-
-      <select id="pageSelect" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border-2 border-[#E5B842] text-xs font-bold text-[#E5B842] rounded px-3 py-1.5 focus:outline-none shadow-md">
-      </select>
-
-      <button id="nextBtn" onclick="nextSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/20 text-xs font-bold transition flex items-center gap-1">
-        <span class="hidden sm:inline">Next</span>
-        <span>▶</span>
-      </button>
-    </div>
-
-    {/* Right: Layout Toggle, Viewport & Zoom Suite */}
-    <div class="flex items-center gap-3 flex-wrap">
-      {/* Layout Mode Toggle */}
-      <div class="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs">
-        <button onclick="setLayout('full')" id="btnLayoutFull" class="px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1">
-          <span>⛶</span>
-          <span>Full View (Stacked)</span>
-        </button>
-        <button onclick="setLayout('split')" id="btnLayoutSplit" class="px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1">
-          <span>◫</span>
-          <span>2-Column Split</span>
-        </button>
-      </div>
-
-      {/* Device Viewport Selector */}
-      <div class="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs">
-        <button onclick="setDevice('desktop')" id="btnDesktop" class="px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold">🖥️ Desktop</button>
-        <button onclick="setDevice('tablet')" id="btnTablet" class="px-2.5 py-1 rounded text-white/60">📱 Tablet</button>
-        <button onclick="setDevice('mobile')" id="btnMobile" class="px-2.5 py-1 rounded text-white/60">📱 Mobile</button>
-      </div>
-
-      {/* Zoom Preset Suite */}
-      <div class="flex items-center bg-[#111713] border border-white/15 rounded p-0.5 text-xs">
-        <button onclick="setZoom(0.5)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">50% (Fit All)</button>
-        <button onclick="setZoom(0.75)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">75%</button>
-        <button onclick="setZoom(1.0)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">100%</button>
-        <div class="h-3 w-px bg-white/20 mx-1"></div>
-        <button onclick="zoomStep(-0.1)" class="px-2 py-0.5 font-bold hover:bg-white/10 rounded">-</button>
-        <span id="zoomReadout" class="px-1.5 text-[#E5B842] font-bold min-w-[42px] text-center">75%</span>
-        <button onclick="zoomStep(0.1)" class="px-2 py-0.5 font-bold hover:bg-white/10 rounded">+</button>
-      </div>
-
-      {/* 1-Click External Tab */}
-      <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="bg-[#1C241E] hover:bg-[#26332A] border border-[#4ADE80] text-[#4ADE80] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-        <span>Open Standalone</span>
+    <div class="flex items-center gap-3 text-[11px] text-white/50">
+      <span class="hidden md:inline">⌨️ Hotkeys: <strong class="text-white font-normal">← / →</strong> (Slideshow) · <strong class="text-white font-normal">Tab</strong> (Toggle Full/Split) · <strong class="text-white font-normal">+ / -</strong> (Zoom)</span>
+      <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="text-[#4ADE80] hover:underline flex items-center gap-1 font-normal">
+        <span>Open Direct Tab</span>
         <span>↗</span>
       </a>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE CONTAINER (DYNAMICALLY TOGGLES BETWEEN FULL & SPLIT) -->
+  <!-- MAIN WORKSPACE (FULL-WIDTH STACKED BY DEFAULT) -->
   <!-- ========================================================================= -->
-  <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-4 gap-6 max-w-[1700px] mx-auto">
+  <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3 gap-5 max-w-[1750px] mx-auto">
 
-    <!-- ======================================================================= -->
-    <!-- ROW 1: LIVE INTERACTIVE SANDBOX (EXPANDS TO 100% IN FULL VIEW) -->
-    <!-- ======================================================================= -->
-    <section id="sandboxSection" class="w-full bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl relative">
-      {/* Top Section Info Strip */}
-      <div class="w-full flex flex-wrap items-center justify-between gap-3 mb-3 pb-2 border-b border-white/10 text-xs">
-        <div class="flex items-center gap-3">
+    <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
+    <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl relative">
+      <div class="w-full flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-white/10 text-xs">
+        <div class="flex items-center gap-2">
           <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
-            DSGN-03 · Tier 1
+            DSGN-03
           </span>
           <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
             Frame It
           </span>
-          <span class="text-white/80 font-bold" id="pageTitleTop">The Universal 2D Designer Configurator</span>
+          <span class="text-white font-bold text-xs" id="pageTitleTop">The Universal 2D Designer Configurator</span>
         </div>
 
-        <div class="flex items-center gap-3 text-white/60">
-          <span>Active Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
+        <div class="flex items-center gap-3 text-[11px] text-white/60">
+          <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
           <span class="text-white/20">•</span>
-          <span id="scaleStatusText" class="text-white/70">Viewport Zoom: 75%</span>
+          <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
         </div>
       </div>
 
-      {/* Viewport Frame with Dynamic Zoom Scaling */}
-      <div class="w-full bg-[#0B100D] rounded-md border border-white/10 p-2 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
+      <!-- Viewport Frame -->
+      <div class="w-full bg-[#060A08] rounded border border-white/10 p-1.5 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
         <div
           id="viewportContainer"
-          style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.15s ease, width 0.2s ease;"
+          style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
           class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
         >
           <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
@@ -132,94 +80,79 @@
       </div>
     </section>
 
-    <!-- ======================================================================= -->
-    <!-- ROW 2: INSPECTOR, METRICS, LINK MAP & FOUNDER APPROVAL SUITE -->
-    <!-- ======================================================================= -->
-    <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-
-      {/* Card 1: Page Purpose & Target Persona */}
-      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
+    <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
+    <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+      {/* Purpose Card */}
+      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
         <div class="flex items-center justify-between">
-          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
+          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
             <span>🎯</span>
-            <span>Purpose &amp; Target Goal</span>
+            <span>Purpose &amp; Goal</span>
           </h3>
-          <span id="badgePillarCard" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+          <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
         </div>
         <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
-        <div class="mt-auto pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/60">
-          <span>Specs File:</span>
-          <span id="specsFileReadout" class="font-mono text-[#E5B842] text-[10px]">DSGN-03.md</span>
-        </div>
       </div>
 
-      {/* Card 2: Outbound Links & Routing Map */}
-      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
-        <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
+      {/* Outbound Links */}
+      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+        <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
           <span>🗺️</span>
-          <span>Outbound Links &amp; Action Map</span>
+          <span>Outbound Link Map</span>
         </h3>
-        <div id="linksList" class="space-y-2 text-xs font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></div>
+        <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
       </div>
 
-      {/* Card 3: Interactive Controls & Form Elements */}
-      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
-        <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1.5">
+      {/* Controls */}
+      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+        <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
           <span>🎛️</span>
-          <span>Interactive Controls &amp; Elements</span>
+          <span>Interactive Controls</span>
         </h3>
-        <div id="controlsList" class="space-y-2 text-xs font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></div>
+        <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
       </div>
 
-      {/* Card 4: Architectural Notes & Compliance */}
-      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
-        <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1.5">
+      {/* Notes */}
+      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+        <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
           <span>⚖️</span>
-          <span>Architectural &amp; Code Notes</span>
+          <span>Code &amp; 8-Metric Notes</span>
         </h3>
-        <ul id="notesList" class="list-disc list-inside space-y-1.5 text-xs text-white/80 font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></ul>
+        <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
       </div>
-
     </section>
 
-    <!-- ======================================================================= -->
-    <!-- ROW 3: FOUNDER APPROVAL & SIGN-OFF CONSOLE (FULL-WIDTH BANNER) -->
-    <!-- ======================================================================= -->
-    <section class="w-full bg-[#18241D] border-2 border-[#E5B842] rounded-lg p-5 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-      <div class="flex-1 flex flex-col gap-1.5 w-full">
+    <!-- ROW 3: FOUNDER NOTES & SIGN-OFF -->
+    <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex-1 flex flex-col gap-1 w-full">
         <div class="flex items-center gap-2">
-          <span class="text-lg">🛡️</span>
-          <h3 class="text-sm font-bold text-[#E5B842] uppercase">
-            Founder Sign-Off &amp; Feedback Console
-          </h3>
-          <span id="approvalStatusPill" class="text-[10px] font-bold px-2.5 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16] ml-2">
-            PENDING REVIEW
+          <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
+          <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
+            PENDING
           </span>
         </div>
-        <textarea
+        <input
+          type="text"
           id="founderNote"
           oninput="saveNote(this.value)"
-          placeholder="Type founder instructions, layout tweaks, or copy refinements for this page..."
-          rows="2"
-          class="w-full bg-[#111713] border border-white/20 text-white rounded p-2.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
-        ></textarea>
+          placeholder="Type quick design feedback, copy edits, or adjustments..."
+          class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
+        />
       </div>
 
-      {/* Action Buttons */}
-      <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full md:w-auto">
+      <div class="flex items-center gap-2 w-full md:w-auto">
         <button
           onclick="setApproval('approved')"
-          class="w-full sm:w-auto bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-6 py-3 rounded-md border-2 border-[#141B16] shadow-lg flex items-center justify-center gap-2 transition"
+          class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
         >
           <span>✓</span>
-          <span>Approve Page for Live</span>
+          <span>Approve</span>
         </button>
         <button
           onclick="setApproval('changes-requested')"
-          class="w-full sm:w-auto bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-5 py-3 rounded-md border border-[#EF4444]/40 transition flex items-center justify-center gap-2"
+          class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
         >
-          <span>⚠️</span>
-          <span>Request Edits</span>
+          ⚠️ Request Edits
         </button>
       </div>
     </section>
@@ -227,7 +160,58 @@
   </main>
 
   <!-- ========================================================================= -->
-  <!-- LOGIC & REGISTRY SCRIPT -->
+  <!-- SLIM STICKY BOTTOM TOOLBAR HUD (Single Row Cockpit, Always Accessible) -->
+  <!-- ========================================================================= -->
+  <footer class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 bg-[#121814]/95 backdrop-blur-md border-2 border-[#E5B842]/70 rounded-full px-4 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] flex items-center gap-3 text-xs max-w-[96vw] overflow-x-auto custom-scrollbar">
+    {/* Page Switcher */}
+    <div class="flex items-center gap-1">
+      <button onclick="prevSlide()" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] rounded-full border border-white/20 text-xs font-bold transition">◀</button>
+      <select id="pageSelectBottom" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border border-[#E5B842] text-xs font-bold text-[#E5B842] rounded-full px-2.5 py-1 focus:outline-none max-w-[200px] sm:max-w-[280px] truncate">
+      </select>
+      <button onclick="nextSlide()" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] rounded-full border border-white/20 text-xs font-bold transition">▶</button>
+    </div>
+
+    <div class="h-4 w-px bg-white/20"></div>
+
+    {/* Quick Layout Mode */}
+    <button onclick="toggleLayout()" id="btnLayoutToggle" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] border border-white/20 rounded-full text-xs font-normal text-white flex items-center gap-1">
+      <span>⛶</span>
+      <span id="layoutText">Full View</span>
+      <kbd class="text-[9px] bg-white/10 px-1 rounded text-white/50 ml-0.5">Tab</kbd>
+    </button>
+
+    <div class="h-4 w-px bg-white/20"></div>
+
+    {/* Zoom Presets */}
+    <div class="flex items-center gap-1 bg-[#0A0F0C] p-0.5 rounded-full border border-white/15">
+      <button onclick="setZoom(0.5)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">50% Fit</button>
+      <button onclick="setZoom(0.75)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">75%</button>
+      <button onclick="setZoom(1.0)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">100%</button>
+      <button onclick="zoomStep(-0.1)" class="w-5 h-5 flex items-center justify-center font-bold hover:bg-white/10 rounded-full">-</button>
+      <span id="zoomReadoutBottom" class="text-[11px] text-[#E5B842] font-bold px-1">75%</span>
+      <button onclick="zoomStep(0.1)" class="w-5 h-5 flex items-center justify-center font-bold hover:bg-white/10 rounded-full">+</button>
+    </div>
+
+    <div class="h-4 w-px bg-white/20"></div>
+
+    {/* Device Viewport Selector */}
+    <div class="flex items-center gap-1 bg-[#0A0F0C] p-0.5 rounded-full border border-white/15">
+      <button onclick="setDevice('desktop')" id="btnDeskHud" class="px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]">🖥️</button>
+      <button onclick="setDevice('tablet')" id="btnTabHud" class="px-2 py-0.5 rounded-full text-white/60 text-[11px]">📱</button>
+      <button onclick="setDevice('mobile')" id="btnMobHud" class="px-2 py-0.5 rounded-full text-white/60 text-[11px]">📲</button>
+    </div>
+
+    <div class="h-4 w-px bg-white/20"></div>
+
+    {/* Quick Approval Pill */}
+    <button onclick="toggleQuickApproval()" id="btnQuickApprove" class="px-3 py-1 bg-[#4ADE80] text-[#141B16] font-bold rounded-full text-xs flex items-center gap-1 shadow">
+      <span>✓</span>
+      <span>Approve</span>
+    </button>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- LOGIC & SHORTCUTS -->
   <!-- ========================================================================= -->
   <script>
     const PAGES = [
@@ -238,7 +222,6 @@
         displayRoute: '/',
         pillar: 'Multi-Pillar Convergence',
         pillarColor: '#E5B842',
-        specsFile: 'CORE-01-Master-Homepage.md',
         purpose: 'The central front door for Fence Frames. Converts visitors into active design sessions via 3 clear pathways (Code/HOA Matcher, Design Catalog, Instant Configurator).',
         links: [
           { label: 'Start Designing', route: '/designer', trigger: 'Hero Primary CTA' },
@@ -264,7 +247,6 @@
         displayRoute: '/designer',
         pillar: 'Frame It (Ember Orange)',
         pillarColor: '#F27A22',
-        specsFile: 'DSGN-03-The-Designer-Configurator.md',
         purpose: 'The universal parametric CAD engine. Renders dual Front & Back elevations in real time with 8 pricing metrics, dynamic style switching, and live BOM calculation.',
         links: [
           { label: 'Portrait ARC Blueprint', route: '/blueprint', trigger: 'Save Fence-Folio & Get Blueprint CTA' },
@@ -291,7 +273,6 @@
         displayRoute: '/blueprint',
         pillar: 'Fence It (Forest Green)',
         pillarColor: '#4ADE80',
-        specsFile: 'CORE-03-Portrait-ARC-Blueprint.md',
         purpose: 'The official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
         links: [
           { label: 'Back to Designer', route: '/designer', trigger: 'Edit Design Parameters button' },
@@ -309,35 +290,12 @@
         ]
       },
       {
-        id: 'CORE-02',
-        title: 'Auth & Guest Draft Preservation Gate',
-        srcUrl: '/homepage.html',
-        displayRoute: '/log-in',
-        pillar: 'Portals & Auth (Royal Blue)',
-        pillarColor: '#3B82F6',
-        specsFile: 'CORE-02-Auth-Gate.md',
-        purpose: 'Hybrid authentication gate (Email/Password + SMS Phone OTP) that permanently stores guest drafts to the user database without losing work.',
-        links: [
-          { label: 'Homeowner Showcase', route: '/homeowner', trigger: 'Successful Login / Register' },
-          { label: 'Return to Designer', route: '/designer', trigger: 'Continue Editing Draft' }
-        ],
-        controls: [
-          { name: 'Auth Mode Switcher', type: 'Tabs (Sign In / Register)', purpose: 'Toggles between existing account login and 1-tap registration.' },
-          { name: 'Hybrid Channel (Phone / Email)', type: 'Segmented Toggle', purpose: 'Allows passwordless SMS OTP verification or standard email login.' }
-        ],
-        notes: [
-          'Guest Draft Hydration Pattern: Migrates sessionStorage into Supabase saved_builds on auth.',
-          'Zero PCI liability ($0 cost for homeowners).'
-        ]
-      },
-      {
         id: 'DSGN-SYS',
         title: 'Design System & Graduated Cards Guide',
         srcUrl: '/design-system-guide.html',
         displayRoute: '/design-system-guide',
         pillar: 'Core Design Law',
         pillarColor: '#E5B842',
-        specsFile: 'DESIGN-RULES.md',
         purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
         links: [
           { label: 'Interactive Canvas', route: '/interactive-canvas.html', trigger: 'System Architecture Link' }
@@ -356,7 +314,6 @@
         displayRoute: '/interactive-canvas.html',
         pillar: 'Core Engineering',
         pillarColor: '#3B82F6',
-        specsFile: '06-PAGE-VAULT-AND-TIER-HIERARCHY.md',
         purpose: 'Macro & Micro interactive architecture map with 5% zoom, slate canvas, thick connection lines, and 1-click Fit-All.',
         links: [
           { label: 'Design System Guide', route: '/design-system-guide.html', trigger: 'Design Rules Link' }
@@ -373,24 +330,35 @@
 
     let currentIndex = 1;
     let currentZoom = 0.75;
-    let currentLayout = 'full'; // 'full' (stacked) or 'split' (2-column)
+    let currentLayout = 'full'; // 'full' or 'split'
     let currentDevice = 'desktop';
     let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
 
     function init() {
-      const select = document.getElementById('pageSelect');
-      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">[${i+1}/${PAGES.length}] ${p.id}: ${p.title}</option>`).join('');
+      const selectBottom = document.getElementById('pageSelectBottom');
+      selectBottom.innerHTML = PAGES.map((p, i) => `<option value="${i}">[${i+1}/${PAGES.length}] ${p.id}: ${p.title}</option>`).join('');
       renderPage();
+
+      // Keyboard Shortcut Listeners
+      window.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          toggleLayout();
+        }
+        if (e.key === '+' || e.key === '=') zoomStep(0.1);
+        if (e.key === '-' || e.key === '_') zoomStep(-0.1);
+      });
     }
 
     function renderPage() {
       const p = PAGES[currentIndex];
-      document.getElementById('pageSelect').value = currentIndex;
-      document.getElementById('prevBtn').disabled = currentIndex === 0;
-      document.getElementById('nextBtn').disabled = currentIndex === PAGES.length - 1;
+      document.getElementById('pageSelectBottom').value = currentIndex;
 
-      // Top Strip updates
-      document.getElementById('badgeIdTop').innerText = p.id + ' · Tier 1';
+      // Top info
+      document.getElementById('badgeIdTop').innerText = p.id;
       document.getElementById('badgePillarTop').innerText = p.pillar;
       document.getElementById('badgePillarTop').style.backgroundColor = p.pillarColor;
       document.getElementById('pageTitleTop').innerText = p.title;
@@ -398,15 +366,14 @@
       document.getElementById('externalLink').href = p.srcUrl;
       document.getElementById('pageIframe').src = p.srcUrl;
 
-      // Cards updates
+      // Cards
       document.getElementById('badgePillarCard').innerText = p.pillar;
       document.getElementById('badgePillarCard').style.backgroundColor = p.pillarColor;
       document.getElementById('pagePurpose').innerText = p.purpose;
-      document.getElementById('specsFileReadout').innerText = p.specsFile || 'spec.md';
 
-      // Link list
+      // Lists
       document.getElementById('linksList').innerHTML = p.links.map(l => `
-        <div class="bg-[#111713] p-2 rounded border border-white/5 flex flex-col gap-0.5">
+        <div class="bg-[#0A0F0C] p-2 rounded border border-white/5 flex flex-col gap-0.5">
           <div class="flex justify-between items-center">
             <strong class="font-normal text-white">${l.label}</strong>
             <span class="text-[10px] text-[#4ADE80] font-mono">${l.route}</span>
@@ -415,26 +382,24 @@
         </div>
       `).join('');
 
-      // Controls list
       document.getElementById('controlsList').innerHTML = p.controls.map(c => `
-        <div class="bg-[#111713] p-2 rounded border border-white/5">
+        <div class="bg-[#0A0F0C] p-2 rounded border border-white/5">
           <div class="flex justify-between items-center mb-0.5">
             <strong class="font-normal text-white/95">${c.name}</strong>
-            <span class="text-[9px] bg-[#242C26] px-1.5 py-0.5 rounded text-white/70">${c.type}</span>
+            <span class="text-[9px] bg-[#1E2820] px-1.5 py-0.5 rounded text-white/70">${c.type}</span>
           </div>
           <p class="text-[10px] text-white/60">${c.purpose}</p>
         </div>
       `).join('');
 
-      // Notes list
       document.getElementById('notesList').innerHTML = p.notes.map(n => `<li class="leading-snug mb-1">${n}</li>`).join('');
 
-      // Approval console
+      // Approval State
       const app = approvals[p.id] || { status: 'pending', note: '' };
       document.getElementById('founderNote').value = app.note || '';
       const pill = document.getElementById('approvalStatusPill');
       pill.innerText = app.status.toUpperCase().replace('-', ' ');
-      pill.className = `text-[10px] font-bold px-2.5 py-0.5 rounded uppercase ${
+      pill.className = `text-[9px] font-bold px-2 py-0.5 rounded uppercase ${
         app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
         app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
       }`;
@@ -456,37 +421,36 @@
 
     function applyTransform() {
       document.getElementById('viewportContainer').style.transform = `scale(${currentZoom})`;
-      document.getElementById('zoomReadout').innerText = `${Math.round(currentZoom * 100)}%`;
-      document.getElementById('scaleStatusText').innerText = `Viewport Zoom: ${Math.round(currentZoom * 100)}%`;
+      document.getElementById('zoomReadoutBottom').innerText = `${Math.round(currentZoom * 100)}%`;
+      document.getElementById('scaleStatusText').innerText = `Zoom: ${Math.round(currentZoom * 100)}%`;
     }
 
     function setDevice(device) {
       currentDevice = device;
       const container = document.getElementById('viewportContainer');
-      document.getElementById('btnDesktop').className = device === 'desktop' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
-      document.getElementById('btnTablet').className = device === 'tablet' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
-      document.getElementById('btnMobile').className = device === 'mobile' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
+      document.getElementById('btnDeskHud').className = device === 'desktop' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
+      document.getElementById('btnTabHud').className = device === 'tablet' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
+      document.getElementById('btnMobHud').className = device === 'mobile' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
       container.style.width = device === 'mobile' ? '390px' : device === 'tablet' ? '768px' : '100%';
     }
 
-    function setLayout(layout) {
-      currentLayout = layout;
+    function toggleLayout() {
+      currentLayout = currentLayout === 'full' ? 'split' : 'full';
       const main = document.getElementById('mainWorkspace');
       const sandbox = document.getElementById('sandboxSection');
       const inspector = document.getElementById('inspectorSection');
+      const layoutText = document.getElementById('layoutText');
 
-      if (layout === 'split') {
-        document.getElementById('btnLayoutSplit').className = 'px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1';
-        document.getElementById('btnLayoutFull').className = 'px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1';
-        main.className = 'flex-1 w-full grid grid-cols-1 lg:grid-cols-12 p-4 gap-6 max-w-[1900px] mx-auto';
-        sandbox.className = 'lg:col-span-7 bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl';
-        inspector.className = 'lg:col-span-5 grid grid-cols-1 gap-4 overflow-y-auto max-h-[880px] pr-2 custom-scrollbar';
+      if (currentLayout === 'split') {
+        layoutText.innerText = 'Split View';
+        main.className = 'flex-1 w-full grid grid-cols-1 lg:grid-cols-12 p-3 gap-5 max-w-[1900px] mx-auto';
+        sandbox.className = 'lg:col-span-7 bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl';
+        inspector.className = 'lg:col-span-5 grid grid-cols-1 gap-3.5 overflow-y-auto max-h-[880px] pr-2 custom-scrollbar';
       } else {
-        document.getElementById('btnLayoutFull').className = 'px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1';
-        document.getElementById('btnLayoutSplit').className = 'px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1';
-        main.className = 'flex-1 w-full flex flex-col p-4 gap-6 max-w-[1700px] mx-auto';
-        sandbox.className = 'w-full bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl';
-        inspector.className = 'w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4';
+        layoutText.innerText = 'Full View';
+        main.className = 'flex-1 w-full flex flex-col p-3 gap-5 max-w-[1750px] mx-auto';
+        sandbox.className = 'w-full bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl';
+        inspector.className = 'w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5';
       }
     }
 
@@ -495,6 +459,13 @@
       approvals[p.id] = { status, note: document.getElementById('founderNote').value };
       localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
       renderPage();
+    }
+
+    function toggleQuickApproval() {
+      const p = PAGES[currentIndex];
+      const current = approvals[p.id]?.status || 'pending';
+      const next = current === 'approved' ? 'changes-requested' : 'approved';
+      setApproval(next);
     }
 
     function saveNote(note) {
