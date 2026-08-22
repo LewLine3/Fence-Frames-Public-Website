@@ -11,204 +11,285 @@
   <style>
     body { font-family: 'Rowdies', cursive, sans-serif; background-color: #080D0A; color: #FAF6EE; }
     iframe { border: none; }
-    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #0F1612; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 3px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
+
+    /* Tooltip styles */
+    .tooltip-wrapper { position: relative; }
+    .tooltip-content {
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+      background: #141B16;
+      border: 1px solid #E5B842;
+      color: #FAF6EE;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .tooltip-wrapper:hover .tooltip-content { opacity: 1; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col custom-scrollbar pb-20">
+<body class="min-h-screen flex flex-row custom-scrollbar overflow-x-hidden bg-[#080D0A]">
 
   <!-- ========================================================================= -->
-  <!-- TOP NON-STICKY HEADER (Rolls away on scroll to maximize screen space) -->
+  <!-- ULTRA-TIGHT DOCKED LEFT VERTICAL TOOLBAR RAIL (Max width: 62px) -->
   <!-- ========================================================================= -->
-  <header class="bg-[#121814] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
-    <div class="flex items-center gap-2.5">
-      <span class="font-bold text-xs text-[#E5B842] flex items-center gap-1">
-        <span>🌲</span>
-        <span>FENCE FRAMES</span>
-      </span>
-      <span class="text-white/20">|</span>
-      <span class="text-[11px] font-normal text-white/70">
-        FOUNDER PRE-FLIGHT INSPECTOR &amp; LIVE DEMO COCKPIT
-      </span>
-    </div>
+  <aside class="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-r-2 border-[#E5B842]/60 h-screen sticky top-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[4px_0_20px_rgba(0,0,0,0.7)] select-none">
 
-    <div class="flex items-center gap-3 text-[11px] text-white/50">
-      <span class="hidden md:inline">⌨️ Hotkeys: <strong class="text-white font-normal">← / →</strong> (Slideshow) · <strong class="text-white font-normal">Tab</strong> (Toggle Full/Split) · <strong class="text-white font-normal">+ / -</strong> (Zoom)</span>
-      <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="text-[#4ADE80] hover:underline flex items-center gap-1 font-normal">
-        <span>Open Direct Tab</span>
-        <span>↗</span>
-      </a>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE (FULL-WIDTH STACKED BY DEFAULT) -->
-  <!-- ========================================================================= -->
-  <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3 gap-5 max-w-[1750px] mx-auto">
-
-    <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
-    <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl relative">
-      <div class="w-full flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-white/10 text-xs">
-        <div class="flex items-center gap-2">
-          <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
-            DSGN-03
-          </span>
-          <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
-            Frame It
-          </span>
-          <span class="text-white font-bold text-xs" id="pageTitleTop">The Universal 2D Designer Configurator</span>
-        </div>
-
-        <div class="flex items-center gap-3 text-[11px] text-white/60">
-          <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
-          <span class="text-white/20">•</span>
-          <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
-        </div>
+    {/* Top Group: Brand + Slideshow */}
+    <div class="flex flex-col items-center gap-3 w-full">
+      {/* Brand Icon */}
+      <div class="tooltip-wrapper">
+        <a href="/" class="w-10 h-10 rounded-lg bg-[#141B16] border border-[#E5B842] flex items-center justify-center text-base hover:scale-105 transition shadow">
+          🌲
+        </a>
+        <span class="tooltip-content">Fence Frames Portal</span>
       </div>
 
-      <!-- Viewport Frame -->
-      <div class="w-full bg-[#060A08] rounded border border-white/10 p-1.5 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
-        <div
-          id="viewportContainer"
-          style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
-          class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
-        >
-          <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
+      <div class="w-8 h-px bg-white/15"></div>
+
+      {/* Slideshow Up/Down Nav */}
+      <div class="flex flex-col items-center gap-1 w-full">
+        <div class="tooltip-wrapper">
+          <button onclick="prevSlide()" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition">
+            ▲
+          </button>
+          <span class="tooltip-content">Previous Page (← / ▲)</span>
+        </div>
+
+        {/* Compact Page Number Pill */}
+        <div class="tooltip-wrapper">
+          <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-10 h-8 bg-[#162019] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] rounded text-center focus:outline-none cursor-pointer appearance-none">
+          </select>
+          <span class="tooltip-content" id="pageTooltipInfo">Page Selector</span>
+        </div>
+
+        <div class="tooltip-wrapper">
+          <button onclick="nextSlide()" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition">
+            ▼
+          </button>
+          <span class="tooltip-content">Next Page (→ / ▼)</span>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
-    <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
-      {/* Purpose Card */}
-      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-        <div class="flex items-center justify-between">
+    {/* Middle Group: Layout & Zoom Suite */}
+    <div class="flex flex-col items-center gap-2.5 w-full">
+      <div class="w-8 h-px bg-white/15"></div>
+
+      {/* Layout Mode Toggle */}
+      <div class="tooltip-wrapper">
+        <button onclick="toggleLayout()" id="btnLayoutRail" class="w-10 h-10 rounded-lg bg-[#162019] hover:bg-[#223026] border border-white/25 text-[#E5B842] flex flex-col items-center justify-center text-xs transition">
+          <span id="iconLayoutRail">⛶</span>
+          <span class="text-[8px] text-white/60 uppercase">Full</span>
+        </button>
+        <span class="tooltip-content">Toggle Layout (Tab key)</span>
+      </div>
+
+      {/* Zoom Fit 50% */}
+      <div class="tooltip-wrapper">
+        <button onclick="setZoom(0.5)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 hover:text-white text-[10px] font-bold transition">
+          50%
+        </button>
+        <span class="tooltip-content">Fit Screen (50%)</span>
+      </div>
+
+      {/* Zoom 75% */}
+      <div class="tooltip-wrapper">
+        <button onclick="setZoom(0.75)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#E5B842] text-[10px] font-bold transition">
+          75%
+        </button>
+        <span class="tooltip-content">Default Zoom (75%)</span>
+      </div>
+
+      {/* Zoom 100% */}
+      <div class="tooltip-wrapper">
+        <button onclick="setZoom(1.0)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 hover:text-white text-[10px] font-bold transition">
+          100%
+        </button>
+        <span class="tooltip-content">Actual Size (100%)</span>
+      </div>
+
+      {/* Zoom Step +/- */}
+      <div class="flex items-center gap-1">
+        <button onclick="zoomStep(-0.1)" class="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">-</button>
+        <button onclick="zoomStep(0.1)" class="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">+</button>
+      </div>
+
+      <div class="w-8 h-px bg-white/15"></div>
+
+      {/* Device Viewport */}
+      <div class="flex flex-col items-center gap-1">
+        <div class="tooltip-wrapper">
+          <button onclick="setDevice('desktop')" id="btnDeskRail" class="w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center">🖥️</button>
+          <span class="tooltip-content">Desktop View (100% Width)</span>
+        </div>
+        <div class="tooltip-wrapper">
+          <button onclick="setDevice('tablet')" id="btnTabRail" class="w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center">📱</button>
+          <span class="tooltip-content">Tablet View (768px)</span>
+        </div>
+        <div class="tooltip-wrapper">
+          <button onclick="setDevice('mobile')" id="btnMobRail" class="w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center">📲</button>
+          <span class="tooltip-content">Mobile View (390px)</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom Group: Approval + Direct Link */}
+    <div class="flex flex-col items-center gap-2 w-full">
+      <div class="w-8 h-px bg-white/15"></div>
+
+      {/* Quick Approval Button */}
+      <div class="tooltip-wrapper">
+        <button onclick="toggleQuickApproval()" id="btnApproveRail" class="w-10 h-10 rounded-lg bg-[#4ADE80] text-[#141B16] font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition">
+          ✓
+        </button>
+        <span class="tooltip-content" id="tooltipApproval">Click to Approve / Change Status</span>
+      </div>
+
+      {/* Open Direct Tab */}
+      <div class="tooltip-wrapper">
+        <a id="externalLinkRail" href="#" target="_blank" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#4ADE80] flex items-center justify-center text-xs transition">
+          ↗
+        </a>
+        <span class="tooltip-content">Open Standalone Tab</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE (MAX-WIDTH PANORAMIC DESKTOP CANVAS) -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- TOP MINI STATUS STRIP -->
+    <header class="bg-[#101712] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
+          DSGN-03
+        </span>
+        <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
+          Frame It
+        </span>
+        <h1 class="text-white font-bold text-sm" id="pageTitleTop">The Universal 2D Designer Configurator</h1>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-white/60">
+        <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
+        <span class="text-white/20">•</span>
+        <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
+        <span class="text-white/20">•</span>
+        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
+      </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS -->
+    <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3.5 gap-4 max-w-[1900px] mx-auto">
+
+      <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
+      <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl relative">
+        <div class="w-full bg-[#060A08] rounded border border-white/10 p-1 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
+          <div
+            id="viewportContainer"
+            style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
+            class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
+          >
+            <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
+      <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+        {/* Purpose Card */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
+              <span>🎯</span>
+              <span>Purpose &amp; Goal</span>
+            </h3>
+            <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+          </div>
+          <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
+        </div>
+
+        {/* Outbound Links */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
           <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
-            <span>🎯</span>
-            <span>Purpose &amp; Goal</span>
+            <span>🗺️</span>
+            <span>Outbound Link Map</span>
           </h3>
-          <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+          <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
         </div>
-        <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
-      </div>
 
-      {/* Outbound Links */}
-      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-        <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
-          <span>🗺️</span>
-          <span>Outbound Link Map</span>
-        </h3>
-        <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
-      </div>
-
-      {/* Controls */}
-      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-        <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
-          <span>🎛️</span>
-          <span>Interactive Controls</span>
-        </h3>
-        <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
-      </div>
-
-      {/* Notes */}
-      <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-        <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
-          <span>⚖️</span>
-          <span>Code &amp; 8-Metric Notes</span>
-        </h3>
-        <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
-      </div>
-    </section>
-
-    <!-- ROW 3: FOUNDER NOTES & SIGN-OFF -->
-    <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3">
-      <div class="flex-1 flex flex-col gap-1 w-full">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
-          <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
-            PENDING
-          </span>
+        {/* Controls */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
+            <span>🎛️</span>
+            <span>Interactive Controls</span>
+          </h3>
+          <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
         </div>
-        <input
-          type="text"
-          id="founderNote"
-          oninput="saveNote(this.value)"
-          placeholder="Type quick design feedback, copy edits, or adjustments..."
-          class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
-        />
-      </div>
 
-      <div class="flex items-center gap-2 w-full md:w-auto">
-        <button
-          onclick="setApproval('approved')"
-          class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
-        >
-          <span>✓</span>
-          <span>Approve</span>
-        </button>
-        <button
-          onclick="setApproval('changes-requested')"
-          class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
-        >
-          ⚠️ Request Edits
-        </button>
-      </div>
-    </section>
+        {/* Notes */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
+            <span>⚖️</span>
+            <span>Code &amp; Architecture Notes</span>
+          </h3>
+          <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
+        </div>
+      </section>
 
-  </main>
+      <!-- ROW 3: FOUNDER SIGN-OFF & FEEDBACK BANNER -->
+      <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3 mb-6">
+        <div class="flex-1 flex flex-col gap-1 w-full">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
+            <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
+              PENDING
+            </span>
+          </div>
+          <input
+            type="text"
+            id="founderNote"
+            oninput="saveNote(this.value)"
+            placeholder="Type quick design feedback, copy edits, or adjustments..."
+            class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
+          />
+        </div>
 
-  <!-- ========================================================================= -->
-  <!-- SLIM STICKY BOTTOM TOOLBAR HUD (Single Row Cockpit, Always Accessible) -->
-  <!-- ========================================================================= -->
-  <footer class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 bg-[#121814]/95 backdrop-blur-md border-2 border-[#E5B842]/70 rounded-full px-4 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] flex items-center gap-3 text-xs max-w-[96vw] overflow-x-auto custom-scrollbar">
-    {/* Page Switcher */}
-    <div class="flex items-center gap-1">
-      <button onclick="prevSlide()" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] rounded-full border border-white/20 text-xs font-bold transition">◀</button>
-      <select id="pageSelectBottom" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border border-[#E5B842] text-xs font-bold text-[#E5B842] rounded-full px-2.5 py-1 focus:outline-none max-w-[200px] sm:max-w-[280px] truncate">
-      </select>
-      <button onclick="nextSlide()" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] rounded-full border border-white/20 text-xs font-bold transition">▶</button>
-    </div>
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <button
+            onclick="setApproval('approved')"
+            class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
+          >
+            <span>✓</span>
+            <span>Approve</span>
+          </button>
+          <button
+            onclick="setApproval('changes-requested')"
+            class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
+          >
+            ⚠️ Request Edits
+          </button>
+        </div>
+      </section>
 
-    <div class="h-4 w-px bg-white/20"></div>
-
-    {/* Quick Layout Mode */}
-    <button onclick="toggleLayout()" id="btnLayoutToggle" class="px-2.5 py-1 bg-[#1C241E] hover:bg-[#26332A] border border-white/20 rounded-full text-xs font-normal text-white flex items-center gap-1">
-      <span>⛶</span>
-      <span id="layoutText">Full View</span>
-      <kbd class="text-[9px] bg-white/10 px-1 rounded text-white/50 ml-0.5">Tab</kbd>
-    </button>
-
-    <div class="h-4 w-px bg-white/20"></div>
-
-    {/* Zoom Presets */}
-    <div class="flex items-center gap-1 bg-[#0A0F0C] p-0.5 rounded-full border border-white/15">
-      <button onclick="setZoom(0.5)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">50% Fit</button>
-      <button onclick="setZoom(0.75)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">75%</button>
-      <button onclick="setZoom(1.0)" class="px-2 py-0.5 text-white/70 hover:text-white rounded-full text-[11px]">100%</button>
-      <button onclick="zoomStep(-0.1)" class="w-5 h-5 flex items-center justify-center font-bold hover:bg-white/10 rounded-full">-</button>
-      <span id="zoomReadoutBottom" class="text-[11px] text-[#E5B842] font-bold px-1">75%</span>
-      <button onclick="zoomStep(0.1)" class="w-5 h-5 flex items-center justify-center font-bold hover:bg-white/10 rounded-full">+</button>
-    </div>
-
-    <div class="h-4 w-px bg-white/20"></div>
-
-    {/* Device Viewport Selector */}
-    <div class="flex items-center gap-1 bg-[#0A0F0C] p-0.5 rounded-full border border-white/15">
-      <button onclick="setDevice('desktop')" id="btnDeskHud" class="px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]">🖥️</button>
-      <button onclick="setDevice('tablet')" id="btnTabHud" class="px-2 py-0.5 rounded-full text-white/60 text-[11px]">📱</button>
-      <button onclick="setDevice('mobile')" id="btnMobHud" class="px-2 py-0.5 rounded-full text-white/60 text-[11px]">📲</button>
-    </div>
-
-    <div class="h-4 w-px bg-white/20"></div>
-
-    {/* Quick Approval Pill */}
-    <button onclick="toggleQuickApproval()" id="btnQuickApprove" class="px-3 py-1 bg-[#4ADE80] text-[#141B16] font-bold rounded-full text-xs flex items-center gap-1 shadow">
-      <span>✓</span>
-      <span>Approve</span>
-    </button>
-  </footer>
+    </main>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- LOGIC & SHORTCUTS -->
@@ -354,20 +435,20 @@
 
     let currentIndex = 1;
     let currentZoom = 0.75;
-    let currentLayout = 'full'; // 'full' or 'split'
+    let currentLayout = 'full';
     let currentDevice = 'desktop';
     let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
 
     function init() {
-      const selectBottom = document.getElementById('pageSelectBottom');
-      selectBottom.innerHTML = PAGES.map((p, i) => `<option value="${i}">[${i+1}/${PAGES.length}] ${p.id}: ${p.title}</option>`).join('');
+      const select = document.getElementById('pageSelectVertical');
+      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}</option>`).join('');
       renderPage();
 
       // Keyboard Shortcut Listeners
       window.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-        if (e.key === 'ArrowLeft') prevSlide();
-        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
         if (e.key === 'Tab') {
           e.preventDefault();
           toggleLayout();
@@ -379,7 +460,8 @@
 
     function renderPage() {
       const p = PAGES[currentIndex];
-      document.getElementById('pageSelectBottom').value = currentIndex;
+      document.getElementById('pageSelectVertical').value = currentIndex;
+      document.getElementById('pageTooltipInfo').innerText = `[${currentIndex+1}/${PAGES.length}] ${p.id}: ${p.title}`;
 
       // Top info
       document.getElementById('badgeIdTop').innerText = p.id;
@@ -387,7 +469,7 @@
       document.getElementById('badgePillarTop').style.backgroundColor = p.pillarColor;
       document.getElementById('pageTitleTop').innerText = p.title;
       document.getElementById('routeReadout').innerText = p.displayRoute;
-      document.getElementById('externalLink').href = p.srcUrl;
+      document.getElementById('externalLinkRail').href = p.srcUrl;
       document.getElementById('pageIframe').src = p.srcUrl;
 
       // Cards
@@ -427,6 +509,12 @@
         app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
         app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
       }`;
+
+      const btnRail = document.getElementById('btnApproveRail');
+      btnRail.className = `w-10 h-10 rounded-lg font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition ${
+        app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
+        app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
+      }`;
     }
 
     function prevSlide() { if (currentIndex > 0) { currentIndex--; renderPage(); } }
@@ -445,16 +533,15 @@
 
     function applyTransform() {
       document.getElementById('viewportContainer').style.transform = `scale(${currentZoom})`;
-      document.getElementById('zoomReadoutBottom').innerText = `${Math.round(currentZoom * 100)}%`;
       document.getElementById('scaleStatusText').innerText = `Zoom: ${Math.round(currentZoom * 100)}%`;
     }
 
     function setDevice(device) {
       currentDevice = device;
       const container = document.getElementById('viewportContainer');
-      document.getElementById('btnDeskHud').className = device === 'desktop' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
-      document.getElementById('btnTabHud').className = device === 'tablet' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
-      document.getElementById('btnMobHud').className = device === 'mobile' ? 'px-2 py-0.5 rounded-full bg-[#E5B842] text-[#141B16] font-bold text-[11px]' : 'px-2 py-0.5 rounded-full text-white/60 text-[11px]';
+      document.getElementById('btnDeskRail').className = device === 'desktop' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
+      document.getElementById('btnTabRail').className = device === 'tablet' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
+      document.getElementById('btnMobRail').className = device === 'mobile' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
       container.style.width = device === 'mobile' ? '390px' : device === 'tablet' ? '768px' : '100%';
     }
 
@@ -463,17 +550,17 @@
       const main = document.getElementById('mainWorkspace');
       const sandbox = document.getElementById('sandboxSection');
       const inspector = document.getElementById('inspectorSection');
-      const layoutText = document.getElementById('layoutText');
+      const icon = document.getElementById('iconLayoutRail');
 
       if (currentLayout === 'split') {
-        layoutText.innerText = 'Split View';
-        main.className = 'flex-1 w-full grid grid-cols-1 lg:grid-cols-12 p-3 gap-5 max-w-[1900px] mx-auto';
-        sandbox.className = 'lg:col-span-7 bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl';
+        icon.innerText = '◫';
+        main.className = 'flex-1 w-full grid grid-cols-1 lg:grid-cols-12 p-3.5 gap-4 max-w-[1950px] mx-auto';
+        sandbox.className = 'lg:col-span-7 bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl';
         inspector.className = 'lg:col-span-5 grid grid-cols-1 gap-3.5 overflow-y-auto max-h-[880px] pr-2 custom-scrollbar';
       } else {
-        layoutText.innerText = 'Full View';
-        main.className = 'flex-1 w-full flex flex-col p-3 gap-5 max-w-[1750px] mx-auto';
-        sandbox.className = 'w-full bg-[#101712] border-2 border-white/15 rounded-lg p-3 flex flex-col items-center shadow-2xl';
+        icon.innerText = '⛶';
+        main.className = 'flex-1 w-full flex flex-col p-3.5 gap-4 max-w-[1900px] mx-auto';
+        sandbox.className = 'w-full bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl';
         inspector.className = 'w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5';
       }
     }
