@@ -18,20 +18,22 @@ export default function DesignerPage() {
   const [zipCode, setZipCode] = useState<string>('98045')
   const [isGateModalOpen, setIsGateModalOpen] = useState<boolean>(false)
 
-  // Master Fence Configuration State
+  // Master Fence Configuration State (8 Pricing Metrics)
   const [config, setConfig] = useState<FenceConfiguration>({
-    fenceType: 'vertical',
-    fenceStyle: 'heritage',
     heightFt: 6,
     postSpacingFt: 8,
     linearFeet: 120,
     woodGrade: 'tight-knot',
     postType: '4x4-cedar',
     postCap: 'cedar-pyramid',
+    footingDepthInches: 30,
     railCount: 3,
     topCap: true,
-    trimStyle: 'none',
+    fenceStyleCategory: 'vertical-picket',
+    fillPattern: 'board-on-board',
+    fenceStyle: 'heritage',
     stainType: 'cedar-natural',
+    trimStyle: 'none',
     hardwareTier: 'black-powder',
     gates: {
       walkGates: 1,

@@ -145,26 +145,76 @@ export function DesignerCanvas({ config }: DesignerCanvasProps) {
                   <rect x="22" y={groundY - 24} width={postSpacingPx - 22} height="22" fill="#5C3A21" stroke="#141B16" strokeWidth="1.5" />
                 )}
 
-                {/* Pickets Run */}
-                {Array.from({ length: picketCount }).map((_, i) => {
-                  const picketW = (postSpacingPx - 26) / picketCount;
-                  const px = 24 + i * picketW;
-                  return (
-                    <g key={`picket-front-${i}`}>
-                      <rect
-                        x={px}
-                        y={fenceTopY}
-                        width={picketW - 1.5}
-                        height={fenceHeightPx - (config.trimStyle === 'kickboard-2x6' ? 24 : 0)}
-                        fill={getWoodFill()}
-                        stroke="#141B16"
-                        strokeWidth="1.2"
-                      />
-                      {/* Wood grain micro lines */}
-                      <line x1={px + picketW * 0.4} y1={fenceTopY + 10} x2={px + picketW * 0.4} y2={groundY - 10} stroke="rgba(0,0,0,0.15)" strokeWidth="0.8" />
-                    </g>
-                  );
-                })}
+                {/* DYNAMIC FILL MATERIAL (METRIC #4) */}
+                {/* 4A. VERTICAL PICKETS */}
+                {(config.fenceStyleCategory === 'vertical-picket' || !config.fenceStyleCategory) && (
+                  Array.from({ length: picketCount }).map((_, i) => {
+                    const picketW = (postSpacingPx - 26) / picketCount;
+                    const px = 24 + i * picketW;
+                    const isBoardOnBoard = config.fillPattern === 'board-on-board';
+                    return (
+                      <g key={`picket-front-${i}`}>
+                        <rect
+                          x={px}
+                          y={fenceTopY}
+                          width={isBoardOnBoard ? picketW + 4 : picketW - 1.5}
+                          height={fenceHeightPx - (config.trimStyle === 'kickboard-2x6' ? 24 : 0)}
+                          fill={getWoodFill()}
+                          stroke="#141B16"
+                          strokeWidth="1.2"
+                        />
+                        <line x1={px + picketW * 0.4} y1={fenceTopY + 10} x2={px + picketW * 0.4} y2={groundY - 10} stroke="rgba(0,0,0,0.15)" strokeWidth="0.8" />
+                      </g>
+                    );
+                  })
+                )}
+
+                {/* 4B. HORIZONTAL BOARDS */}
+                {config.fenceStyleCategory === 'horizontal-board' && (
+                  Array.from({ length: Math.floor(fenceHeightPx / 24) }).map((_, i) => {
+                    const py = fenceTopY + (i * 24);
+                    return (
+                      <g key={`horiz-board-${i}`}>
+                        <rect
+                          x="22"
+                          y={py}
+                          width={postSpacingPx - 22}
+                          height="22"
+                          fill={getWoodFill()}
+                          stroke="#141B16"
+                          strokeWidth="1.2"
+                        />
+                        <line x1="25" y1={py + 11} x2={postSpacingPx - 5} y2={py + 11} stroke="rgba(0,0,0,0.12)" strokeWidth="0.8" />
+                      </g>
+                    );
+                  })
+                )}
+
+                {/* 4C. FABRIC & WELDED WIRE */}
+                {config.fenceStyleCategory === 'fabric-wire' && (
+                  <g>
+                    <rect x="22" y={fenceTopY} width={postSpacingPx - 22} height={fenceHeightPx} fill="#111713" opacity="0.6" />
+                    {Array.from({ length: 14 }).map((_, i) => (
+                      <line key={`wire-v-${i}`} x1={26 + (i * 22)} y1={fenceTopY} x2={26 + (i * 22)} y2={groundY} stroke="#333" strokeWidth="1.5" />
+                    ))}
+                    {Array.from({ length: Math.floor(fenceHeightPx / 20) }).map((_, i) => (
+                      <line key={`wire-h-${i}`} x1="22" y1={fenceTopY + (i * 20)} x2={postSpacingPx} y2={fenceTopY + (i * 20)} stroke="#333" strokeWidth="1.5" />
+                    ))}
+                  </g>
+                )}
+
+                {/* 4D. LATTICE CRAFTSMAN */}
+                {config.fenceStyleCategory === 'lattice-craftsman' && (
+                  <g>
+                    <rect x="22" y={fenceTopY} width={postSpacingPx - 22} height={fenceHeightPx} fill="#241E19" opacity="0.8" />
+                    {Array.from({ length: 18 }).map((_, i) => (
+                      <line key={`lat-1-${i}`} x1={22 + (i * 18)} y1={fenceTopY} x2={22 + (i * 18) + 120} y2={groundY} stroke={getWoodFill()} strokeWidth="2.5" />
+                    ))}
+                    {Array.from({ length: 18 }).map((_, i) => (
+                      <line key={`lat-2-${i}`} x1={postSpacingPx - (i * 18)} y1={fenceTopY} x2={postSpacingPx - (i * 18) - 120} y2={groundY} stroke={getWoodFill()} strokeWidth="2.5" />
+                    ))}
+                  </g>
+                )}
 
                 {/* Top Cap Rail if selected */}
                 {config.topCap && (
