@@ -11,6 +11,7 @@ _antigravity/
 .env
 .env.*
 *.env
+!.env.example
 
 # Sensitive Financial Keywords
 *venmo*
