@@ -290,6 +290,30 @@
         ]
       },
       {
+        id: 'HOME-01',
+        title: 'Homeowner Command Center & Showcase Dashboard',
+        srcUrl: '/homeowner-dashboard.html',
+        displayRoute: '/homeowner',
+        pillar: 'Portals & Homeowner Hub (Royal Blue)',
+        pillarColor: '#3B82F6',
+        purpose: 'The authenticated homeowner command center. Houses saved Fence-Folios, tracks Si View ARC approval status, and monitors real-time contractor bids.',
+        links: [
+          { label: 'Start New Build', route: '/designer', trigger: 'Header Primary CTA' },
+          { label: 'View 8.5x11 Blueprint', route: '/blueprint', trigger: 'Project Card View Blueprint' },
+          { label: 'Marketplace Bids', route: '/contractors/match', trigger: 'Review Bids & Claim Seat' }
+        ],
+        controls: [
+          { name: 'Saved Builds Gallery', type: 'Tactile Card List', purpose: 'Displays saved configurations with 50% corner marks and live pricing.' },
+          { name: 'ARC Status Card', type: 'Verified Status Plate', purpose: 'Shows Si View Section 4.2 compliance and downloads signed ARC packets.' },
+          { name: 'Live 3-Seat Bid Tracker', type: 'Scramble Dispatch Plate', purpose: 'Displays received contractor bids, $/LF rates, and lock schedule button.' }
+        ],
+        notes: [
+          'Generated via Google Stitch with Architectural Command Design System.',
+          'Features Hard Brutalism 8px offset shadows, 2px borders, and Rowdies typography.',
+          'Integrated zero-data-loss auth hydration from sessionStorage.'
+        ]
+      },
+      {
         id: 'DSGN-SYS',
         title: 'Design System & Graduated Cards Guide',
         srcUrl: '/design-system-guide.html',

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fence Frames - Homeowner Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#161d18",
+                        "on-primary": "#002e6a",
+                        "surface-container-lowest": "#09100b",
+                        "on-surface-variant": "#c2c6d6",
+                        "secondary-fixed-dim": "#eec14a",
+                        "surface-variant": "#2f3731",
+                        "outline": "#8c909f",
+                        "surface-dim": "#0e1510",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "primary-container": "#4d8eff",
+                        "tertiary": "#4de082",
+                        "surface-container-highest": "#2f3731",
+                        "secondary-container": "#b38b12",
+                        "tertiary-container": "#00a755",
+                        "on-secondary-container": "#362800",
+                        "surface-container": "#1a211c",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-tint": "#adc6ff",
+                        "on-secondary-fixed-variant": "#5a4400",
+                        "on-tertiary-fixed-variant": "#005227",
+                        "on-surface": "#dde5dc",
+                        "tertiary-fixed-dim": "#4de082",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-secondary": "#3e2e00",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#0e1510",
+                        "outline-variant": "#424754",
+                        "on-secondary-fixed": "#251a00",
+                        "surface": "#0e1510",
+                        "inverse-primary": "#005ac2",
+                        "on-tertiary": "#003919",
+                        "on-primary-fixed": "#001a42",
+                        "secondary": "#eec14a",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#003115",
+                        "inverse-surface": "#dde5dc",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dde5dc",
+                        "surface-bright": "#343b35",
+                        "on-primary-container": "#00285d",
+                        "primary": "#adc6ff",
+                        "inverse-on-surface": "#2b322d",
+                        "surface-container-high": "#242c26",
+                        "secondary-fixed": "#ffdf97",
+                        "tertiary-fixed": "#6dfe9c",
+                        "on-tertiary-fixed": "#00210c"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "max-width": "1200px",
+                        unit: "8px",
+                        columns: "12",
+                        margin: "32px",
+                        gutter: "24px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Rowdies"],
+                        "headline-xl": ["Rowdies"],
+                        "headline-md": ["Rowdies"],
+                        "headline-lg-mobile": ["Rowdies"],
+                        "detail-xs": ["Rowdies"],
+                        "body-lg": ["Rowdies"],
+                        "headline-lg": ["Rowdies"],
+                        "headline-sm": ["Rowdies"],
+                        "detail-sm": ["Rowdies"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "headline-xl": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "detail-xs": ["12px", { lineHeight: "1.4", fontWeight: "300" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", letterSpacing: "0em", fontWeight: "700" }],
+                        "headline-sm": ["20px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "detail-sm": ["14px", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "300" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        /* Blueprint Drafting Grid Background */
+        body {
+            background-color: theme('colors.background');
+            background-image: linear-gradient(theme('colors.tertiary') 1px, transparent 1px),
+                              linear-gradient(90deg, theme('colors.tertiary') 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: theme('colors.background');
+            opacity: 0.93; /* Subtle grid */
+            z-index: -1;
+        }
+
+        /* Hard Brutalism Shadows & Borders */
+        .brutalist-border {
+            border: 2px solid #141B16;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px 0px #141B16;
+        }
+        
+        /* Interactive Buttons */
+        .btn-primary {
+            background-color: theme('colors.primary');
+            color: theme('colors.on-primary');
+            border: 2px solid #141B16;
+            box-shadow: 8px 8px 0px 0px #141B16;
+            transition: all 0.1s ease-in-out;
+        }
+        .btn-primary:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0px 0px #141B16;
+        }
+        .btn-primary:active {
+            transform: translate(8px, 8px);
+            box-shadow: 0px 0px 0px 0px #141B16;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: theme('colors.secondary');
+            border: 2px solid theme('colors.secondary');
+            box-shadow: 8px 8px 0px 0px theme('colors.secondary');
+            transition: all 0.1s ease-in-out;
+        }
+        .btn-secondary:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0px 0px theme('colors.secondary');
+            background-color: rgba(238, 193, 74, 0.1);
+        }
+        .btn-secondary:active {
+            transform: translate(8px, 8px);
+            box-shadow: 0px 0px 0px 0px theme('colors.secondary');
+        }
+
+        /* CAD Card Styling with Perimeter Markers */
+        .cad-card {
+            position: relative;
+            background-color: theme('colors.surface-container-high');
+            border: 2px solid #141B16;
+            box-shadow: 8px 8px 0px 0px #141B16;
+        }
+        
+        .corner-marker {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: theme('colors.outline-variant');
+            border-style: solid;
+            pointer-events: none;
+        }
+        .marker-tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+        .marker-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+        .marker-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+        .marker-br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+    </style>
+</head>
+<body class="text-on-surface antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-background text-primary dark:text-primary font-headline-sm text-headline-sm docked full-width top-0 border-b-2 border-surface-container-highest shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sticky z-50">
+<div class="flex justify-between items-center w-full h-16 max-w-[1200px] mx-auto">
+<div class="bg-surface-container-lowest text-tertiary font-headline-md text-headline-md border-r-2 border-surface-container-highest px-6 py-4 h-full flex items-center">
+                Fence Frames
+            </div>
+<nav class="hidden md:flex gap-8 px-6">
+<a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all" href="#">Find It</a>
+<a class="text-secondary border-b-2 border-secondary font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all" href="#">Frame It</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all" href="#">Fence It</a>
+</nav>
+<div class="px-6 border-l-2 border-surface-container-highest h-full flex items-center text-on-surface-variant hover:text-on-surface hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer">
+                Guest Account
+            </div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-4 sm:px-6 md:px-margin py-8 flex flex-col gap-8">
+<!-- HOMEOWNER WELCOME BANNER -->
+<section class="cad-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="corner-marker marker-tl"></div>
+<div class="corner-marker marker-tr"></div>
+<div class="corner-marker marker-bl"></div>
+<div class="corner-marker marker-br"></div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Welcome Back, John Smith</h1>
+<span class="bg-tertiary/20 text-tertiary border border-tertiary px-2 py-1 font-detail-xs text-detail-xs flex items-center gap-1 uppercase tracking-wider">
+<span class="material-symbols-outlined" style="font-size: 14px;">verified</span> Verified
+                    </span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-detail-sm text-detail-sm uppercase tracking-widest border-b border-surface-variant pb-1 inline-block">
+<span class="material-symbols-outlined text-secondary" style="font-size: 16px;">location_on</span>
+                    1420 Mt Si Blvd, North Bend, WA 98045 (Si View HOA)
+                </div>
+</div>
+<button class="btn-secondary px-6 py-3 font-headline-sm text-headline-sm flex items-center gap-2 uppercase tracking-wide">
+<span class="material-symbols-outlined">add</span>
+                Start New Fence Build
+            </button>
+</section>
+<!-- MAIN DASHBOARD GRID -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- LEFT / MAIN: SAVED FENCE-FOLIOS (8 columns) -->
+<section class="md:col-span-8 flex flex-col gap-6">
+<div class="flex items-center gap-4 border-b-2 border-surface-container-highest pb-2">
+<span class="material-symbols-outlined text-primary text-3xl">folder_open</span>
+<h2 class="font-headline-md text-headline-md text-primary uppercase tracking-wide">Saved Fence-Folios</h2>
+</div>
+<!-- Project Card 1 -->
+<article class="cad-card p-6 flex flex-col gap-4">
+<div class="corner-marker marker-tl"></div><div class="corner-marker marker-tr"></div><div class="corner-marker marker-bl"></div><div class="corner-marker marker-br"></div>
+<div class="border-b-2 border-surface-container-highest pb-3 flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Backyard Perimeter</h3>
+<p class="font-detail-sm text-detail-sm text-on-surface-variant uppercase tracking-wider mt-1">Si View Heritage 3-Rail</p>
+</div>
+<span class="bg-surface-variant text-on-surface-variant border border-outline-variant px-3 py-1 font-detail-xs text-detail-xs uppercase tracking-widest">Active Draft</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-6">
+<!-- CAD Thumbnail Placeholder -->
+<div class="w-full sm:w-1/3 h-32 bg-surface-container-lowest border-2 border-outline-variant relative flex items-center justify-center p-2" data-alt="A highly precise architectural CAD 2D elevation drawing of a wooden 3-rail fence. The drafting lines are sharp white and light blue against a dark charcoal blueprint background. Measurements and structural callouts are visible in a technical, industrial drafting aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-EnaRJNZ_GHOOFP5BVM44Q4xNxLbb66ZtdHX1L7UB1RoJm3Tk0Qy7TFv916OX40KUMndzDhx-i_iSBPwfSUsmJPsstiF6hy_5inW5ktRJzYv5Jty_Yq36OY69N6lo5JMKenGHNBaHtjpxqvu7XeWRefIZQh3lvUFy6mG8cAVwHB6lTC3YWeJtECU3Onko2D37xQOt6vSbucGU8ckWYywBybrGAqLqL3PJzoYb3RxdflIe02S7i6vsGErmmsWkSbk3CjqLPWbScn8'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-background/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl">architecture</span>
+</div>
+</div>
+<!-- Specs -->
+<div class="w-full sm:w-2/3 flex flex-col justify-between gap-4">
+<ul class="font-detail-sm text-detail-sm text-on-surface grid grid-cols-2 gap-y-2 gap-x-4">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-secondary block"></span> 120 LF</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-secondary block"></span> 6ft Height</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-secondary block"></span> Clear Cedar Pickets</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-secondary block"></span> Factory Cedar Natural Stain</li>
+</ul>
+<div class="bg-surface-container-lowest border border-outline-variant p-3 flex flex-col">
+<span class="font-detail-xs text-detail-xs text-on-surface-variant uppercase tracking-widest">Live Estimated Range</span>
+<span class="font-headline-sm text-headline-sm text-tertiary">$5,940 – $6,825 <span class="font-body-md text-tertiary-fixed-dim">($49.50 – $56.88/LF)</span></span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex flex-wrap gap-3 mt-2 border-t border-surface-container-highest pt-4">
+<button class="bg-surface-variant hover:bg-surface-bright text-on-surface border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">description</span> View 8.5x11 ARC Blueprint
+                        </button>
+<button class="bg-surface-variant hover:bg-surface-bright text-on-surface border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Modify in Designer
+                        </button>
+<button class="btn-primary px-4 py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center gap-2 ml-auto">
+<span class="material-symbols-outlined" style="font-size: 18px;">bolt</span> Request Contractor Bids
+                        </button>
+</div>
+</article>
+<!-- Project Card 2 -->
+<article class="cad-card p-6 flex flex-col gap-4">
+<div class="corner-marker marker-tl"></div><div class="corner-marker marker-tr"></div><div class="corner-marker marker-bl"></div><div class="corner-marker marker-br"></div>
+<div class="border-b-2 border-surface-container-highest pb-3 flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Side Lot &amp; Garden Gate</h3>
+<p class="font-detail-sm text-detail-sm text-on-surface-variant uppercase tracking-wider mt-1">Modern Horizontal Slat</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row justify-between gap-4">
+<ul class="font-detail-sm text-detail-sm text-on-surface flex flex-wrap gap-x-6 gap-y-2">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline-variant block"></span> 45 LF</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline-variant block"></span> 4ft Height</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline-variant block"></span> 1x6 Horizontal Siding</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline-variant block"></span> 1x 4ft Walk Gate</li>
+</ul>
+<div class="text-right">
+<span class="font-detail-xs text-detail-xs text-on-surface-variant uppercase tracking-widest block">Estimated Cost</span>
+<span class="font-headline-sm text-headline-sm text-tertiary">$2,475</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 mt-2">
+<button class="bg-surface-variant hover:bg-surface-bright text-on-surface border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">description</span> View Blueprint
+                        </button>
+<button class="bg-surface-variant hover:bg-surface-bright text-on-surface border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Edit in Designer
+                        </button>
+</div>
+</article>
+</section>
+<!-- RIGHT COLUMN: ARC & BID TRACKER (4 columns) -->
+<aside class="md:col-span-4 flex flex-col gap-6">
+<div class="flex items-center gap-4 border-b-2 border-surface-container-highest pb-2">
+<span class="material-symbols-outlined text-secondary text-3xl">track_changes</span>
+<h2 class="font-headline-md text-headline-md text-secondary uppercase tracking-wide">ARC &amp; Bid Tracker</h2>
+</div>
+<!-- ARC Card -->
+<article class="cad-card p-5 flex flex-col gap-4">
+<div class="corner-marker marker-tl"></div><div class="corner-marker marker-tr"></div><div class="corner-marker marker-bl"></div><div class="corner-marker marker-br"></div>
+<h3 class="font-detail-sm text-detail-sm text-on-surface-variant uppercase tracking-widest border-b border-surface-container-highest pb-2">HOA ARC Approval Status</h3>
+<div class="bg-tertiary/10 border border-tertiary/30 px-3 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-body-md text-tertiary uppercase tracking-wide font-bold">Si View ARC Pre-Approved</span>
+</div>
+<p class="font-detail-sm text-detail-sm text-on-surface leading-relaxed">100% compliant with Section 4.2 North Bend Wind-Load &amp; Setbacks.</p>
+<button class="w-full bg-surface-container-highest hover:bg-surface-bright border border-outline-variant py-2 font-detail-sm text-detail-sm text-on-surface uppercase tracking-wide flex items-center justify-center gap-2 transition-colors mt-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span> Download Signed ARC PDF Packet
+                    </button>
+</article>
+<!-- BID Tracker Card -->
+<article class="cad-card p-5 flex flex-col gap-4">
+<div class="corner-marker marker-tl"></div><div class="corner-marker marker-tr"></div><div class="corner-marker marker-bl"></div><div class="corner-marker marker-br"></div>
+<h3 class="font-detail-sm text-detail-sm text-secondary uppercase tracking-widest border-b border-surface-container-highest pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">bolt</span> Contractor Bid Dispatch
+                    </h3>
+<div class="flex justify-between items-center text-detail-xs font-detail-xs uppercase tracking-widest">
+<span class="text-on-surface">Progress</span>
+<span class="text-primary">2 of 3 Bids Received</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-surface-container-lowest border border-outline-variant flex">
+<div class="w-2/3 h-full bg-primary relative">
+<!-- Linear Technical Scale marks -->
+<div class="absolute inset-0 bg-[linear-gradient(90deg,transparent_90%,#141B16_90%)] bg-[length:10%_100%]"></div>
+</div>
+</div>
+<!-- Bid List -->
+<div class="flex flex-col gap-3 mt-2">
+<!-- Bid 1 -->
+<div class="border border-outline-variant p-3 bg-surface-container-lowest relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary group-hover:w-2 transition-all"></div>
+<h4 class="font-body-md text-on-surface ml-2">Cascade Fence Co.</h4>
+<p class="font-detail-xs text-detail-xs text-on-surface-variant ml-2 mt-1">
+<span class="text-tertiary font-bold">$46.50/LF</span> ($5,580 Total)<br/>
+                                Start: Sept 12 • ★ 4.9
+                            </p>
+</div>
+<!-- Bid 2 -->
+<div class="border border-outline-variant p-3 bg-surface-container-lowest relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-outline-variant group-hover:bg-primary transition-all"></div>
+<h4 class="font-body-md text-on-surface ml-2">Mt. Si Woodworks</h4>
+<p class="font-detail-xs text-detail-xs text-on-surface-variant ml-2 mt-1">
+<span class="text-on-surface font-bold">$49.00/LF</span> ($5,880 Total)<br/>
+                                Start: Sept 05 • ★ 5.0
+                            </p>
+</div>
+</div>
+<div class="text-center font-detail-xs text-detail-xs text-secondary animate-pulse mt-2">
+                        1 Bidding Seat Remaining (Expires in 08:42)
+                    </div>
+<div class="flex flex-col gap-2 mt-2 pt-4 border-t border-surface-container-highest">
+<button class="w-full bg-surface-container-highest hover:bg-surface-bright border border-outline-variant py-2 font-detail-sm text-detail-sm text-on-surface uppercase tracking-wide flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">chat</span> Contact Builder
+                        </button>
+<button class="btn-primary w-full py-2 font-detail-sm text-detail-sm uppercase tracking-wide flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">lock</span> Accept Bid &amp; Lock Schedule
+                        </button>
+</div>
+</article>
+</aside>
+</div>
+<!-- BOTTOM QUICK TOOLS STRIP -->
+<section class="mt-8 border-t-2 border-surface-container-highest pt-6">
+<h3 class="font-detail-sm text-detail-sm text-on-surface-variant uppercase tracking-widest mb-4">Homeowner Toolbox</h3>
+<div class="flex flex-wrap gap-4">
+<button class="bg-surface-container-high border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm text-on-surface hover:bg-surface-bright transition-colors flex items-center gap-2 uppercase tracking-wide">
+<span class="material-symbols-outlined text-primary">square_foot</span> Property Line Estimator
+                </button>
+<button class="bg-surface-container-high border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm text-on-surface hover:bg-surface-bright transition-colors flex items-center gap-2 uppercase tracking-wide">
+<span class="material-symbols-outlined text-secondary">forest</span> Wood Durability Guide
+                </button>
+<button class="bg-surface-container-high border border-outline-variant px-4 py-2 font-detail-sm text-detail-sm text-on-surface hover:bg-surface-bright transition-colors flex items-center gap-2 uppercase tracking-wide">
+<span class="material-symbols-outlined text-tertiary">gavel</span> North Bend Permit Rules
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer Component from JSON -->
+<footer class="bg-surface-container-low dark:bg-surface-container-low text-on-surface-variant dark:text-on-surface-variant font-detail-sm text-detail-sm uppercase tracking-widest full-width bottom-0 border-t-2 border-surface-container-highest flat no shadows flex flex-col md:flex-row justify-between items-center px-8 py-4 w-full mt-auto">
+<div class="font-detail-xs text-detail-xs text-tertiary mb-4 md:mb-0">
+            © 2024 Fence Frames Architectural Command. All rights reserved. Precision Built.
+        </div>
+<nav class="flex gap-6">
+<a class="text-on-surface-variant hover:text-tertiary underline Transition-colors duration-200" href="#">Technical Specs</a>
+<a class="text-on-surface-variant hover:text-tertiary underline Transition-colors duration-200" href="#">ARC Guidelines</a>
+<a class="text-on-surface-variant hover:text-tertiary underline Transition-colors duration-200" href="#">Support</a>
+</nav>
+</footer>
+</body></html>
+
