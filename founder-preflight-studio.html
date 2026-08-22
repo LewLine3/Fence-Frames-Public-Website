@@ -9,136 +9,226 @@
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #0E1310; color: #FAF6EE; }
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #0B100D; color: #FAF6EE; }
     iframe { border: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #111713; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <!-- Top Navigation Header -->
-  <header class="bg-[#141B16] border-b-2 border-[#E5B842]/40 px-4 py-3 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 shadow-2xl">
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+  <!-- ========================================================================= -->
+  <!-- MASTER TOP STICKY TOOLBAR -->
+  <!-- ========================================================================= -->
+  <header class="bg-[#141B16] border-b-2 border-[#E5B842]/50 px-4 py-2.5 sticky top-0 z-50 shadow-2xl flex flex-wrap items-center justify-between gap-3">
+    {/* Left: Brand & Title */}
     <div class="flex items-center gap-3">
       <span class="font-bold text-sm text-[#E5B842] flex items-center gap-1.5">
         <span>🌲</span>
         <span>FENCE FRAMES</span>
       </span>
-      <span class="text-white/30">|</span>
-      <span class="text-xs font-bold text-white bg-[#1C241E] px-2.5 py-1 rounded border border-white/10">
-        FOUNDER PRE-FLIGHT REVIEW COCKPIT
+      <span class="text-white/20">|</span>
+      <span class="text-xs font-bold text-white bg-[#1C241E] px-2.5 py-1 rounded border border-white/10 flex items-center gap-1.5">
+        <span>🚀</span>
+        <span>PRE-FLIGHT COCKPIT</span>
       </span>
     </div>
 
-    <!-- Slideshow Controls -->
+    {/* Center: Slideshow Page Selector & Navigation */}
     <div class="flex items-center gap-2">
-      <button id="prevBtn" onclick="prevSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/15 text-xs font-bold transition">
-        ◀ Prev Page
+      <button id="prevBtn" onclick="prevSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/20 text-xs font-bold transition flex items-center gap-1">
+        <span>◀</span>
+        <span class="hidden sm:inline">Prev</span>
       </button>
-      <select id="pageSelect" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border border-[#E5B842] text-xs font-bold text-[#E5B842] rounded px-3 py-1.5 focus:outline-none">
+
+      <select id="pageSelect" onchange="jumpSlide(this.value)" class="bg-[#1C241E] border-2 border-[#E5B842] text-xs font-bold text-[#E5B842] rounded px-3 py-1.5 focus:outline-none shadow-md">
       </select>
-      <button id="nextBtn" onclick="nextSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/15 text-xs font-bold transition">
-        Next Page ▶
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-3 py-1.5 bg-[#1C241E] hover:bg-[#26332A] rounded border border-white/20 text-xs font-bold transition flex items-center gap-1">
+        <span class="hidden sm:inline">Next</span>
+        <span>▶</span>
       </button>
     </div>
 
-    <!-- Zoom & Device Controls -->
-    <div class="flex items-center gap-2">
+    {/* Right: Layout Toggle, Viewport & Zoom Suite */}
+    <div class="flex items-center gap-3 flex-wrap">
+      {/* Layout Mode Toggle */}
+      <div class="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs">
+        <button onclick="setLayout('full')" id="btnLayoutFull" class="px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1">
+          <span>⛶</span>
+          <span>Full View (Stacked)</span>
+        </button>
+        <button onclick="setLayout('split')" id="btnLayoutSplit" class="px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1">
+          <span>◫</span>
+          <span>2-Column Split</span>
+        </button>
+      </div>
+
+      {/* Device Viewport Selector */}
       <div class="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs">
         <button onclick="setDevice('desktop')" id="btnDesktop" class="px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold">🖥️ Desktop</button>
         <button onclick="setDevice('tablet')" id="btnTablet" class="px-2.5 py-1 rounded text-white/60">📱 Tablet</button>
         <button onclick="setDevice('mobile')" id="btnMobile" class="px-2.5 py-1 rounded text-white/60">📱 Mobile</button>
       </div>
-      <div class="flex items-center bg-[#111713] border border-white/15 rounded p-0.5 text-xs text-white">
-        <button onclick="zoom(-0.1)" class="px-2 py-0.5 hover:bg-white/10 rounded">-</button>
-        <span id="zoomReadout" class="px-1.5 text-white/70">75%</span>
-        <button onclick="zoom(0.1)" class="px-2 py-0.5 hover:bg-white/10 rounded">+</button>
+
+      {/* Zoom Preset Suite */}
+      <div class="flex items-center bg-[#111713] border border-white/15 rounded p-0.5 text-xs">
+        <button onclick="setZoom(0.5)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">50% (Fit All)</button>
+        <button onclick="setZoom(0.75)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">75%</button>
+        <button onclick="setZoom(1.0)" class="px-2 py-0.5 text-white/60 hover:text-white rounded">100%</button>
+        <div class="h-3 w-px bg-white/20 mx-1"></div>
+        <button onclick="zoomStep(-0.1)" class="px-2 py-0.5 font-bold hover:bg-white/10 rounded">-</button>
+        <span id="zoomReadout" class="px-1.5 text-[#E5B842] font-bold min-w-[42px] text-center">75%</span>
+        <button onclick="zoomStep(0.1)" class="px-2 py-0.5 font-bold hover:bg-white/10 rounded">+</button>
       </div>
+
+      {/* 1-Click External Tab */}
+      <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="bg-[#1C241E] hover:bg-[#26332A] border border-[#4ADE80] text-[#4ADE80] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
+        <span>Open Standalone</span>
+        <span>↗</span>
+      </a>
     </div>
   </header>
 
-  <!-- 2-Column Split Workspace -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-65px)]">
-    <!-- Left Column: Zoomed Live Sandbox -->
-    <section class="lg:col-span-7 bg-[#141815] border-r-2 border-white/10 p-4 flex flex-col items-center justify-start overflow-auto">
-      <div class="w-full flex items-center justify-between mb-2 text-xs font-light text-white/60">
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse"></span>
-          <span>Live Interactive Sandbox: <strong id="routeReadout" class="text-white font-normal">/designer</strong></span>
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE CONTAINER (DYNAMICALLY TOGGLES BETWEEN FULL & SPLIT) -->
+  <!-- ========================================================================= -->
+  <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-4 gap-6 max-w-[1700px] mx-auto">
+
+    <!-- ======================================================================= -->
+    <!-- ROW 1: LIVE INTERACTIVE SANDBOX (EXPANDS TO 100% IN FULL VIEW) -->
+    <!-- ======================================================================= -->
+    <section id="sandboxSection" class="w-full bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl relative">
+      {/* Top Section Info Strip */}
+      <div class="w-full flex flex-wrap items-center justify-between gap-3 mb-3 pb-2 border-b border-white/10 text-xs">
+        <div class="flex items-center gap-3">
+          <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
+            DSGN-03 · Tier 1
+          </span>
+          <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
+            Frame It
+          </span>
+          <span class="text-white/80 font-bold" id="pageTitleTop">The Universal 2D Designer Configurator</span>
         </div>
-        <a id="externalLink" href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" target="_blank" class="text-[#E5B842] hover:underline font-normal flex items-center gap-1">
-          <span>Open Full Tab</span>
-          <span>↗</span>
-        </a>
+
+        <div class="flex items-center gap-3 text-white/60">
+          <span>Active Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
+          <span class="text-white/20">•</span>
+          <span id="scaleStatusText" class="text-white/70">Viewport Zoom: 75%</span>
+        </div>
       </div>
 
-      <div class="w-full h-full bg-[#111713] rounded-lg border-2 border-white/20 shadow-2xl overflow-hidden flex items-center justify-center p-2 min-h-[680px]">
-        <div id="viewportContainer" style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: all 0.2s ease;" class="h-full rounded border border-white/10 overflow-hidden bg-black">
-          <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[950px]"></iframe>
+      {/* Viewport Frame with Dynamic Zoom Scaling */}
+      <div class="w-full bg-[#0B100D] rounded-md border border-white/10 p-2 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
+        <div
+          id="viewportContainer"
+          style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.15s ease, width 0.2s ease;"
+          class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
+        >
+          <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
         </div>
       </div>
     </section>
 
-    <!-- Right Column: Inspector & Approval Console -->
-    <aside class="lg:col-span-5 bg-[#111713] p-5 overflow-y-auto max-h-[calc(100vh-65px)] flex flex-col gap-5">
-      <!-- Identity Card -->
-      <div class="bg-[#18201B] border-2 border-[#141B16] p-4 rounded-md shadow-lg">
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <span id="badgeId" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">DSGN-03 · Tier 1</span>
-          <span id="badgePillar" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
-        </div>
-        <h2 id="pageTitle" class="text-lg font-bold text-white mb-1.5">The Universal 2D Designer Configurator</h2>
-        <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
-      </div>
+    <!-- ======================================================================= -->
+    <!-- ROW 2: INSPECTOR, METRICS, LINK MAP & FOUNDER APPROVAL SUITE -->
+    <!-- ======================================================================= -->
+    <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
-      <!-- Outbound Links -->
-      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
-        <h3 class="text-xs font-bold text-[#E5B842] uppercase mb-2 flex items-center gap-1.5">
-          <span>🗺️</span>
-          <span>Outbound Link & Action Map</span>
-        </h3>
-        <div id="linksList" class="space-y-2 text-xs font-light"></div>
-      </div>
-
-      <!-- Controls & Form Elements -->
-      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
-        <h3 class="text-xs font-bold text-[#F27A22] uppercase mb-2 flex items-center gap-1.5">
-          <span>🎛️</span>
-          <span>Interactive Controls & Form Elements</span>
-        </h3>
-        <div id="controlsList" class="space-y-2 text-xs font-light"></div>
-      </div>
-
-      <!-- Special Notes -->
-      <div class="bg-[#18201B] border border-white/10 p-4 rounded-md">
-        <h3 class="text-xs font-bold text-[#4ADE80] uppercase mb-2 flex items-center gap-1.5">
-          <span>⚖️</span>
-          <span>Architectural & Compliance Notes</span>
-        </h3>
-        <ul id="notesList" class="list-disc list-inside space-y-1.5 text-xs text-white/80 font-light"></ul>
-      </div>
-
-      <!-- Founder Approval Console -->
-      <div class="bg-[#1C2620] border-2 border-[#E5B842] p-4 rounded-md shadow-xl flex flex-col gap-3">
+      {/* Card 1: Page Purpose & Target Persona */}
+      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
-            <span>🛡️</span>
-            <span>Founder Sign-off Console</span>
+            <span>🎯</span>
+            <span>Purpose &amp; Target Goal</span>
           </h3>
-          <span id="approvalStatusPill" class="text-[10px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
-            PENDING
-          </span>
+          <span id="badgePillarCard" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
         </div>
-        <textarea id="founderNote" oninput="saveNote(this.value)" placeholder="Add founder review feedback or copy tweak instructions..." rows="3" class="w-full bg-[#111713] border border-white/20 text-white rounded p-2.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"></textarea>
-        <div class="flex items-center gap-2">
-          <button onclick="setApproval('approved')" class="flex-1 bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs py-2 rounded border border-[#141B16] transition">
-            ✓ Approve Page for Production
-          </button>
-          <button onclick="setApproval('changes-requested')" class="flex-1 bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs py-2 rounded border border-[#EF4444]/40 transition">
-            ⚠️ Request Edits
-          </button>
+        <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
+        <div class="mt-auto pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/60">
+          <span>Specs File:</span>
+          <span id="specsFileReadout" class="font-mono text-[#E5B842] text-[10px]">DSGN-03.md</span>
         </div>
       </div>
-    </aside>
+
+      {/* Card 2: Outbound Links & Routing Map */}
+      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
+        <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
+          <span>🗺️</span>
+          <span>Outbound Links &amp; Action Map</span>
+        </h3>
+        <div id="linksList" class="space-y-2 text-xs font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></div>
+      </div>
+
+      {/* Card 3: Interactive Controls & Form Elements */}
+      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
+        <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1.5">
+          <span>🎛️</span>
+          <span>Interactive Controls &amp; Elements</span>
+        </h3>
+        <div id="controlsList" class="space-y-2 text-xs font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></div>
+      </div>
+
+      {/* Card 4: Architectural Notes & Compliance */}
+      <div class="bg-[#141B16] border-2 border-white/10 p-4 rounded-lg shadow-lg flex flex-col gap-2">
+        <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1.5">
+          <span>⚖️</span>
+          <span>Architectural &amp; Code Notes</span>
+        </h3>
+        <ul id="notesList" class="list-disc list-inside space-y-1.5 text-xs text-white/80 font-light max-h-[220px] overflow-y-auto custom-scrollbar pr-1"></ul>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- ROW 3: FOUNDER APPROVAL & SIGN-OFF CONSOLE (FULL-WIDTH BANNER) -->
+    <!-- ======================================================================= -->
+    <section class="w-full bg-[#18241D] border-2 border-[#E5B842] rounded-lg p-5 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+      <div class="flex-1 flex flex-col gap-1.5 w-full">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">🛡️</span>
+          <h3 class="text-sm font-bold text-[#E5B842] uppercase">
+            Founder Sign-Off &amp; Feedback Console
+          </h3>
+          <span id="approvalStatusPill" class="text-[10px] font-bold px-2.5 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16] ml-2">
+            PENDING REVIEW
+          </span>
+        </div>
+        <textarea
+          id="founderNote"
+          oninput="saveNote(this.value)"
+          placeholder="Type founder instructions, layout tweaks, or copy refinements for this page..."
+          rows="2"
+          class="w-full bg-[#111713] border border-white/20 text-white rounded p-2.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
+        ></textarea>
+      </div>
+
+      {/* Action Buttons */}
+      <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full md:w-auto">
+        <button
+          onclick="setApproval('approved')"
+          class="w-full sm:w-auto bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-6 py-3 rounded-md border-2 border-[#141B16] shadow-lg flex items-center justify-center gap-2 transition"
+        >
+          <span>✓</span>
+          <span>Approve Page for Live</span>
+        </button>
+        <button
+          onclick="setApproval('changes-requested')"
+          class="w-full sm:w-auto bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-5 py-3 rounded-md border border-[#EF4444]/40 transition flex items-center justify-center gap-2"
+        >
+          <span>⚠️</span>
+          <span>Request Edits</span>
+        </button>
+      </div>
+    </section>
+
   </main>
 
+  <!-- ========================================================================= -->
+  <!-- LOGIC & REGISTRY SCRIPT -->
+  <!-- ========================================================================= -->
   <script>
     const PAGES = [
       {
@@ -148,19 +238,23 @@
         displayRoute: '/',
         pillar: 'Multi-Pillar Convergence',
         pillarColor: '#E5B842',
+        specsFile: 'CORE-01-Master-Homepage.md',
         purpose: 'The central front door for Fence Frames. Converts visitors into active design sessions via 3 clear pathways (Code/HOA Matcher, Design Catalog, Instant Configurator).',
         links: [
           { label: 'Start Designing', route: '/designer', trigger: 'Hero Primary CTA' },
           { label: 'Si View HOA Hub', route: '/wa/king-county/north-bend/si-view', trigger: 'Featured HOA Card' },
           { label: 'Browse 12+ Styles', route: '/catalog', trigger: 'Frame It Catalog section' },
+          { label: 'Contractor Portal', route: '/contractors', trigger: 'Nav & Footer links' }
         ],
         controls: [
-          { name: 'ZIP Code & HOA Search Input', type: 'Text Input', purpose: 'Matches user to city/HOA pre-approved fence codes.' },
-          { name: '3-Pillar Step Cards', type: 'Hover Cards', purpose: 'Educates visitors on the Find, Frame, Fence workflow.' },
+          { name: 'ZIP Code & HOA Search Input', type: 'Text Input + Matcher', purpose: 'Matches user to city/HOA pre-approved fence codes.' },
+          { name: '3-Pillar Step Cards (Find, Frame, Fence)', type: 'Interactive Hover Cards', purpose: 'Educates visitors on the 3-step workflow.' },
+          { name: 'Featured Style Carousels', type: 'Clickable Filter Chips', purpose: 'Quick jump into pre-set fence architectures.' }
         ],
         notes: [
           'Pre-loads Rowdies 700/400/300 font.',
           'Protected with search engine noindex meta tags for stealth staging.',
+          'Fluidly responsive on mobile, tablet, and widescreen desktop.'
         ]
       },
       {
@@ -170,22 +264,24 @@
         displayRoute: '/designer',
         pillar: 'Frame It (Ember Orange)',
         pillarColor: '#F27A22',
+        specsFile: 'DSGN-03-The-Designer-Configurator.md',
         purpose: 'The universal parametric CAD engine. Renders dual Front & Back elevations in real time with 8 pricing metrics, dynamic style switching, and live BOM calculation.',
         links: [
           { label: 'Portrait ARC Blueprint', route: '/blueprint', trigger: 'Save Fence-Folio & Get Blueprint CTA' },
           { label: 'Auth Gate', route: '/log-in', trigger: 'Guest draft preservation bridge' },
-          { label: 'Contractor Match', route: '/contractors/match', trigger: 'Match 3 Local Builders CTA' },
+          { label: 'Contractor Targeted Match', route: '/contractors/match', trigger: 'Match 3 Local Builders CTA' }
         ],
         controls: [
           { name: 'Linear Footage Slider (10-400 LF)', type: 'Range Slider', purpose: 'Recalculates all 8 pricing metrics in real time.' },
-          { name: 'Sub-Flip Tabs (1 to 8)', type: 'Accordion Horizontal Bar', purpose: 'Controls Height, Posts, Rails, Fill, Stain, Trim, Fasteners, Gates.' },
-          { name: 'Dual CAD Canvas View Toggles', type: 'Segmented Button', purpose: 'Switches between Dual View, Front Face, and Back Framing.' },
+          { name: 'Sub-Flip Tabs (Metrics #1 to #8)', type: 'Accordion Horizontal Bar', purpose: 'Controls Height, Posts, Rails, Fill, Stain, Trim, Fasteners, Gates.' },
+          { name: 'Dual CAD Canvas View Toggles', type: 'Segmented Button', purpose: 'Switches between Dual View, Front Street Face, and Back Framing.' },
           { name: 'Custom Gate Studio Modal', type: 'Modal Dialog', purpose: 'Adds 4ft/5ft Walk Gates and 10ft/12ft Double Drive Gates.' },
+          { name: 'Material Takeoff Drawer', type: 'Collapsible Grid', purpose: 'Shows itemized $/LF and subtotal breakdowns.' }
         ],
         notes: [
           'Strictly implements the Canonical 8-Metric Pricing Architecture.',
           'Metric #4 (Fill Material) dynamically morphs options when changing from Vertical to Horizontal, Fabric, or Lattice.',
-          'Saves full design state into browser sessionStorage for zero-data-loss auth handoff.',
+          'Saves full design state into browser sessionStorage for zero-data-loss auth handoff.'
         ]
       },
       {
@@ -195,18 +291,43 @@
         displayRoute: '/blueprint',
         pillar: 'Fence It (Forest Green)',
         pillarColor: '#4ADE80',
+        specsFile: 'CORE-03-Portrait-ARC-Blueprint.md',
         purpose: 'The official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
         links: [
           { label: 'Back to Designer', route: '/designer', trigger: 'Edit Design Parameters button' },
           { label: 'Homeowner Dashboard', route: '/homeowner', trigger: 'Save to My Account CTA' },
+          { label: 'Contractor Scramble', route: '/contractors/match', trigger: 'Request 3 Bids with this Blueprint' }
         ],
         controls: [
           { name: 'Print Blueprint Button', type: 'Dedicated Print CTA', purpose: 'Triggers browser window.print() formatted for portrait 8.5x11 PDF.' },
           { name: 'Pricing ON / OFF Toggle', type: 'Compliance Switch', purpose: 'Hides dollar amounts when submitting to HOA ARC committees (as required by law).' },
+          { name: 'HOA Pre-Approval Stamp', type: 'Verified Badge', purpose: 'Displays Si View ARC pre-approval stamp and setback notes.' }
         ],
         notes: [
           'Implements clean CSS @media print layout with page-break-inside avoid.',
-          'Supports dual-mode: Pricing OFF (for HOA review) vs Pricing ON (for contractor quotes).',
+          'Supports dual-mode: Pricing OFF (for HOA review) vs Pricing ON (for contractor quotes).'
+        ]
+      },
+      {
+        id: 'CORE-02',
+        title: 'Auth & Guest Draft Preservation Gate',
+        srcUrl: '/homepage.html',
+        displayRoute: '/log-in',
+        pillar: 'Portals & Auth (Royal Blue)',
+        pillarColor: '#3B82F6',
+        specsFile: 'CORE-02-Auth-Gate.md',
+        purpose: 'Hybrid authentication gate (Email/Password + SMS Phone OTP) that permanently stores guest drafts to the user database without losing work.',
+        links: [
+          { label: 'Homeowner Showcase', route: '/homeowner', trigger: 'Successful Login / Register' },
+          { label: 'Return to Designer', route: '/designer', trigger: 'Continue Editing Draft' }
+        ],
+        controls: [
+          { name: 'Auth Mode Switcher', type: 'Tabs (Sign In / Register)', purpose: 'Toggles between existing account login and 1-tap registration.' },
+          { name: 'Hybrid Channel (Phone / Email)', type: 'Segmented Toggle', purpose: 'Allows passwordless SMS OTP verification or standard email login.' }
+        ],
+        notes: [
+          'Guest Draft Hydration Pattern: Migrates sessionStorage into Supabase saved_builds on auth.',
+          'Zero PCI liability ($0 cost for homeowners).'
         ]
       },
       {
@@ -216,6 +337,7 @@
         displayRoute: '/design-system-guide',
         pillar: 'Core Design Law',
         pillarColor: '#E5B842',
+        specsFile: 'DESIGN-RULES.md',
         purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
         links: [
           { label: 'Interactive Canvas', route: '/interactive-canvas.html', trigger: 'System Architecture Link' }
@@ -226,11 +348,33 @@
         notes: [
           'Canonical design rules source for all frontend interfaces.'
         ]
+      },
+      {
+        id: 'ARCH-CANVAS',
+        title: 'Interactive System Architecture Canvas',
+        srcUrl: '/interactive-canvas.html',
+        displayRoute: '/interactive-canvas.html',
+        pillar: 'Core Engineering',
+        pillarColor: '#3B82F6',
+        specsFile: '06-PAGE-VAULT-AND-TIER-HIERARCHY.md',
+        purpose: 'Macro & Micro interactive architecture map with 5% zoom, slate canvas, thick connection lines, and 1-click Fit-All.',
+        links: [
+          { label: 'Design System Guide', route: '/design-system-guide.html', trigger: 'Design Rules Link' }
+        ],
+        controls: [
+          { name: 'Mode Switcher (Macro / Micro)', type: 'Segmented Toggle', purpose: 'Toggles between high-level tree and detailed node specs.' },
+          { name: 'Fit All Button', type: '1-Click Auto Scale', purpose: 'Auto-calculates zoom to fit entire graph on screen.' }
+        ],
+        notes: [
+          'Dark drafting slate grey background (#1E2220) with heavy 5.5px connectors.'
+        ]
       }
     ];
 
     let currentIndex = 1;
     let currentZoom = 0.75;
+    let currentLayout = 'full'; // 'full' (stacked) or 'split' (2-column)
+    let currentDevice = 'desktop';
     let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
 
     function init() {
@@ -245,43 +389,52 @@
       document.getElementById('prevBtn').disabled = currentIndex === 0;
       document.getElementById('nextBtn').disabled = currentIndex === PAGES.length - 1;
 
+      // Top Strip updates
+      document.getElementById('badgeIdTop').innerText = p.id + ' · Tier 1';
+      document.getElementById('badgePillarTop').innerText = p.pillar;
+      document.getElementById('badgePillarTop').style.backgroundColor = p.pillarColor;
+      document.getElementById('pageTitleTop').innerText = p.title;
       document.getElementById('routeReadout').innerText = p.displayRoute;
       document.getElementById('externalLink').href = p.srcUrl;
       document.getElementById('pageIframe').src = p.srcUrl;
 
-      document.getElementById('badgeId').innerText = p.id + ' · Tier 1';
-      document.getElementById('badgePillar').innerText = p.pillar;
-      document.getElementById('badgePillar').style.backgroundColor = p.pillarColor;
-      document.getElementById('pageTitle').innerText = p.title;
+      // Cards updates
+      document.getElementById('badgePillarCard').innerText = p.pillar;
+      document.getElementById('badgePillarCard').style.backgroundColor = p.pillarColor;
       document.getElementById('pagePurpose').innerText = p.purpose;
+      document.getElementById('specsFileReadout').innerText = p.specsFile || 'spec.md';
 
+      // Link list
       document.getElementById('linksList').innerHTML = p.links.map(l => `
-        <div class="bg-[#111713] p-2.5 rounded border border-white/5 flex flex-col gap-0.5">
+        <div class="bg-[#111713] p-2 rounded border border-white/5 flex flex-col gap-0.5">
           <div class="flex justify-between items-center">
             <strong class="font-normal text-white">${l.label}</strong>
             <span class="text-[10px] text-[#4ADE80] font-mono">${l.route}</span>
           </div>
-          <span class="text-[10px] text-white/50">Trigger: ${l.trigger}</span>
+          <span class="text-[9px] text-white/50">Trigger: ${l.trigger}</span>
         </div>
       `).join('');
 
+      // Controls list
       document.getElementById('controlsList').innerHTML = p.controls.map(c => `
-        <div class="bg-[#111713] p-2.5 rounded border border-white/5">
-          <div class="flex justify-between items-center mb-1">
+        <div class="bg-[#111713] p-2 rounded border border-white/5">
+          <div class="flex justify-between items-center mb-0.5">
             <strong class="font-normal text-white/95">${c.name}</strong>
-            <span class="text-[10px] bg-[#242C26] px-2 py-0.5 rounded text-white/70">${c.type}</span>
+            <span class="text-[9px] bg-[#242C26] px-1.5 py-0.5 rounded text-white/70">${c.type}</span>
           </div>
-          <p class="text-[11px] text-white/60">${c.purpose}</p>
+          <p class="text-[10px] text-white/60">${c.purpose}</p>
         </div>
       `).join('');
 
-      document.getElementById('notesList').innerHTML = p.notes.map(n => `<li class="leading-snug">${n}</li>`).join('');
+      // Notes list
+      document.getElementById('notesList').innerHTML = p.notes.map(n => `<li class="leading-snug mb-1">${n}</li>`).join('');
 
+      // Approval console
       const app = approvals[p.id] || { status: 'pending', note: '' };
       document.getElementById('founderNote').value = app.note || '';
       const pill = document.getElementById('approvalStatusPill');
       pill.innerText = app.status.toUpperCase().replace('-', ' ');
-      pill.className = `text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+      pill.className = `text-[10px] font-bold px-2.5 py-0.5 rounded uppercase ${
         app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
         app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
       }`;
@@ -291,18 +444,50 @@
     function nextSlide() { if (currentIndex < PAGES.length - 1) { currentIndex++; renderPage(); } }
     function jumpSlide(idx) { currentIndex = Number(idx); renderPage(); }
 
-    function zoom(delta) {
-      currentZoom = Math.min(1.2, Math.max(0.4, currentZoom + delta));
+    function setZoom(val) {
+      currentZoom = val;
+      applyTransform();
+    }
+
+    function zoomStep(delta) {
+      currentZoom = Math.min(1.4, Math.max(0.35, currentZoom + delta));
+      applyTransform();
+    }
+
+    function applyTransform() {
       document.getElementById('viewportContainer').style.transform = `scale(${currentZoom})`;
       document.getElementById('zoomReadout').innerText = `${Math.round(currentZoom * 100)}%`;
+      document.getElementById('scaleStatusText').innerText = `Viewport Zoom: ${Math.round(currentZoom * 100)}%`;
     }
 
     function setDevice(device) {
+      currentDevice = device;
       const container = document.getElementById('viewportContainer');
       document.getElementById('btnDesktop').className = device === 'desktop' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
       document.getElementById('btnTablet').className = device === 'tablet' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
       document.getElementById('btnMobile').className = device === 'mobile' ? 'px-2.5 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold' : 'px-2.5 py-1 rounded text-white/60';
       container.style.width = device === 'mobile' ? '390px' : device === 'tablet' ? '768px' : '100%';
+    }
+
+    function setLayout(layout) {
+      currentLayout = layout;
+      const main = document.getElementById('mainWorkspace');
+      const sandbox = document.getElementById('sandboxSection');
+      const inspector = document.getElementById('inspectorSection');
+
+      if (layout === 'split') {
+        document.getElementById('btnLayoutSplit').className = 'px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1';
+        document.getElementById('btnLayoutFull').className = 'px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1';
+        main.className = 'flex-1 w-full grid grid-cols-1 lg:grid-cols-12 p-4 gap-6 max-w-[1900px] mx-auto';
+        sandbox.className = 'lg:col-span-7 bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl';
+        inspector.className = 'lg:col-span-5 grid grid-cols-1 gap-4 overflow-y-auto max-h-[880px] pr-2 custom-scrollbar';
+      } else {
+        document.getElementById('btnLayoutFull').className = 'px-3 py-1 rounded bg-[#E5B842] text-[#141B16] font-bold flex items-center gap-1';
+        document.getElementById('btnLayoutSplit').className = 'px-3 py-1 rounded text-white/70 hover:text-white flex items-center gap-1';
+        main.className = 'flex-1 w-full flex flex-col p-4 gap-6 max-w-[1700px] mx-auto';
+        sandbox.className = 'w-full bg-[#141815] border-2 border-white/15 rounded-lg p-4 flex flex-col items-center shadow-2xl';
+        inspector.className = 'w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4';
+      }
     }
 
     function setApproval(status) {
