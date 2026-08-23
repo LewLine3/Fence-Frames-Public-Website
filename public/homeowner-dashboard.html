@@ -13,64 +13,101 @@
       --gold-sun: #E5B842;
       --ember: #F27A22;
       --forest-bright: #4ADE80;
+      --forest-deep: #16432D;
       --ink: #141B16;
-      --surface-dark: #141B16;
-      --surface-plate: #1C261F;
-      --ivory: #FAF6EE;
+      --parchment: #FAF6EE;
     }
 
     body {
       font-family: 'Rowdies', cursive, sans-serif;
-      color: #FAF6EE;
+      color: #141B16;
     }
 
-    /* THE SIGNATURE ARCHITECTURAL CAD GREEN GRID (White Ground with 70% Major / 40% Minor Green Grid) */
-    .cad-grid-white {
-      background-color: #F6F8F5;
+    /* ========================================================================= */
+    /* PAGE CANVAS BACKGROUND (Soft Ivory Drafting Ground) */
+    /* ========================================================================= */
+    .page-canvas-ground {
+      background-color: #F4F1EA;
       background-image:
-        linear-gradient(rgba(22, 163, 74, 0.70) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(22, 163, 74, 0.70) 1.5px, transparent 1.5px),
-        linear-gradient(rgba(22, 163, 74, 0.40) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(22, 163, 74, 0.40) 1px, transparent 1px);
+        linear-gradient(rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.04) 1px, transparent 1px);
       background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
       background-attachment: fixed;
     }
 
-    .cad-grid-dark {
-      background-color: #0A100C;
+    /* ========================================================================= */
+    /* BOX STYLE 1: TAN / PARCHMENT CARD WITH DARK GREEN INTERNAL CAD GRID */
+    /* ========================================================================= */
+    .box-tan-grid {
+      background-color: #FAF6EE !important;
       background-image:
-        linear-gradient(rgba(74, 222, 128, 0.70) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(74, 222, 128, 0.70) 1.5px, transparent 1.5px),
-        linear-gradient(rgba(74, 222, 128, 0.40) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(74, 222, 128, 0.40) 1px, transparent 1px);
+        linear-gradient(rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.09) 1px, transparent 1px);
       background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
-      background-attachment: fixed;
-    }
-
-    /* SOLID OPAQUE BOX FILLS WITH HARD BRUTALIST SHADOWS (NEVER TRANSPARENT) */
-    .solid-cad-card {
-      background-color: #141B16 !important;
-      color: #FAF6EE !important;
-      border: 2px solid #000000;
-      box-shadow: 6px 6px 0px 0px #000000;
+      border: 2.5px solid #141B16;
+      box-shadow: 6px 6px 0px 0px #141B16;
       position: relative;
     }
 
-    .solid-plate-inner {
-      background-color: #1C261F !important;
-      border: 1.5px solid rgba(74, 222, 128, 0.35);
+    /* ========================================================================= */
+    /* BOX STYLE 2: DEEP FOREST / DARK SLATE CARD WITH EMERALD CAD GRID */
+    /* ========================================================================= */
+    .box-dark-grid {
+      background-color: #121A15 !important;
+      background-image:
+        linear-gradient(rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      color: #FAF6EE !important;
+      border: 2.5px solid #141B16;
+      box-shadow: 6px 6px 0px 0px #141B16;
+      position: relative;
     }
 
-    .solid-input-box {
+    /* ========================================================================= */
+    /* BOX STYLE 3: CRISP WHITE WITH FAINT SAGE GREEN INTERNAL CAD GRID */
+    /* ========================================================================= */
+    .box-white-grid {
+      background-color: #FFFFFF !important;
+      background-image:
+        linear-gradient(rgba(34, 197, 94, 0.30) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.30) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(34, 197, 94, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.10) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      border: 2.5px solid #141B16;
+      box-shadow: 6px 6px 0px 0px #141B16;
+      position: relative;
+    }
+
+    /* SOLID BLACK TITLE BAR */
+    .solid-title-bar {
+      background-color: #141B16 !important;
+      color: #FAF6EE !important;
+      border-bottom: 2px solid #141B16;
+    }
+
+    /* DOCKED INNER SPEC PLATE */
+    .docked-inner-plate {
+      background-color: #18221B !important;
+      color: #FAF6EE !important;
+      border: 1.5px solid #4ADE80;
+    }
+
+    .docked-tan-plate {
       background-color: #FAF6EE !important;
       color: #141B16 !important;
-      border: 2px solid #E5B842;
+      border: 1.5px solid #141B16;
     }
 
     /* 50% OUTSIDE CORNER MARKERS */
-    .has-outside-corners {
-      position: relative;
-    }
+    .has-outside-corners { position: relative; }
     .corner-mark-50 {
       position: absolute;
       pointer-events: none;
@@ -79,27 +116,34 @@
     .c-top-left {
       top: -3px; left: -3px;
       width: 24px; height: 24px;
-      border-top: 3px solid #4ADE80;
-      border-left: 3px solid #4ADE80;
+      border-top: 3.5px solid #4ADE80;
+      border-left: 3.5px solid #4ADE80;
     }
     .c-top-right {
       top: -3px; right: -3px;
       width: 24px; height: 24px;
-      border-top: 3px solid #4ADE80;
-      border-right: 3px solid #4ADE80;
+      border-top: 3.5px solid #4ADE80;
+      border-right: 3.5px solid #4ADE80;
     }
     .c-bottom-left {
       bottom: -3px; left: -3px;
       width: 24px; height: 24px;
-      border-bottom: 3px solid #4ADE80;
-      border-left: 3px solid #4ADE80;
+      border-bottom: 3.5px solid #4ADE80;
+      border-left: 3.5px solid #4ADE80;
     }
     .c-bottom-right {
       bottom: -3px; right: -3px;
       width: 24px; height: 24px;
-      border-bottom: 3px solid #4ADE80;
-      border-right: 3px solid #4ADE80;
+      border-bottom: 3.5px solid #4ADE80;
+      border-right: 3.5px solid #4ADE80;
     }
+
+    /* Gold Corner Variations */
+    .corner-gold .corner-mark-50 { border-color: #E5B842 !important; }
+    .corner-gold .c-top-left { border-top-color: #E5B842 !important; border-left-color: #E5B842 !important; }
+    .corner-gold .c-top-right { border-top-color: #E5B842 !important; border-right-color: #E5B842 !important; }
+    .corner-gold .c-bottom-left { border-bottom-color: #E5B842 !important; border-left-color: #E5B842 !important; }
+    .corner-gold .c-bottom-right { border-bottom-color: #E5B842 !important; border-right-color: #E5B842 !important; }
 
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #141B16; }
@@ -107,12 +151,12 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
   </style>
 </head>
-<body id="bgCanvas" class="cad-grid-white min-h-screen flex flex-col justify-between custom-scrollbar transition-colors duration-300">
+<body class="page-canvas-ground min-h-screen flex flex-col justify-between custom-scrollbar">
 
   <!-- ========================================================================= -->
   <!-- TOP NAVIGATION BAR -->
   <!-- ========================================================================= -->
-  <header class="w-full bg-[#141B16] border-b-2 border-[#E5B842] py-2.5 px-4 shadow-2xl sticky top-0 z-50">
+  <header class="w-full bg-[#141B16] border-b-3 border-[#E5B842] py-2.5 px-4 shadow-2xl sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <a href="/" class="font-bold text-sm text-[#E5B842] flex items-center gap-1.5 hover:opacity-90">
@@ -126,51 +170,58 @@
       </div>
 
       <div class="flex items-center gap-3">
-        {/* Canvas Theme Switcher */}
-        <button onclick="toggleGridTheme()" class="bg-[#1C261F] hover:bg-[#26332A] text-xs font-bold text-[#4ADE80] border border-[#4ADE80]/40 px-3 py-1 rounded flex items-center gap-1 transition">
-          <span id="themeIcon">🌙</span>
-          <span id="themeLabel">Dark Grid Canvas</span>
-        </button>
-
-        <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-4 py-1.5 rounded border border-[#141B16] shadow-[2px_2px_0_#000] transition">
-          + New Build
+        <span class="text-xs text-white/70 font-light hidden sm:inline font-mono">
+          DOC: #FF-98045-8912
+        </span>
+        <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-4 py-1.5 rounded border-2 border-[#141B16] shadow-[2px_2px_0_#000] transition">
+          + Start New Build
         </a>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN HOMEOWNER WORKSPACE CONTAINER -->
+  <!-- MAIN HOMEOWNER WORKSPACE -->
   <!-- ========================================================================= -->
   <main class="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 flex flex-col gap-6 my-4">
 
-    <!-- 1. SOLID PROPERTY WELCOME PLATE -->
-    <section class="solid-cad-card has-outside-corners p-5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <!-- 1. WELCOME BANNER (BOX STYLE: TAN WITH DARK GREEN GRID + SOLID BLACK HEADER) -->
+    <section class="box-tan-grid has-outside-corners corner-gold rounded-lg overflow-hidden flex flex-col">
       <div class="corner-mark-50 c-top-left"></div>
       <div class="corner-mark-50 c-top-right"></div>
       <div class="corner-mark-50 c-bottom-left"></div>
       <div class="corner-mark-50 c-bottom-right"></div>
 
-      <div class="flex flex-col gap-1">
+      <!-- Solid Black Title Bar -->
+      <div class="solid-title-bar px-5 py-2.5 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <h1 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
-            Welcome Back, John Smith
-          </h1>
-          <span class="bg-[#4ADE80]/20 text-[#4ADE80] border border-[#4ADE80] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-            ✓ VERIFIED PROPERTY
-          </span>
+          <span class="text-xs font-bold text-[#E5B842] uppercase tracking-wider">[HOMEOWNER PORTAL]</span>
+          <span class="text-white/30">•</span>
+          <span class="text-xs text-white font-normal">VERIFIED PROPERTY DASHBOARD</span>
         </div>
-        <p class="text-xs text-white/80 font-light flex items-center gap-2">
-          <span>📍 1420 Mt Si Blvd, North Bend, WA 98045</span>
-          <span class="text-[#E5B842] font-bold">(Si View HOA · Lot #42)</span>
-        </p>
+        <span class="bg-[#4ADE80] text-[#141B16] text-[10px] font-bold px-2 py-0.5 rounded">
+          ✓ SI VIEW HOA PRE-APPROVED
+        </span>
       </div>
 
-      <div class="flex items-center gap-3">
-        <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-5 py-2.5 rounded border-2 border-[#141B16] shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5 transition flex items-center gap-1.5">
-          <span>+</span>
-          <span>Start New Fence Build</span>
-        </a>
+      <!-- Content Area with Tan Background & Internal Dark Green CAD Grid -->
+      <div class="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-xl sm:text-2xl font-bold text-[#141B16] tracking-wide">
+            Welcome Back, John Smith
+          </h1>
+          <p class="text-xs text-[#141B16]/80 font-light flex items-center gap-2">
+            <span class="font-normal text-[#141B16]">📍 1420 Mt Si Blvd, North Bend, WA 98045</span>
+            <span class="text-[#854D0E] font-bold bg-[#FEF08A] px-2 py-0.5 rounded border border-[#CA8A04]">(Si View HOA · Lot #42)</span>
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-5 py-2.5 rounded border-2 border-[#141B16] shadow-[4px_4px_0_#141B16] active:translate-x-0.5 active:translate-y-0.5 transition flex items-center gap-1.5">
+            <span>+</span>
+            <span>Configure New Fence Bay</span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -179,177 +230,169 @@
 
       <!-- LEFT / MAIN: SAVED FENCE-FOLIOS GALLERY (8 Columns) -->
       <section class="lg:col-span-8 flex flex-col gap-5">
-        <div class="flex items-center justify-between border-b-2 border-black/20 pb-2">
-          <h2 class="text-sm font-bold uppercase text-[#141B16] bg-[#E5B842] px-2.5 py-1 rounded shadow flex items-center gap-2">
+        <div class="flex items-center justify-between border-b-2 border-[#141B16]/30 pb-2">
+          <h2 class="text-sm font-bold uppercase text-[#141B16] bg-[#E5B842] px-3 py-1 rounded border-2 border-[#141B16] shadow-[2px_2px_0_#141B16] flex items-center gap-2">
             <span>📁</span>
             <span>My Saved Fence-Folios (2 Active)</span>
           </h2>
-          <span class="text-[11px] text-[#141B16] font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#141B16]/30 shadow-sm">
+          <span class="text-[11px] text-[#141B16] font-mono font-bold bg-white px-2.5 py-0.5 rounded border-2 border-[#141B16] shadow-sm">
             ✓ ZERO-DATA-LOSS ACTIVE
           </span>
         </div>
 
-        <!-- BUILD CARD #1: HERITAGE 3-RAIL -->
-        <article class="solid-cad-card has-outside-corners p-5 rounded-md flex flex-col gap-4">
+        <!-- BUILD CARD #1: HERITAGE 3-RAIL (BOX STYLE: DEEP FOREST WITH GLOWING GREEN CAD GRID) -->
+        <article class="box-dark-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
           <div class="corner-mark-50 c-top-left"></div>
           <div class="corner-mark-50 c-top-right"></div>
           <div class="corner-mark-50 c-bottom-left"></div>
           <div class="corner-mark-50 c-bottom-right"></div>
 
-          {/* Title Bar */}
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#1C261F] pb-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
-                <h3 class="font-bold text-base text-white">Backyard Perimeter — Si View Heritage 3-Rail</h3>
-              </div>
-              <span class="text-[10px] text-white/50 font-mono font-light ml-4.5">
-                DOC HASH: #FF-98045-8912 · SAVED AUG 22, 2026
-              </span>
+          <!-- Solid Title Bar -->
+          <div class="solid-title-bar px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+              <h3 class="font-bold text-sm text-white">Backyard Perimeter — Si View Heritage 3-Rail</h3>
+              <span class="text-[10px] text-white/50 font-mono font-light ml-2">#FF-98045-8912</span>
             </div>
-            <span class="text-[10px] font-bold px-2.5 py-1 rounded bg-[#4ADE80] text-[#141B16] shadow">
-              ✓ SI VIEW ARC PRE-APPROVED
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#4ADE80] text-[#141B16]">
+              ✓ ARC PRE-APPROVED
             </span>
           </div>
 
-          {/* Thumbnail & Specs Grid */}
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            {/* Real CAD Thumbnail Elevation */}
-            <div class="md:col-span-5 bg-[#0A100C] border-2 border-white/20 rounded p-2 flex flex-col items-center justify-center">
-              <svg width="220" height="95" viewBox="0 0 220 95" class="w-full h-auto">
-                <rect width="220" height="95" fill="#0E1511" />
-                <line x1="10" y1="80" x2="210" y2="80" stroke="#16A34A" strokeWidth="2" />
-                {/* Posts */}
-                <rect x="20" y="20" width="8" height="60" fill="#D49B5B" stroke="#000" strokeWidth="1" />
-                <rect x="192" y="20" width="8" height="60" fill="#D49B5B" stroke="#000" strokeWidth="1" />
-                {/* Board-on-Board Pickets */}
-                <rect x="32" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="46" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="60" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="74" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="88" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="102" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="116" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="130" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="144" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="158" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="172" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                {/* Top Cap */}
-                <rect x="18" y="19" width="184" height="4" fill="#8C5832" stroke="#000" strokeWidth="0.8" />
-              </svg>
-              <span class="text-[9px] text-white/60 font-mono mt-1">2D CAD ELEVATION PREVIEW</span>
-            </div>
-
-            {/* Specs Summary */}
-            <div class="md:col-span-7 flex flex-col gap-2">
-              <div class="solid-plate-inner p-3 rounded">
-                <div class="text-xs text-white/90 font-light leading-relaxed">
-                  <strong>120 Linear Feet</strong> • <strong>6ft Height</strong> • Board-on-Board Pickets • Factory Cedar Natural Pre-Stain • 1x 4ft Walk Gate
-                </div>
+          <!-- Card Body with Deep Forest + Glowing Green CAD Grid -->
+          <div class="p-4 flex flex-col gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+              <!-- Real 2D CAD Thumbnail Elevation -->
+              <div class="md:col-span-5 bg-[#080D0A] border-2 border-white/20 rounded p-2 flex flex-col items-center justify-center shadow-inner">
+                <svg width="220" height="95" viewBox="0 0 220 95" class="w-full h-auto">
+                  <rect width="220" height="95" fill="#0E1511" />
+                  <line x1="10" y1="80" x2="210" y2="80" stroke="#16A34A" strokeWidth="2" />
+                  <rect x="20" y="20" width="8" height="60" fill="#D49B5B" stroke="#000" strokeWidth="1" />
+                  <rect x="192" y="20" width="8" height="60" fill="#D49B5B" stroke="#000" strokeWidth="1" />
+                  <rect x="32" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="46" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="60" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="74" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="88" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="102" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="116" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="130" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="144" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="158" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="172" y="24" width="14" height="56" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="18" y="19" width="184" height="4" fill="#8C5832" stroke="#000" strokeWidth="0.8" />
+                </svg>
+                <span class="text-[9px] text-white/60 font-mono mt-1">2D CAD ELEVATION PREVIEW</span>
               </div>
 
-              <div class="flex items-center justify-between bg-[#101612] p-2.5 rounded border border-white/10">
-                <div>
-                  <span class="text-[9px] text-white/50 uppercase block font-normal">Contractor Bid Estimate Range</span>
-                  <strong class="text-base text-[#4ADE80] font-bold">$5,940 – $6,825</strong>
-                  <span class="text-[10px] text-white/60 font-mono ml-1">($49.50 – $56.88 / LF)</span>
+              <!-- Specs Summary in Docked Explainer Plate -->
+              <div class="md:col-span-7 flex flex-col gap-2.5">
+                <div class="docked-inner-plate p-3 rounded">
+                  <div class="text-xs text-white/95 font-light leading-relaxed">
+                    <strong>120 Linear Feet</strong> • <strong>6ft Height</strong> • Board-on-Board Pickets • Factory Cedar Natural Pre-Stain • 1x 4ft Walk Gate
+                  </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-[9px] text-[#E5B842] uppercase block font-bold">⚡ 2 BIDS IN SCRAMBLE</span>
-                  <span class="text-[10px] text-white/70">1 Seat Remaining</span>
+
+                <div class="flex items-center justify-between bg-[#080D0A] p-2.5 rounded border border-white/15">
+                  <div>
+                    <span class="text-[9px] text-white/50 uppercase block font-normal">Contractor Bid Estimate</span>
+                    <strong class="text-base text-[#4ADE80] font-bold">$5,940 – $6,825</strong>
+                    <span class="text-[10px] text-white/60 font-mono ml-1">($49.50 – $56.88 / LF)</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[9px] text-[#E5B842] uppercase block font-bold">⚡ 2 BIDS IN SCRAMBLE</span>
+                    <span class="text-[10px] text-white/70">1 Seat Remaining</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Action Row */}
-          <div class="flex flex-wrap items-center gap-2.5 pt-2 border-t-2 border-[#1C261F]">
-            <a href="/blueprint-standalone.html" class="bg-[#1C261F] hover:bg-[#26332A] text-[#4ADE80] border border-[#4ADE80]/50 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-              <span>📄</span>
-              <span>View 8.5" × 11" ARC Blueprint</span>
-            </a>
-            <a href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="bg-[#1C261F] hover:bg-[#26332A] text-white border border-white/20 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-              <span>✏️</span>
-              <span>Modify in Designer</span>
-            </a>
-            <a href="/contractors" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-4 py-1.5 rounded shadow flex items-center gap-1.5 transition">
-              <span>⚡</span>
-              <span>Review Bids &amp; Lock Seat</span>
-            </a>
+            <!-- Action Strip -->
+            <div class="flex flex-wrap items-center gap-2.5 pt-2 border-t border-white/15">
+              <a href="/blueprint-standalone.html" class="bg-[#18221B] hover:bg-[#223027] text-[#4ADE80] border border-[#4ADE80]/50 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
+                <span>📄</span>
+                <span>View 8.5" × 11" ARC Blueprint</span>
+              </a>
+              <a href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="bg-[#18221B] hover:bg-[#223027] text-white border border-white/20 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
+                <span>✏️</span>
+                <span>Modify in Designer</span>
+              </a>
+              <a href="/contractors" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-4 py-1.5 rounded shadow flex items-center gap-1.5 transition">
+                <span>⚡</span>
+                <span>Review Bids &amp; Lock Seat</span>
+              </a>
+            </div>
           </div>
         </article>
 
-        <!-- BUILD CARD #2: MODERN HORIZONTAL -->
-        <article class="solid-cad-card has-outside-corners p-5 rounded-md flex flex-col gap-4">
+        <!-- BUILD CARD #2: MODERN HORIZONTAL (BOX STYLE: WHITE WITH SAGE GREEN CAD GRID) -->
+        <article class="box-white-grid has-outside-corners corner-gold rounded-lg overflow-hidden flex flex-col">
           <div class="corner-mark-50 c-top-left"></div>
           <div class="corner-mark-50 c-top-right"></div>
           <div class="corner-mark-50 c-bottom-left"></div>
           <div class="corner-mark-50 c-bottom-right"></div>
 
-          {/* Title Bar */}
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#1C261F] pb-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-[#F27A22]"></span>
-                <h3 class="font-bold text-base text-white">Side Lot &amp; Garden Gate — Modern Horizontal Slat</h3>
-              </div>
-              <span class="text-[10px] text-white/50 font-mono font-light ml-4.5">
-                DOC HASH: #FF-98045-3142 · SAVED AUG 19, 2026
-              </span>
+          <!-- Solid Title Bar -->
+          <div class="solid-title-bar px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#F27A22]"></span>
+              <h3 class="font-bold text-sm text-white">Side Lot &amp; Garden Gate — Modern Horizontal Slat</h3>
+              <span class="text-[10px] text-white/50 font-mono font-light ml-2">#FF-98045-3142</span>
             </div>
-            <span class="text-[10px] font-bold px-2.5 py-1 rounded bg-[#4ADE80] text-[#141B16] shadow">
-              ✓ SI VIEW ARC PRE-APPROVED
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#4ADE80] text-[#141B16]">
+              ✓ ARC PRE-APPROVED
             </span>
           </div>
 
-          {/* Specs & Pricing */}
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            <div class="md:col-span-5 bg-[#0A100C] border-2 border-white/20 rounded p-2 flex flex-col items-center justify-center">
-              <svg width="220" height="95" viewBox="0 0 220 95" class="w-full h-auto">
-                <rect width="220" height="95" fill="#0E1511" />
-                <line x1="10" y1="80" x2="210" y2="80" stroke="#16A34A" strokeWidth="2" />
-                <rect x="20" y="30" width="8" height="50" fill="#D49B5B" stroke="#000" strokeWidth="1" />
-                <rect x="192" y="30" width="8" height="50" fill="#D49B5B" stroke="#000" strokeWidth="1" />
-                {/* Horizontal slats */}
-                <rect x="28" y="35" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="28" y="45" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="28" y="55" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="28" y="65" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-                <rect x="28" y="75" width="164" height="4" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
-              </svg>
-              <span class="text-[9px] text-white/60 font-mono mt-1">2D CAD ELEVATION PREVIEW</span>
-            </div>
-
-            <div class="md:col-span-7 flex flex-col gap-2">
-              <div class="solid-plate-inner p-3 rounded">
-                <div class="text-xs text-white/90 font-light leading-relaxed">
-                  <strong>45 Linear Feet</strong> • <strong>4ft Height</strong> • 1x6 Tight Knot Cedar Horizontal Siding • 1x 4ft Pedestrian Gate
-                </div>
+          <!-- Card Body with White Ground + Sage Green CAD Grid -->
+          <div class="p-4 flex flex-col gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+              <div class="md:col-span-5 bg-[#0E1511] border-2 border-[#141B16] rounded p-2 flex flex-col items-center justify-center shadow-inner">
+                <svg width="220" height="95" viewBox="0 0 220 95" class="w-full h-auto">
+                  <rect width="220" height="95" fill="#0E1511" />
+                  <line x1="10" y1="80" x2="210" y2="80" stroke="#16A34A" strokeWidth="2" />
+                  <rect x="20" y="30" width="8" height="50" fill="#D49B5B" stroke="#000" strokeWidth="1" />
+                  <rect x="192" y="30" width="8" height="50" fill="#D49B5B" stroke="#000" strokeWidth="1" />
+                  <rect x="28" y="35" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="28" y="45" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="28" y="55" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="28" y="65" width="164" height="6" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                  <rect x="28" y="75" width="164" height="4" fill="#E8C59A" stroke="#141B16" strokeWidth="0.8" />
+                </svg>
+                <span class="text-[9px] text-white/60 font-mono mt-1">2D CAD ELEVATION PREVIEW</span>
               </div>
 
-              <div class="flex items-center justify-between bg-[#101612] p-2.5 rounded border border-white/10">
-                <div>
-                  <span class="text-[9px] text-white/50 uppercase block font-normal">Contractor Bid Estimate</span>
-                  <strong class="text-base text-[#4ADE80] font-bold">$2,250 – $2,700</strong>
-                  <span class="text-[10px] text-white/60 font-mono ml-1">($50.00 – $60.00 / LF)</span>
+              <div class="md:col-span-7 flex flex-col gap-2.5">
+                <div class="docked-tan-plate p-3 rounded">
+                  <div class="text-xs text-[#141B16] font-light leading-relaxed">
+                    <strong>45 Linear Feet</strong> • <strong>4ft Height</strong> • 1x6 Tight Knot Cedar Horizontal Siding • 1x 4ft Pedestrian Gate
+                  </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-[9px] text-[#3B82F6] uppercase block font-bold">1 BID SUBMITTED</span>
+
+                <div class="flex items-center justify-between bg-white p-2.5 rounded border-2 border-[#141B16] shadow-sm">
+                  <div>
+                    <span class="text-[9px] text-[#141B16]/60 uppercase block font-normal">Contractor Bid Estimate</span>
+                    <strong class="text-base text-[#16A34A] font-bold">$2,250 – $2,700</strong>
+                    <span class="text-[10px] text-[#141B16]/60 font-mono ml-1">($50.00 – $60.00 / LF)</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[9px] text-[#3B82F6] uppercase block font-bold">1 BID SUBMITTED</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Action Row */}
-          <div class="flex flex-wrap items-center gap-2.5 pt-2 border-t-2 border-[#1C261F]">
-            <a href="/blueprint-standalone.html" class="bg-[#1C261F] hover:bg-[#26332A] text-[#4ADE80] border border-[#4ADE80]/50 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-              <span>📄</span>
-              <span>View Blueprint</span>
-            </a>
-            <a href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="bg-[#1C261F] hover:bg-[#26332A] text-white border border-white/20 px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-              <span>✏️</span>
-              <span>Edit in Designer</span>
-            </a>
+            <!-- Action Strip -->
+            <div class="flex flex-wrap items-center gap-2.5 pt-2 border-t border-[#141B16]/20">
+              <a href="/blueprint-standalone.html" class="bg-white hover:bg-gray-100 text-[#141B16] border-2 border-[#141B16] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+                <span>📄</span>
+                <span>View Blueprint</span>
+              </a>
+              <a href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="bg-white hover:bg-gray-100 text-[#141B16] border-2 border-[#141B16] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+                <span>✏️</span>
+                <span>Edit in Designer</span>
+              </a>
+            </div>
           </div>
         </article>
 
@@ -358,110 +401,115 @@
       <!-- RIGHT COLUMN: ARC STATUS & LIVE CONTRACTOR BID TRACKER (4 Columns) -->
       <section class="lg:col-span-4 flex flex-col gap-5">
 
-        {/* CARD 1: HOA ARC APPROVAL STATUS */}
-        <div class="solid-cad-card has-outside-corners p-4 rounded-md flex flex-col gap-3">
+        <!-- CARD 1: HOA ARC APPROVAL STATUS (BOX STYLE: TAN WITH DARK GREEN GRID) -->
+        <div class="box-tan-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
           <div class="corner-mark-50 c-top-left"></div>
           <div class="corner-mark-50 c-top-right"></div>
           <div class="corner-mark-50 c-bottom-left"></div>
           <div class="corner-mark-50 c-bottom-right"></div>
 
-          <h3 class="text-xs font-bold uppercase text-[#E5B842] flex items-center gap-1.5">
-            <span>🏛️</span>
-            <span>HOA ARC Approval Status</span>
-          </h3>
-
-          <div class="solid-plate-inner p-3 rounded flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#4ADE80] animate-pulse"></span>
-              <strong class="text-xs text-[#4ADE80]">Pre-Approved Architecture</strong>
-            </div>
-            <p class="text-[11px] text-white/80 font-light leading-snug">
-              Heritage 3-Rail matches Si View HOA Section 4.2 Guidelines. No ARC committee hearing delays required.
-            </p>
+          <div class="solid-title-bar px-3.5 py-2 flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase text-[#E5B842] flex items-center gap-1.5">
+              <span>🏛️</span>
+              <span>HOA ARC Approval</span>
+            </h3>
+            <span class="text-[9px] bg-[#4ADE80] text-[#141B16] font-bold px-1.5 py-0.5 rounded">PRE-APPROVED</span>
           </div>
 
-          <a href="/blueprint-standalone.html" class="w-full bg-[#1C261F] hover:bg-[#26332A] text-white text-center py-2.5 rounded text-xs font-bold border border-white/20 block transition">
-            📥 Download Signed ARC PDF Packet
-          </a>
+          <div class="p-3.5 flex flex-col gap-3">
+            <div class="bg-white p-3 rounded border-2 border-[#141B16] shadow-sm">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span>
+                <strong class="text-xs text-[#16A34A]">Pre-Approved Architecture</strong>
+              </div>
+              <p class="text-[11px] text-[#141B16]/80 font-light leading-snug">
+                Heritage 3-Rail matches Si View HOA Section 4.2 Guidelines. No ARC committee delays.
+              </p>
+            </div>
+
+            <a href="/blueprint-standalone.html" class="w-full bg-[#141B16] hover:bg-[#242D26] text-white text-center py-2 rounded text-xs font-bold block shadow transition">
+              📥 Download Signed ARC PDF
+            </a>
+          </div>
         </div>
 
-        {/* CARD 2: CONTRACTOR 3-SEAT BID SCRAMBLE */}
-        <div class="solid-cad-card has-outside-corners p-4 rounded-md flex flex-col gap-3">
+        <!-- CARD 2: CONTRACTOR 3-SEAT BID SCRAMBLE (BOX STYLE: DEEP FOREST WITH GLOWING GREEN GRID) -->
+        <div class="box-dark-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
           <div class="corner-mark-50 c-top-left"></div>
           <div class="corner-mark-50 c-top-right"></div>
           <div class="corner-mark-50 c-bottom-left"></div>
           <div class="corner-mark-50 c-bottom-right"></div>
 
-          <div class="flex justify-between items-center">
+          <div class="solid-title-bar px-3.5 py-2 flex justify-between items-center">
             <h3 class="text-xs font-bold uppercase text-[#F27A22] flex items-center gap-1.5">
               <span>⚡</span>
               <span>Live Contractor Bids</span>
             </h3>
-            <span class="text-[10px] bg-[#E5B842] text-[#141B16] px-2 py-0.5 rounded font-bold">
-              2 of 3 Seats
-            </span>
+            <span class="text-[10px] bg-[#E5B842] text-[#141B16] px-1.5 py-0.5 rounded font-bold">2 of 3 Seats</span>
           </div>
 
-          <div class="space-y-2">
-            {/* Bid 1 */}
-            <div class="solid-plate-inner p-2.5 rounded flex flex-col gap-1">
-              <div class="flex justify-between items-center">
-                <strong class="text-xs text-white">Cascade Fence Co.</strong>
-                <span class="text-[#4ADE80] text-xs font-bold">$5,580 Total</span>
+          <div class="p-3.5 flex flex-col gap-3">
+            <div class="space-y-2">
+              <div class="bg-[#080D0A] p-2.5 rounded border border-white/15 flex flex-col gap-1">
+                <div class="flex justify-between items-center">
+                  <strong class="text-xs text-white">Cascade Fence Co.</strong>
+                  <span class="text-[#4ADE80] text-xs font-bold">$5,580 Total</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Start: Sept 12 · ★ 4.9 (42)</span>
+                  <span class="font-mono text-[#E5B842]">$46.50 / LF</span>
+                </div>
               </div>
-              <div class="flex justify-between items-center text-[10px] text-white/70">
-                <span>Start: Sept 12 · ★ 4.9 (42)</span>
-                <span class="font-mono text-[#E5B842]">$46.50 / LF</span>
+
+              <div class="bg-[#080D0A] p-2.5 rounded border border-white/15 flex flex-col gap-1">
+                <div class="flex justify-between items-center">
+                  <strong class="text-xs text-white">Mt. Si Woodworks</strong>
+                  <span class="text-[#4ADE80] text-xs font-bold">$5,880 Total</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Start: Sept 05 · ★ 5.0 (28)</span>
+                  <span class="font-mono text-[#E5B842]">$49.00 / LF</span>
+                </div>
               </div>
             </div>
 
-            {/* Bid 2 */}
-            <div class="solid-plate-inner p-2.5 rounded flex flex-col gap-1">
-              <div class="flex justify-between items-center">
-                <strong class="text-xs text-white">Mt. Si Woodworks</strong>
-                <span class="text-[#4ADE80] text-xs font-bold">$5,880 Total</span>
-              </div>
-              <div class="flex justify-between items-center text-[10px] text-white/70">
-                <span>Start: Sept 05 · ★ 5.0 (28)</span>
-                <span class="font-mono text-[#E5B842]">$49.00 / LF</span>
-              </div>
+            <div class="bg-[#080D0A] p-1.5 rounded border border-white/10 text-center">
+              <span class="text-[10px] text-white/70 font-mono">
+                Seat #3 Closing · <strong class="text-[#4ADE80]">08:42 Left</strong>
+              </span>
             </div>
-          </div>
 
-          <div class="bg-[#101612] p-2 rounded border border-white/10 text-center">
-            <span class="text-[10px] text-white/60 font-mono">
-              Seat #3 Closing Soon · <strong class="text-[#4ADE80]">08:42 Remaining</strong>
-            </span>
+            <a href="/contractors" class="w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] text-center py-2 rounded text-xs font-bold block shadow transition">
+              🔒 Accept Bid &amp; Lock Schedule
+            </a>
           </div>
-
-          <a href="/contractors" class="w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] text-center py-2.5 rounded text-xs font-bold block shadow-[2px_2px_0_#000] transition">
-            🔒 Accept Bid &amp; Lock Schedule
-          </a>
         </div>
 
-        {/* CARD 3: HOMEOWNER TOOLBOX */}
-        <div class="solid-cad-card has-outside-corners p-4 rounded-md flex flex-col gap-2.5">
+        <!-- CARD 3: HOMEOWNER TOOLBOX (BOX STYLE: WHITE WITH SAGE GREEN GRID) -->
+        <div class="box-white-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
           <div class="corner-mark-50 c-top-left"></div>
           <div class="corner-mark-50 c-top-right"></div>
           <div class="corner-mark-50 c-bottom-left"></div>
           <div class="corner-mark-50 c-bottom-right"></div>
 
-          <h3 class="text-xs font-bold uppercase text-white/80 flex items-center gap-1.5">
-            <span>🧰</span>
-            <span>Homeowner Toolbox</span>
-          </h3>
+          <div class="solid-title-bar px-3.5 py-2 flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase text-white/90 flex items-center gap-1.5">
+              <span>🧰</span>
+              <span>Homeowner Toolbox</span>
+            </h3>
+          </div>
 
-          <div class="space-y-1.5 text-xs font-light text-white/90">
-            <div class="solid-plate-inner p-2 rounded hover:bg-[#243329] cursor-pointer flex justify-between items-center transition">
-              <span>📐 Property Line Setback Estimator</span>
+          <div class="p-3 space-y-1.5 text-xs font-light text-[#141B16]">
+            <div class="bg-white p-2 rounded border border-[#141B16]/20 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition shadow-sm">
+              <span>📐 Setback Line Estimator</span>
               <span>→</span>
             </div>
-            <div class="solid-plate-inner p-2 rounded hover:bg-[#243329] cursor-pointer flex justify-between items-center transition">
-              <span>🪵 Wood Species Durability Guide</span>
+            <div class="bg-white p-2 rounded border border-[#141B16]/20 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition shadow-sm">
+              <span>🪵 Cedar Durability Guide</span>
               <span>→</span>
             </div>
-            <div class="solid-plate-inner p-2 rounded hover:bg-[#243329] cursor-pointer flex justify-between items-center transition">
-              <span>⚖️ North Bend Permit Bylaws</span>
+            <div class="bg-white p-2 rounded border border-[#141B16]/20 hover:bg-gray-50 cursor-pointer flex justify-between items-center transition shadow-sm">
+              <span>⚖️ North Bend Permit Rules</span>
               <span>→</span>
             </div>
           </div>
@@ -476,30 +524,9 @@
   <!-- ========================================================================= -->
   <!-- FOOTER -->
   <!-- ========================================================================= -->
-  <footer class="w-full bg-[#141B16] border-t-2 border-[#1C261F] py-3 px-4 text-center text-xs text-white/60 font-light">
+  <footer class="w-full bg-[#141B16] border-t-3 border-[#1C261F] py-3 px-4 text-center text-xs text-white/60 font-light">
     <span>Fence Frames Platform · Frame Your Vision | Find Your Fence · Authored by Two Lew Builders LLC</span>
   </footer>
-
-  <script>
-    let isWhiteGrid = true;
-
-    function toggleGridTheme() {
-      isWhiteGrid = !isWhiteGrid;
-      const canvas = document.getElementById('bgCanvas');
-      const icon = document.getElementById('themeIcon');
-      const label = document.getElementById('themeLabel');
-
-      if (isWhiteGrid) {
-        canvas.className = 'cad-grid-white min-h-screen flex flex-col justify-between custom-scrollbar transition-colors duration-300';
-        icon.innerText = '🌙';
-        label.innerText = 'Dark Grid Canvas';
-      } else {
-        canvas.className = 'cad-grid-dark min-h-screen flex flex-col justify-between custom-scrollbar transition-colors duration-300';
-        icon.innerText = '☀️';
-        label.innerText = 'Light Grid Canvas';
-      }
-    }
-  </script>
 
 </body>
 </html>
