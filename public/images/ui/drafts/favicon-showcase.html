@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence Frames — Canon Winner Suite & Texture Trials</title>
+  <title>Fence Frames — Master Vector & High-Res PNG Suite</title>
   
   <!-- Rowdies Font Canonical Standard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
     }
 
     .container {
-      max-width: 1560px;
+      max-width: 1600px;
       margin: 0 auto;
     }
 
@@ -148,70 +148,10 @@
       color: var(--forest-bright);
     }
 
-    /* Math Spec Card */
-    .spec-deck {
-      background: var(--ink-surface);
-      border: 2px solid var(--gold-sun);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 36px;
-      box-shadow: 0 0 36px var(--gold-sun-glow);
-    }
-
-    .spec-deck-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--gold-sun);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .spec-deck-subtitle {
-      font-size: 0.88rem;
-      color: var(--cedar-tan);
-      margin-bottom: 20px;
-    }
-
-    .spec-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 16px;
-    }
-
-    .spec-card {
-      background: #111613;
-      border: 1.5px solid var(--ink-border);
-      border-radius: var(--radius-md);
-      padding: 16px;
-    }
-
-    .spec-card-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--forest-bright);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .spec-card p {
-      font-size: 0.82rem;
-      color: #E2E8F0;
-      line-height: 1.55;
-    }
-
-    .spec-card code {
-      color: var(--gold-sun);
-      background: rgba(0,0,0,0.5);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
     /* Grid of Concepts */
     .concepts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 22px;
       margin-bottom: 48px;
     }
@@ -282,14 +222,20 @@
       position: relative;
     }
 
-    .hero-svg-wrapper {
-      width: 135px;
-      height: 135px;
+    .hero-png-wrapper {
+      width: 150px;
+      height: 150px;
       filter: drop-shadow(0 8px 16px rgba(0,0,0,0.8));
       transition: transform 0.3s ease;
     }
 
-    .hero-svg-wrapper:hover {
+    .hero-png-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .hero-png-wrapper:hover {
       transform: scale(1.08);
     }
 
@@ -311,78 +257,56 @@
       gap: 12px;
     }
 
-    .test-box {
+    .downloads-panel {
       background: var(--ink);
       border: 1px solid var(--ink-border);
       border-radius: var(--radius-md);
       padding: 12px;
     }
 
-    .test-box-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .test-box-title {
+    .downloads-title {
       font-size: 0.75rem;
-      font-weight: 400;
-      color: var(--forest-bright);
+      font-weight: 700;
+      color: var(--gold-sun);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .test-box-badge {
-      font-size: 0.65rem;
-      color: var(--cedar-tan);
+    .download-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
-    .browser-bar {
+    .chip-link {
+      background: #19221C;
+      border: 1px solid var(--ink-border);
+      color: #E2E8F0;
+      padding: 4px 10px;
       border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .browser-bar.dark-theme {
-      background: #1E1F22;
-    }
-
-    .browser-bar.light-theme {
-      background: #E8EAED;
-      margin-top: 8px;
-    }
-
-    .tab-item {
+      font-size: 0.72rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      font-size: 0.72rem;
-      font-weight: 400;
-      max-width: 220px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      gap: 4px;
     }
 
-    .dark-theme .tab-item {
-      background: #2B2D30;
-      color: #E6E6E6;
-      border-top: 2px solid var(--emerald-bright);
+    .chip-link:hover {
+      background: var(--emerald-bright);
+      color: #0B0E0C;
+      font-weight: 700;
+      border-color: var(--forest-bright);
     }
 
-    .light-theme .tab-item {
-      background: #FFFFFF;
-      color: #202124;
-      border-top: 2px solid var(--pine-boosted);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-    }
-
-    .tab-favicon-16 {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
+    .chip-link.chip-gold:hover {
+      background: var(--gold-sun);
+      color: #0B0E0C;
+      border-color: #FFFFFF;
     }
 
     .rationale-box {
@@ -398,31 +322,6 @@
     .rationale-box strong {
       color: var(--forest-bright);
       font-weight: 700;
-    }
-
-    .swatches-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .swatch-pill {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.65rem;
-      padding: 2px 6px;
-      background: var(--ink);
-      border: 1px solid var(--ink-border);
-      border-radius: 4px;
-      color: var(--cedar-tan);
-    }
-
-    .swatch-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
     }
 
     .card-footer {
@@ -483,52 +382,20 @@
   <header class="brand-header">
     <div class="badge-phase">
       <span class="pulse-dot"></span>
-      Canon Winner & Texture Trials (Phase 1 Complete)
+      High-Resolution PNG & Vector Suite (Phase 1)
     </div>
     <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
     <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
     <p class="brand-desc">
-      <strong>Concept 1CY is officially promoted to CANON WINNER</strong> across all production suites (<code>public/icon.svg</code>, <code>favicon.ico</code>, <code>icon-512x512.png</code>, <code>apple-icon.png</code>). Below is the winner alongside two trial variants (<strong>PT Appearance Grain</strong> vs. <strong>Clean Smooth Wood</strong>).
+      Full High-Resolution Suite: <strong>4096×4096 (8K Master)</strong>, <strong>2048×2048 (4K Ultra-Res)</strong>, <strong>1024×1024</strong>, and <strong>512×512</strong> PNGs + Clean Standalone SVGs!
     </p>
   </header>
 
   <!-- Section Banner -->
   <div class="section-banner">
-    <h2>🏆 Official Canon Winner: Concept 1CY (Incised PT Texture — Full Production Suite Active)</h2>
-    <span>Saved to <code>public/icon.svg</code> & <code>public/images/ui/winners/brand-icon-master-canon.svg</code></span>
+    <h2>🏆 Master Production Suite Active (Concept 1CY Canon + Texture Trials)</h2>
+    <span>Saved in <code>public/images/ui/exports/</code> and <code>public/images/ui/winners/</code></span>
   </div>
-
-  <!-- MATHEMATICAL CALIBRATION DECK -->
-  <section class="spec-deck">
-    <h3 class="spec-deck-title">📐 Canon Master Specifications</h3>
-    <p class="spec-deck-subtitle">The definitive visual and mathematical standard of the Fence Frames brand</p>
-
-    <div class="spec-grid">
-      <div class="spec-card">
-        <div class="spec-card-title">1. Structural Soil & Open Edge</div>
-        <p>
-          • <strong>Open Soil Flow:</strong> Left cap line removed completely; soil fill starts at <code>x = 57</code>.<br>
-          • <strong>Clean Interface:</strong> Post 1 rests firmly on top of the soil plinth at <code>y = 412</code>.
-        </p>
-      </div>
-
-      <div class="spec-card">
-        <div class="spec-card-title">2. Under-Cap Ribbon Docking</div>
-        <p>
-          • <strong>Post 1:</strong> Green ribbon dives under cap skirt at <code>y=54</code> to <code>x=64</code>.<br>
-          • <strong>Post 2:</strong> Yellow ribbon dives under cap skirt at <code>y=182</code> to <code>x=170</code>.
-        </p>
-      </div>
-
-      <div class="spec-card">
-        <div class="spec-card-title">3. 100.000% Laser Collinearity</div>
-        <p>
-          • <strong>440.00 &rarr; 392.35 &rarr; 347.00 &rarr; 313.05</strong> (Angle: <code>20.87114&deg;</code>, Error: <code>0.000&deg;</code>).<br>
-          • <strong>Hardware Black Endcaps:</strong> Solid bullet endcaps on all rails and ground plinth.
-        </p>
-      </div>
-    </div>
-  </section>
 
   <!-- Main Concepts Grid -->
   <main class="concepts-grid">
@@ -537,12 +404,12 @@
     <article class="concept-card featured-card">
       <div class="card-topbar">
         <span class="concept-title">Concept 1CY: Canon Master</span>
-        <span class="concept-number">#FF-01CY 🏆 (OFFICIAL CANON)</span>
+        <span class="concept-number">#FF-01CY 🏆 (CANON)</span>
       </div>
 
       <div class="master-preview transparent-preview">
-        <div class="hero-svg-wrapper">
-          <img src="favicon-concept-1cy-dirt-terminates-at-green-border.svg" alt="Concept 1CY" width="135" height="135">
+        <div class="hero-png-wrapper">
+          <img src="../exports/brand-icon-canon-1cy-2048x2048.png" alt="Concept 1CY Canon Master">
         </div>
         <span class="dim-label">Official Canon • Incised PT Texture • Under-Cap Docking</span>
       </div>
@@ -552,41 +419,32 @@
           <strong>Official Canon Specification:</strong>
           <br>• <strong>Incised PT Texture:</strong> Canonical timber incisions with golden highlight seams.
           <br>• <strong>Open Soil Plinth:</strong> Brown dirt extends to x=57 with zero left cap line.
-          <br>• <strong>Promoted to public/icon.svg & favicon suite!</strong>
         </div>
 
-        <div class="test-box">
-          <div class="test-box-header">
-            <span class="test-box-title">Browser Tab Simulation</span>
-            <span class="test-box-badge">16×16</span>
-          </div>
-
-          <div class="browser-bar dark-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1cy-dirt-terminates-at-green-border.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | Official Canon</span>
-            </div>
-          </div>
-
-          <div class="browser-bar light-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1cy-dirt-terminates-at-green-border.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | Blueprint...</span>
-            </div>
+        <!-- PNG Download Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">🖼️ High-Res PNG Exports</div>
+          <div class="download-chips">
+            <a href="../exports/brand-icon-canon-1cy-4096x4096.png" target="_blank" class="chip-link chip-gold">4096×4096 (8K)</a>
+            <a href="../exports/brand-icon-canon-1cy-2048x2048.png" target="_blank" class="chip-link">2048×2048 (4K)</a>
+            <a href="../exports/brand-icon-canon-1cy-1024x1024.png" target="_blank" class="chip-link">1024×1024</a>
+            <a href="../exports/brand-icon-canon-1cy-512x512.png" target="_blank" class="chip-link">512×512</a>
           </div>
         </div>
 
-        <div class="swatches-row">
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#6A481B;"></span> Soil Base</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#0B0E0C;"></span> Black Caps</div>
+        <!-- Vector SVG Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">📐 Vector SVG Masters</div>
+          <div class="download-chips">
+            <a href="../winners/brand-icon-master-canon.svg" target="_blank" class="chip-link">Web Master SVG</a>
+            <a href="../winners/brand-icon-vector-raw.svg" target="_blank" class="chip-link chip-gold">Raw Vector SVG (Illustrator/Figma)</a>
+          </div>
         </div>
       </div>
 
       <div class="card-footer">
-        <a href="favicon-concept-1cy-dirt-terminates-at-green-border.svg" target="_blank" class="btn-action btn-green">Inspect Canon SVG</a>
-        <a href="../../icon.svg" target="_blank" class="btn-action btn-outline">View public/icon.svg</a>
+        <a href="../exports/brand-icon-canon-1cy-2048x2048.png" target="_blank" class="btn-action btn-green">View 2048 PNG</a>
+        <a href="../winners/brand-icon-master-canon.svg" target="_blank" class="btn-action btn-outline">View Canon SVG</a>
       </div>
     </article>
 
@@ -599,8 +457,8 @@
       </div>
 
       <div class="master-preview transparent-preview">
-        <div class="hero-svg-wrapper">
-          <img src="favicon-concept-1cz-pt-appearance-texture.svg" alt="Concept 1CZ" width="135" height="135">
+        <div class="hero-png-wrapper">
+          <img src="../exports/brand-icon-pt-grain-1cz-2048x2048.png" alt="Concept 1CZ PT Appearance Grain">
         </div>
         <span class="dim-label">PT Appearance Wood Grain • No Incision Slits</span>
       </div>
@@ -612,37 +470,29 @@
           <br>• <strong>Zero Incisions:</strong> Clean surface without industrial incision slits.
         </div>
 
-        <div class="test-box">
-          <div class="test-box-header">
-            <span class="test-box-title">Browser Tab Simulation</span>
-            <span class="test-box-badge">16×16</span>
-          </div>
-
-          <div class="browser-bar dark-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1cz-pt-appearance-texture.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | PT Grain Trial</span>
-            </div>
-          </div>
-
-          <div class="browser-bar light-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1cz-pt-appearance-texture.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | Blueprint...</span>
-            </div>
+        <!-- PNG Download Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">🖼️ High-Res PNG Exports</div>
+          <div class="download-chips">
+            <a href="../exports/brand-icon-pt-grain-1cz-4096x4096.png" target="_blank" class="chip-link chip-gold">4096×4096 (8K)</a>
+            <a href="../exports/brand-icon-pt-grain-1cz-2048x2048.png" target="_blank" class="chip-link">2048×2048 (4K)</a>
+            <a href="../exports/brand-icon-pt-grain-1cz-1024x1024.png" target="_blank" class="chip-link">1024×1024</a>
+            <a href="../exports/brand-icon-pt-grain-1cz-512x512.png" target="_blank" class="chip-link">512×512</a>
           </div>
         </div>
 
-        <div class="swatches-row">
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#8E6348;"></span> PT Grain</div>
+        <!-- Vector SVG Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">📐 Vector SVG Masters</div>
+          <div class="download-chips">
+            <a href="favicon-concept-1cz-pt-appearance-texture.svg" target="_blank" class="chip-link">PT Grain SVG</a>
+          </div>
         </div>
       </div>
 
       <div class="card-footer">
-        <a href="favicon-concept-1cz-pt-appearance-texture.svg" target="_blank" class="btn-action btn-green">Inspect Trial A SVG</a>
-        <button class="btn-action btn-outline" onclick="selectWinner('Trial A: PT Appearance Grain')">Switch to Trial A</button>
+        <a href="../exports/brand-icon-pt-grain-1cz-2048x2048.png" target="_blank" class="btn-action btn-green">View 2048 PNG</a>
+        <a href="favicon-concept-1cz-pt-appearance-texture.svg" target="_blank" class="btn-action btn-outline">Inspect SVG</a>
       </div>
     </article>
 
@@ -655,8 +505,8 @@
       </div>
 
       <div class="master-preview transparent-preview">
-        <div class="hero-svg-wrapper">
-          <img src="favicon-concept-1da-clean-smooth-wood.svg" alt="Concept 1DA" width="135" height="135">
+        <div class="hero-png-wrapper">
+          <img src="../exports/brand-icon-smooth-wood-1da-2048x2048.png" alt="Concept 1DA Clean Smooth Wood">
         </div>
         <span class="dim-label">Pure Architectural Wood Gradient • Zero Texture</span>
       </div>
@@ -668,49 +518,35 @@
           <br>• <strong>Minimalist & Sleek:</strong> No grain lines, no incision slits.
         </div>
 
-        <div class="test-box">
-          <div class="test-box-header">
-            <span class="test-box-title">Browser Tab Simulation</span>
-            <span class="test-box-badge">16×16</span>
-          </div>
-
-          <div class="browser-bar dark-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1da-clean-smooth-wood.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | Smooth Wood</span>
-            </div>
-          </div>
-
-          <div class="browser-bar light-theme">
-            <div class="tab-item">
-              <img src="favicon-concept-1da-clean-smooth-wood.svg" class="tab-favicon-16" alt="16px">
-              <span>Fence Frames | Blueprint...</span>
-            </div>
+        <!-- PNG Download Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">🖼️ High-Res PNG Exports</div>
+          <div class="download-chips">
+            <a href="../exports/brand-icon-smooth-wood-1da-4096x4096.png" target="_blank" class="chip-link chip-gold">4096×4096 (8K)</a>
+            <a href="../exports/brand-icon-smooth-wood-1da-2048x2048.png" target="_blank" class="chip-link">2048×2048 (4K)</a>
+            <a href="../exports/brand-icon-smooth-wood-1da-1024x1024.png" target="_blank" class="chip-link">1024×1024</a>
+            <a href="../exports/brand-icon-smooth-wood-1da-512x512.png" target="_blank" class="chip-link">512×512</a>
           </div>
         </div>
 
-        <div class="swatches-row">
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#2EA055;"></span> Emerald</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#DEB35E;"></span> Golden-Tan</div>
-          <div class="swatch-pill"><span class="swatch-dot" style="background:#8A5E44;"></span> Smooth Wood</div>
+        <!-- Vector SVG Chips -->
+        <div class="downloads-panel">
+          <div class="downloads-title">📐 Vector SVG Masters</div>
+          <div class="download-chips">
+            <a href="favicon-concept-1da-clean-smooth-wood.svg" target="_blank" class="chip-link">Smooth Wood SVG</a>
+          </div>
         </div>
       </div>
 
       <div class="card-footer">
-        <a href="favicon-concept-1da-clean-smooth-wood.svg" target="_blank" class="btn-action btn-green">Inspect Trial B SVG</a>
-        <button class="btn-action btn-outline" onclick="selectWinner('Trial B: Clean Smooth Wood')">Switch to Trial B</button>
+        <a href="../exports/brand-icon-smooth-wood-1da-2048x2048.png" target="_blank" class="btn-action btn-green">View 2048 PNG</a>
+        <a href="favicon-concept-1da-clean-smooth-wood.svg" target="_blank" class="btn-action btn-outline">Inspect SVG</a>
       </div>
     </article>
 
   </main>
 
 </div>
-
-<script>
-  function selectWinner(conceptName) {
-    alert('Selected: ' + conceptName + '\n\nNotify Antigravity in chat to promote this trial to public/icon.svg!');
-  }
-</script>
 
 </body>
 </html>

@@ -723,77 +723,81 @@
   <!-- ========================================================================= -->
   <!-- 5. GLOBAL FOOTER                                                          -->
   <!-- ========================================================================= -->
-  <footer style="background-color:var(--forest-deep); color:#FAF6EE; padding:2.5rem 3rem 1.5rem 3rem; margin-top:2rem;">
-    <div style="max-width:1440px; margin:0 auto; display:grid; grid-template-columns:1fr 2fr; gap:4rem; align-items:center;">
+  <!-- ========================================================================= -->
+  <!-- 5. GLOBAL FOOTER (VERTICALLY MIRRORED HEADER BACKGROUND)                  -->
+  <!-- ========================================================================= -->
+  <footer class="footer-nav-mirror" style="margin-top: 3rem; overflow: hidden; position: relative;">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 3.5rem 2rem 2.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 3.5rem; align-items: start; position: relative; z-index: 1;">
       
-      <!-- Left: Branding Box (Wood Grain + Floating Plate Style) -->
-      <div class="has-outside-corners" style="background-image:url('images/card-trials/pexels-jplenio-3026804.jpg'); background-size:cover; background-position:center; border:2.5px solid var(--ink); border-radius:var(--radius); display:flex; flex-direction:column; box-shadow:0 6px 16px rgba(0,0,0,0.2); position:relative; min-height: 240px; overflow:hidden;">
-        <span class="corner-mark-out tl c-gold" style="z-index:5;"></span>
-        <span class="corner-mark-out br c-orange" style="z-index:5;"></span>
-        
-        <!-- Gold Top Title Bar -->
-        <div style="background:var(--gold-sun); color:var(--ink); font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.9rem; padding:0.5rem 1rem; border-bottom:2px solid var(--ink); z-index:2; position:relative; letter-spacing:0.02em;">
-          Fence Frames
-        </div>
-
-        <!-- Inner floating dark plate -->
-        <div style="flex-grow:1; display:flex; align-items:center; justify-content:center; padding:1.5rem;">
-          <div style="background:#141B16; padding:1.8rem 2rem; box-shadow:0 8px 24px rgba(0,0,0,0.5); width:100%; display:flex; flex-direction:column; align-items:flex-start;">
-            <div style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.75rem; color:var(--ink); background:var(--gold-sun); padding:0.2rem 0.6rem; border-radius:3px; margin-bottom:0.8rem; letter-spacing:0.05em; display:inline-block;">
-              &#128081; BRANDING &middot; MARK
-            </div>
-            <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:3rem; color:var(--gold-sun); margin:0; line-height:1; letter-spacing:0.02em;">
-              Fence Frames
-            </h2>
-            <p style="font-family:'Inter',sans-serif; font-weight:400; font-size:0.85rem; color:#FAF6EE; margin:0.6rem 0 0 0;">
-              Washington State's finest custom blueprinting and introduction service.
-            </p>
-          </div>
+      <!-- Left: Branding & Official Logo Icon -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <span style="font-family: 'Rowdies', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;">
+            <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
+          </span>
+          <img src="images/fence-frames-official-icon.png" alt="Fence Frames Logo Icon" style="width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); border-radius: 6px;" />
+        </a>
+        <p style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #FAF6EE; opacity: 0.85; line-height: 1.6; max-width: 380px; font-weight: 300;">
+          The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.7rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4);">
+            ✓ ZERO DATA LOSS
+          </span>
+          <span style="font-size: 0.7rem; color: #E5B842; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(229,184,66,0.4);">
+            ✓ 3-SEAT CAPPED PROS
+          </span>
         </div>
       </div>
 
       <!-- Right: Links -->
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:2rem;">
-        <!-- Column 1 -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+        <!-- Column 1: Find & Frame -->
         <div>
-          <h4 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.05rem; color:#FAF6EE; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.2rem;">Product</h4>
-          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.8rem;">
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">How it works</a></li>
-            <li><a href="catalog.html" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Design catalog</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Community</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Pricing</a></li>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #E5B842; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Find &amp; Frame
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/geo-north-bend.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">City of North Bend Codes</a></li>
+            <li><a href="/geo-si-view.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Si View HOA Pre-Approved ARC</a></li>
+            <li><a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">12+ Architectural Style Catalog</a></li>
+            <li><a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Universal 2D CAD Configurator</a></li>
           </ul>
         </div>
-        <!-- Column 2 -->
+        <!-- Column 2: Fence & Pros -->
         <div>
-          <h4 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.05rem; color:#FAF6EE; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.2rem;">Company</h4>
-          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.8rem;">
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">About</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">For contractors</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Coverage area</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Contact</a></li>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Fence &amp; Pros
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/blueprint-standalone.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Portrait 8.5" × 11" ARC Blueprints</a></li>
+            <li><a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">72-Hour Contractor Job Board</a></li>
+            <li><a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Live 3-Seat SMS Scramble</a></li>
+            <li><a href="/homeowner-dashboard.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Homeowner Command Center</a></li>
           </ul>
         </div>
-        <!-- Column 3 -->
+        <!-- Column 3: Legal & Standards -->
         <div>
-          <h4 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.05rem; color:#FAF6EE; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.2rem;">Legal</h4>
-          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.8rem;">
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Privacy</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">Terms</a></li>
-            <li><a href="#" style="color:#A0B2A6; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.95rem; transition:color 0.2s;">How leads work</a></li>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #F27A22; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Standards &amp; Legal
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><span style="color: #FAF6EE; opacity: 0.8; font-size: 0.85rem;">Anti-Angi 3-Seat Monopoly Law</span></li>
+            <li><a href="/design-system-guide.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Rowdies Design System Tokens</a></li>
+            <li><a href="/box-styles-showcase.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Canonical CAD Box Styles</a></li>
+            <li><a href="/auth-gate.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Zero-Data-Loss Sign In</a></li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- Sub Footer -->
-    <div style="max-width:1440px; margin:2.5rem auto 0 auto; border-top:1px solid rgba(255,255,255,0.1); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:flex-end;">
-      <div style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#A0B2A6; line-height:1.5;">
-        <p style="margin:0 0 0.4rem 0;">Frame your vision, find your fence. Design tools and honest local pricing for Washington homeowners.</p>
-        <p style="margin:0;">&copy; 2026 Fence Frames. Piloting at Si View, North Bend, WA.</p>
+    <!-- Mirrored Black Wood Bottom Bar -->
+    <div class="footer-mirror-bottom" style="padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #FAF6EE; opacity: 0.8; font-weight: 300;">
+      <div>
+        <span>© 2026 Fence Frames. All rights reserved. Authored &amp; Operated by Two Lew Builders LLC.</span>
       </div>
-      <div style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#A0B2A6;">
-        Fence Frames is a design & introduction service, not a contractor.
+      <div>
+        <span>King County, Washington · Piloting at Si View, North Bend, WA</span>
       </div>
     </div>
   </footer>
