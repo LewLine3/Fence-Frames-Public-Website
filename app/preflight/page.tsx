@@ -88,7 +88,7 @@ const PAGE_REGISTRY: PageSpec[] = [
     ],
     specialNotes: [
       'Implements clean CSS @media print layout with page-break-inside avoid.',
-      'Supports dual-mode: Pricing OFF (for HOA review) vs Pricing ON (for contractor quotes).',
+      'Supports dual-mode: Pricing OFF (for HOA review) vs Pricing ON (for contractor quotes).'
     ],
   },
   {
@@ -111,7 +111,7 @@ const PAGE_REGISTRY: PageSpec[] = [
     ],
     specialNotes: [
       'Generated via Google Stitch with Architectural Command Design System.',
-      'Features Hard Brutalism 8px offset shadows, 2px borders, and Rowdies typography.',
+      'Features signature green CAD grid (70% major / 40% minor) and solid card fills.',
       'Integrated zero-data-loss auth hydration from sessionStorage.',
     ],
   },
@@ -172,107 +172,17 @@ export default function PreflightReviewStudio() {
   return (
     <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-row font-['Rowdies'] overflow-x-hidden">
 
-      {/* ULTRA-TIGHT DOCKED LEFT VERTICAL RAIL (60px) */}
-      <aside className="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-r-2 border-[#E5B842]/60 h-screen sticky top-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[4px_0_20px_rgba(0,0,0,0.7)] select-none">
-        {/* Top Group */}
-        <div className="flex flex-col items-center gap-3 w-full">
-          <Link href="/" className="w-10 h-10 rounded-lg bg-[#141B16] border border-[#E5B842] flex items-center justify-center text-base hover:scale-105 transition shadow" title="Fence Frames Home">
-            🌲
-          </Link>
-          <div className="w-8 h-px bg-white/15"></div>
-
-          {/* Slideshow Up/Down */}
-          <div className="flex flex-col items-center gap-1 w-full">
-            <button
-              onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-              disabled={currentIndex === 0}
-              title="Previous Page (▲)"
-              className="w-10 h-8 rounded bg-[#162019] disabled:opacity-30 hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition"
-            >
-              ▲
-            </button>
-
-            <select
-              value={currentIndex}
-              onChange={(e) => setCurrentIndex(Number(e.target.value))}
-              title={`Page ${currentIndex + 1} of ${PAGE_REGISTRY.length}`}
-              className="w-10 h-8 bg-[#162019] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] rounded text-center focus:outline-none cursor-pointer"
-            >
-              {PAGE_REGISTRY.map((p, idx) => (
-                <option key={p.id} value={idx}>
-                  {idx + 1}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={() => setCurrentIndex((prev) => Math.min(PAGE_REGISTRY.length - 1, prev + 1))}
-              disabled={currentIndex === PAGE_REGISTRY.length - 1}
-              title="Next Page (▼)"
-              className="w-10 h-8 rounded bg-[#162019] disabled:opacity-30 hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition"
-            >
-              ▼
-            </button>
-          </div>
-        </div>
-
-        {/* Middle Group */}
-        <div className="flex flex-col items-center gap-2.5 w-full">
-          <div className="w-8 h-px bg-white/15"></div>
-
-          {/* Layout Toggle */}
-          <button
-            onClick={() => setLayoutMode(layoutMode === 'full' ? 'split' : 'full')}
-            title="Toggle Layout Mode"
-            className="w-10 h-10 rounded-lg bg-[#162019] hover:bg-[#223026] border border-white/25 text-[#E5B842] flex flex-col items-center justify-center text-xs transition"
-          >
-            <span>{layoutMode === 'full' ? '⛶' : '◫'}</span>
-            <span className="text-[8px] text-white/60 uppercase">{layoutMode === 'full' ? 'Full' : 'Split'}</span>
-          </button>
-
-          {/* Zoom Buttons */}
-          <button onClick={() => setZoomScale(0.5)} title="Fit 50%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 text-[10px] font-bold">50%</button>
-          <button onClick={() => setZoomScale(0.75)} title="Zoom 75%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#E5B842] text-[10px] font-bold">75%</button>
-          <button onClick={() => setZoomScale(1.0)} title="Zoom 100%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 text-[10px] font-bold">100%</button>
-
-          <div className="flex items-center gap-1">
-            <button onClick={() => setZoomScale(Math.max(0.35, zoomScale - 0.1))} className="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">-</button>
-            <button onClick={() => setZoomScale(Math.min(1.4, zoomScale + 0.1))} className="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">+</button>
-          </div>
-
-          <div className="w-8 h-px bg-white/15"></div>
-
-          {/* Viewports */}
-          <button onClick={() => setDeviceView('desktop')} title="Desktop" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'desktop' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>🖥️</button>
-          <button onClick={() => setDeviceView('tablet')} title="Tablet" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'tablet' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>📱</button>
-          <button onClick={() => setDeviceView('mobile')} title="Mobile" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'mobile' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>📲</button>
-        </div>
-
-        {/* Bottom Group */}
-        <div className="flex flex-col items-center gap-2 w-full">
-          <div className="w-8 h-px bg-white/15"></div>
-          <button
-            onClick={() => handleUpdateStatus(currentPage.id, currentApproval.status === 'approved' ? 'changes-requested' : 'approved')}
-            title="Approve / Request Changes"
-            className={`w-10 h-10 rounded-lg font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition ${
-              currentApproval.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
-              currentApproval.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
-            }`}
-          >
-            ✓
-          </button>
-          <a href={currentPage.route} target="_blank" title="Open Standalone Tab" className="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#4ADE80] flex items-center justify-center text-xs transition">
-            ↗
-          </a>
-        </div>
-      </aside>
-
-      {/* MAIN CONTENT AREA */}
+      {/* MAIN CONTENT AREA (Left) */}
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Top Mini Header */}
         <header className="bg-[#101712] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5 flex-wrap">
+            <Link href="/" className="text-sm text-[#E5B842] flex items-center gap-1 font-bold mr-2 hover:opacity-80">
+              <span>🌲</span>
+              <span>FENCE FRAMES</span>
+            </Link>
+            <span className="text-white/20">|</span>
             <span className="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
               {currentPage.id} · {currentPage.tier}
             </span>
@@ -413,6 +323,101 @@ export default function PreflightReviewStudio() {
 
         </main>
       </div>
+
+      {/* ULTRA-TIGHT DOCKED RIGHT VERTICAL RAIL (60px) */}
+      <aside className="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-l-2 border-[#E5B842]/60 h-screen sticky top-0 right-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[-4px_0_20px_rgba(0,0,0,0.7)] select-none">
+        {/* Top Group */}
+        <div className="flex flex-col items-center gap-3 w-full">
+          <Link href="/" className="w-10 h-10 rounded-lg bg-[#141B16] border border-[#E5B842] flex items-center justify-center text-base hover:scale-105 transition shadow" title="Fence Frames Home">
+            🌲
+          </Link>
+          <div className="w-8 h-px bg-white/15"></div>
+
+          {/* Slideshow Up/Down */}
+          <div className="flex flex-col items-center gap-1 w-full">
+            <button
+              onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+              disabled={currentIndex === 0}
+              title="Previous Page (▲)"
+              className="w-10 h-8 rounded bg-[#162019] disabled:opacity-30 hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition"
+            >
+              ▲
+            </button>
+
+            <select
+              value={currentIndex}
+              onChange={(e) => setCurrentIndex(Number(e.target.value))}
+              title={`Page ${currentIndex + 1} of ${PAGE_REGISTRY.length}`}
+              className="w-10 h-8 bg-[#162019] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] rounded text-center focus:outline-none cursor-pointer"
+            >
+              {PAGE_REGISTRY.map((p, idx) => (
+                <option key={p.id} value={idx}>
+                  {idx + 1}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={() => setCurrentIndex((prev) => Math.min(PAGE_REGISTRY.length - 1, prev + 1))}
+              disabled={currentIndex === PAGE_REGISTRY.length - 1}
+              title="Next Page (▼)"
+              className="w-10 h-8 rounded bg-[#162019] disabled:opacity-30 hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition"
+            >
+              ▼
+            </button>
+          </div>
+        </div>
+
+        {/* Middle Group */}
+        <div className="flex flex-col items-center gap-2.5 w-full">
+          <div className="w-8 h-px bg-white/15"></div>
+
+          {/* Layout Toggle */}
+          <button
+            onClick={() => setLayoutMode(layoutMode === 'full' ? 'split' : 'full')}
+            title="Toggle Layout Mode"
+            className="w-10 h-10 rounded-lg bg-[#162019] hover:bg-[#223026] border border-white/25 text-[#E5B842] flex flex-col items-center justify-center text-xs transition"
+          >
+            <span>{layoutMode === 'full' ? '⛶' : '◫'}</span>
+            <span className="text-[8px] text-white/60 uppercase">{layoutMode === 'full' ? 'Full' : 'Split'}</span>
+          </button>
+
+          {/* Zoom Buttons */}
+          <button onClick={() => setZoomScale(0.5)} title="Fit 50%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 text-[10px] font-bold">50%</button>
+          <button onClick={() => setZoomScale(0.75)} title="Zoom 75%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#E5B842] text-[10px] font-bold">75%</button>
+          <button onClick={() => setZoomScale(1.0)} title="Zoom 100%" className="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 text-[10px] font-bold">100%</button>
+
+          <div className="flex items-center gap-1">
+            <button onClick={() => setZoomScale(Math.max(0.35, zoomScale - 0.1))} className="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">-</button>
+            <button onClick={() => setZoomScale(Math.min(1.4, zoomScale + 0.1))} className="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">+</button>
+          </div>
+
+          <div className="w-8 h-px bg-white/15"></div>
+
+          {/* Viewports */}
+          <button onClick={() => setDeviceView('desktop')} title="Desktop" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'desktop' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>🖥️</button>
+          <button onClick={() => setDeviceView('tablet')} title="Tablet" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'tablet' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>📱</button>
+          <button onClick={() => setDeviceView('mobile')} title="Mobile" className={`w-10 h-7 rounded text-xs flex items-center justify-center ${deviceView === 'mobile' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'bg-[#162019] text-white/60'}`}>📲</button>
+        </div>
+
+        {/* Bottom Group */}
+        <div className="flex flex-col items-center gap-2 w-full">
+          <div className="w-8 h-px bg-white/15"></div>
+          <button
+            onClick={() => handleUpdateStatus(currentPage.id, currentApproval.status === 'approved' ? 'changes-requested' : 'approved')}
+            title="Approve / Request Changes"
+            className={`w-10 h-10 rounded-lg font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition ${
+              currentApproval.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
+              currentApproval.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
+            }`}
+          >
+            ✓
+          </button>
+          <a href={currentPage.route} target="_blank" title="Open Standalone Tab" className="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#4ADE80] flex items-center justify-center text-xs transition">
+            ↗
+          </a>
+        </div>
+      </aside>
 
     </div>
   )

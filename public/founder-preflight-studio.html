@@ -16,14 +16,14 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 3px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
 
-    /* Tooltip styles */
+    /* Right-docked tooltips open to the LEFT */
     .tooltip-wrapper { position: relative; }
     .tooltip-content {
       position: absolute;
-      left: 100%;
+      right: 100%;
       top: 50%;
       transform: translateY(-50%);
-      margin-left: 10px;
+      margin-right: 10px;
       background: #141B16;
       border: 1px solid #E5B842;
       color: #FAF6EE;
@@ -43,9 +43,136 @@
 <body class="min-h-screen flex flex-row custom-scrollbar overflow-x-hidden bg-[#080D0A]">
 
   <!-- ========================================================================= -->
-  <!-- ULTRA-TIGHT DOCKED LEFT VERTICAL TOOLBAR RAIL (Max width: 62px) -->
+  <!-- MAIN WORKSPACE CANVAS (Left / Main Area) -->
   <!-- ========================================================================= -->
-  <aside class="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-r-2 border-[#E5B842]/60 h-screen sticky top-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[4px_0_20px_rgba(0,0,0,0.7)] select-none">
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- TOP MINI STATUS STRIP -->
+    <header class="bg-[#101712] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <a href="/" class="text-sm text-[#E5B842] flex items-center gap-1 font-bold mr-2 hover:opacity-80">
+          <span>🌲</span>
+          <span>FENCE FRAMES</span>
+        </a>
+        <span class="text-white/20">|</span>
+        <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
+          DSGN-03
+        </span>
+        <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
+          Frame It
+        </span>
+        <h1 class="text-white font-bold text-sm" id="pageTitleTop">The Universal 2D Designer Configurator</h1>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-white/60">
+        <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
+        <span class="text-white/20">•</span>
+        <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
+        <span class="text-white/20">•</span>
+        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
+      </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS -->
+    <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3.5 gap-4 max-w-[1900px] mx-auto">
+
+      <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
+      <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl relative">
+        <div class="w-full bg-[#060A08] rounded border border-white/10 p-1 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
+          <div
+            id="viewportContainer"
+            style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
+            class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
+          >
+            <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
+      <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+        {/* Purpose Card */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
+              <span>🎯</span>
+              <span>Purpose &amp; Goal</span>
+            </h3>
+            <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+          </div>
+          <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
+        </div>
+
+        {/* Outbound Links */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
+            <span>🗺️</span>
+            <span>Outbound Link Map</span>
+          </h3>
+          <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
+        </div>
+
+        {/* Controls */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
+            <span>🎛️</span>
+            <span>Interactive Controls</span>
+          </h3>
+          <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
+        </div>
+
+        {/* Notes */}
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
+            <span>⚖️</span>
+            <span>Code &amp; Architecture Notes</span>
+          </h3>
+          <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
+        </div>
+      </section>
+
+      <!-- ROW 3: FOUNDER SIGN-OFF & FEEDBACK BANNER -->
+      <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3 mb-6">
+        <div class="flex-1 flex flex-col gap-1 w-full">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
+            <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
+              PENDING
+            </span>
+          </div>
+          <input
+            type="text"
+            id="founderNote"
+            oninput="saveNote(this.value)"
+            placeholder="Type quick design feedback, copy edits, or adjustments..."
+            class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
+          />
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <button
+            onclick="setApproval('approved')"
+            class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
+          >
+            <span>✓</span>
+            <span>Approve</span>
+          </button>
+          <button
+            onclick="setApproval('changes-requested')"
+            class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
+          >
+            ⚠️ Request Edits
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ULTRA-TIGHT DOCKED RIGHT VERTICAL TOOLBAR RAIL (60px Wide, Clear of Left Tabs) -->
+  <!-- ========================================================================= -->
+  <aside class="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-l-2 border-[#E5B842]/60 h-screen sticky top-0 right-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[-4px_0_20px_rgba(0,0,0,0.7)] select-none">
 
     {/* Top Group: Brand + Slideshow */}
     <div class="flex flex-col items-center gap-3 w-full">
@@ -170,128 +297,6 @@
   </aside>
 
   <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE (MAX-WIDTH PANORAMIC DESKTOP CANVAS) -->
-  <!-- ========================================================================= -->
-  <div class="flex-1 flex flex-col min-w-0">
-
-    <!-- TOP MINI STATUS STRIP -->
-    <header class="bg-[#101712] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2.5 flex-wrap">
-        <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
-          DSGN-03
-        </span>
-        <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
-          Frame It
-        </span>
-        <h1 class="text-white font-bold text-sm" id="pageTitleTop">The Universal 2D Designer Configurator</h1>
-      </div>
-
-      <div class="flex items-center gap-3 text-xs text-white/60">
-        <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
-        <span class="text-white/20">•</span>
-        <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
-        <span class="text-white/20">•</span>
-        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
-      </div>
-    </header>
-
-    <!-- WORKSPACE CANVAS -->
-    <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3.5 gap-4 max-w-[1900px] mx-auto">
-
-      <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
-      <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl relative">
-        <div class="w-full bg-[#060A08] rounded border border-white/10 p-1 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
-          <div
-            id="viewportContainer"
-            style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
-            class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
-          >
-            <iframe id="pageIframe" src="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="w-full h-[1200px] border-0"></iframe>
-          </div>
-        </div>
-      </section>
-
-      <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
-      <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
-        {/* Purpose Card */}
-        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
-              <span>🎯</span>
-              <span>Purpose &amp; Goal</span>
-            </h3>
-            <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
-          </div>
-          <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
-        </div>
-
-        {/* Outbound Links */}
-        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
-            <span>🗺️</span>
-            <span>Outbound Link Map</span>
-          </h3>
-          <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
-        </div>
-
-        {/* Controls */}
-        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-          <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
-            <span>🎛️</span>
-            <span>Interactive Controls</span>
-          </h3>
-          <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
-        </div>
-
-        {/* Notes */}
-        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
-          <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
-            <span>⚖️</span>
-            <span>Code &amp; Architecture Notes</span>
-          </h3>
-          <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
-        </div>
-      </section>
-
-      <!-- ROW 3: FOUNDER SIGN-OFF & FEEDBACK BANNER -->
-      <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3 mb-6">
-        <div class="flex-1 flex flex-col gap-1 w-full">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
-            <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
-              PENDING
-            </span>
-          </div>
-          <input
-            type="text"
-            id="founderNote"
-            oninput="saveNote(this.value)"
-            placeholder="Type quick design feedback, copy edits, or adjustments..."
-            class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
-          />
-        </div>
-
-        <div class="flex items-center gap-2 w-full md:w-auto">
-          <button
-            onclick="setApproval('approved')"
-            class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
-          >
-            <span>✓</span>
-            <span>Approve</span>
-          </button>
-          <button
-            onclick="setApproval('changes-requested')"
-            class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
-          >
-            ⚠️ Request Edits
-          </button>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- ========================================================================= -->
   <!-- LOGIC & SHORTCUTS -->
   <!-- ========================================================================= -->
   <script>
@@ -390,7 +395,7 @@
         ],
         notes: [
           'Generated via Google Stitch with Architectural Command Design System.',
-          'Features Hard Brutalism 8px offset shadows, 2px borders, and Rowdies typography.',
+          'Features signature green CAD grid (70% major / 40% minor) and solid card fills.',
           'Integrated zero-data-loss auth hydration from sessionStorage.'
         ]
       },
