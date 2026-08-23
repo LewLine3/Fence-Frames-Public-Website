@@ -62,54 +62,104 @@
 
     <!-- THE EXACT HOMEPAGE HEADER MARKUP & CLASSES -->
     <header class="nav" style="border-radius: 6px; overflow: visible; box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
-      <div class="wrap nav-inner">
+      <div class="wrap nav-inner" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
         
-        <!-- Left: Brand Logo & Wordmark with Black Wood Texture + Orange Slicer -->
-        <div class="nav-left">
+        <!-- Left: Brand Wordmark + 3 Tucked-Left Dark Pillar Buttons -->
+        <div class="nav-left-suite">
           <a class="brand" href="/" aria-label="Fence Frames home" style="display: flex; align-items: center; gap: 8px;">
             <span class="name"><span class="nav-fence" style="color: #4ADE80;">Fence</span>&nbsp;<span class="nav-frames" style="color: #E5B842;">Frames</span></span>
-            <span class="home-ico" aria-hidden="true" style="width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;">
-              <img src="images/fence-frames-official-icon.png" alt="Fence Frames Logo Icon" style="width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); border-radius: 6px;" />
+            <span class="home-ico" aria-hidden="true" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+              <img src="images/fence-frames-official-icon.png" alt="Fence Frames Logo Icon" style="width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6)); border-radius: 5px;" />
             </span>
           </a>
+
+          <!-- 3 Dark Box Pillar Buttons (Canon Phase Colors) -->
+          <nav class="nav-pillar-group hidden sm:flex">
+            <!-- Pillar 1: Find It -->
+            <a href="/geo-north-bend.html" class="nav-pillar-box nav-pillar-find" title="Step 1 · Code & HOA Matcher">
+              <span class="nav-pillar-dot"></span>
+              <span class="nav-pillar-label">Find It</span>
+              <span class="nav-pillar-sub">(Location)</span>
+            </a>
+
+            <!-- Pillar 2: Frame It -->
+            <a href="/catalog-hub.html" class="nav-pillar-box nav-pillar-frame" title="Step 2 · Architectural Catalog & Designer">
+              <span class="nav-pillar-dot"></span>
+              <span class="nav-pillar-label">Frame It</span>
+              <span class="nav-pillar-sub">(Design)</span>
+            </a>
+
+            <!-- Pillar 3: Fence It -->
+            <a href="/blueprint-standalone.html" class="nav-pillar-box nav-pillar-fence" title="Step 3 · Blueprints & Takeoff Ledger">
+              <span class="nav-pillar-dot"></span>
+              <span class="nav-pillar-label">Fence It</span>
+              <span class="nav-pillar-sub">(Build)</span>
+            </a>
+          </nav>
         </div>
 
-        <!-- Center: 3-Pillar & Hub Triggers -->
-        <div class="nav-mid" id="navMid">
-          <div class="nav-dd" data-dd="find">
-            <a href="/geo-north-bend.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
-              <span class="nav-step-label">Find It</span>
-              <span class="nav-step-sub">(Location)</span>
-            </a>
+        <!-- Right: Accounts Dropdown (Non-Master Admin Roles) + Action CTA -->
+        <div class="nav-end" style="display: flex; align-items: center; gap: 10px;">
+          
+          <!-- Members / Accounts Dropdown -->
+          <div class="nav-accounts-wrapper">
+            <button type="button" class="nav-accounts-trigger" onclick="this.nextElementSibling.classList.toggle('is-open')">
+              <span>👤</span>
+              <span>Accounts</span>
+              <span style="font-size: 9px; opacity: 0.8;">▼</span>
+            </button>
+
+            <!-- Dropdown Menu (Contractor, HOA Official, Homeowner) -->
+            <div class="nav-accounts-menu">
+              <div style="padding: 4px 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: #E5B842; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+                Select Account Portal
+              </div>
+              
+              <!-- Homeowner Account -->
+              <a href="/homeowner-dashboard.html" class="nav-account-item">
+                <span class="account-icon">🏡</span>
+                <div>
+                  <span class="account-title" style="color: #4ADE80;">Homeowner Account</span>
+                  <span class="account-sub">Saved Fence-Folios &amp; 3-Bid Tracker</span>
+                </div>
+              </a>
+
+              <!-- Contractor Account -->
+              <a href="/contractors-hub.html" class="nav-account-item">
+                <span class="account-icon">🔨</span>
+                <div>
+                  <span class="account-title" style="color: #F27A22;">Contractor Account</span>
+                  <span class="account-sub">72-Hr Job Feed &amp; Live SMS Bids</span>
+                </div>
+              </a>
+
+              <!-- HOA Official Account -->
+              <a href="/geo-si-view.html" class="nav-account-item">
+                <span class="account-icon">🏛️</span>
+                <div>
+                  <span class="account-title" style="color: #E5B842;">HOA Official Account</span>
+                  <span class="account-sub">ARC Committee Portal &amp; Bylaw Standards</span>
+                </div>
+              </a>
+
+              <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 2px 0;"></div>
+
+              <!-- Sign In / Phone Auth -->
+              <a href="/auth-gate.html" class="nav-account-item">
+                <span class="account-icon">🔑</span>
+                <div>
+                  <span class="account-title" style="color: #FAF6EE;">Sign In / Switch Role</span>
+                  <span class="account-sub">Zero-Data-Loss Phone OTP Auth</span>
+                </div>
+              </a>
+            </div>
           </div>
 
-          <a class="nav-text-link" href="/geo-si-view.html">Communities (140+)</a>
-
-          <div class="nav-dd" data-dd="frame">
-            <a href="/catalog-hub.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
-              <span class="nav-step-label">Frame It</span>
-              <span class="nav-step-sub">(Design)</span>
-            </a>
-          </div>
-
-          <a class="nav-text-link nav-text-link--contractors" href="/contractors-hub.html">Contractors</a>
-
-          <div class="nav-dd" data-dd="fence">
-            <a href="/blueprint-standalone.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
-              <span class="nav-step-label">Fence It</span>
-              <span class="nav-step-sub">(Build)</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Right: Action CTAs -->
-        <div class="nav-end" id="navRightZone" style="display:flex; gap:0.5rem; align-items:center;">
-          <a href="/box-styles-showcase.html" class="ff-btn btn-forest btn-tab" style="padding:0.4rem 0.8rem; font-size:0.78rem;">
-            📐 Card Studio
+          <!-- New Build CTA Button -->
+          <a href="/designer" class="ff-btn btn-gold btn-chamfer" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
+            + New Build
           </a>
-          <a href="/auth-gate.html" class="ff-btn btn-gold btn-chamfer" style="padding:0.45rem 1rem; font-size:0.84rem;">
-            Sign In
-          </a>
+
         </div>
 
       </div>
