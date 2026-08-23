@@ -1,61 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence Frames — Header & Footer Element Review (ELEM-01)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Header &amp; Footer Element Review (ELEM-01)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    :root {
-      --gold-sun: #E5B842;
-      --ember: #F27A22;
-      --forest-bright: #4ADE80;
-      --forest-deep: #16432D;
-      --ink: #141B16;
-      --parchment: #FAF6EE;
-    }
-
+    /* Ensure clean drafting canvas presentation */
     body {
-      font-family: 'Rowdies', cursive, sans-serif;
       background-color: #080D0A;
       color: #FAF6EE;
+      font-family: 'Rowdies', cursive, sans-serif;
+      padding: 0;
+      margin: 0;
     }
 
-    .page-canvas-ground {
-      background-color: #F4F1EA;
-      background-image:
-        linear-gradient(rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
-        linear-gradient(rgba(20, 60, 35, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(20, 60, 35, 0.04) 1px, transparent 1px);
-      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
-    }
-
-    .box-tan-grid {
-      background-color: #FAF6EE !important;
-      background-image:
-        linear-gradient(rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
-        linear-gradient(rgba(20, 60, 35, 0.09) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(20, 60, 35, 0.09) 1px, transparent 1px);
-      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
-      border: 2.5px solid #141B16;
-      box-shadow: 6px 6px 0px 0px #141B16;
-      position: relative;
-    }
-
-    .box-dark-grid {
-      background-color: #121A15 !important;
+    .element-card-grid {
+      background-color: #121A15;
       background-image:
         linear-gradient(rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
         linear-gradient(90deg, rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
         linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
         linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
       background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
-      color: #FAF6EE !important;
+      color: #FAF6EE;
       border: 2.5px solid #141B16;
       box-shadow: 6px 6px 0px 0px #000000;
       position: relative;
@@ -74,59 +45,74 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between custom-scrollbar bg-[#080D0A]">
+<body class="custom-scrollbar">
 
   <!-- ========================================================================= -->
-  <!-- 1. LIVE PRODUCTION HEADER VARIANT A: MASTER DESKTOP/MOBILE HEADER -->
+  <!-- 1. LIVE PRODUCTION HEADER (EXACT 1:1 HOMEPAGE HEADER)                     -->
   <!-- ========================================================================= -->
-  <div class="w-full flex flex-col gap-2 p-4 max-w-7xl mx-auto">
-    <div class="flex justify-between items-center px-1">
-      <span class="text-xs font-bold text-[#E5B842] uppercase tracking-wider">ELEMENT 01 · MASTER PRODUCTION HEADER</span>
-      <span class="text-[10px] bg-[#141B16] text-[#4ADE80] border border-[#4ADE80]/50 px-2 py-0.5 rounded font-mono">
-        STICKY TOP · 2PX SOLID GOLD BORDER
+  <div style="padding: 1.2rem 1rem 0.5rem; max-width: 1300px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 4px;">
+      <span style="color: #E5B842; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        ELEMENT 01 · MASTER HOMEPAGE HEADER
+      </span>
+      <span style="color: #4ADE80; font-size: 0.7rem; font-family: monospace; background: #141B16; border: 1px solid rgba(74,222,128,0.4); padding: 2px 8px; border-radius: 4px;">
+        MATCHES HOMEPAGE.HTML 1:1 (FOREST GREEN + BLACK WOOD BRAND + 3-LAYER EMBER STRIP)
       </span>
     </div>
 
-    <!-- THE HEADER ELEMENT ITSELF -->
-    <header class="w-full bg-[#141B16] border-b-2 border-[#E5B842] py-2.5 px-4 sm:px-6 shadow-2xl rounded-lg">
-      <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+    <!-- THE EXACT HOMEPAGE HEADER MARKUP & CLASSES -->
+    <header class="nav" style="border-radius: 6px; overflow: visible; box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
+      <div class="wrap nav-inner">
         
-        <!-- Left: Brand Logo & Wordmark -->
-        <div class="flex items-center gap-3">
-          <a href="/" class="font-bold text-base text-[#E5B842] flex items-center gap-2 hover:opacity-90 transition">
-            <span class="text-lg">🌲</span>
-            <span class="tracking-wide">FENCE FRAMES</span>
+        <!-- Left: Brand Logo & Wordmark with Black Wood Texture + Orange Slicer -->
+        <div class="nav-left">
+          <a class="brand" href="/" aria-label="Fence Frames home">
+            <span class="name"><span class="nav-fence">Fence</span>&nbsp;<span class="nav-frames">Frames</span></span>
+            <span class="home-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path class="fi-grass" d="M2 20c2-2.4 4-2.4 5.5-.6C9 21.2 11 21.2 12 19c1-2.2 3-2.2 4.5-.4C18 20.4 20 20.4 22 18" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="fi-fence" d="M4 20V9M4 9l-2 3M4 9l2 3M9.5 20V7M9.5 7l-2 3M9.5 7l2 3M15 20V9M15 9l-2 3M15 9l2 3M20.5 20V11M20.5 11l-2 3M20.5 11l2 3" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="fi-rail" d="M2.5 13.5h19M2.5 17h19" fill="none" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </span>
           </a>
-          <span class="text-white/20 hidden sm:inline">|</span>
-          <span class="text-[11px] text-white/70 font-light hidden sm:inline">
-            Frame Your Vision | Find Your Fence
-          </span>
         </div>
 
-        <!-- Center: 3-Pillar Navigation Chips -->
-        <nav class="hidden md:flex items-center gap-2 text-xs">
-          <a href="/geo-north-bend.html" class="flex items-center gap-1.5 px-3 py-1 rounded bg-[#1C261F] hover:bg-[#28382D] text-[#E5B842] border border-[#E5B842]/40 transition">
-            <span class="w-2 h-2 rounded-full bg-[#E5B842]"></span>
-            <span>Find It (Codes/HOA)</span>
-          </a>
-          <a href="/catalog-hub.html" class="flex items-center gap-1.5 px-3 py-1 rounded bg-[#1C261F] hover:bg-[#28382D] text-[#F27A22] border border-[#F27A22]/40 transition">
-            <span class="w-2 h-2 rounded-full bg-[#F27A22]"></span>
-            <span>Frame It (Catalog)</span>
-          </a>
-          <a href="/blueprint-standalone.html" class="flex items-center gap-1.5 px-3 py-1 rounded bg-[#1C261F] hover:bg-[#28382D] text-[#4ADE80] border border-[#4ADE80]/40 transition">
-            <span class="w-2 h-2 rounded-full bg-[#4ADE80]"></span>
-            <span>Fence It (Blueprint)</span>
-          </a>
-        </nav>
+        <!-- Center: 3-Pillar & Hub Triggers -->
+        <div class="nav-mid" id="navMid">
+          <div class="nav-dd" data-dd="find">
+            <a href="/geo-north-bend.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
+              <span class="nav-step-label">Find It</span>
+              <span class="nav-step-sub">(Location)</span>
+            </a>
+          </div>
 
-        <!-- Right: Auth & CTA Buttons -->
-        <div class="flex items-center gap-3">
-          <a href="/auth-gate.html" class="text-xs font-bold text-white/80 hover:text-white transition">
-            Sign In
+          <a class="nav-text-link" href="/geo-si-view.html">Communities (140+)</a>
+
+          <div class="nav-dd" data-dd="frame">
+            <a href="/catalog-hub.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
+              <span class="nav-step-label">Frame It</span>
+              <span class="nav-step-sub">(Design)</span>
+            </a>
+          </div>
+
+          <a class="nav-text-link nav-text-link--contractors" href="/contractors-hub.html">Contractors</a>
+
+          <div class="nav-dd" data-dd="fence">
+            <a href="/blueprint-standalone.html" class="nav-dd-trigger nav-dd-trigger--step" aria-expanded="false">
+              <span class="nav-step-label">Fence It</span>
+              <span class="nav-step-sub">(Build)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Action CTAs -->
+        <div class="nav-end" id="navRightZone" style="display:flex; gap:0.5rem; align-items:center;">
+          <a href="/box-styles-showcase.html" class="ff-btn btn-forest btn-tab" style="padding:0.4rem 0.8rem; font-size:0.78rem;">
+            📐 Card Studio
           </a>
-          <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border-2 border-[#141B16] shadow-[2px_2px_0_#000] active:translate-x-0.5 active:translate-y-0.5 transition flex items-center gap-1">
-            <span>+</span>
-            <span>New Build</span>
+          <a href="/auth-gate.html" class="ff-btn btn-gold btn-chamfer" style="padding:0.45rem 1rem; font-size:0.84rem;">
+            Sign In
           </a>
         </div>
 
@@ -135,118 +121,118 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 2. ISOLATED ELEMENT ANATOMY & SPECS (MIDDLE SECTION) -->
+  <!-- 2. ISOLATED ANATOMY SPEC CARDS                                            -->
   <!-- ========================================================================= -->
-  <main class="max-w-7xl mx-auto w-full p-4 grid grid-cols-1 md:grid-cols-2 gap-6 my-4">
+  <main style="max-width: 1300px; margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
 
     <!-- HEADER ANATOMY CARD -->
-    <div class="box-dark-grid has-outside-corners rounded-lg overflow-hidden p-5 flex flex-col gap-3">
+    <div class="element-card-grid has-outside-corners" style="border-radius: 8px; padding: 1.2rem;">
       <div class="corner-mark-50 c-top-left"></div>
       <div class="corner-mark-50 c-top-right"></div>
       <div class="corner-mark-50 c-bottom-left"></div>
       <div class="corner-mark-50 c-bottom-right"></div>
 
-      <div class="flex justify-between items-center border-b border-white/15 pb-2">
-        <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1.5">
-          <span>📐</span>
-          <span>Header Typography &amp; State Rules</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.6rem; margin-bottom: 0.8rem;">
+        <h3 style="font-size: 0.82rem; font-weight: 700; color: #E5B842; text-transform: uppercase;">
+          📐 Homepage Header Anatomy
         </h3>
-        <span class="text-[10px] text-[#4ADE80] font-mono">Rowdies Hierarchy</span>
+        <span style="font-size: 0.68rem; color: #4ADE80; font-family: monospace;">styles.css:L510-600</span>
       </div>
 
-      <div class="space-y-2 text-xs text-white/80 font-light">
-        <p>• <strong>Brand Wordmark:</strong> Rowdies Bold (`700`), `#E5B842` (Sun Gold) on `#141B16` Ink Forest.</p>
-        <p>• <strong>Tagline:</strong> Rowdies Light (`300`), `#FAF6EE` @ 70% opacity.</p>
-        <p>• <strong>Pillar Chips:</strong> Rowdies Regular (`400`), phase-coded dot indicators (`#E5B842`, `#F27A22`, `#4ADE80`).</p>
-        <p>• <strong>Action CTA:</strong> Solid 2px Black Border, Sun Gold Fill, Rowdies Regular 400 Uppercase.</p>
+      <div style="font-size: 0.78rem; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 300;">
+        <p>• <strong>Brand Wordmark:</strong> Split color <code>Fence</code> (Bright Green) + <code>Frames</code> (Ember Orange) on dark wood.</p>
+        <p>• <strong>Vertical Separator:</strong> 3px Ember orange line sandwiched between two 1px black borders.</p>
+        <p>• <strong>Horizontal Bottom Rule:</strong> 5px rule with black | orange | black sandwich strip.</p>
+        <p>• <strong>2-Line Step Navigation:</strong> Rowdies Regular 400 Ember label + Rowdies Light 300 sub-label.</p>
       </div>
     </div>
 
     <!-- FOOTER ANATOMY CARD -->
-    <div class="box-dark-grid has-outside-corners rounded-lg overflow-hidden p-5 flex flex-col gap-3">
+    <div class="element-card-grid has-outside-corners" style="border-radius: 8px; padding: 1.2rem;">
       <div class="corner-mark-50 c-top-left"></div>
       <div class="corner-mark-50 c-top-right"></div>
       <div class="corner-mark-50 c-bottom-left"></div>
       <div class="corner-mark-50 c-bottom-right"></div>
 
-      <div class="flex justify-between items-center border-b border-white/15 pb-2">
-        <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1.5">
-          <span>⚖️</span>
-          <span>Footer Structure &amp; Compliance</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.6rem; margin-bottom: 0.8rem;">
+        <h3 style="font-size: 0.82rem; font-weight: 700; color: #4ADE80; text-transform: uppercase;">
+          ⚖️ Master Universal Footer Specs
         </h3>
-        <span class="text-[10px] text-[#E5B842] font-mono">Anti-Angi Legal Law</span>
+        <span style="font-size: 0.68rem; color: #E5B842; font-family: monospace;">4-Column Grid</span>
       </div>
 
-      <div class="space-y-2 text-xs text-white/80 font-light">
-        <p>• <strong>4 Navigation Pillars:</strong> Direct routing to City hubs, Design Catalog, Contractor Scramble, and Legal.</p>
-        <p>• <strong>Territory Policy Badge:</strong> Declares the 3-contractor maximum territory limit.</p>
+      <div style="font-size: 0.78rem; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 300;">
+        <p>• <strong>4-Pillar Categorization:</strong> Brand / Find &amp; Frame / Fence &amp; Pros / Legal Standards.</p>
+        <p>• <strong>Anti-Angi Territory Protection:</strong> Dedicated notice for 3-seat contractor policy.</p>
         <p>• <strong>Noindex Stealth Gate:</strong> Protected against search engine indexing until public launch.</p>
-        <p>• <strong>Authored By:</strong> Canonical Two Lew Builders LLC copyright &amp; brand ownership.</p>
+        <p>• <strong>Two Lew Builders LLC:</strong> Canonical copyright and brand ownership plate.</p>
       </div>
     </div>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- 3. LIVE PRODUCTION FOOTER VARIANT: MASTER EXPANDED FOOTER -->
+  <!-- 3. LIVE PRODUCTION FOOTER (4-COLUMN MASTER FOOTER)                        -->
   <!-- ========================================================================= -->
-  <div class="w-full flex flex-col gap-2 p-4 max-w-7xl mx-auto">
-    <div class="flex justify-between items-center px-1">
-      <span class="text-xs font-bold text-[#4ADE80] uppercase tracking-wider">ELEMENT 02 · MASTER UNIVERSAL FOOTER</span>
-      <span class="text-[10px] bg-[#141B16] text-[#E5B842] border border-[#E5B842]/50 px-2 py-0.5 rounded font-mono">
-        4-COLUMN RESPONSIVE GRID
+  <div style="padding: 0.5rem 1rem 1.5rem; max-width: 1300px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 4px;">
+      <span style="color: #4ADE80; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+        ELEMENT 02 · MASTER UNIVERSAL FOOTER
+      </span>
+      <span style="color: #E5B842; font-size: 0.7rem; font-family: monospace; background: #141B16; border: 1px solid rgba(229,184,66,0.4); padding: 2px 8px; border-radius: 4px;">
+        4-COLUMN RESPONSIVE COMPLIANCE GRID
       </span>
     </div>
 
     <!-- THE FOOTER ELEMENT ITSELF -->
-    <footer class="w-full bg-[#141B16] border-t-3 border-[#E5B842] pt-8 pb-6 px-4 sm:px-8 shadow-2xl rounded-lg text-white">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer style="background-color: #141B16; border-top: 3px solid #E5B842; padding: 2rem 1.5rem 1.2rem; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 1.5rem;">
         
         <!-- Col 1: Brand & Mission -->
-        <div class="flex flex-col gap-3">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🌲</span>
-            <span class="font-bold text-sm text-[#E5B842] tracking-wide">FENCE FRAMES</span>
+        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.2rem;">🌲</span>
+            <span style="font-weight: 700; font-size: 0.95rem; color: #E5B842; letter-spacing: 0.02em;">FENCE FRAMES</span>
           </div>
-          <p class="text-xs text-white/70 font-light leading-relaxed">
+          <p style="font-size: 0.75rem; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.5;">
             The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
           </p>
-          <span class="text-[10px] text-[#4ADE80] font-mono bg-[#1C261F] px-2 py-1 rounded border border-[#4ADE80]/30 w-fit">
+          <span style="font-size: 0.65rem; color: #4ADE80; font-family: monospace; background: #1C261F; padding: 3px 6px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.3); width: fit-content;">
             ✓ ZERO DATA LOSS ARCHITECTURE
           </span>
         </div>
 
         <!-- Col 2: Pillar 1 & 2 Tools -->
-        <div class="flex flex-col gap-2.5 text-xs">
-          <span class="font-bold text-[#E5B842] uppercase text-[11px] tracking-wider">FIND &amp; FRAME</span>
-          <a href="/geo-north-bend.html" class="text-white/70 hover:text-white transition">City of North Bend Codes</a>
-          <a href="/geo-si-view.html" class="text-white/70 hover:text-white transition">Si View HOA Pre-Approved ARC</a>
-          <a href="/catalog-hub.html" class="text-white/70 hover:text-white transition">12+ Architectural Style Catalog</a>
-          <a href="/designer" class="text-white/70 hover:text-white transition">Universal 2D CAD Configurator</a>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
+          <span style="font-weight: 700; color: #E5B842; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">FIND &amp; FRAME</span>
+          <a href="/geo-north-bend.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">City of North Bend Codes</a>
+          <a href="/geo-si-view.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Si View HOA Pre-Approved ARC</a>
+          <a href="/catalog-hub.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">12+ Architectural Style Catalog</a>
+          <a href="/designer" style="color: rgba(255,255,255,0.7); text-decoration: none;">Universal 2D CAD Configurator</a>
         </div>
 
         <!-- Col 3: Pillar 3 & Contractor Network -->
-        <div class="flex flex-col gap-2.5 text-xs">
-          <span class="font-bold text-[#4ADE80] uppercase text-[11px] tracking-wider">FENCE &amp; PROS</span>
-          <a href="/blueprint-standalone.html" class="text-white/70 hover:text-white transition">Portrait 8.5" × 11" ARC Blueprints</a>
-          <a href="/contractors-hub.html" class="text-white/70 hover:text-white transition">72-Hour Contractor Job Board</a>
-          <a href="/contractor-match.html" class="text-white/70 hover:text-white transition">Live 3-Seat SMS Scramble</a>
-          <a href="/homeowner-dashboard.html" class="text-white/70 hover:text-white transition">Homeowner Command Center</a>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
+          <span style="font-weight: 700; color: #4ADE80; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">FENCE &amp; PROS</span>
+          <a href="/blueprint-standalone.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Portrait 8.5" × 11" ARC Blueprints</a>
+          <a href="/contractors-hub.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">72-Hour Contractor Job Board</a>
+          <a href="/contractor-match.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Live 3-Seat SMS Scramble</a>
+          <a href="/homeowner-dashboard.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Homeowner Command Center</a>
         </div>
 
         <!-- Col 4: Legal & Standards -->
-        <div class="flex flex-col gap-2.5 text-xs">
-          <span class="font-bold text-[#F27A22] uppercase text-[11px] tracking-wider">STANDARDS &amp; LEGAL</span>
-          <span class="text-white/70">Anti-Angi 3-Seat Monopoly Law</span>
-          <a href="/design-system-guide.html" class="text-white/70 hover:text-white transition">Rowdies Design System Tokens</a>
-          <a href="/box-styles-showcase.html" class="text-white/70 hover:text-white transition">Canonical CAD Box Styles</a>
-          <span class="text-[10px] text-white/40 font-mono mt-1">META: NOINDEX ACTIVE</span>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
+          <span style="font-weight: 700; color: #F27A22; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">STANDARDS &amp; LEGAL</span>
+          <span style="color: rgba(255,255,255,0.7);">Anti-Angi 3-Seat Monopoly Law</span>
+          <a href="/design-system-guide.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Rowdies Design System Tokens</a>
+          <a href="/box-styles-showcase.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Canonical CAD Box Styles</a>
+          <span style="font-size: 0.65rem; color: rgba(255,255,255,0.4); font-family: monospace; margin-top: 4px;">META: NOINDEX ACTIVE</span>
         </div>
 
       </div>
 
       <!-- Bottom Bar -->
-      <div class="max-w-6xl mx-auto pt-4 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-2 text-[11px] text-white/50 font-light">
+      <div style="max-width: 1200px; margin: 0 auto; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.72rem; color: rgba(255,255,255,0.5); font-weight: 300;">
         <span>© 2026 Fence Frames. All rights reserved. Authored &amp; Operated by Two Lew Builders LLC.</span>
         <span>King County, Washington</span>
       </div>
