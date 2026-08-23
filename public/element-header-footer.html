@@ -3,289 +3,264 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fence Frames — Header &amp; Footer Element Review (ELEM-01)</title>
+  <title>Fence Frames — Header &amp; Footer Universal System (ELEM-01)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Ensure clean drafting canvas presentation */
-    body {
-      background-color: #080D0A;
-      color: #FAF6EE;
+    /* Clean, high-contrast white drafting canvas for element perfection */
+    html, body {
+      background-color: #FFFFFF;
+      color: #1A1A1A;
       font-family: 'Rowdies', cursive, sans-serif;
       padding: 0;
       margin: 0;
+      min-height: 100vh;
     }
 
-    .element-card-grid {
-      background-color: #121A15;
-      background-image:
-        linear-gradient(rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
-        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
-      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
-      color: #FAF6EE;
-      border: 2.5px solid #141B16;
-      box-shadow: 6px 6px 0px 0px #000000;
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      background-color: #FFFFFF;
+    }
+
+    /* Subtle drafting indicators on the empty white canvas */
+    .empty-canvas-zone {
+      flex: 1;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #FFFFFF;
       position: relative;
     }
 
-    .has-outside-corners { position: relative; }
-    .corner-mark-50 { position: absolute; pointer-events: none; border-color: #4ADE80; }
-    .c-top-left { top: -3px; left: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
-    .c-top-right { top: -3px; right: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
-    .c-bottom-left { bottom: -3px; left: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
-    .c-bottom-right { bottom: -3px; right: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
+    .canvas-spec-label {
+      font-family: monospace;
+      font-size: 0.72rem;
+      color: #88998E;
+      background: #F4F6F5;
+      border: 1px dashed #C8D4CD;
+      padding: 6px 14px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      user-select: none;
+    }
 
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #141B16; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 3px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #E5EBE7; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #A0B2A6; border-radius: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #2F5D3A; }
   </style>
 </head>
 <body class="custom-scrollbar">
 
   <!-- ========================================================================= -->
-  <!-- 1. LIVE PRODUCTION HEADER (EXACT 1:1 HOMEPAGE HEADER)                     -->
+  <!-- 1. MASTER UNIVERSAL HEADER                                                -->
   <!-- ========================================================================= -->
-  <div style="padding: 1.2rem 1rem 0.5rem; max-width: 1300px; margin: 0 auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 4px;">
-      <span style="color: #E5B842; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
-        ELEMENT 01 · MASTER HOMEPAGE HEADER
-      </span>
-      <span style="color: #4ADE80; font-size: 0.7rem; font-family: monospace; background: #141B16; border: 1px solid rgba(74,222,128,0.4); padding: 2px 8px; border-radius: 4px;">
-        MATCHES HOMEPAGE.HTML 1:1 (FOREST GREEN + BLACK WOOD BRAND + 3-LAYER EMBER STRIP)
-      </span>
-    </div>
+  <header class="nav" style="box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+    <div class="wrap nav-inner" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      
+      <!-- Left: Brand Wordmark + 3 Tucked-Left Dark Pillar Buttons -->
+      <div class="nav-left-suite">
+        <a class="brand" href="/" aria-label="Fence Frames home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <span class="home-ico" aria-hidden="true" style="width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;">
+            <img src="images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />
+          </span>
+          <span class="name">
+            <span class="nav-fence" style="color: #4ADE80;">Fence</span>&nbsp;<span class="nav-frames" style="color: #E5B842;">Frames</span>
+          </span>
+        </a>
 
-    <!-- THE EXACT HOMEPAGE HEADER MARKUP & CLASSES -->
-    <header class="nav" style="border-radius: 6px; overflow: visible; box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
-      <div class="wrap nav-inner" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+        <!-- 3 Dark Box Pillar Buttons (Canon Phase Colors) -->
+        <nav class="nav-pillar-group hidden sm:flex">
+          <!-- Pillar 1: Find It -->
+          <a href="/geo-north-bend.html" class="nav-pillar-box nav-pillar-find" title="Step 1 · Code & HOA Matcher">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Find It</span>
+            <span class="nav-pillar-sub">(Location)</span>
+          </a>
+
+          <!-- Pillar 2: Frame It -->
+          <a href="/catalog-hub.html" class="nav-pillar-box nav-pillar-frame" title="Step 2 · Architectural Catalog & Designer">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Frame It</span>
+            <span class="nav-pillar-sub">(Design)</span>
+          </a>
+
+          <!-- Pillar 3: Fence It -->
+          <a href="/blueprint-standalone.html" class="nav-pillar-box nav-pillar-fence" title="Step 3 · Blueprints & Takeoff Ledger">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Fence It</span>
+            <span class="nav-pillar-sub">(Build)</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right: Accounts Dropdown (Non-Master Admin Roles) + Action CTA -->
+      <div class="nav-end" style="display: flex; align-items: center; gap: 10px;">
         
-        <!-- Left: Brand Wordmark + 3 Tucked-Left Dark Pillar Buttons -->
-        <div class="nav-left-suite">
-          <a class="brand" href="/" aria-label="Fence Frames home" style="display: flex; align-items: center; gap: 8px;">
-            <span class="name"><span class="nav-fence" style="color: #4ADE80;">Fence</span>&nbsp;<span class="nav-frames" style="color: #E5B842;">Frames</span></span>
-            <span class="home-ico" aria-hidden="true" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
-              <img src="images/fence-frames-official-icon.png" alt="Fence Frames Logo Icon" style="width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6)); border-radius: 5px;" />
-            </span>
-          </a>
+        <!-- Members / Accounts Dropdown -->
+        <div class="nav-accounts-wrapper">
+          <button type="button" class="nav-accounts-trigger" onclick="this.nextElementSibling.classList.toggle('is-open')">
+            <span>👤</span>
+            <span>Accounts</span>
+            <span style="font-size: 9px; opacity: 0.8;">▼</span>
+          </button>
 
-          <!-- 3 Dark Box Pillar Buttons (Canon Phase Colors) -->
-          <nav class="nav-pillar-group hidden sm:flex">
-            <!-- Pillar 1: Find It -->
-            <a href="/geo-north-bend.html" class="nav-pillar-box nav-pillar-find" title="Step 1 · Code & HOA Matcher">
-              <span class="nav-pillar-dot"></span>
-              <span class="nav-pillar-label">Find It</span>
-              <span class="nav-pillar-sub">(Location)</span>
-            </a>
-
-            <!-- Pillar 2: Frame It -->
-            <a href="/catalog-hub.html" class="nav-pillar-box nav-pillar-frame" title="Step 2 · Architectural Catalog & Designer">
-              <span class="nav-pillar-dot"></span>
-              <span class="nav-pillar-label">Frame It</span>
-              <span class="nav-pillar-sub">(Design)</span>
-            </a>
-
-            <!-- Pillar 3: Fence It -->
-            <a href="/blueprint-standalone.html" class="nav-pillar-box nav-pillar-fence" title="Step 3 · Blueprints & Takeoff Ledger">
-              <span class="nav-pillar-dot"></span>
-              <span class="nav-pillar-label">Fence It</span>
-              <span class="nav-pillar-sub">(Build)</span>
-            </a>
-          </nav>
-        </div>
-
-        <!-- Right: Accounts Dropdown (Non-Master Admin Roles) + Action CTA -->
-        <div class="nav-end" style="display: flex; align-items: center; gap: 10px;">
-          
-          <!-- Members / Accounts Dropdown -->
-          <div class="nav-accounts-wrapper">
-            <button type="button" class="nav-accounts-trigger" onclick="this.nextElementSibling.classList.toggle('is-open')">
-              <span>👤</span>
-              <span>Accounts</span>
-              <span style="font-size: 9px; opacity: 0.8;">▼</span>
-            </button>
-
-            <!-- Dropdown Menu (Contractor, HOA Official, Homeowner) -->
-            <div class="nav-accounts-menu">
-              <div style="padding: 4px 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: #E5B842; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
-                Select Account Portal
-              </div>
-              
-              <!-- Homeowner Account -->
-              <a href="/homeowner-dashboard.html" class="nav-account-item">
-                <span class="account-icon">🏡</span>
-                <div>
-                  <span class="account-title" style="color: #4ADE80;">Homeowner Account</span>
-                  <span class="account-sub">Saved Fence-Folios &amp; 3-Bid Tracker</span>
-                </div>
-              </a>
-
-              <!-- Contractor Account -->
-              <a href="/contractors-hub.html" class="nav-account-item">
-                <span class="account-icon">🔨</span>
-                <div>
-                  <span class="account-title" style="color: #F27A22;">Contractor Account</span>
-                  <span class="account-sub">72-Hr Job Feed &amp; Live SMS Bids</span>
-                </div>
-              </a>
-
-              <!-- HOA Official Account -->
-              <a href="/geo-si-view.html" class="nav-account-item">
-                <span class="account-icon">🏛️</span>
-                <div>
-                  <span class="account-title" style="color: #E5B842;">HOA Official Account</span>
-                  <span class="account-sub">ARC Committee Portal &amp; Bylaw Standards</span>
-                </div>
-              </a>
-
-              <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 2px 0;"></div>
-
-              <!-- Sign In / Phone Auth -->
-              <a href="/auth-gate.html" class="nav-account-item">
-                <span class="account-icon">🔑</span>
-                <div>
-                  <span class="account-title" style="color: #FAF6EE;">Sign In / Switch Role</span>
-                  <span class="account-sub">Zero-Data-Loss Phone OTP Auth</span>
-                </div>
-              </a>
+          <!-- Dropdown Menu (Contractor, HOA Official, Homeowner) -->
+          <div class="nav-accounts-menu">
+            <div style="padding: 4px 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: #E5B842; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              Select Account Portal
             </div>
+            
+            <!-- Homeowner Account -->
+            <a href="/homeowner-dashboard.html" class="nav-account-item">
+              <span class="account-icon">🏡</span>
+              <div>
+                <span class="account-title" style="color: #4ADE80;">Homeowner Account</span>
+                <span class="account-sub">Saved Fence-Folios &amp; 3-Bid Tracker</span>
+              </div>
+            </a>
+
+            <!-- Contractor Account -->
+            <a href="/contractors-hub.html" class="nav-account-item">
+              <span class="account-icon">🔨</span>
+              <div>
+                <span class="account-title" style="color: #F27A22;">Contractor Account</span>
+                <span class="account-sub">72-Hr Job Feed &amp; Live SMS Bids</span>
+              </div>
+            </a>
+
+            <!-- HOA Official Account -->
+            <a href="/geo-si-view.html" class="nav-account-item">
+              <span class="account-icon">🏛️</span>
+              <div>
+                <span class="account-title" style="color: #E5B842;">HOA Official Account</span>
+                <span class="account-sub">ARC Committee Portal &amp; Bylaw Standards</span>
+              </div>
+            </a>
+
+            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 2px 0;"></div>
+
+            <!-- Sign In / Phone Auth -->
+            <a href="/auth-gate.html" class="nav-account-item">
+              <span class="account-icon">🔑</span>
+              <div>
+                <span class="account-title" style="color: #FAF6EE;">Sign In / Switch Role</span>
+                <span class="account-sub">Zero-Data-Loss Phone OTP Auth</span>
+              </div>
+            </a>
           </div>
-
-          <!-- New Build CTA Button -->
-          <a href="/designer" class="ff-btn btn-gold btn-chamfer" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
-            + New Build
-          </a>
-
         </div>
 
+        <!-- New Build CTA Button -->
+        <a href="/designer" class="ff-btn btn-gold btn-chamfer" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
+          + New Build
+        </a>
+
       </div>
-    </header>
-  </div>
+
+    </div>
+  </header>
 
   <!-- ========================================================================= -->
-  <!-- 2. ISOLATED ANATOMY SPEC CARDS                                            -->
+  <!-- 2. EMPTY CLEAN WHITE CANVAS (NO CARDS / NO INTERMEDIARY ELEMENTS)        -->
   <!-- ========================================================================= -->
-  <main style="max-width: 1300px; margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-
-    <!-- HEADER ANATOMY CARD -->
-    <div class="element-card-grid has-outside-corners" style="border-radius: 8px; padding: 1.2rem;">
-      <div class="corner-mark-50 c-top-left"></div>
-      <div class="corner-mark-50 c-top-right"></div>
-      <div class="corner-mark-50 c-bottom-left"></div>
-      <div class="corner-mark-50 c-bottom-right"></div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.6rem; margin-bottom: 0.8rem;">
-        <h3 style="font-size: 0.82rem; font-weight: 700; color: #E5B842; text-transform: uppercase;">
-          📐 Homepage Header Anatomy
-        </h3>
-        <span style="font-size: 0.68rem; color: #4ADE80; font-family: monospace;">styles.css:L510-600</span>
-      </div>
-
-      <div style="font-size: 0.78rem; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 300;">
-        <p>• <strong>Brand Wordmark:</strong> Split color <code>Fence</code> (Bright Green) + <code>Frames</code> (Ember Orange) on dark wood.</p>
-        <p>• <strong>Vertical Separator:</strong> 3px Ember orange line sandwiched between two 1px black borders.</p>
-        <p>• <strong>Horizontal Bottom Rule:</strong> 5px rule with black | orange | black sandwich strip.</p>
-        <p>• <strong>2-Line Step Navigation:</strong> Rowdies Regular 400 Ember label + Rowdies Light 300 sub-label.</p>
-      </div>
+  <main class="empty-canvas-zone">
+    <div class="canvas-spec-label">
+      CLEAN DRAFTING STAGE · HEADER &amp; FOOTER PURITY REVIEW
     </div>
-
-    <!-- FOOTER ANATOMY CARD -->
-    <div class="element-card-grid has-outside-corners" style="border-radius: 8px; padding: 1.2rem;">
-      <div class="corner-mark-50 c-top-left"></div>
-      <div class="corner-mark-50 c-top-right"></div>
-      <div class="corner-mark-50 c-bottom-left"></div>
-      <div class="corner-mark-50 c-bottom-right"></div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.6rem; margin-bottom: 0.8rem;">
-        <h3 style="font-size: 0.82rem; font-weight: 700; color: #4ADE80; text-transform: uppercase;">
-          ⚖️ Master Universal Footer Specs
-        </h3>
-        <span style="font-size: 0.68rem; color: #E5B842; font-family: monospace;">4-Column Grid</span>
-      </div>
-
-      <div style="font-size: 0.78rem; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 300;">
-        <p>• <strong>4-Pillar Categorization:</strong> Brand / Find &amp; Frame / Fence &amp; Pros / Legal Standards.</p>
-        <p>• <strong>Anti-Angi Territory Protection:</strong> Dedicated notice for 3-seat contractor policy.</p>
-        <p>• <strong>Noindex Stealth Gate:</strong> Protected against search engine indexing until public launch.</p>
-        <p>• <strong>Two Lew Builders LLC:</strong> Canonical copyright and brand ownership plate.</p>
-      </div>
-    </div>
-
   </main>
 
   <!-- ========================================================================= -->
-  <!-- 3. LIVE PRODUCTION FOOTER (VERTICALLY MIRRORED HEADER BACKGROUND)         -->
+  <!-- 3. MASTER UNIVERSAL FOOTER (DARKENED FOREST-TO-BLACK GRADIENT MIRROR)     -->
   <!-- ========================================================================= -->
-  <div style="padding: 0.5rem 1rem 1.5rem; max-width: 1300px; margin: 0 auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 4px;">
-      <span style="color: #4ADE80; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
-        ELEMENT 02 · MASTER UNIVERSAL FOOTER (VERTICAL HEADER MIRROR)
-      </span>
-      <span style="color: #E5B842; font-size: 0.7rem; font-family: monospace; background: #141B16; border: 1px solid rgba(229,184,66,0.4); padding: 2px 8px; border-radius: 4px;">
-        VERTICALLY MIRRORED GREEN GRADIENT + TOP 3-LAYER EMBER STRIP + BLACK WOOD BASE
-      </span>
-    </div>
-
-    <!-- THE VERTICALLY MIRRORED FOOTER -->
-    <footer class="footer-nav-mirror" style="border-radius: 6px; overflow: hidden; position: relative;">
-      <div style="max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 1.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; position: relative; z-index: 1;">
-        
-        <!-- Col 1: Brand & Mission with Official Icon -->
-        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-          <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-            <span style="font-family: 'Rowdies', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em;">
-              <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
-            </span>
-            <img src="images/fence-frames-official-icon.png" alt="Fence Frames Logo Icon" style="width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); border-radius: 4px;" />
-          </a>
-          <p style="font-size: 0.75rem; color: #FAF6EE; opacity: 0.85; font-weight: 300; line-height: 1.55;">
-            The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
-          </p>
-          <span style="font-size: 0.65rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4); width: fit-content;">
-            ✓ ZERO DATA LOSS ARCHITECTURE
+  <footer class="footer-nav-mirror" style="overflow: hidden; position: relative;">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 3.5rem 2rem 2.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 3.5rem; align-items: start; position: relative; z-index: 1;">
+      
+      <!-- Col 1: Brand, Transparent Logo & Core Assurances -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));" />
+          <span style="font-family: 'Rowdies', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;">
+            <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
+          </span>
+        </a>
+        <p style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #FAF6EE; opacity: 0.85; line-height: 1.6; max-width: 380px; font-weight: 300;">
+          The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.7rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4);">
+            ✓ ZERO DATA LOSS
+          </span>
+          <span style="font-size: 0.7rem; color: #E5B842; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(229,184,66,0.4);">
+            ✓ 3-SEAT CAPPED PROS
           </span>
         </div>
+      </div>
 
-        <!-- Col 2: Pillar 1 & 2 Tools -->
-        <div style="display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.78rem;">
-          <span style="font-weight: 700; color: #E5B842; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">FIND &amp; FRAME</span>
-          <a href="/geo-north-bend.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">City of North Bend Codes</a>
-          <a href="/geo-si-view.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Si View HOA Pre-Approved ARC</a>
-          <a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">12+ Architectural Style Catalog</a>
-          <a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Universal 2D CAD Configurator</a>
+      <!-- Right 3-Column Navigation Grid -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+        
+        <!-- Column 1: Find & Frame -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #E5B842; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Find &amp; Frame
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/geo-north-bend.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">City of North Bend Codes</a></li>
+            <li><a href="/geo-si-view.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Si View HOA Pre-Approved ARC</a></li>
+            <li><a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">12+ Architectural Style Catalog</a></li>
+            <li><a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Universal 2D CAD Configurator</a></li>
+          </ul>
         </div>
 
-        <!-- Col 3: Pillar 3 & Contractor Network -->
-        <div style="display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.78rem;">
-          <span style="font-weight: 700; color: #4ADE80; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">FENCE &amp; PROS</span>
-          <a href="/blueprint-standalone.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Portrait 8.5" × 11" ARC Blueprints</a>
-          <a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">72-Hour Contractor Job Board</a>
-          <a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Live 3-Seat SMS Scramble</a>
-          <a href="/homeowner-dashboard.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Homeowner Command Center</a>
+        <!-- Column 2: Fence & Pros -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Fence &amp; Pros
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/blueprint-standalone.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Portrait 8.5" × 11" ARC Blueprints</a></li>
+            <li><a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">72-Hour Contractor Job Board</a></li>
+            <li><a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Live 3-Seat SMS Scramble</a></li>
+            <li><a href="/homeowner-dashboard.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Homeowner Command Center</a></li>
+          </ul>
         </div>
 
-        <!-- Col 4: Legal & Standards -->
-        <div style="display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.78rem;">
-          <span style="font-weight: 700; color: #F27A22; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">STANDARDS &amp; LEGAL</span>
-          <span style="color: #FAF6EE; opacity: 0.8;">Anti-Angi 3-Seat Monopoly Law</span>
-          <a href="/design-system-guide.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Rowdies Design System Tokens</a>
-          <a href="/box-styles-showcase.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; transition: opacity .15s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Canonical CAD Box Styles</a>
-          <span style="font-size: 0.65rem; color: #FAF6EE; opacity: 0.5; font-family: monospace; margin-top: 4px;">META: NOINDEX ACTIVE</span>
+        <!-- Column 3: Legal & Standards -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #F27A22; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Standards &amp; Legal
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><span style="color: #FAF6EE; opacity: 0.8; font-size: 0.85rem;">Anti-Angi 3-Seat Monopoly Law</span></li>
+            <li><a href="/design-system-guide.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Rowdies Design System Tokens</a></li>
+            <li><a href="/box-styles-showcase.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Canonical CAD Box Styles</a></li>
+            <li><a href="/auth-gate.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Zero-Data-Loss Sign In</a></li>
+          </ul>
         </div>
 
       </div>
 
-      <!-- Mirrored Black Wood Bottom Bar -->
-      <div class="footer-mirror-bottom" style="padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.72rem; color: #FAF6EE; opacity: 0.75; font-weight: 300;">
+    </div>
+
+    <!-- Mirrored Black Wood Bottom Bar -->
+    <div class="footer-mirror-bottom" style="padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #FAF6EE; opacity: 0.8; font-weight: 300;">
+      <div>
         <span>© 2026 Fence Frames. All rights reserved. Authored &amp; Operated by Two Lew Builders LLC.</span>
-        <span>King County, Washington</span>
       </div>
-    </footer>
-  </div>
+      <div>
+        <span>King County, Washington · Piloting at Si View, North Bend, WA</span>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>

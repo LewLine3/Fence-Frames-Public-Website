@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&amp;display=swap');
+      .folio-title {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 19px;
+        fill: #FFFFFF;
+        letter-spacing: 0.08em;
+        text-anchor: middle;
+      }
+      .folio-title span.gold {
+        fill: #E5B842;
+      }
+      .folio-sub {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 8.5px;
+        fill: #4ADE80;
+        letter-spacing: 0.16em;
+        text-anchor: middle;
+        text-transform: uppercase;
+      }
+      .folio-desc {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 400;
+        font-size: 7.5px;
+        fill: #C4B294;
+        letter-spacing: 0.1em;
+        text-anchor: middle;
+      }
+    </style>
+
+    <linearGradient id="folioEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80" />
+      <stop offset="50%" stop-color="#2EA055" />
+      <stop offset="100%" stop-color="#15803D" />
+    </linearGradient>
+
+    <linearGradient id="folioGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="50%" stop-color="#E5B842" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <filter id="folioShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- FENCE-FOLIO ARCHITECTURAL DOSSIER CREST -->
+  <!-- Official Header Emblem for Submittal Packets & Material Takeoffs -->
+  <!-- ======================================================== -->
+  <g id="Fence-Folio-Crest" filter="url(#folioShadow)">
+
+    <!-- 1. Blueprint Dossier Diamond / Shield Background -->
+    <polygon points="130,12 240,75 240,185 130,248 20,185 20,75" 
+             fill="#0B0E0C" stroke="url(#folioGoldGrad)" stroke-width="3" />
+
+    <polygon points="130,22 228,79 228,179 130,236 32,179 32,79" 
+             fill="#141B16" stroke="#2EA055" stroke-width="1.2" stroke-dasharray="5 3" />
+
+    <!-- 2. Blueprint Architectural Grid Line Accents -->
+    <g opacity="0.25">
+      <line x1="40" y1="75" x2="220" y2="75" stroke="#4ADE80" stroke-width="0.8" />
+      <line x1="40" y1="130" x2="220" y2="130" stroke="#4ADE80" stroke-width="0.8" />
+      <line x1="40" y1="185" x2="220" y2="185" stroke="#4ADE80" stroke-width="0.8" />
+      <line x1="85" y1="45" x2="85" y2="215" stroke="#4ADE80" stroke-width="0.8" />
+      <line x1="130" y1="45" x2="130" y2="215" stroke="#4ADE80" stroke-width="0.8" />
+      <line x1="175" y1="45" x2="175" y2="215" stroke="#4ADE80" stroke-width="0.8" />
+    </g>
+
+    <!-- 3. Mini Master Icon Integration (at x=105, y=42) -->
+    <g transform="translate(105, 42) scale(0.09765625)">
+      <!-- Soil Base -->
+      <path d="M 57 412 L 305 412 C 309 412 313.05 414.5 313.05 420 C 313.05 425.5 309 428 305 428 L 57 428 Z" fill="#6A481B" />
+      <!-- Big 'F' -->
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="#2EA055" stroke-width="11.4" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="#754E36" stroke="#0B0E0C" stroke-width="3.0" />
+      <!-- Small 'F' -->
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="#DEB35E" stroke-width="11.4" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="#754E36" stroke="#0B0E0C" stroke-width="3.0" />
+      <!-- Caps -->
+      <rect x="52" y="43" width="88" height="13" rx="3.5" fill="#2EA055" stroke="#0B0E0C" stroke-width="2.8" />
+      <rect x="158" y="171" width="88" height="13" rx="3.5" fill="#DEB35E" stroke="#0B0E0C" stroke-width="2.8" />
+    </g>
+
+    <!-- 4. Ribbon Banner -->
+    <g transform="translate(130, 116)">
+      <path d="M -85 -14 L 85 -14 L 75 12 L -75 12 Z" fill="#0B0E0C" stroke="#E5B842" stroke-width="1.6" />
+      <text class="folio-title" x="0" y="4">FENCE<tspan fill="#E5B842">-FOLIO</tspan></text>
+    </g>
+
+    <!-- 5. Sub-Title & Description -->
+    <g transform="translate(130, 146)">
+      <text class="folio-sub" x="0" y="0">ARCHITECTURAL DOSSIER</text>
+    </g>
+
+    <g transform="translate(130, 172)">
+      <text class="folio-desc" x="0" y="0">MATERIAL TAKEOFF &amp; BLUEPRINT</text>
+      <text class="folio-desc" x="0" y="12" style="fill:#4ADE80; font-weight:700;">★ HOA &amp; CONTRACTOR READY ★</text>
+    </g>
+
+  </g>
+</svg>

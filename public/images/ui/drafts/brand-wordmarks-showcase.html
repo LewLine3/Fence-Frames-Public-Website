@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Master Brand Wordmarks & Navigation Suite (Phase 2)</title>
+  
+  <!-- Rowdies Font Canonical Standard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --gold-sun-glow: rgba(229, 184, 66, 0.25);
+      --emerald-bright: #2EA055;
+      --emerald-vivid: #22C55E;
+      --forest-bright: #4ADE80;
+      --golden-tan: #DEB35E;
+      --cedar-tan: #C4B294;
+      --douglas-fir: #D69E42;
+      --soil-brown: #6A481B;
+      --ink: #0B0E0C;
+      --ink-surface: #141B16;
+      --ink-border: #1E2B22;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ink);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(46, 160, 85, 0.4) 0%, rgba(11, 14, 12, 0.95) 75%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      color: #FFFFFF;
+      font-family: 'Rowdies', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      min-height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Light Theme Preview */
+    body.theme-light-test {
+      background-color: #F8FAFC !important;
+      background-image: linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px) !important;
+      color: #0F172A !important;
+    }
+    body.theme-light-test .brand-title { color: #0F172A !important; text-shadow: none !important; }
+    body.theme-light-test .brand-desc { color: #475569 !important; }
+    body.theme-light-test .lockup-card { background: #FFFFFF !important; border-color: #CBD5E1 !important; box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important; }
+    body.theme-light-test .card-topbar { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light-test .card-title { color: #0F172A !important; }
+    body.theme-light-test .card-footer { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light-test .rationale-box { background: rgba(34, 197, 94, 0.1) !important; color: #1E293B !important; }
+
+    .container {
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .badge-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink-surface);
+      border: 1.5px solid var(--emerald-bright);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: var(--forest-bright);
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      box-shadow: 0 0 20px rgba(46, 160, 85, 0.3);
+    }
+
+    .badge-phase .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--forest-bright);
+      box-shadow: 0 0 8px var(--forest-bright);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .brand-title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.8);
+      margin-bottom: 6px;
+    }
+
+    .brand-title span.gold {
+      color: var(--gold-sun);
+    }
+
+    .brand-tagline {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--forest-bright);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .brand-desc {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      color: var(--cedar-tan);
+      font-weight: 300;
+    }
+
+    /* Controls Toolbar */
+    .controls-toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-toggle-theme {
+      background: var(--ink-surface);
+      border: 1.5px solid var(--ink-border);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-toggle-theme.active, .btn-toggle-theme:hover {
+      border-color: var(--gold-sun);
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(222, 179, 94, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
+      border: 1.5px solid var(--forest-bright);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 0 30px rgba(46, 160, 85, 0.3);
+    }
+
+    .section-banner h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    /* LIVE NAVBAR SIMULATION */
+    .mock-navbar-deck {
+      background: var(--ink-surface);
+      border: 2px solid var(--gold-sun);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 36px var(--gold-sun-glow);
+    }
+
+    .mock-nav-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-sun);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-mockup-frame {
+      background: rgba(11, 14, 12, 0.95);
+      border: 1.5px solid var(--ink-border);
+      border-radius: var(--radius-md);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-mockup-frame.nav-light-frame {
+      background: #FFFFFF;
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .mock-nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .mock-nav-link {
+      color: var(--cedar-tan);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .mock-nav-link:hover {
+      color: var(--forest-bright);
+    }
+
+    .nav-light-frame .mock-nav-link {
+      color: #475569;
+    }
+
+    .nav-light-frame .mock-nav-link:hover {
+      color: #16A34A;
+    }
+
+    .mock-btn-cta {
+      background: var(--gold-sun);
+      color: var(--ink);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    /* Grid of Lockups */
+    .lockups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .lockup-card {
+      background: var(--ink-surface);
+      border: 2px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+    }
+
+    .lockup-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--forest-bright);
+      box-shadow: 0 20px 48px rgba(46, 160, 85, 0.3);
+    }
+
+    .card-topbar {
+      background: var(--ink);
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--ink-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .lockup-preview-zone {
+      padding: 32px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1.5px solid var(--ink-border);
+      position: relative;
+    }
+
+    .lockup-preview-zone.dark-bg {
+      background-color: #0E120F;
+    }
+
+    .lockup-preview-zone.light-bg {
+      background-color: #FFFFFF;
+    }
+
+    .lockup-preview-zone.trans-bg {
+      background-color: #1a1a1a;
+      background-image: 
+        linear-gradient(45deg, #242424 25%, transparent 25%), 
+        linear-gradient(-45deg, #242424 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #242424 75%), 
+        linear-gradient(-45deg, transparent 75%, #242424 75%);
+      background-size: 20px 20px;
+    }
+
+    .hero-lockup-img {
+      max-width: 100%;
+      height: auto;
+      max-height: 120px;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.6));
+      transition: transform 0.3s ease;
+    }
+
+    .light-bg .hero-lockup-img {
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+    }
+
+    .hero-lockup-img:hover {
+      transform: scale(1.04);
+    }
+
+    .testbench-section {
+      padding: 18px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rationale-box {
+      background: rgba(46, 160, 85, 0.2);
+      border-left: 3px solid var(--forest-bright);
+      padding: 10px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.45;
+    }
+
+    .rationale-box strong {
+      color: var(--forest-bright);
+      font-weight: 700;
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      background: var(--ink);
+      border-top: 1.5px solid var(--ink-border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 8px 10px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-green {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink);
+    }
+
+    .btn-green:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+      box-shadow: 0 0 16px rgba(46, 160, 85, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest-bright);
+      color: var(--forest-bright);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Brand Header -->
+  <header class="brand-header">
+    <div class="badge-phase">
+      <span class="pulse-dot"></span>
+      Phase 2: Master Brand Wordmarks & Header Lockups
+    </div>
+    <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
+    <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
+    <p class="brand-desc">
+      Official Header Logo Lockups integrating the <strong>Canon Master Brandmark (1CY)</strong> with <strong>Rowdies Bold 700 Typography</strong> across Horizontal, Stacked, and Compact navigation formats for both Light and Dark themes!
+    </p>
+  </header>
+
+  <!-- Interactive Background Switcher -->
+  <div class="controls-toolbar">
+    <span class="ctrl-label">🎛️ Global Page Backdrop:</span>
+    <button class="btn-toggle-theme active" onclick="setTheme('dark')">🌙 Dark Canvas (#0B0E0C)</button>
+    <button class="btn-toggle-theme" onclick="setTheme('light')">☀️ Light Canvas (#FFFFFF)</button>
+  </div>
+
+  <!-- LIVE WEBSITE HEADER SIMULATION -->
+  <section class="mock-navbar-deck">
+    <h3 class="mock-nav-title">🌐 Live Website Navigation Bar Simulation</h3>
+
+    <!-- Dark Theme Navigation Bar Mockup -->
+    <div style="font-size:0.75rem; color:var(--forest-bright); margin-bottom:6px;">Dark Navigation Bar (Default Next.js Header)</div>
+    <div class="nav-mockup-frame">
+      <div style="max-width:240px;">
+        <img src="../winners/fence-frames-logo-horizontal-dark.svg" alt="Fence Frames Dark Nav" style="height:38px;">
+      </div>
+      <div class="mock-nav-links">
+        <a href="#" class="mock-nav-link">Find It (Location)</a>
+        <a href="#" class="mock-nav-link">Communities (140+)</a>
+        <a href="#" class="mock-nav-link" style="color:var(--forest-bright); font-weight:700;">Frame It (Design)</a>
+        <a href="#" class="mock-nav-link">Contractors</a>
+        <a href="#" class="mock-nav-link">Fence It (Build)</a>
+      </div>
+      <a href="#" class="mock-btn-cta">Sign In</a>
+    </div>
+
+    <!-- Light Theme Navigation Bar Mockup -->
+    <div style="font-size:0.75rem; color:#475569; margin-bottom:6px; margin-top:16px;">Light Navigation Bar (Light Submittal / Print Header)</div>
+    <div class="nav-mockup-frame nav-light-frame">
+      <div style="max-width:240px;">
+        <img src="../winners/fence-frames-logo-horizontal-light.svg" alt="Fence Frames Light Nav" style="height:38px;">
+      </div>
+      <div class="mock-nav-links">
+        <a href="#" class="mock-nav-link">Find It (Location)</a>
+        <a href="#" class="mock-nav-link">Communities (140+)</a>
+        <a href="#" class="mock-nav-link" style="color:#16A34A; font-weight:700;">Frame It (Design)</a>
+        <a href="#" class="mock-nav-link">Contractors</a>
+        <a href="#" class="mock-nav-link">Fence It (Build)</a>
+      </div>
+      <a href="#" class="mock-btn-cta" style="background:#141B16; color:#E5B842;">Sign In</a>
+    </div>
+  </section>
+
+  <!-- Section Banner -->
+  <div class="section-banner">
+    <h2>📐 Master Lockup Suites (Horizontal, Stacked, and Compact)</h2>
+    <span>Ready for deployment across Website, Next.js components, and PDF Blueprints</span>
+  </div>
+
+  <!-- Lockups Grid -->
+  <main class="lockups-grid">
+
+    <!-- 1. HORIZONTAL LOCKUP (DARK) -->
+    <article class="lockup-card">
+      <div class="card-topbar">
+        <span class="card-title">Horizontal Lockup (Dark)</span>
+        <span style="font-size:0.75rem; color:var(--forest-bright);">Primary Website Header</span>
+      </div>
+
+      <div class="lockup-preview-zone dark-bg">
+        <img src="../winners/fence-frames-logo-horizontal-dark.svg" class="hero-lockup-img" alt="Horizontal Dark">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Horizontal Lockup (Dark Theme):</strong>
+          <br>• <strong>Icon + Wordmark:</strong> Canon 1CY Icon + Rowdies 700 "FENCE FRAMES".
+          <br>• <strong>Colors:</strong> White (#FFF) "FENCE" + Sun Gold (#E5B842) "FRAMES" + Forest Green Tagline.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/fence-frames-logo-horizontal-dark.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="../winners/brand-icon-master-canon.svg" target="_blank" class="btn-action btn-outline">View Icon</a>
+      </div>
+    </article>
+
+
+    <!-- 2. HORIZONTAL LOCKUP (LIGHT) -->
+    <article class="lockup-card">
+      <div class="card-topbar">
+        <span class="card-title">Horizontal Lockup (Light)</span>
+        <span style="font-size:0.75rem; color:#4ADE80;">Light Headers & Print</span>
+      </div>
+
+      <div class="lockup-preview-zone light-bg">
+        <img src="../winners/fence-frames-logo-horizontal-light.svg" class="hero-lockup-img" alt="Horizontal Light">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Horizontal Lockup (Light Theme):</strong>
+          <br>• <strong>High-Contrast:</strong> Ink Black (#141B16) "FENCE" + Deep Amber Gold (#C68A1B) "FRAMES".
+          <br>• <strong>Zero Washout:</strong> Tuned specifically for white backgrounds and printed submittals.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/fence-frames-logo-horizontal-light.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="../winners/brand-icon-vector-raw.svg" target="_blank" class="btn-action btn-outline">View Raw Vector</a>
+      </div>
+    </article>
+
+
+    <!-- 3. STACKED CENTERED LOCKUP (DARK) -->
+    <article class="lockup-card">
+      <div class="card-topbar">
+        <span class="card-title">Stacked Hero Lockup (Dark)</span>
+        <span style="font-size:0.75rem; color:var(--gold-sun);">Splash & Cover Sheets</span>
+      </div>
+
+      <div class="lockup-preview-zone dark-bg" style="padding: 20px;">
+        <img src="../winners/fence-frames-logo-stacked-dark.svg" class="hero-lockup-img" style="max-height:140px;" alt="Stacked Dark">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Stacked Hero Lockup (Dark Theme):</strong>
+          <br>• <strong>Centered Composition:</strong> 105px Icon centered above "FENCE FRAMES".
+          <br>• Ideal for splash screens, app loading overlays, and blueprint title sheets.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/fence-frames-logo-stacked-dark.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="../winners/fence-frames-logo-stacked-light.svg" target="_blank" class="btn-action btn-outline">Light Variant</a>
+      </div>
+    </article>
+
+
+    <!-- 4. COMPACT STICKY NAV LOCKUP -->
+    <article class="lockup-card">
+      <div class="card-topbar">
+        <span class="card-title">Compact Sticky Nav Brandmark</span>
+        <span style="font-size:0.75rem; color:var(--cedar-tan);">Sticky Bars & Mobile</span>
+      </div>
+
+      <div class="lockup-preview-zone dark-bg">
+        <img src="../winners/fence-frames-logo-compact.svg" class="hero-lockup-img" style="max-height:48px;" alt="Compact Nav">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Compact Sticky Nav Brandmark:</strong>
+          <br>• <strong>Space-Optimized:</strong> 38px Icon + 24px tight-kerning wordmark.
+          <br>• Perfect for mobile sticky headers with limited vertical space.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/fence-frames-logo-compact.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="favicon-showcase.html" target="_blank" class="btn-action btn-outline">Favicon Lab</a>
+      </div>
+    </article>
+
+  </main>
+
+</div>
+
+<script>
+  function setTheme(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('theme-light-test');
+    } else {
+      document.body.classList.remove('theme-light-test');
+    }
+    const buttons = document.querySelectorAll('.btn-toggle-theme');
+    buttons.forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

@@ -14,29 +14,12 @@ export function SiteNav() {
       <div className="wrap nav-inner">
         <div className="nav-left">
           <a className="brand" href="#top" aria-label="Fence Frames home">
+            <span className="home-ico" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icon.svg" alt="Fence Frames Icon" width={34} height={34} />
+            </span>
             <span className="name">
               <span className="nav-fence">Fence</span>&nbsp;<span className="nav-frames">Frames</span>
-            </span>
-            <span className="home-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  className="fi-grass"
-                  d="M2 20c2-2.4 4-2.4 5.5-.6C9 21.2 11 21.2 12 19c1-2.2 3-2.2 4.5-.4C18 20.4 20 20.4 22 18"
-                  fill="none"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  className="fi-fence"
-                  d="M4 20V9M4 9l-2 3M4 9l2 3M9.5 20V7M9.5 7l-2 3M9.5 7l2 3M15 20V9M15 9l-2 3M15 9l2 3M20.5 20V11M20.5 11l-2 3M20.5 11l2 3"
-                  fill="none"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path className="fi-rail" d="M2.5 13.5h19M2.5 17h19" fill="none" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
             </span>
           </a>
         </div>

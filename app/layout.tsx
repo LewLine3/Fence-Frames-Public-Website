@@ -1,3 +1,4 @@
+import { ModalProvider } from '@/components/ff/modal-provider'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="js bg-background">
       <body className="antialiased">
-        {children}
+        <ModalProvider>{children}</ModalProvider>
         {process.env.NODE_ENV === 'production' && (
           <>
             <Analytics />

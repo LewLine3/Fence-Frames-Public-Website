@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 90" width="100%" height="100%">
+  <defs>
+    <!-- Rowdies Font Standard -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&amp;display=swap');
+      .brand-text-fence-light {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        fill: #141B16;
+        letter-spacing: 0.04em;
+      }
+      .brand-text-frames-light {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        fill: #C68A1B;
+        letter-spacing: 0.04em;
+      }
+      .brand-tagline-light {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 400;
+        font-size: 10.5px;
+        fill: #15803D;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+    </style>
+
+    <!-- Gradients for Light Theme -->
+    <linearGradient id="emeraldGradLockupLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="45%" stop-color="#16A34A" />
+      <stop offset="100%" stop-color="#14532D" />
+    </linearGradient>
+
+    <linearGradient id="goldTanGradLockupLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="45%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#92400E" />
+    </linearGradient>
+
+    <linearGradient id="woodGradLockupLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="35%" stop-color="#754E36" />
+      <stop offset="75%" stop-color="#633F2A" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <linearGradient id="soilGradLockupLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7A542E" />
+      <stop offset="40%" stop-color="#6A481B" />
+      <stop offset="100%" stop-color="#4E3114" />
+    </linearGradient>
+
+    <!-- Incision Patterns -->
+    <pattern id="grid-post1-lockup-l" x="64" y="0" width="64" height="42" patternUnits="userSpaceOnUse">
+      <rect x="15.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="15.5" y1="16.5" x2="18.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="31.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="31.5" y1="16.5" x2="34.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="47.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="47.5" y1="16.5" x2="50.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="7.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="7.5" y1="37.5" x2="10.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="23.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="23.5" y1="37.5" x2="26.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="39.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="39.5" y1="37.5" x2="42.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="55.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="55.5" y1="37.5" x2="58.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <pattern id="grid-rail1-lockup-l" x="2" y="56" width="42" height="68" patternUnits="userSpaceOnUse">
+      <rect x="6" y="15.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="15.5" x2="16.5" y2="18.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="32.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="32.5" x2="16.5" y2="35.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="49.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="49.5" x2="16.5" y2="52.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="7" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="7" x2="37.5" y2="10" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="24" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="24" x2="37.5" y2="27" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="41" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="41" x2="37.5" y2="44" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="58" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="58" x2="37.5" y2="61" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <pattern id="grid-post2-lockup-l" x="170" y="0" width="64" height="42" patternUnits="userSpaceOnUse">
+      <rect x="15.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="15.5" y1="16.5" x2="18.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="31.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="31.5" y1="16.5" x2="34.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="47.5" y="6" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="47.5" y1="16.5" x2="50.5" y2="16.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="7.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="7.5" y1="37.5" x2="10.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="23.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="23.5" y1="37.5" x2="26.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="39.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="39.5" y1="37.5" x2="42.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="55.5" y="27" width="3" height="10" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="55.5" y1="37.5" x2="58.5" y2="37.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <pattern id="grid-rail2-lockup-l" x="18" y="182" width="42" height="64" patternUnits="userSpaceOnUse">
+      <rect x="6" y="14.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="14.5" x2="16.5" y2="17.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="30.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="30.5" x2="16.5" y2="33.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="46.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="46.5" x2="16.5" y2="49.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="6.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="6.5" x2="37.5" y2="9.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="22.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="22.5" x2="37.5" y2="25.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="38.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="38.5" x2="37.5" y2="41.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="54.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="54.5" x2="37.5" y2="57.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+
+    <pattern id="grid-rail3-lockup-l" x="18" y="304" width="42" height="56" patternUnits="userSpaceOnUse">
+      <rect x="6" y="12.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="12.5" x2="16.5" y2="15.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="26.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="26.5" x2="16.5" y2="29.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="6" y="40.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="16.5" y1="40.5" x2="16.5" y2="43.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="5.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="5.5" x2="37.5" y2="8.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="19.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="19.5" x2="37.5" y2="22.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="33.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="33.5" x2="37.5" y2="36.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+      <rect x="27" y="47.5" width="10" height="3" rx="0.8" fill="#1C0A02" opacity="0.9" />
+      <line x1="37.5" y1="47.5" x2="37.5" y2="50.5" stroke="#A37854" stroke-width="0.75" opacity="0.5" />
+    </pattern>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- HORIZONTAL MASTER BRAND LOCKUP (LIGHT THEME) -->
+  <!-- ======================================================== -->
+  <g id="Horizontal-Lockup-Light">
+
+    <!-- 1. INTEGRATED BRAND ICON -->
+    <g transform="translate(10, 9) scale(0.140625)">
+      <!-- Soil Base -->
+      <path d="M 57 412 L 305 412 C 309 412 313.05 414.5 313.05 420 C 313.05 425.5 309 428 305 428 L 57 428 Z" fill="url(#soilGradLockupLight)" />
+      <line x1="57" y1="412" x2="305" y2="412" stroke="#0B0E0C" stroke-width="2.0" />
+      <line x1="57" y1="428" x2="305" y2="428" stroke="#0B0E0C" stroke-width="2.0" />
+      <path d="M 305 412 L 309 412 C 311.5 412 313.05 414.5 313.05 420 C 313.05 425.5 311.5 428 309 428 L 305 428 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+
+      <!-- Big 'F' -->
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" stroke-linejoin="round" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="url(#emeraldGradLockupLight)" stroke-width="11.4" stroke-linejoin="round" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="url(#woodGradLockupLight)" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <rect x="66" y="56" width="60" height="354" fill="url(#grid-post1-lockup-l)" />
+      <rect x="130" y="56" width="298" height="62" fill="url(#grid-rail1-lockup-l)" />
+      <rect x="130" y="184" width="38" height="56" fill="url(#grid-rail2-lockup-l)" />
+      <path d="M 430 54 L 434 54 C 438 54 440 58 440 64 L 440 110 C 440 116 438 120 434 120 L 430 120 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 128 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <path d="M 128 182 L 170 182 L 170 242 L 128 242 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+
+      <!-- Small 'F' -->
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" stroke-linejoin="round" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="url(#goldTanGradLockupLight)" stroke-width="11.4" stroke-linejoin="round" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="url(#woodGradLockupLight)" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <rect x="172" y="184" width="60" height="226" fill="url(#grid-post2-lockup-l)" />
+      <rect x="236" y="184" width="146.35" height="56" fill="url(#grid-rail2-lockup-l)" />
+      <rect x="236" y="306" width="101" height="50" fill="url(#grid-rail3-lockup-l)" />
+      <path d="M 384.35 182 L 388.35 182 C 390.85 182 392.35 185 392.35 190 L 392.35 234 C 392.35 239 390.85 242 388.35 242 L 384.35 242 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 339 304 L 343 304 C 345.5 304 347 307 347 312 L 347 350 C 347 355 345.5 358 343 358 L 339 358 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 234 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <path d="M 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+
+      <!-- Post Caps -->
+      <g id="Post-Caps-Top-L">
+        <rect x="52" y="43" width="88" height="13" rx="3.5" fill="#16A34A" stroke="#0B0E0C" stroke-width="2.8" />
+        <path d="M 54 43 L 96 22 L 96 43 Z" fill="#34D399" stroke="#0B0E0C" stroke-width="2.2" />
+        <path d="M 96 22 L 138 43 L 96 43 Z" fill="#15803D" stroke="#0B0E0C" stroke-width="2.2" />
+        <rect x="158" y="171" width="88" height="13" rx="3.5" fill="#D97706" stroke="#0B0E0C" stroke-width="2.8" />
+        <path d="M 160 171 L 202 150 L 202 171 Z" fill="#FCD34D" stroke="#0B0E0C" stroke-width="2.2" />
+        <path d="M 202 150 L 244 171 L 202 171 Z" fill="#92400E" stroke="#0B0E0C" stroke-width="2.2" />
+      </g>
+    </g>
+
+    <!-- 2. TYPOGRAPHY: FENCE FRAMES (Rowdies 700) -->
+    <g transform="translate(90, 48)">
+      <text class="brand-text-fence-light" x="0" y="0">FENCE</text>
+      <text class="brand-text-frames-light" x="122" y="0">FRAMES</text>
+    </g>
+
+    <!-- 3. BRAND TAGLINE -->
+    <g transform="translate(92, 70)">
+      <text class="brand-tagline-light" x="0" y="0">FRAME YOUR VISION | FIND YOUR FENCE</text>
+    </g>
+
+  </g>
+</svg>

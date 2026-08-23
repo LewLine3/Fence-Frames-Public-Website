@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Master Brand Identity & Asset Suite (Phases 1, 2, 3)</title>
+  
+  <!-- Rowdies Font Canonical Standard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --gold-sun-glow: rgba(229, 184, 66, 0.25);
+      --emerald-bright: #2EA055;
+      --emerald-vivid: #22C55E;
+      --forest-bright: #4ADE80;
+      --golden-tan: #DEB35E;
+      --cedar-tan: #C4B294;
+      --douglas-fir: #D69E42;
+      --soil-brown: #6A481B;
+      --ink: #0B0E0C;
+      --ink-surface: #141B16;
+      --ink-border: #1E2B22;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ink);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(46, 160, 85, 0.45) 0%, rgba(11, 14, 12, 0.95) 75%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      color: #FFFFFF;
+      font-family: 'Rowdies', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    .badge-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink-surface);
+      border: 1.5px solid var(--emerald-bright);
+      padding: 6px 18px;
+      border-radius: 999px;
+      color: var(--forest-bright);
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      box-shadow: 0 0 24px rgba(46, 160, 85, 0.35);
+    }
+
+    .badge-phase .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--forest-bright);
+      box-shadow: 0 0 8px var(--forest-bright);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .brand-title {
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.8);
+      margin-bottom: 6px;
+    }
+
+    .brand-title span.gold {
+      color: var(--gold-sun);
+    }
+
+    .brand-tagline {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--forest-bright);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .brand-desc {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: var(--cedar-tan);
+      font-weight: 300;
+    }
+
+    /* Phase Navigation Hub Cards */
+    .phase-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .phase-card {
+      background: var(--ink-surface);
+      border: 2px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .phase-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--forest-bright);
+      box-shadow: 0 20px 48px rgba(46, 160, 85, 0.3);
+    }
+
+    .phase-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: inline-block;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .phase-tag.tag-p1 { background: rgba(46, 160, 85, 0.2); border: 1px solid var(--emerald-bright); color: var(--forest-bright); }
+    .phase-tag.tag-p2 { background: rgba(229, 184, 66, 0.2); border: 1px solid var(--gold-sun); color: var(--gold-sun); }
+    .phase-tag.tag-p3 { background: rgba(148, 163, 184, 0.2); border: 1px solid #94A3B8; color: #E2E8F0; }
+
+    .phase-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .phase-summary {
+      font-size: 0.88rem;
+      color: var(--cedar-tan);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .phase-preview-thumb {
+      height: 120px;
+      background: #0E120F;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--ink-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    .phase-preview-thumb img {
+      max-height: 100px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .btn-launch {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: all 0.2s ease;
+      display: block;
+    }
+
+    .btn-launch:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+      box-shadow: 0 0 16px rgba(46, 160, 85, 0.4);
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(222, 179, 94, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
+      border: 1.5px solid var(--forest-bright);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 0 30px rgba(46, 160, 85, 0.3);
+    }
+
+    .section-banner h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    /* Asset Downloads Table */
+    .assets-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--ink-surface);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--ink-border);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+
+    .assets-table th {
+      background: var(--ink);
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--ink-border);
+    }
+
+    .assets-table td {
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      color: #FFFFFF;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .assets-table tr:hover td {
+      background: rgba(46, 160, 85, 0.1);
+    }
+
+    .asset-link {
+      color: var(--gold-sun);
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .asset-link:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Master Header -->
+  <header class="brand-header">
+    <div class="badge-phase">
+      <span class="pulse-dot"></span>
+      Master Brand Identity &amp; Asset Command Center
+    </div>
+    <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
+    <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
+    <p class="brand-desc">
+      The authoritative, centralized brand design repository for <strong>Fence Frames</strong> across all three graduated phases: <strong>Phase 1 (Optical Brand Icon &amp; Favicons)</strong>, <strong>Phase 2 (Master Wordmarks &amp; Headers)</strong>, and <strong>Phase 3 (Sub-Product Badges &amp; Stamps)</strong>!
+    </p>
+  </header>
+
+  <!-- Section: Phase Launchpad -->
+  <div class="section-banner">
+    <h2>🚀 Brand Suites Launchpad</h2>
+    <span>Click any module to inspect interactive mockups and live testbenches</span>
+  </div>
+
+  <section class="phase-hub-grid">
+    
+    <!-- PHASE 1 CARD -->
+    <article class="phase-card">
+      <span class="phase-tag tag-p1">Phase 1 • Complete</span>
+      <h3 class="phase-title">Brand Icon &amp; Favicon Suite</h3>
+      <p class="phase-summary">
+        Optical Sizing system pairing <strong>Canon Master 1CY</strong> (Display scale ≥64px) with <strong>High-Vis Radiant 1EA</strong> (&lt;64px micro-favicons) and high-resolution 4K/8K raster PNGs.
+      </p>
+      <div class="phase-preview-thumb">
+        <img src="../winners/brand-icon-master-canon.svg" alt="Phase 1 Icon">
+      </div>
+      <a href="../drafts/favicon-showcase.html" class="btn-launch">Launch Phase 1 Lab ➔</a>
+    </article>
+
+    <!-- PHASE 2 CARD -->
+    <article class="phase-card">
+      <span class="phase-tag tag-p2">Phase 2 • Complete</span>
+      <h3 class="phase-title">Master Brand Wordmarks</h3>
+      <p class="phase-summary">
+        Rowdies Bold 700 typography lockups across Horizontal, Stacked, and Compact navbar configurations for both Dark Theme and Light Theme environments.
+      </p>
+      <div class="phase-preview-thumb">
+        <img src="../winners/fence-frames-logo-horizontal-dark.svg" alt="Phase 2 Wordmark">
+      </div>
+      <a href="../drafts/brand-wordmarks-showcase.html" class="btn-launch" style="background:var(--gold-sun); color:var(--ink);">Launch Phase 2 Lab ➔</a>
+    </article>
+
+    <!-- PHASE 3 CARD -->
+    <article class="phase-card">
+      <span class="phase-tag tag-p3">Phase 3 • Complete</span>
+      <h3 class="phase-title">Sub-Product Badges &amp; Stamps</h3>
+      <p class="phase-summary">
+        Official trust seals: <strong>Verified Pro Contractor Seal</strong>, <strong>HOA Pre-Approved Compliance Stamp</strong>, and the <strong>Fence-Folio Dossier Crest</strong>.
+      </p>
+      <div class="phase-preview-thumb">
+        <img src="../winners/badge-verified-pro.svg" style="max-height:80px;" alt="Phase 3 Badge">
+        <img src="../winners/badge-hoa-compliance.svg" style="max-height:80px;" alt="Phase 3 Badge 2">
+      </div>
+      <a href="../drafts/subproduct-badges-showcase.html" class="btn-launch" style="background:#1B7A45; color:#FFFFFF;">Launch Phase 3 Lab ➔</a>
+    </article>
+
+  </section>
+
+  <!-- Section: Master Asset Registry -->
+  <div class="section-banner">
+    <h2>📦 Master Asset Registry &amp; Download Directory</h2>
+    <span>Direct production files stored in <code>public/images/ui/winners/</code></span>
+  </div>
+
+  <table class="assets-table">
+    <thead>
+      <tr>
+        <th>Asset Type</th>
+        <th>File Path</th>
+        <th>Primary Use &amp; Application</th>
+        <th>Direct Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Master Brandmark SVG</strong></td>
+        <td><code>public/images/ui/winners/brand-icon-master-canon.svg</code></td>
+        <td>The definitive vector brandmark master (1CY)</td>
+        <td><a href="brand-icon-master-canon.svg" target="_blank" class="asset-link">Open Vector SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Raw Flat Vector (CNC/Print)</strong></td>
+        <td><code>public/images/ui/winners/brand-icon-vector-raw.svg</code></td>
+        <td>Zero filter overhead for Illustrator/Figma/Laser/CNC</td>
+        <td><a href="brand-icon-vector-raw.svg" target="_blank" class="asset-link">Open Raw SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Horizontal Logo (Dark)</strong></td>
+        <td><code>public/images/ui/winners/fence-frames-logo-horizontal-dark.svg</code></td>
+        <td>Primary website header &amp; navigation bar</td>
+        <td><a href="fence-frames-logo-horizontal-dark.svg" target="_blank" class="asset-link">Open Logo SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Horizontal Logo (Light)</strong></td>
+        <td><code>public/images/ui/winners/fence-frames-logo-horizontal-light.svg</code></td>
+        <td>White submittals, PDF headers, light website header</td>
+        <td><a href="fence-frames-logo-horizontal-light.svg" target="_blank" class="asset-link">Open Logo SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Stacked Hero Logo</strong></td>
+        <td><code>public/images/ui/winners/fence-frames-logo-stacked-dark.svg</code></td>
+        <td>App splash screen, loading overlay, video bumper</td>
+        <td><a href="fence-frames-logo-stacked-dark.svg" target="_blank" class="asset-link">Open Stacked SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Verified Pro Badge</strong></td>
+        <td><code>public/images/ui/winners/badge-verified-pro.svg</code></td>
+        <td>Contractor lead cards, bid trust seal, receipts</td>
+        <td><a href="badge-verified-pro.svg" target="_blank" class="asset-link">Open Badge SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>HOA Compliance Stamp</strong></td>
+        <td><code>public/images/ui/winners/badge-hoa-compliance.svg</code></td>
+        <td>ARC blueprint submittal sheets, HOA community portals</td>
+        <td><a href="badge-hoa-compliance.svg" target="_blank" class="asset-link">Open Stamp SVG ↗</a></td>
+      </tr>
+      <tr>
+        <td><strong>Fence-Folio Crest</strong></td>
+        <td><code>public/images/ui/winners/badge-fence-folio.svg</code></td>
+        <td>Homeowner blueprint dossier &amp; material takeoff packet</td>
+        <td><a href="badge-fence-folio.svg" target="_blank" class="asset-link">Open Crest SVG ↗</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>
