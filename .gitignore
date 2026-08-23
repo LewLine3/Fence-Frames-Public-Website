@@ -25,3 +25,14 @@ _antigravity/
 
 # Local design preview screenshots (never ship)
 _preview*.png
+
+# Node dependencies & Next.js build
+node_modules/
+.next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
