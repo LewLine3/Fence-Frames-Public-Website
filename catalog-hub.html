@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — 12+ Architectural Style Catalog (CAT-01)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --gold-sun: #E5B842; --ember: #F27A22; --forest-bright: #4ADE80; --ink: #141B16; }
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #F4F1EA; color: #141B16; }
+    .page-canvas-ground {
+      background-color: #F4F1EA;
+      background-image:
+        linear-gradient(rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.04) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      background-attachment: fixed;
+    }
+    .box-tan-grid {
+      background-color: #FAF6EE !important;
+      background-image:
+        linear-gradient(rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.09) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      border: 2.5px solid #141B16; box-shadow: 6px 6px 0px 0px #141B16; position: relative;
+    }
+    .box-dark-grid {
+      background-color: #121A15 !important;
+      background-image:
+        linear-gradient(rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      color: #FAF6EE !important; border: 2.5px solid #141B16; box-shadow: 6px 6px 0px 0px #141B16; position: relative;
+    }
+    .box-wood-grain {
+      background-color: #8C5832 !important;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      color: #FAF6EE !important; border: 2.5px solid #141B16; box-shadow: 6px 6px 0px 0px #141B16; position: relative;
+    }
+    .solid-title-bar { background-color: #141B16 !important; color: #FAF6EE !important; border-bottom: 2px solid #141B16; }
+    .has-outside-corners { position: relative; }
+    .corner-mark-50 { position: absolute; pointer-events: none; border-color: #4ADE80; }
+    .c-top-left { top: -3px; left: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
+    .c-top-right { top: -3px; right: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
+    .c-bottom-left { bottom: -3px; left: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
+    .c-bottom-right { bottom: -3px; right: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
+  </style>
+</head>
+<body class="page-canvas-ground min-h-screen flex flex-col justify-between">
+  <!-- NAV -->
+  <header class="bg-[#141B16] border-b-2 border-[#E5B842] py-2.5 px-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="font-bold text-sm text-[#E5B842] flex items-center gap-1"><span>🌲</span><span>FENCE FRAMES</span></a>
+        <span class="text-white/20">|</span>
+        <span class="text-xs font-bold text-[#F27A22] uppercase">ARCHITECTURAL CATALOG (12+ STYLES)</span>
+      </div>
+      <a href="/designer" class="bg-[#E5B842] text-[#141B16] text-xs font-bold uppercase px-3 py-1 rounded border border-[#141B16]">Launch Configurator</a>
+    </div>
+  </header>
+
+  <!-- HERO & FILTER CHIPS -->
+  <main class="max-w-6xl mx-auto w-full p-4 sm:p-6 flex flex-col gap-6">
+    <div class="box-tan-grid has-outside-corners rounded-lg p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>
+      <div>
+        <h1 class="text-2xl font-bold text-[#141B16]">Explore 12+ Pre-Engineered Fence Styles</h1>
+        <p class="text-xs text-[#141B16]/80 font-light mt-1">Every style includes real 2D CAD elevations, HOA pre-approval status, and live 8-metric BOM breakdowns.</p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <button class="bg-[#141B16] text-[#E5B842] text-xs font-bold px-3 py-1.5 rounded border border-[#141B16]">All Styles (12)</button>
+        <button class="bg-white text-[#141B16] text-xs font-bold px-3 py-1.5 rounded border-2 border-[#141B16]">Vertical Board (5)</button>
+        <button class="bg-white text-[#141B16] text-xs font-bold px-3 py-1.5 rounded border-2 border-[#141B16]">Modern Horizontal (3)</button>
+        <button class="bg-white text-[#141B16] text-xs font-bold px-3 py-1.5 rounded border-2 border-[#141B16]">Hybrid / Metal (4)</button>
+      </div>
+    </div>
+
+    <!-- 3-CARD GALLERY GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- CARD 1: HERITAGE 3-RAIL -->
+      <article class="box-dark-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
+        <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>
+        <div class="solid-title-bar px-3.5 py-2 flex justify-between items-center">
+          <span class="text-xs font-bold text-[#E5B842]">[STYLE 01 · VERTICAL]</span>
+          <span class="text-[9px] bg-[#4ADE80] text-[#141B16] font-bold px-1.5 py-0.5 rounded">SI VIEW PRE-APPROVED</span>
+        </div>
+        <div class="p-4 flex flex-col gap-3 flex-1 justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Heritage 3-Rail Board-on-Board</h3>
+            <p class="text-xs text-white/80 font-light mt-1 leading-snug">The Pacific Northwest staple with 3 full 2x4 framing rails and overlapping privacy pickets.</p>
+          </div>
+          <div class="bg-[#0A100C] p-2.5 rounded border border-white/15 flex justify-between items-center text-xs">
+            <span class="text-white/60">Estimate:</span><strong class="text-[#4ADE80] font-bold">$49.50 – $56.88 / LF</strong>
+          </div>
+          <div class="flex gap-2">
+            <a href="/catalog-detail.html" class="flex-1 bg-[#18221B] hover:bg-[#243328] text-white text-center py-2 rounded text-xs font-bold border border-white/20">View Spec Sheet</a>
+            <a href="/designer" class="bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] text-center px-3 py-2 rounded text-xs font-bold">Configure →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2: MODERN HORIZONTAL SLAT -->
+      <article class="box-tan-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
+        <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>
+        <div class="solid-title-bar px-3.5 py-2 flex justify-between items-center">
+          <span class="text-xs font-bold text-[#F27A22]">[STYLE 02 · HORIZONTAL]</span>
+          <span class="text-[9px] bg-[#3B82F6] text-white font-bold px-1.5 py-0.5 rounded">MODERN PRESET</span>
+        </div>
+        <div class="p-4 flex flex-col gap-3 flex-1 justify-between">
+          <div>
+            <h3 class="text-base font-bold text-[#141B16]">Modern Horizontal Cedar Slat</h3>
+            <p class="text-xs text-[#141B16]/80 font-light mt-1 leading-snug">Clean architectural sightlines with 1x6 tight knot cedar siding and 1/2" reveal spacing.</p>
+          </div>
+          <div class="bg-white p-2.5 rounded border-2 border-[#141B16] flex justify-between items-center text-xs shadow-sm">
+            <span class="text-[#141B16]/60">Estimate:</span><strong class="text-[#16A34A] font-bold">$50.00 – $60.00 / LF</strong>
+          </div>
+          <div class="flex gap-2">
+            <a href="/catalog-detail.html" class="flex-1 bg-white hover:bg-gray-100 text-[#141B16] text-center py-2 rounded text-xs font-bold border-2 border-[#141B16]">View Spec Sheet</a>
+            <a href="/designer" class="bg-[#F27A22] text-white text-center px-3 py-2 rounded text-xs font-bold">Configure →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3: CLEARVIEW TIMBER & STEEL -->
+      <article class="box-wood-grain has-outside-corners rounded-lg overflow-hidden flex flex-col">
+        <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>
+        <div class="solid-title-bar px-3.5 py-2 flex justify-between items-center">
+          <span class="text-xs font-bold text-[#4ADE80]">[STYLE 03 · HYBRID]</span>
+          <span class="text-[9px] bg-[#E5B842] text-[#141B16] font-bold px-1.5 py-0.5 rounded">VIEW PRESERVING</span>
+        </div>
+        <div class="p-4 flex flex-col gap-3 flex-1 justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Clearview Timber &amp; Black Steel</h3>
+            <p class="text-xs text-white/90 font-light mt-1 leading-snug">Sturdy 4x4 cedar framework with powder-coated welded wire mesh for maximum mountain vistas.</p>
+          </div>
+          <div class="bg-[#141B16] p-2.5 rounded border border-white/20 flex justify-between items-center text-xs">
+            <span class="text-white/60">Estimate:</span><strong class="text-[#E5B842] font-bold">$42.00 – $48.50 / LF</strong>
+          </div>
+          <div class="flex gap-2">
+            <a href="/catalog-detail.html" class="flex-1 bg-[#141B16] hover:bg-[#223026] text-white text-center py-2 rounded text-xs font-bold border border-white/20">View Spec Sheet</a>
+            <a href="/designer" class="bg-[#4ADE80] text-[#141B16] text-center px-3 py-2 rounded text-xs font-bold">Configure →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+  <footer class="text-center py-4 text-xs text-[#141B16]/60 border-t-2 border-[#141B16]/20">Fence Frames Catalog Engine · Frame Your Vision | Find Your Fence</footer>
+</body>
+</html>

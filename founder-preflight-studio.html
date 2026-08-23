@@ -311,9 +311,9 @@
         purpose: 'The central front door for Fence Frames. Converts visitors into active design sessions via 3 clear pathways (Code/HOA Matcher, Design Catalog, Instant Configurator).',
         links: [
           { label: 'Start Designing', route: '/designer', trigger: 'Hero Primary CTA' },
-          { label: 'Si View HOA Hub', route: '/wa/king-county/north-bend/si-view', trigger: 'Featured HOA Card' },
-          { label: 'Browse 12+ Styles', route: '/catalog', trigger: 'Frame It Catalog section' },
-          { label: 'Contractor Portal', route: '/contractors', trigger: 'Nav & Footer links' }
+          { label: 'Si View HOA Hub', route: '/geo-si-view.html', trigger: 'Featured HOA Card' },
+          { label: 'Browse 12+ Styles', route: '/catalog-hub.html', trigger: 'Frame It Catalog section' },
+          { label: 'Contractor Portal', route: '/contractors-hub.html', trigger: 'Nav & Footer links' }
         ],
         controls: [
           { name: 'ZIP Code & HOA Search Input', type: 'Text Input + Matcher', purpose: 'Matches user to city/HOA pre-approved fence codes.' },
@@ -327,6 +327,28 @@
         ]
       },
       {
+        id: 'CORE-02',
+        title: 'Auth Gate & Zero-Data-Loss Preservation',
+        srcUrl: '/auth-gate.html',
+        displayRoute: '/log-in',
+        pillar: 'Auth & Draft Preservation (Sun Gold)',
+        pillarColor: '#E5B842',
+        purpose: 'Frictionless SMS OTP phone number gate. Hydrates active guest design parameters into verified homeowner account with zero data loss.',
+        links: [
+          { label: 'Homeowner Dashboard', route: '/homeowner-dashboard.html', trigger: 'Verify SMS Code CTA' },
+          { label: 'Back to Designer', route: '/designer', trigger: 'Back to Draft' }
+        ],
+        controls: [
+          { name: 'Mobile Phone Input', type: 'Phone Field', purpose: 'Captures US mobile number for Telnyx SMS OTP.' },
+          { name: '6-Digit SMS Verification Cells', type: 'Digit Matrix', purpose: 'Auto-advancing 6-digit OTP verification inputs.' },
+          { name: 'Draft Summary Box', type: 'Deep Forest Card', purpose: 'Shows live linear footage, BOM, and estimated quote to assure user.' }
+        ],
+        notes: [
+          'Preserves full sessionStorage draft payload before auth.',
+          'No passwords or email verification links required.'
+        ]
+      },
+      {
         id: 'DSGN-03',
         title: 'The Universal 2D Designer Configurator',
         srcUrl: '/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html',
@@ -335,9 +357,9 @@
         pillarColor: '#F27A22',
         purpose: 'The universal parametric CAD engine. Renders dual Front & Back elevations in real time with 8 pricing metrics, dynamic style switching, and live BOM calculation.',
         links: [
-          { label: 'Portrait ARC Blueprint', route: '/blueprint', trigger: 'Save Fence-Folio & Get Blueprint CTA' },
-          { label: 'Auth Gate', route: '/log-in', trigger: 'Guest draft preservation bridge' },
-          { label: 'Contractor Targeted Match', route: '/contractors/match', trigger: 'Match 3 Local Builders CTA' }
+          { label: 'Portrait ARC Blueprint', route: '/blueprint-standalone.html', trigger: 'Save Fence-Folio & Get Blueprint CTA' },
+          { label: 'Auth Gate', route: '/auth-gate.html', trigger: 'Guest draft preservation bridge' },
+          { label: 'Contractor Targeted Match', route: '/contractor-match.html', trigger: 'Match 3 Local Builders CTA' }
         ],
         controls: [
           { name: 'Linear Footage Slider (10-400 LF)', type: 'Range Slider', purpose: 'Recalculates all 8 pricing metrics in real time.' },
@@ -362,8 +384,8 @@
         purpose: 'The official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
         links: [
           { label: 'Back to Designer', route: '/designer', trigger: 'Edit Design Parameters button' },
-          { label: 'Homeowner Dashboard', route: '/homeowner', trigger: 'Save to My Account CTA' },
-          { label: 'Contractor Scramble', route: '/contractors/match', trigger: 'Request 3 Bids with this Blueprint' }
+          { label: 'Homeowner Dashboard', route: '/homeowner-dashboard.html', trigger: 'Save to My Account CTA' },
+          { label: 'Contractor Scramble', route: '/contractor-match.html', trigger: 'Request 3 Bids with this Blueprint' }
         ],
         controls: [
           { name: 'Print Blueprint Button', type: 'Dedicated Print CTA', purpose: 'Triggers browser window.print() formatted for portrait 8.5x11 PDF.' },
@@ -385,8 +407,8 @@
         purpose: 'The authenticated homeowner command center. Houses saved Fence-Folios, tracks Si View ARC approval status, and monitors real-time contractor bids.',
         links: [
           { label: 'Start New Build', route: '/designer', trigger: 'Header Primary CTA' },
-          { label: 'View 8.5x11 Blueprint', route: '/blueprint', trigger: 'Project Card View Blueprint' },
-          { label: 'Marketplace Bids', route: '/contractors/match', trigger: 'Review Bids & Claim Seat' }
+          { label: 'View 8.5x11 Blueprint', route: '/blueprint-standalone.html', trigger: 'Project Card View Blueprint' },
+          { label: 'Marketplace Bids', route: '/contractor-match.html', trigger: 'Review Bids & Claim Seat' }
         ],
         controls: [
           { name: 'Saved Builds Gallery', type: 'Tactile Card List', purpose: 'Displays saved configurations with 50% corner marks and live pricing.' },
@@ -400,21 +422,131 @@
         ]
       },
       {
-        id: 'DSGN-SYS',
-        title: 'Design System & Graduated Cards Guide',
-        srcUrl: '/design-system-guide.html',
-        displayRoute: '/design-system-guide',
-        pillar: 'Core Design Law',
-        pillarColor: '#E5B842',
-        purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
+        id: 'FOLIO-01',
+        title: 'Fence-Folio 6-Chapter Printable Dossier',
+        srcUrl: '/homeowner-folio-dossier.html',
+        displayRoute: '/homeowner/folio/FF-98045-8912',
+        pillar: 'Fence-Folio Dossier (Forest Green)',
+        pillarColor: '#4ADE80',
+        purpose: 'Comprehensive 6-chapter architectural dossier (Cover, HOA Compliance, BOM Takeoff, 2D CAD Elevation, Hardware Add-ons, Pricing Ledger).',
         links: [
-          { label: 'Interactive Canvas', route: '/interactive-canvas.html', trigger: 'System Architecture Link' }
+          { label: 'Back to Dashboard', route: '/homeowner-dashboard.html', trigger: 'Header Nav Link' }
         ],
         controls: [
-          { name: 'Theme Preview Cards', type: 'UI Showcase', purpose: 'Demonstrates Wood Grain, Docked Explainer Plates, Dark Control Plates.' }
+          { name: 'Print Full PDF Button', type: 'Print CTA', purpose: 'Formatted with print page-breaks for each chapter.' }
         ],
         notes: [
-          'Canonical design rules source for all frontend interfaces.'
+          'The definitive submittal and bid ledger document.'
+        ]
+      },
+      {
+        id: 'CAT-01',
+        title: '12+ Style Architectural Catalog Hub',
+        srcUrl: '/catalog-hub.html',
+        displayRoute: '/catalog',
+        pillar: 'Frame It Catalog (Ember Orange)',
+        pillarColor: '#F27A22',
+        purpose: 'Architectural directory of 12+ pre-engineered fence styles organized by 3 pillars with filter chips, LF estimates, and 1-click launch into Designer.',
+        links: [
+          { label: 'Style Detail Spec', route: '/catalog-detail.html', trigger: 'View Spec Sheet CTA' },
+          { label: 'Instant Configurator', route: '/designer', trigger: 'Configure Button' }
+        ],
+        controls: [
+          { name: 'Category Filter Chips', type: 'Filter Bar', purpose: 'Filters Vertical Board, Modern Horizontal, and Hybrid Metal styles.' }
+        ],
+        notes: [
+          'Every card features internal CAD grid and live LF pricing benchmarks.'
+        ]
+      },
+      {
+        id: 'CAT-02',
+        title: 'Heritage 3-Rail Style Deep-Dive Spec Sheet',
+        srcUrl: '/catalog-detail.html',
+        displayRoute: '/catalog/heritage-3-rail',
+        pillar: 'Frame It (Ember Orange)',
+        pillarColor: '#F27A22',
+        purpose: 'Deep architectural spec sheet with 3 pre-configured sub-assemblies (Economy 4ft, Standard 6ft, Premium 6ft with Cap) and Mount Si 90mph windload rating.',
+        links: [
+          { label: 'Load in Designer', route: '/designer', trigger: 'Preset Select CTAs' }
+        ],
+        controls: [
+          { name: 'Preset Assembly Cards', type: '3-Card Grid', purpose: 'Loads 4ft, 6ft standard, or 6ft premium directly into configurator.' }
+        ],
+        notes: [
+          'Includes wind load ratings and timber species specifications.'
+        ]
+      },
+      {
+        id: 'GEO-CITY-01',
+        title: 'City of North Bend Municipal Codes & Permits',
+        srcUrl: '/geo-north-bend.html',
+        displayRoute: '/wa/king-county/north-bend',
+        pillar: 'Find It Codes (Sun Gold)',
+        pillarColor: '#E5B842',
+        purpose: 'City-specific building regulations: 6ft rear / 4ft front height limits, Mount Si 90mph windload, 24" frost depth, and permit exemptions.',
+        links: [
+          { label: 'Si View HOA Hub', route: '/geo-si-view.html', trigger: 'Community Link' },
+          { label: 'Contractor Scramble', route: '/contractors-hub.html', trigger: 'Request Bids CTA' }
+        ],
+        controls: [
+          { name: 'Municipal Code Matrix', type: '3-Column Grid', purpose: 'Summarizes height, engineering, and verified contractors.' }
+        ],
+        notes: [
+          'Targeted for 98045 ZIP code searches.'
+        ]
+      },
+      {
+        id: 'GEO-COM-01',
+        title: 'Si View HOA Community Hub & Pre-Approved ARC',
+        srcUrl: '/geo-si-view.html',
+        displayRoute: '/wa/king-county/north-bend/si-view',
+        pillar: 'Find It HOA (Sun Gold)',
+        pillarColor: '#E5B842',
+        purpose: 'Si View HOA Section 4.2 approved designs (Designs 01–04), ARC submittal packet download, color & stain restrictions, and fast-track approval.',
+        links: [
+          { label: 'Load Design in Configurator', route: '/designer', trigger: 'Select Design 01-04' }
+        ],
+        controls: [
+          { name: '4-Design Selection Grid', type: 'Card Matrix', purpose: 'Loads Design 01 to 04 with pre-approved parameters.' }
+        ],
+        notes: [
+          'Guarantees zero ARC committee delays when using authored specs.'
+        ]
+      },
+      {
+        id: 'PRO-01',
+        title: 'Contractor Marketplace & 72-Hr Job Feed',
+        srcUrl: '/contractors-hub.html',
+        displayRoute: '/contractors',
+        pillar: 'Pro Marketplace (Forest Green)',
+        pillarColor: '#4ADE80',
+        purpose: 'Pro marketplace front door and 72-hour live job board feed. Restricts territories to 3 verified contractors per city.',
+        links: [
+          { label: 'Live 3-Seat Scramble', route: '/contractor-match.html', trigger: 'Claim Final Seat CTA' }
+        ],
+        controls: [
+          { name: 'Job Feed List', type: 'Live Feed Cards', purpose: 'Displays active job dispatches with countdown timers.' }
+        ],
+        notes: [
+          'Anti-Angi architecture: capped at 3 seats per territory.'
+        ]
+      },
+      {
+        id: 'PRO-05',
+        title: 'Targeted Match & 3-Seat SMS Scramble',
+        srcUrl: '/contractor-match.html',
+        displayRoute: '/contractor/match',
+        pillar: 'Contractor Scramble (Ember Orange)',
+        pillarColor: '#F27A22',
+        purpose: 'Live 3-Seat contractor scramble simulation. Dispatches SMS alerts to 3 verified local pros, displays incoming bids in real time with countdown timer and $/LF rates.',
+        links: [
+          { label: 'Homeowner Dashboard', route: '/homeowner-dashboard.html', trigger: 'Accept Bid CTA' }
+        ],
+        controls: [
+          { name: '3-Seat Comparison Cards', type: 'Live Bid Plate', purpose: 'Compares price, start date, and contractor license.' }
+        ],
+        notes: [
+          'Dispatches via Telnyx SMS webhooks.'
         ]
       },
       {
@@ -439,6 +571,24 @@
           'All boxes strictly implement 100px major snap lines and 25px minor subdivision lines.',
           'Solid opaque fills prevent background bleed-through.',
           'Framed with 50% outside corner markers and solid black title bars.'
+        ]
+      },
+      {
+        id: 'DSGN-SYS',
+        title: 'Design System & Graduated Cards Guide',
+        srcUrl: '/design-system-guide.html',
+        displayRoute: '/design-system-guide',
+        pillar: 'Core Design Law',
+        pillarColor: '#E5B842',
+        purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
+        links: [
+          { label: 'Interactive Canvas', route: '/interactive-canvas.html', trigger: 'System Architecture Link' }
+        ],
+        controls: [
+          { name: 'Theme Preview Cards', type: 'UI Showcase', purpose: 'Demonstrates Wood Grain, Docked Explainer Plates, Dark Control Plates.' }
+        ],
+        notes: [
+          'Canonical design rules source for all frontend interfaces.'
         ]
       },
       {

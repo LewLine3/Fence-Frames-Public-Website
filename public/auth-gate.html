@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Auth Gate & Guest Draft Preservation (CORE-02)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --ink: #141B16;
+    }
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #F4F1EA; color: #141B16; }
+
+    .page-canvas-ground {
+      background-color: #F4F1EA;
+      background-image:
+        linear-gradient(rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.04) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      background-attachment: fixed;
+    }
+
+    .box-tan-grid {
+      background-color: #FAF6EE !important;
+      background-image:
+        linear-gradient(rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.28) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(20, 60, 35, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 60, 35, 0.09) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      border: 2.5px solid #141B16;
+      box-shadow: 6px 6px 0px 0px #141B16;
+      position: relative;
+    }
+
+    .box-dark-grid {
+      background-color: #121A15 !important;
+      background-image:
+        linear-gradient(rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+      color: #FAF6EE !important;
+      border: 2.5px solid #141B16;
+      box-shadow: 6px 6px 0px 0px #141B16;
+      position: relative;
+    }
+
+    .solid-title-bar { background-color: #141B16 !important; color: #FAF6EE !important; border-bottom: 2px solid #141B16; }
+
+    .has-outside-corners { position: relative; }
+    .corner-mark-50 { position: absolute; pointer-events: none; border-color: #4ADE80; }
+    .c-top-left { top: -3px; left: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
+    .c-top-right { top: -3px; right: -3px; width: 24px; height: 24px; border-top: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
+    .c-bottom-left { bottom: -3px; left: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-left: 3.5px solid #4ADE80; }
+    .c-bottom-right { bottom: -3px; right: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
+
+    .corner-gold .c-top-left { border-top-color: #E5B842 !important; border-left-color: #E5B842 !important; }
+    .corner-gold .c-top-right { border-top-color: #E5B842 !important; border-right-color: #E5B842 !important; }
+    .corner-gold .c-bottom-left { border-bottom-color: #E5B842 !important; border-left-color: #E5B842 !important; }
+    .corner-gold .c-bottom-right { border-bottom-color: #E5B842 !important; border-right-color: #E5B842 !important; }
+  </style>
+</head>
+<body class="page-canvas-ground min-h-screen flex flex-col justify-between p-4 sm:p-8">
+
+  <!-- HEADER -->
+  <header class="max-w-4xl mx-auto w-full flex items-center justify-between pb-6 border-b-2 border-[#141B16]/20">
+    <a href="/" class="font-bold text-base text-[#141B16] flex items-center gap-2 hover:opacity-80">
+      <span>🌲</span>
+      <span class="text-[#E5B842] bg-[#141B16] px-2 py-0.5 rounded">FENCE FRAMES</span>
+    </a>
+    <span class="text-xs text-[#141B16]/70 font-mono font-bold bg-white px-2.5 py-1 rounded border border-[#141B16]/30 shadow-sm">
+      🔒 ZERO-DATA-LOSS AUTH GATE
+    </span>
+  </header>
+
+  <!-- MAIN AUTH CONTAINER -->
+  <main class="max-w-4xl mx-auto w-full my-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+
+    <!-- LEFT: GUEST DRAFT PRESERVATION PREVIEW (BOX STYLE B: DEEP FOREST SLATE) -->
+    <div class="md:col-span-6 box-dark-grid has-outside-corners rounded-lg overflow-hidden flex flex-col">
+      <div class="corner-mark-50 c-top-left"></div>
+      <div class="corner-mark-50 c-top-right"></div>
+      <div class="corner-mark-50 c-bottom-left"></div>
+      <div class="corner-mark-50 c-bottom-right"></div>
+
+      <div class="solid-title-bar px-4 py-2.5 flex items-center justify-between">
+        <span class="text-xs font-bold text-[#E5B842] uppercase">[YOUR ACTIVE DRAFT]</span>
+        <span class="text-[10px] bg-[#4ADE80] text-[#141B16] font-bold px-2 py-0.5 rounded">READY TO HYDRATE</span>
+      </div>
+
+      <div class="p-5 flex flex-col gap-3">
+        <h2 class="text-base font-bold text-white">Backyard Perimeter — Heritage 3-Rail</h2>
+        <p class="text-xs text-white/80 font-light leading-relaxed">
+          Your active custom build parameters will be automatically saved to your verified account without losing your measurements or BOM calculations.
+        </p>
+
+        <div class="bg-[#080D0A] p-3 rounded border border-white/15 space-y-1.5 text-xs text-white/90 font-light">
+          <div class="flex justify-between"><span>Linear Footage:</span><strong class="text-white">120 LF</strong></div>
+          <div class="flex justify-between"><span>Style &amp; Height:</span><strong class="text-white">Board-on-Board (6ft)</strong></div>
+          <div class="flex justify-between"><span>Estimated Quote:</span><strong class="text-[#4ADE80] font-bold">$5,940 – $6,825</strong></div>
+          <div class="flex justify-between"><span>ARC Compliance:</span><strong class="text-[#E5B842]">✓ Si View Pre-Approved</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: SMS PHONE OTP LOGIN BOX (BOX STYLE A: TAN WITH DARK GREEN GRID) -->
+    <div class="md:col-span-6 box-tan-grid has-outside-corners corner-gold rounded-lg overflow-hidden flex flex-col">
+      <div class="corner-mark-50 c-top-left"></div>
+      <div class="corner-mark-50 c-top-right"></div>
+      <div class="corner-mark-50 c-bottom-left"></div>
+      <div class="corner-mark-50 c-bottom-right"></div>
+
+      <div class="solid-title-bar px-4 py-2.5 flex items-center justify-between">
+        <span class="text-xs font-bold text-[#E5B842] uppercase">[ONE-CLICK SIGN IN]</span>
+        <span class="text-[10px] text-white/70 font-mono">STEP 1 OF 2</span>
+      </div>
+
+      <div class="p-6 flex flex-col gap-4">
+        <div>
+          <h3 class="text-lg font-bold text-[#141B16]">Sign In or Create Account</h3>
+          <p class="text-xs text-[#141B16]/80 font-light mt-0.5">
+            Enter your mobile number. We'll send an instant 6-digit verification code. No password needed.
+          </p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); document.getElementById('otpStep').classList.remove('hidden');" class="flex flex-col gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="text-xs font-bold uppercase text-[#141B16]">Mobile Phone Number</label>
+            <div class="flex gap-2">
+              <span class="bg-[#141B16] text-[#FAF6EE] text-xs font-bold px-3 py-2.5 rounded border-2 border-[#141B16] flex items-center">🇺🇸 +1</span>
+              <input
+                type="tel"
+                placeholder="(425) 555-0199"
+                required
+                class="flex-1 bg-white border-2 border-[#141B16] text-[#141B16] px-3 py-2 text-xs font-bold rounded focus:outline-none focus:border-[#E5B842] shadow-inner"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-[#E5B842] hover:bg-[#d4a732] text-[#141B16] font-bold text-xs uppercase py-3 rounded border-2 border-[#141B16] shadow-[3px_3px_0_#141B16] active:translate-x-0.5 active:translate-y-0.5 transition"
+          >
+            Send 6-Digit Code →
+          </button>
+        </form>
+
+        <!-- OTP STEP -->
+        <div id="otpStep" class="hidden flex flex-col gap-3 pt-3 border-t-2 border-[#141B16]/20">
+          <label class="text-xs font-bold uppercase text-[#141B16]">Enter 6-Digit SMS Code</label>
+          <div class="flex gap-2 justify-between">
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="8" />
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="4" />
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="1" />
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="2" />
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="9" />
+            <input type="text" maxlength="1" class="w-10 h-11 text-center font-bold text-base bg-white border-2 border-[#141B16] rounded shadow-inner" value="0" />
+          </div>
+          <a
+            href="/homeowner-dashboard.html"
+            class="w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] text-center font-bold text-xs uppercase py-3 rounded border-2 border-[#141B16] shadow-[3px_3px_0_#141B16] transition block"
+          >
+            ✓ Verify &amp; Save to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="max-w-4xl mx-auto w-full text-center text-xs text-[#141B16]/60 font-light pt-6 border-t-2 border-[#141B16]/20">
+    <span>Fence Frames Platform · Frame Your Vision | Find Your Fence · Authored by Two Lew Builders LLC</span>
+  </footer>
+
+</body>
+</html>
