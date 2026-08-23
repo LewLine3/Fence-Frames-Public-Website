@@ -17,7 +17,7 @@ export function SiteFooter() {
         <div
           className="has-outside-corners"
           style={{
-            backgroundImage: "url('/images/card-trials/Wood-wet-card-background.jpg')",
+            backgroundImage: "url('/images/card-trials/pexels-jplenio-3026804.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             border: "2.5px solid var(--ink)",
@@ -40,7 +40,7 @@ export function SiteFooter() {
           <div style={{ flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "1.5rem" }}>
             <div style={{ background: "#141B16", padding: "1.8rem 2rem", boxShadow: "0 8px 24px rgba(0,0,0,0.5)", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <div style={{ ...rowdies(700), fontSize: "0.75rem", color: "var(--ink)", background: "var(--gold-sun)", padding: "0.2rem 0.6rem", borderRadius: 3, marginBottom: "0.8rem", letterSpacing: "0.05em", display: "inline-block" }}>
-                BRANDING &middot; MARK
+                &#128081; BRANDING &middot; MARK
               </div>
               <h2 style={{ ...rowdies(700), fontSize: "3rem", color: "var(--gold-sun)", margin: 0, lineHeight: 1, letterSpacing: "0.02em" }}>Fence Frames</h2>
               <p style={{ ...rowdies(400), fontSize: "0.85rem", color: "#FAF6EE", margin: "0.6rem 0 0 0" }}>

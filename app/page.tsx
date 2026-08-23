@@ -14,8 +14,10 @@ export default function HomePage() {
       <main className="wrap" style={{ paddingTop: "2rem" }}>
         <Hero />
         <FrameIt />
-        <FenceIt />
-        <FenceFolio />
+        <section id="fence-suite" aria-label="Fence it and Fence-Folio">
+          <FenceIt />
+          <FenceFolio />
+        </section>
         <FinalCta />
       </main>
       <SiteFooter />

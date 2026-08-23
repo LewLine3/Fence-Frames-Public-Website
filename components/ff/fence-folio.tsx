@@ -11,7 +11,7 @@ const folioChapters = [
   {
     tab: "1. Cover",
     title: "Heritage Cedar \u2014 6' Privacy",
-    sheet: "SHEET A-01 \u2014 FRONT SHOWCASE \u2014 SI VIEW",
+    sheet: "SHEET A-01 \u00b7 ELEVATION SPEC \u00b7 SI VIEW",
     price: "$42\u2013$57",
     img: "/images/card-trials/grey-lumber-with-fern.jpg",
   },
