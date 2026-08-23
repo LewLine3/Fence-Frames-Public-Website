@@ -66,11 +66,16 @@
       </div>
 
       <div class="flex items-center gap-3 text-xs text-white/60">
+        <button onclick="syncCurrentSite()" id="btnSyncTop" class="bg-[#142319] hover:bg-[#1E3626] text-[#4ADE80] border border-[#4ADE80]/60 text-[11px] font-bold py-1 px-3 rounded flex items-center gap-1.5 transition shadow cursor-pointer">
+          <span id="syncIconSpin">🔄</span>
+          <span id="syncBtnText">Sync Current Site</span>
+        </button>
+        <span class="text-white/20">•</span>
         <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/designer</strong></span>
         <span class="text-white/20">•</span>
         <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
         <span class="text-white/20">•</span>
-        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
+        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">R</strong> (Sync) · <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
       </div>
     </header>
 
@@ -200,6 +205,11 @@
 
         <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-full bg-[#0A0F0C] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] py-1.5 px-1 rounded text-center focus:outline-none cursor-pointer">
         </select>
+
+        <button onclick="syncCurrentSite()" id="btnSyncRail" class="w-full mt-1 bg-[#142319] hover:bg-[#1E3626] text-[#4ADE80] border border-[#4ADE80]/50 text-[10px] font-bold py-1.5 rounded flex items-center justify-center gap-1.5 transition shadow">
+          <span>🔄</span>
+          <span>Sync Current Site</span>
+        </button>
       </div>
     </div>
 
@@ -626,12 +636,16 @@
 
     function init() {
       const select = document.getElementById('pageSelectVertical');
-      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}. ${p.id}</option>`).join('');
+      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}. ${p.id} · ${p.title.split(' ')[0]}</option>`).join('');
       renderPage();
 
       // Keyboard Shortcut Listeners
       window.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'r' || e.key === 'R') {
+          e.preventDefault();
+          syncCurrentSite();
+        }
         if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
         if (e.key === 'Tab') {
@@ -641,6 +655,22 @@
         if (e.key === '+' || e.key === '=') zoomStep(0.1);
         if (e.key === '-' || e.key === '_') zoomStep(-0.1);
       });
+    }
+
+    function syncCurrentSite() {
+      const iframe = document.getElementById('pageIframe');
+      const p = PAGES[currentIndex];
+      const cacheBust = p.srcUrl + (p.srcUrl.includes('?') ? '&' : '?') + '_sync=' + Date.now();
+      iframe.src = cacheBust;
+
+      const spin = document.getElementById('syncIconSpin');
+      const txt = document.getElementById('syncBtnText');
+      if (spin) spin.style.transform = 'rotate(360deg)';
+      if (txt) txt.innerText = 'SYNCED 100%!';
+      setTimeout(() => {
+        if (spin) spin.style.transform = 'none';
+        if (txt) txt.innerText = 'Sync Current Site';
+      }, 1000);
     }
 
     function renderPage() {
@@ -654,7 +684,10 @@
       document.getElementById('pageTitleTop').innerText = p.title;
       document.getElementById('routeReadout').innerText = p.displayRoute;
       document.getElementById('externalLinkRail').href = p.srcUrl;
-      document.getElementById('pageIframe').src = p.srcUrl;
+
+      // Always load the most current version from disk with timestamp
+      const freshUrl = p.srcUrl + (p.srcUrl.includes('?') ? '&' : '?') + '_ts=' + Date.now();
+      document.getElementById('pageIframe').src = freshUrl;
 
       // Cards
       document.getElementById('badgePillarCard').innerText = p.pillar;
