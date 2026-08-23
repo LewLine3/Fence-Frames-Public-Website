@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Black Backdrop & CAD Grid Medallion Lab</title>
+  
+  <!-- Rowdies Font Canonical Standard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --gold-sun-glow: rgba(229, 184, 66, 0.25);
+      --emerald-bright: #2EA055;
+      --emerald-vivid: #22C55E;
+      --forest-bright: #4ADE80;
+      --golden-tan: #DEB35E;
+      --cedar-tan: #C4B294;
+      --douglas-fir: #D69E42;
+      --soil-brown: #6A481B;
+      --ink: #0B0E0C;
+      --ink-surface: #141B16;
+      --ink-border: #1E2B22;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ink);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(46, 160, 85, 0.45) 0%, rgba(11, 14, 12, 0.95) 75%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      color: #FFFFFF;
+      font-family: 'Rowdies', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      min-height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+
+    body.theme-light-test {
+      background-color: #F8FAFC !important;
+      background-image: linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px) !important;
+      color: #0F172A !important;
+    }
+    body.theme-light-test .brand-title { color: #0F172A !important; text-shadow: none !important; }
+    body.theme-light-test .brand-desc { color: #475569 !important; }
+    body.theme-light-test .circ-card { background: #FFFFFF !important; border-color: #CBD5E1 !important; box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important; }
+    body.theme-light-test .card-topbar { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light-test .card-title { color: #0F172A !important; }
+    body.theme-light-test .card-footer { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light-test .sim-card { background: #FFFFFF !important; border-color: #CBD5E1 !important; }
+    body.theme-light-test .sim-box { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+
+    .container {
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .badge-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink-surface);
+      border: 1.5px solid var(--emerald-bright);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: var(--forest-bright);
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      box-shadow: 0 0 20px rgba(46, 160, 85, 0.3);
+    }
+
+    .badge-phase .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--forest-bright);
+      box-shadow: 0 0 8px var(--forest-bright);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .brand-title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.8);
+      margin-bottom: 6px;
+    }
+
+    .brand-title span.gold {
+      color: var(--gold-sun);
+    }
+
+    .brand-tagline {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--forest-bright);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .brand-desc {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      color: var(--cedar-tan);
+      font-weight: 300;
+    }
+
+    /* Controls Toolbar */
+    .controls-toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-toggle-theme {
+      background: var(--ink-surface);
+      border: 1.5px solid var(--ink-border);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-toggle-theme.active, .btn-toggle-theme:hover {
+      border-color: var(--gold-sun);
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(222, 179, 94, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
+      border: 1.5px solid var(--forest-bright);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 0 30px rgba(46, 160, 85, 0.3);
+    }
+
+    .section-banner h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    /* Circular Cards Grid */
+    .circ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+
+    .circ-card {
+      background: var(--ink-surface);
+      border: 2px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+    }
+
+    .circ-card.featured-medallion {
+      border-color: var(--gold-sun);
+      box-shadow: 0 0 32px var(--gold-sun-glow);
+    }
+
+    .circ-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--forest-bright);
+      box-shadow: 0 20px 48px rgba(46, 160, 85, 0.3);
+    }
+
+    .card-topbar {
+      background: var(--ink);
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--ink-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .circ-preview-zone {
+      padding: 36px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0E120F;
+      border-bottom: 1.5px solid var(--ink-border);
+      position: relative;
+    }
+
+    .hero-circ-img {
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.85));
+      transition: transform 0.3s ease;
+    }
+
+    .hero-circ-img:hover {
+      transform: scale(1.06);
+    }
+
+    .testbench-section {
+      padding: 18px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rationale-box {
+      background: rgba(46, 160, 85, 0.2);
+      border-left: 3px solid var(--forest-bright);
+      padding: 10px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.45;
+    }
+
+    .rationale-box strong {
+      color: var(--forest-bright);
+      font-weight: 700;
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      background: var(--ink);
+      border-top: 1.5px solid var(--ink-border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 8px 10px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-gold {
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      border: 1.5px solid var(--gold-sun);
+    }
+
+    .btn-gold:hover {
+      background: #FFFFFF;
+      color: var(--ink);
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    .btn-green {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink);
+    }
+
+    .btn-green:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+      box-shadow: 0 0 16px rgba(46, 160, 85, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest-bright);
+      color: var(--forest-bright);
+    }
+
+    /* REAL-WORLD SOCIAL & APP SIMULATORS */
+    .sim-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .sim-card {
+      background: var(--ink-surface);
+      border: 1.5px solid var(--ink-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+
+    .sim-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-box {
+      background: #0B0E0C;
+      border: 1px solid var(--ink-border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sim-avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+
+    .sim-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header class="brand-header">
+    <div class="badge-phase">
+      <span class="pulse-dot"></span>
+      Black Backdrop &amp; Faint CAD Grid Medallion Lab
+    </div>
+    <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
+    <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
+    <p class="brand-desc">
+      <strong>Refined Directive</strong>: Solid jet black background (zero green glow) paired with an optional <strong>faint emerald architectural CAD grid overlay</strong>, low submerged earth horizon, and max-scaled fence structure!
+    </p>
+  </header>
+
+  <!-- Background Controls -->
+  <div class="controls-toolbar">
+    <span class="ctrl-label">🎛️ Global Canvas Theme:</span>
+    <button class="btn-toggle-theme active" onclick="setTheme('dark')">🌙 Dark Canvas (#0B0E0C)</button>
+    <button class="btn-toggle-theme" onclick="setTheme('light')">☀️ Light Canvas (#FFFFFF)</button>
+  </div>
+
+  <!-- Section Banner -->
+  <div class="section-banner">
+    <h2>📐 Black Backdrop Medallion Lineup</h2>
+    <span>Compare Faint CAD Grid vs Pure Jet Black backdrop options</span>
+  </div>
+
+  <!-- Cards Grid -->
+  <main class="circ-grid">
+
+    <!-- 1. HERO MEDALLION: FAINT CAD GRID (RECOMMENDED) -->
+    <article class="circ-card featured-medallion">
+      <div class="card-topbar">
+        <span class="card-title">Black + Faint CAD Grid ★</span>
+        <span style="font-size:0.75rem; color:var(--gold-sun);">Architectural Drafting (Recommended)</span>
+      </div>
+
+      <div class="circ-preview-zone">
+        <img src="../winners/brand-icon-circular-medallion.svg" class="hero-circ-img" alt="Medallion with CAD Grid">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(229,184,66,0.15); border-left-color:var(--gold-sun);">
+          <strong style="color:var(--gold-sun);">Black + Faint CAD Grid (Recommended):</strong>
+          <br>• <strong>Pure Jet Black:</strong> Zero green haze/sky gradient behind the fence.
+          <br>• <strong>Faint CAD Grid:</strong> Subtle 32px architectural grid in faint emerald (#4ADE80 @ 12% opacity) with coordinate intersection dots.
+          <br>• <strong>Submerged Base:</strong> Post bottoms 100% hidden behind the low turf horizon.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/brand-icon-circular-medallion.svg" target="_blank" class="btn-action btn-gold">Inspect SVG</a>
+        <a href="../winners/brand-master-suite.html" target="_blank" class="btn-action btn-outline">Master Hub</a>
+      </div>
+    </article>
+
+
+    <!-- 2. HERO MEDALLION: PURE JET BLACK (ZERO GRID) -->
+    <article class="circ-card">
+      <div class="card-topbar">
+        <span class="card-title">Pure Jet Black</span>
+        <span style="font-size:0.75rem; color:var(--forest-bright);">Clean Minimalist (Zero Grid)</span>
+      </div>
+
+      <div class="circ-preview-zone">
+        <img src="circular-medallion-pure-black.svg" class="hero-circ-img" alt="Medallion Pure Black">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Pure Jet Black (Clean Minimalist):</strong>
+          <br>• <strong>100% Solid Ink Black:</strong> Clean, high-contrast, zero grid or texture lines in the sky.
+          <br>• <strong>High-Contrast Pop:</strong> Makes the timber posts and gold bevel ring stand out sharply.
+          <br>• <strong>Submerged Base:</strong> Identical lowered earth and submerged feet.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="circular-medallion-pure-black.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="../winners/brand-icon-circular-avatar.svg" target="_blank" class="btn-action btn-outline">Concept C1</a>
+      </div>
+    </article>
+
+
+    <!-- 3. CIRCULAR SEAL ROUNDEL -->
+    <article class="circ-card">
+      <div class="card-topbar">
+        <span class="card-title">Heritage Roundel Seal</span>
+        <span style="font-size:0.75rem; color:#38BDF8;">Arched Rowdies Typography</span>
+      </div>
+
+      <div class="circ-preview-zone">
+        <img src="../winners/brand-icon-circular-seal.svg" class="hero-circ-img" alt="Circular Seal">
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(56,189,248,0.15); border-left-color:#38BDF8;">
+          <strong style="color:#38BDF8;">Heritage Roundel Seal:</strong>
+          <br>• <strong>Arched Typography:</strong> "★ FENCE FRAMES ★" along top track.
+          <br>• <strong>Bullseye Core:</strong> Solid black center monogram.
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/brand-icon-circular-seal.svg" target="_blank" class="btn-action btn-green">Inspect SVG</a>
+        <a href="favicon-showcase.html" target="_blank" class="btn-action btn-outline">Favicon Lab</a>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Live Social Simulator with New Black + CAD Grid Medallion -->
+  <div class="section-banner" style="background: linear-gradient(90deg, rgba(222, 179, 94, 0.4) 0%, rgba(46, 160, 85, 0.6) 100%);">
+    <h2>📱 Live Avatar Simulator (Black + CAD Grid Medallion)</h2>
+    <span>Preview the Black + CAD Grid Hero Medallion inside real-world social avatar containers</span>
+  </div>
+
+  <section class="sim-gallery">
+    <!-- Twitter/X Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">🐦 Twitter / X Profile Avatar</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle">
+          <img src="../winners/brand-icon-circular-medallion.svg" alt="Twitter Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">Fence Frames <span style="color:#22C55E;">✓</span></div>
+          <div style="font-size:0.75rem; color:#94A3B8;">@FenceFrames • Visual Fence Blueprints</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instagram Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">📸 Instagram Story Ring</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle" style="padding:2px; background:linear-gradient(45deg, #F59E0B, #10B981);">
+          <img src="../winners/brand-icon-circular-medallion.svg" style="border-radius:50%;" alt="Instagram Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">fenceframes</div>
+          <div style="font-size:0.75rem; color:#94A3B8;">Frame Your Vision | Find Your Fence</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LinkedIn / Business Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">💼 LinkedIn Company Page</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle">
+          <img src="../winners/brand-icon-circular-medallion.svg" alt="LinkedIn Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">Fence Frames Inc.</div>
+          <div style="font-size:0.75rem; color:#94A3B8;">Construction Tech • Snoqualmie, WA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function setTheme(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('theme-light-test');
+    } else {
+      document.body.classList.remove('theme-light-test');
+    }
+    const buttons = document.querySelectorAll('.btn-toggle-theme');
+    buttons.forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

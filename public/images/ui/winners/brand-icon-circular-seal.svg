@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Rowdies Font Standard -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&amp;display=swap');
+      .seal-track-top {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        fill: #FFFFFF;
+        letter-spacing: 0.16em;
+      }
+      .seal-track-bottom {
+        font-family: 'Rowdies', -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 19px;
+        fill: #E5B842;
+        letter-spacing: 0.18em;
+      }
+    </style>
+
+    <!-- Gradients -->
+    <linearGradient id="sealGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="35%" stop-color="#E5B842" />
+      <stop offset="70%" stop-color="#B45309" />
+      <stop offset="100%" stop-color="#78350F" />
+    </linearGradient>
+
+    <linearGradient id="sealEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80" />
+      <stop offset="50%" stop-color="#2EA055" />
+      <stop offset="100%" stop-color="#15803D" />
+    </linearGradient>
+
+    <linearGradient id="sealCenterBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141E17" />
+      <stop offset="50%" stop-color="#0E1510" />
+      <stop offset="100%" stop-color="#070A08" />
+    </linearGradient>
+
+    <linearGradient id="sealWoodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A5E44" />
+      <stop offset="35%" stop-color="#754E36" />
+      <stop offset="75%" stop-color="#633F2A" />
+      <stop offset="100%" stop-color="#52321E" />
+    </linearGradient>
+
+    <!-- Curved Text Paths -->
+    <!-- Top Arc Path: R=204, Sweep Clockwise from Left to Right -->
+    <path id="sealPathTop" d="M 64 256 A 192 192 0 0 1 448 256" fill="none" />
+    <!-- Bottom Arc Path: R=204, Sweep Clockwise from Right to Left along bottom -->
+    <path id="sealPathBottom" d="M 448 256 A 192 192 0 0 1 64 256" fill="none" />
+
+    <clipPath id="sealClip">
+      <circle cx="256" cy="256" r="250" />
+    </clipPath>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- MASTER HERITAGE CIRCULAR SEAL (ROUNDEL LOCKUP) -->
+  <!-- Complete Architectural Brand Seal with Arched Typography -->
+  <!-- ======================================================== -->
+  <g id="Heritage-Circular-Seal" clip-path="url(#sealClip)">
+
+    <!-- 1. Outer Heavy Bevel Ring -->
+    <circle cx="256" cy="256" r="256" fill="#0B0E0C" />
+    <circle cx="256" cy="256" r="248" fill="#141B16" stroke="url(#sealGoldGrad)" stroke-width="5" />
+
+    <!-- 2. Typography Outer Track -->
+    <circle cx="256" cy="256" r="162" fill="none" stroke="url(#sealGoldGrad)" stroke-width="2.5" />
+    <circle cx="256" cy="256" r="158" fill="none" stroke="#2EA055" stroke-width="1.2" stroke-dasharray="6 4" />
+
+    <!-- Arched Text Top -->
+    <text class="seal-track-top">
+      <textPath href="#sealPathTop" startOffset="50%" text-anchor="middle">
+        ★ FENCE FRAMES ★
+      </textPath>
+    </text>
+
+    <!-- Arched Text Bottom -->
+    <text class="seal-track-bottom">
+      <textPath href="#sealPathBottom" startOffset="50%" text-anchor="middle">
+        • FRAME YOUR VISION •
+      </textPath>
+    </text>
+
+    <!-- 3. Inner Center Bullseye Disc -->
+    <circle cx="256" cy="256" r="150" fill="url(#sealCenterBg)" stroke="url(#sealEmeraldGrad)" stroke-width="3" />
+
+    <!-- 4. Inner Calibrated Monogram Mark (Scaled to 0.48, centered at x=138, y=140) -->
+    <g id="Inner-Monogram" transform="translate(138, 140) scale(0.485)">
+      <!-- Soil Base -->
+      <path d="M 57 412 L 305 412 C 309 412 313.05 414.5 313.05 420 C 313.05 425.5 309 428 305 428 L 57 428 Z" fill="#6A481B" />
+      <line x1="57" y1="412" x2="305" y2="412" stroke="#0B0E0C" stroke-width="2.0" />
+      <line x1="57" y1="428" x2="305" y2="428" stroke="#0B0E0C" stroke-width="2.0" />
+
+      <!-- Big 'F' -->
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="none" stroke="#2EA055" stroke-width="11.4" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 412 L 64 412 Z" fill="url(#sealWoodGrad)" stroke="#0B0E0C" stroke-width="3.0" />
+      <path d="M 430 54 L 434 54 C 438 54 440 58 440 64 L 440 110 C 440 116 438 120 434 120 L 430 120 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+
+      <!-- Small 'F' -->
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="none" stroke="#DEB35E" stroke-width="11.4" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 412 L 170 412 Z" fill="url(#sealWoodGrad)" stroke="#0B0E0C" stroke-width="3.0" />
+
+      <!-- Post Caps -->
+      <rect x="52" y="43" width="88" height="13" rx="3.5" fill="#2EA055" stroke="#0B0E0C" stroke-width="2.8" />
+      <path d="M 54 43 L 96 22 L 96 43 Z" fill="#3DC06F" stroke="#0B0E0C" stroke-width="2.2" />
+      <path d="M 96 22 L 138 43 L 96 43 Z" fill="#1B7A45" stroke="#0B0E0C" stroke-width="2.2" />
+      <rect x="158" y="171" width="88" height="13" rx="3.5" fill="#DEB35E" stroke="#0B0E0C" stroke-width="2.8" />
+      <path d="M 160 171 L 202 150 L 202 171 Z" fill="#ECC675" stroke="#0B0E0C" stroke-width="2.2" />
+      <path d="M 202 150 L 244 171 L 202 171 Z" fill="#BD9038" stroke="#0B0E0C" stroke-width="2.2" />
+    </g>
+
+  </g>
+</svg>
