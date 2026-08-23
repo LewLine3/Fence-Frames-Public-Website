@@ -172,126 +172,91 @@
   <!-- ========================================================================= -->
   <!-- ULTRA-TIGHT DOCKED RIGHT VERTICAL TOOLBAR RAIL (60px Wide, Clear of Left Tabs) -->
   <!-- ========================================================================= -->
-  <aside class="w-[60px] min-w-[60px] max-w-[60px] bg-[#0E1511]/95 backdrop-blur-md border-l-2 border-[#E5B842]/60 h-screen sticky top-0 right-0 z-50 flex flex-col items-center justify-between py-3 px-1 shadow-[-4px_0_20px_rgba(0,0,0,0.7)] select-none">
+  <aside class="w-[180px] min-w-[180px] max-w-[180px] bg-[#0E1511] border-l-2 border-[#E5B842] h-screen sticky top-0 right-0 z-50 flex flex-col justify-between py-3 px-2 shadow-[-6px_0_25px_rgba(0,0,0,0.8)] overflow-y-auto custom-scrollbar select-none">
 
-    {/* Top Group: Brand + Slideshow */}
-    <div class="flex flex-col items-center gap-3 w-full">
-      {/* Brand Icon */}
-      <div class="tooltip-wrapper">
-        <a href="/" class="w-10 h-10 rounded-lg bg-[#141B16] border border-[#E5B842] flex items-center justify-center text-base hover:scale-105 transition shadow">
-          🌲
+    {/* Section 1: Brand & Page Switcher */}
+    <div class="flex flex-col gap-2.5 w-full">
+      <div class="flex items-center justify-between border-b border-white/15 pb-2">
+        <a href="/" class="flex items-center gap-1.5 text-xs font-bold text-[#E5B842] hover:opacity-90">
+          <span>🌲</span>
+          <span>FENCE FRAMES</span>
         </a>
-        <span class="tooltip-content">Fence Frames Portal</span>
+        <span class="text-[9px] bg-[#1C261F] text-[#4ADE80] px-1.5 py-0.5 rounded font-mono font-bold">PRO</span>
       </div>
 
-      <div class="w-8 h-px bg-white/15"></div>
-
-      {/* Slideshow Up/Down Nav */}
-      <div class="flex flex-col items-center gap-1 w-full">
-        <div class="tooltip-wrapper">
-          <button onclick="prevSlide()" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition">
-            ▲
+      <!-- Slideshow Navigation -->
+      <div class="flex flex-col gap-1.5 bg-[#141C16] p-2 rounded border border-white/10">
+        <span class="text-[9px] text-[#E5B842] font-bold uppercase tracking-wider block text-center">PAGE NAVIGATION</span>
+        
+        <div class="flex gap-1">
+          <button onclick="prevSlide()" class="flex-1 bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs py-1.5 rounded border border-white/20 flex items-center justify-center gap-1 transition">
+            <span>▲</span><span class="text-[10px]">Prev</span>
           </button>
-          <span class="tooltip-content">Previous Page (← / ▲)</span>
-        </div>
-
-        {/* Compact Page Number Pill */}
-        <div class="tooltip-wrapper">
-          <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-10 h-8 bg-[#162019] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] rounded text-center focus:outline-none cursor-pointer appearance-none">
-          </select>
-          <span class="tooltip-content" id="pageTooltipInfo">Page Selector</span>
-        </div>
-
-        <div class="tooltip-wrapper">
-          <button onclick="nextSlide()" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white font-bold text-xs flex items-center justify-center transition">
-            ▼
+          <button onclick="nextSlide()" class="flex-1 bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs py-1.5 rounded border border-white/20 flex items-center justify-center gap-1 transition">
+            <span class="text-[10px]">Next</span><span>▼</span>
           </button>
-          <span class="tooltip-content">Next Page (→ / ▼)</span>
         </div>
+
+        <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-full bg-[#0A0F0C] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] py-1.5 px-1 rounded text-center focus:outline-none cursor-pointer">
+        </select>
       </div>
     </div>
 
-    {/* Middle Group: Layout & Zoom Suite */}
-    <div class="flex flex-col items-center gap-2.5 w-full">
-      <div class="w-8 h-px bg-white/15"></div>
-
-      {/* Layout Mode Toggle */}
-      <div class="tooltip-wrapper">
-        <button onclick="toggleLayout()" id="btnLayoutRail" class="w-10 h-10 rounded-lg bg-[#162019] hover:bg-[#223026] border border-white/25 text-[#E5B842] flex flex-col items-center justify-center text-xs transition">
+    {/* Section 2: Zoom & Layout Suite */}
+    <div class="flex flex-col gap-2.5 my-2 w-full">
+      <!-- Layout Mode -->
+      <div class="bg-[#141C16] p-2 rounded border border-white/10 flex flex-col gap-1.5">
+        <span class="text-[9px] text-[#F27A22] font-bold uppercase tracking-wider text-center">VIEWPORT &amp; LAYOUT</span>
+        
+        <button onclick="toggleLayout()" id="btnLayoutRail" class="w-full bg-[#1C261F] hover:bg-[#28382D] border border-white/25 text-[#E5B842] py-1.5 px-2 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
           <span id="iconLayoutRail">⛶</span>
-          <span class="text-[8px] text-white/60 uppercase">Full</span>
+          <span class="text-[10px] text-white">Toggle Full / Split</span>
         </button>
-        <span class="tooltip-content">Toggle Layout (Tab key)</span>
-      </div>
 
-      {/* Zoom Fit 50% */}
-      <div class="tooltip-wrapper">
-        <button onclick="setZoom(0.5)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 hover:text-white text-[10px] font-bold transition">
-          50%
-        </button>
-        <span class="tooltip-content">Fit Screen (50%)</span>
-      </div>
-
-      {/* Zoom 75% */}
-      <div class="tooltip-wrapper">
-        <button onclick="setZoom(0.75)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#E5B842] text-[10px] font-bold transition">
-          75%
-        </button>
-        <span class="tooltip-content">Default Zoom (75%)</span>
-      </div>
-
-      {/* Zoom 100% */}
-      <div class="tooltip-wrapper">
-        <button onclick="setZoom(1.0)" class="w-10 h-7 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-white/80 hover:text-white text-[10px] font-bold transition">
-          100%
-        </button>
-        <span class="tooltip-content">Actual Size (100%)</span>
-      </div>
-
-      {/* Zoom Step +/- */}
-      <div class="flex items-center gap-1">
-        <button onclick="zoomStep(-0.1)" class="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">-</button>
-        <button onclick="zoomStep(0.1)" class="w-4 h-6 rounded bg-[#162019] hover:bg-white/10 text-white text-xs font-bold flex items-center justify-center">+</button>
-      </div>
-
-      <div class="w-8 h-px bg-white/15"></div>
-
-      {/* Device Viewport */}
-      <div class="flex flex-col items-center gap-1">
-        <div class="tooltip-wrapper">
-          <button onclick="setDevice('desktop')" id="btnDeskRail" class="w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center">🖥️</button>
-          <span class="tooltip-content">Desktop View (100% Width)</span>
+        <div class="grid grid-cols-3 gap-1 mt-1">
+          <button onclick="setDevice('desktop')" id="btnDeskRail" class="bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center">Desk</button>
+          <button onclick="setDevice('tablet')" id="btnTabRail" class="bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center">Tab</button>
+          <button onclick="setDevice('mobile')" id="btnMobRail" class="bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center">Mob</button>
         </div>
-        <div class="tooltip-wrapper">
-          <button onclick="setDevice('tablet')" id="btnTabRail" class="w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center">📱</button>
-          <span class="tooltip-content">Tablet View (768px)</span>
+      </div>
+
+      <!-- Zoom Suite -->
+      <div class="bg-[#141C16] p-2 rounded border border-white/10 flex flex-col gap-1.5">
+        <span class="text-[9px] text-[#4ADE80] font-bold uppercase tracking-wider text-center">ZOOM CONTROLS</span>
+        
+        <div class="grid grid-cols-3 gap-1">
+          <button onclick="setZoom(0.5)" class="bg-[#1C261F] hover:bg-[#28382D] text-white text-[10px] font-bold py-1 rounded border border-white/15">50%</button>
+          <button onclick="setZoom(0.75)" class="bg-[#1C261F] hover:bg-[#28382D] text-[#E5B842] text-[10px] font-bold py-1 rounded border border-white/15">75%</button>
+          <button onclick="setZoom(1.0)" class="bg-[#1C261F] hover:bg-[#28382D] text-white text-[10px] font-bold py-1 rounded border border-white/15">100%</button>
         </div>
-        <div class="tooltip-wrapper">
-          <button onclick="setDevice('mobile')" id="btnMobRail" class="w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center">📲</button>
-          <span class="tooltip-content">Mobile View (390px)</span>
+
+        <div class="flex gap-1 mt-0.5">
+          <button onclick="zoomStep(-0.1)" class="flex-1 bg-[#1C261F] hover:bg-white/10 text-white text-xs font-bold py-1 rounded border border-white/15">- Zoom</button>
+          <button onclick="zoomStep(0.1)" class="flex-1 bg-[#1C261F] hover:bg-white/10 text-white text-xs font-bold py-1 rounded border border-white/15">+ Zoom</button>
         </div>
       </div>
     </div>
 
-    {/* Bottom Group: Approval + Direct Link */}
-    <div class="flex flex-col items-center gap-2 w-full">
-      <div class="w-8 h-px bg-white/15"></div>
+    {/* Section 3: Founder Approval & Direct Links */}
+    <div class="flex flex-col gap-2 w-full pt-2 border-t border-white/15">
+      <button
+        onclick="toggleQuickApproval()"
+        id="btnApproveRail"
+        class="w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition"
+      >
+        <span>✓</span>
+        <span>Approve Slide</span>
+      </button>
 
-      {/* Quick Approval Button */}
-      <div class="tooltip-wrapper">
-        <button onclick="toggleQuickApproval()" id="btnApproveRail" class="w-10 h-10 rounded-lg bg-[#4ADE80] text-[#141B16] font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition">
-          ✓
-        </button>
-        <span class="tooltip-content" id="tooltipApproval">Click to Approve / Change Status</span>
-      </div>
-
-      {/* Open Direct Tab */}
-      <div class="tooltip-wrapper">
-        <a id="externalLinkRail" href="#" target="_blank" class="w-10 h-8 rounded bg-[#162019] hover:bg-[#223026] border border-white/20 text-[#4ADE80] flex items-center justify-center text-xs transition">
-          ↗
-        </a>
-        <span class="tooltip-content">Open Standalone Tab</span>
-      </div>
+      <a
+        id="externalLinkRail"
+        href="#"
+        target="_blank"
+        class="w-full bg-[#1C261F] hover:bg-[#28382D] border border-white/20 text-[#4ADE80] text-center text-xs font-bold py-1.5 rounded flex items-center justify-center gap-1 transition"
+      >
+        <span>↗</span>
+        <span>Open Standalone</span>
+      </a>
     </div>
 
   </aside>
@@ -639,7 +604,7 @@
 
     function init() {
       const select = document.getElementById('pageSelectVertical');
-      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}</option>`).join('');
+      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}. ${p.id}</option>`).join('');
       renderPage();
 
       // Keyboard Shortcut Listeners
@@ -659,7 +624,6 @@
     function renderPage() {
       const p = PAGES[currentIndex];
       document.getElementById('pageSelectVertical').value = currentIndex;
-      document.getElementById('pageTooltipInfo').innerText = `[${currentIndex+1}/${PAGES.length}] ${p.id}: ${p.title}`;
 
       // Top info
       document.getElementById('badgeIdTop').innerText = p.id;
@@ -709,10 +673,13 @@
       }`;
 
       const btnRail = document.getElementById('btnApproveRail');
-      btnRail.className = `w-10 h-10 rounded-lg font-bold text-sm flex items-center justify-center shadow hover:scale-105 transition ${
+      btnRail.className = `w-full font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition ${
         app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
-        app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
+        app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#1C261F] text-[#E5B842] border border-[#E5B842]'
       }`;
+      btnRail.innerHTML = app.status === 'approved' ? '<span>✓</span><span>Approved</span>' :
+                          app.status === 'changes-requested' ? '<span>⚠️</span><span>Changes Req</span>' :
+                          '<span>✓</span><span>Approve Slide</span>';
     }
 
     function prevSlide() { if (currentIndex > 0) { currentIndex--; renderPage(); } }
@@ -737,9 +704,9 @@
     function setDevice(device) {
       currentDevice = device;
       const container = document.getElementById('viewportContainer');
-      document.getElementById('btnDeskRail').className = device === 'desktop' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
-      document.getElementById('btnTabRail').className = device === 'tablet' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
-      document.getElementById('btnMobRail').className = device === 'mobile' ? 'w-10 h-7 rounded bg-[#E5B842] text-[#141B16] font-bold text-xs flex items-center justify-center' : 'w-10 h-7 rounded bg-[#162019] text-white/60 hover:text-white text-xs flex items-center justify-center';
+      document.getElementById('btnDeskRail').className = device === 'desktop' ? 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center' : 'bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center';
+      document.getElementById('btnTabRail').className = device === 'tablet' ? 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center' : 'bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center';
+      document.getElementById('btnMobRail').className = device === 'mobile' ? 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center' : 'bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center';
       container.style.width = device === 'mobile' ? '390px' : device === 'tablet' ? '768px' : '100%';
     }
 
@@ -787,3 +754,4 @@
   </script>
 </body>
 </html>
+
