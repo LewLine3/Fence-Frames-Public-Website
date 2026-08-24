@@ -72,27 +72,36 @@ const cards: ShoppingCard[] = [
 export function FrameIt() {
   return (
     <section className="step-section" id="frame-pillar" style={{ marginBottom: "0.75rem" }}>
-      {/* Top row */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
+      {/* Top row — single seamless banner (text + image share one outer border) */}
+      <div
+        className="has-outside-corners"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.15fr 0.85fr",
+          alignItems: "stretch",
+          marginBottom: "0.75rem",
+          border: "2.5px solid var(--ink)",
+          borderRadius: "var(--radius)",
+          overflow: "hidden",
+          boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
+        }}
+      >
+        <span className="corner-mark-out tl c-orange" style={{ zIndex: 2 }} />
+        <span className="corner-mark-out br c-forest" style={{ zIndex: 2 }} />
+
         <div
-          className="card-solid has-outside-corners"
           style={{
             backgroundColor: "#26150D",
             backgroundImage:
               "repeating-linear-gradient(45deg, rgba(242,122,34,0.18) 0px, rgba(242,122,34,0.18) 2px, transparent 2px, transparent 14px)",
-            border: "2.5px solid var(--ink)",
-            borderRadius: "var(--radius)",
             padding: "1.2rem 1.4rem",
             minHeight: 180,
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
           }}
         >
-          <span className="corner-mark-out tl c-orange" />
-          <span className="corner-mark-out br c-forest" />
           <h2 style={{ ...rowdies(700), fontSize: "1.75rem", color: "#F27A22", marginBottom: "0.3rem", lineHeight: 1.15, letterSpacing: "0.02em" }}>
             Frame it.
           </h2>
@@ -104,25 +113,18 @@ export function FrameIt() {
         </div>
 
         <div
-          className="has-outside-corners"
           style={{
-            border: "2.5px solid var(--ink)",
-            borderRadius: "var(--radius)",
-            overflow: "hidden",
             background: "#0E281B",
             position: "relative",
             minHeight: "100%",
             boxSizing: "border-box",
             display: "flex",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
           }}
         >
-          <span className="corner-mark-out tr c-forest" style={{ zIndex: 2 }} />
-          <span className="corner-mark-out bl c-orange" style={{ zIndex: 2 }} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/Holographic fence icons/Frame-it-Holographic-Fence-widescreen.png"
-            alt="Frame It — timber frame turning holographic"
+            src="/images/Holographic fence icons/Fence-It-Holographic-Fence.png"
+            alt="Frame It — wood picket fence turning holographic with live fence spec overlay"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
         </div>
