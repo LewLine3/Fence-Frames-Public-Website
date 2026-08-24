@@ -73,7 +73,7 @@ export function FrameIt() {
   return (
     <section className="step-section" id="frame-pillar" style={{ marginBottom: "0.75rem" }}>
       {/* Top row */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(360px, 0.9fr)", gap: "0.75rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
         <div
           className="card-solid has-outside-corners"
           style={{
@@ -83,7 +83,7 @@ export function FrameIt() {
             border: "2.5px solid var(--ink)",
             borderRadius: "var(--radius)",
             padding: "1.2rem 1.4rem",
-            minHeight: 180,
+            minHeight: 150,
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
@@ -129,7 +129,7 @@ export function FrameIt() {
       </div>
 
       {/* 3 shopping mode cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.8rem" }}>
+      <div className="frame-it-cards" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
         {cards.map((c) => (
           <a
             key={c.title}

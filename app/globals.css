@@ -154,6 +154,12 @@
   }
 }
 
+@media (max-width: 760px) {
+  .frame-it-cards {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
