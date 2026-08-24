@@ -52,7 +52,7 @@ export function FenceIt() {
   return (
     <section className="step-section" id="fence-pillar" style={{ marginBottom: "0.75rem" }}>
       {/* Top row: holographic image + green hatch copy card */}
-      <div style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: "1.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
         <div
           className="has-outside-corners"
           style={{
@@ -63,6 +63,7 @@ export function FenceIt() {
             position: "relative",
             minHeight: "100%",
             boxSizing: "border-box",
+            order: 2,
             display: "flex",
             boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
           }}
@@ -88,6 +89,7 @@ export function FenceIt() {
             padding: "1.2rem 1.4rem",
             minHeight: 180,
             boxSizing: "border-box",
+            order: 1,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -108,7 +110,7 @@ export function FenceIt() {
       </div>
 
       {/* Action grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.2rem", marginBottom: "1rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "1.2rem", marginBottom: "1rem" }}>
         {actions.map((a) => (
           <button
             key={a.label}
