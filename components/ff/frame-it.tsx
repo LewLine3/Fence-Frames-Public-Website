@@ -73,7 +73,7 @@ export function FrameIt() {
   return (
     <section className="step-section" id="frame-pillar" style={{ marginBottom: "0.75rem" }}>
       {/* Top row */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: "0.5rem", alignItems: "stretch", marginBottom: "0.75rem" }}>
         <div
           className="card-solid has-outside-corners"
           style={{
@@ -83,7 +83,7 @@ export function FrameIt() {
             border: "2.5px solid var(--ink)",
             borderRadius: "var(--radius)",
             padding: "1.2rem 1.4rem",
-            minHeight: 180,
+            minHeight: 146,
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
@@ -121,7 +121,7 @@ export function FrameIt() {
           <span className="corner-mark-out bl c-orange" style={{ zIndex: 2 }} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/Holographic fence icons/Frame-it-Holographic-Fence-widescreen.png"
+            src="/images/Holographic fence icons/Fence-It-Holographic-Fence.png"
             alt="Frame It — timber frame turning holographic"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
@@ -154,7 +154,7 @@ export function FrameIt() {
               <span>{c.ribbon}</span>
             </div>
 
-            <div style={{ height: 220, background: c.imgBg, borderBottom: "2.5px solid var(--ink)", position: "relative", overflow: "hidden", padding: c.imgBordered ? "0.6rem" : undefined }}>
+            <div style={{ height: 205, background: c.imgBg, borderBottom: "2.5px solid var(--ink)", position: "relative", overflow: "hidden", padding: c.imgBordered ? "0.6rem" : undefined }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={c.img || "/placeholder.svg"}
