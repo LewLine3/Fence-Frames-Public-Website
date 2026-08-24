@@ -156,14 +156,38 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
+            <!-- Target Chat Selector -->
+            <div class="flex items-center bg-[#0A0F0C] border border-white/20 rounded px-2 py-1 gap-1.5 text-xs">
+              <span class="text-[10px] text-[#4ADE80] font-bold">🎯 TARGET:</span>
+              <select id="targetChatSelect" onchange="handleTargetChatChange(this.value)" class="bg-transparent text-white font-mono text-[11px] focus:outline-none cursor-pointer">
+                <option value="active" class="bg-[#141B16] text-[#4ADE80]">Active Chat (Current)</option>
+                <option value="session-fresh" class="bg-[#141B16] text-[#E5B842]">Fresh Chat (New)</option>
+                <option value="session-brand" class="bg-[#141B16] text-white">Session: Brand &amp; UI</option>
+                <option value="session-cad" class="bg-[#141B16] text-white">Session: CAD &amp; Blueprints</option>
+                <option value="custom" class="bg-[#141B16] text-[#F27A22]">Custom Chat ID...</option>
+              </select>
+              <input type="text" id="customChatIdInput" placeholder="Paste ID..." class="hidden bg-[#141B16] border border-white/20 text-white text-[10px] px-1.5 py-0.5 rounded w-28 focus:outline-none" />
+            </div>
+
+            <!-- Direct Dispatch Button -->
+            <button
+              onclick="dispatchFeedbackDirectly()"
+              id="btnDispatchDirect"
+              class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow-lg transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <span id="dispatchIcon">🚀</span>
+              <span id="dispatchBtnText">Dispatch to Chat</span>
+            </button>
+
             <!-- Master Copy Batch Prompt Button -->
             <button
               onclick="copyMasterBatchPrompt()"
               id="btnCopyBatchPrompt"
-              class="bg-[#E5B842] hover:bg-[#d4a835] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow transition flex items-center gap-1.5 cursor-pointer"
+              class="bg-[#E5B842] hover:bg-[#d4a835] text-[#141B16] font-bold text-xs uppercase px-3 py-1.5 rounded border border-[#141B16] shadow transition flex items-center gap-1.5 cursor-pointer"
+              title="Copy formatted markdown prompt to clipboard"
             >
               <span>📋</span>
-              <span>Copy Master Batch Prompt</span>
+              <span>Copy Prompt</span>
             </button>
 
             <!-- Clear Notes Button -->
@@ -177,7 +201,7 @@
 
             <button
               onclick="setApproval('approved')"
-              class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-3 py-1.5 rounded border border-[#141B16] transition flex items-center gap-1"
+              class="bg-[#1C261F] hover:bg-[#28382D] text-[#4ADE80] border border-[#4ADE80]/40 font-bold text-xs uppercase px-3 py-1.5 rounded transition flex items-center gap-1"
             >
               <span>✓</span>
               <span>Approve</span>
@@ -920,6 +944,67 @@
         renderSectionFeedback();
         showToast('Notes cleared');
       }
+    }
+
+    function handleTargetChatChange(val) {
+      const customInput = document.getElementById('customChatIdInput');
+      if (val === 'custom') {
+        customInput.classList.remove('hidden');
+        customInput.focus();
+      } else {
+        customInput.classList.add('hidden');
+      }
+    }
+
+    async function dispatchFeedbackDirectly() {
+      const p = PAGES[currentIndex];
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      
+      const selectVal = document.getElementById('targetChatSelect').value;
+      const customId = document.getElementById('customChatIdInput').value.trim();
+      const targetChat = selectVal === 'custom' ? (customId || 'custom-chat') : selectVal;
+
+      const payload = {
+        pageId: p.id,
+        pageTitle: p.title,
+        route: p.displayRoute,
+        srcUrl: p.srcUrl,
+        targetChat: targetChat,
+        pageWide: pageData.pageWide || '',
+        sections: pageData.sections || {},
+        timestamp: new Date().toISOString()
+      };
+
+      const icon = document.getElementById('dispatchIcon');
+      const txt = document.getElementById('dispatchBtnText');
+
+      try {
+        txt.innerText = 'Sending...';
+        const res = await fetch('/api/dispatch-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          icon.innerText = '✅';
+          txt.innerText = 'Dispatched!';
+          showToast(`🚀 Dispatched directly to [${targetChat}]!`);
+        } else {
+          throw new Error('Server returned error');
+        }
+      } catch (err) {
+        console.warn('Dispatch API failed, falling back to clipboard copy:', err);
+        icon.innerText = '📋';
+        txt.innerText = 'Copied to Clipboard';
+        showToast('Copied to clipboard! Just press Ctrl+V in chat.');
+        copyMasterBatchPrompt();
+      }
+
+      setTimeout(() => {
+        icon.innerText = '🚀';
+        txt.innerText = 'Dispatch to Chat';
+      }, 2000);
     }
 
     function copySingleTag(pageId, secId) {
