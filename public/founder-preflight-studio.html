@@ -137,39 +137,94 @@
         </div>
       </section>
 
-      <!-- ROW 3: FOUNDER SIGN-OFF & FEEDBACK BANNER -->
-      <section class="w-full bg-[#141E17] border border-[#E5B842]/60 rounded-lg p-3.5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-3 mb-6">
-        <div class="flex-1 flex flex-col gap-1 w-full">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#E5B842] uppercase">Founder Feedback &amp; Tweak Instructions</span>
+      <!-- ROW 3: FOUNDER PRECISION FEEDBACK & SECTION INSPECTOR DECK -->
+      <section class="w-full bg-[#121A15] border-2 border-[#E5B842] rounded-lg p-4 shadow-2xl flex flex-col gap-4 mb-6">
+        
+        <!-- Header Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <span class="text-xs font-bold text-[#E5B842] uppercase tracking-wider flex items-center gap-1.5">
+              <span>🛠️</span>
+              <span>SECTION INSPECTOR &amp; BATCH FEEDBACK</span>
+            </span>
+            <span id="feedbackPageBadge" class="text-[10px] font-mono font-bold bg-[#0A0F0C] border border-[#E5B842] text-[#E5B842] px-2 py-0.5 rounded">
+              PAGE-CORE-01
+            </span>
             <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
               PENDING
             </span>
           </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <!-- Master Copy Batch Prompt Button -->
+            <button
+              onclick="copyMasterBatchPrompt()"
+              id="btnCopyBatchPrompt"
+              class="bg-[#E5B842] hover:bg-[#d4a835] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>📋</span>
+              <span>Copy Master Batch Prompt</span>
+            </button>
+
+            <!-- Clear Notes Button -->
+            <button
+              onclick="clearPageNotes()"
+              class="bg-[#1C261F] hover:bg-[#28382D] text-white/70 hover:text-white font-bold text-xs uppercase px-2.5 py-1.5 rounded border border-white/20 transition"
+              title="Clear notes for this page"
+            >
+              🗑️ Clear
+            </button>
+
+            <button
+              onclick="setApproval('approved')"
+              class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-3 py-1.5 rounded border border-[#141B16] transition flex items-center gap-1"
+            >
+              <span>✓</span>
+              <span>Approve</span>
+            </button>
+            <button
+              onclick="setApproval('changes-requested')"
+              class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-2.5 py-1.5 rounded border border-[#EF4444]/40 transition"
+            >
+              ⚠️ Edits
+            </button>
+          </div>
+        </div>
+
+        <!-- Level 1: Page-Wide Feedback -->
+        <div class="flex flex-col gap-1 bg-[#0A0F0C] p-3 rounded border border-white/10">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-[#4ADE80] uppercase flex items-center gap-1">
+              <span>🌐</span>
+              <span>Global / Page-Wide Instructions</span>
+            </span>
+            <button
+              onclick="copySingleTag('PAGE-WIDE')"
+              class="text-[9px] text-[#E5B842] hover:underline font-mono"
+            >
+              📋 Copy Tag
+            </button>
+          </div>
           <input
             type="text"
-            id="founderNote"
-            oninput="saveNote(this.value)"
-            placeholder="Type quick design feedback, copy edits, or adjustments..."
-            class="w-full bg-[#0A0F0C] border border-white/20 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#E5B842]"
+            id="pageWideNote"
+            oninput="savePageWideNote(this.value)"
+            placeholder="Global changes (e.g. background tokens, card borders, global typography)..."
+            class="w-full bg-[#141B16] border border-white/15 text-white rounded px-3 py-1.5 text-xs font-light focus:outline-none focus:border-[#4ADE80]"
           />
         </div>
 
-        <div class="flex items-center gap-2 w-full md:w-auto">
-          <button
-            onclick="setApproval('approved')"
-            class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] transition flex items-center gap-1"
-          >
-            <span>✓</span>
-            <span>Approve</span>
-          </button>
-          <button
-            onclick="setApproval('changes-requested')"
-            class="bg-[#2C1818] hover:bg-[#3D1E1E] text-[#EF4444] font-bold text-xs uppercase px-3 py-2 rounded border border-[#EF4444]/40 transition"
-          >
-            ⚠️ Request Edits
-          </button>
+        <!-- Level 2: Section-by-Section Input Grid -->
+        <div class="flex flex-col gap-2">
+          <span class="text-[11px] font-bold text-[#E5B842] uppercase flex items-center gap-1">
+            <span>🎯</span>
+            <span>Granular Section Tweaks</span>
+          </span>
+          <div id="sectionFeedbackGrid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            <!-- Dynamically injected per page -->
+          </div>
         </div>
+
       </section>
 
     </main>
@@ -719,13 +774,15 @@
 
       // Approval State
       const app = approvals[p.id] || { status: 'pending', note: '' };
-      document.getElementById('founderNote').value = app.note || '';
       const pill = document.getElementById('approvalStatusPill');
       pill.innerText = app.status.toUpperCase().replace('-', ' ');
       pill.className = `text-[9px] font-bold px-2 py-0.5 rounded uppercase ${
         app.status === 'approved' ? 'bg-[#4ADE80] text-[#141B16]' :
         app.status === 'changes-requested' ? 'bg-[#EF4444] text-white' : 'bg-[#E5B842] text-[#141B16]'
       }`;
+
+      // Render Section Inspector & Batch Feedback Inputs
+      renderSectionFeedback();
 
       const btnRail = document.getElementById('btnApproveRail');
       btnRail.className = `w-full font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition ${
@@ -785,9 +842,149 @@
       }
     }
 
+    // Feedback Storage
+    let sectionFeedback = JSON.parse(localStorage.getItem('ff_founder_section_feedback') || '{}');
+
+    function renderSectionFeedback() {
+      const p = PAGES[currentIndex];
+      document.getElementById('feedbackPageBadge').innerText = `${p.id} · ${p.title}`;
+      
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      document.getElementById('pageWideNote').value = pageData.pageWide || '';
+
+      // Default section templates if not explicitly declared
+      const defaultSections = [
+        { id: 'SEC-01-HEADER', name: 'Master Brand Header & Navigation' },
+        { id: 'SEC-02-HERO', name: 'Hero Main Visual & Headline Block' },
+        { id: 'SEC-03-MATCH', name: 'HOA & ZIP Code Matcher' },
+        { id: 'SEC-04-BODY', name: 'Core Interactive Configurator / Catalog' },
+        { id: 'SEC-05-ACTION', name: 'Action Controls & Takeoff Ledger' },
+        { id: 'SEC-06-FOOTER', name: 'Mirrored Universal Footer' }
+      ];
+
+      const sections = p.sections || defaultSections;
+      const grid = document.getElementById('sectionFeedbackGrid');
+
+      grid.innerHTML = sections.map(sec => {
+        const secNote = (pageData.sections && pageData.sections[sec.id]) || '';
+        return `
+          <div class="bg-[#0A0F0C] p-2.5 rounded border border-white/10 flex flex-col gap-1.5 hover:border-[#E5B842]/50 transition">
+            <div class="flex items-center justify-between gap-1">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-[10px] font-mono font-bold bg-[#141B16] text-[#4ADE80] px-1.5 py-0.5 rounded border border-[#4ADE80]/30 shrink-0">
+                  #${sec.id}
+                </span>
+                <span class="text-[11px] font-bold text-white/90 truncate">${sec.name}</span>
+              </div>
+              <button
+                onclick="copySingleTag('${p.id}', '${sec.id}')"
+                class="text-[9px] text-[#E5B842] hover:text-white bg-[#1C261F] hover:bg-[#28382D] px-1.5 py-0.5 rounded font-mono shrink-0 transition"
+                title="Copy tag to clipboard"
+              >
+                📋 Tag
+              </button>
+            </div>
+            <input
+              type="text"
+              id="input_${sec.id}"
+              value="${secNote.replace(/"/g, '&quot;')}"
+              oninput="saveSectionNote('${sec.id}', this.value)"
+              placeholder="Notes on #${sec.id}..."
+              class="w-full bg-[#141B16] border border-white/10 text-white text-[11px] font-light rounded px-2.5 py-1 focus:outline-none focus:border-[#E5B842]"
+            />
+          </div>
+        `;
+      }).join('');
+    }
+
+    function savePageWideNote(val) {
+      const p = PAGES[currentIndex];
+      if (!sectionFeedback[p.id]) sectionFeedback[p.id] = { pageWide: '', sections: {} };
+      sectionFeedback[p.id].pageWide = val;
+      localStorage.setItem('ff_founder_section_feedback', JSON.stringify(sectionFeedback));
+    }
+
+    function saveSectionNote(secId, val) {
+      const p = PAGES[currentIndex];
+      if (!sectionFeedback[p.id]) sectionFeedback[p.id] = { pageWide: '', sections: {} };
+      if (!sectionFeedback[p.id].sections) sectionFeedback[p.id].sections = {};
+      sectionFeedback[p.id].sections[secId] = val;
+      localStorage.setItem('ff_founder_section_feedback', JSON.stringify(sectionFeedback));
+    }
+
+    function clearPageNotes() {
+      const p = PAGES[currentIndex];
+      if (confirm(`Clear all feedback notes for ${p.id}?`)) {
+        delete sectionFeedback[p.id];
+        localStorage.setItem('ff_founder_section_feedback', JSON.stringify(sectionFeedback));
+        renderSectionFeedback();
+        showToast('Notes cleared');
+      }
+    }
+
+    function copySingleTag(pageId, secId) {
+      const tagText = secId ? `[#${pageId} > #${secId}]: ` : `[#${pageId} > PAGE-WIDE]: `;
+      navigator.clipboard.writeText(tagText);
+      showToast(`Copied ${tagText}`);
+    }
+
+    function copyMasterBatchPrompt() {
+      const p = PAGES[currentIndex];
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      
+      let lines = [];
+      lines.push(`### 🛠️ Founder Batch Feedback on #${p.id} (${p.title})`);
+      lines.push(`- **Route**: \`${p.displayRoute}\``);
+      lines.push(`- **Source**: \`${p.srcUrl}\``);
+      
+      if (pageData.pageWide && pageData.pageWide.trim()) {
+        lines.push(`- **[PAGE-WIDE]**: ${pageData.pageWide.trim()}`);
+      }
+
+      let secCount = 0;
+      if (pageData.sections) {
+        for (const [secId, note] of Object.entries(pageData.sections)) {
+          if (note && note.trim()) {
+            lines.push(`- **[#${secId}]**: ${note.trim()}`);
+            secCount++;
+          }
+        }
+      }
+
+      if (!pageData.pageWide && secCount === 0) {
+        lines.push(`- **[PAGE-WIDE]**: Slide inspected and approved.`);
+      }
+
+      const fullPrompt = lines.join('\n');
+      navigator.clipboard.writeText(fullPrompt);
+
+      const btn = document.getElementById('btnCopyBatchPrompt');
+      btn.innerHTML = '<span>✅</span><span>COPIED TO CLIPBOARD!</span>';
+      btn.className = 'bg-[#4ADE80] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow transition';
+      showToast('Master Batch Prompt copied! Paste into chat with Ctrl+V');
+
+      setTimeout(() => {
+        btn.innerHTML = '<span>📋</span><span>Copy Master Batch Prompt</span>';
+        btn.className = 'bg-[#E5B842] hover:bg-[#d4a835] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow transition flex items-center gap-1.5 cursor-pointer';
+      }, 1500);
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('ffToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'ffToast';
+        toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#0A0F0C; color:#4ADE80; border:2px solid #E5B842; padding:8px 18px; border-radius:6px; font-weight:700; font-size:12px; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,0.8); transition:opacity 0.2s ease;';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+
     function setApproval(status) {
       const p = PAGES[currentIndex];
-      approvals[p.id] = { status, note: document.getElementById('founderNote').value };
+      approvals[p.id] = { status, note: (sectionFeedback[p.id]?.pageWide || '') };
       localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
       renderPage();
     }
@@ -797,12 +994,6 @@
       const current = approvals[p.id]?.status || 'pending';
       const next = current === 'approved' ? 'changes-requested' : 'approved';
       setApproval(next);
-    }
-
-    function saveNote(note) {
-      const p = PAGES[currentIndex];
-      approvals[p.id] = { status: approvals[p.id]?.status || 'pending', note };
-      localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
     }
 
     window.onload = init;
