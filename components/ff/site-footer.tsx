@@ -12,7 +12,7 @@ const columns = [
 export function SiteFooter() {
   return (
     <footer style={{ backgroundColor: "var(--forest-deep)", color: "#FAF6EE", padding: "2.5rem 3rem 1.5rem 3rem", marginTop: "2rem" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 2fr", gap: "4rem", alignItems: "center" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(300px, 1.15fr) 2fr", gap: "4rem", alignItems: "center" }}>
         {/* Branding box */}
         <div
           className="has-outside-corners"
@@ -26,7 +26,8 @@ export function SiteFooter() {
             flexDirection: "column",
             boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
             position: "relative",
-            minHeight: 240,
+            minHeight: 0,
+            height: "fit-content",
             overflow: "hidden",
           }}
         >
@@ -37,16 +38,11 @@ export function SiteFooter() {
             Fence Frames
           </div>
 
-          <div style={{ flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "1.5rem" }}>
-            <div style={{ background: "#141B16", padding: "1.8rem 2rem", boxShadow: "0 8px 24px rgba(0,0,0,0.5)", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <div style={{ ...rowdies(700), fontSize: "0.75rem", color: "var(--ink)", background: "var(--gold-sun)", padding: "0.2rem 0.6rem", borderRadius: 3, marginBottom: "0.8rem", letterSpacing: "0.05em", display: "inline-block" }}>
-                &#128081; BRANDING &middot; MARK
-              </div>
-              <h2 style={{ ...rowdies(700), fontSize: "3rem", color: "var(--gold-sun)", margin: 0, lineHeight: 1, letterSpacing: "0.02em" }}>Fence Frames</h2>
-              <p style={{ ...rowdies(400), fontSize: "0.85rem", color: "#FAF6EE", margin: "0.6rem 0 0 0" }}>
-                Washington State&rsquo;s finest custom blueprinting and introduction service.
-              </p>
-            </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1rem 1.5rem", flexWrap: "wrap" }}>
+            <h2 style={{ ...rowdies(700), fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--gold-sun)", margin: 0, lineHeight: 1, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>Fence Frames</h2>
+            <p style={{ ...rowdies(400), fontSize: "0.85rem", color: "#FAF6EE", margin: 0 }}>
+              Frame your vision, find your fence.
+            </p>
           </div>
         </div>
 
