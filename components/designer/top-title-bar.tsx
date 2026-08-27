@@ -49,51 +49,51 @@ export function TopTitleBar({
         </div>
 
         {/* Quick Jump Dropdown Triggers */}
-        <div className="hidden xl:flex items-center gap-1 text-xs text-white/60">
+        <div className="hidden xl:flex items-center gap-[10px] text-xs text-white/60">
           <button
             onClick={() => onSelectChapter?.('height')}
-            className="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-[3px] transition text-[10px]"
+            className="px-[10px] py-1 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-md transition text-[10px]"
           >
             Height: <span className="text-white font-bold">{config.heightFt}&apos;</span> ▼
           </button>
           <button
             onClick={() => onSelectChapter?.('posts')}
-            className="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-[3px] transition text-[10px]"
+            className="px-[10px] py-1 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-md transition text-[10px]"
           >
             Posts: <span className="text-white font-bold">{config.postType.split('-')[0]}</span> ▼
           </button>
           <button
             onClick={() => onSelectChapter?.('pickets')}
-            className="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-[3px] transition text-[10px]"
+            className="px-[10px] py-1 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded-md transition text-[10px]"
           >
             Pickets: <span className="text-white font-bold">{config.fillPattern === 'board-on-board' ? 'BoB' : 'Std'}</span> ▼
           </button>
         </div>
       </div>
 
-      {/* 2. Center: View Modes (Minimal Text Links) */}
-      <div className="flex items-center gap-4 text-[10px] text-white/40 uppercase tracking-widest font-bold">
+      {/* 2. Center: View Modes (Minimal Text Links with 10px Padding) */}
+      <div className="flex items-center gap-[10px] text-[10px] text-white/40 uppercase tracking-wider font-bold">
         <button
           onClick={() => onViewModeChange?.('canvas')}
-          className={`transition ${activeViewMode === 'canvas' ? 'text-[#E5B842]' : 'hover:text-white'}`}
+          className={`px-[10px] py-1 rounded-md transition ${activeViewMode === 'canvas' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
           2D Canvas
         </button>
         <button
           onClick={() => onViewModeChange?.('blueprint')}
-          className={`transition ${activeViewMode === 'blueprint' ? 'text-[#E5B842]' : 'hover:text-white'}`}
+          className={`px-[10px] py-1 rounded-md transition ${activeViewMode === 'blueprint' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
           Blueprint
         </button>
         <button
           onClick={() => onViewModeChange?.('materials')}
-          className={`transition ${activeViewMode === 'materials' ? 'text-[#E5B842]' : 'hover:text-white'}`}
+          className={`px-[10px] py-1 rounded-md transition ${activeViewMode === 'materials' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
           Material List
         </button>
         <button
           onClick={() => onViewModeChange?.('ledger')}
-          className={`transition ${activeViewMode === 'ledger' ? 'text-[#E5B842]' : 'hover:text-white'}`}
+          className={`px-[10px] py-1 rounded-md transition ${activeViewMode === 'ledger' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
           Project Ledger
         </button>
