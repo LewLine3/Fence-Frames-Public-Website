@@ -19,6 +19,29 @@ const MIME = {
 
 http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
+
+  // Proxy API calls to site-builder-server on port 3031
+  if (reqPath.startsWith('/api/')) {
+    const proxyReq = http.request({
+      hostname: '127.0.0.1',
+      port: 3031,
+      path: req.url,
+      method: req.method,
+      headers: req.headers
+    }, (proxyRes) => {
+      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      proxyRes.pipe(res, { end: true });
+    });
+
+    proxyReq.on('error', (err) => {
+      res.writeHead(502, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Site builder server unreachable', details: err.message }));
+    });
+
+    req.pipe(proxyReq, { end: true });
+    return;
+  }
+
   if (reqPath === '/') reqPath = '/founder-preflight-studio.html';
   let filePath = path.join(ROOT, reqPath);
 

@@ -1,28 +1,13 @@
----
-title: "Workspace Dashboard — Tier-1 HTML-first"
-type: dashboard
-category: fence-frames
-updated: 2026-08-26
-tags: [tier-1, html-first, auth-gate, staging]
----
+# Workspace Dashboard — Auth Gate v2
 
-# Workspace Dashboard — Tier-1 HTML-first + React controls
+**Focus:** CORE-02 Auth Gate with universal header, grid ground, Accounts dropdown
 
-**Session:** Batch 1 · PAGE 1 = CORE-02 Auth Gate (`/log-in`) — **Phase 1 Keep candidate**  
-**Branch:** `staging` → `origin/staging`
+## Live
+- [http://localhost:3000/auth-gate](http://localhost:3000/auth-gate)
+- Source: [`app/auth-gate/page.tsx`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/auth-gate/page.tsx)
 
-## Live Auth Gate
-- Static shell: [http://localhost:8080/auth-gate.html](http://localhost:8080/auth-gate.html) (python serve of `public/`)
-- Next routes (when Next up): `/log-in` · `/auth-gate` → redirect to `/auth-gate.html`
-- Source: [public/auth-gate.html](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/auth-gate.html)
-
-## Chrome reference
-- Live Demos ELEM-01: [element-header-footer.html](file:///D:/Lew-Line-Workspaces/_Publications-Demos-and-Exports/Live-Demos-and-Prototypes/element-header-footer.html)
-
-## Batch 1
-1. **CORE-02** `/log-in` ← Keep/Park
-2. CORE-03 `/blueprint`
-3. DSGN-01 → … PRO-05
-
-## Artifacts
-- [walkthrough.md](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/walkthrough.md)
+## What's new in this paste
+- Dark sticky header · Find It / Frame It / Fence It · Accounts portal menu · + New Build
+- Parchment major/minor grid canvas
+- Flush 1200px auth card + locked guest draft cedar plate
+- Footer role switcher + mobile hamburger drawer

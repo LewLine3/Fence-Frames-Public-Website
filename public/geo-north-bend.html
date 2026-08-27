@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root { --gold-sun: #E5B842; --ember: #F27A22; --forest-bright: #4ADE80; --ink: #141B16; }
@@ -50,16 +51,11 @@
     .c-bottom-right { bottom: -3px; right: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
   </style>
 </head>
-<body class="page-canvas-ground min-h-screen flex flex-col justify-between p-4 sm:p-6">
-  <header class="max-w-6xl mx-auto w-full flex items-center justify-between pb-4 border-b-2 border-[#141B16]/20">
-    <div class="flex items-center gap-2">
-      <a href="/" class="font-bold text-sm text-[#141B16]"><img src="/images/fence-frames-official-icon.png" alt="Logo" style="width:24px; height:24px; object-fit:contain; border-radius:3px; display:inline-block; vertical-align:middle; margin-right:6px;" /><span style="color:#4ADE80;">FENCE</span> <span style="color:#E5B842;">FRAMES</span></a>
-      <span class="text-xs text-[#141B16]/50">/ WA / King County / North Bend (98045)</span>
-    </div>
-    <a href="/designer" class="bg-[#E5B842] text-[#141B16] font-bold text-xs uppercase px-3 py-1.5 rounded border border-[#141B16]">Start Design in North Bend</a>
-  </header>
+<body class="page-canvas-ground min-h-screen flex flex-col justify-between">
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
 
-  <main class="max-w-6xl mx-auto w-full my-6 flex flex-col gap-6">
+  <main class="max-w-6xl mx-auto w-full my-6 px-4 sm:px-6 flex flex-col gap-6">
     <div class="box-tan-grid has-outside-corners rounded-lg p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>
       <div>

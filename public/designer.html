@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fence Frames — 2D CAD Designer Studio (DSGN-03)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --forest-deep: #16432D;
+      --forest-bright: #4ADE80;
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --tan-cream: #F4ECDC;
+      --bg-soft: #FAF6EE;
+      --line-ink: 2.5px;
+      --radius: 5px;
+      --tan-outline: #E5B842;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rowdies', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--ink);
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--tan-cream);
+      background-image:
+        linear-gradient(rgba(46, 139, 78, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 139, 78, 0.22) 1px, transparent 1px),
+        linear-gradient(rgba(22, 67, 45, 0.65) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.65) 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+      background-position: calc(50% - 600px) 0px;
+    }
+
+    /* Custom high-contrast CAD scrollbars */
+    .cad-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .cad-scrollbar::-webkit-scrollbar-track {
+      background: #141B16;
+      border-radius: 3px;
+    }
+    .cad-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--ember);
+      border-radius: 3px;
+      border: 1px solid #141B16;
+    }
+    .cad-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-sun);
+    }
+
+    /* Canonical Outside Corner Markers (50% wall-span law) */
+    .has-outside-corners {
+      position: relative;
+    }
+    .corner-mark-out {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      pointer-events: none;
+      z-index: 15;
+      --mark-th: 4.5px;
+      --mark-tip: 18px;
+      --mark-c: var(--gold-sun);
+    }
+    .corner-mark-out::before, .corner-mark-out::after {
+      content: "";
+      position: absolute;
+      background: var(--mark-c);
+    }
+    .corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+    .corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+
+    .corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+    .corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+    /* Button Chamfer styling */
+    .btn-chamfer {
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    }
+
+    /* Option Pill Active states */
+    .opt-btn {
+      transition: all 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .opt-btn.is-active {
+      background-color: var(--ember) !important;
+      color: #FFFFFF !important;
+      border-color: #1A1A1A !important;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body class="select-none">
+
+  <!-- ========================================================================= -->
+  <!-- 1. UNIVERSAL GLOBAL NAVBAR (ELEM-01)                                      -->
+  <!-- ========================================================================= -->
+  <header class="w-full bg-[#141B16] border-b-[2.5px] border-[#1A1A1A] z-40 flex-shrink-0 shadow-md">
+    <div class="max-w-[1440px] mx-auto px-4 py-2 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Pillars -->
+      <div class="flex items-center gap-6">
+        <a href="/" class="flex items-center gap-2.5 no-underline">
+          <svg class="w-8 h-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" viewBox="0 0 100 100" fill="none">
+            <rect x="5" y="5" width="90" height="90" rx="10" fill="#16432D" stroke="#E5B842" strokeWidth="6" />
+            <path d="M 30 75 L 30 25 L 70 25 M 30 48 L 65 48" stroke="#FAF6EE" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <div>
+            <span class="text-base md:text-lg font-bold tracking-wide uppercase leading-none text-white">
+              <span style="color: var(--forest-bright);">Fence</span>
+              <span style="color: var(--gold-sun);"> Frames</span>
+            </span>
+            <span class="block text-[7.5px] text-[#DBD0BD] tracking-widest font-light leading-none">2D CAD CONFIGURATOR STUDIO</span>
+          </div>
+        </a>
+
+        <!-- 3 Tucked Pillar Buttons -->
+        <nav class="hidden md:flex items-center gap-2">
+          <a href="/geo-north-bend.html" class="flex items-center gap-1.5 bg-[#FAF6EE]/10 px-2.5 py-1 rounded-[4px] border border-[#FAF6EE]/20 hover:border-[#E5B842] transition-colors text-xs text-[#FAF6EE]">
+            <span class="w-2 h-2 rounded-full" style="background-color: var(--gold-sun);"></span>
+            <span>Find It <span class="font-light opacity-60">(Location)</span></span>
+          </a>
+          <a href="/catalog-hub.html" class="flex items-center gap-1.5 bg-[#FAF6EE]/15 px-2.5 py-1 rounded-[4px] border border-[#F27A22] text-xs text-[#FAF6EE] shadow-inner">
+            <span class="w-2 h-2 rounded-full" style="background-color: var(--ember);"></span>
+            <span class="font-bold">Frame It <span class="font-light opacity-80">(Designer)</span></span>
+          </a>
+          <a href="/blueprint-standalone.html" class="flex items-center gap-1.5 bg-[#FAF6EE]/10 px-2.5 py-1 rounded-[4px] border border-[#FAF6EE]/20 hover:border-[#4ADE80] transition-colors text-xs text-[#FAF6EE]">
+            <span class="w-2 h-2 rounded-full" style="background-color: var(--forest-bright);"></span>
+            <span>Fence It <span class="font-light opacity-60">(Build)</span></span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right: Accounts Menu + CTA -->
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <button id="accountsBtn" class="flex items-center gap-1.5 bg-[#FAF6EE]/10 border border-[#FAF6EE]/20 px-2.5 py-1 rounded-[4px] text-xs font-normal hover:bg-[#FAF6EE]/20 transition-colors text-[#FAF6EE]">
+            <span>👤</span>
+            <span>Accounts</span>
+            <span class="text-[9px] opacity-80">▼</span>
+          </button>
+          <div id="accountsMenu" class="hidden absolute right-0 mt-2 w-60 bg-[#1A1A1A] border-2 border-[#FAF6EE]/10 rounded-[5px] shadow-2xl z-50 text-left p-2">
+            <div class="p-2 border-b border-white/10 text-[10px] text-[#E5B842] font-bold uppercase">Account Portals</div>
+            <a href="/homeowner-dashboard.html" class="block p-2 hover:bg-white/5 rounded text-xs text-[#4ADE80]">🏡 Homeowner Dashboard</a>
+            <a href="/contractors-hub.html" class="block p-2 hover:bg-white/5 rounded text-xs text-[#F27A22]">🔨 Contractor Lead Board</a>
+            <a href="/geo-si-view.html" class="block p-2 hover:bg-white/5 rounded text-xs text-[#E5B842]">🏛️ HOA Official Portal</a>
+            <div class="h-[1px] bg-white/10 my-1"></div>
+            <a href="/auth-gate.html" class="block p-2 hover:bg-white/5 rounded text-xs text-[#FAF6EE]">🔑 Sign In (Phone OTP)</a>
+          </div>
+        </div>
+
+        <a href="/designer" class="btn-chamfer bg-[#E5B842] text-[#1A1A1A] px-3 py-1 text-xs font-bold border-[1.5px] border-[#1A1A1A] hover:bg-[#FAF6EE] transition-all">
+          + New Build
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. TOP THIN TITLE BAR (HIGH-DENSITY CHAPTER JUMPS & TOOLS)                -->
+  <!-- ========================================================================= -->
+  <section class="w-full bg-[#1A1A1A] border-b-[2px] border-[#141B16] px-4 py-1.5 flex flex-wrap items-center justify-between gap-2 z-30 flex-shrink-0 text-white">
+    <div class="flex items-center gap-3">
+      <!-- Active Style Badge -->
+      <div class="flex items-center gap-2 bg-[#16432D] border border-[#4ADE80]/40 px-2 py-0.5 rounded text-xs">
+        <span class="text-[#E5B842] font-bold">HERITAGE</span>
+        <span class="text-white/80 font-light text-[11px]">Vertical Picket (Cedar)</span>
+      </div>
+
+      <!-- Quick Chapter Dropdowns -->
+      <div class="hidden lg:flex items-center gap-1.5 text-xs text-white/70">
+        <span class="text-[10px] text-[#E5B842] uppercase font-bold mr-1">JUMP:</span>
+        <button onclick="scrollToChapter('ch-height')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Height <span id="hdrHeight">6'</span> ▼</button>
+        <button onclick="scrollToChapter('ch-posts')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Posts <span id="hdrPosts">4x4</span> ▼</button>
+        <button onclick="scrollToChapter('ch-rails')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Rails <span id="hdrRails">3-Rail</span> ▼</button>
+        <button onclick="scrollToChapter('ch-fill')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Pickets <span id="hdrFill">BoB</span> ▼</button>
+        <button onclick="scrollToChapter('ch-stain')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Stain <span id="hdrStain">Cedar</span> ▼</button>
+        <button onclick="scrollToChapter('ch-gates')" class="px-2 py-0.5 bg-[#141B16] hover:bg-[#253328] hover:text-[#E5B842] border border-white/10 rounded transition">Gates <span id="hdrGates">1 Walk</span> ▼</button>
+      </div>
+    </div>
+
+    <!-- Right Controls: View Angle & Zoom -->
+    <div class="flex items-center gap-2 text-xs">
+      <div class="flex bg-[#141B16] p-0.5 rounded border border-white/15">
+        <button id="viewDual" onclick="setViewMode('both')" class="px-2 py-0.5 rounded bg-[#F27A22] text-white font-bold transition">Dual View</button>
+        <button id="viewFront" onclick="setViewMode('front')" class="px-2 py-0.5 rounded text-white/70 hover:text-white transition">Front</button>
+        <button id="viewBack" onclick="setViewMode('back')" class="px-2 py-0.5 rounded text-white/70 hover:text-white transition">Framing (Back)</button>
+      </div>
+
+      <div class="flex items-center bg-[#141B16] border border-white/15 rounded p-0.5">
+        <button onclick="adjustZoom(-0.1)" class="px-2 py-0.5 text-white/80 hover:text-white hover:bg-white/10 rounded font-bold">-</button>
+        <span id="zoomLabel" class="px-1.5 text-white/80 text-[11px]">100%</span>
+        <button onclick="adjustZoom(0.1)" class="px-2 py-0.5 text-white/80 hover:text-white hover:bg-white/10 rounded font-bold">+</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. MAIN STUDIO WORKSPACE (100dvh CONTAINED FLEX ROW)                      -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative p-2 md:p-3 gap-3">
+    
+    <!-- A. INFINITE LEFT SCROLL RAIL (OPTION SETS) -->
+    <aside id="leftRail" class="w-full md:w-[340px] lg:w-[370px] flex-shrink-0 bg-[#141B16] border-[2.5px] border-[#1A1A1A] rounded-[5px] shadow-2xl flex flex-col overflow-hidden has-outside-corners">
+      <!-- Outside Chamfer Markers -->
+      <div class="corner-mark-out tl"></div>
+      <div class="corner-mark-out br"></div>
+
+      <!-- Rail Header -->
+      <div class="bg-[#1A1A1A] text-[#E5B842] px-3 py-2 border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#F27A22] animate-pulse"></span>
+          <span class="text-xs font-bold uppercase tracking-wider">Configuration Chapters</span>
+        </div>
+        <span class="text-[10px] bg-[#FAF6EE]/10 text-[#FAF6EE] px-1.5 py-0.5 rounded border border-white/10">
+          8 METRICS LIVE
+        </span>
+      </div>
+
+      <!-- Scrollable Chapters Container -->
+      <div class="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-3 bg-[#18201B]">
+        
+        <!-- CHAPTER 1: HEIGHT & SPACING -->
+        <div id="ch-height" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#1 · Height & Post Spacing</span>
+            <span class="text-[9px] text-white/50 font-light">HOA standard 6'</span>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-1.5 mb-2">
+            <button onclick="setHeight(4)" class="opt-btn py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="height" data-val="4">4' FT</button>
+            <button onclick="setHeight(5)" class="opt-btn py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="height" data-val="5">5' FT</button>
+            <button onclick="setHeight(6)" class="opt-btn is-active py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="height" data-val="6">6' FT</button>
+            <button onclick="setHeight(8)" class="opt-btn py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="height" data-val="8">8' FT</button>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-white/80 pt-1 border-t border-white/5">
+            <span class="text-[10px]">Post Spacing (O.C.):</span>
+            <div class="flex gap-1">
+              <button onclick="setSpacing(6)" class="opt-btn px-2 py-0.5 text-[10px] rounded border border-white/15 bg-[#1C241E]" data-type="spacing" data-val="6">6' Bay</button>
+              <button onclick="setSpacing(8)" class="opt-btn is-active px-2 py-0.5 text-[10px] rounded border border-white/15 bg-[#1C241E]" data-type="spacing" data-val="8">8' Bay</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAPTER 2: POSTS & FOOTINGS -->
+        <div id="ch-posts" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#2 · Posts & Footings</span>
+            <span class="text-[9px] text-[#4ADE80] font-light">Structural Grade</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5 mb-2">
+            <button onclick="setPostType('4x4-cedar')" class="opt-btn is-active py-1.5 px-2 text-[11px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="post" data-val="4x4-cedar">🪵 4x4 Incense Cedar</button>
+            <button onclick="setPostType('6x6-cedar')" class="opt-btn py-1.5 px-2 text-[11px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="post" data-val="6x6-cedar">🪵 6x6 Heavy Timber</button>
+            <button onclick="setPostType('postmaster-steel')" class="opt-btn py-1.5 px-2 text-[11px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="post" data-val="postmaster-steel">🔩 PostMaster Steel</button>
+            <button onclick="setPostType('round-cedar')" class="opt-btn py-1.5 px-2 text-[11px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="post" data-val="round-cedar">🪵 Round Cedar Log</button>
+          </div>
+
+          <!-- Post Caps -->
+          <div class="flex items-center justify-between text-xs text-white/80 pt-1 border-t border-white/5">
+            <span class="text-[10px]">Post Cap Style:</span>
+            <select id="postCapSelect" onchange="setPostCap(this.value)" class="bg-[#1C241E] border border-white/20 text-white text-[10px] px-1.5 py-0.5 rounded focus:outline-none focus:border-[#E5B842]">
+              <option value="cedar-pyramid">Cedar Pyramid</option>
+              <option value="copper-pyramid">Copper Metal Pyramid</option>
+              <option value="metal-black">Black Powder Metal</option>
+              <option value="solar-led">Solar LED Light Cap</option>
+              <option value="none">Flush Cut (None)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CHAPTER 3: RAILS & FRAMING -->
+        <div id="ch-rails" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#3 · Rails & Framing</span>
+            <span class="text-[9px] text-white/50 font-light">2x4 Western Cedar</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-1.5 mb-2">
+            <button onclick="setRails(2)" class="opt-btn py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="rails" data-val="2">2-Rail</button>
+            <button onclick="setRails(3)" class="opt-btn is-active py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="rails" data-val="3">3-Rail (Std)</button>
+            <button onclick="setRails(4)" class="opt-btn py-1.5 text-xs rounded border border-white/15 bg-[#1C241E] text-white font-bold text-center" data-type="rails" data-val="4">4-Rail (Hvy)</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5 pt-1 border-t border-white/5">
+            <label class="flex items-center gap-1.5 text-[10px] text-white/80 cursor-pointer">
+              <input type="checkbox" id="topCapCheck" onchange="toggleTopCap(this.checked)" checked class="accent-[#F27A22]">
+              <span>2x6 Top Rail Cap</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-[10px] text-white/80 cursor-pointer">
+              <input type="checkbox" id="kickboardCheck" onchange="toggleKickboard(this.checked)" class="accent-[#F27A22]">
+              <span>2x6 Bottom Kick</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- CHAPTER 4: FILL & PICKETS -->
+        <div id="ch-fill" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#4 · Fill Material & Pattern</span>
+            <span class="text-[9px] text-[#4ADE80] font-light">1x4 / 1x6 Cedar</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5 mb-2">
+            <button onclick="setFill('board-on-board')" class="opt-btn is-active py-1.5 px-2 text-[10px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="fill" data-val="board-on-board">🌲 Board-on-Board (Full Privacy)</button>
+            <button onclick="setFill('standard-gap')" class="opt-btn py-1.5 px-2 text-[10px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="fill" data-val="standard-gap">🌲 Standard 1/2" Gap</button>
+            <button onclick="setFill('shadowbox')" class="opt-btn py-1.5 px-2 text-[10px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="fill" data-val="shadowbox">🌲 Shadowbox (Semi-Air)</button>
+            <button onclick="setFill('butt-joint')" class="opt-btn py-1.5 px-2 text-[10px] rounded border border-white/15 bg-[#1C241E] text-white text-left" data-type="fill" data-val="butt-joint">🌲 Solid Butt Joint</button>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-white/80 pt-1 border-t border-white/5">
+            <span class="text-[10px]">Lumber Grade:</span>
+            <div class="flex gap-1">
+              <button onclick="setWoodGrade('tight-knot')" class="opt-btn is-active px-2 py-0.5 text-[10px] rounded border border-white/15 bg-[#1C241E]" data-type="grade" data-val="tight-knot">Tight-Knot Cedar</button>
+              <button onclick="setWoodGrade('clear-cedar')" class="opt-btn px-2 py-0.5 text-[10px] rounded border border-white/15 bg-[#1C241E]" data-type="grade" data-val="clear-cedar">Clear Architectural</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAPTER 5: STAIN & WOOD FINISH -->
+        <div id="ch-stain" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#5 · Stain & Wood Seal</span>
+            <span class="text-[9px] text-white/50 font-light">Penetrating Oil</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setStain('cedar-natural')" class="opt-btn is-active py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="cedar-natural">
+              <span class="w-3 h-3 rounded-full bg-[#B87B44] border border-white/30"></span>
+              <span>Cedar</span>
+            </button>
+            <button onclick="setStain('clear-seal')" class="opt-btn py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="clear-seal">
+              <span class="w-3 h-3 rounded-full bg-[#C9A982] border border-white/30"></span>
+              <span>Clear</span>
+            </button>
+            <button onclick="setStain('chestnut-brown')" class="opt-btn py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="chestnut-brown">
+              <span class="w-3 h-3 rounded-full bg-[#784626] border border-white/30"></span>
+              <span>Chestnut</span>
+            </button>
+            <button onclick="setStain('redwood')" class="opt-btn py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="redwood">
+              <span class="w-3 h-3 rounded-full bg-[#8E3826] border border-white/30"></span>
+              <span>Redwood</span>
+            </button>
+            <button onclick="setStain('dark-walnut')" class="opt-btn py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="dark-walnut">
+              <span class="w-3 h-3 rounded-full bg-[#42281D] border border-white/30"></span>
+              <span>Walnut</span>
+            </button>
+            <button onclick="setStain('unfinished')" class="opt-btn py-1 px-1.5 text-[10px] rounded border border-white/15 flex items-center gap-1 bg-[#1C241E]" data-type="stain" data-val="unfinished">
+              <span class="w-3 h-3 rounded-full bg-[#D8C3A5] border border-white/30"></span>
+              <span>Natural</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CHAPTER 6: GATES & ACCESS -->
+        <div id="ch-gates" class="bg-[#141B16] border border-white/10 rounded p-2.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-[#E5B842] uppercase">#6 · Gates & Access Ports</span>
+            <span class="text-[9px] text-[#4ADE80] font-light">Anti-Sag Steel</span>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-white/80 mb-2">
+            <span class="text-[10px]">Standard Walk Gates (4' Wide):</span>
+            <div class="flex items-center gap-1">
+              <button onclick="adjustWalkGates(-1)" class="w-5 h-5 bg-[#1C241E] rounded border border-white/15 font-bold text-center">-</button>
+              <span id="walkGateCount" class="w-6 text-center font-bold text-[#E5B842]">1</span>
+              <button onclick="adjustWalkGates(1)" class="w-5 h-5 bg-[#1C241E] rounded border border-white/15 font-bold text-center">+</button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-white/80">
+            <span class="text-[10px]">Driveway Double Gates (10' Wide):</span>
+            <div class="flex items-center gap-1">
+              <button onclick="adjustDriveGates(-1)" class="w-5 h-5 bg-[#1C241E] rounded border border-white/15 font-bold text-center">-</button>
+              <span id="driveGateCount" class="w-6 text-center font-bold text-[#E5B842]">0</span>
+              <button onclick="adjustDriveGates(1)" class="w-5 h-5 bg-[#1C241E] rounded border border-white/15 font-bold text-center">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- B. CENTRAL DUAL-ELEVATION DRAFTING STAGE (CONTINUUM ENGINE) -->
+    <section class="flex-1 bg-[#141B16] border-[2.5px] border-[#1A1A1A] rounded-[5px] shadow-2xl flex flex-col overflow-hidden relative has-outside-corners">
+      <!-- Outside Chamfer Markers -->
+      <div class="corner-mark-out tr"></div>
+      <div class="corner-mark-out bl"></div>
+
+      <!-- Stage Top Bar -->
+      <div class="bg-[#1A1A1A] text-white px-4 py-2 border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-[#4ADE80] uppercase tracking-wider">2D Vector Elevation Viewport</span>
+          <span class="text-[10px] text-white/60 font-light hidden sm:inline">Scale: 1/2" = 1'-0" · Submittal Ready</span>
+        </div>
+        <div class="flex items-center gap-3 text-xs">
+          <span id="dimensionPill" class="bg-[#16432D] text-[#4ADE80] border border-[#4ADE80]/30 px-2 py-0.5 rounded text-[10px] font-bold">
+            Bay: 8' W × 6' H
+          </span>
+          <span class="text-[10px] text-[#E5B842] bg-black/40 px-2 py-0.5 rounded border border-white/10">
+            ZIP 98045 Compliant
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Interactive Canvas Viewport -->
+      <div id="canvasViewport" class="flex-1 flex items-center justify-center p-4 overflow-auto cad-scrollbar bg-[#16432D] relative" style="background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 20px 20px;">
+        
+        <!-- Synchronized Elevation Container -->
+        <div id="elevationStageContainer" class="flex items-center justify-center gap-6 transition-transform duration-150" style="transform: scale(1); transform-origin: center center;">
+          
+          <!-- CARD 1: FRONT ELEVATION -->
+          <div id="cardFront" class="flex flex-col items-center bg-[#141B16]/90 border-[2px] border-[#1A1A1A] rounded-[5px] p-3 shadow-2xl transition-all duration-300">
+            <div class="w-full flex items-center justify-between pb-1.5 mb-2 border-b border-white/10">
+              <span class="text-[11px] font-bold text-[#E5B842] uppercase">Street / Neighbor Face (Front)</span>
+              <span class="text-[9px] text-[#4ADE80] font-mono">100% VISUAL SUBMITTAL</span>
+            </div>
+            <svg id="svgFront" width="460" height="340" viewBox="0 0 460 340" class="drop-shadow-lg">
+              <!-- SVG Front rendered by JS Engine -->
+            </svg>
+          </div>
+
+          <!-- CARD 2: FRAMING / BACK ELEVATION -->
+          <div id="cardBack" class="flex flex-col items-center bg-[#141B16]/90 border-[2px] border-[#1A1A1A] rounded-[5px] p-3 shadow-2xl transition-all duration-300">
+            <div class="w-full flex items-center justify-between pb-1.5 mb-2 border-b border-white/10">
+              <span class="text-[11px] font-bold text-[#F27A22] uppercase">Structural Framing (Back Face)</span>
+              <span class="text-[9px] text-[#FAF6EE]/60 font-mono">POSTS · RAILS · HARDWARE</span>
+            </div>
+            <svg id="svgBack" width="460" height="340" viewBox="0 0 460 340" class="drop-shadow-lg">
+              <!-- SVG Back rendered by JS Engine -->
+            </svg>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. BOTTOM CONTROL HUD & CANONICAL ESTIMATE STRIP (ZERO FOOTER)           -->
+  <!-- ========================================================================= -->
+  <footer class="w-full bg-[#141B16] border-t-[2.5px] border-[#1A1A1A] p-2 md:p-3 flex-shrink-0 z-40 shadow-2xl">
+    <div class="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-3">
+      
+      <!-- Linear Feet Horizontal Slider & Presets -->
+      <div class="w-full lg:w-auto flex-1 flex flex-col sm:flex-row items-center gap-3 bg-[#1C241E] p-2 rounded-[5px] border border-white/10">
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <span class="text-xs font-bold text-[#E5B842] uppercase">Linear Feet:</span>
+          <span id="lfReadout" class="text-sm font-bold text-white bg-[#141B16] px-2.5 py-0.5 rounded border border-white/15">8 LF</span>
+        </div>
+
+        <input
+          id="lfSlider"
+          type="range"
+          min="8"
+          max="300"
+          step="1"
+          value="8"
+          oninput="setLF(this.value)"
+          class="w-full sm:flex-1 h-2 bg-[#141B16] rounded-lg appearance-none cursor-pointer accent-[#F27A22]"
+        />
+
+        <!-- Preset Pills -->
+        <div class="flex items-center gap-1 flex-shrink-0">
+          <button onclick="setLF(8)" class="px-1.5 py-0.5 text-[10px] bg-[#141B16] hover:bg-[#F27A22] hover:text-white text-white/80 rounded border border-white/10 transition">8 LF (Bay)</button>
+          <button onclick="setLF(48)" class="px-1.5 py-0.5 text-[10px] bg-[#141B16] hover:bg-[#F27A22] hover:text-white text-white/80 rounded border border-white/10 transition">48 LF</button>
+          <button onclick="setLF(96)" class="px-1.5 py-0.5 text-[10px] bg-[#141B16] hover:bg-[#F27A22] hover:text-white text-white/80 rounded border border-white/10 transition">96 LF</button>
+          <button onclick="setLF(120)" class="px-1.5 py-0.5 text-[10px] bg-[#141B16] hover:bg-[#F27A22] hover:text-white text-white/80 rounded border border-white/10 transition">120 LF</button>
+          <button onclick="setLF(200)" class="px-1.5 py-0.5 text-[10px] bg-[#141B16] hover:bg-[#F27A22] hover:text-white text-white/80 rounded border border-white/10 transition">200 LF</button>
+        </div>
+      </div>
+
+      <!-- Live Canonical Pricing Engine HUD (±15% Law) -->
+      <div class="w-full lg:w-auto flex items-center justify-between sm:justify-end gap-3 flex-shrink-0">
+        <div class="flex flex-col text-right">
+          <span class="text-[9px] text-[#DBD0BD] uppercase font-light tracking-wider">Estimated Project Range (±15%)</span>
+          <span id="priceRange" class="text-base md:text-lg font-bold text-[#4ADE80] tracking-wide leading-tight">
+            $4,896 — $6,624
+          </span>
+          <span class="text-[8px] text-white/50">Burdened Material · 2× Labor · 10% Admin</span>
+        </div>
+
+        <!-- Action Gateways -->
+        <div class="flex items-center gap-2">
+          <button onclick="resetDefaults()" class="px-2.5 py-1.5 bg-[#1C241E] hover:bg-white/10 text-white/80 hover:text-white text-xs rounded border border-white/20 transition" title="Restore blank Heritage default option set">
+            ↺ Reset
+          </button>
+
+          <button onclick="saveToFolio()" class="btn-chamfer bg-[#4ADE80] hover:bg-[#FAF6EE] text-[#141B16] font-bold text-xs px-3.5 py-2 border-[1.5px] border-[#1A1A1A] transition shadow-md">
+            Save to Folio →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 5. INTERACTIVE JAVASCRIPT STATE & VECTOR RENDERING ENGINE                 -->
+  <!-- ========================================================================= -->
+  <script>
+    // State Store (8 Canonical Metrics)
+    const state = {
+      heightFt: 6,
+      postSpacingFt: 8,
+      linearFeet: 8,
+      woodGrade: 'tight-knot',
+      postType: '4x4-cedar',
+      postCap: 'cedar-pyramid',
+      railCount: 3,
+      topCap: true,
+      kickboard: false,
+      fillPattern: 'board-on-board',
+      stainType: 'cedar-natural',
+      walkGates: 0,
+      driveGates: 0,
+      viewMode: 'both',
+      zoom: 1.0,
+    };
+
+    // Wood Stain Palette
+    const stainColors = {
+      'cedar-natural': { wood: '#B87B44', dark: '#8C5A2A', rail: '#9C6834' },
+      'clear-seal':    { wood: '#C9A982', dark: '#9E805E', rail: '#B3916D' },
+      'chestnut-brown':{ wood: '#784626', dark: '#542E15', rail: '#64371C' },
+      'redwood':       { wood: '#8E3826', dark: '#632113', rail: '#772C1A' },
+      'dark-walnut':   { wood: '#42281D', dark: '#281710', rail: '#341E15' },
+      'unfinished':    { wood: '#D8C3A5', dark: '#B59F82', rail: '#C5AF92' },
+    };
+
+    function init() {
+      // Toggle accounts dropdown
+      const btn = document.getElementById('accountsBtn');
+      const menu = document.getElementById('accountsMenu');
+      if (btn && menu) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => menu.classList.add('hidden'));
+      }
+
+      // Responsive screen handling
+      handleResize();
+      window.addEventListener('resize', handleResize);
+
+      render();
+    }
+
+    function handleResize() {
+      const w = window.innerWidth;
+      const cardBack = document.getElementById('cardBack');
+      if (w < 1180 && state.viewMode === 'both') {
+        // Poof back card away on tighter screens
+        if (cardBack) cardBack.style.display = 'none';
+      } else if (state.viewMode === 'both') {
+        if (cardBack) cardBack.style.display = 'flex';
+      }
+    }
+
+    function scrollToChapter(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('ring-2', 'ring-[#E5B842]');
+        setTimeout(() => el.classList.remove('ring-2', 'ring-[#E5B842]'), 1200);
+      }
+    }
+
+    // Mutator Functions
+    function setHeight(val) {
+      state.heightFt = Number(val);
+      updateActiveBtn('height', val);
+      document.getElementById('hdrHeight').innerText = val + "'";
+      render();
+    }
+
+    function setSpacing(val) {
+      state.postSpacingFt = Number(val);
+      updateActiveBtn('spacing', val);
+      render();
+    }
+
+    function setPostType(val) {
+      state.postType = val;
+      updateActiveBtn('post', val);
+      document.getElementById('hdrPosts').innerText = val.split('-')[0];
+      render();
+    }
+
+    function setPostCap(val) {
+      state.postCap = val;
+      render();
+    }
+
+    function setRails(val) {
+      state.railCount = Number(val);
+      updateActiveBtn('rails', val);
+      document.getElementById('hdrRails').innerText = val + '-Rail';
+      render();
+    }
+
+    function toggleTopCap(val) {
+      state.topCap = val;
+      render();
+    }
+
+    function toggleKickboard(val) {
+      state.kickboard = val;
+      render();
+    }
+
+    function setFill(val) {
+      state.fillPattern = val;
+      updateActiveBtn('fill', val);
+      const label = val === 'board-on-board' ? 'BoB' : val === 'standard-gap' ? 'Gap' : 'Solid';
+      document.getElementById('hdrFill').innerText = label;
+      render();
+    }
+
+    function setWoodGrade(val) {
+      state.woodGrade = val;
+      updateActiveBtn('grade', val);
+      render();
+    }
+
+    function setStain(val) {
+      state.stainType = val;
+      updateActiveBtn('stain', val);
+      document.getElementById('hdrStain').innerText = val.split('-')[0];
+      render();
+    }
+
+    function adjustWalkGates(delta) {
+      state.walkGates = Math.max(0, Math.min(6, state.walkGates + delta));
+      document.getElementById('walkGateCount').innerText = state.walkGates;
+      document.getElementById('hdrGates').innerText = state.walkGates + ' Walk';
+      render();
+    }
+
+    function adjustDriveGates(delta) {
+      state.driveGates = Math.max(0, Math.min(4, state.driveGates + delta));
+      document.getElementById('driveGateCount').innerText = state.driveGates;
+      render();
+    }
+
+    function setLF(val) {
+      state.linearFeet = Number(val);
+      document.getElementById('lfReadout').innerText = val + ' LF';
+      document.getElementById('lfSlider').value = val;
+      render();
+    }
+
+    function setViewMode(mode) {
+      state.viewMode = mode;
+      const front = document.getElementById('cardFront');
+      const back = document.getElementById('cardBack');
+      const btnBoth = document.getElementById('viewDual');
+      const btnFront = document.getElementById('viewFront');
+      const btnBack = document.getElementById('viewBack');
+
+      [btnBoth, btnFront, btnBack].forEach(b => {
+        b.className = 'px-2 py-0.5 rounded text-white/70 hover:text-white transition';
+      });
+
+      if (mode === 'both') {
+        btnBoth.className = 'px-2 py-0.5 rounded bg-[#F27A22] text-white font-bold transition';
+        if (front) front.style.display = 'flex';
+        if (back && window.innerWidth >= 1180) back.style.display = 'flex';
+      } else if (mode === 'front') {
+        btnFront.className = 'px-2 py-0.5 rounded bg-[#F27A22] text-white font-bold transition';
+        if (front) front.style.display = 'flex';
+        if (back) back.style.display = 'none';
+      } else if (mode === 'back') {
+        btnBack.className = 'px-2 py-0.5 rounded bg-[#F27A22] text-white font-bold transition';
+        if (front) front.style.display = 'none';
+        if (back) back.style.display = 'flex';
+      }
+    }
+
+    function adjustZoom(delta) {
+      state.zoom = Math.max(0.6, Math.min(1.6, state.zoom + delta));
+      document.getElementById('zoomLabel').innerText = Math.round(state.zoom * 100) + '%';
+      document.getElementById('elevationStageContainer').style.transform = `scale(${state.zoom})`;
+    }
+
+    function updateActiveBtn(type, val) {
+      document.querySelectorAll(`.opt-btn[data-type="${type}"]`).forEach(btn => {
+        if (btn.getAttribute('data-val') == val) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+    }
+
+    function resetDefaults() {
+      state.heightFt = 6;
+      state.postSpacingFt = 8;
+      state.linearFeet = 120;
+      state.woodGrade = 'tight-knot';
+      state.postType = '4x4-cedar';
+      state.postCap = 'cedar-pyramid';
+      state.railCount = 3;
+      state.topCap = true;
+      state.kickboard = false;
+      state.fillPattern = 'board-on-board';
+      state.stainType = 'cedar-natural';
+      state.walkGates = 1;
+      state.driveGates = 0;
+      
+      // Update UI elements
+      updateActiveBtn('height', 6);
+      updateActiveBtn('spacing', 8);
+      updateActiveBtn('post', '4x4-cedar');
+      updateActiveBtn('rails', 3);
+      updateActiveBtn('fill', 'board-on-board');
+      updateActiveBtn('grade', 'tight-knot');
+      updateActiveBtn('stain', 'cedar-natural');
+      document.getElementById('topCapCheck').checked = true;
+      document.getElementById('kickboardCheck').checked = false;
+      document.getElementById('postCapSelect').value = 'cedar-pyramid';
+      document.getElementById('walkGateCount').innerText = '1';
+      document.getElementById('driveGateCount').innerText = '0';
+      setLF(120);
+      render();
+    }
+
+    function saveToFolio() {
+      // Save draft into session
+      sessionStorage.setItem('ff-locked-draft', JSON.stringify(state));
+      window.location.href = '/auth-gate.html';
+    }
+
+    // Canonical Quote Math Engine (monetization_rules.md)
+    function calculatePricing() {
+      const lf = state.linearFeet;
+      const baseCostPerFt = 24.50; // Raw BOM materials for 6ft heritage baseline
+      const heightMult = state.heightFt === 4 ? 0.8 : state.heightFt === 5 ? 0.9 : state.heightFt === 6 ? 1.0 : 1.35;
+      const gradeMult = state.woodGrade === 'clear-cedar' ? 1.25 : 1.0;
+      const postMult = state.postType === '6x6-cedar' ? 1.18 : state.postType === 'postmaster-steel' ? 1.22 : 1.0;
+      const stainCost = state.stainType === 'unfinished' ? 0 : 4.50 * lf;
+      const gateCost = (state.walkGates * 220) + (state.driveGates * 650);
+
+      const rawMaterials = (lf * baseCostPerFt * heightMult * gradeMult * postMult) + stainCost + gateCost;
+      const M = rawMaterials * 1.25;          // Burdened material (tax + logistics)
+      const L = M * 2.0;                     // Labor = 2x Material
+      const A = (M + L) * 0.10;              // 10% Overhead & Admin
+
+      const quoted_mid = M + L + A;
+      const display_low = Math.round(quoted_mid * 0.85);
+      const display_high = Math.round(quoted_mid * 1.15);
+
+      return { low: display_low, high: display_high };
+    }
+
+    // Main Vector Renderer
+    function render() {
+      // Pricing
+      const pricing = calculatePricing();
+      document.getElementById('priceRange').innerText = `$${pricing.low.toLocaleString()} — $${pricing.high.toLocaleString()}`;
+      document.getElementById('dimensionPill').innerText = `Bay: ${state.postSpacingFt}' W × ${state.heightFt}' H`;
+
+      const colors = stainColors[state.stainType] || stainColors['cedar-natural'];
+      const groundY = 280;
+      const scaleH = state.heightFt * 32; // 6ft -> 192px
+      const fenceTopY = groundY - scaleH;
+      const postW = state.postType === '6x6-cedar' ? 24 : 18;
+      const postLeftX = 45;
+      const postRightX = postLeftX + (state.postSpacingFt * 42); // 8ft -> 336px
+      const panelW = postRightX - postLeftX;
+
+      // 1. RENDER FRONT ELEVATION
+      const svgFront = document.getElementById('svgFront');
+      let frontHTML = `
+        <defs>
+          <linearGradient id="grassG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80" />
+            <stop offset="100%" stop-color="#16432D" />
+          </linearGradient>
+        </defs>
+
+        <!-- Height Ruler -->
+        <g opacity="0.6">
+          <line x1="25" y1="${groundY}" x2="25" y2="${groundY - 260}" stroke="#E5B842" stroke-width="1" stroke-dasharray="2,2" />
+          <text x="18" y="${groundY}" fill="#E5B842" font-size="9" text-anchor="end">0'</text>
+          <text x="18" y="${groundY - 128}" fill="#E5B842" font-size="9" text-anchor="end">4'</text>
+          <text x="18" y="${groundY - 192}" fill="#E5B842" font-size="9" text-anchor="end">6'</text>
+          <text x="18" y="${groundY - 256}" fill="#E5B842" font-size="9" text-anchor="end">8'</text>
+        </g>
+
+        <!-- Turf Baseline -->
+        <line x1="25" y1="${groundY}" x2="435" y2="${groundY}" stroke="#4ADE80" stroke-width="2.5" />
+        <rect x="25" y="${groundY}" width="410" height="25" fill="url(#grassG)" opacity="0.35" />
+
+        <!-- Posts (Front) -->
+        <rect x="${postLeftX - postW/2}" y="${fenceTopY - 10}" width="${postW}" height="${scaleH + 10}" fill="${colors.dark}" stroke="#141B16" stroke-width="1.5" rx="1" />
+        <rect x="${postRightX - postW/2}" y="${fenceTopY - 10}" width="${postW}" height="${scaleH + 10}" fill="${colors.dark}" stroke="#141B16" stroke-width="1.5" rx="1" />
+
+        <!-- Post Caps -->
+        ${renderPostCapSVG(postLeftX, fenceTopY - 10, postW)}
+        ${renderPostCapSVG(postRightX, fenceTopY - 10, postW)}
+
+        <!-- Bottom Kickboard if active -->
+        ${state.kickboard ? `<rect x="${postLeftX}" y="${groundY - 18}" width="${panelW}" height="18" fill="${colors.dark}" stroke="#141B16" stroke-width="1" />` : ''}
+
+        <!-- Pickets / Infill Pattern -->
+        <g id="frontPickets">
+          ${renderPickets(postLeftX, postRightX, fenceTopY, groundY, colors)}
+        </g>
+
+        <!-- Top Cap if active -->
+        ${state.topCap ? `<rect x="${postLeftX - 4}" y="${fenceTopY - 4}" width="${panelW + 8}" height="8" fill="${colors.dark}" stroke="#141B16" stroke-width="1" rx="1" />` : ''}
+
+        <!-- Dimension Tag -->
+        <text x="${postLeftX + panelW/2}" y="${groundY + 38}" fill="#E5B842" font-size="10" text-anchor="middle" font-weight="bold">${state.postSpacingFt}' BAY RUN · ${state.heightFt}' HEIGHT</text>
+      `;
+      svgFront.innerHTML = frontHTML;
+
+      // 2. RENDER BACK / FRAMING ELEVATION
+      const svgBack = document.getElementById('svgBack');
+      let backHTML = `
+        <defs>
+          <linearGradient id="grassG2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80" />
+            <stop offset="100%" stop-color="#16432D" />
+          </linearGradient>
+        </defs>
+
+        <!-- Turf Baseline -->
+        <line x1="25" y1="${groundY}" x2="435" y2="${groundY}" stroke="#4ADE80" stroke-width="2.5" />
+        <rect x="25" y="${groundY}" width="410" height="25" fill="url(#grassG2)" opacity="0.35" />
+
+        <!-- Framing Pickets Background Silhouette -->
+        <g opacity="0.65">
+          ${renderPickets(postLeftX, postRightX, fenceTopY, groundY, colors)}
+        </g>
+
+        <!-- Posts (Full Structural Inset) -->
+        <rect x="${postLeftX - postW/2}" y="${fenceTopY - 15}" width="${postW}" height="${scaleH + 15}" fill="${colors.dark}" stroke="#141B16" stroke-width="2" rx="1" />
+        <rect x="${postRightX - postW/2}" y="${fenceTopY - 15}" width="${postW}" height="${scaleH + 15}" fill="${colors.dark}" stroke="#141B16" stroke-width="2" rx="1" />
+
+        <!-- 2x4 Horizontal Framing Rails -->
+        ${renderFramingRails(postLeftX, postRightX, fenceTopY, groundY, colors)}
+
+        <!-- Top Cap on Back -->
+        ${state.topCap ? `<rect x="${postLeftX - 4}" y="${fenceTopY - 4}" width="${panelW + 8}" height="8" fill="${colors.dark}" stroke="#141B16" stroke-width="1" rx="1" />` : ''}
+
+        <!-- Hardware Fasteners / Simpson Ties Ticks -->
+        ${renderHardwareFasteners(postLeftX, postRightX, fenceTopY, groundY)}
+
+        <!-- Dimension Tag -->
+        <text x="${postLeftX + panelW/2}" y="${groundY + 38}" fill="#F27A22" font-size="10" text-anchor="middle" font-weight="bold">${state.railCount}-RAIL STRUCTURAL FRAMING</text>
+      `;
+      svgBack.innerHTML = backHTML;
+    }
+
+    function renderPostCapSVG(x, y, w) {
+      if (state.postCap === 'none') return '';
+      if (state.postCap === 'cedar-pyramid' || state.postCap === 'copper-pyramid') {
+        const fill = state.postCap === 'copper-pyramid' ? '#C87548' : '#8C5A2A';
+        return `<polygon points="${x - w/2 - 2},${y} ${x},${y - 12} ${x + w/2 + 2},${y}" fill="${fill}" stroke="#141B16" stroke-width="1.2" />`;
+      }
+      if (state.postCap === 'metal-black') {
+        return `<polygon points="${x - w/2 - 2},${y} ${x},${y - 8} ${x + w/2 + 2},${y}" fill="#1F2421" stroke="#141B16" stroke-width="1.2" />`;
+      }
+      if (state.postCap === 'solar-led') {
+        return `
+          <rect x="${x - w/2 - 2}" y="${y - 14}" width="${w + 4}" height="14" fill="#1F2421" stroke="#141B16" stroke-width="1" rx="2" />
+          <rect x="${x - 4}" y="${y - 10}" width="8" height="5" fill="#FAF6EE" opacity="0.9" />
+        `;
+      }
+      return '';
+    }
+
+    function renderPickets(leftX, rightX, topY, groundY, colors) {
+      const panelW = rightX - leftX;
+      const count = state.postSpacingFt === 6 ? 12 : 16;
+      const picketW = panelW / (count + (state.fillPattern === 'board-on-board' ? 0.5 : 0));
+      let picketsHTML = '';
+
+      if (state.fillPattern === 'board-on-board') {
+        // Layer 1: Back Row
+        for (let i = 0; i < count; i++) {
+          const px = leftX + (i * picketW);
+          picketsHTML += `<rect x="${px + 2}" y="${topY}" width="${picketW - 4}" height="${groundY - topY - (state.kickboard ? 18 : 0)}" fill="${colors.dark}" stroke="#141B16" stroke-width="0.8" />`;
+        }
+        // Layer 2: Front Overlapping Row
+        for (let i = 0; i < count - 1; i++) {
+          const px = leftX + (i * picketW) + (picketW / 2);
+          picketsHTML += `<rect x="${px}" y="${topY}" width="${picketW}" height="${groundY - topY - (state.kickboard ? 18 : 0)}" fill="${colors.wood}" stroke="#141B16" stroke-width="0.8" />`;
+        }
+      } else {
+        // Standard Gap / Solid
+        const gap = state.fillPattern === 'standard-gap' ? 3 : 0.5;
+        for (let i = 0; i < count; i++) {
+          const px = leftX + (i * picketW) + (gap/2);
+          picketsHTML += `<rect x="${px}" y="${topY}" width="${picketW - gap}" height="${groundY - topY - (state.kickboard ? 18 : 0)}" fill="${colors.wood}" stroke="#141B16" stroke-width="0.8" />`;
+        }
+      }
+      return picketsHTML;
+    }
+
+    function renderFramingRails(leftX, rightX, topY, groundY, colors) {
+      const panelW = rightX - leftX;
+      const spanH = groundY - topY;
+      let railsHTML = '';
+
+      if (state.railCount === 2) {
+        railsHTML += `<rect x="${leftX}" y="${topY + 20}" width="${panelW}" height="14" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${groundY - 34}" width="${panelW}" height="14" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+      } else if (state.railCount === 3) {
+        railsHTML += `<rect x="${leftX}" y="${topY + 20}" width="${panelW}" height="14" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${topY + (spanH/2) - 7}" width="${panelW}" height="14" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${groundY - 34}" width="${panelW}" height="14" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+      } else if (state.railCount === 4) {
+        railsHTML += `<rect x="${leftX}" y="${topY + 15}" width="${panelW}" height="12" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${topY + (spanH * 0.33) - 6}" width="${panelW}" height="12" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${topY + (spanH * 0.66) - 6}" width="${panelW}" height="12" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+        railsHTML += `<rect x="${leftX}" y="${groundY - 28}" width="${panelW}" height="12" fill="${colors.rail}" stroke="#141B16" stroke-width="1.5" />`;
+      }
+      return railsHTML;
+    }
+
+    function renderHardwareFasteners(leftX, rightX, topY, groundY) {
+      const spanH = groundY - topY;
+      let hwHTML = '';
+      const positions = state.railCount === 2
+        ? [topY + 27, groundY - 27]
+        : state.railCount === 3
+        ? [topY + 27, topY + (spanH/2), groundY - 27]
+        : [topY + 21, topY + (spanH * 0.33), topY + (spanH * 0.66), groundY - 22];
+
+      positions.forEach(py => {
+        hwHTML += `<circle cx="${leftX + 4}" cy="${py}" r="2" fill="#E5B842" stroke="#141B16" stroke-width="0.5" />`;
+        hwHTML += `<circle cx="${rightX - 4}" cy="${py}" r="2" fill="#E5B842" stroke="#141B16" stroke-width="0.5" />`;
+      });
+      return hwHTML;
+    }
+
+    // Boot on load
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

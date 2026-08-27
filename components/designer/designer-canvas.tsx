@@ -1,300 +1,272 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FenceConfiguration } from '@/lib/pricing-engine'
 
 interface DesignerCanvasProps {
   config: FenceConfiguration;
+  viewAngle?: 'both' | 'front' | 'back';
+  onViewAngleChange?: (angle: 'both' | 'front' | 'back') => void;
+  zoomLevel?: number;
+  onZoomChange?: (zoom: number) => void;
 }
 
-export function DesignerCanvas({ config }: DesignerCanvasProps) {
-  const [zoomLevel, setZoomLevel] = useState<number>(1)
-  const [viewAngle, setViewAngle] = useState<'both' | 'front' | 'back'>('both')
+const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string; rail: string }> = {
+  'cedar-natural': { main: '#c88254', dark: '#8a4e2c', light: '#dca070', rail: '#b06840' },
+  'clear-seal':    { main: '#c9a982', dark: '#9e805e', light: '#e2ccb0', rail: '#b3916d' },
+  'chestnut-brown':{ main: '#784626', dark: '#542e15', light: '#995c37', rail: '#64371c' },
+  'redwood':       { main: '#8e3826', dark: '#632113', light: '#ab4a35', rail: '#772c1a' },
+  'dark-walnut':   { main: '#42281d', dark: '#281710', light: '#5e3a2c', rail: '#341e15' },
+  'none':          { main: '#d8c3a5', dark: '#b59f82', light: '#eddcc5', rail: '#c5af92' },
+}
 
-  // Color mapping based on stain selection
-  const getWoodFill = () => {
-    switch (config.stainType) {
-      case 'clear-seal': return '#C9A982';
-      case 'cedar-natural': return '#B87B44';
-      case 'chestnut-brown': return '#784626';
-      case 'redwood': return '#8E3826';
-      case 'dark-walnut': return '#42281D';
-      default: return '#D8C3A5'; // Natural / Unfinished
-    }
+export function DesignerCanvas({
+  config,
+  viewAngle = 'both',
+  onViewAngleChange,
+  zoomLevel = 1.0,
+  onZoomChange,
+}: DesignerCanvasProps) {
+  const [internalZoom, setInternalZoom] = useState<number>(zoomLevel)
+  const [internalAngle, setInternalAngle] = useState<'both' | 'front' | 'back'>(viewAngle)
+  const [frontSvgText, setFrontSvgText] = useState<string>('')
+  const [backSvgText, setBackSvgText] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  const frontHostRef = useRef<HTMLDivElement>(null)
+  const backHostRef = useRef<HTMLDivElement>(null)
+
+  const currentAngle = onViewAngleChange ? viewAngle : internalAngle
+  const currentZoom = onZoomChange ? zoomLevel : internalZoom
+
+  const handleAngleChange = (angle: 'both' | 'front' | 'back') => {
+    if (onViewAngleChange) onViewAngleChange(angle)
+    else setInternalAngle(angle)
   }
 
-  const getPostCapFill = () => {
-    switch (config.postCap) {
-      case 'copper-pyramid': return '#C87548';
-      case 'metal-black': return '#1F2421';
-      case 'solar-led': return '#334155';
-      default: return getWoodFill();
-    }
+  const handleZoomChange = (delta: number) => {
+    const next = Math.max(0.6, Math.min(1.6, Number((currentZoom + delta).toFixed(2))))
+    if (onZoomChange) onZoomChange(next)
+    else setInternalZoom(next)
   }
 
-  // Picket spacing & rendering math
-  const picketCount = 16;
-  const postSpacingPx = 360;
-  const fenceHeightPx = config.heightFt * 40; // 4ft -> 160px, 6ft -> 240px, 8ft -> 320px
-  const groundY = 380;
-  const fenceTopY = groundY - fenceHeightPx;
+  // 1. Fetch Real SVG Assemblies from Canonical configure/heritage-v1
+  useEffect(() => {
+    let isMounted = true
+    setIsLoading(true)
+
+    Promise.all([
+      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame.svg')
+        .then((res) => (res.ok ? res.text() : Promise.reject('Failed to load Front SVG assembly'))),
+      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame-back.svg')
+        .then((res) => (res.ok ? res.text() : Promise.reject('Failed to load Back SVG assembly'))),
+    ])
+      .then(([front, back]) => {
+        if (!isMounted) return
+        setFrontSvgText(front)
+        setBackSvgText(back)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        console.warn('[DesignerCanvas] SVG fetch fallback:', err)
+        if (isMounted) setIsLoading(false)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  // 2. Apply Reactive Configuration & Material Slots to Mounted SVGs
+  useEffect(() => {
+    const applySlots = (hostEl: HTMLElement | null, isBack = false) => {
+      if (!hostEl) return
+      const svg = hostEl.querySelector('svg')
+      if (!svg) return
+
+      // Ensure responsiveness
+      svg.setAttribute('width', '100%')
+      svg.setAttribute('height', '100%')
+      svg.style.maxWidth = '100%'
+      svg.style.maxHeight = '100%'
+      svg.style.display = 'block'
+
+      // A. Picket Fill Pattern
+      const picketGroups = svg.querySelectorAll('[id*="picket"], [data-slot="picket-fill"]')
+      picketGroups.forEach((el) => {
+        const id = el.id || ''
+        if (config.fillPattern === 'board-on-board') {
+          if (id.includes('flat-top') || id.includes('gothic')) (el as HTMLElement).style.display = 'none'
+          else (el as HTMLElement).style.display = ''
+        } else if (config.fillPattern === 'flat-top-privacy' || config.fillPattern === 'standard-gap') {
+          if (id.includes('board-on-board') || id.includes('gothic')) (el as HTMLElement).style.display = 'none'
+          else (el as HTMLElement).style.display = ''
+        }
+      })
+
+      // B. Rails Visibility (2-Rail vs 3-Rail)
+      const middleRail = svg.querySelector('#middle-rail, [id*="rail-middle"], [id*="rail-mid"]')
+      if (middleRail) {
+        (middleRail as HTMLElement).style.display = config.railCount >= 3 ? '' : 'none'
+      }
+
+      // C. Top Cap
+      const topCapEl = svg.querySelector('#top-cap, [id*="rail-cap"]')
+      if (topCapEl) {
+        (topCapEl as HTMLElement).style.display = config.topCap ? '' : 'none'
+      }
+
+      // D. Post Caps
+      const capGroups = svg.querySelectorAll('[id*="cap"], [data-slot="post-cap-material"]')
+      capGroups.forEach((el) => {
+        if (config.postCap === 'none') {
+          (el as HTMLElement).style.display = 'none'
+        } else {
+          (el as HTMLElement).style.display = ''
+        }
+      })
+
+      // E. Dynamic Stain & Wood Color Updates on Gradients
+      const palette = STAIN_PALETTES[config.stainType] || STAIN_PALETTES['cedar-natural']
+      const shineGrads = svg.querySelectorAll('linearGradient[id*="shine"], linearGradient[id*="cedar"]')
+      shineGrads.forEach((grad) => {
+        const stops = grad.querySelectorAll('stop')
+        if (stops.length >= 3) {
+          stops[0].setAttribute('stop-color', palette.light)
+          stops[1].setAttribute('stop-color', palette.main)
+          stops[2].setAttribute('stop-color', palette.dark)
+        }
+      })
+    }
+
+    if (frontHostRef.current && frontSvgText) {
+      applySlots(frontHostRef.current, false)
+    }
+    if (backHostRef.current && backSvgText) {
+      applySlots(backHostRef.current, true)
+    }
+  }, [config, frontSvgText, backSvgText, currentAngle])
 
   return (
-    <div className="relative w-full bg-[#18201B] border-2 border-[#141B16] rounded-md overflow-hidden flex flex-col items-center justify-between p-4 shadow-2xl">
-      {/* Top Canvas Toolbar */}
-      <div className="w-full flex items-center justify-between z-10 pb-3 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <span className="font-['Rowdies'] font-bold text-xs uppercase px-2.5 py-1 bg-[#E5B842] text-[#141B16] rounded">
-            2D CAD Drafting Board
+    <div className="relative w-full h-full flex flex-col bg-[#141B16] border-[2.5px] border-[#1A1A1A] rounded-[5px] shadow-2xl overflow-hidden has-outside-corners">
+      {/* 50% Chamfer Outside Corner Marks */}
+      <div className="corner-mark-out tr" />
+      <div className="corner-mark-out bl" />
+
+      {/* Top Drafting Stage Status & Control Strip */}
+      <div className="w-full flex items-center justify-between z-10 px-4 py-2 bg-[#1A1A1A] border-b-[2px] border-[#141B16] text-white flex-shrink-0">
+        <div className="flex items-center gap-2.5">
+          <span className="font-['Rowdies'] font-bold text-xs uppercase px-2.5 py-1 bg-[#4ADE80] text-[#141B16] rounded-[3px] shadow-sm">
+            2D CAD Elevation Board
           </span>
-          <span className="text-xs text-white/70 font-['Rowdies'] font-light">
-            Scale: 1/2&quot; = 1&apos;-0&quot; · Dual Front &amp; Back Submittal Elevation
+          <span className="text-xs text-white/70 font-['Rowdies'] font-light hidden sm:inline">
+            Scale: 1/2&quot; = 1&apos;-0&quot; · 112″ × 95″ Module Standard
           </span>
         </div>
 
-        {/* View Toggle & Zoom */}
-        <div className="flex items-center gap-2">
-          <div className="flex bg-[#111713] p-0.5 rounded border border-white/15 text-xs font-['Rowdies'] font-normal">
+        {/* View Angle & Zoom Buttons */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex bg-[#141B16] p-0.5 rounded-[4px] border border-white/15 text-xs font-['Rowdies'] font-normal">
             <button
-              onClick={() => setViewAngle('both')}
-              className={`px-2.5 py-1 rounded transition ${viewAngle === 'both' ? 'bg-[#F27A22] text-white' : 'text-white/60 hover:text-white'}`}
+              onClick={() => handleAngleChange('both')}
+              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'both' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
             >
               Dual View
             </button>
             <button
-              onClick={() => setViewAngle('front')}
-              className={`px-2.5 py-1 rounded transition ${viewAngle === 'front' ? 'bg-[#F27A22] text-white' : 'text-white/60 hover:text-white'}`}
+              onClick={() => handleAngleChange('front')}
+              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'front' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
             >
               Front
             </button>
             <button
-              onClick={() => setViewAngle('back')}
-              className={`px-2.5 py-1 rounded transition ${viewAngle === 'back' ? 'bg-[#F27A22] text-white' : 'text-white/60 hover:text-white'}`}
+              onClick={() => handleAngleChange('back')}
+              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'back' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
             >
               Framing (Back)
             </button>
           </div>
 
-          <div className="flex items-center bg-[#111713] border border-white/15 rounded p-0.5 text-xs text-white font-['Rowdies'] font-bold">
-            <button onClick={() => setZoomLevel(Math.max(0.6, zoomLevel - 0.15))} className="px-2 py-0.5 hover:bg-white/10 rounded">-</button>
-            <span className="px-1.5 text-white/70">{Math.round(zoomLevel * 100)}%</span>
-            <button onClick={() => setZoomLevel(Math.min(1.8, zoomLevel + 0.15))} className="px-2 py-0.5 hover:bg-white/10 rounded">+</button>
+          <div className="flex items-center bg-[#141B16] border border-white/15 rounded-[4px] p-0.5 text-xs text-white font-['Rowdies'] font-bold">
+            <button onClick={() => handleZoomChange(-0.1)} className="px-2 py-0.5 hover:bg-white/10 rounded">-</button>
+            <span className="px-1.5 text-white/80 text-[11px] min-w-[3rem] text-center">{Math.round(currentZoom * 100)}%</span>
+            <button onClick={() => handleZoomChange(0.1)} className="px-2 py-0.5 hover:bg-white/10 rounded">+</button>
           </div>
         </div>
       </div>
 
-      {/* SVG Canvas Area */}
-      <div className="w-full flex-1 flex items-center justify-center overflow-x-auto py-8 min-h-[420px]">
-        <div style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center', transition: 'transform 0.15s ease' }}>
-          <svg width="860" height="440" viewBox="0 0 860 440" className="drop-shadow-2xl">
-            {/* Background Grid & Drafting Markers */}
-            <defs>
-              <pattern id="cadGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-              </pattern>
-              <linearGradient id="grassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#4ADE80" />
-                <stop offset="100%" stopColor="#16432D" />
-              </linearGradient>
-            </defs>
+      {/* Main Drafting Grid Stage */}
+      <div
+        className="flex-1 w-full flex items-center justify-center p-4 overflow-auto cad-scrollbar bg-[#16432D] relative"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+        }}
+      >
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center gap-3 p-8 bg-[#141B16]/90 border border-white/15 rounded-[5px] text-white">
+            <div className="w-8 h-8 rounded-full border-2 border-[#E5B842] border-t-transparent animate-spin" />
+            <span className="text-xs font-['Rowdies'] uppercase tracking-wider text-[#E5B842]">
+              Loading Authentic Heritage Vector Assemblies...
+            </span>
+          </div>
+        ) : (
+          <div
+            className="flex items-center justify-center gap-6 transition-transform duration-150"
+            style={{ transform: `scale(${currentZoom})`, transformOrigin: 'center center' }}
+          >
+            {/* FRONT ELEVATION CARD */}
+            {(currentAngle === 'both' || currentAngle === 'front') && (
+              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-[5px] p-3.5 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
+                <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
+                  <span className="font-bold text-[#E5B842] uppercase tracking-wide">
+                    Street / Neighbor Face (Front)
+                  </span>
+                  <span className="text-[10px] text-[#4ADE80] font-mono">
+                    VPF HERITAGE 100% SUBMITTAL
+                  </span>
+                </div>
 
-            <rect x="0" y="0" width="860" height="440" fill="#141B16" />
-            <rect x="0" y="0" width="860" height="440" fill="url(#cadGrid)" />
+                <div
+                  ref={frontHostRef}
+                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded bg-[#162019]"
+                  dangerouslySetInnerHTML={{ __html: frontSvgText }}
+                />
 
-            {/* Left Height Dimension Ruler (0' to 8') */}
-            <g className="font-['Rowdies'] text-[10px] fill-white/50">
-              <line x1="45" y1={groundY} x2="45" y2={groundY - 320} stroke="#E5B842" strokeWidth="1.5" strokeDasharray="3,3" />
-              <text x="35" y={groundY + 4} textAnchor="end">0&apos;</text>
-              <text x="35" y={groundY - 80 + 4} textAnchor="end">2&apos;</text>
-              <text x="35" y={groundY - 160 + 4} textAnchor="end">4&apos;</text>
-              <text x="35" y={groundY - 240 + 4} textAnchor="end">6&apos;</text>
-              <text x="35" y={groundY - 320 + 4} textAnchor="end">8&apos;</text>
-              
-              {/* Target Height Indicator */}
-              <rect x="15" y={fenceTopY - 10} width="45" height="18" fill="#E5B842" rx="3" />
-              <text x="37" y={fenceTopY + 3} fill="#141B16" fontWeight="bold" textAnchor="middle">{config.heightFt}&apos;-0&quot;</text>
-            </g>
-
-            {/* Ground / Turf Line */}
-            <line x1="50" y1={groundY} x2="820" y2={groundY} stroke="#4ADE80" strokeWidth="3" />
-            <rect x="50" y={groundY} width="770" height="35" fill="url(#grassGrad)" opacity="0.3" />
-
-            {/* ================================================================= */}
-            {/* FRONT ELEVATION (LEFT RUN) */}
-            {/* ================================================================= */}
-            {(viewAngle === 'both' || viewAngle === 'front') && (
-              <g transform={viewAngle === 'both' ? 'translate(80, 0)' : 'translate(250, 0)'}>
-                <text x="180" y="45" fill="#E5B842" className="font-['Rowdies'] font-bold text-xs uppercase" textAnchor="middle">
-                  FRONT ELEVATION (Street / Neighbor Face)
-                </text>
-
-                {/* Posts (Left, Right) */}
-                <rect x="0" y={fenceTopY - 15} width="22" height={fenceHeightPx + 15} fill={config.woodGrade === 'clear-cedar' ? '#C29B72' : '#A07850'} stroke="#141B16" strokeWidth="1.5" rx="1" />
-                <rect x={postSpacingPx} y={fenceTopY - 15} width="22" height={fenceHeightPx + 15} fill={config.woodGrade === 'clear-cedar' ? '#C29B72' : '#A07850'} stroke="#141B16" strokeWidth="1.5" rx="1" />
-
-                {/* Post Caps */}
-                {config.postCap !== 'none' && (
-                  <>
-                    <polygon points={`-2,${fenceTopY - 15} 11,${fenceTopY - 27} 24,${fenceTopY - 15}`} fill={getPostCapFill()} stroke="#141B16" strokeWidth="1.5" />
-                    <polygon points={`${postSpacingPx - 2},${fenceTopY - 15} ${postSpacingPx + 11},${fenceTopY - 27} ${postSpacingPx + 24},${fenceTopY - 15}`} fill={getPostCapFill()} stroke="#141B16" strokeWidth="1.5" />
-                  </>
-                )}
-
-                {/* Bottom Kickboard if selected */}
-                {config.trimStyle === 'kickboard-2x6' && (
-                  <rect x="22" y={groundY - 24} width={postSpacingPx - 22} height="22" fill="#5C3A21" stroke="#141B16" strokeWidth="1.5" />
-                )}
-
-                {/* DYNAMIC FILL MATERIAL (METRIC #4) */}
-                {/* 4A. VERTICAL PICKETS */}
-                {(config.fenceStyleCategory === 'vertical-picket' || !config.fenceStyleCategory) && (
-                  Array.from({ length: picketCount }).map((_, i) => {
-                    const picketW = (postSpacingPx - 26) / picketCount;
-                    const px = 24 + i * picketW;
-                    const isBoardOnBoard = config.fillPattern === 'board-on-board';
-                    return (
-                      <g key={`picket-front-${i}`}>
-                        <rect
-                          x={px}
-                          y={fenceTopY}
-                          width={isBoardOnBoard ? picketW + 4 : picketW - 1.5}
-                          height={fenceHeightPx - (config.trimStyle === 'kickboard-2x6' ? 24 : 0)}
-                          fill={getWoodFill()}
-                          stroke="#141B16"
-                          strokeWidth="1.2"
-                        />
-                        <line x1={px + picketW * 0.4} y1={fenceTopY + 10} x2={px + picketW * 0.4} y2={groundY - 10} stroke="rgba(0,0,0,0.15)" strokeWidth="0.8" />
-                      </g>
-                    );
-                  })
-                )}
-
-                {/* 4B. HORIZONTAL BOARDS */}
-                {config.fenceStyleCategory === 'horizontal-board' && (
-                  Array.from({ length: Math.floor(fenceHeightPx / 24) }).map((_, i) => {
-                    const py = fenceTopY + (i * 24);
-                    return (
-                      <g key={`horiz-board-${i}`}>
-                        <rect
-                          x="22"
-                          y={py}
-                          width={postSpacingPx - 22}
-                          height="22"
-                          fill={getWoodFill()}
-                          stroke="#141B16"
-                          strokeWidth="1.2"
-                        />
-                        <line x1="25" y1={py + 11} x2={postSpacingPx - 5} y2={py + 11} stroke="rgba(0,0,0,0.12)" strokeWidth="0.8" />
-                      </g>
-                    );
-                  })
-                )}
-
-                {/* 4C. FABRIC & WELDED WIRE */}
-                {config.fenceStyleCategory === 'fabric-wire' && (
-                  <g>
-                    <rect x="22" y={fenceTopY} width={postSpacingPx - 22} height={fenceHeightPx} fill="#111713" opacity="0.6" />
-                    {Array.from({ length: 14 }).map((_, i) => (
-                      <line key={`wire-v-${i}`} x1={26 + (i * 22)} y1={fenceTopY} x2={26 + (i * 22)} y2={groundY} stroke="#333" strokeWidth="1.5" />
-                    ))}
-                    {Array.from({ length: Math.floor(fenceHeightPx / 20) }).map((_, i) => (
-                      <line key={`wire-h-${i}`} x1="22" y1={fenceTopY + (i * 20)} x2={postSpacingPx} y2={fenceTopY + (i * 20)} stroke="#333" strokeWidth="1.5" />
-                    ))}
-                  </g>
-                )}
-
-                {/* 4D. LATTICE CRAFTSMAN */}
-                {config.fenceStyleCategory === 'lattice-craftsman' && (
-                  <g>
-                    <rect x="22" y={fenceTopY} width={postSpacingPx - 22} height={fenceHeightPx} fill="#241E19" opacity="0.8" />
-                    {Array.from({ length: 18 }).map((_, i) => (
-                      <line key={`lat-1-${i}`} x1={22 + (i * 18)} y1={fenceTopY} x2={22 + (i * 18) + 120} y2={groundY} stroke={getWoodFill()} strokeWidth="2.5" />
-                    ))}
-                    {Array.from({ length: 18 }).map((_, i) => (
-                      <line key={`lat-2-${i}`} x1={postSpacingPx - (i * 18)} y1={fenceTopY} x2={postSpacingPx - (i * 18) - 120} y2={groundY} stroke={getWoodFill()} strokeWidth="2.5" />
-                    ))}
-                  </g>
-                )}
-
-                {/* Top Cap Rail if selected */}
-                {config.topCap && (
-                  <rect x="-4" y={fenceTopY - 8} width={postSpacingPx + 30} height="9" fill="#8C5832" stroke="#141B16" strokeWidth="1.5" rx="1" />
-                )}
-
-                {/* Picture Frame Top/Bottom Trim if selected */}
-                {config.trimStyle === 'picture-frame-trim' && (
-                  <>
-                    <rect x="22" y={fenceTopY} width={postSpacingPx - 22} height="12" fill="#5C3A21" stroke="#141B16" strokeWidth="1.2" />
-                    <rect x="22" y={groundY - 14} width={postSpacingPx - 22} height="12" fill="#5C3A21" stroke="#141B16" strokeWidth="1.2" />
-                  </>
-                )}
-              </g>
+                <div className="w-full flex items-center justify-between pt-2 mt-2 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies']">
+                  <span>Bay: {config.postSpacingFt}&apos; OC × {config.heightFt}&apos; Height</span>
+                  <span className="text-[#E5B842] font-bold">16 Board-on-Board Pickets</span>
+                </div>
+              </div>
             )}
 
-            {/* ================================================================= */}
-            {/* BACK ELEVATION (RIGHT RUN — FRAMING & RAILS) */}
-            {/* ================================================================= */}
-            {(viewAngle === 'both' || viewAngle === 'back') && (
-              <g transform={viewAngle === 'both' ? 'translate(480, 0)' : 'translate(250, 0)'}>
-                <text x="180" y="45" fill="#4ADE80" className="font-['Rowdies'] font-bold text-xs uppercase" textAnchor="middle">
-                  BACK ELEVATION (Internal Framing &amp; Rails)
-                </text>
+            {/* BACK / FRAMING ELEVATION CARD */}
+            {(currentAngle === 'both' || currentAngle === 'back') && (
+              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-[5px] p-3.5 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
+                <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
+                  <span className="font-bold text-[#F27A22] uppercase tracking-wide">
+                    Structural Framing Face (Back)
+                  </span>
+                  <span className="text-[10px] text-white/60 font-mono">
+                    POSTS · {config.railCount}-RAILS · SIMPSON HARDWARE
+                  </span>
+                </div>
 
-                {/* Back Pickets Layer (faint background) */}
-                <rect x="24" y={fenceTopY} width={postSpacingPx - 26} height={fenceHeightPx} fill={getWoodFill()} opacity="0.85" />
+                <div
+                  ref={backHostRef}
+                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded bg-[#162019]"
+                  dangerouslySetInnerHTML={{ __html: backSvgText }}
+                />
 
-                {/* Posts (Left, Right) */}
-                <rect x="0" y={fenceTopY - 15} width="22" height={fenceHeightPx + 15} fill={config.woodGrade === 'clear-cedar' ? '#C29B72' : '#A07850'} stroke="#141B16" strokeWidth="1.5" rx="1" />
-                <rect x={postSpacingPx} y={fenceTopY - 15} width="22" height={fenceHeightPx + 15} fill={config.woodGrade === 'clear-cedar' ? '#C29B72' : '#A07850'} stroke="#141B16" strokeWidth="1.5" rx="1" />
-
-                {/* Horizontal 2x4 3-Rail System */}
-                {/* Top Rail */}
-                <rect x="18" y={fenceTopY + 20} width={postSpacingPx - 14} height="16" fill="#8C5832" stroke="#141B16" strokeWidth="1.5" rx="1" />
-                {/* Mid Rail */}
-                {config.railCount >= 3 && (
-                  <rect x="18" y={fenceTopY + (fenceHeightPx / 2) - 8} width={postSpacingPx - 14} height="16" fill="#8C5832" stroke="#141B16" strokeWidth="1.5" rx="1" />
-                )}
-                {/* Bottom Rail */}
-                <rect x="18" y={groundY - 36} width={postSpacingPx - 14} height="16" fill="#8C5832" stroke="#141B16" strokeWidth="1.5" rx="1" />
-
-                {/* Simpson Brackets / Ties */}
-                {config.hardwareTier !== 'galvanized' && (
-                  <>
-                    <rect x="18" y={fenceTopY + 20} width="6" height="16" fill="#141B16" />
-                    <rect x={postSpacingPx - 2} y={fenceTopY + 20} width="6" height="16" fill="#141B16" />
-                    <rect x="18" y={groundY - 36} width="6" height="16" fill="#141B16" />
-                    <rect x={postSpacingPx - 2} y={groundY - 36} width="6" height="16" fill="#141B16" />
-                  </>
-                )}
-
-                {/* Top Cap */}
-                {config.topCap && (
-                  <rect x="-4" y={fenceTopY - 8} width={postSpacingPx + 30} height="9" fill="#8C5832" stroke="#141B16" strokeWidth="1.5" rx="1" />
-                )}
-              </g>
+                <div className="w-full flex items-center justify-between pt-2 mt-2 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies']">
+                  <span>Post Cores: {config.postType.replace('-', ' ').toUpperCase()}</span>
+                  <span className="text-[#4ADE80] font-bold">PASSED ARC-CODE-1</span>
+                </div>
+              </div>
             )}
-          </svg>
-        </div>
-      </div>
-
-      {/* Live Spec Readout Badge Strip */}
-      <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-2 pt-3 border-t border-white/10 text-center font-['Rowdies'] text-xs">
-        <div className="bg-[#111713] py-1.5 px-3 rounded border border-white/10">
-          <span className="text-white/60 block text-[10px] uppercase">Height &amp; Spacing</span>
-          <span className="text-[#E5B842] font-bold">{config.heightFt}&apos; Tall · {config.postSpacingFt}&apos; Posts</span>
-        </div>
-        <div className="bg-[#111713] py-1.5 px-3 rounded border border-white/10">
-          <span className="text-white/60 block text-[10px] uppercase">Lumber Grade</span>
-          <span className="text-[#4ADE80] font-bold">{config.woodGrade.replace('-', ' ').toUpperCase()}</span>
-        </div>
-        <div className="bg-[#111713] py-1.5 px-3 rounded border border-white/10">
-          <span className="text-white/60 block text-[10px] uppercase">Framing System</span>
-          <span className="text-white font-bold">{config.railCount}-Rail · {config.topCap ? 'Top Cap' : 'Standard'}</span>
-        </div>
-        <div className="bg-[#111713] py-1.5 px-3 rounded border border-white/10">
-          <span className="text-white/60 block text-[10px] uppercase">Finish &amp; Stain</span>
-          <span className="text-[#F27A22] font-bold">{config.stainType.replace('-', ' ').toUpperCase()}</span>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -62,6 +62,9 @@
         <span id="badgePillarTop" class="text-[10px] font-bold px-2 py-0.5 rounded text-white bg-[#F27A22]">
           Frame It
         </span>
+        <span id="badgeRenderTypeTop" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded text-slate-300 bg-slate-800 border border-slate-600">
+          STATIC
+        </span>
         <h1 class="text-white font-bold text-sm" id="pageTitleTop">The Universal 2D Designer Configurator</h1>
       </div>
 
@@ -104,7 +107,10 @@
               <span>🎯</span>
               <span>Purpose &amp; Goal</span>
             </h3>
-            <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+            <div class="flex items-center gap-1">
+              <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Frame It</span>
+              <span id="badgeRenderTypeCard" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded text-slate-300 bg-slate-800 border border-slate-600">STATIC</span>
+            </div>
           </div>
           <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
         </div>
@@ -282,6 +288,13 @@
           </button>
         </div>
 
+        <!-- Render Type Filter Bar -->
+        <div class="flex gap-1 my-0.5">
+          <button onclick="setRenderTypeFilter('ALL')" id="filterBtnALL" class="flex-1 bg-[#E5B842] text-[#141B16] font-bold text-[9px] py-1 rounded text-center transition">ALL</button>
+          <button onclick="setRenderTypeFilter('STATIC')" id="filterBtnSTATIC" class="flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition">STATIC</button>
+          <button onclick="setRenderTypeFilter('REACT')" id="filterBtnREACT" class="flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition">REACT</button>
+        </div>
+
         <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-full bg-[#0A0F0C] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] py-1.5 px-1 rounded text-center focus:outline-none cursor-pointer">
         </select>
 
@@ -361,6 +374,7 @@
         title: 'Master Homepage & Brand Portal',
         srcUrl: '/homepage.html',
         displayRoute: '/',
+        renderType: 'STATIC',
         pillar: 'Multi-Pillar Convergence',
         pillarColor: '#E5B842',
         purpose: 'The central front door for Fence Frames. Converts visitors into active design sessions via 3 clear pathways (Code/HOA Matcher, Design Catalog, Instant Configurator).',
@@ -386,6 +400,7 @@
         title: 'Auth Gate & Zero-Data-Loss Preservation',
         srcUrl: '/auth-gate.html',
         displayRoute: '/log-in',
+        renderType: 'STATIC',
         pillar: 'Auth & Draft Preservation (Sun Gold)',
         pillarColor: '#E5B842',
         purpose: 'Frictionless SMS OTP phone number gate. Hydrates active guest design parameters into verified homeowner account with zero data loss.',
@@ -408,6 +423,7 @@
         title: 'The Universal 2D Designer Configurator',
         srcUrl: '/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html',
         displayRoute: '/designer',
+        renderType: 'REACT-PLANNED',
         pillar: 'Frame It (Ember Orange)',
         pillarColor: '#F27A22',
         purpose: 'The universal parametric CAD engine. Renders dual Front & Back elevations in real time with 8 pricing metrics, dynamic style switching, and live BOM calculation.',
@@ -434,6 +450,7 @@
         title: 'Portrait 8.5" × 11" ARC Blueprint',
         srcUrl: '/blueprint-standalone.html',
         displayRoute: '/blueprint',
+        renderType: 'STATIC',
         pillar: 'Fence It (Forest Green)',
         pillarColor: '#4ADE80',
         purpose: 'The official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
@@ -457,6 +474,7 @@
         title: 'Homeowner Command Center & Showcase Dashboard',
         srcUrl: '/homeowner-dashboard.html',
         displayRoute: '/homeowner',
+        renderType: 'REACT-PLANNED',
         pillar: 'Portals & Homeowner Hub (Royal Blue)',
         pillarColor: '#3B82F6',
         purpose: 'The authenticated homeowner command center. Houses saved Fence-Folios, tracks Si View ARC approval status, and monitors real-time contractor bids.',
@@ -481,6 +499,7 @@
         title: 'Fence-Folio 6-Chapter Printable Dossier',
         srcUrl: '/homeowner-folio-dossier.html',
         displayRoute: '/homeowner/folio/FF-98045-8912',
+        renderType: 'STATIC',
         pillar: 'Fence-Folio Dossier (Forest Green)',
         pillarColor: '#4ADE80',
         purpose: 'Comprehensive 6-chapter architectural dossier (Cover, HOA Compliance, BOM Takeoff, 2D CAD Elevation, Hardware Add-ons, Pricing Ledger).',
@@ -499,6 +518,7 @@
         title: '12+ Style Architectural Catalog Hub',
         srcUrl: '/catalog-hub.html',
         displayRoute: '/catalog',
+        renderType: 'STATIC',
         pillar: 'Frame It Catalog (Ember Orange)',
         pillarColor: '#F27A22',
         purpose: 'Architectural directory of 12+ pre-engineered fence styles organized by 3 pillars with filter chips, LF estimates, and 1-click launch into Designer.',
@@ -518,6 +538,7 @@
         title: 'Heritage 3-Rail Style Deep-Dive Spec Sheet',
         srcUrl: '/catalog-detail.html',
         displayRoute: '/catalog/heritage-3-rail',
+        renderType: 'STATIC',
         pillar: 'Frame It (Ember Orange)',
         pillarColor: '#F27A22',
         purpose: 'Deep architectural spec sheet with 3 pre-configured sub-assemblies (Economy 4ft, Standard 6ft, Premium 6ft with Cap) and Mount Si 90mph windload rating.',
@@ -536,6 +557,7 @@
         title: 'City of North Bend Municipal Codes & Permits',
         srcUrl: '/geo-north-bend.html',
         displayRoute: '/wa/king-county/north-bend',
+        renderType: 'STATIC',
         pillar: 'Find It Codes (Sun Gold)',
         pillarColor: '#E5B842',
         purpose: 'City-specific building regulations: 6ft rear / 4ft front height limits, Mount Si 90mph windload, 24" frost depth, and permit exemptions.',
@@ -555,6 +577,7 @@
         title: 'Si View HOA Community Hub & Pre-Approved ARC',
         srcUrl: '/geo-si-view.html',
         displayRoute: '/wa/king-county/north-bend/si-view',
+        renderType: 'STATIC',
         pillar: 'Find It HOA (Sun Gold)',
         pillarColor: '#E5B842',
         purpose: 'Si View HOA Section 4.2 approved designs (Designs 01–04), ARC submittal packet download, color & stain restrictions, and fast-track approval.',
@@ -573,6 +596,7 @@
         title: 'Contractor Marketplace & 72-Hr Job Feed',
         srcUrl: '/contractors-hub.html',
         displayRoute: '/contractors',
+        renderType: 'REACT-PLANNED',
         pillar: 'Pro Marketplace (Forest Green)',
         pillarColor: '#4ADE80',
         purpose: 'Pro marketplace front door and 72-hour live job board feed. Restricts territories to 3 verified contractors per city.',
@@ -591,6 +615,7 @@
         title: 'Targeted Match & 3-Seat SMS Scramble',
         srcUrl: '/contractor-match.html',
         displayRoute: '/contractor/match',
+        renderType: 'REACT-PLANNED',
         pillar: 'Contractor Scramble (Ember Orange)',
         pillarColor: '#F27A22',
         purpose: 'Live 3-Seat contractor scramble simulation. Dispatches SMS alerts to 3 verified local pros, displays incoming bids in real time with countdown timer and $/LF rates.',
@@ -609,6 +634,7 @@
         title: 'Canonical Box Styles & Internal CAD Grid Showcase',
         srcUrl: '/box-styles-showcase.html',
         displayRoute: '/box-styles-showcase.html',
+        renderType: 'STATIC',
         pillar: 'Core Design Law (Sun Gold)',
         pillarColor: '#E5B842',
         purpose: 'Showcase of 4 canonical card box styles with 100px major and 25px minor internal CAD grids (Tan, Deep Forest Slate, Architectural White, and Cedar Wood Grain).',
@@ -633,6 +659,7 @@
         title: 'Texture Workbench & Clipboard Pasting Lab',
         srcUrl: '/texture-workbench.html',
         displayRoute: '/texture-workbench.html',
+        renderType: 'STATIC',
         pillar: 'Texture Lab & Visual Swatches (Ember Orange)',
         pillarColor: '#F27A22',
         purpose: 'Interactive lab where you can paste any image from clipboard (Ctrl+V), browse 15+ past textures/cards, and apply them live to test card backgrounds.',
@@ -652,6 +679,7 @@
         title: 'Header & Footer Modular Element Review',
         srcUrl: '/element-header-footer.html',
         displayRoute: '/element-header-footer.html',
+        renderType: 'STATIC',
         pillar: 'Core UI Elements (Sun Gold)',
         pillarColor: '#E5B842',
         purpose: 'Isolated review slide of the production Master Navigation Header and Master 4-Column Footer with Rowdies typography and compliance rules.',
@@ -673,6 +701,7 @@
         title: 'Design System & Graduated Cards Guide',
         srcUrl: '/design-system-guide.html',
         displayRoute: '/design-system-guide',
+        renderType: 'STATIC',
         pillar: 'Core Design Law',
         pillarColor: '#E5B842',
         purpose: 'Interactive design tokens, graduated card standards, 50% outside corner markers, and Rowdies typography hierarchy.',
@@ -691,6 +720,7 @@
         title: 'Interactive System Architecture Canvas',
         srcUrl: '/interactive-canvas.html',
         displayRoute: '/interactive-canvas.html',
+        renderType: 'STATIC',
         pillar: 'Core Engineering',
         pillarColor: '#3B82F6',
         purpose: 'Macro & Micro interactive architecture map with 5% zoom, slate canvas, thick connection lines, and 1-click Fit-All.',
@@ -711,11 +741,48 @@
     let currentZoom = 0.75;
     let currentLayout = 'full';
     let currentDevice = 'desktop';
+    let activeRenderFilter = 'ALL';
     let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
 
-    function init() {
+    function setRenderTypeFilter(filter) {
+      activeRenderFilter = filter;
+      ['ALL', 'STATIC', 'REACT'].forEach(f => {
+        const btn = document.getElementById(`filterBtn${f}`);
+        if (btn) {
+          if (f === filter) {
+            btn.className = 'flex-1 bg-[#E5B842] text-[#141B16] font-bold text-[9px] py-1 rounded text-center transition';
+          } else {
+            btn.className = 'flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition';
+          }
+        }
+      });
+      populatePageSelect();
+    }
+
+    function populatePageSelect() {
       const select = document.getElementById('pageSelectVertical');
-      select.innerHTML = PAGES.map((p, i) => `<option value="${i}">${i+1}. ${p.id} · ${p.title.split(' ')[0]}</option>`).join('');
+      const filteredItems = PAGES.map((p, originalIdx) => ({ page: p, originalIdx })).filter(item => {
+        if (activeRenderFilter === 'ALL') return true;
+        if (activeRenderFilter === 'STATIC') return item.page.renderType === 'STATIC';
+        if (activeRenderFilter === 'REACT') return item.page.renderType === 'REACT' || item.page.renderType === 'REACT-PLANNED';
+        return true;
+      });
+
+      select.innerHTML = filteredItems.map(item => {
+        const tag = item.page.renderType === 'STATIC' ? '[S]' : '[R]';
+        return `<option value="${item.originalIdx}">${tag} ${item.originalIdx+1}. ${item.page.id}</option>`;
+      }).join('');
+
+      const exists = filteredItems.some(item => item.originalIdx === currentIndex);
+      if (exists) {
+        select.value = currentIndex;
+      } else if (filteredItems.length > 0) {
+        jumpSlide(filteredItems[0].originalIdx);
+      }
+    }
+
+    function init() {
+      populatePageSelect();
       renderPage();
 
       // Keyboard Shortcut Listeners
@@ -760,6 +827,28 @@
       document.getElementById('badgeIdTop').innerText = p.id;
       document.getElementById('badgePillarTop').innerText = p.pillar;
       document.getElementById('badgePillarTop').style.backgroundColor = p.pillarColor;
+      
+      const renderType = p.renderType || 'STATIC';
+      const topRtBadge = document.getElementById('badgeRenderTypeTop');
+      const cardRtBadge = document.getElementById('badgeRenderTypeCard');
+      [topRtBadge, cardRtBadge].forEach(b => {
+        if (!b) return;
+        b.innerText = renderType;
+        if (renderType === 'STATIC') {
+          b.className = b === topRtBadge 
+            ? 'text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-600'
+            : 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-600';
+        } else if (renderType === 'REACT') {
+          b.className = b === topRtBadge 
+            ? 'text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-blue-700 text-blue-100 border border-blue-500'
+            : 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-700 text-blue-100 border border-blue-500';
+        } else { // REACT-PLANNED
+          b.className = b === topRtBadge 
+            ? 'text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#E5B842] text-[#141B16] border border-black'
+            : 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E5B842] text-[#141B16] border border-black';
+        }
+      });
+
       document.getElementById('pageTitleTop').innerText = p.title;
       document.getElementById('routeReadout').innerText = p.displayRoute;
       document.getElementById('externalLinkRail').href = p.srcUrl;
@@ -969,6 +1058,7 @@
         pageTitle: p.title,
         route: p.displayRoute,
         srcUrl: p.srcUrl,
+        renderType: p.renderType || 'STATIC',
         targetChat: targetChat,
         pageWide: pageData.pageWide || '',
         sections: pageData.sections || {},
@@ -1021,6 +1111,7 @@
       lines.push(`### 🛠️ Founder Batch Feedback on #${p.id} (${p.title})`);
       lines.push(`- **Route**: \`${p.displayRoute}\``);
       lines.push(`- **Source**: \`${p.srcUrl}\``);
+      lines.push(`- **Render Type**: \`${p.renderType || 'STATIC'}\` (${(p.renderType === 'REACT' || p.renderType === 'REACT-PLANNED') ? 'React/Next.js Component target' : 'Static HTML file'})`);
       
       if (pageData.pageWide && pageData.pageWide.trim()) {
         lines.push(`- **[PAGE-WIDE]**: ${pageData.pageWide.trim()}`);

@@ -1,0 +1,37 @@
+[
+  {
+    "pageTitle": "Master Homepage & Brand Portal",
+    "timestamp": "2026-08-23T19:30:37.3969605-07:00",
+    "pageWide": "Verified live direct dispatch to inbox",
+    "route": "/",
+    "targetChat": "active",
+    "pageId": "CORE-01",
+    "srcUrl": "/homepage.html",
+    "sections": {
+      "SEC-01-HEADER": "Header test note: verified transparent Double-F logo",
+      "SEC-02-HERO": "Hero test note: verify 3-pillar buttons"
+    },
+    "received_at": "2026-08-23T19:30:38.894231"
+  },
+  {
+    "pageWide": "Verified live direct dispatch to inbox",
+    "timestamp": "2026-08-23T19:48:42.4717845-07:00",
+    "pageTitle": "Master Homepage & Brand Portal",
+    "sections": {
+      "SEC-01-HEADER": "Header test note: verified transparent Double-F logo",
+      "SEC-02-HERO": "Hero test note: verify 3-pillar buttons"
+    },
+    "route": "/",
+    "pageId": "CORE-01",
+    "targetChat": "active",
+    "srcUrl": "/homepage.html",
+    "received_at": "2026-08-24T02:48:48.222Z"
+  },
+  {
+    "pageId": "CORE-01",
+    "pageTitle": "Master Homepage",
+    "pageWide": "Verified live dispatch proxy!",
+    "targetChat": "active",
+    "received_at": "2026-08-27T13:08:18.097Z"
+  }
+]

@@ -47,7 +47,7 @@ export function EstimateBar({ config, pricing, onOpenContractorMatch }: Estimate
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {pricing.itemizedItems.map((item, idx) => (
+              {(pricing.itemizedItems || []).map((item, idx) => (
                 <tr key={idx} className="hover:bg-white/5">
                   <td className="py-1.5 font-normal text-white/90">{item.name}</td>
                   <td className="py-1.5 text-white/60">{item.category}</td>

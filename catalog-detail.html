@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root { --gold-sun: #E5B842; --ember: #F27A22; --forest-bright: #4ADE80; --ink: #141B16; }
@@ -50,16 +51,19 @@
     .c-bottom-right { bottom: -3px; right: -3px; width: 24px; height: 24px; border-bottom: 3.5px solid #4ADE80; border-right: 3.5px solid #4ADE80; }
   </style>
 </head>
-<body class="page-canvas-ground min-h-screen flex flex-col justify-between p-4 sm:p-6">
-  <header class="max-w-6xl mx-auto w-full flex items-center justify-between pb-4 border-b-2 border-[#141B16]/20">
+<body class="page-canvas-ground min-h-screen flex flex-col justify-between">
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
+
+  <div class="max-w-6xl mx-auto w-full flex items-center justify-between pt-4 px-4 sm:px-6 pb-4 border-b-2 border-[#141B16]/20">
     <div class="flex items-center gap-2">
       <a href="/catalog-hub.html" class="text-xs font-bold text-[#141B16] bg-white px-3 py-1.5 rounded border border-[#141B16]">← All Styles</a>
       <span class="text-xs text-[#141B16]/60">Catalog / Vertical Board / Heritage 3-Rail</span>
     </div>
     <a href="/designer" class="bg-[#E5B842] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border-2 border-[#141B16] shadow-[2px_2px_0_#141B16]">Customize in Designer →</a>
-  </header>
+  </div>
 
-  <main class="max-w-6xl mx-auto w-full my-6 flex flex-col gap-6">
+  <main class="max-w-6xl mx-auto w-full my-6 px-4 sm:px-6 flex flex-col gap-6">
     <!-- HERO SPEC BANNER -->
     <div class="box-tan-grid has-outside-corners rounded-lg p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="corner-mark-50 c-top-left"></div><div class="corner-mark-50 c-top-right"></div><div class="corner-mark-50 c-bottom-left"></div><div class="corner-mark-50 c-bottom-right"></div>

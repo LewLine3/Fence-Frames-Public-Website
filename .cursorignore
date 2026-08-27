@@ -1,0 +1,19 @@
+﻿# Build / deps
+node_modules/
+.next/
+dist/
+build/
+out/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Large / generated
+*.log
+*.map
+.git/

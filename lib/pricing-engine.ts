@@ -118,26 +118,33 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   // Admin & Municipal Submittal buffer
   const adminPerLf = 2.10;
 
-  // Sum of LF rates (Metrics 1-7 + Admin)
-  const baseRatePerLf = m1Base + m2PostPerLf + m3RailPerLf + m4FillPerLf + m5StainPerLf + m6TrimPerLf + m7HwPerLf + adminPerLf;
-  const subtotalRuns = baseRatePerLf * lf;
-  const totalCombined = subtotalRuns + m8GatesTotal;
+  // Canonical Quote Math Engine (monetization_rules.md)
+  // MC = Raw material costs from BOM
+  const rawMaterials = (m1Base + m2PostPerLf + m3RailPerLf + m4FillPerLf + m5StainPerLf + m6TrimPerLf + m7HwPerLf) * lf + m8GatesTotal;
+  
+  // M = MC * 1.25 (Tax, procurement, job-site delivery margin)
+  const M = rawMaterials * 1.25;
+  // L = M * 2.0 (Labor = 2x burdened material cost)
+  const L = M * 2.0;
+  // A = (M + L) * 0.10 (10% Administrative & overhead cost)
+  const A = (M + L) * 0.10;
 
-  const totalMin = Math.round(totalCombined * 0.94);
-  const totalMax = Math.round(totalCombined * 1.08);
+  const quotedMid = M + L + A;
+  const totalMin = Math.round(quotedMid * 0.85); // -15%
+  const totalMax = Math.round(quotedMid * 1.15); // +15%
 
   const pricePerLfMin = Number((totalMin / lf).toFixed(2));
   const pricePerLfMax = Number((totalMax / lf).toFixed(2));
 
-  const totalMaterials = Math.round((subtotalRuns * 0.52) + (m8GatesTotal * 0.5));
-  const totalLabor = Math.round((subtotalRuns * 0.44) + (m8GatesTotal * 0.5));
-  const totalAdmin = Math.round(adminPerLf * lf);
+  const totalMaterials = Math.round(M);
+  const totalLabor = Math.round(L);
+  const totalAdmin = Math.round(A);
 
-  const itemizedMetrics = [
+  const itemizedMetrics: PricingBreakdown['itemizedMetrics'] = [
     {
       metricNumber: 1,
       metricName: 'General Layout & Height',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m1Base.toFixed(2)),
       totalEst: Math.round(m1Base * lf),
       details: `${config.heightFt}ft Height · ${config.linearFeet} LF Run · ${config.woodGrade.replace('-', ' ').toUpperCase()}`
@@ -145,7 +152,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 2,
       metricName: 'Posts & Footings',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m2PostPerLf.toFixed(2)),
       totalEst: Math.round(m2PostPerLf * lf),
       details: `${postCount}x ${config.postType.replace('-', ' ').toUpperCase()} Posts (${config.postSpacingFt}ft OC) · ${config.postCap} Caps`
@@ -153,7 +160,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 3,
       metricName: 'Rails & Framing',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m3RailPerLf.toFixed(2)),
       totalEst: Math.round(m3RailPerLf * lf),
       details: `${config.railCount}-Rail 2x4 Horizontal Support · ${config.topCap ? 'Top Cap 2x4' : 'Standard'}`
@@ -161,7 +168,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 4,
       metricName: 'Fill Material',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m4FillPerLf.toFixed(2)),
       totalEst: Math.round(m4FillPerLf * lf),
       details: `${config.fenceStyleCategory.replace('-', ' ').toUpperCase()} · Pattern: ${config.fillPattern.replace('-', ' ').toUpperCase()}`
@@ -169,7 +176,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 5,
       metricName: 'Stain & UV Protection',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m5StainPerLf.toFixed(2)),
       totalEst: Math.round(m5StainPerLf * lf),
       details: config.stainType !== 'none' ? `Factory Pre-Stain: ${config.stainType.replace('-', ' ').toUpperCase()}` : 'Unfinished / Raw Wood'
@@ -177,7 +184,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 6,
       metricName: 'Trim & Facia',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m6TrimPerLf.toFixed(2)),
       totalEst: Math.round(m6TrimPerLf * lf),
       details: config.trimStyle.replace('-', ' ').toUpperCase()
@@ -185,7 +192,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 7,
       metricName: 'Hardware & Fasteners',
-      category: 'Materials' as const,
+      category: 'Materials',
       costPerLf: Number(m7HwPerLf.toFixed(2)),
       totalEst: Math.round(m7HwPerLf * lf),
       details: `Fastener Tier: ${config.hardwareTier.replace('-', ' ').toUpperCase()}`
@@ -193,7 +200,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     {
       metricNumber: 8,
       metricName: 'Gates & Access',
-      category: 'Gates' as const,
+      category: 'Gates',
       costPerLf: Number((m8GatesTotal / lf).toFixed(2)),
       totalEst: m8GatesTotal,
       details: `${config.gates.walkGates || 0}x Walk Gate(s) · ${config.gates.driveGates || 0}x Double Drive Gate(s)`
@@ -213,7 +220,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
     itemizedMetrics,
     itemizedItems: itemizedMetrics.map(m => ({
       name: `Metric #${m.metricNumber}: ${m.metricName} (${m.details})`,
-      category: m.category === 'Admin' ? 'Admin & Setup' as const : m.category,
+      category: (m.category === 'Admin' ? 'Admin & Setup' : m.category) as 'Materials' | 'Labor' | 'Admin & Setup' | 'Gates',
       costPerLf: m.costPerLf,
       totalEst: m.totalEst,
     }))

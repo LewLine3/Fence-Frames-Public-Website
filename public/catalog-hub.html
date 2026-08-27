@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root { --gold-sun: #E5B842; --ember: #F27A22; --forest-bright: #4ADE80; --ink: #141B16; }
@@ -61,17 +62,8 @@
   </style>
 </head>
 <body class="page-canvas-ground min-h-screen flex flex-col justify-between">
-  <!-- NAV -->
-  <header class="bg-[#141B16] border-b-2 border-[#E5B842] py-2.5 px-4 sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="/" class="font-bold text-sm text-[#E5B842] flex items-center gap-1"><img src="/images/fence-frames-official-icon.png" alt="Logo" style="width:24px; height:24px; object-fit:contain; border-radius:3px;" /><span><span style="color:#4ADE80;">FENCE</span> <span style="color:#E5B842;">FRAMES</span></span></a>
-        <span class="text-white/20">|</span>
-        <span class="text-xs font-bold text-[#F27A22] uppercase">ARCHITECTURAL CATALOG (12+ STYLES)</span>
-      </div>
-      <a href="/designer" class="bg-[#E5B842] text-[#141B16] text-xs font-bold uppercase px-3 py-1 rounded border border-[#141B16]">Launch Configurator</a>
-    </div>
-  </header>
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
 
   <!-- HERO & FILTER CHIPS -->
   <main class="max-w-6xl mx-auto w-full p-4 sm:p-6 flex flex-col gap-6">

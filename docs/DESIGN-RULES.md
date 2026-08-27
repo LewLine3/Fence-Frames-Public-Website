@@ -2,6 +2,9 @@
 
 > **MANDATORY FOR ALL AGENTS**: Every agent working on UI, layouts, styles, or copy for Fence Frames MUST read, follow, and strictly adhere to the rules in this document. Do not invent custom fonts, unapproved color schemes, or deviate from the graduated card standards without explicit owner instruction.
 
+> **Green Print React/HTML library:** `FenceBook/docs/gemini-memory-pack/hub-and-spoke/SPOKE-DESIGN-SYSTEM.md`  
+> Prefer Green Print crop-marks (35% / wood→green TR+BL · green plate→orange TL+BR) for new React/demo work. Legacy 50% `.corner-mark-out` below until unified via HRQ.
+
 ---
 
 ## 1. Core Brand & Phase Color Rules

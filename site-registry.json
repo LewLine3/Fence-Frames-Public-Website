@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "Fence Frames Site Registry — master page manifest for the Site Builder tool",
+    "renderTypes": {
+      "STATIC": "Plain HTML file served directly by server.js",
+      "REACT": "Next.js/React component — requires next build",
+      "REACT-PLANNED": "Currently static HTML, earmarked for React conversion"
+    },
+    "tiers": {
+      "Tier-1": "Public marketing site (Fence-Frames-Public-Website)",
+      "Tier-2": "FenceBook internal engineering hub",
+      "Tier-3": "HOA / Fence-Folio widget layer"
+    }
+  },
+  "pages": [
+    {
+      "pageId": "CORE-01",
+      "pageTitle": "Master Homepage & Brand Portal",
+      "tier": "Tier-1",
+      "route": "/",
+      "srcFile": "public/homepage.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Main landing page — 3-pillar CTAs, hero, brand header",
+      "sections": {
+        "SEC-01-HEADER": "Header / nav — transparent Double-F logo",
+        "SEC-02-HERO": "Hero section — 3-pillar buttons (Find It / Frame It / Fence It)",
+        "SEC-03-PILLARS": "Three-pillar feature row",
+        "SEC-04-FOOTER": "Site footer"
+      }
+    },
+    {
+      "pageId": "CORE-02",
+      "pageTitle": "Design System Guide",
+      "tier": "Tier-1",
+      "route": "/design-system-guide",
+      "srcFile": "public/design-system-guide.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Interactive live design system reference — typography, colors, cards",
+      "sections": {
+        "SEC-01-TYPOGRAPHY": "Rowdies type scale",
+        "SEC-02-COLORS": "3-pillar color mapping",
+        "SEC-03-CARDS": "Graduated card standards",
+        "SEC-04-CORNERS": "50% outside corner markers"
+      }
+    },
+    {
+      "pageId": "STUDIO-01",
+      "pageTitle": "Founder Preflight Studio",
+      "tier": "Tier-1",
+      "route": "/founder-preflight-studio",
+      "srcFile": "public/founder-preflight-studio.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Internal site builder tool UI — page dispatch and feedback panel",
+      "sections": {
+        "SEC-01-PANEL": "Page registry panel",
+        "SEC-02-INBOX": "Feedback inbox viewer",
+        "SEC-03-DISPATCH": "Dispatch controls"
+      }
+    },
+    {
+      "pageId": "CFG-HERITAGE-01",
+      "pageTitle": "Heritage Fence Pilot — Main Preview",
+      "tier": "Tier-1",
+      "route": "/configure/heritage-v1/preview",
+      "srcFile": "configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot.html",
+      "renderType": "REACT-PLANNED",
+      "status": "draft",
+      "description": "Heritage fence product pilot — full preview page",
+      "sections": {
+        "SEC-01-VIEWER": "3D/product viewer",
+        "SEC-02-SPECS": "Fence specifications panel",
+        "SEC-03-CTA": "Configure CTA"
+      }
+    },
+    {
+      "pageId": "CFG-HERITAGE-02",
+      "pageTitle": "Heritage Fence Pilot — Landscape",
+      "tier": "Tier-1",
+      "route": "/configure/heritage-v1/preview/landscape",
+      "srcFile": "configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-landscape.html",
+      "renderType": "REACT-PLANNED",
+      "status": "draft",
+      "description": "Heritage fence pilot — landscape orientation layout",
+      "sections": {
+        "SEC-01-VIEWER": "Landscape product viewer",
+        "SEC-02-SPECS": "Specs panel"
+      }
+    },
+    {
+      "pageId": "CFG-HERITAGE-03",
+      "pageTitle": "Heritage Fence Pilot — Portrait",
+      "tier": "Tier-1",
+      "route": "/configure/heritage-v1/preview/portrait",
+      "srcFile": "configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html",
+      "renderType": "REACT-PLANNED",
+      "status": "draft",
+      "description": "Heritage fence pilot — portrait/mobile orientation layout",
+      "sections": {
+        "SEC-01-VIEWER": "Portrait product viewer",
+        "SEC-02-SPECS": "Specs panel"
+      }
+    },
+    {
+      "pageId": "CFG-HERITAGE-IDX",
+      "pageTitle": "Heritage Fence Pilot — Index",
+      "tier": "Tier-1",
+      "route": "/configure/heritage-v1/preview/index",
+      "srcFile": "configure/heritage-v1/pilot-fences/vpf/heritage/preview/index.html",
+      "renderType": "REACT-PLANNED",
+      "status": "draft",
+      "description": "Heritage configure flow index / entry point",
+      "sections": {
+        "SEC-01-ENTRY": "Entry point / selector"
+      }
+    },
+    {
+      "pageId": "BRAND-01",
+      "pageTitle": "Brand Wordmarks Showcase",
+      "tier": "Tier-1",
+      "route": "/images/ui/drafts/brand-wordmarks",
+      "srcFile": "images/ui/drafts/brand-wordmarks-showcase.html",
+      "renderType": "STATIC",
+      "status": "draft",
+      "description": "Brand wordmark options showcase for design review",
+      "sections": {
+        "SEC-01-WORDMARKS": "Wordmark variants grid"
+      }
+    },
+    {
+      "pageId": "BRAND-02",
+      "pageTitle": "Circular Logo Showcase",
+      "tier": "Tier-1",
+      "route": "/images/ui/drafts/circular-logo",
+      "srcFile": "images/ui/drafts/circular-logo-showcase.html",
+      "renderType": "STATIC",
+      "status": "draft",
+      "description": "Circular logo variants for design review",
+      "sections": {
+        "SEC-01-LOGOS": "Logo variants grid"
+      }
+    },
+    {
+      "pageId": "BRAND-03",
+      "pageTitle": "Favicon Showcase",
+      "tier": "Tier-1",
+      "route": "/images/ui/drafts/favicon",
+      "srcFile": "images/ui/drafts/favicon-showcase.html",
+      "renderType": "STATIC",
+      "status": "draft",
+      "description": "Favicon options at all sizes",
+      "sections": {
+        "SEC-01-FAVICONS": "Favicon size grid"
+      }
+    },
+    {
+      "pageId": "BRAND-04",
+      "pageTitle": "Subproduct Badges Showcase",
+      "tier": "Tier-1",
+      "route": "/images/ui/drafts/subproduct-badges",
+      "srcFile": "images/ui/drafts/subproduct-badges-showcase.html",
+      "renderType": "STATIC",
+      "status": "draft",
+      "description": "Fence-Folio, HOA, FenceBook badge variants",
+      "sections": {
+        "SEC-01-BADGES": "Badge variants grid"
+      }
+    },
+    {
+      "pageId": "BRAND-MASTER",
+      "pageTitle": "Brand Master Suite",
+      "tier": "Tier-1",
+      "route": "/images/ui/winners/brand-master-suite",
+      "srcFile": "images/ui/winners/brand-master-suite.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Approved brand master — winners selected from showcases",
+      "sections": {
+        "SEC-01-APPROVED": "Approved brand assets"
+      }
+    }
+  ]
+}

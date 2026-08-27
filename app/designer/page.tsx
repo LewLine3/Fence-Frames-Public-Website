@@ -1,110 +1,107 @@
 'use client'
 
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { TopTitleBar } from '@/components/designer/top-title-bar'
+import { LeftOptionRail } from '@/components/designer/left-option-rail'
 import { DesignerCanvas } from '@/components/designer/designer-canvas'
-import { SubFlipsPanel } from '@/components/designer/sub-flips-panel'
-import { HeaderControls } from '@/components/designer/header-controls'
-import { EstimateBar } from '@/components/designer/estimate-bar'
-import { GateModal } from '@/components/designer/gate-modal'
+import { BottomControlHud } from '@/components/designer/bottom-control-hud'
 import {
   FenceConfiguration,
   calculateBaselineFenceQuote,
+  calculateOptionSetLaborQuote,
 } from '@/lib/pricing-engine'
 
+const HERITAGE_BLANK_DEFAULT: FenceConfiguration = {
+  heightFt: 6,
+  postSpacingFt: 8,
+  linearFeet: 8,
+  woodGrade: 'tight-knot',
+  postType: '4x4-cedar',
+  postCap: 'cedar-pyramid',
+  footingDepthInches: 30,
+  railCount: 3,
+  topCap: true,
+  fenceStyleCategory: 'vertical-picket',
+  fillPattern: 'board-on-board',
+  fenceStyle: 'heritage',
+  stainType: 'cedar-natural',
+  trimStyle: 'none',
+  hardwareTier: 'black-powder',
+  gates: {
+    walkGates: 0,
+    driveGates: 0,
+  },
+}
+
 export default function DesignerPage() {
-  const [zipCode, setZipCode] = useState<string>('98045')
-  const [isGateModalOpen, setIsGateModalOpen] = useState<boolean>(false)
+  const router = useRouter()
+  const [config, setConfig] = useState<FenceConfiguration>(HERITAGE_BLANK_DEFAULT)
+  const [viewAngle, setViewAngle] = useState<'both' | 'front' | 'back'>('both')
+  const [zoomLevel, setZoomLevel] = useState<number>(1.0)
 
-  // Master Fence Configuration State (8 Pricing Metrics)
-  const [config, setConfig] = useState<FenceConfiguration>({
-    heightFt: 6,
-    postSpacingFt: 8,
-    linearFeet: 120,
-    woodGrade: 'tight-knot',
-    postType: '4x4-cedar',
-    postCap: 'cedar-pyramid',
-    footingDepthInches: 30,
-    railCount: 3,
-    topCap: true,
-    fenceStyleCategory: 'vertical-picket',
-    fillPattern: 'board-on-board',
-    fenceStyle: 'heritage',
-    stainType: 'cedar-natural',
-    trimStyle: 'none',
-    hardwareTier: 'black-powder',
-    gates: {
-      walkGates: 1,
-      driveGates: 0,
-    },
-  })
-
-  // Real-time Pricing Engine Calculation
+  // Real-time Pricing Engines (Canonical Multiplier + Discrete Trial Labor)
   const pricing = calculateBaselineFenceQuote(config)
+  const trialPricing = calculateOptionSetLaborQuote(config)
 
   const handleConfigChange = (updated: Partial<FenceConfiguration>) => {
     setConfig((prev) => ({ ...prev, ...updated }))
   }
 
-  const handleUpdateGates = (walk: number, drive: number) => {
-    setConfig((prev) => ({
-      ...prev,
-      gates: { walkGates: walk, driveGates: drive },
-    }))
+  const handleResetDefaults = () => {
+    setConfig(HERITAGE_BLANK_DEFAULT)
+  }
+
+  const handleSaveToFolio = () => {
+    try {
+      sessionStorage.setItem('ff-locked-draft', JSON.stringify(config))
+    } catch (e) {
+      console.warn('[DesignerPage] sessionStorage unavailable', e)
+    }
+    router.push('/auth-gate.html')
   }
 
   return (
-    <div id="top" className="min-h-screen bg-[#111713] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div className="h-screen h-[100dvh] w-full overflow-hidden flex flex-col select-none bg-[#F4ECDC] text-[#1A1A1A] font-['Rowdies'] page-canvas-ground">
+      {/* 1. Master Universal Header */}
       <SiteNav />
 
-      {/* Main Container */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 flex flex-col gap-5">
-        {/* Visual Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumbs" className="text-xs font-['Rowdies'] font-light text-white/60 flex items-center gap-2">
-          <Link href="/" className="hover:text-[#E5B842] transition">🏠 Home</Link>
-          <span>/</span>
-          <Link href="/catalog" className="hover:text-[#E5B842] transition">Catalog</Link>
-          <span>/</span>
-          <span className="text-[#E5B842] font-normal">2D Fence Designer (DSGN-03)</span>
-        </nav>
-
-        {/* 1. Header Controls (Style, ZIP, LF Slider, Gates) */}
-        <HeaderControls
-          config={config}
-          zipCode={zipCode}
-          onZipChange={setZipCode}
-          onChange={handleConfigChange}
-          onOpenGateModal={() => setIsGateModalOpen(true)}
-        />
-
-        {/* 2. 2D Drafting Board (Dual Front & Back SVG Elevation) */}
-        <DesignerCanvas config={config} />
-
-        {/* 3. Sub-Flips Panel (Accordion Configuration Tabs) */}
-        <SubFlipsPanel config={config} onChange={handleConfigChange} />
-
-        {/* 4. Bottom Estimate Bar & Takeoff Breakdown */}
-        <EstimateBar
-          config={config}
-          pricing={pricing}
-          onOpenContractorMatch={() => {
-            alert('⚡ Targeted Match: Searching 3 vetted contractors in ' + (zipCode || 'your area') + '...')
-          }}
-        />
-      </main>
-
-      {/* Gate Configuration Modal */}
-      <GateModal
-        isOpen={isGateModalOpen}
-        onClose={() => setIsGateModalOpen(false)}
-        walkGates={config.gates.walkGates}
-        driveGates={config.gates.driveGates}
-        onUpdateGates={handleUpdateGates}
+      {/* 2. Top Thin Title Bar with Fast Chapter Jumps */}
+      <TopTitleBar
+        config={config}
+        viewAngle={viewAngle}
+        onViewAngleChange={setViewAngle}
+        zoomLevel={zoomLevel}
+        onZoomChange={setZoomLevel}
       />
 
-      <SiteFooter />
+      {/* 3. Main Studio Workspace (Left Option Rail + 2D CAD Stage) */}
+      <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative p-2 md:p-3 gap-3">
+        {/* Infinite Left Scroll Rail */}
+        <LeftOptionRail config={config} onChange={handleConfigChange} />
+
+        {/* Central 2D Vector CAD Elevation Stage */}
+        <section className="flex-1 h-full min-w-0 flex flex-col">
+          <DesignerCanvas
+            config={config}
+            viewAngle={viewAngle}
+            onViewAngleChange={setViewAngle}
+            zoomLevel={zoomLevel}
+            onZoomChange={setZoomLevel}
+          />
+        </section>
+      </main>
+
+      {/* 4. Bottom Control HUD with Math Model Comparison (Zero Marketing Footer) */}
+      <BottomControlHud
+        config={config}
+        pricing={pricing}
+        trialPricing={trialPricing}
+        onChange={handleConfigChange}
+        onResetDefaults={handleResetDefaults}
+        onSaveToFolio={handleSaveToFolio}
+      />
     </div>
   )
 }

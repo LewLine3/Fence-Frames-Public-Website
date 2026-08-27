@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Rowdies', cursive, sans-serif; background-color: #0F1411; color: #141B16; }
@@ -28,39 +29,10 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between">
 
-  <!-- ========================================================================= -->
-  <!-- SCREEN-ONLY TOP ACTION TOOLBAR -->
-  <!-- ========================================================================= -->
-  <header class="no-print w-full bg-[#18201B] border-b-2 border-[#E5B842] py-3 px-4 shadow-xl sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 text-white">
-      <div class="flex items-center gap-3">
-        <a href="/configure/heritage-v1/pilot-fences/vpf/heritage/preview/heritage-pilot-portrait.html" class="bg-[#111713] hover:bg-[#222E25] border border-white/20 text-[#FAF6EE] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition">
-          <span>←</span>
-          <span>Edit in Designer</span>
-        </a>
-        <span class="text-white/30">|</span>
-        <span class="text-xs text-[#E5B842] font-bold uppercase">
-          📄 Portrait 8.5" × 11" ARC Architectural Submittal Sheet
-        </span>
-      </div>
-
-      <div class="flex items-center gap-3 flex-wrap">
-        <!-- Pricing Toggle -->
-        <div class="flex items-center gap-2 bg-[#111713] px-3 py-1.5 rounded-full border border-white/20 text-xs">
-          <span class="text-white/70 font-normal">Pricing Visibility:</span>
-          <button id="btnPricingToggle" onclick="togglePricing()" class="px-3 py-0.5 rounded-full font-bold bg-[#4ADE80] text-[#141B16] transition text-[11px]">
-            Pricing ON (Contractor Bids)
-          </button>
-        </div>
-
-        <!-- Print Button -->
-        <button onclick="window.print()" class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-1.5 rounded border-2 border-[#141B16] shadow flex items-center gap-1.5 transition active:scale-95">
-          <span>🖨️</span>
-          <span>Print Blueprint PDF</span>
-        </button>
-      </div>
-    </div>
-  </header>
+  <div class="no-print">
+    <div id="ff-universal-header"></div>
+    <script src="/js/ff-site-header.js" defer></script>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- 8.5" x 11" PORTRAIT ARCHITECTURAL SHEET CONTAINER -->
