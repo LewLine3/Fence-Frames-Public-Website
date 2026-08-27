@@ -169,13 +169,13 @@ export function DesignerCanvas({
           </div>
         ) : (
           <div
-            className="flex items-center justify-center gap-6 transition-transform duration-150"
+            className="flex items-center justify-center gap-4 transition-transform duration-150 h-full w-full max-h-full py-1 px-2"
             style={{ transform: `scale(${currentZoom})`, transformOrigin: 'center center' }}
           >
-            {/* FRONT ELEVATION CARD */}
+            {/* FRONT ELEVATION CARD (FC: FFC) */}
             {(currentAngle === 'both' || currentAngle === 'front') && (
-              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
-                <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
+              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-3 shadow-2xl transition-all duration-300 min-w-[320px] max-w-[620px] h-[calc(100%-0.5rem)] max-h-[580px] flex-1">
+                <div className="w-full flex items-center justify-between pb-1.5 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
                   <span className="font-bold text-[#E5B842] uppercase tracking-wide">
                     Street / Neighbor Face (Front)
                   </span>
@@ -186,21 +186,21 @@ export function DesignerCanvas({
 
                 <div
                   ref={frontHostRef}
-                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
+                  className="w-full flex-1 min-h-0 aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
                   dangerouslySetInnerHTML={{ __html: frontSvgText }}
                 />
 
-                <div className="w-full flex items-center justify-between pt-2 mt-2 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies']">
+                <div className="w-full flex items-center justify-between pt-1.5 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
                   <span>Bay: {config.postSpacingFt}&apos; OC × {config.heightFt}&apos; Height</span>
                   <span className="text-[#E5B842] font-bold">16 Board-on-Board Pickets</span>
                 </div>
               </div>
             )}
 
-            {/* BACK / FRAMING ELEVATION CARD */}
+            {/* BACK / FRAMING ELEVATION CARD (FC: BFC) */}
             {(currentAngle === 'both' || currentAngle === 'back') && (
-              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
-                <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
+              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-3 shadow-2xl transition-all duration-300 min-w-[320px] max-w-[620px] h-[calc(100%-0.5rem)] max-h-[580px] flex-1">
+                <div className="w-full flex items-center justify-between pb-1.5 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
                   <span className="font-bold text-[#F27A22] uppercase tracking-wide">
                     Structural Framing Face (Back)
                   </span>
@@ -211,11 +211,11 @@ export function DesignerCanvas({
 
                 <div
                   ref={backHostRef}
-                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded bg-[#162019]"
+                  className="w-full flex-1 min-h-0 aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
                   dangerouslySetInnerHTML={{ __html: backSvgText }}
                 />
 
-                <div className="w-full flex items-center justify-between pt-2 mt-2 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies']">
+                <div className="w-full flex items-center justify-between pt-1.5 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
                   <span>Post Cores: {config.postType.replace('-', ' ').toUpperCase()}</span>
                   <span className="text-[#4ADE80] font-bold">PASSED ARC-CODE-1</span>
                 </div>
