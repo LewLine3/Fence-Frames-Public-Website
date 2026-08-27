@@ -47,7 +47,7 @@
     "  box-shadow: inset -1px 0 0 #000, 1px 0 0 0 #000, 5px 0 0 rgba(0,0,0,0.18);" +
     "}" +
     "#ff-site-header-root .ff-brand > * { position: relative; z-index: 1; }" +
-    "#ff-site-header-root .ff-brand-name { font-size: 20px; font-weight: 700; letter-spacing: 0.02em; }" +
+    "#ff-site-header-root .ff-brand-name { font-size: 22px; font-weight: 700; letter-spacing: 0.01em; white-space: nowrap; }" +
     "#ff-site-header-root .ff-pillars { display: flex; align-items: center; gap: 8px; }" +
     "@media (max-width: 640px) { #ff-site-header-root .ff-pillars { display: none; } }" +
     "#ff-site-header-root .ff-pillar {" +
@@ -58,35 +58,39 @@
     "#ff-site-header-root .ff-pillar-find { border-color: var(--ff-gold); color: var(--ff-gold); }" +
     "#ff-site-header-root .ff-pillar-frame { border-color: var(--ff-ember); color: var(--ff-ember); }" +
     "#ff-site-header-root .ff-pillar-fence { border-color: var(--ff-forest); color: var(--ff-forest); }" +
-    "#ff-site-header-root .ff-pillar-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }" +
-    "#ff-site-header-root .ff-pillar-label { font-weight: 700; font-size: 13px; }" +
-    "#ff-site-header-root .ff-pillar-sub { font-weight: 300; font-size: 10px; color: #FAF6EE; opacity: 0.8; }" +
+    "#ff-site-header-root .ff-pillar-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }" +
+    "#ff-site-header-root .ff-pillar-label { font-size: 13px; font-weight: 700; }" +
+    "#ff-site-header-root .ff-pillar-sub { font-size: 11px; opacity: 0.7; font-weight: 400; }" +
     "#ff-site-header-root .ff-nav-end { display: flex; align-items: center; gap: 10px; }" +
     "#ff-site-header-root .ff-accounts { position: relative; }" +
     "#ff-site-header-root .ff-accounts-btn {" +
-    "  background: #141B16; border: 2px solid var(--ff-gold); color: #FAF6EE; padding: 6px 12px;" +
-    "  border-radius: 4px; font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 13px;" +
-    "  display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 2px 2px 0 #000;" +
+    "  background: #141B16; border: 2px solid var(--ff-gold); color: var(--ff-gold);" +
+    "  border-radius: 4px; padding: 7px 14px; font-family: 'Rowdies', sans-serif;" +
+    "  font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;" +
+    "  box-shadow: 2px 2px 0 #000;" +
     "}" +
+    "#ff-site-header-root .ff-accounts-btn:hover { background: #1f2e23; }" +
     "#ff-site-header-root .ff-accounts-menu {" +
-    "  position: absolute; top: calc(100% + 8px); right: 0; min-width: 290px;" +
-    "  background: #141B16; border: 2.5px solid var(--ff-gold); border-radius: 6px;" +
-    "  box-shadow: 0 16px 36px rgba(0,0,0,0.75), 6px 6px 0 #000; padding: 8px;" +
-    "  display: none; flex-direction: column; gap: 4px; z-index: 100;" +
+    "  display: none; position: absolute; top: calc(100% + 6px); right: 0; min-width: 260px;" +
+    "  background: #141B16; border: 2px solid var(--ff-gold); border-radius: 6px;" +
+    "  box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 100; padding: 6px; flex-direction: column; gap: 2px;" +
     "}" +
-    "#ff-site-header-root .ff-accounts-menu.is-open { display: flex; }" +
+    "#ff-site-header-root .ff-accounts-menu.open { display: flex; }" +
     "#ff-site-header-root .ff-account-item {" +
     "  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 4px;" +
-    "  text-decoration: none; color: #FAF6EE;" +
+    "  text-decoration: none; color: #FAF6EE; transition: background 0.15s ease;" +
     "}" +
-    "#ff-site-header-root .ff-account-item:hover { background: rgba(255,255,255,0.08); }" +
-    "#ff-site-header-root .ff-account-title { font-weight: 700; font-size: 12px; display: block; }" +
-    "#ff-site-header-root .ff-account-sub { font-weight: 300; font-size: 10px; color: #B5C2BA; display: block; }" +
+    "#ff-site-header-root .ff-account-item:hover { background: rgba(229,184,66,0.12); }" +
+    "#ff-site-header-root .ff-account-title { font-size: 12px; font-weight: 700; display: block; }" +
+    "#ff-site-header-root .ff-account-sub { font-size: 10px; color: rgba(250,246,238,0.6); font-family: sans-serif; display: block; }" +
     "#ff-site-header-root .ff-new-build {" +
-    "  display: inline-flex; align-items: center; justify-content: center;" +
-    "  background: var(--ff-gold); color: var(--ff-ink); border: 2px solid #141B16;" +
-    "  padding: 0.45rem 1rem; font-size: 0.84rem; font-family: 'Rowdies', sans-serif; font-weight: 700;" +
-    "  text-decoration: none;" +
+    "  background: var(--ff-ember); color: #FAF6EE; border: 2px solid #000;" +
+    "  border-radius: 4px; padding: 7px 16px; font-family: 'Rowdies', sans-serif;" +
+    "  font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center;" +
+    "  box-shadow: 2px 2px 0 #000; transition: transform 0.1s ease;" +
+    "}" +
+    "#ff-site-header-root .ff-new-build:hover { transform: translateY(-1px); }" +
+    "#ff-site-header-root .ff-corner-chamfer {" +
     "  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);" +
     "}"
 
@@ -96,7 +100,7 @@
     '  <div class="ff-nav-inner">' +
     '    <div class="ff-nav-left">' +
     '      <a class="ff-brand" href="/" aria-label="Fence Frames home">' +
-    '        <img src="/images/fence-frames-logo-icon.svg" alt="" width="34" height="34" style="width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />' +
+    '        <img src="/images/fence-frames-logo-icon.svg" alt="" width="46" height="46" style="width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.6));flex-shrink:0;" />' +
     '        <span class="ff-brand-name"><span style="color:#4ADE80;">Fence</span>&nbsp;<span style="color:#E5B842;">Frames</span></span>' +
     "      </a>" +
     '      <nav class="ff-pillars" aria-label="Three pillars">' +

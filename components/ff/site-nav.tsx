@@ -24,9 +24,9 @@ export function SiteNav() {
             <img
               src="/images/fence-frames-logo-icon.svg"
               alt=""
-              width={34}
-              height={34}
-              style={{ width: 34, height: 34, objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))" }}
+              width={46}
+              height={46}
+              style={{ width: 46, height: 46, objectFit: "contain", filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.6))", flexShrink: 0 }}
             />
             <span className={styles.brandName}>
               <span style={{ color: "#4ADE80" }}>Fence</span>&nbsp;
