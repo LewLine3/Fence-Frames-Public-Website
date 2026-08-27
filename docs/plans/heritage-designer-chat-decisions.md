@@ -3,8 +3,10 @@
 Captured from the Tier-1 / Heritage designer planning chat before implementation.
 Canonical plan: [`heritage-designer-modernize.md`](./heritage-designer-modernize.md).
 
-**Date:** 2026-08-26  
-**Branch intent:** commit plan only; implementation starts after owner says go.  
+**Date:** 2026-08-26 (updated HTML-first for all tiers)  
+**Active plan (all tiers):** [`ACTIVE-PLAN-tier1-html-first.md`](./ACTIVE-PLAN-tier1-html-first.md)  
+**New-chat ROXY:** [`ROXY-new-chat-starter.md`](./ROXY-new-chat-starter.md)  
+**Branch intent:** active plan committed on `staging`; build HTML first, React controls in a later sweep.  
 **Asset authoring source:** `D:\Lew-Line-Workspaces\Design\FenceBook\public\configure\heritage-v1`  
 **Live preview hosts (when up):** `:5199` / `:5200`
 
@@ -12,7 +14,8 @@ Canonical plan: [`heritage-designer-modernize.md`](./heritage-designer-modernize
 
 ## Direction
 
-- Rebuild React `/designer` as Green Print (cream `#F4ECDC` + green technical grid), not charcoal-page Heritage HTML port.
+- **All Tier-1 pages:** HTML shell first → React elements for user controls on a later sweep.
+- Designer: Green Print (cream `#F4ECDC` + green technical grid) HTML studio first; not a charcoal-page Heritage HTML port and not a full React page as step one.
 - Heritage pack = guts (SVGs, registry, pricing equation, stack logic later).
 - Designer = **build tool only**. Blueprint / Materials / Ledger = **Fence-Folio** exits.
 - StudioConfigurator `.txt` mock = layout sketch only (accordion explode); scrap Unsplash / Folio-mixed chapters.

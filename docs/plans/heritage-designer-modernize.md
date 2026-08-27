@@ -1,6 +1,6 @@
 ---
 name: Heritage Designer Modernize
-overview: Modernize `/designer` as a Green Print configure studio with three elevation breakpoints (phone flip / tablet one-up / desktop front+back side-by-side), thin top control bar for tablet–desktop stacking, simplified pricing, session+reset, and Fence-Folio document exits.
+overview: Modernize `/designer` under the all-tiers HTML-first plan — Green Print HTML studio shell first, then React control islands (option sets, LF, flip, Folio gates); product locks for elevation continuum, pricing, session, and Folio exits still apply. See ACTIVE-PLAN-tier1-html-first.md.
 todos:
   - id: gp-primitives
     content: Add Green Print PageContainer, TechnicalGridBackground, SurfacePlate, minimal Button + ff tokens in globals.css
@@ -39,6 +39,8 @@ isProject: false
 ---
 
 # Heritage Designer — Green Print Accordion Plan
+
+> **Active delivery mode:** See [`ACTIVE-PLAN-tier1-html-first.md`](./ACTIVE-PLAN-tier1-html-first.md). Build the designer as an **HTML shell first**, then mount **React elements** for all user controls. Product locks below still apply.
 
 ## Verdict: easiest modernization path
 
