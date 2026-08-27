@@ -2,55 +2,74 @@
 
 **Status:** Current active plan for **all Tier-1 pages** (supersedes “full React page” assumption).  
 **Committed:** staging — update this file when strategy changes.  
-**Related:** [`heritage-designer-modernize.md`](./heritage-designer-modernize.md) · [`heritage-designer-chat-decisions.md`](./heritage-designer-chat-decisions.md)  
+**Related:** [`heritage-designer-modernize.md`](./heritage-designer-modernize.md) · [`heritage-designer-chat-decisions.md`](./heritage-designer-chat-decisions.md) · [`STITCH-MASTER-PACKETS-LVL1.md`](./STITCH-MASTER-PACKETS-LVL1.md)  
 **New-chat starter:** [`ROXY-new-chat-starter.md`](./ROXY-new-chat-starter.md)
 
 ---
 
-## Strategy (locked)
+## Strategy (locked) — Two-Sweep
 
-1. **Build every Tier-1 page in HTML first** (layout, Green Print chrome, copy, static structure).
-2. **Later sweep:** mount **React elements** into those HTML pages for interactive controls.
-3. Pages that were previously planned as full React App Router pages become **HTML shells** with **React islands** where the user can change state.
-4. **Rule of thumb:** pretty much **any user control** (inputs, selects, accordions, toggles, estimate interactions, Folio gates, OTP, LF, option sets, flip controls, etc.) is a **React element**. Static marketing/layout stays HTML/CSS.
+### Phase 1 (now) — HTML/CSS + placeholder cards
 
-## Tier-1 page order (unchanged)
+1. Build every Tier-1 page shell in **semantic HTML + CSS/Tailwind** (layout, Green Print chrome, copy, card containers).
+2. Interactive controls ship first as **styled HTML placeholder cards** (buttons, inputs, OTP, toggles, dropdowns, drawers, timers, carousels).
+3. Tag every upgradable control with `id` / `class` / **`data-interactive-target="..."`**.
 
-| # | Route / surface | HTML-first | React elements (sweep) |
+### Phase 2 (later) — React upgrade
+
+4. Mount **React/TSX** into those targets — pretty much **any user control** becomes a React element.
+5. Do not rebuild whole pages as App Router React as the first Keep unless the owner overrides.
+
+## Visual / component references (required reading)
+
+| Path | Use |
+| --- | --- |
+| `D:\Lew-Line-Workspaces\_Publications-Demos-and-Exports\Live-Demos-and-Prototypes\12-component-inventory-studio.html` | Component inventory |
+| `D:\Lew-Line-Workspaces\_Publications-Demos-and-Exports\Live-Demos-and-Prototypes\01-interactive-architecture-canvas.html` | Architecture canvas |
+| `D:\Lew-Line-Workspaces\Fence-Frames-Public-Website\trials\homepage-wireframes-lab.html` | Homepage wireframes |
+| `D:\Lew-Line-Workspaces\Fence-Frames-Public-Website\trials\pure-original-background-lab.html` | Background / parchment |
+| `D:\Lew-Line-Workspaces\Fence-Frames-Public-Website\trials\grid-alignment-lab.html` | Grid alignment |
+
+Chrome: `public/element-header-footer.html` + `public/js/ff-site-header.js`.  
+Design law: FenceBook `docs/DESIGN-RULES.md` (50% outside corners when used; Rowdies only).
+
+## WEB-BUILDER Batch 1 order (current execution sequence)
+
+Skip CORE-01 Home (live on staging). Skip full DSGN-03 designer (separate workspace — CTA to `/configure` or `/designer` only).
+
+| Turn | Packet | Route | Wireframe |
 | --- | --- | --- | --- |
-| 1 | Home `/` | Keep/Park existing; polish HTML as needed | Interactive CTAs / widgets as needed |
-| 2 | Log-in `/log-in` or `auth-gate.html` | HTML gate shell | OTP / auth controls |
-| 3 | North Bend geo | HTML | Matchers / forms if any |
-| 4 | Si View geo | HTML | Matchers / forms if any |
-| 5 | Catalog hub | HTML | Filters / selects |
-| 6 | Catalog detail | HTML | Style select / CTAs |
-| 7 | **Designer** | HTML studio shell first | **All configure controls**, elevation flip, totals, Folio gates, Reset |
-| 8 | Blueprint | HTML doc surface | Print/export controls as needed |
-| 9 | Homeowner | HTML dashboard | Account cards / actions |
-| 10 | Folio `[id]` | HTML dossier chapters | Chapter nav / save / membership gates |
-| 11 | Contractors hub | HTML | Match CTAs |
-| 12 | Contractor match | HTML | Match flow controls |
+| 1 | CORE-02 Auth | `/log-in` | `public/auth-gate.html` |
+| 2 | CORE-03 Blueprint | `/blueprint` | `public/blueprint-standalone.html` |
+| 3 | DSGN-01 Hub | `/frame` `/catalog` | `public/catalog-hub.html` |
+| 4 | DSGN-02 Catalog | `/fence-designs` | `catalog-hub` / `catalog-detail` |
+| 5 | GEO-COM-01 Si View | `/wa/king/north-bend/si-view` | `public/geo-si-view.html` |
+| 6 | HOME-01 Homeowner | `/homeowner` | `public/homeowner-dashboard.html` |
+| 7 | HOME-02 Folio | `/homeowner/folio/[id]` | folio dossier HTML |
+| 8 | PRO-04 Dispatch | `/contractors/projects` | `public/contractors-hub.html` |
+| 9 | PRO-05 Match | `/contractor/match/[jobId]` | `public/contractor-match.html` |
 
-## Designer (still follows heritage-designer-modernize.md)
+Also in Stitch suite: GEO-CIT-01 North Bend (`/wa/king/north-bend`).
 
-Product locks in the Heritage designer plan **still apply** (Green Print cream+grid, left menu controls, LF=8, Folio exits, elevation continuum, etc.).  
-**Change:** implement **HTML shell first**, then React-mount the control console / option sets / session / pricing readout — not a single full Next page rewrite as the first Keep.
+## Designer (deferred full build)
+
+Product locks in [`heritage-designer-modernize.md`](./heritage-designer-modernize.md) still apply when that workspace runs.  
+Tier-1 marketing pages use **placeholder CTAs** to configure/designer until that Keep lands.
 
 ## Cadence
 
-- One page at a time → Keep/Park → push **`staging`** (no feature-branch PR unless owner says otherwise).
+- One page at a time → Keep/Park → push **`staging`**.
 - Sync to `main` only when owner says so.
-- Prefer **pnpm** for this Next/public site tooling.
-- Site-wide header: shared nav (HTML injector and/or React SiteNav — do not invent one-off headers).
-- Naming: Fence Frames · Fence-Folio (widget) · FenceBook (hub). Never Fence Foundry.
+- Prefer **pnpm**. Site-wide nav. Fence Frames only — never Fence Foundry / TLB logos.
 
 ## Asset sources
 
 - Heritage configure: `D:\Lew-Line-Workspaces\Design\FenceBook\public\configure\heritage-v1`
-- Design system: Green Print / Rowdies / 50% corner marks when used / cream `#F4ECDC` + green grid
+- Green Print: cream `#F4ECDC` + green grid; dark wells for fence art
 
-## Explicit non-goals until HTML pass is Kept
+## Explicit non-goals until Phase 1 page is Kept
 
-- Full React App Router rewrite of every Tier-1 page as the first step
-- Deep stack-composer parametric SVG before designer HTML shell Keep
+- Full React App Router rewrite as step one
+- Deep Heritage stack-composer before designer workspace Keep
+- Regenerating live homepage unless directed
 - Handbook/canon law rewrites
