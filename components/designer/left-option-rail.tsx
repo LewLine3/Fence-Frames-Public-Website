@@ -71,28 +71,28 @@ export function LeftOptionRail({
       className="w-[240px] flex-shrink-0 flex flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full"
       suppressHydrationWarning
       style={{
-        backgroundColor: '#141B16',
+        backgroundColor: '#1C180E',
         backgroundImage:
-          'linear-gradient(rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(rgba(229, 184, 66, 0.15) 2px, transparent 2px), linear-gradient(90deg, rgba(229, 184, 66, 0.15) 2px, transparent 2px)',
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        backgroundPosition: '0 0',
+          'linear-gradient(rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(145deg, #0D120F 0%, #1A170F 30%, #3D3014 65%, #594418 100%)',
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px, 100% 100%',
+        backgroundPosition: '0 0, 0 0, 0 0, 0 0, 0 0',
         borderRight: '3px solid #F27A22',
-        boxShadow: 'inset -1px 0 0 #000, 1px 0 0 0 #000, 5px 0 15px rgba(0, 0, 0, 0.5)',
+        boxShadow: 'inset -1px 0 0 #000, 1px 0 0 0 #000, 5px 0 18px rgba(0, 0, 0, 0.65)',
       }}
     >
       {/* 1. TOP HEADER OF LSB */}
-      <div className="px-3 py-2 bg-[#1A1A1A] border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
+      <div className="px-3 py-2.5 bg-[#0D120F]/90 backdrop-blur-md border-b-[2px] border-[#000]/60 flex items-center justify-between flex-shrink-0 shadow-md">
         {active ? (
           <div className="flex items-center justify-between w-full">
             <button
               onClick={() => setActive(null)}
-              className="flex items-center gap-1 text-[10px] text-[#E5B842] hover:text-white transition font-bold uppercase"
+              className="flex items-center gap-1.5 text-[10px] text-[#E5B842] hover:text-white transition font-bold uppercase bg-[#141B16] px-2 py-1 rounded-md border border-white/10"
               title="Return to all options"
             >
               <span>◀</span>
               <span>All Options</span>
             </button>
-            <span className="text-[9px] bg-white/10 text-white/70 px-1.5 py-0.5 rounded font-mono">
+            <span className="text-[9px] bg-[#E5B842] text-[#141B16] font-bold px-1.5 py-0.5 rounded font-mono shadow-sm">
               {CHAPTERS.find((c) => c.id === active)?.num}
             </span>
           </div>
@@ -104,7 +104,7 @@ export function LeftOptionRail({
                 Option Sets
               </span>
             </div>
-            <span className="text-[8px] bg-white/10 text-white/70 px-1.5 py-0.5 rounded font-mono">
+            <span className="text-[8px] bg-black/60 text-[#E5B842] border border-[#E5B842]/30 px-1.5 py-0.5 rounded font-mono font-bold">
               8 LIVE
             </span>
           </>
@@ -113,7 +113,7 @@ export function LeftOptionRail({
 
       {/* 2. MAIN SCROLL BODY (In-Place Mode: Overview List vs Active Item Controls) */}
       <div
-        className="flex-1 overflow-y-auto cad-scrollbar p-2.5 space-y-2.5 scroll-smooth relative"
+        className="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-3.5 scroll-smooth relative"
         style={{
           maskImage:
             'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
@@ -121,31 +121,36 @@ export function LeftOptionRail({
             'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
         }}
       >
-        {/* A. OVERVIEW MODE: SEPARATE CARDS WITH SPACING */}
+        {/* A. OVERVIEW MODE: DETACHED INDIVIDUAL FLOATING CARDS */}
         {!active && (
-          <div className="pt-1 pb-2 space-y-2.5">
+          <div className="pt-1 pb-3 space-y-3.5">
             {CHAPTERS.map((ch) => (
               <button
                 key={ch.id}
                 onClick={() => setActive(ch.id)}
-                className="w-full p-2.5 rounded-xl border text-left transition flex flex-col justify-between relative group gap-1.5 bg-[#1C241E] hover:bg-[#253328] text-white/90 border-white/10 hover:border-[#E5B842]/50 shadow-md"
+                className="w-full p-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
               >
+                {/* Card Top Strip */}
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">
-                    <span className="text-base leading-none">{ch.icon}</span>
-                    <span className="text-[11px] font-bold uppercase tracking-tight line-clamp-1">
+                    <span className="text-lg leading-none filter drop-shadow">{ch.icon}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-tight line-clamp-1 text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors">
                       {ch.label}
                     </span>
                   </div>
-                  <span className="text-[8px] opacity-60 font-mono">{ch.num}</span>
+                  <span className="text-[8px] bg-black/50 text-[#E5B842] border border-[#E5B842]/30 px-1 py-0.5 rounded font-mono font-bold">
+                    {ch.num}
+                  </span>
                 </div>
 
-                <div className="flex items-center justify-between text-[9px] w-full pt-1 border-t border-white/10">
-                  <span className="text-[#E5B842] font-light truncate max-w-[150px]">
+                {/* Card Bottom Value Pill */}
+                <div className="flex items-center justify-between text-[9px] w-full pt-1.5 border-t border-white/10">
+                  <span className="text-[#E5B842] font-semibold truncate max-w-[140px] bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
                     {getChapterValue(ch.id)}
                   </span>
-                  <span className="text-white/40 text-[9px] group-hover:text-[#F27A22] group-hover:translate-x-0.5 transition-all">
-                    Edit ▶
+                  <span className="text-[9px] text-[#4ADE80] font-bold group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                    <span>Tune</span>
+                    <span>▶</span>
                   </span>
                 </div>
               </button>
@@ -156,17 +161,17 @@ export function LeftOptionRail({
         {/* B. ACTIVE IN-PLACE CONFIGURATION VIEW */}
         {active && (
           <div className="pt-1 pb-2 space-y-3 animate-in fade-in duration-150">
-            {/* Active Header Badge */}
-            <div className="p-2 bg-[#1C241E] rounded-lg border border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">
+            {/* Active Header Badge (Detached Floating Card) */}
+            <div className="p-3 bg-gradient-to-b from-[#243527] to-[#141B16] rounded-2xl border-2 border-[#E5B842] shadow-[0_6px_16px_rgba(0,0,0,0.6)] flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl filter drop-shadow">
                   {CHAPTERS.find((c) => c.id === active)?.icon}
                 </span>
                 <div>
-                  <div className="text-[11px] font-bold text-[#E5B842] uppercase tracking-tight">
+                  <div className="text-xs font-bold text-[#E5B842] uppercase tracking-tight">
                     {CHAPTERS.find((c) => c.id === active)?.label}
                   </div>
-                  <div className="text-[8px] text-white/50">
+                  <div className="text-[8px] text-white/60 font-light">
                     {CHAPTERS.find((c) => c.id === active)?.preview}
                   </div>
                 </div>
