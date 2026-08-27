@@ -123,12 +123,12 @@ export function LeftOptionRail({
       >
         {/* A. OVERVIEW MODE: DETACHED INDIVIDUAL FLOATING CARDS */}
         {!active && (
-          <div className="pt-1 pb-3 space-y-3.5">
+          <div className="pt-1 pb-3 space-y-[10px]">
             {CHAPTERS.map((ch) => (
               <button
                 key={ch.id}
                 onClick={() => setActive(ch.id)}
-                className="w-full p-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
+                className="w-full py-[10px] px-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
               >
                 {/* Card Top Strip */}
                 <div className="flex items-center justify-between w-full">

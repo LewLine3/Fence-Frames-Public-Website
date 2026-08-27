@@ -148,53 +148,7 @@ export function DesignerCanvas({
   }, [config, frontSvgText, backSvgText, currentAngle])
 
   return (
-    <div className="relative w-full h-full flex flex-col bg-[#141B16] border-[2.5px] border-[#1A1A1A] rounded-[5px] shadow-2xl overflow-hidden has-outside-corners">
-      {/* 50% Chamfer Outside Corner Marks */}
-      <div className="corner-mark-out tr" />
-      <div className="corner-mark-out bl" />
-
-      {/* Top Drafting Stage Status & Control Strip */}
-      <div className="w-full flex items-center justify-between z-10 px-4 py-2 bg-[#1A1A1A] border-b-[2px] border-[#141B16] text-white flex-shrink-0">
-        <div className="flex items-center gap-2.5">
-          <span className="font-['Rowdies'] font-bold text-xs uppercase px-2.5 py-1 bg-[#4ADE80] text-[#141B16] rounded-[3px] shadow-sm">
-            2D CAD Elevation Board
-          </span>
-          <span className="text-xs text-white/70 font-['Rowdies'] font-light hidden sm:inline">
-            Scale: 1/2&quot; = 1&apos;-0&quot; · 112″ × 95″ Module Standard
-          </span>
-        </div>
-
-        {/* View Angle & Zoom Buttons */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex bg-[#141B16] p-0.5 rounded-[4px] border border-white/15 text-xs font-['Rowdies'] font-normal">
-            <button
-              onClick={() => handleAngleChange('both')}
-              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'both' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
-            >
-              Dual View
-            </button>
-            <button
-              onClick={() => handleAngleChange('front')}
-              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'front' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
-            >
-              Front
-            </button>
-            <button
-              onClick={() => handleAngleChange('back')}
-              className={`px-2.5 py-0.5 rounded transition ${currentAngle === 'back' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/60 hover:text-white'}`}
-            >
-              Framing (Back)
-            </button>
-          </div>
-
-          <div className="flex items-center bg-[#141B16] border border-white/15 rounded-[4px] p-0.5 text-xs text-white font-['Rowdies'] font-bold">
-            <button onClick={() => handleZoomChange(-0.1)} className="px-2 py-0.5 hover:bg-white/10 rounded">-</button>
-            <span className="px-1.5 text-white/80 text-[11px] min-w-[3rem] text-center">{Math.round(currentZoom * 100)}%</span>
-            <button onClick={() => handleZoomChange(0.1)} className="px-2 py-0.5 hover:bg-white/10 rounded">+</button>
-          </div>
-        </div>
-      </div>
-
+    <div className="relative w-full h-full flex flex-col rounded-2xl shadow-xl overflow-hidden border-[2.5px] border-[#1A1A1A]">
       {/* Main Drafting Grid Stage (Official Green Print Grid Standard) */}
       <div
         className="flex-1 w-full flex items-center justify-center p-4 overflow-auto cad-scrollbar relative"
