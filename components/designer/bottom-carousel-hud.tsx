@@ -35,12 +35,21 @@ export function BottomCarouselHud({
   }
 
   return (
-    <footer className="w-full bg-[#141B16] border-t-[2.5px] border-[#1A1A1A] p-2 flex-shrink-0 z-20 shadow-2xl font-['Rowdies'] select-none flex items-center gap-2">
+    <footer
+      className="w-full bg-[#141B16] border-t-[2px] border-t-[#E5B842] p-2 flex-shrink-0 z-20 shadow-[0_-4px_15px_rgba(0,0,0,0.5)] font-['Rowdies'] select-none flex items-center gap-2"
+      style={{
+        backgroundColor: '#141B16',
+        backgroundImage:
+          'linear-gradient(rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(rgba(229, 184, 66, 0.15) 2px, transparent 2px), linear-gradient(90deg, rgba(229, 184, 66, 0.15) 2px, transparent 2px)',
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        backgroundPosition: '0 0',
+      }}
+    >
       
       {/* Left Chevron Button */}
       <button
         onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-7 h-[84px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-[4px] items-center justify-center text-xs transition flex-shrink-0"
+        className="hidden sm:flex w-8 h-[96px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-xl items-center justify-center text-xs transition flex-shrink-0"
         title="Scroll Left"
       >
         ◀
@@ -49,7 +58,7 @@ export function BottomCarouselHud({
       {/* Endless Horizontal Card Carousel Track with Seamless Right/Left Gradient Mask Fade */}
       <div
         ref={carouselRef}
-        className="flex-1 flex items-stretch gap-2.5 overflow-x-auto cad-scrollbar scroll-smooth py-0.5 px-1 relative"
+        className="flex-1 flex items-stretch gap-6 overflow-x-auto cad-scrollbar scroll-smooth py-2 px-2 relative"
         style={{
           maskImage:
             'linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent)',
@@ -59,9 +68,7 @@ export function BottomCarouselHud({
       >
 
         {/* CARD 1: PRICING CALCULATOR (Primary Card) */}
-        <div className="min-w-[320px] sm:min-w-[360px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-[5px] p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 has-outside-corners relative">
-          <div className="corner-mark-out tl" />
-          <div className="corner-mark-out br" />
+        <div className="min-w-[320px] sm:min-w-[360px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-md flex flex-col justify-between flex-shrink-0 relative">
 
           <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
             <div className="flex items-center gap-1.5">
@@ -146,9 +153,7 @@ export function BottomCarouselHud({
         </div>
 
         {/* CARD 2: YOUR JOB SPECS */}
-        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-[5px] p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 has-outside-corners">
-          <div className="corner-mark-out tl" />
-          <div className="corner-mark-out br" />
+        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-md flex flex-col justify-between flex-shrink-0 relative">
 
           <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
             <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[11px]">
@@ -183,9 +188,7 @@ export function BottomCarouselHud({
         </div>
 
         {/* CARD 3: SAVE TO FOLIO & 3-BID DISPATCH */}
-        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-[5px] p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 has-outside-corners">
-          <div className="corner-mark-out tl" />
-          <div className="corner-mark-out br" />
+        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-md flex flex-col justify-between flex-shrink-0 relative">
 
           <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
             <span className="font-bold text-[#4ADE80] uppercase tracking-wide text-[11px]">
@@ -202,17 +205,17 @@ export function BottomCarouselHud({
             </div>
           </div>
 
-          <div className="pt-1 border-t border-white/10 flex items-center gap-1.5">
+          <div className="pt-2 border-t border-white/10 flex items-center gap-2">
             <button
               onClick={onResetDefaults}
-              className="px-1.5 py-1 bg-[#141B16] hover:bg-white/10 text-white/70 hover:text-white text-[9px] rounded border border-white/15"
+              className="px-2 py-1.5 bg-[#141B16] hover:bg-white/10 text-white/70 hover:text-white text-[10px] rounded-lg border border-white/15 transition"
               title="Reset 8 LF"
             >
               ↺ Reset
             </button>
             <button
               onClick={onSaveToFolio}
-              className="flex-1 btn-chamfer bg-[#4ADE80] hover:bg-[#FAF6EE] text-[#141B16] font-bold text-xs py-1 border border-[#1A1A1A] transition text-center shadow"
+              className="flex-1 rounded-xl bg-[#4ADE80] hover:bg-[#FAF6EE] text-[#141B16] font-bold text-xs py-1.5 border border-[#1A1A1A] transition text-center shadow"
             >
               Save to Folio →
             </button>
@@ -220,9 +223,7 @@ export function BottomCarouselHud({
         </div>
 
         {/* CARD 4: MATERIAL & LABOR TAKEOFF */}
-        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-[5px] p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 has-outside-corners">
-          <div className="corner-mark-out tl" />
-          <div className="corner-mark-out br" />
+        <div className="min-w-[260px] sm:min-w-[290px] bg-[#1C241E] border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-md flex flex-col justify-between flex-shrink-0 relative">
 
           <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
             <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[11px]">
@@ -262,7 +263,7 @@ export function BottomCarouselHud({
       {/* Right Chevron Button */}
       <button
         onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-7 h-[84px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-[4px] items-center justify-center text-xs transition flex-shrink-0"
+        className="hidden sm:flex w-8 h-[96px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-xl items-center justify-center text-xs transition flex-shrink-0"
         title="Scroll Right"
       >
         ▶

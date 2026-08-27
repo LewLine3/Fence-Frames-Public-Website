@@ -195,13 +195,15 @@ export function DesignerCanvas({
         </div>
       </div>
 
-      {/* Main Drafting Grid Stage */}
+      {/* Main Drafting Grid Stage (Official Green Print Grid Standard) */}
       <div
-        className="flex-1 w-full flex items-center justify-center p-4 overflow-auto cad-scrollbar bg-[#16432D] relative"
+        className="flex-1 w-full flex items-center justify-center p-4 overflow-auto cad-scrollbar relative"
         style={{
+          backgroundColor: '#F4ECDC',
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
+            'linear-gradient(rgba(46, 139, 78, 0.50) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.50) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
+          backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+          backgroundPosition: '0 0',
         }}
       >
         {isLoading ? (
@@ -218,7 +220,7 @@ export function DesignerCanvas({
           >
             {/* FRONT ELEVATION CARD */}
             {(currentAngle === 'both' || currentAngle === 'front') && (
-              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-[5px] p-3.5 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
+              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
                 <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
                   <span className="font-bold text-[#E5B842] uppercase tracking-wide">
                     Street / Neighbor Face (Front)
@@ -230,7 +232,7 @@ export function DesignerCanvas({
 
                 <div
                   ref={frontHostRef}
-                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded bg-[#162019]"
+                  className="w-full aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
                   dangerouslySetInnerHTML={{ __html: frontSvgText }}
                 />
 
@@ -243,7 +245,7 @@ export function DesignerCanvas({
 
             {/* BACK / FRAMING ELEVATION CARD */}
             {(currentAngle === 'both' || currentAngle === 'back') && (
-              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-[5px] p-3.5 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
+              <div className="flex flex-col items-center bg-[#141B16]/95 border-[2px] border-[#1A1A1A] rounded-2xl p-4 shadow-2xl transition-all duration-300 min-w-[380px] max-w-[560px]">
                 <div className="w-full flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs font-['Rowdies']">
                   <span className="font-bold text-[#F27A22] uppercase tracking-wide">
                     Structural Framing Face (Back)

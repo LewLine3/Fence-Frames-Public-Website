@@ -41,7 +41,7 @@
     "  content: ''; position: absolute; top: 0; bottom: 5px; right: 0; left: -100vw;" +
     "  background-color: #0a0a0a;" +
     "  background-image: linear-gradient(180deg, rgba(0,0,0,0.12), transparent 45%, rgba(0,0,0,0.22))," +
-    "    url('/images/card-trials/Wood-wet-card-background.jpg');" +
+    "    url('/images/graduated/backgrounds/trial-black-sand.png');" +
     "  background-size: auto, 280px auto; background-position: center, center right; background-repeat: no-repeat, repeat;" +
     "  border-right: 3px solid var(--ff-ember); z-index: 0;" +
     "  box-shadow: inset -1px 0 0 #000, 1px 0 0 0 #000, 5px 0 0 rgba(0,0,0,0.18);" +

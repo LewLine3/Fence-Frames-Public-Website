@@ -30,7 +30,16 @@ export function TopTitleBar({
   }
 
   return (
-    <section className="w-full bg-[#1A1A1A] border-b-[2px] border-[#141B16] px-3 md:px-4 py-1.5 flex flex-wrap items-center justify-between gap-2 z-30 flex-shrink-0 text-white font-['Rowdies'] shadow-md">
+    <section
+      className="w-full bg-[#1A1A1A] border-b-[2px] border-[#141B16] px-3 md:px-4 py-1.5 flex flex-wrap items-center justify-between gap-2 z-30 flex-shrink-0 text-white font-['Rowdies'] shadow-md"
+      style={{
+        backgroundColor: '#1A1A1A',
+        backgroundImage:
+          'linear-gradient(rgba(74, 222, 128, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(74, 222, 128, 0.05) 1px, transparent 1px), linear-gradient(rgba(229, 184, 66, 0.10) 2px, transparent 2px), linear-gradient(90deg, rgba(229, 184, 66, 0.10) 2px, transparent 2px)',
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        backgroundPosition: '0 0',
+      }}
+    >
       
       {/* 1. Left: Fence Style & Type (Changes Whole Option Set) */}
       <div className="flex items-center gap-2">
@@ -62,81 +71,47 @@ export function TopTitleBar({
         </div>
       </div>
 
-      {/* 2. Center: View Pills (As in Mockup: 2D Canvas, Blueprint, Material List, Project Ledger) */}
-      <div className="flex items-center bg-[#141B16] p-0.5 rounded-[5px] border border-white/15 text-xs">
+      {/* 2. Center: View Modes (Minimal Text Links) */}
+      <div className="flex items-center gap-4 text-[10px] text-white/40 uppercase tracking-widest font-bold">
         <button
           onClick={() => onViewModeChange?.('canvas')}
-          className={`px-3 py-1 rounded-[4px] flex items-center gap-1.5 transition ${
-            activeViewMode === 'canvas'
-              ? 'bg-[#E5B842] text-[#141B16] font-bold shadow-sm'
-              : 'text-white/70 hover:text-white'
-          }`}
+          className={`transition ${activeViewMode === 'canvas' ? 'text-[#E5B842]' : 'hover:text-white'}`}
         >
-          <span>🎨</span>
-          <span>2D Canvas</span>
+          2D Canvas
         </button>
         <button
           onClick={() => onViewModeChange?.('blueprint')}
-          className={`px-3 py-1 rounded-[4px] flex items-center gap-1.5 transition ${
-            activeViewMode === 'blueprint'
-              ? 'bg-[#E5B842] text-[#141B16] font-bold shadow-sm'
-              : 'text-white/70 hover:text-white'
-          }`}
+          className={`transition ${activeViewMode === 'blueprint' ? 'text-[#E5B842]' : 'hover:text-white'}`}
         >
-          <span>📐</span>
-          <span>Blueprint</span>
+          Blueprint
         </button>
         <button
           onClick={() => onViewModeChange?.('materials')}
-          className={`px-3 py-1 rounded-[4px] flex items-center gap-1.5 transition ${
-            activeViewMode === 'materials'
-              ? 'bg-[#E5B842] text-[#141B16] font-bold shadow-sm'
-              : 'text-white/70 hover:text-white'
-          }`}
+          className={`transition ${activeViewMode === 'materials' ? 'text-[#E5B842]' : 'hover:text-white'}`}
         >
-          <span>📋</span>
-          <span>Material List</span>
+          Material List
         </button>
         <button
           onClick={() => onViewModeChange?.('ledger')}
-          className={`px-3 py-1 rounded-[4px] flex items-center gap-1.5 transition ${
-            activeViewMode === 'ledger'
-              ? 'bg-[#E5B842] text-[#141B16] font-bold shadow-sm'
-              : 'text-white/70 hover:text-white'
-          }`}
+          className={`transition ${activeViewMode === 'ledger' ? 'text-[#E5B842]' : 'hover:text-white'}`}
         >
-          <span>📑</span>
-          <span>Project Ledger</span>
+          Project Ledger
         </button>
       </div>
 
-      {/* 3. Right: Elevation Angle Switch & Continuous Zoom Controls */}
-      <div className="flex items-center gap-2 text-xs">
-        <div className="flex bg-[#141B16] p-0.5 rounded-[4px] border border-white/15">
-          <button
-            onClick={() => onViewAngleChange('both')}
-            className={`px-2.5 py-0.5 rounded transition ${
-              viewAngle === 'both' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/70 hover:text-white'
-            }`}
+      {/* 3. Right: Minimal Elevation Angle Dropdown & Continuous Zoom Controls */}
+      <div className="flex items-center gap-3 text-[10px] text-white/50 uppercase font-bold">
+        <div className="flex items-center gap-1.5">
+          <span>View:</span>
+          <select
+            value={viewAngle}
+            onChange={(e) => onViewAngleChange(e.target.value as any)}
+            className="bg-transparent border-none text-[#E5B842] focus:ring-0 cursor-pointer text-[10px] p-0 font-bold uppercase"
           >
-            Dual View
-          </button>
-          <button
-            onClick={() => onViewAngleChange('front')}
-            className={`px-2.5 py-0.5 rounded transition ${
-              viewAngle === 'front' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/70 hover:text-white'
-            }`}
-          >
-            Front
-          </button>
-          <button
-            onClick={() => onViewAngleChange('back')}
-            className={`px-2.5 py-0.5 rounded transition ${
-              viewAngle === 'back' ? 'bg-[#F27A22] text-white font-bold' : 'text-white/70 hover:text-white'
-            }`}
-          >
-            Framing (Back)
-          </button>
+            <option value="both" className="bg-[#1C241E]">Dual View</option>
+            <option value="front" className="bg-[#1C241E]">Front Only</option>
+            <option value="back" className="bg-[#1C241E]">Framing (Back)</option>
+          </select>
         </div>
 
         <div className="flex items-center bg-[#141B16] border border-white/15 rounded-[4px] p-0.5 text-xs text-white">
