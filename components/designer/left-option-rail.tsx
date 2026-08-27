@@ -8,17 +8,18 @@ interface LeftOptionRailProps {
   onChange: (updated: Partial<FenceConfiguration>) => void;
   activeChapter?: string | null;
   onSelectChapter?: (chapterId: string | null) => void;
+  onResetDefaults?: () => void;
 }
 
-const CHAPTERS = [
-  { id: 'height', label: 'Height & Spacing', icon: '📐', subtitle: '4ft, 6ft, 8ft · 6ft/8ft Bay' },
-  { id: 'posts', label: 'Posts & Caps', icon: '🪵', subtitle: '4x4, 6x6, PostMaster · Caps' },
-  { id: 'rails', label: 'Rails & Framing', icon: '🪜', subtitle: '2-Rail, 3-Rail · Top Cap' },
-  { id: 'pickets', label: 'Pickets & Infill', icon: '🌲', subtitle: 'Board-on-Board, Privacy, Gaps' },
-  { id: 'stain', label: 'Stain & Finish', icon: '🎨', subtitle: 'Natural Cedar, Chestnut, Walnut' },
-  { id: 'trim', label: 'Trim & Facia', icon: '📏', subtitle: 'Picture Frame, Kickboard' },
-  { id: 'gates', label: 'Gates & Access', icon: '🚪', subtitle: 'Walk & Double Drive Gates' },
-  { id: 'hardware', label: 'Hardware & Ties', icon: '🔩', subtitle: 'Black Powder, Simpson Ties' },
+export const CHAPTERS = [
+  { id: 'height', num: '#1', label: 'Height & Spacing', icon: '📐', preview: "6' Standard · 8' Bay" },
+  { id: 'posts', num: '#2', label: 'Posts & Caps', icon: '🪵', preview: '4x4 Incense Cedar · Pyramid' },
+  { id: 'rails', num: '#3', label: 'Rails & Framing', icon: '🪜', preview: '3-Rail 2x4 · 2x6 Cap' },
+  { id: 'pickets', num: '#4', label: 'Pickets & Infill', icon: '🌲', preview: 'Board-on-Board 100%' },
+  { id: 'stain', num: '#5', label: 'Stain & Finish', icon: '🎨', preview: 'Natural Cedar Penetrating' },
+  { id: 'trim', num: '#6', label: 'Trim & Facia', icon: '📏', preview: 'Clean Standard Line' },
+  { id: 'gates', num: '#7', label: 'Gates & Access', icon: '🚪', preview: 'Walk & Drive Gates' },
+  { id: 'hardware', num: '#8', label: 'Hardware & Ties', icon: '🔩', preview: 'Black Powder · Simpson' },
 ]
 
 export function LeftOptionRail({
@@ -26,6 +27,7 @@ export function LeftOptionRail({
   onChange,
   activeChapter: controlledChapter,
   onSelectChapter,
+  onResetDefaults,
 }: LeftOptionRailProps) {
   const [internalActive, setInternalActive] = useState<string | null>('pickets')
 
@@ -36,82 +38,150 @@ export function LeftOptionRail({
     else setInternalActive(id)
   }
 
-  return (
-    <div className="relative flex h-full z-20 font-['Rowdies']">
-      {/* 1. Slim Icon & Category Rail (Always Visible on Left) */}
-      <aside className="w-[72px] md:w-[84px] bg-[#141B16] border-[2.5px] border-[#1A1A1A] rounded-[5px] flex flex-col items-center py-3 justify-between shadow-2xl flex-shrink-0 has-outside-corners">
-        <div className="corner-mark-out tl" />
-        <div className="corner-mark-out bl" />
+  // Get active preview string dynamically based on config
+  const getChapterValue = (id: string) => {
+    switch (id) {
+      case 'height':
+        return `${config.heightFt}' Finished · ${config.postSpacingFt}' Bay`
+      case 'posts':
+        return `${config.postType.split('-')[0].toUpperCase()} · ${config.postCap.split('-')[0]}`
+      case 'rails':
+        return `${config.railCount}-Rail ${config.topCap ? '+ 2x6 Cap' : ''}`
+      case 'pickets':
+        return config.fillPattern === 'board-on-board' ? 'Board-on-Board' : 'Standard 1/2″'
+      case 'stain':
+        return config.stainType.replace('-', ' ')
+      case 'trim':
+        return config.trimStyle === 'none' ? 'Clean Line' : config.trimStyle.replace('-', ' ')
+      case 'gates':
+        return `${config.gates?.walkGates || 0} Walk · ${config.gates?.driveGates || 0} Drive`
+      case 'hardware':
+        return config.hardwareTier.replace('-', ' ')
+      default:
+        return ''
+    }
+  }
 
-        {/* Top Header Icon */}
-        <div className="flex flex-col items-center mb-3 pb-2 border-b border-white/10 w-full">
-          <button
-            onClick={() => setActive(active ? null : 'pickets')}
-            className={`w-10 h-10 rounded-[6px] flex items-center justify-center text-lg transition shadow-md border ${
-              active
-                ? 'bg-[#E5B842] text-[#141B16] border-[#1A1A1A]'
-                : 'bg-[#1C241E] text-white/80 hover:text-white border-white/15'
-            }`}
-            title="Toggle Option Flyout Drawer"
-          >
-            ☰
-          </button>
-          <span className="text-[8px] text-[#E5B842] uppercase font-bold mt-1 tracking-wider">
-            Options
+  return (
+    <div className="relative flex h-full z-30 font-['Rowdies'] select-none">
+      
+      {/* 1. Full-Height Vertical Option Stream + Corner Hub Anchor */}
+      <aside className="w-[180px] sm:w-[200px] md:w-[220px] bg-[#141B16] border-r-[2.5px] border-[#1A1A1A] flex flex-col justify-between shadow-2xl flex-shrink-0 relative has-outside-corners">
+        <div className="corner-mark-out tl" />
+        
+        {/* Stream Top Header */}
+        <div className="px-3 py-2 bg-[#1A1A1A] border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse" />
+            <span className="text-[10px] font-bold text-[#E5B842] uppercase tracking-wider">
+              Option Sets
+            </span>
+          </div>
+          <span className="text-[8px] bg-white/10 text-white/70 px-1 py-0.5 rounded font-mono">
+            8 LIVE
           </span>
         </div>
 
-        {/* Chapter Icon Buttons */}
-        <div className="flex-1 w-full overflow-y-auto cad-scrollbar flex flex-col items-center gap-2 px-1.5">
-          {CHAPTERS.map((ch) => {
-            const isSelected = active === ch.id
-            return (
-              <button
-                key={ch.id}
-                onClick={() => setActive(isSelected ? null : ch.id)}
-                className={`w-full py-2 px-1 rounded-[5px] flex flex-col items-center gap-1 transition text-center border relative ${
-                  isSelected
-                    ? 'bg-[#F27A22] text-white border-[#1A1A1A] shadow-inner font-bold'
-                    : 'bg-[#1C241E] text-white/70 hover:text-white hover:bg-[#263529] border-white/10'
-                }`}
-                title={ch.label}
-              >
-                <span className="text-base leading-none">{ch.icon}</span>
-                <span className="text-[8px] uppercase tracking-tight leading-tight line-clamp-1">
-                  {ch.label.split(' ')[0]}
-                </span>
-                {isSelected && (
-                  <span className="absolute right-[-4px] top-1/2 -translate-y-1/2 w-1.5 h-3 bg-[#E5B842] rounded-l-sm" />
-                )}
-              </button>
-            )
-          })}
+        {/* Endless Vertical Scroll Stream with Seamless Gradient Mask Fade */}
+        <div
+          className="flex-1 overflow-y-auto cad-scrollbar p-2 space-y-1.5 scroll-smooth relative"
+          style={{
+            maskImage:
+              'linear-gradient(to bottom, transparent, black 16px, black calc(100% - 20px), transparent)',
+            WebkitMaskImage:
+              'linear-gradient(to bottom, transparent, black 16px, black calc(100% - 20px), transparent)',
+          }}
+        >
+          <div className="pt-2 pb-3 space-y-1.5">
+            {CHAPTERS.map((ch) => {
+              const isSelected = active === ch.id
+              return (
+                <button
+                  key={ch.id}
+                  onClick={() => setActive(isSelected ? null : ch.id)}
+                  className={`w-full p-2 rounded-[5px] border text-left transition flex flex-col justify-between relative group ${
+                    isSelected
+                      ? 'bg-[#F27A22] text-white border-[#1A1A1A] shadow-md'
+                      : 'bg-[#1C241E] hover:bg-[#243327] text-white/80 border-white/10 hover:border-white/25'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full mb-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm leading-none">{ch.icon}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-tight line-clamp-1">
+                        {ch.label}
+                      </span>
+                    </div>
+                    <span className="text-[8px] opacity-60 font-mono">{ch.num}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[9px] w-full pt-1 border-t border-white/10">
+                    <span className="text-white/70 font-light truncate max-w-[130px]">
+                      {getChapterValue(ch.id)}
+                    </span>
+                    <span className="text-[#E5B842] text-[8px] group-hover:translate-x-0.5 transition-transform">
+                      {isSelected ? '◀' : '▶'}
+                    </span>
+                  </div>
+
+                  {isSelected && (
+                    <span className="absolute -right-2 top-1/2 -translate-y-1/2 w-2 h-4 bg-[#E5B842] rounded-l-sm" />
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        {/* Bottom Help Indicator */}
-        <div className="pt-2 mt-2 border-t border-white/10 flex flex-col items-center">
-          <span className="text-[9px] text-[#4ADE80] font-mono">8 LIVE</span>
+        {/* 2. THE CORNER HUB (Bottom-Left Nexus where Left Rail & Bottom Stream Meet) */}
+        <div className="p-2.5 bg-[#0D130F] border-t-[2.5px] border-[#1A1A1A] flex flex-col gap-1.5 flex-shrink-0 z-10 shadow-inner">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-[4px] bg-[#E5B842] text-[#141B16] flex items-center justify-center font-bold text-xs shadow">
+              FF
+            </div>
+            <div>
+              <div className="text-[10px] font-bold text-white uppercase tracking-wider leading-tight">
+                Studio Hub
+              </div>
+              <div className="text-[8px] text-[#4ADE80] font-mono leading-none">
+                CONTINUUM ACTIVE
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-1 border-t border-white/10 text-[8px] text-white/50">
+            <button
+              onClick={() => setActive(active ? null : 'height')}
+              className="hover:text-[#E5B842] transition"
+            >
+              {active ? '✕ Dock Menu' : '☰ Open Options'}
+            </button>
+            <button
+              onClick={onResetDefaults}
+              className="hover:text-[#F27A22] transition"
+              title="Reset to 8 LF standard"
+            >
+              ↺ Reset
+            </button>
+          </div>
         </div>
       </aside>
 
-      {/* 2. Expanded Flyout / Option Set Takeover Drawer */}
+      {/* 3. Flyout Option Takeover Drawer (Emerges smoothly over the Canvas on Demand) */}
       {active && (
-        <aside className="w-[300px] sm:w-[340px] md:w-[380px] bg-[#141B16]/98 border-[2.5px] border-[#1A1A1A] ml-2 rounded-[5px] shadow-2xl flex flex-col overflow-hidden has-outside-corners animate-in slide-in-from-left duration-200">
-          <div className="corner-mark-out tr" />
-          <div className="corner-mark-out br" />
-
-          {/* Flyout Header */}
-          <div className="bg-[#1A1A1A] px-3.5 py-2.5 border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
+        <aside className="w-[280px] sm:w-[320px] md:w-[360px] bg-[#141B16]/98 border-r-[2.5px] border-[#1A1A1A] flex flex-col shadow-2xl flex-shrink-0 z-40 animate-in slide-in-from-left duration-200">
+          {/* Drawer Header */}
+          <div className="bg-[#1A1A1A] px-3 py-2 border-b-[2px] border-[#141B16] flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2">
-              <span className="text-sm">
+              <span className="text-base">
                 {CHAPTERS.find((c) => c.id === active)?.icon || '⚙️'}
               </span>
               <div>
                 <h3 className="text-xs font-bold text-[#E5B842] uppercase tracking-wider">
                   {CHAPTERS.find((c) => c.id === active)?.label}
                 </h3>
-                <p className="text-[9px] text-white/50 font-light">
-                  {CHAPTERS.find((c) => c.id === active)?.subtitle}
+                <p className="text-[8px] text-white/50 font-light">
+                  {CHAPTERS.find((c) => c.id === active)?.preview}
                 </p>
               </div>
             </div>
@@ -125,17 +195,17 @@ export function LeftOptionRail({
             </button>
           </div>
 
-          {/* Option Set Content */}
-          <div className="flex-1 overflow-y-auto cad-scrollbar p-3.5 space-y-4 bg-[#18201B]">
+          {/* Drawer Options */}
+          <div className="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-3.5 bg-[#18201B]">
             
-            {/* CHAPTER: HEIGHT & SPACING */}
+            {/* HEIGHT & SPACING */}
             {active === 'height' && (
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                    Finished Fence Height Above Grade:
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                    Finished Height Above Grade:
                   </label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-4 gap-1.5">
                     {[4, 5, 6, 8].map((h) => (
                       <button
                         key={h}
@@ -153,20 +223,20 @@ export function LeftOptionRail({
                 </div>
 
                 <div className="pt-2 border-t border-white/10">
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
                     Post-to-Post Spacing (On-Center):
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { sp: 8, label: '8ft Standard Bay (Default)' },
-                      { sp: 6, label: '6ft High-Wind Bay' },
+                      { sp: 8, label: '8ft Standard (Accurate to Image)' },
+                      { sp: 6, label: '6ft High-Wind Span' },
                     ].map((item) => (
                       <button
                         key={item.sp}
                         onClick={() => onChange({ postSpacingFt: item.sp })}
-                        className={`py-2 px-2.5 text-[11px] rounded-[4px] border text-left transition ${
+                        className={`py-2 px-2 text-[10px] rounded-[4px] border text-left transition ${
                           config.postSpacingFt === item.sp
-                            ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A] shadow-inner'
+                            ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A]'
                             : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
                         }`}
                       >
@@ -178,14 +248,14 @@ export function LeftOptionRail({
               </div>
             )}
 
-            {/* CHAPTER: POSTS & CAPS */}
+            {/* POSTS & CAPS */}
             {active === 'posts' && (
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                    Post Material &amp; Dimension:
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                    Post Dimension &amp; Material:
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
                       { id: '4x4-cedar', label: '🪵 4x4 Incense Cedar', desc: 'Natural beauty & rot resistance' },
                       { id: '4x6-cedar', label: '🪵 6x6 Heavy Timber', desc: 'Maximum structural heft' },
@@ -195,21 +265,21 @@ export function LeftOptionRail({
                       <button
                         key={p.id}
                         onClick={() => onChange({ postType: p.id as any })}
-                        className={`py-2 px-2.5 rounded-[4px] border text-left transition flex flex-col justify-between ${
+                        className={`p-2 rounded-[4px] border text-left transition flex flex-col justify-between ${
                           config.postType === p.id
                             ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A] shadow-inner'
                             : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
                         }`}
                       >
                         <span className="text-xs">{p.label}</span>
-                        <span className="text-[9px] opacity-70 font-light mt-0.5">{p.desc}</span>
+                        <span className="text-[8px] opacity-70 font-light mt-0.5">{p.desc}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div className="pt-2 border-t border-white/10">
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
                     Architectural Post Cap:
                   </label>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -218,12 +288,12 @@ export function LeftOptionRail({
                       { id: 'copper-pyramid', label: 'Copper Metal Pyramid' },
                       { id: 'metal-black', label: 'Black Powder Metal' },
                       { id: 'solar-led', label: 'Solar LED Light Cap' },
-                      { id: 'none', label: 'Flush Flat Cut (None)' },
+                      { id: 'none', label: 'Flush Cut (None)' },
                     ].map((cap) => (
                       <button
                         key={cap.id}
                         onClick={() => onChange({ postCap: cap.id as any })}
-                        className={`py-1.5 px-2 text-[10.5px] rounded-[3px] border text-left transition ${
+                        className={`py-1.5 px-2 text-[10px] rounded-[3px] border text-left transition ${
                           config.postCap === cap.id
                             ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A]'
                             : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
@@ -237,18 +307,18 @@ export function LeftOptionRail({
               </div>
             )}
 
-            {/* CHAPTER: RAILS & FRAMING */}
+            {/* RAILS & FRAMING */}
             {active === 'rails' && (
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
                     Horizontal Rail Count:
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-1.5">
                     {[
-                      { count: 2, label: '2-Rail (Economy)' },
-                      { count: 3, label: '3-Rail (Standard)' },
-                      { count: 4, label: '4-Rail (Heavy)' },
+                      { count: 2, label: '2-Rail' },
+                      { count: 3, label: '3-Rail' },
+                      { count: 4, label: '4-Rail' },
                     ].map((r) => (
                       <button
                         key={r.count}
@@ -265,7 +335,7 @@ export function LeftOptionRail({
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-white/10 space-y-2">
+                <div className="pt-2 border-t border-white/10">
                   <label className="flex items-center gap-2 p-2 bg-[#1C241E] rounded-[4px] border border-white/10 text-xs text-white cursor-pointer hover:border-white/30">
                     <input
                       type="checkbox"
@@ -275,63 +345,63 @@ export function LeftOptionRail({
                     />
                     <div>
                       <div className="font-bold">2x6 Top Rail Cap Board</div>
-                      <div className="text-[9px] text-white/50">Protects end grain from rain decay</div>
+                      <div className="text-[8px] text-white/50">Protects end grain from rain decay</div>
                     </div>
                   </label>
                 </div>
               </div>
             )}
 
-            {/* CHAPTER: PICKETS & INFILL */}
+            {/* PICKETS & INFILL */}
             {active === 'pickets' && (
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
                     Picket Infill Pattern:
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { id: 'board-on-board', label: '🌲 Board-on-Board (100% Privacy)', desc: 'Overlapping dual row — no shrinkage gaps' },
-                      { id: 'flat-top-privacy', label: '🌲 Standard Flat Top (1/2″ Gap)', desc: 'Single row standard privacy' },
-                      { id: 'shadowbox', label: '🌲 Shadowbox (Semi-Privacy)', desc: 'Alternating sides for airflow' },
-                      { id: 'butt-joint', label: '🌲 Solid Butt Joint', desc: 'Edge-to-edge flush boundary' },
+                      { id: 'board-on-board', label: '🌲 Board-on-Board (100%)', desc: 'Overlapping dual row' },
+                      { id: 'flat-top-privacy', label: '🌲 Standard Flat (1/2″)', desc: 'Single row standard' },
+                      { id: 'shadowbox', label: '🌲 Shadowbox', desc: 'Alternating airflow' },
+                      { id: 'butt-joint', label: '🌲 Solid Butt Joint', desc: 'Edge-to-edge flush' },
                     ].map((f) => (
                       <button
                         key={f.id}
                         onClick={() => onChange({ fillPattern: f.id })}
-                        className={`py-2 px-2.5 rounded-[4px] border text-left transition flex flex-col justify-between ${
+                        className={`p-2 rounded-[4px] border text-left transition flex flex-col justify-between ${
                           config.fillPattern === f.id
                             ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A] shadow-inner'
                             : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
                         }`}
                       >
                         <span className="text-xs">{f.label}</span>
-                        <span className="text-[9px] opacity-70 font-light mt-0.5">{f.desc}</span>
+                        <span className="text-[8px] opacity-70 font-light mt-0.5">{f.desc}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div className="pt-2 border-t border-white/10">
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                    Western Red Cedar Lumber Grade:
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                    Lumber Grade:
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { id: 'tight-knot', label: 'Tight-Knot Cedar (Standard)', desc: 'Warm rustic grain' },
-                      { id: 'clear-cedar', label: 'Clear Architectural (Premium)', desc: 'Knot-free vertical grain' },
+                      { id: 'tight-knot', label: 'Tight-Knot Cedar (Std)', desc: 'Warm rustic grain' },
+                      { id: 'clear-cedar', label: 'Clear Cedar (Prem)', desc: 'Knot-free vertical' },
                     ].map((g) => (
                       <button
                         key={g.id}
                         onClick={() => onChange({ woodGrade: g.id as any })}
-                        className={`py-2 px-2.5 rounded-[4px] border text-left transition ${
+                        className={`p-2 rounded-[4px] border text-left transition ${
                           config.woodGrade === g.id
                             ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A]'
                             : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
                         }`}
                       >
                         <div className="text-xs">{g.label}</div>
-                        <div className="text-[9px] opacity-70 font-light">{g.desc}</div>
+                        <div className="text-[8px] opacity-70 font-light">{g.desc}</div>
                       </button>
                     ))}
                   </div>
@@ -339,51 +409,48 @@ export function LeftOptionRail({
               </div>
             )}
 
-            {/* CHAPTER: STAIN & FINISH */}
+            {/* STAIN & FINISH */}
             {active === 'stain' && (
               <div className="space-y-3">
-                <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                  Factory Pre-Stain Penetrating Oil Finish:
+                <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                  Factory Pre-Stain Finish:
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1.5">
                   {[
-                    { id: 'cedar-natural', label: 'Cedar Natural', color: '#B87B44', desc: 'Warm golden honey tone' },
-                    { id: 'clear-seal', label: 'Clear Sealant', color: '#C9A982', desc: 'Natural wood preservation' },
-                    { id: 'chestnut-brown', label: 'Chestnut Brown', color: '#784626', desc: 'Deep earthy rich tone' },
-                    { id: 'redwood', label: 'Redwood Tone', color: '#8E3826', desc: 'Vibrant Pacific redwood' },
-                    { id: 'dark-walnut', label: 'Dark Walnut', color: '#42281D', desc: 'Modern espresso dark' },
-                    { id: 'none', label: 'Unfinished / Raw', color: '#D8C3A5', desc: 'Naturally weathers to silver' },
+                    { id: 'cedar-natural', label: 'Cedar Natural', color: '#B87B44' },
+                    { id: 'clear-seal', label: 'Clear Sealant', color: '#C9A982' },
+                    { id: 'chestnut-brown', label: 'Chestnut Brown', color: '#784626' },
+                    { id: 'redwood', label: 'Redwood Tone', color: '#8E3826' },
+                    { id: 'dark-walnut', label: 'Dark Walnut', color: '#42281D' },
+                    { id: 'none', label: 'Unfinished / Raw', color: '#D8C3A5' },
                   ].map((s) => (
                     <button
                       key={s.id}
                       onClick={() => onChange({ stainType: s.id as any })}
-                      className={`p-2 rounded-[4px] border text-left transition flex items-center gap-2.5 ${
+                      className={`p-2 rounded-[4px] border text-left transition flex items-center gap-2 ${
                         config.stainType === s.id
                           ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A] shadow-inner'
                           : 'bg-[#1C241E] text-white/80 border-white/15 hover:border-white/40'
                       }`}
                     >
                       <span
-                        className="w-5 h-5 rounded-full border border-white/30 flex-shrink-0 shadow-sm"
+                        className="w-4 h-4 rounded-full border border-white/30 flex-shrink-0"
                         style={{ backgroundColor: s.color }}
                       />
-                      <div>
-                        <div className="text-xs">{s.label}</div>
-                        <div className="text-[9px] opacity-70 font-light">{s.desc}</div>
-                      </div>
+                      <div className="text-xs truncate">{s.label}</div>
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* CHAPTER: GATES & ACCESS */}
+            {/* GATES */}
             {active === 'gates' && (
               <div className="space-y-3">
                 <div className="p-2.5 bg-[#1C241E] rounded-[4px] border border-white/10 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-bold text-white">4ft Standard Walk Gate</div>
-                    <div className="text-[9px] text-white/50">Steel anti-sag frame + latch</div>
+                    <div className="text-xs font-bold text-white">4ft Walk Gate</div>
+                    <div className="text-[8px] text-white/50">Steel anti-sag frame</div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <button
@@ -399,7 +466,7 @@ export function LeftOptionRail({
                     >
                       -
                     </button>
-                    <span className="w-6 text-center font-bold text-[#E5B842] text-sm">
+                    <span className="w-6 text-center font-bold text-[#E5B842] text-xs">
                       {config.gates?.walkGates || 0}
                     </span>
                     <button
@@ -420,8 +487,8 @@ export function LeftOptionRail({
 
                 <div className="p-2.5 bg-[#1C241E] rounded-[4px] border border-white/10 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-bold text-white">10ft Driveway Double Gate</div>
-                    <div className="text-[9px] text-white/50">Drop rod + heavy-duty strap hinges</div>
+                    <div className="text-xs font-bold text-white">10ft Double Drive Gate</div>
+                    <div className="text-[8px] text-white/50">Drop rod + strap hinges</div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <button
@@ -437,7 +504,7 @@ export function LeftOptionRail({
                     >
                       -
                     </button>
-                    <span className="w-6 text-center font-bold text-[#E5B842] text-sm">
+                    <span className="w-6 text-center font-bold text-[#E5B842] text-xs">
                       {config.gates?.driveGates || 0}
                     </span>
                     <button
@@ -458,18 +525,18 @@ export function LeftOptionRail({
               </div>
             )}
 
-            {/* CHAPTER: TRIM & HARDWARE */}
+            {/* TRIM & HARDWARE */}
             {(active === 'trim' || active === 'hardware') && (
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                    Facia &amp; Trim Style:
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                    Facia &amp; Trim:
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { id: 'none', label: 'Clean Standard Line' },
-                      { id: 'kickboard-2x6', label: '2x6 Bottom Rot Board' },
-                      { id: 'picture-frame-trim', label: 'Full Picture Frame Trim' },
+                      { id: 'none', label: 'Clean Standard' },
+                      { id: 'kickboard-2x6', label: '2x6 Rot Board' },
+                      { id: 'picture-frame-trim', label: 'Picture Frame' },
                     ].map((t) => (
                       <button
                         key={t.id}
@@ -487,13 +554,13 @@ export function LeftOptionRail({
                 </div>
 
                 <div className="pt-2 border-t border-white/10">
-                  <label className="text-[10px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
-                    Fasteners &amp; Hardware Tier:
+                  <label className="text-[9px] text-white/70 font-light uppercase tracking-wide block mb-1.5">
+                    Hardware:
                   </label>
                   <div className="grid grid-cols-3 gap-1.5">
                     {[
-                      { id: 'black-powder', label: 'Black Powder' },
-                      { id: 'galvanized', label: 'Galvanized' },
+                      { id: 'black-powder', label: 'Black' },
+                      { id: 'galvanized', label: 'Galv' },
                       { id: 'stainless-steel', label: 'Stainless' },
                     ].map((hw) => (
                       <button
@@ -516,6 +583,7 @@ export function LeftOptionRail({
           </div>
         </aside>
       )}
+
     </div>
   )
 }

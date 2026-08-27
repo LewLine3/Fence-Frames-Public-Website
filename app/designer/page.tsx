@@ -89,38 +89,42 @@ export default function DesignerPage() {
         onSelectChapter={(ch) => setActiveChapter(ch)}
       />
 
-      {/* 3. Main Studio Workspace (Left Option Rail + Dynamic 2-Fence Elevation Canvas) */}
-      <main className="flex-1 flex flex-row overflow-hidden relative p-2 md:p-3 gap-2.5 min-h-0">
-        {/* Left Option Rail with Expandable Takeover Flyout Drawer */}
+      {/* 3. Main Studio Workspace: Vertical Left Priority + Right Stage & Bottom Flow */}
+      <div className="flex-1 flex flex-row overflow-hidden relative min-h-0 w-full">
+        {/* Left Column: Full-Height Continuous Option Stream + Corner Hub Anchor */}
         <LeftOptionRail
           config={config}
           onChange={handleConfigChange}
           activeChapter={activeChapter}
           onSelectChapter={setActiveChapter}
+          onResetDefaults={handleResetDefaults}
         />
 
-        {/* Central Dynamic 2-Fence Vector CAD Elevation Stage */}
-        <section className="flex-1 h-full min-w-0 flex flex-col">
-          <DesignerCanvas
-            config={config}
-            viewAngle={viewAngle}
-            onViewAngleChange={setViewAngle}
-            zoomLevel={zoomLevel}
-            onZoomChange={setZoomLevel}
-          />
-        </section>
-      </main>
+        {/* Right Section: 2D CAD Stage + Bottom Endless Card Flow Carousel */}
+        <div className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full">
+          {/* Upper 2D Vector CAD Elevation Stage */}
+          <section className="flex-1 h-full min-w-0 p-2 overflow-hidden flex flex-col">
+            <DesignerCanvas
+              config={config}
+              viewAngle={viewAngle}
+              onViewAngleChange={setViewAngle}
+              zoomLevel={zoomLevel}
+              onZoomChange={setZoomLevel}
+            />
+          </section>
 
-      {/* 4. Bottom Horizontal Endless Card Flow Carousel (Zero Marketing Footer) */}
-      <BottomCarouselHud
-        config={config}
-        pricing={pricing}
-        trialPricing={trialPricing}
-        onChange={handleConfigChange}
-        onResetDefaults={handleResetDefaults}
-        onSaveToFolio={handleSaveToFolio}
-        onOpenLedgerModal={() => handleViewModeChange('blueprint')}
-      />
+          {/* Bottom Horizontal Endless Card Flow (from corner hub junction to screen edge) */}
+          <BottomCarouselHud
+            config={config}
+            pricing={pricing}
+            trialPricing={trialPricing}
+            onChange={handleConfigChange}
+            onResetDefaults={handleResetDefaults}
+            onSaveToFolio={handleSaveToFolio}
+            onOpenLedgerModal={() => handleViewModeChange('blueprint')}
+          />
+        </div>
+      </div>
     </div>
   )
 }
