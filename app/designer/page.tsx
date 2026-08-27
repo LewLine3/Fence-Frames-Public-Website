@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SiteNav } from '@/components/ff/site-nav'
 import { TopTitleBar } from '@/components/designer/top-title-bar'
 import { LeftOptionRail } from '@/components/designer/left-option-rail'
 import { DesignerCanvas } from '@/components/designer/designer-canvas'
-import { BottomControlHud } from '@/components/designer/bottom-control-hud'
+import { BottomCarouselHud } from '@/components/designer/bottom-carousel-hud'
 import {
   FenceConfiguration,
   calculateBaselineFenceQuote,
@@ -40,6 +40,8 @@ export default function DesignerPage() {
   const [config, setConfig] = useState<FenceConfiguration>(HERITAGE_BLANK_DEFAULT)
   const [viewAngle, setViewAngle] = useState<'both' | 'front' | 'back'>('both')
   const [zoomLevel, setZoomLevel] = useState<number>(1.0)
+  const [activeChapter, setActiveChapter] = useState<string | null>('pickets')
+  const [activeViewMode, setActiveViewMode] = useState<'canvas' | 'blueprint' | 'materials' | 'ledger'>('canvas')
 
   // Real-time Pricing Engines (Canonical Multiplier + Discrete Trial Labor)
   const pricing = calculateBaselineFenceQuote(config)
@@ -51,6 +53,7 @@ export default function DesignerPage() {
 
   const handleResetDefaults = () => {
     setConfig(HERITAGE_BLANK_DEFAULT)
+    setActiveChapter('pickets')
   }
 
   const handleSaveToFolio = () => {
@@ -62,26 +65,41 @@ export default function DesignerPage() {
     router.push('/auth-gate.html')
   }
 
+  const handleViewModeChange = (mode: 'canvas' | 'blueprint' | 'materials' | 'ledger') => {
+    setActiveViewMode(mode)
+    if (mode === 'blueprint') {
+      router.push('/blueprint')
+    }
+  }
+
   return (
-    <div className="h-screen h-[100dvh] w-full overflow-hidden flex flex-col select-none bg-[#F4ECDC] text-[#1A1A1A] font-['Rowdies'] page-canvas-ground">
+    <div className="h-screen h-[100dvh] w-full overflow-hidden flex flex-col select-none bg-[#121814] text-[#FAF6EE] font-['Rowdies'] page-canvas-ground">
       {/* 1. Master Universal Header */}
       <SiteNav />
 
-      {/* 2. Top Thin Title Bar with Fast Chapter Jumps */}
+      {/* 2. Top Thin Title Bar with Style / View Mode / Zoom Controls */}
       <TopTitleBar
         config={config}
         viewAngle={viewAngle}
         onViewAngleChange={setViewAngle}
         zoomLevel={zoomLevel}
         onZoomChange={setZoomLevel}
+        activeViewMode={activeViewMode}
+        onViewModeChange={handleViewModeChange}
+        onSelectChapter={(ch) => setActiveChapter(ch)}
       />
 
-      {/* 3. Main Studio Workspace (Left Option Rail + 2D CAD Stage) */}
-      <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative p-2 md:p-3 gap-3">
-        {/* Infinite Left Scroll Rail */}
-        <LeftOptionRail config={config} onChange={handleConfigChange} />
+      {/* 3. Main Studio Workspace (Left Option Rail + Dynamic 2-Fence Elevation Canvas) */}
+      <main className="flex-1 flex flex-row overflow-hidden relative p-2 md:p-3 gap-2.5 min-h-0">
+        {/* Left Option Rail with Expandable Takeover Flyout Drawer */}
+        <LeftOptionRail
+          config={config}
+          onChange={handleConfigChange}
+          activeChapter={activeChapter}
+          onSelectChapter={setActiveChapter}
+        />
 
-        {/* Central 2D Vector CAD Elevation Stage */}
+        {/* Central Dynamic 2-Fence Vector CAD Elevation Stage */}
         <section className="flex-1 h-full min-w-0 flex flex-col">
           <DesignerCanvas
             config={config}
@@ -93,14 +111,15 @@ export default function DesignerPage() {
         </section>
       </main>
 
-      {/* 4. Bottom Control HUD with Math Model Comparison (Zero Marketing Footer) */}
-      <BottomControlHud
+      {/* 4. Bottom Horizontal Endless Card Flow Carousel (Zero Marketing Footer) */}
+      <BottomCarouselHud
         config={config}
         pricing={pricing}
         trialPricing={trialPricing}
         onChange={handleConfigChange}
         onResetDefaults={handleResetDefaults}
         onSaveToFolio={handleSaveToFolio}
+        onOpenLedgerModal={() => handleViewModeChange('blueprint')}
       />
     </div>
   )
