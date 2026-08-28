@@ -13,14 +13,14 @@ interface LeftOptionRailProps {
 }
 
 export const CHAPTERS = [
-  { id: 'height', num: '#1', label: 'Height & Spacing', icon: '📐', preview: "6' Std · 8' Bay" },
-  { id: 'posts', num: '#2', label: 'Posts & Caps', icon: '🪵', preview: '4x4 Cedar · Pyramid' },
-  { id: 'rails', num: '#3', label: 'Rails & Framing', icon: '🪜', preview: '3-Rail · 2x6 Cap' },
-  { id: 'pickets', num: '#4', label: 'Pickets & Infill', icon: '🌲', preview: 'Board-on-Board' },
-  { id: 'stain', num: '#5', label: 'Stain & Finish', icon: '🎨', preview: 'Cedar Natural' },
-  { id: 'trim', num: '#6', label: 'Trim & Facia', icon: '📏', preview: 'Clean Line' },
-  { id: 'gates', num: '#7', label: 'Gates & Access', icon: '🚪', preview: 'Walk & Drive Gates' },
-  { id: 'hardware', num: '#8', label: 'Hardware & Ties', icon: '🔩', preview: 'Black Powder' },
+  { id: 'height', num: '01', label: 'Height & Spacing', icon: '📐', preview: "6' Std · 8' Bay" },
+  { id: 'posts', num: '02', label: 'Posts & Caps', icon: '🪵', preview: '4x4 Cedar · Pyramid' },
+  { id: 'rails', num: '03', label: 'Rails & Framing', icon: '🪜', preview: '3-Rail · 2x6 Cap' },
+  { id: 'pickets', num: '04', label: 'Pickets & Infill', icon: '🌲', preview: 'Board-on-Board' },
+  { id: 'stain', num: '05', label: 'Stain & Finish', icon: '🎨', preview: 'Cedar Natural' },
+  { id: 'trim', num: '06', label: 'Trim & Facia', icon: '📏', preview: 'Clean Line' },
+  { id: 'gates', num: '07', label: 'Gates & Access', icon: '🚪', preview: 'Walk & Drive Gates' },
+  { id: 'hardware', num: '08', label: 'Hardware & Ties', icon: '🔩', preview: 'Black Powder' },
 ]
 
 export function getChapterCostMetric(id: string, config: FenceConfiguration): string {
@@ -121,7 +121,7 @@ export function LeftOptionRail({
 
   return (
     <aside
-      className="w-[240px] flex-shrink-0 flex flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full"
+      className="w-[250px] flex-shrink-0 flex flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full"
       suppressHydrationWarning
       style={{
         backgroundColor: '#1C180E',
@@ -134,82 +134,86 @@ export function LeftOptionRail({
       }}
     >
       {/* 1. TOP HEADER OF LSB */}
-      <div className="px-3 py-2.5 bg-[#0D120F]/90 backdrop-blur-md border-b-[2px] border-[#000]/60 flex items-center justify-between flex-shrink-0 shadow-md">
+      <div className="px-3.5 py-2.5 bg-[#0D120F]/90 backdrop-blur-md border-b-[2px] border-[#000]/60 flex items-center justify-between flex-shrink-0 shadow-md">
         {active ? (
           <div className="flex items-center justify-between w-full">
             <button
               onClick={() => setActive(null)}
-              className="flex items-center gap-1.5 text-[10px] text-[#E5B842] hover:text-white transition font-bold uppercase bg-[#141B16] px-2 py-1 rounded-md border border-white/10"
+              className="flex items-center gap-1.5 text-[10px] text-[#E5B842] hover:text-white transition font-bold uppercase bg-[#141B16] px-2.5 py-1 rounded-lg border border-white/10 shadow-sm"
               title="Return to all options"
             >
               <span>◀</span>
               <span>All Options</span>
             </button>
-            <span className="text-[9px] bg-[#E5B842] text-[#141B16] font-bold px-1.5 py-0.5 rounded font-mono shadow-sm">
+            <span className="text-xs bg-[#E5B842] text-[#141B16] font-bold px-2 py-0.5 rounded-md font-mono shadow-sm">
               {CHAPTERS.find((c) => c.id === active)?.num}
             </span>
           </div>
         ) : (
           <>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse" />
-              <span className="text-[10px] font-bold text-[#E5B842] uppercase tracking-wider">
-                Option Sets
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4ADE80] animate-pulse" />
+              <span className="text-xs font-bold text-[#E5B842] uppercase tracking-wider">
+                Option Circuit
               </span>
             </div>
-            <span className="text-[8px] bg-black/60 text-[#E5B842] border border-[#E5B842]/30 px-1.5 py-0.5 rounded font-mono font-bold">
-              8 LIVE · LOOP
+            <span className="text-[9px] bg-black/70 text-[#E5B842] border border-[#E5B842]/40 px-2 py-0.5 rounded-md font-mono font-bold">
+              01–08 LOOP
             </span>
           </>
         )}
       </div>
 
-      {/* 2. MAIN SCROLL BODY (Infinite Loop Overview List vs Active Item Controls) */}
+      {/* 2. MAIN SCROLL BODY (Invisible Scrollbar + Generous Floating Card Spacing) */}
       <div
         ref={!active ? containerRef : undefined}
         onScroll={!active ? handleScroll : undefined}
-        className="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-[10px] scroll-smooth relative"
+        className="flex-1 overflow-y-auto no-scrollbar p-3.5 scroll-smooth relative"
         style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           maskImage:
-            'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
+            'linear-gradient(to bottom, transparent, black 16px, black calc(100% - 20px), transparent)',
           WebkitMaskImage:
-            'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
+            'linear-gradient(to bottom, transparent, black 16px, black calc(100% - 20px), transparent)',
         }}
       >
-        {/* A. OVERVIEW MODE: INFINITE SCROLL DETACHED PILL CARDS WITH COST METRICS */}
+        {/* A. OVERVIEW MODE: LARGE FREE-FLOATING CIRCUIT PILL CARDS */}
         {!active && (
-          <div className="pt-1 pb-3 space-y-[10px]">
+          <div className="pt-2 pb-4 space-y-4">
             {tripled.map((ch, idx) => {
               const costMetric = getChapterCostMetric(ch.id, config)
               return (
                 <button
                   key={`${ch.id}-${idx}`}
                   onClick={() => setActive(ch.id)}
-                  className="w-full py-[10px] px-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
+                  className="w-full p-3.5 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-3 bg-gradient-to-b from-[#1E2B22] to-[#121B14] hover:from-[#283C2F] hover:to-[#17251B] text-white shadow-[0_10px_24px_rgba(0,0,0,0.65)] hover:shadow-[0_14px_32px_rgba(0,0,0,0.85)] hover:-translate-y-1 cursor-pointer"
                 >
-                  {/* Card Top Strip */}
+                  {/* Card Top Strip with 2-Digit Circuit Badge */}
                   <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg leading-none filter drop-shadow">{ch.icon}</span>
-                      <span className="text-[11px] font-bold uppercase tracking-tight line-clamp-1 text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-2xl leading-none filter drop-shadow">{ch.icon}</span>
+                      <span className="text-xs font-bold uppercase tracking-wide text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors">
                         {ch.label}
                       </span>
                     </div>
-                    <span className="text-[8px] bg-black/50 text-[#E5B842] border border-[#E5B842]/30 px-1 py-0.5 rounded font-mono font-bold">
+
+                    {/* Circuit Number Pill */}
+                    <span className="w-7 h-7 rounded-xl bg-black/70 border border-[#E5B842]/50 text-[#E5B842] font-mono font-bold text-xs flex items-center justify-center shadow-inner group-hover:border-[#E5B842] group-hover:scale-105 transition-transform">
                       {ch.num}
                     </span>
                   </div>
 
                   {/* Card Bottom Value Pill & Direct Cost Metric */}
-                  <div className="flex items-center justify-between text-[9px] w-full pt-1.5 border-t border-white/10">
-                    <span className="text-[#E5B842] font-semibold truncate max-w-[110px] bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
+                  <div className="flex items-center justify-between text-[10px] w-full pt-2 border-t border-white/10">
+                    <span className="text-[#E5B842] font-semibold truncate max-w-[115px] bg-black/50 px-2 py-1 rounded-md border border-white/10 shadow-inner">
                       {getChapterValue(ch.id)}
                     </span>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[9px] text-[#4ADE80] font-mono font-bold bg-[#141B16] px-1 py-0.5 rounded border border-[#4ADE80]/30">
+                      <span className="text-[10px] text-[#4ADE80] font-mono font-bold bg-[#141B16] px-2 py-1 rounded-md border border-[#4ADE80]/40 shadow-sm">
                         {costMetric}
                       </span>
-                      <span className="text-[9px] text-white/40 group-hover:text-[#F27A22] group-hover:translate-x-0.5 transition-all">
+                      <span className="text-[11px] text-[#F27A22] font-bold group-hover:translate-x-1 transition-transform">
                         ▶
                       </span>
                     </div>
