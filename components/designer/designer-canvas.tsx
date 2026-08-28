@@ -148,10 +148,10 @@ export function DesignerCanvas({
   }, [config, frontSvgText, backSvgText, currentAngle])
 
   return (
-    <div className="relative w-full h-full flex flex-col rounded-2xl shadow-xl overflow-hidden border-[2.5px] border-[#1A1A1A]">
-      {/* Main Drafting Grid Stage (Official Green Print Grid Standard) */}
+    <div className="relative w-full h-full flex flex-col overflow-hidden">
+      {/* Main Drafting Grid Stage (Official Green Print Grid Standard - 100% Edge-to-Edge) */}
       <div
-        className="flex-1 w-full flex items-center justify-center p-4 overflow-auto cad-scrollbar relative"
+        className="flex-1 w-full h-full flex items-center justify-center p-2 sm:p-3 overflow-auto no-scrollbar relative"
         style={{
           backgroundColor: '#F4ECDC',
           backgroundImage:
@@ -161,7 +161,7 @@ export function DesignerCanvas({
         }}
       >
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center gap-3 p-8 bg-[#141B16]/90 border border-white/15 rounded-[5px] text-white">
+          <div className="flex flex-col items-center justify-center gap-3 p-8 bg-[#141B16]/90 border border-white/15 rounded-2xl text-white shadow-2xl">
             <div className="w-8 h-8 rounded-full border-2 border-[#E5B842] border-t-transparent animate-spin" />
             <span className="text-xs font-['Rowdies'] uppercase tracking-wider text-[#E5B842]">
               Loading Authentic Heritage Vector Assemblies...
@@ -169,14 +169,14 @@ export function DesignerCanvas({
           </div>
         ) : (
           <div
-            className="flex items-center justify-center gap-4 transition-transform duration-150 h-full w-full max-h-full py-1 px-2"
+            className="flex items-center justify-center gap-4 transition-transform duration-150 h-full w-full max-h-full"
             style={{ transform: `scale(${currentZoom})`, transformOrigin: 'center center' }}
           >
             {/* FRONT ELEVATION CARD (FC: FFC) */}
             {(currentAngle === 'both' || currentAngle === 'front') && (
-              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-3 shadow-2xl transition-all duration-300 min-w-[320px] max-w-[620px] h-[calc(100%-0.5rem)] max-h-[580px] flex-1">
-                <div className="w-full flex items-center justify-between pb-1.5 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
-                  <span className="font-bold text-[#E5B842] uppercase tracking-wide">
+              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-2.5 shadow-2xl transition-all duration-300 min-w-[280px] h-full flex-1 max-w-none">
+                <div className="w-full flex items-center justify-between pb-1 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
+                  <span className="font-bold text-[#E5B842] uppercase tracking-wide text-xs">
                     Street / Neighbor Face (Front)
                   </span>
                   <span className="text-[10px] text-[#4ADE80] font-mono">
@@ -186,11 +186,11 @@ export function DesignerCanvas({
 
                 <div
                   ref={frontHostRef}
-                  className="w-full flex-1 min-h-0 aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
+                  className="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
                   dangerouslySetInnerHTML={{ __html: frontSvgText }}
                 />
 
-                <div className="w-full flex items-center justify-between pt-1.5 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
+                <div className="w-full flex items-center justify-between pt-1 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
                   <span>Bay: {config.postSpacingFt}&apos; OC × {config.heightFt}&apos; Height</span>
                   <span className="text-[#E5B842] font-bold">16 Board-on-Board Pickets</span>
                 </div>
@@ -199,9 +199,9 @@ export function DesignerCanvas({
 
             {/* BACK / FRAMING ELEVATION CARD (FC: BFC) */}
             {(currentAngle === 'both' || currentAngle === 'back') && (
-              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-3 shadow-2xl transition-all duration-300 min-w-[320px] max-w-[620px] h-[calc(100%-0.5rem)] max-h-[580px] flex-1">
-                <div className="w-full flex items-center justify-between pb-1.5 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
-                  <span className="font-bold text-[#F27A22] uppercase tracking-wide">
+              <div className="flex flex-col items-center justify-between bg-[#141B16]/95 border-2 border-[#1A1A1A] rounded-2xl p-2.5 shadow-2xl transition-all duration-300 min-w-[280px] h-full flex-1 max-w-none">
+                <div className="w-full flex items-center justify-between pb-1 mb-1 border-b border-white/10 text-xs font-['Rowdies'] flex-shrink-0">
+                  <span className="font-bold text-[#F27A22] uppercase tracking-wide text-xs">
                     Structural Framing Face (Back)
                   </span>
                   <span className="text-[10px] text-white/60 font-mono">
@@ -211,11 +211,11 @@ export function DesignerCanvas({
 
                 <div
                   ref={backHostRef}
-                  className="w-full flex-1 min-h-0 aspect-[112/95] flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
+                  className="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden rounded-xl bg-[#162019]"
                   dangerouslySetInnerHTML={{ __html: backSvgText }}
                 />
 
-                <div className="w-full flex items-center justify-between pt-1.5 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
+                <div className="w-full flex items-center justify-between pt-1 mt-1 border-t border-white/10 text-[10px] text-white/70 font-['Rowdies'] flex-shrink-0">
                   <span>Post Cores: {config.postType.replace('-', ' ').toUpperCase()}</span>
                   <span className="text-[#4ADE80] font-bold">PASSED ARC-CODE-1</span>
                 </div>

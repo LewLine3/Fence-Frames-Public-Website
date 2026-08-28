@@ -119,8 +119,8 @@ export default function DesignerPage() {
           onSelectChapter={(ch) => setActiveChapter(ch)}
         />
 
-        {/* Upper 2D Vector CAD Elevation Stage */}
-        <section className="flex-1 h-full min-w-0 p-2 overflow-hidden flex flex-col">
+        {/* Upper 2D Vector CAD Elevation Stage (Edge-to-Edge, Zero Dead Space) */}
+        <section className="flex-1 h-full min-w-0 overflow-hidden flex flex-col">
           <DesignerCanvas
             config={config}
             viewAngle={viewAngle}
