@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { FenceConfiguration } from '@/lib/pricing-engine'
+import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
 
 interface LeftOptionRailProps {
   config: FenceConfiguration;
@@ -22,6 +23,55 @@ export const CHAPTERS = [
   { id: 'hardware', num: '#8', label: 'Hardware & Ties', icon: '🔩', preview: 'Black Powder' },
 ]
 
+export function getChapterCostMetric(id: string, config: FenceConfiguration): string {
+  switch (id) {
+    case 'height': {
+      const base = config.heightFt === 4 ? 14 : config.heightFt === 6 ? 18 : 26
+      const grade = config.woodGrade === 'clear-cedar' ? 7.5 : config.woodGrade === 'tight-knot' ? 2.5 : 0
+      return `$${(base + grade).toFixed(2)}/LF`
+    }
+    case 'posts': {
+      let post = 6.5
+      if (config.postType === '4x6-cedar') post += 2.2
+      if (config.postType === 'postmaster-steel') post += 4.2
+      if (config.postCap !== 'none') post += 1.1
+      return `$${post.toFixed(2)}/LF`
+    }
+    case 'rails': {
+      let rail = config.railCount === 2 ? 4.0 : 5.8
+      if (config.topCap) rail += 2.25
+      return `$${rail.toFixed(2)}/LF`
+    }
+    case 'pickets': {
+      let fill = 8.5
+      if (config.fillPattern === 'board-on-board') fill = 12.0
+      else if (config.fillPattern === 'shadowbox') fill = 11.5
+      return `$${fill.toFixed(2)}/LF`
+    }
+    case 'stain': {
+      return config.stainType === 'none' ? '$0.00' : '$4.75/LF'
+    }
+    case 'trim': {
+      if (config.trimStyle === 'picture-frame-trim') return '$3.20/LF'
+      if (config.trimStyle === 'kickboard-2x6') return '$2.80/LF'
+      return '$0.00'
+    }
+    case 'gates': {
+      const walk = (config.gates?.walkGates || 0) * 385
+      const drive = (config.gates?.driveGates || 0) * 850
+      return (walk + drive) > 0 ? `$${walk + drive}` : '$385/ea'
+    }
+    case 'hardware': {
+      let hw = 1.4
+      if (config.hardwareTier === 'black-powder') hw = 2.4
+      if (config.hardwareTier === 'stainless-steel') hw = 3.1
+      return `$${hw.toFixed(2)}/LF`
+    }
+    default:
+      return '$0.00'
+  }
+}
+
 export function LeftOptionRail({
   config,
   onChange,
@@ -37,6 +87,9 @@ export function LeftOptionRail({
     if (onSelectChapter) onSelectChapter(id)
     else setInternalActive(id)
   }
+
+  // Hook for infinite vertical scroll in overview mode
+  const { containerRef, tripled, handleScroll } = useInfiniteLoop(CHAPTERS, 'y')
 
   // Get active preview string dynamically based on config
   const getChapterValue = (id: string) => {
@@ -105,15 +158,17 @@ export function LeftOptionRail({
               </span>
             </div>
             <span className="text-[8px] bg-black/60 text-[#E5B842] border border-[#E5B842]/30 px-1.5 py-0.5 rounded font-mono font-bold">
-              8 LIVE
+              8 LIVE · LOOP
             </span>
           </>
         )}
       </div>
 
-      {/* 2. MAIN SCROLL BODY (In-Place Mode: Overview List vs Active Item Controls) */}
+      {/* 2. MAIN SCROLL BODY (Infinite Loop Overview List vs Active Item Controls) */}
       <div
-        className="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-3.5 scroll-smooth relative"
+        ref={!active ? containerRef : undefined}
+        onScroll={!active ? handleScroll : undefined}
+        className="flex-1 overflow-y-auto cad-scrollbar p-3 space-y-[10px] scroll-smooth relative"
         style={{
           maskImage:
             'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
@@ -121,40 +176,47 @@ export function LeftOptionRail({
             'linear-gradient(to bottom, transparent, black 12px, black calc(100% - 16px), transparent)',
         }}
       >
-        {/* A. OVERVIEW MODE: DETACHED INDIVIDUAL FLOATING CARDS */}
+        {/* A. OVERVIEW MODE: INFINITE SCROLL DETACHED PILL CARDS WITH COST METRICS */}
         {!active && (
           <div className="pt-1 pb-3 space-y-[10px]">
-            {CHAPTERS.map((ch) => (
-              <button
-                key={ch.id}
-                onClick={() => setActive(ch.id)}
-                className="w-full py-[10px] px-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
-              >
-                {/* Card Top Strip */}
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg leading-none filter drop-shadow">{ch.icon}</span>
-                    <span className="text-[11px] font-bold uppercase tracking-tight line-clamp-1 text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors">
-                      {ch.label}
+            {tripled.map((ch, idx) => {
+              const costMetric = getChapterCostMetric(ch.id, config)
+              return (
+                <button
+                  key={`${ch.id}-${idx}`}
+                  onClick={() => setActive(ch.id)}
+                  className="w-full py-[10px] px-3 rounded-2xl border-2 border-[#1A1A1A] hover:border-[#E5B842] text-left transition-all duration-200 flex flex-col justify-between relative group gap-2 bg-gradient-to-b from-[#1A261D] to-[#121B14] hover:from-[#223527] hover:to-[#16241A] text-white shadow-[0_6px_16px_rgba(0,0,0,0.55)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.75)] hover:-translate-y-0.5 cursor-pointer"
+                >
+                  {/* Card Top Strip */}
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg leading-none filter drop-shadow">{ch.icon}</span>
+                      <span className="text-[11px] font-bold uppercase tracking-tight line-clamp-1 text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors">
+                        {ch.label}
+                      </span>
+                    </div>
+                    <span className="text-[8px] bg-black/50 text-[#E5B842] border border-[#E5B842]/30 px-1 py-0.5 rounded font-mono font-bold">
+                      {ch.num}
                     </span>
                   </div>
-                  <span className="text-[8px] bg-black/50 text-[#E5B842] border border-[#E5B842]/30 px-1 py-0.5 rounded font-mono font-bold">
-                    {ch.num}
-                  </span>
-                </div>
 
-                {/* Card Bottom Value Pill */}
-                <div className="flex items-center justify-between text-[9px] w-full pt-1.5 border-t border-white/10">
-                  <span className="text-[#E5B842] font-semibold truncate max-w-[140px] bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
-                    {getChapterValue(ch.id)}
-                  </span>
-                  <span className="text-[9px] text-[#4ADE80] font-bold group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
-                    <span>Tune</span>
-                    <span>▶</span>
-                  </span>
-                </div>
-              </button>
-            ))}
+                  {/* Card Bottom Value Pill & Direct Cost Metric */}
+                  <div className="flex items-center justify-between text-[9px] w-full pt-1.5 border-t border-white/10">
+                    <span className="text-[#E5B842] font-semibold truncate max-w-[110px] bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
+                      {getChapterValue(ch.id)}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[9px] text-[#4ADE80] font-mono font-bold bg-[#141B16] px-1 py-0.5 rounded border border-[#4ADE80]/30">
+                        {costMetric}
+                      </span>
+                      <span className="text-[9px] text-white/40 group-hover:text-[#F27A22] group-hover:translate-x-0.5 transition-all">
+                        ▶
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
           </div>
         )}
 

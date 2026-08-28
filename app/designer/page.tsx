@@ -139,6 +139,8 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
           onSaveToFolio={handleSaveToFolio}
           onOpenLedgerModal={() => handleViewModeChange('blueprint')}
+          activeChapter={activeChapter}
+          onSelectChapter={setActiveChapter}
         />
       </div>
     </div>
