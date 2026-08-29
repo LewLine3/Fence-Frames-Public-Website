@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { SiteNav } from '@/components/ff/site-nav'
-import { TopTitleBar } from '@/components/designer/top-title-bar'
+import { SubHeaderRibbon } from '@/components/toolbar/sub-header-ribbon'
+import { ElevationStage } from '@/components/toolbar/elevation-stage'
 import { LeftOptionRail } from '@/components/designer/left-option-rail'
-import { DesignerCanvas } from '@/components/designer/designer-canvas'
 import { BottomCarouselHud } from '@/components/designer/bottom-carousel-hud'
+import { type ElevationMode, type ViewTab } from '@/lib/toolbar/spec'
 import {
   FenceConfiguration,
   calculateBaselineFenceQuote,
@@ -39,10 +40,10 @@ export default function DesignerPage() {
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
   const [config, setConfig] = useState<FenceConfiguration>(HERITAGE_BLANK_DEFAULT)
-  const [viewAngle, setViewAngle] = useState<'both' | 'front' | 'back'>('both')
-  const [zoomLevel, setZoomLevel] = useState<number>(1.0)
+  const [elevationMode, setElevationMode] = useState<ElevationMode>('dual')
+  const [zoomPercent, setZoomPercent] = useState<number>(100)
   const [activeChapter, setActiveChapter] = useState<string | null>(null)
-  const [activeViewMode, setActiveViewMode] = useState<'canvas' | 'blueprint' | 'materials' | 'ledger'>('canvas')
+  const [activeTab, setActiveTab] = useState<ViewTab>('2D Canvas')
 
   useEffect(() => {
     setIsMounted(true)
@@ -70,9 +71,9 @@ export default function DesignerPage() {
     router.push('/auth-gate.html')
   }
 
-  const handleViewModeChange = (mode: 'canvas' | 'blueprint' | 'materials' | 'ledger') => {
-    setActiveViewMode(mode)
-    if (mode === 'blueprint') {
+  const handleTabChange = (tab: ViewTab) => {
+    setActiveTab(tab)
+    if (tab === 'Blueprint' || tab === 'Ledger') {
       router.push('/blueprint')
     }
   }
@@ -89,61 +90,56 @@ export default function DesignerPage() {
         backgroundPosition: '0 0',
       }}
     >
-      
       {/* 1. Master Universal Header */}
       <SiteNav />
 
       {/* Main Studio Workspace */}
       <div className="flex-1 flex flex-row overflow-hidden relative min-h-0 w-full">
         {/* Left Column: Full-Height Continuous Option Stream + Corner Hub Anchor */}
-      <LeftOptionRail
-        config={config}
-        onChange={handleConfigChange}
-        activeChapter={activeChapter}
-        onSelectChapter={setActiveChapter}
-        onResetDefaults={handleResetDefaults}
-      />
-
-      {/* 2. Right Section: Top Title Bar + 2D CAD Stage + Bottom Flow */}
-      <div className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full">
-        
-        {/* Top Thin Title Bar (Acts as standalone minimal nav) */}
-        <TopTitleBar
+        <LeftOptionRail
           config={config}
-          viewAngle={viewAngle}
-          onViewAngleChange={setViewAngle}
-          zoomLevel={zoomLevel}
-          onZoomChange={setZoomLevel}
-          activeViewMode={activeViewMode}
-          onViewModeChange={handleViewModeChange}
-          onSelectChapter={(ch) => setActiveChapter(ch)}
-        />
-
-        {/* Upper 2D Vector CAD Elevation Stage (Edge-to-Edge, Zero Dead Space) */}
-        <section className="flex-1 h-full min-w-0 overflow-hidden flex flex-col">
-          <DesignerCanvas
-            config={config}
-            viewAngle={viewAngle}
-            onViewAngleChange={setViewAngle}
-            zoomLevel={zoomLevel}
-            onZoomChange={setZoomLevel}
-          />
-        </section>
-
-        {/* Bottom Horizontal Endless Card Flow (from corner hub junction to screen edge) */}
-        <BottomCarouselHud
-          config={config}
-          pricing={pricing}
-          trialPricing={trialPricing}
           onChange={handleConfigChange}
-          onResetDefaults={handleResetDefaults}
-          onSaveToFolio={handleSaveToFolio}
-          onOpenLedgerModal={() => handleViewModeChange('blueprint')}
           activeChapter={activeChapter}
           onSelectChapter={setActiveChapter}
+          onResetDefaults={handleResetDefaults}
         />
+
+        {/* 2. Right Section: 30px Sub-Header Ribbon + 8:3 Dual CAD Stage + Bottom Flow */}
+        <div className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full">
+          {/* Ultra-thin 30px Sub-Header Ribbon */}
+          <SubHeaderRibbon
+            mode={elevationMode}
+            onModeChange={setElevationMode}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            zoom={zoomPercent}
+            onZoomChange={setZoomPercent}
+          />
+
+          {/* Strictly Proportional 8:3 Dual / 4:3 Single CAD Elevation Stage */}
+          <section className="flex-1 h-full min-w-0 overflow-hidden flex flex-col">
+            <ElevationStage
+              mode={elevationMode}
+              zoom={zoomPercent}
+              config={config}
+            />
+          </section>
+
+          {/* Bottom Horizontal Endless Card Flow (from corner hub junction to screen edge) */}
+          <BottomCarouselHud
+            config={config}
+            pricing={pricing}
+            trialPricing={trialPricing}
+            onChange={handleConfigChange}
+            onResetDefaults={handleResetDefaults}
+            onSaveToFolio={handleSaveToFolio}
+            onOpenLedgerModal={() => handleTabChange('Blueprint')}
+            activeChapter={activeChapter}
+            onSelectChapter={setActiveChapter}
+          />
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
 }
+
