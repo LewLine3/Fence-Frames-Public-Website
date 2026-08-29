@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Si View HOA Fence Standards & Pre-Approved Designs — North Bend, WA | Fence Frames</title>
+  <meta name="description" content="Official fence guidelines, ARC-approved styles, and 24-attribute build standards for Si View Community Organization in North Bend, Washington. Download ARC submission packets and customize in the Fence Frames designer." />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Schema.org Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Washington", "item": "https://fenceframes.com/wa" },
+          { "@type": "ListItem", "position": 2, "name": "King County", "item": "https://fenceframes.com/wa/king-county" },
+          { "@type": "ListItem", "position": 3, "name": "North Bend", "item": "https://fenceframes.com/wa/king-county/north-bend" },
+          { "@type": "ListItem", "position": 4, "name": "Si View HOA", "item": "https://fenceframes.com/wa/king-county/north-bend/si-view" }
+        ]
+      },
+      {
+        "@type": "Place",
+        "name": "Si View Community Organization",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "North Bend",
+          "addressRegion": "WA",
+          "postalCode": "98045",
+          "addressCountry": "US"
+        },
+        "description": "Pre-approved residential fence standards and Architectural Review Committee guidelines for Si View in North Bend, WA."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the maximum allowed fence height in Si View?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Si View CC&Rs specify a maximum fence height of 6 feet for standard backyard privacy fencing and 4 feet for front-facing lot lines. Side fencing on corner lots facing the street must sit back 5 feet from the lot line."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What stain color is required for Si View fences?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "All visible fences in Si View must be stained within 60 days of completion with the official formula: Sherwin-Williams Woodscapes Semi-Transparent Exterior Stain, Custom Formula 3558-789 (Asteroid)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I submit my fence plan for ARC approval in Si View?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Submissions are made through the PayHOA homeowner portal (payhoa.siviewhoa.info). ARC reviews take place bi-monthly on the second and fourth Tuesdays of each month."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --forest-deep: #16432D;
+      --ink-forest: #141B16;
+      --parchment: #F4ECDC;
+      --parchment-card: #FAF6EE;
+      --ink: #1A1A1A;
+      --radius: 5px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--parchment);
+      background-image: 
+        linear-gradient(rgba(22, 67, 45, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    .rowdies-700 { font-family: 'Rowdies', sans-serif; font-weight: 700; }
+    .rowdies-400 { font-family: 'Rowdies', sans-serif; font-weight: 400; }
+    .rowdies-300 { font-family: 'Rowdies', sans-serif; font-weight: 300; }
+
+    /* Outside Chamfer Corner Marks (50% Span) */
+    .has-outside-corners { position: relative; }
+    .corner-mark-out {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      pointer-events: none;
+      z-index: 15;
+      --mark-th: 5px;
+      --mark-tip: 20px;
+      --mark-c: var(--gold-sun);
+    }
+    .corner-mark-out::before, .corner-mark-out::after {
+      content: "";
+      position: absolute;
+      background: var(--mark-c);
+    }
+    .corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 0 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+    .corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+
+    .corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+    .corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+    .c-forest { --mark-c: var(--forest-bright); }
+    .c-gold { --mark-c: var(--gold-sun); }
+    .c-ember { --mark-c: var(--ember); }
+
+    /* Layout Containers */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--forest-deep);
+      margin-bottom: 1.25rem;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 400;
+    }
+    .breadcrumbs a {
+      color: var(--forest-deep);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(22, 67, 45, 0.3);
+    }
+    .breadcrumbs a:hover { color: var(--ember); border-color: var(--ember); }
+    .breadcrumbs .current { color: var(--ink); font-weight: 700; }
+
+    /* Hero Banner Plate */
+    .hoa-hero-card {
+      background: var(--ink-forest);
+      border: 3px solid var(--ink);
+      border-radius: var(--radius);
+      color: #FAF6EE;
+      padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+    .hoa-hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+    .hoa-badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .badge-certified {
+      background: #16432D;
+      border: 1.5px solid var(--forest-bright);
+      color: var(--forest-bright);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-location {
+      background: rgba(229, 184, 66, 0.15);
+      border: 1.5px solid var(--gold-sun);
+      color: var(--gold-sun);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .hoa-hero-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0 0 0.5rem;
+      line-height: 1.15;
+    }
+    .hoa-hero-title span { color: var(--gold-sun); }
+    .hoa-hero-sub {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #FAF6EE;
+      opacity: 0.9;
+      max-width: 850px;
+      margin: 0 0 1.5rem;
+    }
+
+    .hoa-quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .btn-action-hero {
+      background: var(--gold-sun);
+      color: var(--ink);
+      border: 2px solid #000;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 2px 2px 0 #000;
+      transition: transform 0.1s ease, background 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-action-hero:hover {
+      transform: translateY(-2px);
+      background: #F5C84C;
+    }
+    .btn-action-secondary {
+      background: #141B16;
+      border: 2px solid var(--forest-bright);
+      color: var(--forest-bright);
+    }
+    .btn-action-secondary:hover {
+      background: #1f2e23;
+      color: #FFFFFF;
+    }
+
+    /* Section Headings */
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+    .section-tag {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ember);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* DOWNLOADABLES DOCK SECTION */
+    .downloads-dock-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    }
+    .downloads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .download-item-card {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .download-item-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--forest-deep);
+    }
+    .download-type-badge {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--forest-deep);
+      background: rgba(46, 125, 70, 0.12);
+      border: 1px solid rgba(46, 125, 70, 0.3);
+      padding: 2px 8px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 8px;
+      width: fit-content;
+    }
+    .download-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 6px;
+      line-height: 1.25;
+    }
+    .download-desc {
+      font-size: 0.84rem;
+      color: #555;
+      margin: 0 0 1rem;
+      line-height: 1.4;
+      flex-grow: 1;
+    }
+    .btn-download-trigger {
+      background: var(--ink-forest);
+      color: var(--gold-sun);
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .btn-download-trigger:hover {
+      background: #1e2c22;
+      color: #FFFFFF;
+    }
+
+    /* 4-DESIGN GRID (2x2) */
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .design-spec-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    .design-card-header {
+      background: var(--ink-forest);
+      color: #FFFFFF;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .design-card-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gold-sun);
+      margin: 0;
+    }
+    .design-price-tag {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      background: rgba(74, 222, 128, 0.15);
+      border: 1px solid var(--forest-bright);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+    .design-preview-stage {
+      height: 180px;
+      background: #141B16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1.5px solid var(--forest-bright);
+    }
+    .design-preview-svg {
+      width: 90%;
+      height: 140px;
+    }
+    .docked-explainer-plate {
+      background: #141B16;
+      color: #FFFFFF;
+      padding: 12px 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .docked-explainer-text {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: #FAF6EE;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .design-card-specs {
+      padding: 12px 14px;
+      background: #FFFFFF;
+      flex-grow: 1;
+    }
+    .design-spec-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.82rem;
+    }
+    .design-spec-list li {
+      padding: 4px 0;
+      border-bottom: 1px dotted #e0d8c8;
+      display: flex;
+      justify-content: space-between;
+    }
+    .design-spec-list li:last-child { border-bottom: none; }
+    .spec-key { color: #666; font-weight: 500; }
+    .spec-val { font-weight: 600; color: var(--ink); text-align: right; }
+    .design-card-action {
+      padding: 12px 14px;
+      background: #FAF6EE;
+      border-top: 2px solid var(--ink);
+    }
+    .btn-configure-design {
+      width: 100%;
+      background: var(--ember);
+      color: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 10px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 2px 2px 0 var(--ink);
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-configure-design:hover {
+      background: #db6818;
+    }
+
+    /* FACT MATRIX TABLE */
+    .fact-matrix-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    }
+    .matrix-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 1rem 0 1.25rem;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    .legend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .badge-code1 { background: #E6F4EA; color: #137333; border: 1px solid #137333; }
+    .badge-code2 { background: #FEF7E0; color: #B06000; border: 1px solid #B06000; }
+    .badge-code3 { background: #FCE8E6; color: #C5221F; border: 1px solid #C5221F; }
+    .badge-code4 { background: #E8F0FE; color: #1A73E8; border: 1px solid #1A73E8; }
+
+    .matrix-table-wrap {
+      overflow-x: auto;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: #FFFFFF;
+    }
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    .matrix-table th {
+      background: var(--ink-forest);
+      color: #FAF6EE;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .matrix-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid #E6DDCF;
+      vertical-align: top;
+    }
+    .matrix-table tr:nth-child(even) td { background: #FAF6EE; }
+    .slot-title { font-weight: 700; color: var(--forest-deep); font-family: 'Rowdies', sans-serif; font-size: 0.82rem; }
+    .slot-val { font-weight: 600; color: var(--ink); }
+    .slot-evidence { font-size: 0.76rem; color: #666; font-style: italic; margin-top: 2px; }
+
+    /* PAYHOA PROCESS WORKFLOW */
+    .workflow-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      margin-bottom: 3rem;
+    }
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .workflow-step-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 1.25rem;
+      position: relative;
+    }
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 12px;
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+    }
+    .step-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 8px 0 6px;
+    }
+    .step-desc {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* LEGAL DISCLAIMER */
+    .legal-disclaimer-box {
+      background: #F1ECE1;
+      border: 1.5px solid #C4B294;
+      border-left: 4px solid var(--ember);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.8rem;
+      color: #4A4A4A;
+      line-height: 1.5;
+      margin-bottom: 3rem;
+    }
+    .legal-disclaimer-box strong { color: var(--ink); font-weight: 700; }
+
+    /* Universal Footer Styling */
+    footer.ff-site-footer {
+      background: var(--ink-forest);
+      border-top: 4px solid var(--forest-deep);
+      color: #FAF6EE;
+      padding: 2.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .footer-links a {
+      color: var(--gold-sun);
+      text-decoration: none;
+      margin-right: 1.2rem;
+    }
+    .footer-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Universal Header Injection Point -->
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
+
+  <main class="container" id="main-content">
+
+    <!-- Breadcrumb Hierarchy -->
+    <nav class="breadcrumbs" aria-label="Breadcrumbs" data-interactive-target="breadcrumb-nav">
+      <a href="/">Home</a>
+      <span>›</span>
+      <a href="/geo-county.html">Washington</a>
+      <span>›</span>
+      <a href="/geo-county.html">King County</a>
+      <span>›</span>
+      <a href="/geo-city.html">North Bend (98045)</a>
+      <span>›</span>
+      <span class="current">Si View Community Organization</span>
+    </nav>
+
+    <!-- Flagship HOA Hero Banner -->
+    <header class="hoa-hero-card has-outside-corners" data-interactive-target="hoa-hero">
+      <div class="corner-mark-out tl c-gold"></div>
+      <div class="corner-mark-out tr c-forest"></div>
+      <div class="corner-mark-out bl c-forest"></div>
+      <div class="corner-mark-out br c-gold"></div>
+
+      <div class="hoa-badge-strip">
+        <span class="badge-certified">🟢 Certified ARC Standard • Zero-Rejection Guarantee</span>
+        <span class="badge-location">📍 Si View, North Bend, WA</span>
+      </div>
+
+      <h1 class="hoa-hero-title">
+        Si View HOA <span>Pre-Approved</span> Fence Standards
+      </h1>
+      <p class="hoa-hero-sub">
+        Explore 4 pre-approved architectural styles, 24 verified build attributes, and download your official ARC submittal packet. Built directly from Si View CC&amp;R guidelines so your project is approved the first time.
+      </p>
+
+      <div class="hoa-quick-actions">
+        <a href="/configure?community_preset=si-view" class="btn-action-hero" data-interactive-target="launch-designer-btn">
+          <span>⚡ Launch Si View Designer</span>
+          <span style="font-size:0.8rem">→</span>
+        </a>
+        <a href="#downloads" class="btn-action-hero btn-action-secondary" data-interactive-target="scroll-downloads-btn">
+          <span>📥 Download HOA Packet (.PDF)</span>
+        </a>
+        <a href="#fact-matrix" class="btn-action-hero btn-action-secondary">
+          <span>📋 View 24-Attribute Specs</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- DEDICATED HOA DOWNLOADABLES DOCK -->
+    <section id="downloads" class="downloads-dock-card has-outside-corners" data-interactive-target="downloadables-dock">
+      <div class="corner-mark-out tl c-ember"></div>
+      <div class="corner-mark-out tr c-ember"></div>
+      <div class="corner-mark-out bl c-ember"></div>
+      <div class="corner-mark-out br c-ember"></div>
+
+      <div class="section-header">
+        <span class="section-tag">Homeowner &amp; Contractor Resources</span>
+        <h2 class="section-title">Official Si View Downloadables</h2>
+        <p style="margin:4px 0 0;font-size:0.9rem;color:#666;">
+          Everything you need for your Architectural Review Committee (ARC) submission, contractor bidding, and stain compliance.
+        </p>
+      </div>
+
+      <div class="downloads-grid">
+        <!-- Download Item 1 -->
+        <div class="download-item-card">
+          <div>
+            <span class="download-type-badge">PDF DOCUMENT</span>
+            <h3 class="download-title">ARC Submittal &amp; Approval Checklist</h3>
+            <p class="download-desc">
+              Step-by-step PayHOA submission workflow, property line neighbor notification sheet, and ARC review calendar.
+            </p>
+          </div>
+          <a href="#" class="btn-download-trigger" data-interactive-target="download-arc-checklist" onclick="alert('Downloading Si View ARC Submittal Checklist (PDF)...'); return false;">
+            <span>Download ARC Packet</span>
+            <span>⬇ PDF</span>
+          </a>
+        </div>
+
+        <!-- Download Item 2 -->
+        <div class="download-item-card">
+          <div>
+            <span class="download-type-badge">WORKSHEET</span>
+            <h3 class="download-title">24-Attribute Build Profile Worksheet</h3>
+            <p class="download-desc">
+              Complete itemized spec matrix including post sizes, cedar rail nailers, picket spacing tolerances, and trim details.
+            </p>
+          </div>
+          <a href="#" class="btn-download-trigger" data-interactive-target="download-fact-worksheet" onclick="alert('Downloading 24-Attribute Build Worksheet (PDF)...'); return false;">
+            <span>Download Spec Sheet</span>
+            <span>⬇ PDF</span>
+          </a>
+        </div>
+
+        <!-- Download Item 3 -->
+        <div class="download-item-card">
+          <div>
+            <span class="download-type-badge">STAIN &amp; FINISH</span>
+            <h3 class="download-title">Approved Stain Formula &amp; Recoat Guide</h3>
+            <p class="download-desc">
+              Sherwin-Williams "Asteroid" Custom Formula 3558-789 spec card and mandatory 60-day post-build staining schedule.
+            </p>
+          </div>
+          <a href="#" class="btn-download-trigger" data-interactive-target="download-stain-card" onclick="alert('Downloading Sherwin-Williams Asteroid Stain Card (PDF)...'); return false;">
+            <span>Download Stain Card</span>
+            <span>⬇ PDF</span>
+          </a>
+        </div>
+
+        <!-- Download Item 4 -->
+        <div class="download-item-card">
+          <div>
+            <span class="download-type-badge">CAD / BLUEPRINT</span>
+            <h3 class="download-title">Architectural Elevation &amp; Takeoff</h3>
+            <p class="download-desc">
+              Pre-drawn vector elevation schematic with dimensional callouts for 4x4 posts, 2x4 cap, and top/bottom nailers.
+            </p>
+          </div>
+          <a href="/blueprint" class="btn-download-trigger" data-interactive-target="download-elevation-takeoff">
+            <span>View Vector Elevation</span>
+            <span>📐 Open</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 PRE-APPROVED DESIGNS (2x2 GRID) -->
+    <section class="section-wrap" style="margin-bottom:3rem;" data-interactive-target="pre-approved-designs">
+      <div class="section-header">
+        <span class="section-tag">Architectural Review Committee Catalog</span>
+        <h2 class="section-title">Pre-Approved Si View Fence Styles</h2>
+        <p style="margin:4px 0 0;font-size:0.9rem;color:#666;">
+          Select a style below to load its exact specifications into the modular 2D designer with live cost estimates.
+        </p>
+      </div>
+
+      <div class="designs-grid">
+        <!-- Design 01 -->
+        <article class="design-spec-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div class="design-card-header">
+            <h3 class="design-card-title">DESIGN 01: SOLID PRIVACY</h3>
+            <span class="design-price-tag">Est. $44 / LF</span>
+          </div>
+          <div class="design-preview-stage">
+            <svg class="design-preview-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="178" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="22" y="15" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <rect x="22" y="95" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <!-- Solid pickets -->
+              <g fill="#A6582A" stroke="#141B16" stroke-width="0.75">
+                <rect x="23" y="18" width="15" height="82"/>
+                <rect x="39" y="18" width="15" height="82"/>
+                <rect x="55" y="18" width="15" height="82"/>
+                <rect x="71" y="18" width="15" height="82"/>
+                <rect x="87" y="18" width="15" height="82"/>
+                <rect x="103" y="18" width="15" height="82"/>
+                <rect x="119" y="18" width="15" height="82"/>
+                <rect x="135" y="18" width="15" height="82"/>
+                <rect x="151" y="18" width="15" height="82"/>
+                <rect x="167" y="18" width="11" height="82"/>
+              </g>
+              <!-- 2x4 Top Cap -->
+              <rect x="8" y="8" width="184" height="6" fill="#F27A22" stroke="#000" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="docked-explainer-plate">
+            <p class="docked-explainer-text">6ft standard vertical cedar with tight ≤¼″ picket spacing and 2×4 cedar cap rail.</p>
+          </div>
+          <div class="design-card-specs">
+            <ul class="design-spec-list">
+              <li><span class="spec-key">Height Limit</span><span class="spec-val">6′-0″ (Privacy)</span></li>
+              <li><span class="spec-key">Post Spec</span><span class="spec-val">4×4 PT Incised (8′ OC)</span></li>
+              <li><span class="spec-key">Picket Width</span><span class="spec-val">1×4 or 1×6 Cedar</span></li>
+              <li><span class="spec-key">Stain Formula</span><span class="spec-val">SW Asteroid #3558-789</span></li>
+            </ul>
+          </div>
+          <div class="design-card-action">
+            <a href="/configure?community_preset=si-view&design=01" class="btn-configure-design" data-interactive-target="cfg-design-01">
+              <span>Configure Design 01</span>
+              <span>→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Design 02 -->
+        <article class="design-spec-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div class="design-card-header">
+            <h3 class="design-card-title">DESIGN 02: PICTURE FRAME</h3>
+            <span class="design-price-tag">Est. $52 / LF</span>
+          </div>
+          <div class="design-preview-stage">
+            <svg class="design-preview-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="178" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <!-- Picture frame border -->
+              <rect x="22" y="12" width="156" height="96" fill="#8B5A2B" stroke="#000" stroke-width="1.5"/>
+              <rect x="28" y="18" width="144" height="84" fill="#A6582A" stroke="#000" stroke-width="1"/>
+              <!-- Internal vertical pickets -->
+              <g stroke="#141B16" stroke-width="0.5">
+                <line x1="42" y1="18" x2="42" y2="102"/>
+                <line x1="56" y1="18" x2="56" y2="102"/>
+                <line x1="70" y1="18" x2="70" y2="102"/>
+                <line x1="84" y1="18" x2="84" y2="102"/>
+                <line x1="98" y1="18" x2="98" y2="102"/>
+                <line x1="112" y1="18" x2="112" y2="102"/>
+                <line x1="126" y1="18" x2="126" y2="102"/>
+                <line x1="140" y1="18" x2="140" y2="102"/>
+                <line x1="154" y1="18" x2="154" y2="102"/>
+              </g>
+              <!-- 1x4 Top & Bottom Trim -->
+              <rect x="22" y="12" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <rect x="22" y="100" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <rect x="8" y="8" width="184" height="6" fill="#F27A22" stroke="#000" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="docked-explainer-plate">
+            <p class="docked-explainer-text">Architectural 1×4 top and bottom perimeter cedar fascia trim with finished top rail cap.</p>
+          </div>
+          <div class="design-card-specs">
+            <ul class="design-spec-list">
+              <li><span class="spec-key">Height Limit</span><span class="spec-val">6′-0″ (Privacy)</span></li>
+              <li><span class="spec-key">Trim Spec</span><span class="spec-val">1-Tier 1×4 Cedar Band</span></li>
+              <li><span class="spec-key">Rail Cap</span><span class="spec-val">2×4 Cedar Flat Cap</span></li>
+              <li><span class="spec-key">Stain Formula</span><span class="spec-val">SW Asteroid #3558-789</span></li>
+            </ul>
+          </div>
+          <div class="design-card-action">
+            <a href="/configure?community_preset=si-view&design=02" class="btn-configure-design" data-interactive-target="cfg-design-02">
+              <span>Configure Design 02</span>
+              <span>→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Design 03 -->
+        <article class="design-spec-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div class="design-card-header">
+            <h3 class="design-card-title">DESIGN 03: MODERN HORIZONTAL</h3>
+            <span class="design-price-tag">Est. $56 / LF</span>
+          </div>
+          <div class="design-preview-stage">
+            <svg class="design-preview-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="178" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <!-- Horizontal boards -->
+              <g fill="#A6582A" stroke="#141B16" stroke-width="1">
+                <rect x="22" y="14" width="156" height="12"/>
+                <rect x="22" y="28" width="156" height="12"/>
+                <rect x="22" y="42" width="156" height="12"/>
+                <rect x="22" y="56" width="156" height="12"/>
+                <rect x="22" y="70" width="156" height="12"/>
+                <rect x="22" y="84" width="156" height="12"/>
+                <rect x="22" y="98" width="156" height="12"/>
+              </g>
+              <rect x="8" y="8" width="184" height="6" fill="#F27A22" stroke="#000" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="docked-explainer-plate">
+            <p class="docked-explainer-text">Contemporary horizontal cedar boards with center stiffener backer and flush post reveal.</p>
+          </div>
+          <div class="design-card-specs">
+            <ul class="design-spec-list">
+              <li><span class="spec-key">Height Limit</span><span class="spec-val">6′-0″ (Privacy)</span></li>
+              <li><span class="spec-key">Orientation</span><span class="spec-val">Horizontal Cedar Tongue</span></li>
+              <li><span class="spec-key">Internal Support</span><span class="spec-val">2×4 Mid-Span Stiffener</span></li>
+              <li><span class="spec-key">Stain Formula</span><span class="spec-val">SW Asteroid #3558-789</span></li>
+            </ul>
+          </div>
+          <div class="design-card-action">
+            <a href="/configure?community_preset=si-view&design=03" class="btn-configure-design" data-interactive-target="cfg-design-03">
+              <span>Configure Design 03</span>
+              <span>→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Design 04 -->
+        <article class="design-spec-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div class="design-card-header">
+            <h3 class="design-card-title">DESIGN 04: GOOD NEIGHBOR</h3>
+            <span class="design-price-tag">Est. $48 / LF</span>
+          </div>
+          <div class="design-preview-stage">
+            <svg class="design-preview-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="178" y="10" width="12" height="105" fill="#4ADE80" stroke="#000" stroke-width="1.5"/>
+              <rect x="22" y="15" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <rect x="22" y="95" width="156" height="8" fill="#E5B842" stroke="#000" stroke-width="1"/>
+              <!-- Alternating Shadowbox pickets -->
+              <g stroke="#141B16" stroke-width="0.75">
+                <rect x="24" y="18" width="16" height="82" fill="#8B5A2B"/>
+                <rect x="36" y="18" width="16" height="82" fill="#A6582A"/>
+                <rect x="52" y="18" width="16" height="82" fill="#8B5A2B"/>
+                <rect x="64" y="18" width="16" height="82" fill="#A6582A"/>
+                <rect x="80" y="18" width="16" height="82" fill="#8B5A2B"/>
+                <rect x="92" y="18" width="16" height="82" fill="#A6582A"/>
+                <rect x="108" y="18" width="16" height="82" fill="#8B5A2B"/>
+                <rect x="120" y="18" width="16" height="82" fill="#A6582A"/>
+                <rect x="136" y="18" width="16" height="82" fill="#8B5A2B"/>
+                <rect x="148" y="18" width="16" height="82" fill="#A6582A"/>
+                <rect x="164" y="18" width="12" height="82" fill="#8B5A2B"/>
+              </g>
+              <rect x="8" y="8" width="184" height="6" fill="#F27A22" stroke="#000" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="docked-explainer-plate">
+            <p class="docked-explainer-text">Alternating board-on-board design presenting an identical finished face to both neighbors.</p>
+          </div>
+          <div class="design-card-specs">
+            <ul class="design-spec-list">
+              <li><span class="spec-key">Height Limit</span><span class="spec-val">6′-0″ (Privacy)</span></li>
+              <li><span class="spec-key">Picket Spacing</span><span class="spec-val">Alternating Offset</span></li>
+              <li><span class="spec-key">Wind Flow</span><span class="spec-val">High Ventilation</span></li>
+              <li><span class="spec-key">Stain Formula</span><span class="spec-val">SW Asteroid #3558-789</span></li>
+            </ul>
+          </div>
+          <div class="design-card-action">
+            <a href="/configure?community_preset=si-view&design=04" class="btn-configure-design" data-interactive-target="cfg-design-04">
+              <span>Configure Design 04</span>
+              <span>→</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 24-ATTRIBUTE FACT MATRIX TABLE -->
+    <section id="fact-matrix" class="fact-matrix-card has-outside-corners" data-interactive-target="fact-matrix-section">
+      <div class="corner-mark-out tl c-gold"></div>
+      <div class="corner-mark-out tr c-gold"></div>
+      <div class="corner-mark-out bl c-gold"></div>
+      <div class="corner-mark-out br c-gold"></div>
+
+      <div class="section-header">
+        <span class="section-tag">24-Slot Build Profile &amp; Verification Matrix</span>
+        <h2 class="section-title">Si View Fact-Matrix Specification</h2>
+        <p style="margin:4px 0 0;font-size:0.9rem;color:#666;">
+          Every dimension, material grade, and fastener standard color-coded by evidence source.
+        </p>
+      </div>
+
+      <div class="matrix-legend">
+        <span class="legend-badge badge-code1">🟢 Code 1 · Sourced from Published Guidelines (19)</span>
+        <span class="legend-badge badge-code2">🟡 Code 2 · Observed via Field &amp; Street View (3)</span>
+        <span class="legend-badge badge-code3">🔴 Code 3 · Unspecified / Board Input Needed (2)</span>
+        <span class="legend-badge badge-code4">🔵 Code 4 · Board Confirmed Partner Standard</span>
+      </div>
+
+      <div class="matrix-table-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Build Attribute</th>
+              <th style="width: 45%;">Approved Si View Specification</th>
+              <th style="width: 15%;">Evidence Source</th>
+              <th style="width: 15%;">Citation / Field Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="slot-title">Fence Category</td>
+              <td class="slot-val">Vertical Wood Privacy (`vpf`)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Si View CC&amp;R Cedar Design §1</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Style &amp; Wood Species</td>
+              <td class="slot-val">Western Red Cedar Pickets (`vpf-natural-wood`)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">1x4 or 1x6 cedar boards mandated</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Max Fence Height</td>
+              <td class="slot-val">6′-0″ Maximum Backyard Privacy / 4′-0″ Front</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Published Diagram: 6′-0″ MAX HT.</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Post Dimensions</td>
+              <td class="slot-val">4×4 Pressure-Treated Incised</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">"4x4 TRT'D POSTS" in diagram</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Post Spacing</td>
+              <td class="slot-val">8′-0″ Maximum On-Center (4′-0″ Min)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Maximum 8 feet OC spacing rule</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Post Height Reveal</td>
+              <td class="slot-val">Flush / Level with Top Rail Panel</td>
+              <td><span class="legend-badge badge-code2">🟡 Observed</span></td>
+              <td class="slot-evidence">Field inspection on Mountain View Blvd</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Post Caps</td>
+              <td class="slot-val">None (Flush top rail finish)</td>
+              <td><span class="legend-badge badge-code2">🟡 Observed</span></td>
+              <td class="slot-evidence">No decorative pyramid/copper caps</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Horizontal Rails</td>
+              <td class="slot-val">2×4 Western Red Cedar (Top &amp; Bottom Nailer)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">2-rail framing spec</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Top Rail Cap</td>
+              <td class="slot-val">2×4 Cedar Flat Protective Cap</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">"2x4 CED CAP" on published diagram</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Picket Dimensions</td>
+              <td class="slot-val">1×4 or 1×6 Cedar Boards</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Allows either 4″ or 6″ nominal width</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Picket Spacing Gap</td>
+              <td class="slot-val">≤ ¼″ Maximum Gap (Privacy Specification)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">CC&amp;R text: "not more than 1/4 inch"</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Picket Top Cut</td>
+              <td class="slot-val">Flat Top (No dog-ear, gothic, or scallop)</td>
+              <td><span class="legend-badge badge-code2">🟡 Observed</span></td>
+              <td class="slot-evidence">Confirmed across 6+ built fences</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Fascia Trim Package</td>
+              <td class="slot-val">1-Tier 1×4 Top &amp; Bottom Cedar Trim Band</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">"1x4 CED TRIM" both faces</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Approved Stain Color</td>
+              <td class="slot-val">Sherwin-Williams Woodscapes "Asteroid" (Formula 3558-789)</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Mandatory single neighborhood formula</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Staining Schedule</td>
+              <td class="slot-val">Within 60 Days of Construction Completion</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">CC&amp;R Section: 60-day deadline</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Corner Lot Setback</td>
+              <td class="slot-val">5′-0″ Setback from Street-Facing Property Line</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">Corner lots visibility requirement</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Footing Depth</td>
+              <td class="slot-val">24″ Minimum Hole Depth with Concrete Collar</td>
+              <td><span class="legend-badge badge-code1">🟢 Guidelines</span></td>
+              <td class="slot-evidence">King County Frost Line standard</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Framing Fasteners</td>
+              <td class="slot-val">10.5–12 ga Stainless Steel Exterior Framing Nails</td>
+              <td><span class="legend-badge badge-code3">🔴 Board Input</span></td>
+              <td class="slot-evidence">Guidelines silent; SS standard assumed</td>
+            </tr>
+            <tr>
+              <td class="slot-title">Gate Package &amp; Hardware</td>
+              <td class="slot-val">Heavy Duty Self-Closing Cedar Frame Gate</td>
+              <td><span class="legend-badge badge-code3">🔴 Board Input</span></td>
+              <td class="slot-evidence">Hardware SKU not specified in CC&amp;R</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PAYHOA ARC SUBMISSION WORKFLOW -->
+    <section class="workflow-card has-outside-corners" data-interactive-target="arc-workflow">
+      <div class="corner-mark-out tl c-forest"></div>
+      <div class="corner-mark-out tr c-forest"></div>
+      <div class="corner-mark-out bl c-forest"></div>
+      <div class="corner-mark-out br c-forest"></div>
+
+      <div class="section-header">
+        <span class="section-tag">Step-by-Step Approval Protocol</span>
+        <h2 class="section-title">Si View ARC Submission Process</h2>
+        <p style="margin:4px 0 0;font-size:0.9rem;color:#666;">
+          Follow the official 4-step workflow to guarantee your fence submittal passes committee review.
+        </p>
+      </div>
+
+      <div class="workflow-steps">
+        <div class="workflow-step-box">
+          <span class="step-number">Step 01</span>
+          <h3 class="step-title">Property Line Survey</h3>
+          <p class="step-desc">
+            Verify pin locations and notify adjacent shared-line property owners before work begins. Corner lots require a 5ft street setback.
+          </p>
+        </div>
+
+        <div class="workflow-step-box">
+          <span class="step-number">Step 02</span>
+          <h3 class="step-title">PayHOA Submittal</h3>
+          <p class="step-desc">
+            Log into <a href="http://payhoa.siviewhoa.info" target="_blank" rel="noopener" style="color:var(--ember);font-weight:700;">payhoa.siviewhoa.info</a>, navigate to "Requests", and attach your generated Fence Frames blueprint takeoff.
+          </p>
+        </div>
+
+        <div class="workflow-step-box">
+          <span class="step-number">Step 03</span>
+          <h3 class="step-title">Bi-Monthly ARC Review</h3>
+          <p class="step-desc">
+            The ARC convenes on the 2nd and 4th Tuesday of each month. Submissions must be uploaded 7 days prior to the meeting date.
+          </p>
+        </div>
+
+        <div class="workflow-step-box">
+          <span class="step-number">Step 04</span>
+          <h3 class="step-title">Build &amp; 60-Day Stain</h3>
+          <p class="step-desc">
+            Once approved, construct according to pre-approved specs and apply the Sherwin-Williams "Asteroid" stain within 60 days.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANDATORY NON-PARTNERED DISCLAIMER -->
+    <aside class="legal-disclaimer-box" aria-label="Legal Disclaimers">
+      <p style="margin:0 0 8px;">
+        <strong>Independent Architectural Reference:</strong> Fence Frames is an independent design and drafting platform. The fence specifications and design guidelines presented for <strong>Si View Community Organization</strong> are compiled from publicly available CC&amp;R records, published HOA diagrams, and regional field observations for homeowner convenience.
+      </p>
+      <p style="margin:0 0 8px;">
+        Fence Frames is not officially affiliated with, endorsed by, or sponsored by the Si View Community Organization Homeowners Association. All designs must be formally submitted to your local Architectural Review Committee (ARC) for final formal approval prior to construction.
+      </p>
+      <p style="margin:0;font-size:0.75rem;color:#777;">
+        <strong>Notice on Engineering Stamps:</strong> Fence Frames produces visual vector blueprints and itemized material takeoffs for consumer planning and ARC review only. Fence Frames strictly does not provide Professional Engineer (PE) or Structural Engineer (SE) sealed structural stamps.
+      </p>
+    </aside>
+
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="ff-site-footer">
+    <div class="footer-inner">
+      <div>
+        <div style="font-family:'Rowdies',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:6px;">
+          <span style="color:var(--forest-bright);">Fence</span> <span style="color:var(--gold-sun);">Frames</span>
+        </div>
+        <p style="margin:0;font-size:0.8rem;color:#AAA;max-width:360px;">
+          Frame Your Vision · Find Your Fence.<br />
+          Independent architectural fence design and vetted contractor marketplace.
+        </p>
+      </div>
+      <div class="footer-links">
+        <div style="font-family:'Rowdies',sans-serif;font-weight:700;margin-bottom:8px;color:#FAF6EE;">King County Navigation</div>
+        <a href="/geo-county.html">King County Hub</a>
+        <a href="/geo-city.html">North Bend Directory</a>
+        <a href="/geo-community.html">Si View HOA</a>
+        <a href="/configure">The Designer</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

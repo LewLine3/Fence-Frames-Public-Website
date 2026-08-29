@@ -65,7 +65,7 @@ function ElevationCard({
       </div>
 
       {/* Vector Display Area (Full Height & Width Expansion with Clean Margins) */}
-      <div className="relative min-h-0 flex-1 w-full h-full flex items-center justify-center overflow-hidden p-2 sm:p-3">
+      <div className="relative min-h-0 flex-1 w-full flex items-center justify-center overflow-hidden p-2 sm:p-3">
         {svgHtml ? (
           <div
             ref={hostRef}

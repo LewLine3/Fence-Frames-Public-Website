@@ -121,7 +121,7 @@ export function LeftOptionRail({
 
   return (
     <aside
-      className="w-[250px] flex-shrink-0 flex flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full"
+      className="hidden md:flex w-[250px] lg:w-[280px] flex-shrink-0 flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full min-h-0"
       suppressHydrationWarning
       style={{
         backgroundColor: '#1C180E',

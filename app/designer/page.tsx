@@ -116,8 +116,8 @@ export default function DesignerPage() {
             onZoomChange={setZoomPercent}
           />
 
-          {/* Strictly Proportional 8:3 Dual / 4:3 Single CAD Elevation Stage */}
-          <section className="flex-1 h-full min-w-0 overflow-hidden flex flex-col">
+          {/* Strictly Proportional CAD Elevation Stage */}
+          <section className="flex-1 min-h-0 min-w-0 overflow-hidden flex flex-col relative">
             <ElevationStage
               mode={elevationMode}
               zoom={zoomPercent}
