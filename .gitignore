@@ -29,6 +29,8 @@ _preview*.png
 # Node dependencies & Next.js build
 node_modules/
 .next/
+.turbo/
+worktrees/
 out/
 build/
 dist/

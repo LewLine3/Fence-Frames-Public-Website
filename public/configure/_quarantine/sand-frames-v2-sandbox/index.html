@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GREATEST HITS — Sand Frames Configurator Portal</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background: #121316;
+    }
+    .gh-portal-iframe {
+      flex: 1;
+      width: 100%;
+      height: calc(100vh - 65px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER BAR -->
+  <header class="gh-header">
+    <div class="gh-logo-group">
+      <span class="gh-logo-title">GREATEST HITS</span>
+      <span class="gh-logo-subtitle">Fence Configurator</span>
+    </div>
+
+    <!-- Center Nav Tabs -->
+    <nav class="gh-nav-links" id="portalNavLinks">
+      <a class="gh-nav-link active" data-src="catalog-browser.html">Catalog</a>
+      <a class="gh-nav-link" data-src="designer-workspace.html">Designer Workspace</a>
+      <a class="gh-nav-link" data-src="design-system-showcase.html">Design System Tokens</a>
+    </nav>
+
+    <!-- Right Actions -->
+    <div class="gh-header-actions">
+      <button class="gh-btn-secondary" id="openTabBtn" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">Open in New Tab ↗</button>
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </header>
+
+  <!-- LIVE PORTAL IFRAME -->
+  <iframe id="portalIframe" class="gh-portal-iframe" src="catalog-browser.html"></iframe>
+
+  <script>
+    const iframe = document.getElementById('portalIframe');
+    const links = document.querySelectorAll('#portalNavLinks .gh-nav-link');
+    const openTabBtn = document.getElementById('openTabBtn');
+
+    let activeSrc = 'catalog-browser.html';
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        activeSrc = link.getAttribute('data-src');
+        iframe.src = activeSrc;
+      });
+    });
+
+    openTabBtn.addEventListener('click', () => {
+      window.open(activeSrc, '_blank');
+    });
+  </script>
+</body>
+</html>

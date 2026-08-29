@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './theme-tokens.css';
+
+/**
+ * Fence Frames Catalog Master Stylesheet
+ * Single Unified Header, Warm Tan Accents & Lighter Warm Card Surfaces
+ * Location: public/configure/heritage-v2-sandbox/index.css
+ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color-scheme: var(--color-scheme);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-base);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3A322A;
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   SINGLE UNIFIED HEADER BAR (DARK FOREST GREEN & MUTED TAN ACCENT)
+   ========================================================================== */
+
+.gh-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, #132B1E 0%, #0D1F15 100%);
+  border-bottom: 2px solid #C5A068; /* Natural Muted Tan Accent Line */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.gh-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gh-logo-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #F7F3EC;
+}
+
+.gh-logo-subtitle {
+  font-size: 0.8rem;
+  color: #C5A068;
+  font-weight: 600;
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(197, 160, 104, 0.4);
+}
+
+.gh-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.gh-nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #D1C5B4;
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.gh-nav-link:hover {
+  color: #F7F3EC;
+}
+
+.gh-nav-link.active {
+  color: #F7F3EC;
+  border-bottom-color: #C5A068;
+  font-weight: 700;
+}
+
+.gh-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  color: #D1C5B4;
+}
+
+.gh-header-icon {
+  cursor: pointer;
+  transition: color 150ms;
+}
+
+.gh-header-icon:hover {
+  color: #C5A068;
+}
+
+/* ==========================================================================
+   FILTER CONTROLS
+   ========================================================================== */
+
+.gh-filter-row-1 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.gh-search-box {
+  flex: 1;
+  min-width: 260px;
+  position: relative;
+}
+
+.gh-search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  background: #2B251F;
+  border: 1px solid rgba(197, 160, 104, 0.3);
+  border-radius: var(--radius-md);
+  color: #F7F3EC;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 150ms;
+}
+
+.gh-search-input:focus {
+  border-color: #C5A068;
+}
+
+.gh-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9E9281;
+  pointer-events: none;
+}
+
+.gh-filter-select {
+  padding: 0.65rem 1rem;
+  background: #2B251F;
+  border: 1px solid rgba(197, 160, 104, 0.3);
+  border-radius: var(--radius-md);
+  color: #D1C5B4;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.gh-filter-select:hover {
+  border-color: #C5A068;
+}
+
+.gh-filter-row-2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.gh-category-pill {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #2B251F;
+  color: #D1C5B4;
+  border: 1px solid rgba(197, 160, 104, 0.25);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.gh-category-pill:hover {
+  color: #F7F3EC;
+  border-color: #C5A068;
+}
+
+.gh-category-pill.active {
+  background: #E5DDD0;
+  color: #181512;
+  border-color: #E5DDD0;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   CARD GRID & LIGHTER WARM SURFACES WITH THIN TAN BORDER
+   ========================================================================== */
+
+.gh-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.gh-card {
+  background: #2F2A23; /* Lighter warm card panel for clear visual separation */
+  border: 1.5px solid rgba(197, 160, 104, 0.28); /* Thin warm tan border */
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.gh-card:hover {
+  transform: translateY(-3px);
+  border-color: #C5A068; /* Selected / Hover Thin Tan Glow Border */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(197, 160, 104, 0.18);
+}
+
+/* Banner Image / Render Viewport */
+.gh-card-banner {
+  width: 100%;
+  height: 170px;
+  background: #1A1714;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(197, 160, 104, 0.2);
+}
+
+.gh-card-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #F7F3EC;
+}
+
+.gh-card-subtitle {
+  font-size: 0.85rem;
+  color: #D1C5B4;
+}
+
+/* Unified Outline Badge Row */
+.gh-badge-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.gh-price-pill {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #C67226;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+/* Clean Unified Outline Attribute Badges */
+.gh-attribute-pill {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(45, 39, 32, 0.5);
+  border: 1px solid rgba(197, 160, 104, 0.25);
+  color: #D6CBB8;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.gh-attribute-pill.selected {
+  border-color: #C5A068;
+  color: #F7F3EC;
+}
+
+/* Action Buttons Footer */
+.gh-card-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.gh-btn-secondary {
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: #29241F;
+  border: 1px solid rgba(197, 160, 104, 0.3);
+  color: #F7F3EC;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 150ms ease;
+}
+
+.gh-btn-secondary:hover {
+  background: #342D26;
+  border-color: #C5A068;
+}
+
+.gh-btn-primary {
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: #E5DDD0;
+  color: #181512;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 150ms ease;
+}
+
+.gh-btn-primary:hover {
+  background: #EFE8DC;
+  transform: translateY(-1px);
+}

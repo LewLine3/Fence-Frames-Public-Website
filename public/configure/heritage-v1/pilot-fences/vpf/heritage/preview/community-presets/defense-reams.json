@@ -1,20 +1,20 @@
 {
-  "slug": "si-view",
-  "displayName": "Si View Community",
-  "city": "North Bend, WA",
+  "slug": "defense-reams",
+  "displayName": "Defense Reams Community",
+  "city": "Staging Brigade, WA",
   "isHoa": true,
-  "insert1": "6ft Cedar Picket",
-  "insert2": "(SW Asteroid Stain)",
-  "approvedBuildName": "North Bend — Si View HOA | 6ft Cedar Picket Fence (SW Asteroid Stain)",
+  "insert1": "Security Cedar",
+  "insert2": "ARC Blueprint & Takeoff",
+  "approvedBuildName": "Staging Brigade — Defense Reams HOA | Security Cedar Fence ARC Blueprint & Takeoff",
   "airtable": {
-    "communityGuidelinesRecordId": "rec6z8LkCdHKylV93",
+    "communityGuidelinesRecordId": "recDefenseReamsStaging",
     "configuratorHoaRecordId": null
   },
-  "visualReference": "docs/HOA/si-view/si-view-visual-reference.md",
+  "visualReference": "docs/HOA/defense-reams/visual-reference.md",
   "partnership": {
-    "status": "research",
-    "tier": 0,
-    "notes": "Tier 2 opt-in required before residentAccess open. Si View pilot — not partnered yet."
+    "status": "staging",
+    "tier": 1,
+    "notes": "Staging defense reams brigade preset for testframes.com verification."
   },
   "residentAccess": "member",
   "blueprint": {
@@ -24,7 +24,7 @@
   },
   "configurator": {
     "categoryId": "community",
-    "styleId": "hoa-si-view",
+    "styleId": "hoa-defense-reams",
     "templateId": "default",
     "defaults": {
       "fenceHeight": "6ft",
@@ -51,7 +51,7 @@
       "picketSpacing": "1-16-privacy",
       "maxHeightFt": 6
     },
-      "hide": {
+    "hide": {
       "categories": ["horizontal", "fabric", "hand-guardrail"],
       "styles": ["vpf-composite-vinyl"],
       "templates": ["lineage", "legacy", "base"],
@@ -66,24 +66,19 @@
     }
   },
   "copy": {
-    "headline": "North Bend — Si View HOA | 6ft Cedar Picket Fence (SW Asteroid Stain)",
-    "subhead": "Design the ARC-compliant 6′ cedar privacy style for Si View Community in North Bend, WA.",
-    "disclaimer": "Unofficial planning tool — submit to Si View ARC (PayHOA) before building."
+    "headline": "Staging Brigade — Defense Reams HOA | Security Cedar Fence ARC Blueprint & Takeoff",
+    "subhead": "Design the ARC-compliant 6′ cedar privacy style for Defense Reams Staging in Washington.",
+    "disclaimer": "Staging validation tool — testframes.com brigade mode."
   },
   "rulesSummary": {
     "height": "6 ft maximum",
     "pickets": "1×4 or 1×6 cedar, flat top, ≤¼″ gap",
     "rails": "2×4 cedar top and bottom nailers with 2×4 cedar cap",
     "posts": "4×4 PT, max 8 ft on center",
-    "finish": "Sherwin-Williams Woodscapes semi-transparent stain, formula 3558-789 (\"Asteroid\"), within 60 days",
-    "cornerSetback": "5 ft from lot line when side fence faces street"
+    "finish": "Natural cedar stain"
   },
   "notIncluded": [
-    "ornamental-36in",
     "gates",
-    "board-on-board",
-    "shadowbox",
-    "vinyl-composite",
-    "second-approved-style"
+    "vinyl-composite"
   ]
 }

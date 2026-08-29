@@ -8,10 +8,17 @@
 
   function getSlug() {
     const params = new URLSearchParams(global.location.search);
-    const fromUrl = params.get('community_preset');
+    const fromUrl = params.get('community_preset') || params.get('preset') || params.get('slug');
     if (fromUrl) return fromUrl.trim();
-    if (global.FenceFramesEmbed && global.FenceFramesEmbed.boot) {
+    if (global.FenceFramesEmbed && global.FenceFramesEmbed.boot && global.FenceFramesEmbed.boot.communityPreset) {
       return global.FenceFramesEmbed.boot.communityPreset;
+    }
+    const pathParts = global.location.pathname.split('/').filter(Boolean);
+    if (pathParts.length > 0) {
+      const last = pathParts[pathParts.length - 1];
+      if (last && !last.includes('.') && !['preview', 'heritage', 'vpf', 'pilot-fences', 'heritage-v1', 'configure', 'community'].includes(last)) {
+        return last.trim();
+      }
     }
     return null;
   }
@@ -74,13 +81,24 @@
     }
   }
 
+  function formatTitle(preset) {
+    if (preset.copy && preset.copy.headline) return preset.copy.headline;
+    if (preset.insert1 && preset.insert2) {
+      const city = preset.city ? preset.city.split(',')[0].trim() : '';
+      const name = preset.displayName || preset.slug;
+      const isHoa = preset.isHoa !== false;
+      const suffix = isHoa ? ' HOA' : '';
+      return `${city} — ${name}${suffix} | ${preset.insert1} FENCE ${preset.insert2}`;
+    }
+    return preset.approvedBuildName || preset.displayName || '';
+  }
+
   function applyUi(preset) {
     if (!preset) return;
     global.document.documentElement.dataset.communityPreset = preset.slug;
 
     const hide = preset.configurator && preset.configurator.hide ? preset.configurator.hide : {};
     (hide.controls || []).forEach(hideElement);
-    /* Templates stay in the same B2 slot — community mode swaps the body, not the panel. */
 
     setB2Mode('community');
     const banner = global.document.getElementById('community-preset-banner');
@@ -88,14 +106,14 @@
       const headline = global.document.getElementById('community-preset-headline');
       const subhead = global.document.getElementById('community-preset-subhead');
       const disclaimer = global.document.getElementById('community-preset-disclaimer');
-      if (headline) headline.textContent = preset.copy.headline || preset.displayName || '';
+      if (headline) headline.textContent = formatTitle(preset);
       if (subhead) subhead.textContent = preset.copy.subhead || '';
       if (disclaimer) disclaimer.textContent = preset.copy.disclaimer || '';
     }
 
     const desc = global.document.getElementById('fence-style-desc');
-    if (desc && preset.copy && preset.copy.headline) {
-      desc.textContent = preset.copy.headline;
+    if (desc) {
+      desc.textContent = formatTitle(preset);
     }
   }
 

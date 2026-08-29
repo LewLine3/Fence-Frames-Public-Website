@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sand Frames — Design System & Visual Foundation</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    .showcase-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-6);
+    }
+    .color-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+    .swatch-card {
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .swatch-color {
+      height: 48px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .component-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase-container anim-fade-in">
+    
+    <!-- Top Header -->
+    <header class="header-bar">
+      <div>
+        <div class="component-row" style="margin-bottom: var(--space-2);">
+          <span class="badge badge-amber">Chat 2 — Design System</span>
+          <span class="badge badge-emerald">
+            <span class="status-dot active"></span> Live Tokens Ready
+          </span>
+        </div>
+        <h1 class="text-h1-gradient">Sand Frames Visual Foundation</h1>
+        <p class="text-muted" style="margin-top: 4px;">Vanilla CSS Design Tokens, Typography, Glassmorphism, and Interactive Micro-Animations</p>
+      </div>
+
+      <!-- Theme Switcher & Actions -->
+      <div class="component-row">
+        <button id="themeToggleBtn" class="btn btn-secondary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <span id="themeToggleLabel">Toggle Theme (Dark)</span>
+        </button>
+        <button class="btn btn-primary">
+          <span>Launch Configurator</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 1. Color Palette Tokens -->
+    <section class="glass-panel" style="padding: var(--space-6);">
+      <div style="margin-bottom: var(--space-4);">
+        <span class="text-subtitle">01. Tailored HSL Palette</span>
+        <h2 class="text-h2" style="margin-top: 4px;">Brand & Accent Color Tokens</h2>
+      </div>
+
+      <div class="color-swatch-grid">
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-cedar-amber);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Cedar Amber</span>
+          <span class="text-xs text-muted">Primary Brand</span>
+        </div>
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-cedar-glow);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Cedar Glow</span>
+          <span class="text-xs text-muted">Hover & Accents</span>
+        </div>
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-warm-tan);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Warm Tan</span>
+          <span class="text-xs text-muted">Natural Wood</span>
+        </div>
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-sand-gold);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Sand Gold</span>
+          <span class="text-xs text-muted">High-tier Highlight</span>
+        </div>
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-emerald-green);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Emerald Green</span>
+          <span class="text-xs text-muted">HOA Approved</span>
+        </div>
+        <div class="swatch-card glass-card">
+          <div class="swatch-color" style="background: var(--color-slate-blue);"></div>
+          <span class="font-mono text-xs" style="font-weight: 600;">Slate Blue</span>
+          <span class="text-xs text-muted">Info & Blueprint</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Typography & Scale -->
+    <section class="section-grid">
+      <div class="glass-panel" style="padding: var(--space-6);">
+        <span class="text-subtitle">02. Typography System</span>
+        <h2 class="text-h2" style="margin-top: 4px; margin-bottom: var(--space-4);">Inter & Outfit Type Scale</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <div>
+            <span class="text-xs text-muted">H1 Header (Outfit Display)</span>
+            <div class="text-h1">Heritage VPF Fence</div>
+          </div>
+          <div>
+            <span class="text-xs text-muted">H2 Section Title</span>
+            <div class="text-h2">Si View Architectural Specification</div>
+          </div>
+          <div>
+            <span class="text-xs text-muted">H3 Component Subtitle</span>
+            <div class="text-h3">6ft Cedar Privacy Panel (1x6 Tight Knot)</div>
+          </div>
+          <div>
+            <span class="text-xs text-muted">Financial Roll-Up Metric</span>
+            <div class="metric-value">$4,850.00</div>
+            <span class="metric-label">Estimated Installed Subtotal ($40.42 / LF)</span>
+          </div>
+          <div>
+            <span class="text-xs text-muted">Monospace SKU Tags</span>
+            <div class="component-row" style="margin-top: 4px;">
+              <span class="sku-tag">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                HD-SKU-10024921
+              </span>
+              <span class="sku-tag">SLOT-POST-01</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Glassmorphism & Elevation Panels -->
+      <div class="glass-panel" style="padding: var(--space-6);">
+        <span class="text-subtitle">03. Glassmorphism & Depth</span>
+        <h2 class="text-h2" style="margin-top: 4px; margin-bottom: var(--space-4);">Frosted Elevation Cards</h2>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <!-- Standard Glass Card -->
+          <div class="glass-card">
+            <span class="text-xs text-muted">Standard Glass Card</span>
+            <h3 class="text-h3" style="margin-top: 2px;">Default Surface Card</h3>
+            <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: 4px;">Translucent frosted backdrop with subtle noise and inner light reflection.</p>
+          </div>
+
+          <!-- Interactive Lift Card -->
+          <div class="glass-card glass-card-interactive">
+            <span class="text-xs text-muted">Interactive Glass Card (Hover me)</span>
+            <h3 class="text-h3" style="margin-top: 2px; color: var(--color-warm-tan);">Elevated Hover State</h3>
+            <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: 4px;">3D translateY lift, amber border glow, and shadow elevation depth.</p>
+          </div>
+
+          <!-- Selected State Card -->
+          <div class="glass-card glass-card-selected">
+            <div class="component-row" style="justify-content: space-between;">
+              <span class="badge badge-amber">Active Selection</span>
+              <span class="font-mono text-xs" style="color: var(--color-cedar-glow);">$48.50 / LF</span>
+            </div>
+            <h3 class="text-h3" style="margin-top: 6px;">Si View HOA Heritage Package</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Controls, Tabs & Micro-Animations -->
+    <section class="glass-panel" style="padding: var(--space-6);">
+      <div style="margin-bottom: var(--space-4);">
+        <span class="text-subtitle">04. Micro-Animations & Controls</span>
+        <h2 class="text-h2" style="margin-top: 4px;">Buttons, Tabs, Sliders & Status Badges</h2>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        <!-- Mode Tabs -->
+        <div>
+          <span class="text-xs text-muted" style="display: block; margin-bottom: 8px;">Workspace Selection Modes (Tab Group)</span>
+          <div class="tab-group" id="demoTabs">
+            <button class="tab-item active" data-mode="designer">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Designer Mode
+            </button>
+            <button class="tab-item" data-mode="catalog">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Catalog (HOA)
+            </button>
+            <button class="tab-item" data-mode="wizard">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Guided Wizard
+            </button>
+          </div>
+        </div>
+
+        <!-- Buttons Row -->
+        <div>
+          <span class="text-xs text-muted" style="display: block; margin-bottom: 8px;">Button Variations & Active States</span>
+          <div class="component-row">
+            <button class="btn btn-primary">Primary Glow</button>
+            <button class="btn btn-secondary">Secondary Glass</button>
+            <button class="btn btn-outline">Outline Glass</button>
+            <button class="btn btn-primary btn-sm">Small Button</button>
+            <button class="btn btn-secondary btn-lg">Large Button</button>
+            <button class="btn btn-icon" title="Settings">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sliders & Form Control -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
+          <div>
+            <div class="component-row" style="justify-content: space-between; margin-bottom: 6px;">
+              <span class="text-xs text-muted">Linear Footage Range Slider</span>
+              <span class="font-mono text-xs" style="color: var(--color-cedar-glow);" id="sliderVal">120 LF</span>
+            </div>
+            <input type="range" class="slider-glow" id="demoSlider" min="20" max="400" value="120" />
+          </div>
+
+          <div>
+            <span class="text-xs text-muted" style="display: block; margin-bottom: 6px;">Frosted Glass Text Input</span>
+            <input type="text" class="input-glass" placeholder="Enter Property Address or Client Name..." />
+          </div>
+        </div>
+
+        <!-- Status Badges & Pulse Dots -->
+        <div>
+          <span class="text-xs text-muted" style="display: block; margin-bottom: 8px;">Compliance Badges & Live Indicators</span>
+          <div class="component-row">
+            <span class="badge badge-emerald">
+              <span class="status-dot active"></span> HOA Approved
+            </span>
+            <span class="badge badge-amber">Si View Community Preset</span>
+            <span class="badge badge-slate">Architectural Spec</span>
+            <span class="sku-tag">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              Calculated Real-Time Math
+            </span>
+          </div>
+        </div>
+
+        <!-- Skeleton Shimmer Loader -->
+        <div>
+          <span class="text-xs text-muted" style="display: block; margin-bottom: 6px;">Data Sync Shimmer State</span>
+          <div class="skeleton-shimmer" style="height: 36px; width: 100%;"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Theme Toggle Logic
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const themeLabel = document.getElementById('themeToggleLabel');
+    const htmlEl = document.documentElement;
+
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', newTheme);
+      themeLabel.textContent = `Toggle Theme (${newTheme === 'dark' ? 'Dark' : 'Light'})`;
+    });
+
+    // Interactive Slider Value Update
+    const slider = document.getElementById('demoSlider');
+    const sliderVal = document.getElementById('sliderVal');
+    slider.addEventListener('input', (e) => {
+      sliderVal.textContent = `${e.target.value} LF`;
+    });
+
+    // Tab Group Interactivity
+    const tabItems = document.querySelectorAll('#demoTabs .tab-item');
+    tabItems.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabItems.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

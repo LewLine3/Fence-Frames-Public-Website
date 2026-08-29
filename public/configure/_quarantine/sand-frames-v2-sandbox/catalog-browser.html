@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Catalog</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    .gh-catalog-page {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SINGLE UNIFIED HEADER BAR -->
+  <header class="gh-header">
+    <div class="gh-logo-group">
+      <span class="gh-logo-title">Fence Frames</span>
+      <span class="gh-logo-subtitle">Catalog</span>
+    </div>
+
+    <!-- Center Navigation Links -->
+    <nav class="gh-nav-links">
+      <a class="gh-nav-link active">Catalog</a>
+      <a class="gh-nav-link" href="designer-workspace.html">Designer Workspace</a>
+    </nav>
+
+    <!-- Right Header Actions -->
+    <div class="gh-header-actions">
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    </div>
+  </header>
+
+  <!-- MAIN CATALOG CONTENT -->
+  <main class="gh-catalog-page">
+
+    <!-- FILTER CONTROL ROW 1 -->
+    <div class="gh-filter-row-1">
+      <!-- Search Input Box -->
+      <div class="gh-search-box">
+        <svg class="gh-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" class="gh-search-input" id="ghSearchInput" placeholder="Search fences by style, material, price..." />
+      </div>
+
+      <!-- Dropdown Filter Selects -->
+      <select class="gh-filter-select">
+        <option>Material ∨</option>
+        <option>Cedar Wood</option>
+        <option>Pressure Treated</option>
+        <option>Metal Accents</option>
+      </select>
+
+      <select class="gh-filter-select">
+        <option>Style ∨</option>
+        <option>Picket</option>
+        <option>Horizontal Board</option>
+        <option>Wire Accent</option>
+        <option>Shadowbox</option>
+      </select>
+
+      <select class="gh-filter-select">
+        <option>Privacy Level ∨</option>
+        <option>Full Privacy</option>
+        <option>Semi-Privacy</option>
+        <option>Open View</option>
+      </select>
+
+      <select class="gh-filter-select">
+        <option>Price Range ∨</option>
+        <option>$30 - $40 / ft</option>
+        <option>$40 - $50 / ft</option>
+        <option>$50+ / ft</option>
+      </select>
+
+      <select class="gh-filter-select">
+        <option>HOA Approved ∨</option>
+        <option>Si View Approved</option>
+        <option>Snoqualmie Ridge ARC</option>
+        <option>Klahanie Approved</option>
+      </select>
+    </div>
+
+    <!-- FILTER CONTROL ROW 2 (CATEGORY PILLS) -->
+    <div class="gh-filter-row-2">
+      <button class="gh-category-pill" data-cat="All Fences">All Fences</button>
+      <button class="gh-category-pill active" data-cat="Wood">Wood</button>
+      <button class="gh-category-pill" data-cat="Vinyl">Vinyl</button>
+      <button class="gh-category-pill" data-cat="Metal">Metal</button>
+      <button class="gh-category-pill" data-cat="Composite">Composite</button>
+      <button class="gh-category-pill" data-cat="Privacy">Privacy</button>
+      <button class="gh-category-pill" data-cat="Ornamental">Ornamental</button>
+    </div>
+
+    <!-- PRESET CARD GRID -->
+    <div class="gh-card-grid" id="catalogCardGrid">
+      <!-- Populated dynamically by catalog-browser.js -->
+    </div>
+
+  </main>
+
+  <!-- Load Data Registry & Controller -->
+  <script src="sand-frames-math.js"></script>
+  <script src="catalog-presets-data.js"></script>
+  <script src="catalog-browser.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Designer Workspace</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    .designer-page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem 2rem;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .designer-page {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .designer-sidebar {
+      background: #2F2A23;
+      border: 1.5px solid rgba(197, 160, 104, 0.28);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .designer-main-viewport {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .viewport-canvas-card {
+      background: #2F2A23;
+      border: 1.5px solid rgba(197, 160, 104, 0.28);
+      border-radius: 14px;
+      padding: 1.25rem;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .viewport-metric-bar {
+      background: #26211C;
+      border: 1.5px solid rgba(197, 160, 104, 0.28);
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SINGLE UNIFIED HEADER BAR -->
+  <header class="gh-header">
+    <div class="gh-logo-group">
+      <span class="gh-logo-title">Fence Frames</span>
+      <span class="gh-logo-subtitle">Designer Workspace</span>
+    </div>
+
+    <!-- Center Navigation Links -->
+    <nav class="gh-nav-links">
+      <a class="gh-nav-link" href="catalog-browser.html">Catalog</a>
+      <a class="gh-nav-link active">Designer Workspace</a>
+    </nav>
+
+    <!-- Right Header Actions -->
+    <div class="gh-header-actions">
+      <button class="gh-btn-primary" style="padding: 0.45rem 1.1rem;" onclick="alert('Quote Saved to Wix CMS!')">Save Project</button>
+      <svg class="gh-header-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </header>
+
+  <!-- MAIN DESIGNER CONTENT -->
+  <main class="designer-page">
+
+    <!-- LEFT SIDEBAR CONTROL PANEL -->
+    <aside class="designer-sidebar">
+      <div style="border-bottom: 1px solid rgba(197,160,104,0.25); padding-bottom: 0.75rem;">
+        <h2 class="gh-card-title">Fence Specification</h2>
+        <span class="gh-card-subtitle">Custom parameters & takeoff engine</span>
+      </div>
+
+      <!-- 1. Post Selection -->
+      <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <label class="gh-card-subtitle" style="font-weight: 600;">1. Posts & Structure</label>
+        <select class="gh-filter-select" id="postTypeSelect" style="width: 100%;">
+          <option value="4x4-pt-cedar">4x4 PT Incised Cedar Posts ($15.50/ea)</option>
+          <option value="4x6-hd-cedar">4x6 Heavy-Duty Corner/Gate Posts ($24.00/ea)</option>
+          <option value="steel-post-sleeve">PostMaster Steel Sleeves ($32.50/ea)</option>
+        </select>
+      </div>
+
+      <!-- 2. Picket Width -->
+      <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <label class="gh-card-subtitle" style="font-weight: 600;">2. Picket Board Width</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <button class="gh-btn-primary" data-picket-width="1x6">1x6 Nominal</button>
+          <button class="gh-btn-secondary" data-picket-width="1x4">1x4 Nominal</button>
+        </div>
+      </div>
+
+      <!-- 3. Gap Spacing -->
+      <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <label class="gh-card-subtitle" style="font-weight: 600;">3. Gap & Privacy Spacing</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;">
+          <button class="gh-btn-primary" data-picket-gap="privacy">Privacy</button>
+          <button class="gh-btn-secondary" data-picket-gap="gap-0.5">1/2" Gap</button>
+          <button class="gh-btn-secondary" data-picket-gap="gap-1.0">1" Gap</button>
+        </div>
+      </div>
+
+      <!-- 4. Cap Rail -->
+      <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <label class="gh-card-subtitle" style="font-weight: 600;">4. Cap Rail & Trim</label>
+        <label style="display: flex; align-items: center; justify-content: space-between; background: #29241F; padding: 0.65rem 0.85rem; border-radius: 10px; border: 1px solid rgba(197,160,104,0.25); cursor: pointer;">
+          <span style="font-size: 0.85rem; font-weight: 500;">2x4 Flat Cap Rail</span>
+          <input type="checkbox" id="capRailToggle" checked style="accent-color: #C5A068; width: 16px; height: 16px;" />
+        </label>
+      </div>
+
+      <!-- 5. Stain Color Swatches -->
+      <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <label class="gh-card-subtitle" style="font-weight: 600;">5. Factory Wood Finish</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+          <button class="gh-btn-secondary" data-stain-swatch="warm-amber" style="background: #E08230; color: #fff; border: 1px solid #C5A068;">Warm Amber</button>
+          <button class="gh-btn-secondary" data-stain-swatch="natural-cedar" style="background: #C88A4B; color: #fff;">Natural</button>
+          <button class="gh-btn-secondary" data-stain-swatch="dark-walnut" style="background: #4A3525; color: #fff;">Walnut</button>
+          <button class="gh-btn-secondary" data-stain-swatch="weathered-gray" style="background: #7B8288; color: #fff;">Gray</button>
+          <button class="gh-btn-secondary" data-stain-swatch="clear-coat" style="background: #D4A86A; color: #111;">Clear</button>
+          <button class="gh-btn-secondary" data-stain-swatch="unstained" style="background: #D9A066; color: #111;">Unstained</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN CANVAS & METRICS VIEWPORT -->
+    <section class="designer-main-viewport">
+
+      <!-- TOP RUNTIME METRICS BAR -->
+      <div class="viewport-metric-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span class="gh-card-subtitle" style="font-weight: 600;">Linear Footage:</span>
+          <input type="range" class="slider-glow" id="lnFtSlider" min="10" max="300" value="120" style="width: 140px;" />
+          <span class="gh-price-pill" id="lnFtVal">120 LF</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span class="gh-card-subtitle" style="font-weight: 600;">Height:</span>
+          <button class="gh-btn-secondary" data-height-btn="4">4'</button>
+          <button class="gh-btn-secondary" data-height-btn="5">5'</button>
+          <button class="gh-btn-primary" data-height-btn="6">6'</button>
+        </div>
+
+        <div>
+          <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: #E5DDD0;" id="subtotalVal">$4,850.00</div>
+          <span class="gh-card-subtitle" id="midPerLFVal">$40.42 / LF</span>
+        </div>
+      </div>
+
+      <!-- CENTER CANVAS GRAPHIC VIEWPORT -->
+      <div class="viewport-canvas-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="gh-attribute-pill selected">Live SVG Elevation Render</span>
+          <span class="gh-attribute-pill" id="panelBadge">15 Panels • 16 Posts</span>
+        </div>
+
+        <!-- SVG Container -->
+        <div id="svgCanvasContainer" style="width: 100%; min-height: 380px; display: flex; align-items: center; justify-content: center;">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #D1C5B4;">
+          <span>Scale 1:1 Inches • 8'0" On Center</span>
+          <span class="gh-attribute-pill hoa-approved">Si View Approved</span>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="sand-frames-math.js"></script>
+  <script src="designer-workspace.js"></script>
+</body>
+</html>

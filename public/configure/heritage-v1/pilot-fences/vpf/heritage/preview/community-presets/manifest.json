@@ -6,6 +6,12 @@
       "file": "si-view.json",
       "displayName": "Si View Community",
       "status": "pilot-internal"
+    },
+    {
+      "slug": "defense-reams",
+      "file": "defense-reams.json",
+      "displayName": "Defense Reams Community",
+      "status": "staging-brigade"
     }
   ]
 }

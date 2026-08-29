@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24" width="12" height="24">
+  <title>sym-fencing-staple</title>
+  <desc>9-Gauge Galvanized Steel Fencing Staple for Wire Mesh Attachment</desc>
+  <g id="sym-fencing-staple">
+    <!-- U-Staple Crown & Legs -->
+    <path d="M 3,22 L 3,6 A 3,3 0 0,1 9,6 L 9,22" fill="none" stroke="#d4d4d8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 3.8,20 L 3.8,6 A 2.2,2.2 0 0,1 8.2,6 L 8.2,20" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.75"/>
+    <!-- Barbed points -->
+    <polygon points="1.8,22 3,24 4.2,22" fill="#a1a1aa"/>
+    <polygon points="7.8,22 9,24 10.2,22" fill="#a1a1aa"/>
+  </g>
+</svg>

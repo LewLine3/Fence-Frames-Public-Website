@@ -52,20 +52,20 @@ function ElevationCard({
   hostRef?: React.RefObject<HTMLDivElement | null>
 }) {
   return (
-    <div className="w-full h-full max-h-full aspect-[4/3] min-w-0 overflow-hidden rounded-xl border-2 border-canvas-grid bg-canvas-ivory flex flex-col justify-between shadow-2xl select-none">
+    <div className="w-full h-full max-h-full min-w-0 flex-1 overflow-hidden rounded-2xl border-[2.5px] border-[#16432D]/70 bg-canvas-ivory flex flex-col justify-between shadow-[0_14px_36px_rgba(22,67,45,0.25)] select-none">
       {/* Card Header Strip */}
       <div
         className={cn(
-          'flex h-6 shrink-0 items-center justify-between px-3 text-[10px] font-bold uppercase leading-none text-canvas-ivory font-[\'Rowdies\'] shadow-sm',
+          'flex h-7 shrink-0 items-center justify-between px-3 text-[11px] font-bold uppercase leading-none text-canvas-ivory font-[\'Rowdies\'] shadow-sm',
           accent,
         )}
       >
         <span>{label}</span>
-        <span className="font-mono text-[9px] opacity-80">112″ × 95″ CAD</span>
+        <span className="font-mono text-[9px] opacity-85">112″ × 95″ CAD</span>
       </div>
 
-      {/* Vector Display Area */}
-      <div className="relative min-h-0 flex-1 w-full h-full flex items-center justify-center overflow-hidden p-1.5 sm:p-2">
+      {/* Vector Display Area (Full Height & Width Expansion with Clean Margins) */}
+      <div className="relative min-h-0 flex-1 w-full h-full flex items-center justify-center overflow-hidden p-2 sm:p-3">
         {svgHtml ? (
           <div
             ref={hostRef}
@@ -97,7 +97,7 @@ export function ElevationStage({
   const frontHostRef = useRef<HTMLDivElement>(null)
   const backHostRef = useRef<HTMLDivElement>(null)
 
-  // Fetch authentic Heritage vector SVGs if not provided as props
+  // Fetch authentic Heritage vector SVGs from public/configure
   useEffect(() => {
     if (propFrontSvg && propBackSvg) {
       setFrontSvgText(normalizeSvgString(propFrontSvg))
@@ -185,7 +185,7 @@ export function ElevationStage({
         (trimGroup as HTMLElement).style.display = config.trimStyle && config.trimStyle !== 'none' ? '' : 'none'
       }
 
-      // 5. Picket Patterns
+      // 5. Pickets
       const picketGroups = svg.querySelectorAll('[id*="picket"], [data-slot="picket-fill"]')
       picketGroups.forEach((el) => {
         const id = el.id || ''
@@ -200,13 +200,27 @@ export function ElevationStage({
 
       // 6. Dynamic Stain & Wood Color Updates on Gradients
       const palette = STAIN_PALETTES[config.stainType] || STAIN_PALETTES['cedar-natural']
-      const shineGrads = svg.querySelectorAll('linearGradient[id*="shine"], linearGradient[id*="cedar"]')
+      const shineGrads = svg.querySelectorAll('linearGradient')
       shineGrads.forEach((grad) => {
-        const stops = grad.querySelectorAll('stop')
-        if (stops.length >= 3) {
-          stops[0].setAttribute('stop-color', palette.light)
-          stops[1].setAttribute('stop-color', palette.main)
-          stops[2].setAttribute('stop-color', palette.dark)
+        const id = (grad.id || '').toLowerCase()
+        if (
+          id.includes('shine') ||
+          id.includes('cedar') ||
+          id.includes('rail') ||
+          id.includes('trim') ||
+          id.includes('cap') ||
+          id.includes('post') ||
+          id.includes('picket')
+        ) {
+          const stops = grad.querySelectorAll('stop')
+          if (stops.length >= 3) {
+            stops[0].setAttribute('stop-color', palette.light)
+            stops[1].setAttribute('stop-color', palette.main)
+            stops[2].setAttribute('stop-color', palette.dark)
+          } else if (stops.length === 2) {
+            stops[0].setAttribute('stop-color', palette.light)
+            stops[1].setAttribute('stop-color', palette.main)
+          }
         }
       })
     }
@@ -220,10 +234,10 @@ export function ElevationStage({
   const backVisible = mode === 'front' ? 'hidden' : isDual ? 'hidden lg:flex' : 'flex'
 
   return (
-    <div className="flex h-full min-h-0 w-full items-center justify-center overflow-hidden bg-canvas-grid/5 p-2 sm:p-3 relative select-none">
+    <div className="flex h-full min-h-0 w-full items-center justify-center overflow-hidden p-3 sm:p-4 md:p-5 relative select-none">
       <div
         className={cn(
-          'w-full h-full max-h-full flex items-center justify-center gap-3 sm:gap-4 transition-all duration-150',
+          'w-full h-full max-h-[96%] flex items-center justify-center gap-4 sm:gap-6 transition-all duration-150',
         )}
         style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center center' }}
       >

@@ -220,63 +220,6 @@
   }
 
   /**
-   * Calculate complete BOM quote summary (Material, Labor, Admin, Waste, Total).
-   */
-  function computeQuoteSummary(state, encyclopedia) {
-    const materialList = computeMaterialList(state, encyclopedia);
-    const counts = countPanelsAndPosts(state);
-    const lnFt = counts.lnFt || 1;
-
-    let rawMaterialTotal = 0;
-    const categoryTotals = {};
-
-    materialList.forEach((item) => {
-      const cost = item.lineMaterialCost || 0;
-      rawMaterialTotal += cost;
-
-      const group = item.blueprintGroup || 'general';
-      if (!categoryTotals[group]) {
-        categoryTotals[group] = { materialCost: 0, itemCount: 0 };
-      }
-      categoryTotals[group].materialCost += cost;
-      categoryTotals[group].itemCount += 1;
-    });
-
-    // Canonical monetization formula:
-    // MC = raw material cost from BOM
-    // M = MC * 1.25 (tax + procurement + delivery)
-    // L = M * 2.0  (labor)
-    // A = (M + L) * 0.15 (admin fee)
-    // quoted_mid = M + L + A
-    // display_low = quoted_mid * 0.85
-    // display_high = quoted_mid * 1.15
-
-    const M = rawMaterialTotal * 1.25;
-    const laborTotal = M * 2.0;
-    const adminRate = 0.15;
-    const adminTotal = (M + laborTotal) * adminRate;
-    const grandTotal = M + laborTotal + adminTotal;
-    const costPerFoot = grandTotal / Math.max(1, lnFt);
-    const displayLow = grandTotal * 0.85;
-    const displayHigh = grandTotal * 1.15;
-
-    return {
-      counts,
-      materialList,
-      rawMaterialTotal: Number(rawMaterialTotal.toFixed(2)),
-      materialsBurdened: Number(M.toFixed(2)),
-      laborTotal: Number(laborTotal.toFixed(2)),
-      adminRate,
-      adminTotal: Number(adminTotal.toFixed(2)),
-      grandTotal: Number(grandTotal.toFixed(2)),
-      displayLow: Number(displayLow.toFixed(2)),
-      displayHigh: Number(displayHigh.toFixed(2)),
-      costPerFoot: Number(costPerFoot.toFixed(2)),
-      categoryTotals,
-    };
-  }
-
-  /**
    * Convenience: format qty as a readable string with optional "~" when coverage is not known.
    */
   function formatQty(line) {
@@ -286,7 +229,6 @@
 
   global.BomCalculator = {
     computeMaterialList,
-    computeQuoteSummary,
     formatQty,
     extractUnitPrice,
     PICKET_COUNTS_BY_WIDTH_SPACING,

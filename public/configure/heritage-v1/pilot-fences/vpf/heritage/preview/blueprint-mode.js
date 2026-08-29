@@ -245,34 +245,6 @@
    */
   let blueprintView = 'blueprint';
   let showBlueprintToggle = true;
-  let pricingEnabled = true; // Default is Pricing ON (displays Mat., Lab., and Adm. figures)
-
-  function isPricingEnabled() {
-    return pricingEnabled;
-  }
-
-  function setPricingEnabled(enabled) {
-    pricingEnabled = !!enabled;
-    syncPricingState();
-  }
-
-  function togglePricing() {
-    setPricingEnabled(!pricingEnabled);
-  }
-
-  function syncPricingState() {
-    const root = global.document.documentElement;
-    if (root) {
-      root.classList.toggle('pricing-off', !pricingEnabled);
-      root.setAttribute('data-pricing-mode', pricingEnabled ? 'on' : 'off');
-    }
-    const buttons = global.document.querySelectorAll('[data-pricing-toggle]');
-    buttons.forEach((btn) => {
-      btn.setAttribute('aria-pressed', pricingEnabled ? 'true' : 'false');
-      btn.classList.toggle('is-pricing-off', !pricingEnabled);
-      btn.textContent = pricingEnabled ? 'Pricing: ON' : 'Pricing: OFF';
-    });
-  }
 
   function getBlueprintView() {
     return blueprintView;
@@ -292,9 +264,9 @@
 
   const VIEW_LABELS = {
     schedule: 'Schedule',
-    blueprint: 'Fence Blueprint',
-    materialList: 'Material List',
-    ledger: 'Project Ledger',
+    blueprint: 'View / Print - Fence Spec Sheet',
+    materialList: 'View / Print - Fence Spec Sheet',
+    ledger: 'View / Print - Fence Spec Sheet',
   };
 
   function syncBlueprintViewToggle() {
@@ -306,7 +278,7 @@
     const buttons = global.document.querySelectorAll('[data-bp-view-btn]');
     let focusSet = false;
     buttons.forEach((btn) => {
-      const on = viewMode === 'blueprint' && btn.getAttribute('data-bp-view-btn') === blueprintView;
+      const on = viewMode === 'blueprint';
       btn.setAttribute('aria-selected', on ? 'true' : 'false');
       btn.classList.toggle('is-active', on);
       if (on) {
@@ -755,11 +727,7 @@
     (c.bullets || []).forEach((line, i) => {
       const b = normalizeBullet(line, c.id, i);
       const li = global.document.createElement('li');
-      li.className = 'bp-bullet-item';
-      li.innerHTML =
-        `<span class="bp-bullet-text">${escapeHtml(b.text)}</span> ` +
-        `<span class="bp-badge bp-badge--lab">Lab.</span> ` +
-        `<span class="bp-badge bp-badge--adm">Adm.</span>`;
+      li.textContent = b.text;
       li.setAttribute('data-status', b.status);
       ul.appendChild(li);
     });
@@ -1093,32 +1061,6 @@
   };
   const VENDOR_ORDER = ['homeDepot', 'lowes', 'dunnLumber', 'chinook'];
 
-  function supplierMetricsFor(line) {
-    const group = line.blueprintGroup || 'general';
-    let estWeightLbs = 0;
-    let fastenerSpec = 'Standard Galv / Exterior Screws';
-    const qty = line.qty || 1;
-
-    if (group === 'posts') {
-      estWeightLbs = Math.round(qty * 28);
-      fastenerSpec = '10.5–12 ga Galv / SS Nails & Post Anchors';
-    } else if (group === 'rails') {
-      estWeightLbs = Math.round(qty * 14);
-      fastenerSpec = '#8–#10 Exterior Coated Screws';
-    } else if (group === 'pickets') {
-      estWeightLbs = Math.round(qty * 4.5);
-      fastenerSpec = '12–15 ga Stainless Steel Ring Shank Nails';
-    } else if (group === 'trim') {
-      estWeightLbs = Math.round(qty * 6);
-      fastenerSpec = '#5–#7 Stainless / Coated Trim Screws';
-    } else {
-      estWeightLbs = Math.round(qty * 10);
-      fastenerSpec = 'Exterior Coated Hardware';
-    }
-
-    return { estWeightLbs, fastenerSpec };
-  }
-
   function buildVendorPricingEl(vendorPricing) {
     const wrap = global.document.createElement('div');
     wrap.className = 'bp-vendor-list';
@@ -1143,7 +1085,7 @@
       row.appendChild(nameEl);
 
       const priceEl = global.document.createElement('span');
-      priceEl.className = 'bp-vendor-price price-val';
+      priceEl.className = 'bp-vendor-price';
       priceEl.textContent = `$${Number(entry.price).toFixed(2)}`;
       row.appendChild(priceEl);
 
@@ -1155,14 +1097,6 @@
       }
       wrap.appendChild(row);
     });
-
-    // Add Local Lumber Yard direct price estimation if available
-    if (!vendorPricing.dunnLumber && !vendorPricing.chinook) {
-      const localRow = global.document.createElement('div');
-      localRow.className = 'bp-vendor-row bp-vendor-row--local';
-      localRow.innerHTML = '<span class="bp-vendor-name">Local Yard</span> <span class="bp-vendor-price price-val">Direct Quote</span>';
-      wrap.appendChild(localRow);
-    }
     return wrap;
   }
 
@@ -1183,11 +1117,10 @@
   }
 
   const MATERIAL_LIST_COLUMNS = [
-    { className: 'bp-material-list__col-item', label: 'Item & Tags' },
+    { className: 'bp-material-list__col-item', label: 'Item' },
     { className: 'bp-material-list__col-qty', label: 'Qty' },
     { className: 'bp-material-list__col-unit', label: 'Unit' },
-    { className: 'bp-material-list__col-metrics', label: 'Weight & Fasteners' },
-    { className: 'bp-material-list__col-pricing', label: 'Supplier Pricing' },
+    { className: 'bp-material-list__col-pricing', label: 'Vendor pricing' },
   ];
 
   const MATERIAL_LIST_EMPTY_MSG = 'Enter a total run length to see the material list.';
@@ -1215,20 +1148,11 @@
       }
 
       const qtyText = line.qty == null ? '—' : line.qty;
-      const metrics = supplierMetricsFor(line);
 
       tr.innerHTML =
-        `<td class="bp-material-list__item">` +
-          `<span class="bp-item-title">${escapeHtml(line.displayName)}</span> ` +
-          `<span class="bp-badge bp-badge--mat">Mat.</span> ` +
-          `<span class="bp-badge bp-badge--adm">Adm.</span>` +
-        `</td>` +
+        `<td class="bp-material-list__item">${escapeHtml(line.displayName)}</td>` +
         `<td class="bp-material-list__qty" data-label="Qty">${escapeHtml(String(qtyText))}</td>` +
         `<td class="bp-material-list__unit" data-label="Unit">${escapeHtml(line.unit)}</td>` +
-        `<td class="bp-material-list__metrics" data-label="Metrics">` +
-          `<div class="bp-metric-weight">${metrics.estWeightLbs} lbs est.</div>` +
-          `<div class="bp-metric-fastener">${escapeHtml(metrics.fastenerSpec)}</div>` +
-        `</td>` +
         `<td class="bp-material-list__pricing"></td>`;
 
       const pricingCell = tr.querySelector('.bp-material-list__pricing');
@@ -1241,7 +1165,7 @@
             : line.skuStatus === 'n/a-custom'
               ? 'N/A'
               : 'needs-sku';
-        pricingCell.innerHTML = `<span class="price-val">${escapeHtml(fallback)}</span>`;
+        pricingCell.textContent = fallback;
       }
       tbody.appendChild(tr);
     });
@@ -1281,113 +1205,44 @@
   }
 
   /**
-   * Blueprint mode renderer: Multi-page Portrait ARC Blueprint & Detail Wizard view.
-   * Page 1: Forced 1-Page ARC Architectural Blueprint & Material List (break-after: page)
-   * Pages 2+: 8 Detail Wizard categories formatted 4 per page in a 2-column card grid (break-inside: avoid)
+   * Blueprint mode renderer: two-column rows, one card per catalog component.
+   * Rules only — no material quantities here; those live in Material List mode.
+   * Bullets go live (mirrors current-state picks) for the ids that have
+   * liveBullets() logic; the rest keep their authored copy, enriched with the
+   * encyclopedia body/install note via mergeComponents().
    */
   function renderDetailMode() {
     const root = global.document.getElementById('blueprint-detail');
     if (!root) return;
     root.innerHTML = '';
-    root.className = 'bp-document-container' + (!pricingEnabled ? ' pricing-off' : '');
 
     const state = typeof getState === 'function' ? getState() : {};
 
-    // --- PAGE 1: Forced 1-Page ARC Architectural Blueprint & Material List ---
-    const page1 = global.document.createElement('section');
-    page1.className = 'bp-print-page bp-page-1';
+    cardsForDocuments(state).forEach((component, index) => {
+      const id = component.id;
 
-    const p1Header = global.document.createElement('header');
-    p1Header.className = 'bp-page-header';
-    p1Header.innerHTML =
-      '<div class="bp-page-title-row">' +
-        '<h2>Page 1 — ARC Architectural Blueprint & Material Takeoff</h2>' +
-        '<span class="bp-tag-arc">ARC / HOA SUBMISSION FILE</span>' +
-      '</div>';
-    page1.appendChild(p1Header);
+      const row = global.document.createElement('section');
+      row.className = 'bp-detail-row' + (index % 2 === 1 ? ' bp-detail-row--alt' : '');
 
-    // Top Half: Exploded 2D Blueprint Diagram
-    const topHalf = global.document.createElement('div');
-    topHalf.className = 'bp-page1-top';
-    const diagramHead = global.document.createElement('h3');
-    diagramHead.className = 'bp-section-subtitle';
-    diagramHead.textContent = '2D Architectural Wireframe Diagram';
-    topHalf.appendChild(diagramHead);
+      const textSide = global.document.createElement('div');
+      textSide.className = 'bp-detail-text';
+      textSide.appendChild(buildDetailCardEl(component));
 
-    const diagramSvg = buildRunStripSvg('p1-diag');
-    if (diagramSvg) {
-      topHalf.appendChild(diagramSvg);
-      paintRunStripSvg(diagramSvg);
-    }
-    page1.appendChild(topHalf);
+      const imageSide = global.document.createElement('div');
+      imageSide.className = 'bp-detail-image';
+      const img = buildDetailImage(id, `detail${index}-`);
+      if (img) imageSide.appendChild(img);
 
-    // Bottom Half: Itemized Material List (Mat. & Adm.) + Supplier Metrics
-    const bottomHalf = global.document.createElement('div');
-    bottomHalf.className = 'bp-page1-bottom';
-    const matHead = global.document.createElement('h3');
-    matHead.className = 'bp-section-subtitle';
-    matHead.textContent = 'Itemized Takeoff & Airtable Supplier Metrics';
-    bottomHalf.appendChild(matHead);
+      if (index % 2 === 1) {
+        row.appendChild(imageSide);
+        row.appendChild(textSide);
+      } else {
+        row.appendChild(textSide);
+        row.appendChild(imageSide);
+      }
 
-    const lines = materialListLines(state) || [];
-    if (lines.length) {
-      bottomHalf.appendChild(buildMaterialListEl(lines, 'ARC Specification Takeoff'));
-    } else {
-      const p = global.document.createElement('p');
-      p.className = 'bp-material-list__placeholder';
-      p.textContent = MATERIAL_LIST_EMPTY_MSG;
-      bottomHalf.appendChild(p);
-    }
-    page1.appendChild(bottomHalf);
-    root.appendChild(page1);
-
-    // --- PAGES 2+: Detail Wizard Print Breakdown (4 Categories Per Page) ---
-    const cards = cardsForDocuments(state);
-    const CATEGORIES_PER_PAGE = 4;
-    const totalDetailPages = Math.ceil(cards.length / CATEGORIES_PER_PAGE);
-
-    for (let pageIdx = 0; pageIdx < totalDetailPages; pageIdx += 1) {
-      const pageNum = pageIdx + 2;
-      const pageSec = global.document.createElement('section');
-      pageSec.className = `bp-print-page bp-page-detail bp-page-${pageNum}`;
-
-      const pHeader = global.document.createElement('header');
-      pHeader.className = 'bp-page-header';
-      pHeader.innerHTML =
-        `<div class="bp-page-title-row">` +
-          `<h2>Page ${pageNum} — Detail Wizard Category Breakdown</h2>` +
-          `<span class="bp-page-counter">Page ${pageNum} of ${totalDetailPages + 1}</span>` +
-        `</div>`;
-      pageSec.appendChild(pHeader);
-
-      const grid = global.document.createElement('div');
-      grid.className = 'bp-detail-grid';
-
-      const pageCards = cards.slice(pageIdx * CATEGORIES_PER_PAGE, (pageIdx + 1) * CATEGORIES_PER_PAGE);
-      pageCards.forEach((component, cardIdx) => {
-        const globalIdx = pageIdx * CATEGORIES_PER_PAGE + cardIdx;
-        const id = component.id;
-
-        const cardContainer = global.document.createElement('article');
-        cardContainer.className = 'bp-category-card';
-
-        const textSide = global.document.createElement('div');
-        textSide.className = 'bp-detail-text';
-        textSide.appendChild(buildDetailCardEl(component));
-
-        const imageSide = global.document.createElement('div');
-        imageSide.className = 'bp-detail-image';
-        const img = buildDetailImage(id, `detail-${globalIdx}-`);
-        if (img) imageSide.appendChild(img);
-
-        cardContainer.appendChild(textSide);
-        cardContainer.appendChild(imageSide);
-        grid.appendChild(cardContainer);
-      });
-
-      pageSec.appendChild(grid);
-      root.appendChild(pageSec);
-    }
+      root.appendChild(row);
+    });
   }
 
   /** Material List mode renderer: fence run image + the full itemized BOM table. No rules prose. */

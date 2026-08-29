@@ -485,11 +485,11 @@ export function BottomCarouselHud({
 
   return (
     <footer
-      className="w-full bg-[#141B16] border-t-[2px] border-t-[#E5B842] py-1 px-2 flex-shrink-0 z-20 shadow-[0_-4px_15px_rgba(0,0,0,0.5)] font-['Rowdies'] select-none flex items-center gap-2"
+      className="w-full border-t-[2px] border-t-[#16432D]/40 py-2 px-3 flex-shrink-0 z-20 shadow-[0_-6px_20px_rgba(22,67,45,0.15)] font-['Rowdies'] select-none flex items-center gap-2 relative"
       style={{
-        backgroundColor: '#141B16',
+        backgroundColor: '#F4ECDC',
         backgroundImage:
-          'linear-gradient(rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(74, 222, 128, 0.08) 1px, transparent 1px), linear-gradient(rgba(229, 184, 66, 0.15) 2px, transparent 2px), linear-gradient(90deg, rgba(229, 184, 66, 0.15) 2px, transparent 2px)',
+          'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
         backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
         backgroundPosition: '0 0',
       }}
@@ -497,7 +497,7 @@ export function BottomCarouselHud({
       {/* Left Chevron Button */}
       <button
         onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-6 h-[72px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0"
+        className="hidden sm:flex w-6 h-[76px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Left (Infinite)"
       >
         ◀
@@ -817,7 +817,7 @@ export function BottomCarouselHud({
       {/* Right Chevron Button */}
       <button
         onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-6 h-[72px] bg-[#1C241E] hover:bg-[#253328] text-white/70 hover:text-[#E5B842] border border-white/10 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0"
+        className="hidden sm:flex w-6 h-[76px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Right (Infinite)"
       >
         ▶
