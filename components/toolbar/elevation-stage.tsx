@@ -153,7 +153,7 @@ export function ElevationStage({
       })
 
       // 2. Rails Visibility & Counts
-      const isPTRails = config.woodGrade === 'standard-doug-fir'
+      const isPTRails = (config.woodGrade as string) === 'standard-doug-fir' || config.woodGrade === 'pressure-treated'
       const railMatSelector = isPTRails ? 'pt' : 'cedar'
       
       const railElements = svg.querySelectorAll('[data-frame-material]')
