@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>North Bend, WA Fence Regulations, Municipal Codes & HOA Directory | Fence Frames</title>
+  <meta name="description" content="Complete guide to fence codes, Mt. Si wind load standards, setbacks, and HOA communities in North Bend, Washington. Browse verified standards for Si View, Riverbend, Forster Woods, and connect with licensed local builders." />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Schema.org Structured Data (JSON-LD) for City SEO "Kill Shot" -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Washington", "item": "https://fenceframes.com/wa" },
+          { "@type": "ListItem", "position": 2, "name": "King County", "item": "https://fenceframes.com/wa/king-county" },
+          { "@type": "ListItem", "position": 3, "name": "North Bend", "item": "https://fenceframes.com/wa/king-county/north-bend" }
+        ]
+      },
+      {
+        "@type": "CivicStructure",
+        "name": "City of North Bend Building Regulations & Fence Codes",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "North Bend",
+          "addressRegion": "WA",
+          "postalCode": "98045",
+          "addressCountry": "US"
+        },
+        "description": "Authoritative municipal fence building codes, height limits, setbacks, and HOA standards for North Bend, WA."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do I need a building permit to construct a fence in North Bend, WA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In the City of North Bend and King County jurisdiction, residential fences 6 feet or under in height do not require a building permit. Fences over 6 feet or retaining wall combinations require a city building permit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the wind load engineering requirements in the Snoqualmie Valley?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Due to mountain funneling winds off Mount Si (Exposure B / 80mph gust rating), fences require a minimum of 24-inch footing depth and 3-rail horizontal cedar framing or 4x4 pressure-treated incised posts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the front and corner lot setback rules in North Bend?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fences within the front yard setback (first 15 feet from property line) are capped at 4 feet in height. Corner lots require a 25-foot clear sight triangle at road intersections."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --forest-deep: #16432D;
+      --ink-forest: #141B16;
+      --parchment: #F4ECDC;
+      --parchment-card: #FAF6EE;
+      --ink: #1A1A1A;
+      --radius: 5px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--parchment);
+      background-image: 
+        linear-gradient(rgba(22, 67, 45, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    .rowdies-700 { font-family: 'Rowdies', sans-serif; font-weight: 700; }
+    .rowdies-400 { font-family: 'Rowdies', sans-serif; font-weight: 400; }
+    .rowdies-300 { font-family: 'Rowdies', sans-serif; font-weight: 300; }
+
+    /* Outside Chamfer Corner Marks */
+    .has-outside-corners { position: relative; }
+    .corner-mark-out {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      pointer-events: none;
+      z-index: 15;
+      --mark-th: 5px;
+      --mark-tip: 20px;
+      --mark-c: var(--gold-sun);
+    }
+    .corner-mark-out::before, .corner-mark-out::after {
+      content: "";
+      position: absolute;
+      background: var(--mark-c);
+    }
+    .corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 0 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+    .corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+
+    .corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+    .corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+    .c-forest { --mark-c: var(--forest-bright); }
+    .c-gold { --mark-c: var(--gold-sun); }
+    .c-ember { --mark-c: var(--ember); }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    /* Top Container Spacing */
+    .top-container-wrap {
+      margin-top: 2.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--forest-deep);
+      margin-bottom: 1.25rem;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 400;
+    }
+    .breadcrumbs a {
+      color: var(--forest-deep);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(22, 67, 45, 0.3);
+    }
+    .breadcrumbs a:hover { color: var(--ember); border-color: var(--ember); }
+    .breadcrumbs .current { color: var(--ink); font-weight: 700; }
+
+    /* GREEN GRID PROOF CONTAINER (Top City Hero) */
+    .proof-container-green-grid {
+      background-color: var(--ink-forest);
+      background-image: 
+        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
+      background-size: 20px 20px;
+      border: 3px solid var(--ink);
+      border-radius: var(--radius);
+      color: #FAF6EE;
+      padding: 2.2rem 2.4rem;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+    .proof-badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .badge-city-hub {
+      background: rgba(229, 184, 66, 0.18);
+      border: 1.5px solid var(--gold-sun);
+      color: var(--gold-sun);
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .badge-county-ref {
+      background: #16432D;
+      border: 1.5px solid var(--forest-bright);
+      color: var(--forest-bright);
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-wind-chip {
+      background: #2D1A14;
+      border: 1.5px solid var(--ember);
+      color: var(--ember);
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .city-hero-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0 0 0.6rem;
+      line-height: 1.15;
+    }
+    .city-hero-title span { color: var(--gold-sun); }
+    .city-hero-sub {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #FAF6EE;
+      opacity: 0.92;
+      max-width: 880px;
+      margin: 0 0 1.6rem;
+      line-height: 1.45;
+    }
+
+    /* Section Headers */
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+    .section-tag {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ember);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* CHILD COMMUNITIES REPEATER (PRIMARY VIEWING ITEM) */
+    .communities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .community-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    .community-card-header {
+      background: var(--ink-forest);
+      color: #FFFFFF;
+      padding: 12px 14px;
+      border-bottom: 2px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .community-card-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold-sun);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .community-status-badge {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .status-live { background: #E6F4EA; color: #137333; border: 1px solid #137333; }
+    .status-stub { background: #FEF7E0; color: #B06000; border: 1px solid #B06000; }
+    .status-soon { background: #F1ECE1; color: #777777; border: 1px solid #CCCCCC; }
+
+    .community-card-body {
+      padding: 14px;
+      background: #FFFFFF;
+      flex-grow: 1;
+    }
+    .community-card-desc {
+      font-size: 0.85rem;
+      color: #4A4A4A;
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+    .community-specs-preview {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.82rem;
+      color: #666;
+    }
+    .community-specs-preview li {
+      padding: 4px 0;
+      border-bottom: 1px dotted #e6ddcf;
+      display: flex;
+      justify-content: space-between;
+    }
+    .community-specs-preview li:last-child { border-bottom: none; }
+
+    .community-card-actions {
+      padding: 12px 14px;
+      background: #FAF6EE;
+      border-top: 2px solid var(--ink);
+      display: flex;
+      gap: 8px;
+    }
+    .btn-com-primary {
+      flex: 1;
+      background: var(--gold-sun);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-com-primary:hover { background: #F5C84C; }
+    .btn-com-design {
+      background: var(--ember);
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      padding: 9px 14px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-com-design:hover { background: #db6818; }
+    .btn-disabled {
+      background: #E8E2D5;
+      color: #888;
+      border: 1.5px solid #CCC;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* MUNICIPAL QUICK REFERENCE TABLE */
+    .bylaws-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    }
+    .bylaws-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .bylaw-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 1.2rem;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .bylaw-badge {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--forest-deep);
+      background: rgba(46, 125, 70, 0.12);
+      border: 1px solid rgba(46, 125, 70, 0.3);
+      padding: 2px 8px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .bylaw-val {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 4px;
+    }
+    .bylaw-desc {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* CONTRACTOR SHOWCASE */
+    .contractors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .contractor-card {
+      background: #FAF6EE;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    .pro-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .pro-name {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .pro-license {
+      font-size: 0.75rem;
+      color: var(--forest-deep);
+      font-weight: 600;
+      background: #E6F4EA;
+      border: 1px solid var(--forest-bright);
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .pro-rating {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #B06000;
+    }
+    .pro-desc {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0 0 1rem;
+      line-height: 1.4;
+    }
+    .btn-quote-pro {
+      background: var(--ink-forest);
+      color: var(--gold-sun);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      box-shadow: 2px 2px 0 var(--ink);
+      cursor: pointer;
+    }
+    .btn-quote-pro:hover {
+      background: #1f2e23;
+      color: #FFFFFF;
+    }
+
+    /* MUNICIPAL CONTRACTOR GUIDE (RICH SEO ARTICLE) */
+    .municipal-guide-article {
+      background: #FFFFFF;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+    .municipal-guide-article h2 {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--forest-deep);
+      border-bottom: 2px solid var(--parchment);
+      padding-bottom: 6px;
+      margin: 1.5rem 0 0.75rem;
+    }
+    .municipal-guide-article h2:first-of-type { margin-top: 0; }
+    .municipal-guide-article p {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.6;
+      margin: 0 0 1rem;
+    }
+
+    /* CANONICAL GLOBAL FOOTER MIRROR */
+    .footer-nav-mirror {
+      background: linear-gradient(165deg, #1a3d2a 0%, #0f281c 55%, #0a1a12 100%);
+      color: #FAF6EE;
+      border-top: 4px solid var(--forest-deep);
+      position: relative;
+    }
+    .footer-nav-mirror::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(196,173,152,0.06) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(196,173,152,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .footer-grid-wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3.5rem;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .footer-grid-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .footer-mirror-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.2rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: #FAF6EE;
+      opacity: 0.8;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Universal Global Header Injection Point -->
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
+
+  <main class="container" id="main-content">
+
+    <!-- Breadcrumbs -->
+    <div style="padding-top: 1.25rem;">
+      <nav class="breadcrumbs" aria-label="Breadcrumbs" data-interactive-target="breadcrumb-nav">
+        <a href="/">Home</a>
+        <span>›</span>
+        <a href="/geo-county.html">Washington</a>
+        <span>›</span>
+        <a href="/geo-county.html">King County</a>
+        <span>›</span>
+        <span class="current">North Bend, WA (98045)</span>
+      </nav>
+    </div>
+
+    <!-- 2. TOP GREEN GRID PROOF CONTAINER (SPACED & ELEVATED) -->
+    <div class="top-container-wrap">
+      <header class="proof-container-green-grid has-outside-corners" data-interactive-target="city-hero">
+        <div class="corner-mark-out tl c-gold"></div>
+        <div class="corner-mark-out tr c-forest"></div>
+        <div class="corner-mark-out bl c-forest"></div>
+        <div class="corner-mark-out br c-gold"></div>
+
+        <div class="proof-badge-strip">
+          <span class="badge-city-hub">🏛️ Flagship Municipal Hub</span>
+          <span class="badge-county-ref">🌲 King County Coverage Zone</span>
+          <span class="badge-wind-chip">⚠️ Mt. Si 80mph Wind Standard (24″ Footings · 3-Rail)</span>
+        </div>
+
+        <h1 class="city-hero-title">
+          North Bend, WA <span>Fence Regulations</span> &amp; Communities
+        </h1>
+        <p class="city-hero-sub">
+          Authoritative municipal codes, Snoqualmie Valley wind exposure standards, and verified architectural guidelines for all 6 North Bend communities. Design your fence online and match with verified King County builders.
+        </p>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2;">
+          <a href="/configure" class="btn-com-primary" style="padding:11px 22px;font-size:0.95rem;display:inline-flex;align-items:center;gap:6px;max-width:fit-content;" data-interactive-target="generic-design-cta">
+            <span>⚡ Design Any Fence in North Bend</span>
+            <span>→</span>
+          </a>
+          <a href="#communities" class="btn-com-design" style="padding:11px 20px;font-size:0.95rem;display:inline-flex;align-items:center;gap:6px;">
+            <span>🏡 Browse 6 Local Communities</span>
+          </a>
+        </div>
+      </header>
+    </div>
+
+    <!-- 3. MAIN VIEWING ITEM: CHILD COMMUNITIES DIRECTORY REPEATER -->
+    <section id="communities" style="margin-bottom:3.5rem;" data-interactive-target="communities-directory">
+      <div class="section-header">
+        <span class="section-tag">Local Neighborhoods &amp; HOA Associations</span>
+        <h2 class="section-title">Communities in North Bend, WA</h2>
+        <p style="margin:4px 0 0;font-size:0.92rem;color:#555;">
+          Select your neighborhood below to view pre-approved fence designs, CC&amp;R guidelines, and ARC submittal packets.
+        </p>
+      </div>
+
+      <div class="communities-grid">
+        <!-- Community 1: Si View (Flagship) -->
+        <article class="community-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Si View Community</h3>
+            <span class="community-status-badge status-live">🟢 Live Guide</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              Flagship community with 4 pre-approved ARC designs, 24 verified build attributes, and official PayHOA submission workflow.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Max Height:</span> <strong>6′-0″ (4′-0″ Front)</strong></li>
+              <li><span>Approved Style:</span> <strong>Vertical Cedar Pickets</strong></li>
+              <li><span>Mandatory Stain:</span> <strong>SW Asteroid #3558-789</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <a href="/geo-community.html" class="btn-com-primary" data-interactive-target="view-siview-guide">View Guide →</a>
+            <a href="/configure?community_preset=si-view" class="btn-com-design" data-interactive-target="design-siview">⚡ Design</a>
+          </div>
+        </article>
+
+        <!-- Community 2: Forster Woods -->
+        <article class="community-card has-outside-corners">
+          <div class="corner-mark-out tl c-gold"></div>
+          <div class="corner-mark-out br c-gold"></div>
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Forster Woods</h3>
+            <span class="community-status-badge status-stub">🟡 Guide Stub</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              Good neighbor alternating pickets, natural cedar tones, and Architectural Review Board compliance standards.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Max Height:</span> <strong>6′-0″ Privacy</strong></li>
+              <li><span>Style Preference:</span> <strong>Board-on-Board Cedar</strong></li>
+              <li><span>Status:</span> <strong>Drafting ARC Profile</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <a href="/geo-community.html" class="btn-com-primary" data-interactive-target="view-forster-guide">View Guide →</a>
+            <a href="/configure" class="btn-com-design">⚡ Design</a>
+          </div>
+        </article>
+
+        <!-- Community 3: Riverbend -->
+        <article class="community-card has-outside-corners">
+          <div class="corner-mark-out tl c-gold"></div>
+          <div class="corner-mark-out br c-gold"></div>
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Riverbend Homesites</h3>
+            <span class="community-status-badge status-stub">🟡 Guide Stub</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              River corridor exposure guidelines, semi-transparent waterproofing finishes, and open perimeter restrictions.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Max Height:</span> <strong>6′-0″ Standard</strong></li>
+              <li><span>Framing:</span> <strong>3-Rail High Wind</strong></li>
+              <li><span>Status:</span> <strong>Field Verification</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <a href="/geo-community.html" class="btn-com-primary" data-interactive-target="view-riverbend-guide">View Guide →</a>
+            <a href="/configure" class="btn-com-design">⚡ Design</a>
+          </div>
+        </article>
+
+        <!-- Community 4: Wilderness Rim -->
+        <article class="community-card">
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Wilderness Rim</h3>
+            <span class="community-status-badge status-soon">⚪ Coming Soon</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              Mountain boundary lot guidelines, wildlife corridors, and heavy snow load post spacing standards.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Target Intake:</span> <strong>Wave 2</strong></li>
+              <li><span>Coverage:</span> <strong>Intake In Progress</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <span class="btn-com-primary btn-disabled">Guide In Intake</span>
+          </div>
+        </article>
+
+        <!-- Community 5: Cedar Landing -->
+        <article class="community-card">
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Cedar Landing</h3>
+            <span class="community-status-badge status-soon">⚪ Coming Soon</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              Modern master-planned neighborhood standards, uniform perimeter staining, and street-facing setback rules.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Target Intake:</span> <strong>Wave 2</strong></li>
+              <li><span>Coverage:</span> <strong>Intake In Progress</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <span class="btn-com-primary btn-disabled">Guide In Intake</span>
+          </div>
+        </article>
+
+        <!-- Community 6: Timberstone -->
+        <article class="community-card">
+          <div class="community-card-header">
+            <h3 class="community-card-title">🏡 Timberstone</h3>
+            <span class="community-status-badge status-soon">⚪ Coming Soon</span>
+          </div>
+          <div class="community-card-body">
+            <p class="community-card-desc">
+              Architectural guidelines for modern horizontal and clear cedar privacy fences along the Snoqualmie Valley.
+            </p>
+            <ul class="community-specs-preview">
+              <li><span>Target Intake:</span> <strong>Wave 2</strong></li>
+              <li><span>Coverage:</span> <strong>Intake In Progress</strong></li>
+            </ul>
+          </div>
+          <div class="community-card-actions">
+            <span class="btn-com-primary btn-disabled">Guide In Intake</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. MUNICIPAL CODES QUICK-REFERENCE -->
+    <section class="bylaws-card has-outside-corners" data-interactive-target="municipal-bylaws">
+      <div class="corner-mark-out tl c-gold"></div>
+      <div class="corner-mark-out tr c-gold"></div>
+      <div class="corner-mark-out bl c-gold"></div>
+      <div class="corner-mark-out br c-gold"></div>
+
+      <div class="section-header">
+        <span class="section-tag">City of North Bend Municipal Code Title 18</span>
+        <h2 class="section-title">Residential Fence Bylaws &amp; Setbacks</h2>
+      </div>
+
+      <div class="bylaws-grid">
+        <div class="bylaw-box">
+          <span class="bylaw-badge">BACKYARD PRIVACY</span>
+          <div class="bylaw-val">6′-0″ Max</div>
+          <p class="bylaw-desc">Permit-exempt for standard residential rear and side yards up to property line.</p>
+        </div>
+
+        <div class="bylaw-box">
+          <span class="bylaw-badge">FRONT YARD SETBACK</span>
+          <div class="bylaw-val">4′-0″ Max</div>
+          <p class="bylaw-desc">Fences within the 15-foot front property setback are restricted to 48 inches max height.</p>
+        </div>
+
+        <div class="bylaw-box">
+          <span class="bylaw-badge">CORNER LOT VISIBILITY</span>
+          <div class="bylaw-val">25′ Clear Zone</div>
+          <p class="bylaw-desc">Sight triangle required at street intersections; max 36 inches height within the 25ft clear zone.</p>
+        </div>
+
+        <div class="bylaw-box">
+          <span class="bylaw-badge">UNDERGROUND UTILITIES</span>
+          <div class="bylaw-val">Call 811</div>
+          <p class="bylaw-desc">Washington 811 utility locate call mandatory 48 business hours prior to post hole excavation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. VERIFIED NORTH BEND FENCE CONTRACTORS -->
+    <section style="margin-bottom:3rem;" data-interactive-target="contractor-showcase">
+      <div class="section-header">
+        <span class="section-tag">Verified King County Builders</span>
+        <h2 class="section-title">Licensed Fence Contractors in North Bend</h2>
+        <p style="margin:4px 0 0;font-size:0.9rem;color:#666;">
+          All contractors on Fence Frames carry active WA L&amp;I licenses, verified insurance, and build strictly to HOA and municipal code.
+        </p>
+      </div>
+
+      <div class="contractors-grid">
+        <div class="contractor-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div>
+            <div class="pro-header">
+              <h3 class="pro-name">Cascade Fence &amp; Deck</h3>
+              <span class="pro-rating">★ 4.9 (42)</span>
+            </div>
+            <span class="pro-license">WA L&amp;I #CASCAD*891K2</span>
+            <p class="pro-desc">Specializes in custom clear cedar privacy, picture frame panels, and Mt. Si wind-resistant post installations.</p>
+          </div>
+          <a href="/contractor-match.html?pro=cascade" class="btn-quote-pro">⚡ Request Pre-Scoped Bid</a>
+        </div>
+
+        <div class="contractor-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div>
+            <div class="pro-header">
+              <h3 class="pro-name">Snoqualmie Valley Fencing</h3>
+              <span class="pro-rating">★ 5.0 (28)</span>
+            </div>
+            <span class="pro-license">WA L&amp;I #SNOQV*221L9</span>
+            <p class="pro-desc">Local North Bend fence builder with 15+ years experience navigating Si View, Riverbend, and Snoqualmie Ridge ARC approvals.</p>
+          </div>
+          <a href="/contractor-match.html?pro=snoqualmie" class="btn-quote-pro">⚡ Request Pre-Scoped Bid</a>
+        </div>
+
+        <div class="contractor-card has-outside-corners">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div>
+            <div class="pro-header">
+              <h3 class="pro-name">Mt. Si Woodworks</h3>
+              <span class="pro-rating">★ 4.8 (35)</span>
+            </div>
+            <span class="pro-license">WA L&amp;I #MTSIW*774P1</span>
+            <p class="pro-desc">Precision craftsman horizontal cedar shiplap, good neighbor fences, and custom self-closing cedar gate packages.</p>
+          </div>
+          <a href="/contractor-match.html?pro=mtsi" class="btn-quote-pro">⚡ Request Pre-Scoped Bid</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CRAWLER-FIRST MUNICIPAL SUMMARY (SEO KILL SHOT ARTICLE) -->
+    <article class="municipal-guide-article" data-interactive-target="seo-municipal-guide">
+      <h2>Wind &amp; Exposure Standards in North Bend &amp; Snoqualmie Valley</h2>
+      <p>
+        Properties located in North Bend (ZIP 98045) experience distinct microclimates created by the Cascade Mountain foothills and Mount Si gap winds. Under King County Building Standards, fence structures in exposure B zones are subject to sustained wind loads exceeding 80 mph. To prevent fence blowouts and frost heave, contractors must ensure post footings are excavated to a minimum depth of 24 inches with a gravel drainage base, and horizontal rails must be secured with 10.5–12 gauge exterior-grade stainless steel nails.
+      </p>
+
+      <h2>Permits &amp; Municipal Setbacks (City of North Bend Municipal Code Title 18)</h2>
+      <p>
+        Under North Bend Municipal Code (NBMC Title 18), residential property line fences up to 6 feet in height do not require a formal city building permit. However, fences constructed within the 15-foot front property setback are restricted to a maximum height of 48 inches (4 feet) to maintain neighborhood street sightlines. Fences on corner lots must strictly adhere to the 25-foot clear vision triangle at intersections, capping fence heights at 36 inches within the intersection corner.
+      </p>
+
+      <h2>Underground Utilities &amp; Locate Protocol (Washington 811)</h2>
+      <p>
+        Excavating post holes in North Bend requires mandatory notification to Washington 811 (call811.com) at least two business days prior to construction. Due to extensive shallow gas, power, and telecommunication feeds across the valley, homeowners and builders must obtain positive utility markings before setting posts.
+      </p>
+
+      <h2>Local Guidelines for Homeowners &amp; Fencing Contractors</h2>
+      <p>
+        When building in master-planned communities or statutory HOAs (such as Si View, Forster Woods, or Riverbend), homeowners must obtain Architectural Review Committee (ARC) approval prior to groundbreaking. Fence Frames provides pre-approved, certified architectural vector blueprints that match local CC&amp;R regulations, eliminating permit delays and HOA non-compliance notices.
+      </p>
+    </article>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MASTER UNIVERSAL FOOTER (DARKENED FOREST-TO-BLACK GRADIENT MIRROR)        -->
+  <!-- ========================================================================= -->
+  <footer class="footer-nav-mirror" style="overflow: hidden; position: relative;">
+    <div class="footer-grid-wrap">
+      
+      <!-- Col 1: Brand, Logo & Assurances -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="/images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));" />
+          <span style="font-family: 'Rowdies', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;">
+            <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
+          </span>
+        </a>
+        <p style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #FAF6EE; opacity: 0.85; line-height: 1.6; max-width: 380px; font-weight: 300; margin: 0;">
+          The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.7rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4);">
+            ✓ ZERO DATA LOSS
+          </span>
+          <span style="font-size: 0.7rem; color: #E5B842; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(229,184,66,0.4);">
+            ✓ 3-SEAT CAPPED PROS
+          </span>
+        </div>
+      </div>
+
+      <!-- Right 3-Column Navigation Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem;">
+        
+        <!-- Column 1: Find & Frame -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #E5B842; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Find &amp; Frame
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/geo-city.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">City of North Bend Codes</a></li>
+            <li><a href="/geo-community.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Si View HOA Pre-Approved ARC</a></li>
+            <li><a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">12+ Architectural Style Catalog</a></li>
+            <li><a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Universal 2D CAD Configurator</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Fence & Pros -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Fence &amp; Pros
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/blueprint" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Portrait 8.5" × 11" ARC Blueprints</a></li>
+            <li><a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">72-Hour Contractor Job Board</a></li>
+            <li><a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Live 3-Seat SMS Scramble</a></li>
+            <li><a href="/homeowner" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Homeowner Command Center</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Standards & Legal -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #F27A22; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Standards &amp; Legal
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><span style="color: #FAF6EE; opacity: 0.8; font-size: 0.85rem;">Anti-Angi 3-Seat Monopoly Law</span></li>
+            <li><a href="/design-system-guide" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Rowdies Design System Tokens</a></li>
+            <li><a href="/log-in" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Zero-Data-Loss Sign In</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mirrored Bottom Copyright Bar -->
+    <div class="footer-mirror-bottom">
+      <div>
+        <span>© 2026 Fence Frames LLC. All rights reserved.</span>
+      </div>
+      <div>
+        <span>King County, Washington · Piloting at Si View, North Bend, WA</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

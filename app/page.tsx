@@ -9,16 +9,18 @@ import { SiteFooter } from "@/components/ff/site-footer"
 
 export default function HomePage() {
   return (
-    <div id="top">
-      <SiteNav />
-      <main className="wrap" style={{ paddingTop: "2rem" }}>
-        <Hero />
-        <FrameIt />
-        <FenceIt />
-        <FenceFolio />
-        <FinalCta />
-      </main>
-      <SiteFooter />
-    </div>
+    <ModalProvider>
+      <div id="top">
+        <SiteNav />
+        <main className="wrap" style={{ paddingTop: "2rem" }}>
+          <Hero />
+          <FrameIt />
+          <FenceIt />
+          <FenceFolio />
+          <FinalCta />
+        </main>
+        <SiteFooter />
+      </div>
+    </ModalProvider>
   )
 }

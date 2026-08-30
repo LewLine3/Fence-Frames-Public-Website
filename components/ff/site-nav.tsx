@@ -1,121 +1,114 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import styles from "./site-nav.module.css"
+import { useModal } from "./modal-provider"
+
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+}
 
 export function SiteNav() {
-  const [open, setOpen] = useState(false)
-  const wrapRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    function onDocClick(e: MouseEvent) {
-      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener("click", onDocClick)
-    return () => document.removeEventListener("click", onDocClick)
-  }, [])
+  const { openModal } = useModal()
 
   return (
-    <header className={styles.ffChromeNav}>
-      <div className={styles.inner}>
-        <div className={styles.left}>
-          <a className={styles.brand} href="/" aria-label="Fence Frames home">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/fence-frames-logo-icon.svg"
-              alt=""
-              width={46}
-              height={46}
-              style={{ width: 46, height: 46, objectFit: "contain", filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.6))", flexShrink: 0 }}
-            />
-            <span className={styles.brandName}>
-              <span style={{ color: "#4ADE80" }}>Fence</span>&nbsp;
-              <span style={{ color: "#E5B842" }}>Frames</span>
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <div className="nav-left">
+          <a className="brand" href="#top" aria-label="Fence Frames home">
+            <span className="name">
+              <span className="nav-fence">Fence</span>&nbsp;<span className="nav-frames">Frames</span>
+            </span>
+            <span className="home-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  className="fi-grass"
+                  d="M2 20c2-2.4 4-2.4 5.5-.6C9 21.2 11 21.2 12 19c1-2.2 3-2.2 4.5-.4C18 20.4 20 20.4 22 18"
+                  fill="none"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  className="fi-fence"
+                  d="M4 20V9M4 9l-2 3M4 9l2 3M9.5 20V7M9.5 7l-2 3M9.5 7l2 3M15 20V9M15 9l-2 3M15 9l2 3M20.5 20V11M20.5 11l-2 3M20.5 11l2 3"
+                  fill="none"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path className="fi-rail" d="M2.5 13.5h19M2.5 17h19" fill="none" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
             </span>
           </a>
-
-          <nav className={styles.pillars} aria-label="Three pillars">
-            <a href="/geo-north-bend.html" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
-              <span className={styles.pillarDot} />
-              <span className={styles.pillarLabel}>Find It</span>
-              <span className={styles.pillarSub}>(Location)</span>
-            </a>
-            <a href="/catalog-hub.html" className={`${styles.pillar} ${styles.pillarFrame}`} title="Step 2 · Catalog & Designer">
-              <span className={styles.pillarDot} />
-              <span className={styles.pillarLabel}>Frame It</span>
-              <span className={styles.pillarSub}>(Design)</span>
-            </a>
-            <a href="/blueprint" className={`${styles.pillar} ${styles.pillarFence}`} title="Step 3 · Blueprints & Takeoff">
-              <span className={styles.pillarDot} />
-              <span className={styles.pillarLabel}>Fence It</span>
-              <span className={styles.pillarSub}>(Build)</span>
-            </a>
-          </nav>
         </div>
 
-        <div className={styles.end}>
-          <div className={styles.accounts} ref={wrapRef}>
-            <button type="button" className={styles.accountsBtn} aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-              <span>👤</span>
-              <span>Accounts</span>
-              <span style={{ fontSize: 9, opacity: 0.8 }}>▼</span>
+        <div className="nav-mid" id="navMid">
+          <div className="nav-dd" data-dd="find">
+            <button
+              type="button"
+              className="nav-dd-trigger nav-dd-trigger--step"
+              aria-expanded="false"
+              onClick={() => openModal("modal-hoa")}
+            >
+              <span className="nav-step-label">Find It</span>
+              <span className="nav-step-sub">(Location)</span>
             </button>
-            <div className={`${styles.accountsMenu} ${open ? styles.accountsMenuOpen : ""}`} role="menu">
-              <div
-                style={{
-                  padding: "4px 8px 6px",
-                  borderBottom: "1px solid rgba(255,255,255,0.1)",
-                  fontSize: 10,
-                  color: "#E5B842",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                Select Account Portal
-              </div>
-              <a href="/homeowner" className={styles.accountItem}>
-                <span>🏡</span>
-                <div>
-                  <span className={styles.accountTitle} style={{ color: "#4ADE80" }}>
-                    Homeowner Account
-                  </span>
-                  <span className={styles.accountSub}>Saved Fence-Folios &amp; 3-Bid Tracker</span>
-                </div>
-              </a>
-              <a href="/contractors-hub.html" className={styles.accountItem}>
-                <span>🔨</span>
-                <div>
-                  <span className={styles.accountTitle} style={{ color: "#F27A22" }}>
-                    Contractor Account
-                  </span>
-                  <span className={styles.accountSub}>72-Hr Job Feed &amp; Live SMS Bids</span>
-                </div>
-              </a>
-              <a href="/geo-si-view.html" className={styles.accountItem}>
-                <span>🏛️</span>
-                <div>
-                  <span className={styles.accountTitle} style={{ color: "#E5B842" }}>
-                    HOA Official Account
-                  </span>
-                  <span className={styles.accountSub}>ARC Committee Portal &amp; Bylaw Standards</span>
-                </div>
-              </a>
-              <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "2px 0" }} />
-              <a href="/log-in" className={styles.accountItem}>
-                <span>🔑</span>
-                <div>
-                  <span className={styles.accountTitle} style={{ color: "#FAF6EE" }}>
-                    Sign In / Switch Role
-                  </span>
-                  <span className={styles.accountSub}>Zero-Data-Loss Phone OTP Auth</span>
-                </div>
-              </a>
-            </div>
           </div>
-          <a href="/designer" className={styles.newBuild}>
-            + New Build
+
+          <a
+            className="nav-text-link"
+            href="#communities"
+            onClick={(e) => {
+              e.preventDefault()
+              openModal("modal-hoa")
+            }}
+          >
+            Communities (140+)
           </a>
+
+          <div className="nav-dd" data-dd="frame">
+            <button
+              type="button"
+              className="nav-dd-trigger nav-dd-trigger--step"
+              aria-expanded="false"
+              onClick={() => scrollTo("frame-pillar")}
+            >
+              <span className="nav-step-label">Frame It</span>
+              <span className="nav-step-sub">(Design)</span>
+            </button>
+          </div>
+
+          <a
+            className="nav-text-link nav-text-link--contractors"
+            href="#contractors"
+            onClick={(e) => {
+              e.preventDefault()
+              openModal("modal-contractor")
+            }}
+          >
+            Contractors
+          </a>
+
+          <div className="nav-dd" data-dd="fence">
+            <button
+              type="button"
+              className="nav-dd-trigger nav-dd-trigger--step"
+              aria-expanded="false"
+              onClick={() => openModal("modal-blueprint")}
+            >
+              <span className="nav-step-label">Fence It</span>
+              <span className="nav-step-sub">(Build)</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="nav-end" id="navRightZone" style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <button
+            className="ff-btn btn-gold btn-chamfer"
+            style={{ padding: "0.45rem 1rem", fontSize: "0.84rem" }}
+            onClick={() => openModal("modal-signin")}
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </header>

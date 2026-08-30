@@ -75,7 +75,7 @@
     "  background: #141B16; border: 2px solid var(--ff-gold); border-radius: 6px;" +
     "  box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 100; padding: 6px; flex-direction: column; gap: 2px;" +
     "}" +
-    "#ff-site-header-root .ff-accounts-menu.open { display: flex; }" +
+    "#ff-site-header-root .ff-accounts-menu.open, #ff-site-header-root .ff-accounts-menu.is-open { display: flex; }" +
     "#ff-site-header-root .ff-account-item {" +
     "  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 4px;" +
     "  text-decoration: none; color: #FAF6EE; transition: background 0.15s ease;" +
@@ -104,7 +104,7 @@
     '        <span class="ff-brand-name"><span style="color:#4ADE80;">Fence</span>&nbsp;<span style="color:#E5B842;">Frames</span></span>' +
     "      </a>" +
     '      <nav class="ff-pillars" aria-label="Three pillars">' +
-    '        <a href="/geo-north-bend.html" class="ff-pillar ff-pillar-find" title="Step 1 · Code & HOA Matcher">' +
+    '        <a href="/geo-city.html" class="ff-pillar ff-pillar-find" title="Step 1 · Code & HOA Matcher">' +
     '          <span class="ff-pillar-dot"></span><span class="ff-pillar-label">Find It</span><span class="ff-pillar-sub">(Location)</span>' +
     "        </a>" +
     '        <a href="/catalog-hub.html" class="ff-pillar ff-pillar-frame" title="Step 2 · Catalog & Designer">' +
@@ -124,7 +124,7 @@
     '          <div style="padding:4px 8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;color:#E5B842;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Select Account Portal</div>' +
     '          <a href="/homeowner" class="ff-account-item"><span>🏡</span><div><span class="ff-account-title" style="color:#4ADE80;">Homeowner Account</span><span class="ff-account-sub">Saved Fence-Folios &amp; 3-Bid Tracker</span></div></a>' +
     '          <a href="/contractors-hub.html" class="ff-account-item"><span>🔨</span><div><span class="ff-account-title" style="color:#F27A22;">Contractor Account</span><span class="ff-account-sub">72-Hr Job Feed &amp; Live SMS Bids</span></div></a>' +
-    '          <a href="/geo-si-view.html" class="ff-account-item"><span>🏛️</span><div><span class="ff-account-title" style="color:#E5B842;">HOA Official Account</span><span class="ff-account-sub">ARC Committee Portal &amp; Bylaw Standards</span></div></a>' +
+    '          <a href="/geo-community.html" class="ff-account-item"><span>🏛️</span><div><span class="ff-account-title" style="color:#E5B842;">HOA Official Account</span><span class="ff-account-sub">ARC Committee Portal &amp; Bylaw Standards</span></div></a>' +
     '          <div style="height:1px;background:rgba(255,255,255,0.1);margin:2px 0;"></div>' +
     '          <a href="/log-in" class="ff-account-item"><span>🔑</span><div><span class="ff-account-title" style="color:#FAF6EE;">Sign In / Switch Role</span><span class="ff-account-sub">Zero-Data-Loss Phone OTP Auth</span></div></a>' +
     "        </div>" +

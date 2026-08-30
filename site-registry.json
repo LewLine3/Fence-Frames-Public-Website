@@ -181,6 +181,56 @@
       "sections": {
         "SEC-01-APPROVED": "Approved brand assets"
       }
+    },
+    {
+      "pageId": "GEO-COM-01",
+      "pageTitle": "Si View HOA Standards & Downloads",
+      "tier": "Tier-1",
+      "route": "/wa/king-county/north-bend/si-view",
+      "srcFile": "public/geo-community.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Flagship HOA community standards page with 24-slot fact matrix and downloads dock",
+      "sections": {
+        "SEC-01-HERO": "Certified ARC standards hero",
+        "SEC-02-DOWNLOADS": "Dedicated HOA downloadables dock (PDF checklist, worksheet, stain card, takeoff)",
+        "SEC-03-DESIGNS": "4 pre-approved designs 2x2 grid",
+        "SEC-04-MATRIX": "24-attribute build fact matrix",
+        "SEC-05-PROCESS": "PayHOA 4-step submission workflow"
+      }
+    },
+    {
+      "pageId": "GEO-CIT-01",
+      "pageTitle": "North Bend City Hub & Communities",
+      "tier": "Tier-1",
+      "route": "/wa/king-county/north-bend",
+      "srcFile": "public/geo-city.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "Flagship municipal city hub and SEO anchor with wind load guidelines and community index",
+      "sections": {
+        "SEC-01-HERO": "North Bend regulations hero",
+        "SEC-02-WIND": "Mt. Si 80mph wind corridor advisory",
+        "SEC-03-BYLAWS": "Municipal setbacks and Call-811 table",
+        "SEC-04-COMMUNITIES": "6-community directory repeater",
+        "SEC-05-PROS": "Verified North Bend licensed fence builders",
+        "SEC-06-GUIDE": "Crawler-first municipal guide article"
+      }
+    },
+    {
+      "pageId": "GEO-COU-01",
+      "pageTitle": "King County Hub & 17-City Directory",
+      "tier": "Tier-1",
+      "route": "/wa/king-county",
+      "srcFile": "public/geo-county.html",
+      "renderType": "STATIC",
+      "status": "live",
+      "description": "County regional directory with Green Zone status and 17 launch cities",
+      "sections": {
+        "SEC-01-HERO": "King County hub hero & Green Zone badge",
+        "SEC-02-CITIES": "Alphabetical 17-cities directory grid",
+        "SEC-03-CLIMATE": "Pacific Northwest soil and rainfall engineering guidelines"
+      }
     }
   ]
 }

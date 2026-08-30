@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>King County, WA Fence Standards, Municipal Codes & City Guides | Fence Frames</title>
+  <meta name="description" content="Explore residential fence regulations, building codes, and community HOA standards across all 17 cities in King County, Washington. Compare local bylaws in North Bend, Bellevue, Sammamish, Redmond, and Snoqualmie." />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Schema.org Structured Data (JSON-LD) for County Regional SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Washington", "item": "https://fenceframes.com/wa" },
+          { "@type": "ListItem", "position": 2, "name": "King County", "item": "https://fenceframes.com/wa/king-county" }
+        ]
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "King County, Washington",
+        "description": "Comprehensive regional directory of residential fence building regulations, HOA guidelines, and verified fencing contractors across King County, WA."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --forest-deep: #16432D;
+      --ink-forest: #141B16;
+      --parchment: #F4ECDC;
+      --parchment-card: #FAF6EE;
+      --ink: #1A1A1A;
+      --radius: 5px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--parchment);
+      background-image: 
+        linear-gradient(rgba(22, 67, 45, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    .rowdies-700 { font-family: 'Rowdies', sans-serif; font-weight: 700; }
+    .rowdies-400 { font-family: 'Rowdies', sans-serif; font-weight: 400; }
+    .rowdies-300 { font-family: 'Rowdies', sans-serif; font-weight: 300; }
+
+    /* Outside Chamfer Corner Marks */
+    .has-outside-corners { position: relative; }
+    .corner-mark-out {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      pointer-events: none;
+      z-index: 15;
+      --mark-th: 5px;
+      --mark-tip: 20px;
+      --mark-c: var(--gold-sun);
+    }
+    .corner-mark-out::before, .corner-mark-out::after {
+      content: "";
+      position: absolute;
+      background: var(--mark-c);
+    }
+    .corner-mark-out.tl { top: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, calc(100% - var(--mark-tip)) 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tl::after { top: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.tr { top: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.tr::before { top: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%); }
+    .corner-mark-out.tr::after { top: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% 0, 0 100%, 0 calc(100% - var(--mark-tip))); }
+
+    .corner-mark-out.bl { bottom: calc(-1 * var(--mark-th)); left: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.bl::before { bottom: 0; left: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+    .corner-mark-out.bl::after { bottom: 0; left: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 var(--mark-tip), 100% 0, 100% 100%, 0 100%); }
+
+    .corner-mark-out.br { bottom: calc(-1 * var(--mark-th)); right: calc(-1 * var(--mark-th)); }
+    .corner-mark-out.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-th); clip-path: polygon(0 0, 100% 0, 100% 100%, var(--mark-tip) 100%); }
+    .corner-mark-out.br::after { bottom: 0; right: 0; width: var(--mark-th); height: 100%; clip-path: polygon(0 0, 100% var(--mark-tip), 100% 100%, 0 100%); }
+
+    .c-forest { --mark-c: var(--forest-bright); }
+    .c-gold { --mark-c: var(--gold-sun); }
+    .c-ember { --mark-c: var(--ember); }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    /* Top Container Spacing */
+    .top-container-wrap {
+      margin-top: 2.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--forest-deep);
+      margin-bottom: 1.25rem;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 400;
+    }
+    .breadcrumbs a {
+      color: var(--forest-deep);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(22, 67, 45, 0.3);
+    }
+    .breadcrumbs a:hover { color: var(--ember); border-color: var(--ember); }
+    .breadcrumbs .current { color: var(--ink); font-weight: 700; }
+
+    /* GREEN GRID PROOF CONTAINER (County Hero) */
+    .proof-container-green-grid {
+      background-color: var(--ink-forest);
+      background-image: 
+        linear-gradient(rgba(74, 222, 128, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.14) 1px, transparent 1px);
+      background-size: 20px 20px;
+      border: 3px solid var(--ink);
+      border-radius: var(--radius);
+      color: #FAF6EE;
+      padding: 2.2rem 2.4rem;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+    .proof-badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .badge-zone-green {
+      background: #16432D;
+      border: 1.5px solid var(--forest-bright);
+      color: var(--forest-bright);
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-region {
+      background: rgba(229, 184, 66, 0.18);
+      border: 1.5px solid var(--gold-sun);
+      color: var(--gold-sun);
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .county-hero-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0 0 0.6rem;
+      line-height: 1.15;
+    }
+    .county-hero-title span { color: var(--gold-sun); }
+    .county-hero-sub {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #FAF6EE;
+      opacity: 0.92;
+      max-width: 880px;
+      margin: 0 0 1.6rem;
+      line-height: 1.45;
+    }
+
+    /* Section Headers */
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+    .section-tag {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ember);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* 17-CITIES DIRECTORY GRID (PRIMARY VIEWING ITEM) */
+    .cities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+    .city-card-item {
+      background: #FAF6EE;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .city-card-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--forest-deep);
+    }
+    .city-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .city-name {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .city-badge-tag {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .tag-pilot { background: #16432D; color: var(--forest-bright); border: 1px solid var(--forest-bright); }
+    .tag-live { background: #E6F4EA; color: #137333; border: 1px solid #137333; }
+    .tag-soon { background: #F1ECE1; color: #777; border: 1px solid #CCC; }
+
+    .city-communities-list {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0 0 1rem;
+      line-height: 1.4;
+    }
+    .city-link-action {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ember);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dotted #d8cfbe;
+      padding-top: 8px;
+    }
+
+    /* PACIFIC NORTHWEST CLIMATE & SOIL GUIDE */
+    .pnw-climate-card {
+      background: #FFFFFF;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+    .pnw-climate-card h2 {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--forest-deep);
+      margin: 0 0 1rem;
+    }
+    .climate-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .climate-col h3 {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 6px;
+    }
+    .climate-col p {
+      font-size: 0.85rem;
+      color: #4A4A4A;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* CANONICAL GLOBAL FOOTER MIRROR */
+    .footer-nav-mirror {
+      background: linear-gradient(165deg, #1a3d2a 0%, #0f281c 55%, #0a1a12 100%);
+      color: #FAF6EE;
+      border-top: 4px solid var(--forest-deep);
+      position: relative;
+    }
+    .footer-nav-mirror::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(196,173,152,0.06) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(196,173,152,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .footer-grid-wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3.5rem;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .footer-grid-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .footer-mirror-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.2rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: #FAF6EE;
+      opacity: 0.8;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Universal Global Header Injection Point -->
+  <div id="ff-universal-header"></div>
+  <script src="/js/ff-site-header.js" defer></script>
+
+  <main class="container" id="main-content">
+
+    <!-- Breadcrumbs -->
+    <div style="padding-top: 1.25rem;">
+      <nav class="breadcrumbs" aria-label="Breadcrumbs" data-interactive-target="breadcrumb-nav">
+        <a href="/">Home</a>
+        <span>›</span>
+        <a href="/geo-county.html">Washington</a>
+        <span>›</span>
+        <span class="current">King County Hub</span>
+      </nav>
+    </div>
+
+    <!-- 2. TOP GREEN GRID PROOF CONTAINER (SPACED & ELEVATED) -->
+    <div class="top-container-wrap">
+      <header class="proof-container-green-grid has-outside-corners" data-interactive-target="county-hero">
+        <div class="corner-mark-out tl c-gold"></div>
+        <div class="corner-mark-out tr c-forest"></div>
+        <div class="corner-mark-out bl c-forest"></div>
+        <div class="corner-mark-out br c-gold"></div>
+
+        <div class="proof-badge-strip">
+          <span class="badge-zone-green">🟢 Green Zone: Established Network</span>
+          <span class="badge-region">🌲 Western Washington Hub</span>
+        </div>
+
+        <h1 class="county-hero-title">
+          King County, WA <span>Fence Standards</span> &amp; City Guides
+        </h1>
+        <p class="county-hero-sub">
+          We have an active network of verified, licensed fence contractors across King County. Browse municipal building codes, setback regulations, and HOA standards across all 17 cities below.
+        </p>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2;">
+          <a href="/configure" class="city-link-action" style="background:var(--gold-sun);color:var(--ink);border:2px solid #000;border-radius:4px;padding:11px 22px;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;" data-interactive-target="configure-any-btn">
+            <span>⚡ Design a King County Fence</span>
+            <span>→</span>
+          </a>
+          <a href="#cities" class="city-link-action" style="background:#141B16;border:2px solid var(--forest-bright);color:var(--forest-bright);border-radius:4px;padding:11px 20px;font-size:0.95rem;text-decoration:none;">
+            <span>Browse 17 Launch Cities</span>
+          </a>
+        </div>
+      </header>
+    </div>
+
+    <!-- 3. MAIN VIEWING ITEM: 17-CITIES & COMMUNITIES DIRECTORY -->
+    <section id="cities" style="margin-bottom:3.5rem;" data-interactive-target="cities-directory">
+      <div class="section-header">
+        <span class="section-tag">Municipal &amp; HOA Indexes</span>
+        <h2 class="section-title">King County Cities Directory</h2>
+        <p style="margin:4px 0 0;font-size:0.92rem;color:#555;">
+          Select a city to view local municipal setback rules, wind corridor requirements, and community HOA profiles.
+        </p>
+      </div>
+
+      <div class="cities-grid">
+        <!-- North Bend (Flagship) -->
+        <a href="/geo-city.html" class="city-card-item has-outside-corners" data-interactive-target="city-north-bend">
+          <div class="corner-mark-out tl c-forest"></div>
+          <div class="corner-mark-out br c-forest"></div>
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">North Bend</h3>
+              <span class="city-badge-tag tag-pilot">Flagship Pilot</span>
+            </div>
+            <p class="city-communities-list">
+              Si View HOA, Forster Woods, Riverbend, Wilderness Rim, Cedar Landing, Timberstone.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Snoqualmie -->
+        <a href="/geo-city.html?city=snoqualmie" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Snoqualmie</h3>
+              <span class="city-badge-tag tag-live">Active Wave</span>
+            </div>
+            <p class="city-communities-list">
+              Snoqualmie Ridge (ROA), Koinonia Ridge, Downtown Historic Corridor.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Bellevue -->
+        <a href="/geo-city.html?city=bellevue" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Bellevue</h3>
+              <span class="city-badge-tag tag-live">Active Wave</span>
+            </div>
+            <p class="city-communities-list">
+              Somerset Community Association, Lakemont, Newport Hills, Enatai.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Issaquah -->
+        <a href="/geo-city.html?city=issaquah" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Issaquah</h3>
+              <span class="city-badge-tag tag-live">Active Wave</span>
+            </div>
+            <p class="city-communities-list">
+              Issaquah Highlands (IHCA), Talus, Montreux, Squak Mountain.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Sammamish -->
+        <a href="/geo-city.html?city=sammamish" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Sammamish</h3>
+              <span class="city-badge-tag tag-live">Active Wave</span>
+            </div>
+            <p class="city-communities-list">
+              Klahanie, Sahalee, Trossachs, Summer Ridge, Hampton Woods.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Redmond -->
+        <a href="/geo-city.html?city=redmond" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Redmond</h3>
+              <span class="city-badge-tag tag-live">Active Wave</span>
+            </div>
+            <p class="city-communities-list">
+              Redmond Ridge, Trilogy at Redmond Ridge, Northstar HOA.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Kirkland -->
+        <a href="/geo-city.html?city=kirkland" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Kirkland</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Kingsgate 3 &amp; 4, Kingsgate 5, Juanita Bluffs, Finn Hill.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Maple Valley -->
+        <a href="/geo-city.html?city=maple-valley" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Maple Valley</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Crystal Firs HOA, Wilderness Ridge, Glacier Valley.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Renton -->
+        <a href="/geo-city.html?city=renton" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Renton</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Fairwood Greens, Kennydale Neighborhood Association.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Covington -->
+        <a href="/geo-city.html?city=covington" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Covington</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Timberlane Community Association, Wingate HOA.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Carnation -->
+        <a href="/geo-city.html?city=carnation" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Carnation</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Swiftwater HOA, Tolt Highlands, Valley Farmlands.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Fall City -->
+        <a href="/geo-city.html?city=fall-city" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Fall City</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Lake Alice Community Association, Riverview Firs.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Preston -->
+        <a href="/geo-city.html?city=preston" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Preston</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Preston Ridge, High Point Corridor.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Hobart -->
+        <a href="/geo-city.html?city=hobart" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Hobart</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Mirrormont Community Association.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Woodinville -->
+        <a href="/geo-city.html?city=woodinville" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Woodinville</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Hollywood Hill, Country Wood Estates.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Mercer Island -->
+        <a href="/geo-city.html?city=mercer-island" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Mercer Island</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              East Seattle, First Hill, Parkwood.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+
+        <!-- Clyde Hill -->
+        <a href="/geo-city.html?city=clyde-hill" class="city-card-item">
+          <div>
+            <div class="city-card-top">
+              <h3 class="city-name">Clyde Hill</h3>
+              <span class="city-badge-tag tag-soon">Target Intake</span>
+            </div>
+            <p class="city-communities-list">
+              Clyde Hill Custom Estate Fencing.
+            </p>
+          </div>
+          <div class="city-link-action">
+            <span>View City &amp; HOA Guide</span>
+            <span>→</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. PACIFIC NORTHWEST CLIMATE & SOIL ENGINEERING -->
+    <article class="pnw-climate-card" data-interactive-target="climate-guide">
+      <h2>Pacific Northwest Climate &amp; Soil Guidelines (King County)</h2>
+      <div class="climate-columns">
+        <div class="climate-col">
+          <h3>🌧️ Moisture &amp; Fungal Rot Prevention</h3>
+          <p>
+            King County receives an average of 38 to 65 inches of annual rainfall. Wood fence posts set directly in soil require pressure-treated incised lumber (AWPA UC4A ground-contact grade) to prevent rot. Cedar posts are recommended only when paired with post sleeves or steel pipe brackets (e.g. PostMaster).
+          </p>
+        </div>
+        <div class="climate-col">
+          <h3>❄️ Frost Line &amp; Footing Depth</h3>
+          <p>
+            The standard King County winter frost depth is 12 to 18 inches. Post footings must be excavated to a minimum depth of 24 inches (30 inches for 8ft gates or high-wind zones) with a 4-inch crushed rock drainage base to prevent winter frost heave and water pooling.
+          </p>
+        </div>
+        <div class="climate-col">
+          <h3>🌲 Western Red Cedar Advantage</h3>
+          <p>
+            Western Red Cedar (Thuja plicata) contains natural thujaplicins and tannins that resist Pacific Northwest dampness, moss growth, and insect infestation. Applying a semi-transparent UV-inhibiting stain every 3 to 5 years preserves the natural grain and structural longevity.
+          </p>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MASTER UNIVERSAL FOOTER (DARKENED FOREST-TO-BLACK GRADIENT MIRROR)        -->
+  <!-- ========================================================================= -->
+  <footer class="footer-nav-mirror" style="overflow: hidden; position: relative;">
+    <div class="footer-grid-wrap">
+      
+      <!-- Col 1: Brand, Logo & Assurances -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="/images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));" />
+          <span style="font-family: 'Rowdies', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;">
+            <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
+          </span>
+        </a>
+        <p style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #FAF6EE; opacity: 0.85; line-height: 1.6; max-width: 380px; font-weight: 300; margin: 0;">
+          The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.7rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4);">
+            ✓ ZERO DATA LOSS
+          </span>
+          <span style="font-size: 0.7rem; color: #E5B842; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(229,184,66,0.4);">
+            ✓ 3-SEAT CAPPED PROS
+          </span>
+        </div>
+      </div>
+
+      <!-- Right 3-Column Navigation Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem;">
+        
+        <!-- Column 1: Find & Frame -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #E5B842; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Find &amp; Frame
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/geo-city.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">City of North Bend Codes</a></li>
+            <li><a href="/geo-community.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Si View HOA Pre-Approved ARC</a></li>
+            <li><a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">12+ Architectural Style Catalog</a></li>
+            <li><a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Universal 2D CAD Configurator</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Fence & Pros -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Fence &amp; Pros
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/blueprint" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Portrait 8.5" × 11" ARC Blueprints</a></li>
+            <li><a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">72-Hour Contractor Job Board</a></li>
+            <li><a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Live 3-Seat SMS Scramble</a></li>
+            <li><a href="/homeowner" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Homeowner Command Center</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Standards & Legal -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #F27A22; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem;">
+            Standards &amp; Legal
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><span style="color: #FAF6EE; opacity: 0.8; font-size: 0.85rem;">Anti-Angi 3-Seat Monopoly Law</span></li>
+            <li><a href="/design-system-guide" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Rowdies Design System Tokens</a></li>
+            <li><a href="/log-in" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem;">Zero-Data-Loss Sign In</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mirrored Bottom Copyright Bar -->
+    <div class="footer-mirror-bottom">
+      <div>
+        <span>© 2026 Fence Frames LLC. All rights reserved.</span>
+      </div>
+      <div>
+        <span>King County, Washington · Piloting at Si View, North Bend, WA</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
