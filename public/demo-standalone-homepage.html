@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Frame Your Vision | Find Your Fence</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta name="description" content="Fence Frames is a modern fence design platform built by a former fencing contractor. Design your fence, generate HOA-ready blueprints, and match with 3 vetted local contractors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Ensure visibility for all sections */
+    .reveal, .js .reveal { opacity: 1 !important; transform: none !important; }
+    /* Inline Prototype Enhancements */
+    .proto-hero-split {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 1.8rem;
+      align-items: stretch;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 980px) {
+      .proto-hero-split { grid-template-columns: 1fr; }
+      .folio-two-col-layout { grid-template-columns: 1fr !important; }
+    }
+
+    .proto-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+
+    /* Enhanced Gold/Yellow Palette Options */
+    :root {
+      --gold-sun: #E5B842;    /* Architectural Sunlit Warm Gold (Recommended) */
+      --gold-brass: #D4AF37;  /* Classic Drafting Brass Metallic */
+      --gold-bright: #F5C84C; /* Vibrant CAD Highlight Canary Gold */
+    }
+    .c-gold { --mark-c: var(--gold-sun); }
+
+    /* Clean High-Readability Step Text Boxes (Subtle White Overlay) */
+    .step-copy-box {
+      background: rgba(254, 252, 248, 0.90);
+      backdrop-filter: blur(3px);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.6rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      position: relative;
+      width: fit-content;
+      max-width: 100%;
+    }
+    .find-controls-box {
+      background: rgba(254, 252, 248, 0.90);
+      backdrop-filter: blur(3px);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.6rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+
+    /* Outlined Ticket Cut Button: Solid 2px Black Perimeter Following Chamfers */
+    .btn-cut-outlined {
+      position: relative;
+      background: var(--ink);
+      padding: 2px;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      display: block;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      transition: transform 0.1s ease;
+    }
+    .btn-cut-outlined:hover {
+      transform: translateY(-1px);
+    }
+    .btn-cut-outlined > .btn-cut-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      clip-path: polygon(0 0, calc(100% - 10.5px) 0, 100% 10.5px, 100% 100%, 10.5px 100%, 0 calc(100% - 10.5px));
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-cut-outlined:hover > .btn-cut-inner {
+      background: #F5C84C;
+    }
+
+    /* Modal / Drawer Overlay System */
+    .ff-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 12, 0.78);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .ff-modal-backdrop.active {
+      display: flex;
+    }
+    .ff-modal-box {
+      background: #FAF6EE;
+      border: 3px solid var(--ink);
+      border-radius: var(--radius);
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .ff-modal-header {
+      background: #141B16;
+      color: #FAF6EE;
+      padding: 1rem 1.4rem;
+      border-bottom: 2.5px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ff-modal-close {
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .ff-modal-body {
+      padding: 1.5rem;
+    }
+
+    /* Interactive Live Folio Spine Tabs */
+    .folio-spine-strip {
+      background: #141B16;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      color: #FAF6EE;
+      margin-bottom: 3.5rem;
+      overflow: hidden;
+    }
+    .folio-spine-nav {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-bottom: 2px solid var(--gold);
+    }
+    @media (max-width: 820px) {
+      .folio-spine-nav { grid-template-columns: repeat(3, 1fr); }
+    }
+    .folio-tab-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid rgba(217, 184, 114, 0.25);
+      color: #DBD0BD;
+      padding: 0.9rem 0.5rem;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      text-align: center;
+    }
+    .folio-tab-btn:last-child { border-right: none; }
+    .folio-tab-btn.active {
+      background: var(--gold);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .folio-tab-btn span {
+      display: block;
+      font-size: 0.68rem;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    /* Contractor 3-Seat Badges */
+    .seat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(194, 98, 45, 0.15);
+      border: 1.5px solid var(--ember);
+      border-radius: 3px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP GLOBAL NAVIGATION BAR (LOCKED FENCE FRAMES STANDARD)              -->
+  <!-- ========================================================================= -->
+  <header class="nav">
+    <div class="wrap nav-inner" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      
+      <!-- Left: Brand Wordmark + 3 Tucked-Left Dark Pillar Buttons -->
+      <div class="nav-left-suite">
+        <a class="brand" href="#top" aria-label="Fence Frames home" style="display: flex; align-items: center; gap: 8px;">
+          <span class="home-ico" aria-hidden="true" style="width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;">
+            <img src="images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />
+          </span>
+          <span class="name"><span class="nav-fence" style="color: #4ADE80;">Fence</span>&nbsp;<span class="nav-frames" style="color: #E5B842;">Frames</span></span>
+        </a>
+
+        <!-- 3 Dark Box Pillar Buttons (Canon Phase Colors) -->
+        <nav class="nav-pillar-group hidden sm:flex">
+          <!-- Pillar 1: Find It -->
+          <a href="/geo-north-bend.html" class="nav-pillar-box nav-pillar-find" title="Step 1 · Code & HOA Matcher">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Find It</span>
+            <span class="nav-pillar-sub">(Location)</span>
+          </a>
+
+          <!-- Pillar 2: Frame It -->
+          <a href="/catalog-hub.html" class="nav-pillar-box nav-pillar-frame" title="Step 2 · Architectural Catalog & Designer">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Frame It</span>
+            <span class="nav-pillar-sub">(Design)</span>
+          </a>
+
+          <!-- Pillar 3: Fence It -->
+          <a href="/blueprint-standalone.html" class="nav-pillar-box nav-pillar-fence" title="Step 3 · Blueprints & Takeoff Ledger">
+            <span class="nav-pillar-dot"></span>
+            <span class="nav-pillar-label">Fence It</span>
+            <span class="nav-pillar-sub">(Build)</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right: Accounts Dropdown (Non-Master Admin Roles) + Action CTA -->
+      <div class="nav-end" style="display: flex; align-items: center; gap: 10px;">
+        
+        <!-- Members / Accounts Dropdown -->
+        <div class="nav-accounts-wrapper">
+          <button type="button" class="nav-accounts-trigger" onclick="this.nextElementSibling.classList.toggle('is-open')">
+            <span>👤</span>
+            <span>Accounts</span>
+            <span style="font-size: 9px; opacity: 0.8;">▼</span>
+          </button>
+
+          <!-- Dropdown Menu (Contractor, HOA Official, Homeowner) -->
+          <div class="nav-accounts-menu">
+            <div style="padding: 4px 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: #E5B842; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              Select Account Portal
+            </div>
+            
+            <!-- Homeowner Account -->
+            <a href="/homeowner-dashboard.html" class="nav-account-item">
+              <span class="account-icon">🏡</span>
+              <div>
+                <span class="account-title" style="color: #4ADE80;">Homeowner Account</span>
+                <span class="account-sub">Saved Fence-Folios &amp; 3-Bid Tracker</span>
+              </div>
+            </a>
+
+            <!-- Contractor Account -->
+            <a href="/contractors-hub.html" class="nav-account-item">
+              <span class="account-icon">🔨</span>
+              <div>
+                <span class="account-title" style="color: #F27A22;">Contractor Account</span>
+                <span class="account-sub">72-Hr Job Feed &amp; Live SMS Bids</span>
+              </div>
+            </a>
+
+            <!-- HOA Official Account -->
+            <a href="/geo-si-view.html" class="nav-account-item">
+              <span class="account-icon">🏛️</span>
+              <div>
+                <span class="account-title" style="color: #E5B842;">HOA Official Account</span>
+                <span class="account-sub">ARC Committee Portal &amp; Bylaw Standards</span>
+              </div>
+            </a>
+
+            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 2px 0;"></div>
+
+            <!-- Sign In / Phone Auth -->
+            <a href="/auth-gate.html" class="nav-account-item">
+              <span class="account-icon">🔑</span>
+              <div>
+                <span class="account-title" style="color: #FAF6EE;">Sign In / Switch Role</span>
+                <span class="account-sub">Zero-Data-Loss Phone OTP Auth</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- New Build CTA Button -->
+        <a href="/designer" class="ff-btn btn-gold btn-chamfer" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
+          + New Build
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN PROTOTYPE WORKSPACE WRAPPER                                       -->
+  <!-- ========================================================================= -->
+  <main class="wrap" style="padding-top: 2rem;">
+
+    <!-- ========================================================================= -->
+    <!-- HERO SECTION: OPTION 1 CANONICAL GREEN GRID HERO + CEDAR WOOD GRAIN CARD   -->
+    <!-- ========================================================================= -->
+    <section class="proto-hero-split has-outside-corners" style="position:relative; background:linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(180deg, rgba(20,27,22,0.92) 0%, rgba(22,67,45,0.85) 100%), url('data:image/jpeg;base64,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') center/cover; border:2.5px solid var(--ink); border-radius:var(--radius); padding:2rem; color:#FAF6EE; box-shadow:0 10px 30px rgba(0,0,0,0.3); margin-bottom:2.5rem;">
+      <span class="corner-mark-out tl c-gold"></span>
+      <span class="corner-mark-out br c-orange" style="z-index:2;"></span>
+
+      <!-- Left: Open Layout Hero Brand & Authored 3-Pillars Narrative (Crisp White Text on Green Canvas) -->
+      <div style="display:flex; flex-direction:column; justify-content:space-between; gap:1.2rem;">
+        <div>
+          <!-- Tagline Badge -->
+          <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(229,184,66,0.18); border:1.5px solid var(--gold-sun); border-radius:var(--radius); padding:0.35rem 0.85rem; margin-bottom:0.9rem;">
+            <span style="width:8px; height:8px; border-radius:50%; background:var(--gold-sun); display:inline-block;"></span>
+            <span style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.8rem; color:var(--gold-sun); letter-spacing:0.06em; text-transform:uppercase;">Frame Your Vision &middot; Find Your Fence</span>
+          </div>
+
+          <!-- Main Hero Headline -->
+          <h1 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:2.3rem; line-height:1.15; color:#FFFFFF; margin-bottom:1rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);">
+            A Modern Approach to <br/><span style="color:var(--gold-sun);">How You Shop for a Fence</span>
+          </h1>
+
+          <!-- Body Text (Invisible Container, Rowdies Light Font) -->
+          <div style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.9rem; line-height:1.55; color:#FAF6EE; max-width:620px;">
+            <p style="margin-bottom:0.9rem; font-size:1.05rem;">
+              Fence Frames is a modern approach to the way you shop for a fence. Our main objective is to give you options to tailor your fence while showing you how the price changes for different styles selected. Our system is 3 steps:
+            </p>
+            <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:0.75rem; letter-spacing:0.02em;">
+              <div>
+                <strong style="color:var(--gold-sun); font-weight:400; font-size:1.15rem;">&ldquo;Find It&rdquo;</strong> &mdash; First we match you with any applicable HOA, community, or city to ensure we offer you only selections that pass code requirements for your address.
+              </div>
+              <div>
+                <strong style="color:#F27A22; font-weight:400; font-size:1.15rem;">&ldquo;Frame It&rdquo;</strong> &mdash; Next you use one of our 3 shopping modes: a Catalog of common fences for those wanting something quick, a Fence Wizard helping those maybe not so fence-savvy select options and styles, and finally our Designer which gives you full control of every option available.
+              </div>
+              <div>
+                <strong style="color:#4ADE80; font-weight:400; font-size:1.15rem;">&ldquo;Fence It&rdquo;</strong> &mdash; Once you&rsquo;ve made your selection, we provide you with what we call a Fence-Folio. It&rsquo;s everything you or your contractor needs to build the exact fence described: a fair price range based on your area and style, a material list with SKUs and national sellers, a builder&rsquo;s blueprint so your contractor knows the exact procedure, and an HOA submittal letter or submittal portal link.
+              </div>
+            </div>
+            
+            <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.95rem; color:#FAF6EE; line-height:1.55; margin-bottom:0.8rem;">
+              Then finally, we offer you to get in touch with one of our partnered contractors who will receive and review your Fence-Folio before you&rsquo;re even contacted.
+            </p>
+            <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.95rem; color:var(--gold-sun); line-height:1.55; margin-top:0.8rem; padding-top:0.6rem; border-top:1px dashed rgba(229,184,66,0.35);">
+              By the way, did we mention this is totally free to you? That&rsquo;s right &mdash; Fence Frames is a tool for the people. We hope it helps make the process a little smoother for you, and if it does, just tell your neighbors about us.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3 Quick Navigation Jump Buttons -->
+        <div style="margin-top:2.5rem; position:relative;">
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; position:relative; z-index:2; margin-bottom:-2px;">
+            <a href="#hero-find-card" class="ff-btn btn-gold btn-tab" style="padding:0.75rem 0.5rem; font-size:1.1rem; text-align:center; font-family:'Rowdies',sans-serif; font-weight:400; text-transform:uppercase; border: 2px solid var(--ink); border-bottom-left-radius:0; border-bottom-right-radius:0;">
+              Find It
+            </a>
+            <a href="#frame-pillar" class="ff-btn btn-ember btn-tab" style="padding:0.75rem 0.5rem; font-size:1.1rem; text-align:center; font-family:'Rowdies',sans-serif; font-weight:400; text-transform:uppercase; border: 2px solid var(--ink); border-bottom-left-radius:0; border-bottom-right-radius:0;">
+              Frame It
+            </a>
+            <a href="#fence-pillar" class="ff-btn btn-forest btn-tab" style="padding:0.75rem 0.5rem; font-size:1.1rem; text-align:center; font-family:'Rowdies',sans-serif; font-weight:400; text-transform:uppercase; border: 2px solid var(--ink); border-bottom-left-radius:0; border-bottom-right-radius:0;">
+              Fence It
+            </a>
+          </div>
+          <!-- Shelf Line -->
+          <div style="height:6px; background:var(--ink); border-radius:3px; position:relative; z-index:1; width:100%; box-shadow:0 2px 5px rgba(0,0,0,0.3);"></div>
+        </div>
+      </div>
+
+      <!-- Right: Find It Search Controls (Cedar Wood Grain Card Standard) -->
+      <div id="hero-find-card" class="card-solid has-outside-corners" style="background-image:url('images/card-trials/pexels-sergeispas-1151756-34615194.jpg'); background-size:cover; background-position:center; border:2.5px solid var(--ink); padding:1.8rem; height:100%; display:flex; flex-direction:column; justify-content:space-between; color:var(--ink);">
+        <span class="corner-mark-out tr c-gold"></span>
+        <span class="corner-mark-out bl c-forest"></span>
+
+        <div style="display:flex; flex-direction:column; flex-grow:1;">
+          <!-- Card Header Bar -->
+          <div class="card-title-bar" style="font-family:'Rowdies',sans-serif; font-weight:700; margin-bottom:1rem; padding:0.5rem 0.8rem; font-size:0.9rem; background:var(--ink); color:var(--gold-sun); display:flex; justify-content:space-between; align-items:center;">
+            <span>1. FIND IT &middot; HOA &amp; CODE VERIFICATION</span>
+            <span style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; background:var(--forest-deep); color:var(--gold-sun); padding:0.2rem 0.5rem; border-radius:2px; border:1px solid var(--gold-sun);">[Step 1 / 3]</span>
+          </div>
+
+          <!-- Original Upper Image Viewport: Holographic Map Pin Graphic -->
+          <div style="position:relative; border-top:1.5px solid var(--forest-bright); border-left:1.5px solid var(--forest-bright); border-right:1.5px solid var(--forest-bright); border-bottom:none; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius); overflow:hidden; height:170px; background:#0E281B; display:flex; align-items:center; justify-content:center;">
+            <img src="images/user-uploads/media_1787002299587.png" alt="Find It Holographic Map Pin" style="width:100%; height:100%; object-fit:cover; opacity:0.9;" />
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(22,67,45,0.1) 0%, rgba(18,59,38,0.95) 100%);"></div>
+            <div style="position:absolute; bottom:0.6rem; left:0.8rem; right:0.8rem; display:flex; align-items:center;">
+              <span style="font-family:'Rowdies',sans-serif; font-size:0.8rem; color:var(--gold-sun); font-weight:700; letter-spacing:0.04em; text-shadow:1px 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.9);">Code Compliant Community Matcher</span>
+            </div>
+          </div>
+
+          <!-- Overlaid Find It Explainer Text (Docked Plate) -->
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.92rem; color:#FFFFFF; line-height:1.48; margin-bottom:0; background:var(--ink); padding:0.8rem 1rem; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius); border-bottom:1.5px solid var(--forest-bright); border-left:1.5px solid var(--forest-bright); border-right:1.5px solid var(--forest-bright); border-top:none; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+            We match your property address against local municipal building codes and HOA guidelines to surface pre-approved fence heights, setbacks, and material standards before you design.
+          </p>
+
+          <!-- Find It Search Controls Box (Black Plate with Gold Border) -->
+          <div style="background:var(--ink); backdrop-filter:blur(5px); border:2px solid var(--gold-sun); border-radius:var(--radius); padding:1.2rem; color:#FFFFFF; box-shadow:0 4px 15px rgba(0,0,0,0.15); display:flex; flex-direction:column; flex-grow:1; margin-top:1.8rem;">
+            <div style="display:grid; grid-template-columns: 1fr 1.35fr; gap:0.8rem; margin-bottom:0.8rem; align-items:flex-end;">
+              <div>
+                <label for="hero-quick-zip" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; color:var(--gold-sun); display:block; margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.04em;">Washington ZIP</label>
+                <div style="height:46px; box-sizing:border-box; display:flex; align-items:center; background:#FAF6EE; border:2px solid var(--ink); border-radius:4px; padding:0 0.6rem; gap:0.4rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--forest-deep)" stroke-width="2" style="flex-shrink:0;"><path d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                  <input id="hero-quick-zip" name="hero-zip" inputmode="numeric" maxlength="5" value="98045" placeholder="e.g. 98045" style="border:none; background:transparent; font-family:'Rowdies',sans-serif; font-weight:400; font-size:1.1rem; width:100%; height:100%; color:var(--ink); outline:none;" aria-label="ZIP code" oninput="checkHeroZip()" />
+                </div>
+              </div>
+              <div>
+                <label for="hero-community-select" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; color:var(--gold-sun); display:block; margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.04em;">Community / HOA</label>
+                <div style="height:46px; box-sizing:border-box; display:flex; align-items:center; background:#FAF6EE; border:2px solid var(--ink); border-radius:4px; padding:0 0.5rem;">
+                  <select id="hero-community-select" name="hero-community" style="font-family:'Rowdies',sans-serif; font-weight:400; border:none; background:transparent; font-size:0.9rem; width:100%; height:100%; color:var(--ink); outline:none; cursor:pointer;" onchange="checkHeroZip()">
+                    <option value="no-hoa" selected>Open Design (No HOA)</option>
+                    <option value="si-view">Si View &middot; North Bend, WA</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Outlined Ticket Cut Button: Community Design Page > -->
+            <div class="btn-cut-outlined" style="width:100%;">
+              <button type="button" class="btn-cut-inner" style="font-family:'Rowdies',sans-serif; font-weight:400; width:100%; border:none; padding:0.65rem; font-size:1.15rem; display:flex; align-items:center; justify-content:center; gap:0.5rem;" onclick="goToCommunityDesign()">
+                <span>Community Design Page</span>
+                <span style="font-size:1.3rem; line-height:1;">&rarr;</span>
+              </button>
+            </div>
+
+            <!-- Fence Design Slideshow Viewport -->
+            <div style="display:flex; flex-direction:column; flex-grow:1; margin-top:1rem;">
+              <div style="position:relative; border:1.5px solid var(--forest-bright); border-radius:var(--radius); overflow:hidden; flex-grow:1; min-height:160px; background:#141B16; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 15px rgba(0,0,0,0.5); margin-bottom:0.8rem;">
+                <img id="hero-preview-img" src="images/catalog-vpf-natural.svg" alt="Community fence style preview" style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:0.4rem; transition:opacity 0.4s ease;" />
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; padding: 0 0.2rem;">
+                <span id="hero-design-badge" style="font-family:'Rowdies',sans-serif; font-size:0.85rem; color:var(--gold-sun); font-weight:400; letter-spacing:0.02em;">Open Design: 6' Heritage Cedar</span>
+                <span id="hero-carousel-indicator" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.75rem; background:var(--ink); color:var(--gold-sun); padding:0.2rem 0.5rem; border-radius:3px; border:1px solid var(--gold-sun);">AUTO CYCLING</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 2 CANONICAL STEP SECTIONS (FRAME IT -> FENCE IT)                          -->
+    <!-- Note: Step 1 (Find It) is fully incorporated into Hero right column       -->
+    <!-- ========================================================================= -->
+
+    <!-- STEP 2 — FRAME IT -->
+    <section class="step-section" id="frame-pillar" style="margin-bottom:0.75rem;">
+      
+      <!-- Top Row: Compact Orange Diagonal Hatch Copy Card + Holographic Timber Frame -->
+      <div style="display:grid; grid-template-columns:1.15fr 0.85fr; gap:1.5rem; align-items:stretch; margin-bottom:0.75rem;">
+        
+        <!-- Left: Orange Diagonal Hatch Card (Compact Height) -->
+        <div class="card-solid has-outside-corners" style="background-color:#26150D; background-image:repeating-linear-gradient(45deg, rgba(242,122,34,0.18) 0px, rgba(242,122,34,0.18) 2px, transparent 2px, transparent 14px); border:2.5px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; min-height:180px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.14);">
+          <span class="corner-mark-out tl c-orange"></span>
+          <span class="corner-mark-out br c-forest"></span>
+          
+          <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.75rem; color:#F27A22; margin-bottom:0.3rem; line-height:1.15; letter-spacing:0.02em;">
+            Frame it.
+          </h2>
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.86rem; line-height:1.4; color:#FAF6EE; margin:0;">
+            Our free design tools let you customize your fence while showing real-time cost for every material, style, and feature you choose &mdash; surfacing design options, community guidelines, and structural details you likely hadn&rsquo;t considered.
+          </p>
+        </div>
+
+        <!-- Right: Holographic Viewport Image Container (Compact Height) -->
+        <div class="has-outside-corners" style="border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; background:#0E281B; position:relative; min-height:100%; box-sizing:border-box; display:flex; box-shadow:0 6px 18px rgba(0,0,0,0.14);">
+          <span class="corner-mark-out tr c-forest" style="z-index:2;"></span>
+          <span class="corner-mark-out bl c-orange" style="z-index:2;"></span>
+          <img src="images/Holographic fence icons/Frame-it-Holographic-Fence-widescreen.png" alt="Frame It — timber frame turning holographic" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;" />
+        </div>
+
+      </div>
+
+      <!-- Bottom Row: 3 Shopping Mode Cards -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.8rem;">
+          
+          <!-- Card 1: Catalog -->
+          <a class="has-outside-corners" href="catalog.html" style="text-decoration:none; display:flex; flex-direction:column; border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,0.12); transition:transform 0.2s ease, box-shadow 0.2s ease; background:#FFFFFF; position:relative;">
+            <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+            <span class="corner-mark-out br c-gold" style="z-index:2;"></span>
+            
+            <div style="background:var(--gold-sun); color:var(--ink); padding:0.6rem 1rem; border-bottom:2.5px solid var(--ink); font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.95rem; text-transform:uppercase;">
+              <span>Browse Styles</span>
+            </div>
+            
+            <div style="height:220px; background:var(--forest-bright); border-bottom:2.5px solid var(--ink); position:relative; overflow:hidden;">
+              <img src="images/user-uploads/media_1787002208257.png" alt="Fence Catalog" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
+            
+            <div style="flex:1; display:flex; flex-direction:column; padding:1.2rem;">
+              <span style="display:inline-block; font-family:'Rowdies',sans-serif; font-size:0.75rem; background:var(--ink); color:var(--gold-sun); padding:0.3rem 0.6rem; border-radius:4px; align-self:flex-start; margin-bottom:0.6rem;">&#9889; FASTEST OPTION</span>
+              <h3 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.4rem; color:var(--ink); margin-bottom:0.4rem; line-height:1;">Catalog</h3>
+              <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.9rem; line-height:1.45; color:#222; margin:0;">Start from a preset fence line you love, then open it in the designer and make it yours.</p>
+            </div>
+          </a>
+  
+          <!-- Card 2: Designer -->
+          <a class="has-outside-corners" href="wizard-demo.html" style="text-decoration:none; display:flex; flex-direction:column; border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,0.12); transition:transform 0.2s ease, box-shadow 0.2s ease; background:#FFFFFF; position:relative;">
+            <span class="corner-mark-out tl c-gold" style="z-index:2;"></span>
+            <span class="corner-mark-out br c-orange" style="z-index:2;"></span>
+            
+            <div style="background:var(--ember); color:var(--ink); padding:0.6rem 1rem; border-bottom:2.5px solid var(--ink); font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.95rem; text-transform:uppercase;">
+              <span>Build Freely</span>
+            </div>
+            
+            <div style="height:220px; background:var(--ink); border-bottom:2.5px solid var(--ink); position:relative; overflow:hidden; padding:0.6rem;">
+              <img src="images/user-uploads/media_1787002299587.png" alt="Designer Interface" style="width:100%; height:100%; object-fit:contain; border:2px solid var(--ink); border-radius:2px;" />
+            </div>
+            
+            <div style="flex:1; display:flex; flex-direction:column; padding:1.2rem;">
+              <span style="display:inline-block; font-family:'Rowdies',sans-serif; font-size:0.75rem; background:var(--ink); color:var(--ember); padding:0.3rem 0.6rem; border-radius:4px; align-self:flex-start; margin-bottom:0.6rem;">&#127912; LIVE 3D CANVAS</span>
+              <h3 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.4rem; color:var(--ink); margin-bottom:0.4rem; line-height:1;">Designer</h3>
+              <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.9rem; line-height:1.45; color:#222; margin:0;">Open the live canvas and customize materials, styles, and features with real-time cost as you go.</p>
+            </div>
+          </a>
+  
+          <!-- Card 3: Detail Wizard -->
+          <a class="has-outside-corners" href="wizard-demo.html" style="text-decoration:none; display:flex; flex-direction:column; border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,0.12); transition:transform 0.2s ease, box-shadow 0.2s ease; background:#FFFFFF; position:relative;">
+            <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+            <span class="corner-mark-out br c-gold" style="z-index:2;"></span>
+            
+            <div style="background:#FAF6EE; color:var(--ink); padding:0.6rem 1rem; border-bottom:2.5px solid var(--ink); font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.95rem; text-transform:uppercase;">
+              <span>Guided Details</span>
+            </div>
+            
+            <div style="height:220px; background:var(--ink); border-bottom:2.5px solid var(--ink); position:relative; overflow:hidden;">
+              <img src="images/tool-wizard-guided.jpg" alt="Guided Wizard" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
+            
+            <div style="flex:1; display:flex; flex-direction:column; padding:1.2rem;">
+              <span style="display:inline-block; font-family:'Rowdies',sans-serif; font-size:0.75rem; background:var(--ink); color:#FAF6EE; padding:0.3rem 0.6rem; border-radius:4px; align-self:flex-start; margin-bottom:0.6rem;">&#128221; STEP-BY-STEP</span>
+              <h3 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.4rem; color:var(--ink); margin-bottom:0.4rem; line-height:1;">Wizard</h3>
+              <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.9rem; line-height:1.45; color:#222; margin:0;">Not sure what caps go with what rails? Let our wizard ask you simple questions to build your spec.</p>
+            </div>
+          </a>
+        </div>
+
+    </section>
+
+    <!-- STEP 3 — FENCE IT -->
+    <section class="step-section" id="fence-pillar" style="margin-bottom:0.75rem;">
+      
+      <!-- Top Row: Alternating Split (Compact Height) -->
+      <div style="display:grid; grid-template-columns:0.85fr 1.15fr; gap:1.5rem; align-items:stretch; margin-bottom:0.75rem;">
+        
+        <!-- Left: Holographic Viewport Image Container (Compact Height) -->
+        <div class="has-outside-corners" style="border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; background:#0E281B; position:relative; min-height:100%; box-sizing:border-box; display:flex; box-shadow:0 6px 18px rgba(0,0,0,0.14);">
+          <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+          <span class="corner-mark-out br c-orange" style="z-index:2;"></span>
+          <img src="images/Holographic fence icons/Fence-It-Holographic-Fence.png" alt="Fence It — picket fence turning holographic" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;" />
+        </div>
+
+        <!-- Right: Green Diagonal Hatch Card (Compact Height) -->
+        <div class="card-solid has-outside-corners" style="background-color:#10261A; background-image:repeating-linear-gradient(45deg, rgba(74,222,128,0.16) 0px, rgba(74,222,128,0.16) 2px, transparent 2px, transparent 14px); border:2.5px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; min-height:180px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.14);">
+          <span class="corner-mark-out tr c-forest" style="z-index:2;"></span>
+          <span class="corner-mark-out bl c-gold"></span>
+          
+          <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.75rem; color:#4ADE80; margin-bottom:0.3rem; line-height:1.15; letter-spacing:0.02em;">
+            Fence it.
+          </h2>
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.86rem; line-height:1.4; color:#FAF6EE; margin:0;">
+            We help you assemble a full Spec Sheet: a builder&rsquo;s blueprint ensuring the fence is built the right way, a material list so cheap materials can&rsquo;t be substituted, and a pricing ledger so you know a fair price range before you ever haggle with a contractor.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Action Grid -->
+      <div class="action-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.2rem; margin-bottom:1rem;">
+        <a class="action-btn has-outside-corners" href="#pros" onclick="openModal('modal-contractor'); return false;" style="border:2px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; background:#FAF6EE; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:0.3rem; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+          <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+          <span class="corner-mark-out br c-gold"></span>
+          <span class="label" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--forest-deep);">Find a Builder</span>
+          <span class="sub" style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.85rem; color:var(--ink); line-height:1.4;">Match with 3 vetted local pros who bid on your finished plan.</span>
+        </a>
+        <a class="action-btn has-outside-corners" href="wizard-demo.html" onclick="openModal('modal-blueprint'); return false;" style="border:2px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; background:#FAF6EE; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:0.3rem; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+          <span class="corner-mark-out tl c-orange"></span>
+          <span class="corner-mark-out br c-forest"></span>
+          <span class="label" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--forest-deep);">Create Builder&rsquo;s Blueprint</span>
+          <span class="sub" style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.85rem; color:var(--ink); line-height:1.4;">Elevation + plan views ready for ARC or contractor handoff.</span>
+        </a>
+        <a class="action-btn has-outside-corners" href="wizard-demo.html" onclick="openModal('modal-blueprint'); return false;" style="border:2px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; background:#FAF6EE; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:0.3rem; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+          <span class="corner-mark-out tl c-orange"></span>
+          <span class="corner-mark-out br c-forest"></span>
+          <span class="label" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--forest-deep);">Print Material List</span>
+          <span class="sub" style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.85rem; color:var(--ink); line-height:1.4;">Takeoff with quantities so substitutions can&rsquo;t sneak in.</span>
+        </a>
+        <a class="action-btn has-outside-corners" href="wizard-demo.html" onclick="openModal('modal-blueprint'); return false;" style="border:2px solid var(--ink); border-radius:var(--radius); padding:1.2rem 1.4rem; background:#FAF6EE; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:0.3rem; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+          <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+          <span class="corner-mark-out br c-gold"></span>
+          <span class="label" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--forest-deep);">Export Pricing Estimate</span>
+          <span class="sub" style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.85rem; color:var(--ink); line-height:1.4;">Honest &plusmn;15% range for your ZIP &mdash; not a hard quote.</span>
+        </a>
+      </div>
+      <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.82rem; color:var(--ink); text-align:center; opacity:0.8; margin-top:0.6rem;">Sample outputs for now &mdash; full Spec Sheet export ships with the live configurator.</p>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 4. FENCE-FOLIO BLUEPRINT SECTION: AUTHORED MASTER PACKAGE                 -->
+    <!-- ========================================================================= -->
+    <section class="folio-two-col-layout has-outside-corners" style="display:grid; grid-template-columns:1fr 1.25fr; gap:3rem; align-items:center; margin-bottom:1.5rem; padding:4rem 3rem; background:linear-gradient(rgba(242,122,34,0.06) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, rgba(242,122,34,0.06) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(180deg, rgba(20,27,22,0.95) 0%, rgba(50,20,5,0.98) 100%), url('images/ai-generated-fences/Rancher Illustration.jpg'); background-size:cover; background-position:center; border:2.5px solid var(--ink); border-radius:var(--radius); box-shadow:0 6px 18px rgba(0,0,0,0.14); position:relative;">
+<span class="corner-mark-out tl c-orange" style="z-index:2;"></span>
+<span class="corner-mark-out br c-gold" style="z-index:2;"></span>
+
+      <!-- Left Column: Authoritative Copy & Bullets -->
+      <div>
+        <span style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:1.15rem; color:var(--gold-sun); letter-spacing:0.02em; display:block; margin-bottom:0.6rem;">
+          Fence Frames Community Partners
+        </span>
+
+        <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:3rem; color:#FAF6EE; line-height:1.12; margin-bottom:1.8rem; letter-spacing:-0.01em;">
+          The blueprint your community actually wants to see
+        </h2>
+
+        <!-- 3 Solid Green Checkmark Bullets -->
+        <div style="display:flex; flex-direction:column; gap:1.2rem; margin-bottom:1.8rem;">
+          <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--gold-sun); color:var(--ink); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.85rem; font-weight:700; margin-top:2px;">&#10003;</div>
+            <p style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:1.02rem; line-height:1.45; color:#FAF6EE; margin:0;">
+              To-scale elevation &amp; plan views generated automatically from your design.
+            </p>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--gold-sun); color:var(--ink); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.85rem; font-weight:700; margin-top:2px;">&#10003;</div>
+            <p style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:1.02rem; line-height:1.45; color:#FAF6EE; margin:0;">
+              Community rules pre-loaded &mdash; height caps, setbacks, and stain requirements flagged before you submit.
+            </p>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--gold-sun); color:var(--ink); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.85rem; font-weight:700; margin-top:2px;">&#10003;</div>
+            <p style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:1.02rem; line-height:1.45; color:#FAF6EE; margin:0;">
+              One-click PDF export ready to attach to your ARC application.
+            </p>
+          </div>
+        </div>
+
+        <!-- Left-Bordered Disclaimer Box -->
+        <div style="border-left:3px solid #C2622D; padding-left:1rem; margin-top:1.2rem;">
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.92rem; line-height:1.45; color:var(--gold-sun); margin:0;">
+            Unofficial planning summaries &mdash; always confirm requirements with your association before building.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Fence-Folio Widget Card -->
+      <div class="card-solid has-outside-corners" style="background-color:#16432D; background-image:linear-gradient(rgba(74,222,128,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.12) 1px, transparent 1px); background-size:24px 24px; border:2.5px solid var(--ink); border-radius:var(--radius); padding:1.8rem; box-shadow:0 12px 32px rgba(0,0,0,0.2); position:relative; overflow:visible;">
+        <span class="corner-mark-out tl c-orange"></span>
+        <span class="corner-mark-out br c-orange" style="z-index:2;"></span>
+
+        <!-- Top Header Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="font-size:1.1rem;">📖</span>
+            <span style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.15rem; color:var(--gold-sun); letter-spacing:0.04em;">FENCE-FOLIO</span>
+          </div>
+          <span style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.75rem; background:#D9B872; color:var(--ink); padding:0.25rem 0.65rem; border-radius:3px; letter-spacing:0.04em;">HOA READY</span>
+        </div>
+
+        <!-- 6 Chapters Interactive Tabs Strip -->
+        <div style="display:flex; gap:0.4rem; overflow-x:auto; padding-bottom:0.4rem; margin-bottom:1.2rem; border-bottom:1px solid rgba(229,184,66,0.25);" role="tablist">
+          <button class="folio-tab-btn active" id="ftab-0" onclick="setFolioChapter(0)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:var(--gold-sun); color:var(--ink);">1. Cover</button>
+          <button class="folio-tab-btn" id="ftab-1" onclick="setFolioChapter(1)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:rgba(20,27,22,0.6); color:#DBD0BD;">2. Community</button>
+          <button class="folio-tab-btn" id="ftab-2" onclick="setFolioChapter(2)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:rgba(20,27,22,0.6); color:#DBD0BD;">3. Materials</button>
+          <button class="folio-tab-btn" id="ftab-3" onclick="setFolioChapter(3)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:rgba(20,27,22,0.6); color:#DBD0BD;">4. Blueprint</button>
+          <button class="folio-tab-btn" id="ftab-4" onclick="setFolioChapter(4)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:rgba(20,27,22,0.6); color:#DBD0BD;">5. Add-ons</button>
+          <button class="folio-tab-btn" id="ftab-5" onclick="setFolioChapter(5)" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.82rem; padding:0.4rem 0.8rem; border-radius:3px; border:none; cursor:pointer; background:rgba(20,27,22,0.6); color:#DBD0BD;">6. Ledger</button>
+        </div>
+
+        <!-- Title & Subtitle + Estimated Price Badge -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem; gap:1rem;">
+          <div>
+            <h3 id="folio-chapter-title" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.35rem; color:#FFFFFF; margin-bottom:0.25rem;">Heritage Cedar &mdash; 6&prime; Privacy</h3>
+            <div id="folio-chapter-desc" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.78rem; color:#A5D6A7; letter-spacing:0.06em; text-transform:uppercase;">SHEET A-01 &middot; ELEVATION SPEC &middot; SI VIEW</div>
+          </div>
+          <div style="background:#142B1D; border:1.5px solid var(--gold-sun); border-radius:4px; padding:0.4rem 0.8rem; text-align:right; flex-shrink:0;">
+            <div style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.65rem; color:var(--gold-sun); text-transform:uppercase; letter-spacing:0.05em;">EST. PRICE</div>
+            <div id="folio-price-display" style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.15rem; color:var(--gold-sun);">$42&ndash;$57 <span style="font-size:0.75rem; font-weight:400; color:#FAF6EE;">/ LF</span></div>
+          </div>
+        </div>
+
+        <!-- Main Viewport with CAD Dimension Scale & Architectural Illustration -->
+        <div style="position:relative; background:#1C1713; border:2px solid var(--ink); border-radius:4px; overflow:hidden; min-height:260px; display:flex; flex-direction:column; justify-content:flex-end; box-shadow:inset 0 0 20px rgba(0,0,0,0.6);">
+          
+          <!-- Top Dimension Scale (Top Ruler) -->
+          <div style="position:absolute; top:0; left:0; right:0; height:22px; border-bottom:1px solid rgba(229,184,66,0.3); display:flex; justify-content:space-around; align-items:center; font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.65rem; color:rgba(229,184,66,0.7); background:rgba(0,0,0,0.3);">
+            <span>0&prime;</span><span>2&prime;</span><span>4&prime;</span><span>6&prime;</span><span>8&prime;</span>
+          </div>
+
+          <!-- Side Dimension Scale (Left Ruler) -->
+          <div style="position:absolute; top:22px; left:0; bottom:0; width:20px; border-right:1px solid rgba(229,184,66,0.3); display:flex; flex-direction:column; justify-content:space-around; align-items:center; font-family:'Rowdies',sans-serif; font-weight:300; font-size:0.65rem; color:rgba(229,184,66,0.7); background:rgba(0,0,0,0.3);">
+            <span>6&prime;</span><span>4&prime;</span><span>2&prime;</span>
+          </div>
+
+          <!-- Main Elevation Graphic -->
+          <div style="margin-left:20px; margin-top:22px; padding:1.2rem 1.5rem 0 1.5rem; display:flex; justify-content:center; align-items:flex-end;">
+            <img id="folio-display-img" src="images/card-trials/grey-lumber-with-fern.jpg" alt="Fence Elevation Showcase" style="width:100%; height:100%; object-fit:cover; position:relative; z-index:2; filter: brightness(0.9);" />
+          </div>
+
+          <!-- Side Page Turn Tab (Page 2 >) -->
+          <button type="button" onclick="nextFolioChapter()" style="position:absolute; right:0; top:50%; transform:translateY(-50%); background:var(--gold-sun); color:var(--ink); font-family:'Rowdies',sans-serif; font-weight:700; font-size:0.8rem; border:2px solid var(--ink); border-right:none; border-top-left-radius:6px; border-bottom-left-radius:6px; padding:0.5rem 0.65rem; cursor:pointer; box-shadow:-2px 2px 8px rgba(0,0,0,0.3); display:flex; align-items:center; gap:0.2rem;">
+            <span id="side-tab-text">Page 2 &gt;</span>
+          </button>
+        </div>
+
+        <!-- Bottom Footer Navigation Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem;">
+          <button id="folio-prev-btn" onclick="prevFolioChapter()" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; background:rgba(20,27,22,0.6); color:#8E9A92; border:1.5px solid rgba(255,255,255,0.15); border-radius:3px; padding:0.4rem 0.9rem; cursor:pointer;">
+            &lt; Prev
+          </button>
+          <span id="folio-page-indicator" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; color:#A5D6A7;">Page 1 of 6</span>
+          <button id="folio-next-btn" onclick="nextFolioChapter()" style="font-family:'Rowdies',sans-serif; font-weight:400; font-size:0.85rem; background:var(--ink); color:#FFFFFF; border:1.5px solid var(--gold-sun); border-radius:3px; padding:0.4rem 0.9rem; cursor:pointer;">
+            Next &gt;
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  
+    <!-- ========================================================================= -->
+     FINAL SPLIT CTA SECTION (HOMEOWNERS VS CONTRACTORS)                    -->
+    <!-- ========================================================================= -->
+    <section class="final-cta-section" style="display:grid; grid-template-columns:1fr 1fr; margin-bottom:0.75rem; border:2.5px solid var(--ink); border-radius:var(--radius); overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.14);">
+      
+      <!-- Homeowners Side -->
+      <div style="position:relative; background-image:url('images/card-trials/grey-lumber-with-fern.jpg'); background-size:cover; background-position:center;">
+        <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(250,246,238,0.6) 0%, rgba(250,246,238,0.2) 100%);"></div>
+        <div style="position:relative; z-index:2; padding:4rem 3rem; display:flex; flex-direction:column; justify-content:center; height:100%;">
+          <span style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--forest-deep); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1rem;">Homeowners</span>
+          <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:2.6rem; color:var(--forest-deep); line-height:1.15; margin-bottom:1.2rem;">Free to design. Free to decide.</h2>
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:1.05rem; line-height:1.5; color:var(--ink); margin-bottom:2rem; max-width:90%;">
+            Build your plan, see real pricing, and only share your details when you're ready for bids. No spam, no pressure.
+          </p>
+          <div>
+            <a href="wizard-demo.html" class="ff-btn btn-forest" style="text-decoration:none; display:inline-block; font-size:1.1rem; padding:0.8rem 1.6rem; border:2px solid var(--ink);">Start Designing</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contractors Side -->
+      <div style="position:relative; background-image:url('images/ai-generated-fences/Cast iron black yard fence _edited.jpg'); background-size:cover; background-position:center;">
+        <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(20,27,22,0.92) 0%, rgba(20,27,22,0.65) 100%);"></div>
+        <div style="position:relative; z-index:2; padding:4rem 3rem; display:flex; flex-direction:column; justify-content:center; height:100%;">
+          <span style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:1.1rem; color:var(--gold-sun); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1rem;">Contractors</span>
+          <h2 style="font-family:'Rowdies',sans-serif; font-weight:700; font-size:2.6rem; color:#FAF6EE; line-height:1.15; margin-bottom:1.2rem;">Real plans. Real budgets. Ready to build.</h2>
+          <p style="font-family:'Rowdies',sans-serif; font-weight:300; font-size:1.05rem; line-height:1.5; color:#FAF6EE; margin-bottom:2rem; max-width:90%;">
+            Every project arrives with a finished design, a location, and a homeowner who already knows their price range. Claim your territory and bid.
+          </p>
+          <div>
+            <a href="#" onclick="openModal('modal-contractor'); return false;" class="ff-btn btn-ink" style="text-decoration:none; display:inline-block; font-size:1.1rem; padding:0.8rem 1.6rem; border:2px solid #FAF6EE; background:transparent; color:#FAF6EE;">Join as a Pro</a>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+
+</main>
+  <!-- ========================================================================= -->
+  <!-- 5. GLOBAL FOOTER                                                          -->
+  <!-- ========================================================================= -->
+  <!-- ========================================================================= -->
+  <!-- 5. GLOBAL FOOTER (VERTICALLY MIRRORED HEADER BACKGROUND)                  -->
+  <!-- ========================================================================= -->
+  <footer class="footer-nav-mirror" style="margin-top: 3rem; overflow: hidden; position: relative;">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 3.5rem 2rem 2.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 3.5rem; align-items: start; position: relative; z-index: 1;">
+      
+      <!-- Left: Branding & Official Logo Icon -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="images/fence-frames-logo-icon.svg" alt="Fence Frames Logo Icon" style="width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />
+          <span style="font-family: 'Rowdies', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;">
+            <span style="color: #4ADE80;">Fence</span>&nbsp;<span style="color: #E5B842;">Frames</span>
+          </span>
+        </a>
+        <p style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #FAF6EE; opacity: 0.85; line-height: 1.6; max-width: 380px; font-weight: 300;">
+          The parametric fence engineering &amp; HOA pre-approval platform. Frame Your Vision | Find Your Fence.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.7rem; color: #4ADE80; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(74,222,128,0.4);">
+            ✓ ZERO DATA LOSS
+          </span>
+          <span style="font-size: 0.7rem; color: #E5B842; font-family: monospace; background: rgba(20,27,22,0.85); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(229,184,66,0.4);">
+            ✓ 3-SEAT CAPPED PROS
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: Links -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+        <!-- Column 1: Find & Frame -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #E5B842; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Find &amp; Frame
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/geo-north-bend.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">City of North Bend Codes</a></li>
+            <li><a href="/geo-si-view.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Si View HOA Pre-Approved ARC</a></li>
+            <li><a href="/catalog-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">12+ Architectural Style Catalog</a></li>
+            <li><a href="/designer" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Universal 2D CAD Configurator</a></li>
+          </ul>
+        </div>
+        <!-- Column 2: Fence & Pros -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Fence &amp; Pros
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="/blueprint-standalone.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Portrait 8.5" × 11" ARC Blueprints</a></li>
+            <li><a href="/contractors-hub.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">72-Hour Contractor Job Board</a></li>
+            <li><a href="/contractor-match.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Live 3-Seat SMS Scramble</a></li>
+            <li><a href="/homeowner-dashboard.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Homeowner Command Center</a></li>
+          </ul>
+        </div>
+        <!-- Column 3: Legal & Standards -->
+        <div>
+          <h4 style="font-family: 'Rowdies', sans-serif; font-weight: 700; font-size: 0.88rem; color: #F27A22; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+            Standards &amp; Legal
+          </h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><span style="color: #FAF6EE; opacity: 0.8; font-size: 0.85rem;">Anti-Angi 3-Seat Monopoly Law</span></li>
+            <li><a href="/design-system-guide.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Rowdies Design System Tokens</a></li>
+            <li><a href="/box-styles-showcase.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Canonical CAD Box Styles</a></li>
+            <li><a href="/auth-gate.html" style="color: #FAF6EE; opacity: 0.8; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">Zero-Data-Loss Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mirrored Black Wood Bottom Bar -->
+    <div class="footer-mirror-bottom" style="padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #FAF6EE; opacity: 0.8; font-weight: 300;">
+      <div>
+        <span>© 2026 Fence Frames. All rights reserved. Authored &amp; Operated by Two Lew Builders LLC.</span>
+      </div>
+      <div>
+        <span>King County, Washington · Piloting at Si View, North Bend, WA</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ========================================================================= -->
+  <!-- 6. INTERACTIVE MODALS & DRAWERS                                           -->
+  <!-- ========================================================================= -->
+
+  <!-- Modal 1: HOA Pre-Screening Directory -->
+  <div class="ff-modal-backdrop" id="modal-hoa" onclick="if(event.target===this) closeModal('modal-hoa')">
+    <div class="ff-modal-box has-outside-corners">
+      <span class="corner-mark-out tl c-gold"></span>
+      <span class="corner-mark-out br c-forest"></span>
+      <div class="ff-modal-header">
+        <h3 style="font-family:'Rowdies',sans-serif; font-size:1.2rem; color:var(--gold);">
+          Washington HOA Bylaw Directory (140+ Communities)
+        </h3>
+        <button class="ff-modal-close" onclick="closeModal('modal-hoa')">&times;</button>
+      </div>
+      <div class="ff-modal-body">
+        <p style="font-size:0.9rem; margin-bottom:1rem;">
+          Select your verified community or enter a ZIP code to load exact ARC height limits, picket spacing rules, and pre-approved stain formulas:
+        </p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-bottom:1.2rem;">
+          <button class="ff-btn btn-forest" style="text-align:left; justify-content:flex-start; padding:0.6rem;" onclick="selectHoa('Si View (North Bend, WA)', '6 FT Cedar', 'Natural/Semi-transparent')">
+            Si View (North Bend)
+          </button>
+          <button class="ff-btn btn-forest" style="text-align:left; justify-content:flex-start; padding:0.6rem;" onclick="selectHoa('Snoqualmie Ridge (Snoqualmie)', '6 FT Privacy / 4 FT Raked', 'Cedar Gold / Tan')">
+            Snoqualmie Ridge
+          </button>
+          <button class="ff-btn btn-forest" style="text-align:left; justify-content:flex-start; padding:0.6rem;" onclick="selectHoa('Issaquah Highlands (Issaquah)', '6 FT Board-on-Board', 'Clear Oil / Amber')">
+            Issaquah Highlands
+          </button>
+          <button class="ff-btn btn-forest" style="text-align:left; justify-content:flex-start; padding:0.6rem;" onclick="selectHoa('Meridian Heights (Kent)', '6 FT Framed Cedar Screen', 'Redwood / Natural')">
+            Meridian Heights (Kent)
+          </button>
+        </div>
+        <div id="hoa-selected-details" style="background:#E8DCC8; border:1.5px solid var(--ink); border-radius:var(--radius); padding:1rem; font-size:0.88rem;">
+          <strong>Active Profile:</strong> Si View HOA (North Bend, WA) &middot; Max 6ft height &middot; Western Red Cedar &middot; ARC Form Checklist included in Fence-Folio.
+        </div>
+        <div style="margin-top:1.2rem; text-align:right;">
+          <button class="ff-btn btn-gold btn-ticket" onclick="closeModal('modal-hoa')">Confirm &amp; Load Rules</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: 1:24 Scale Vector ARC Blueprint Sheet Modal -->
+  <div class="ff-modal-backdrop" id="modal-blueprint" onclick="if(event.target===this) closeModal('modal-blueprint')">
+    <div class="ff-modal-box has-outside-corners" style="max-width:760px;">
+      <span class="corner-mark-out tl c-forest" style="z-index:2;"></span>
+      <span class="corner-mark-out br c-orange" style="z-index:2;"></span>
+      <div class="ff-modal-header">
+        <h3 style="font-family:'Rowdies',sans-serif; font-size:1.2rem; color:var(--gold);">
+          Architectural Blueprint Sheet (ARC Ready &middot; 1:24 Scale)
+        </h3>
+        <button class="ff-modal-close" onclick="closeModal('modal-blueprint')">&times;</button>
+      </div>
+      <div class="ff-modal-body">
+        <div style="background:#FAF6EE; border:2px solid var(--ink); border-radius:var(--radius); padding:1.2rem; margin-bottom:1rem; position:relative; background-image:linear-gradient(rgba(22,67,45,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.2) 1px, transparent 1px); background-size:20px 20px;">
+          <!-- SVG Full Blueprint Sheet -->
+          <svg width="100%" height="220" viewBox="0 0 500 200">
+            <!-- Sheet Border & Title Box -->
+            <rect x="5" y="5" width="490" height="190" fill="none" stroke="#1A1A1A" stroke-width="2" />
+            <rect x="340" y="145" width="155" height="50" fill="#FAF6EE" stroke="#1A1A1A" stroke-width="1.5" />
+            <text x="350" y="162" font-family="'Rowdies',sans-serif" font-size="10" fill="#16432D">FENCE FRAMES MASTER SPEC</text>
+            <text x="350" y="176" font-family="'Inter',sans-serif" font-size="8" fill="#1A1A1A">SHEET: A-101 (ELEVATION)</text>
+            <text x="350" y="188" font-family="'Inter',sans-serif" font-size="8" fill="#1A1A1A">SCALE: 1:24 (1/2" = 1'-0")</text>
+
+            <!-- 3 Posts Elevation -->
+            <rect x="40" y="30" width="16" height="130" fill="#9E8A68" stroke="#1A1A1A" stroke-width="1.5" />
+            <rect x="200" y="30" width="16" height="130" fill="#9E8A68" stroke="#1A1A1A" stroke-width="1.5" />
+            <rect x="360" y="30" width="16" height="130" fill="#9E8A68" stroke="#1A1A1A" stroke-width="1.5" />
+
+            <!-- 3 Rails -->
+            <rect x="40" y="45" width="336" height="10" fill="#C4B294" stroke="#1A1A1A" stroke-width="1.2" />
+            <rect x="40" y="90" width="336" height="10" fill="#C4B294" stroke="#1A1A1A" stroke-width="1.2" />
+            <rect x="40" y="135" width="336" height="10" fill="#C4B294" stroke="#1A1A1A" stroke-width="1.2" />
+
+            <!-- Dimension Line -->
+            <line x1="56" y1="175" x2="200" y2="175" stroke="#C2622D" stroke-width="1.5" stroke-dasharray="3 3" />
+            <text x="128" y="170" font-family="'Rowdies',sans-serif" font-size="10" fill="#C2622D" text-anchor="middle">8'-0" O.C. SPAN</text>
+          </svg>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.85rem; color:var(--forest-deep); font-weight:700;">Includes Materials Takeoff + Fastener Schedule</span>
+          <button class="ff-btn btn-forest btn-chamfer" onclick="alert('Downloading ARC Architectural Blueprint Sheet (PDF)...'); closeModal('modal-blueprint');">
+            Download PDF Package &darr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: 3-Seat Contractor Dispatch Modal -->
+  <div class="ff-modal-backdrop" id="modal-contractor" onclick="if(event.target===this) closeModal('modal-contractor')">
+    <div class="ff-modal-box has-outside-corners">
+      <span class="corner-mark-out tl c-orange"></span>
+      <span class="corner-mark-out br c-gold"></span>
+      <div class="ff-modal-header">
+        <h3 style="font-family:'Rowdies',sans-serif; font-size:1.2rem; color:var(--gold);">
+          Capped 3-Seat Contractor Dispatch
+        </h3>
+        <button class="ff-modal-close" onclick="closeModal('modal-contractor')">&times;</button>
+      </div>
+      <div class="ff-modal-body">
+        <p style="font-size:0.88rem; margin-bottom:1rem;">
+          Your fence blueprint and takeoff quantities are dispatched to exactly 3 vetted local builders. Bids lock within 72 hours with transparent &plusmn;15% ledger guarantees:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1.2rem;">
+          <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:var(--radius); padding:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>1. Cascade Fence &amp; Deck LLC</strong>
+              <div style="font-size:0.78rem; color:var(--forest-deep);">Licensed WA &middot; 48 Projects in King County &middot; ARC Certified</div>
+            </div>
+            <span class="seat-badge">Seat 1 &middot; Verified</span>
+          </div>
+
+          <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:var(--radius); padding:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>2. Snoqualmie Valley Craftsmen</strong>
+              <div style="font-size:0.78rem; color:var(--forest-deep);">Licensed WA &middot; Red Cedar Specialist &middot; 5.0 Rating</div>
+            </div>
+            <span class="seat-badge">Seat 2 &middot; Verified</span>
+          </div>
+
+          <div style="background:#FAF6EE; border:1.5px solid var(--ink); border-radius:var(--radius); padding:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>3. Eastside Perimeter Pros</strong>
+              <div style="font-size:0.78rem; color:var(--forest-deep);">Licensed WA &middot; Steel &amp; Cedar Systems &middot; ARC Ready</div>
+            </div>
+            <span class="seat-badge">Seat 3 &middot; Verified</span>
+          </div>
+        </div>
+
+        <div style="text-align:right;">
+          <button class="ff-btn btn-ember btn-lip" onclick="alert('Takeoff dispatched to 3 vetted builders. 72h timer active.'); closeModal('modal-contractor');">
+            Dispatch 3 Bids (Free) &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Sign In / Account -->
+  <div class="ff-modal-backdrop" id="modal-signin" onclick="if(event.target===this) closeModal('modal-signin')">
+    <div class="ff-modal-box has-outside-corners" style="max-width:440px;">
+      <span class="corner-mark-out tl c-gold"></span>
+      <span class="corner-mark-out br c-forest"></span>
+      <div class="ff-modal-header">
+        <h3 style="font-family:'Rowdies',sans-serif; font-size:1.15rem; color:var(--gold);">
+          Sign In to Fence Frames
+        </h3>
+        <button class="ff-modal-close" onclick="closeModal('modal-signin')">&times;</button>
+      </div>
+      <div class="ff-modal-body">
+        <div style="display:flex; flex-direction:column; gap:0.8rem;">
+          <div>
+            <label style="font-size:0.82rem; font-weight:700;">Account Type:</label>
+            <div class="btn-dual-wrap" style="width:100%; margin-top:0.3rem;">
+              <button style="flex:1; background:var(--forest-deep); color:#FAF6EE;">Homeowner</button>
+              <button style="flex:1; background:#FAF6EE; color:var(--ink);">Contractor</button>
+              <button style="flex:1; background:#FAF6EE; color:var(--ink);">HOA Board</button>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:0.82rem; font-weight:700;">Email Address:</label>
+            <input type="email" placeholder="name@domain.com" style="width:100%; padding:0.5rem; border:1.5px solid var(--ink); border-radius:var(--radius); margin-top:0.3rem;" />
+          </div>
+          <button class="ff-btn btn-gold btn-ticket" style="width:100%; margin-top:0.5rem;" onclick="closeModal('modal-signin')">
+            Access Dashboard &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 7. JAVASCRIPT INTERACTIONS & PROTOTYPE BEHAVIORS                         -->
+  <!-- ========================================================================= -->
+  <script>
+    // Canonical Fence Roster & Designated Images
+    const slidesData = [
+      {
+        title: "Heritage (HRTG) 6′ Cedar Privacy",
+        badge: "VPF · Si View Standard",
+        spec: "Hybrid 2-Rail + Top Cap · PT 1T Trim · Full Privacy · Si View Approved Build",
+        dim: '112" × 72" Standard Module (VPF-WOOD-HRTG)',
+        price: "$42–$57",
+        img: "images/real-fences-structures/2508-Redwood-Stained-Heritage-Picket-Fence-Maple-Valley-Wa (9)-Compress.jpg"
+      },
+      {
+        title: "Legacy (LGCY) Triple-Rail Cedar",
+        badge: "VPF · Heavy Structural",
+        spec: "3-Rail Hybrid + Rail Cap · Lineage Lowered Bottom · PT 3T Full Trim",
+        dim: '112" × 72" Triple Rail Module (VPF-WOOD-LGCY)',
+        price: "$46–$62",
+        img: "images/real-fences-structures/2411B-Legacy-Fence-Chestnut-Brown-Skyway-Renton-Wa (8).jpg"
+      },
+      {
+        title: "Horizontal Picket (HPF) Shadowbox",
+        badge: "HF · Modern Horizontal",
+        spec: "Cedar Pickets Stacked Post-to-Post · Alternating Depth · Dimensional Airflow",
+        dim: '96" × 72" Horizontal Module (HF-HPF)',
+        price: "$48–$65",
+        img: "images/real-fences-structures/2405-Horizontal-Fence-Shadowbox-Style-Clyde-Hill-Bellevue-Wa (3).jpg"
+      },
+      {
+        title: "Rancher (RNCH) 4-Bar Split Board",
+        badge: "HF · Board Fence",
+        spec: "Horizontal Split Board Framing · 2×6 Rails · PT Incised 4×6 Posts · Open Field",
+        dim: '112" × 48" Acreage Module (HF-HSB-RNCH)',
+        price: "$32–$44",
+        img: "images/ai-generated-fences/Rancher Fence Illustration.jpg"
+      },
+      {
+        title: "Fabric Lattice (LAT) Privacy Panel",
+        badge: "Fabric · Lattice Line",
+        spec: "4×4 Posts · 2×4 Rails · 1×4 Sandwich Trim · Clear / Composite Lattice Fill",
+        dim: '96" × 72" Fabric Module (FAB-LAT)',
+        price: "$34–$48",
+        img: "images/catalog-fabric-lattice.svg"
+      }
+    ];
+
+    let currentSlide = 0;
+    function renderProtoSlide() {
+      const slide = slidesData[currentSlide];
+      document.getElementById('slider-title-display').textContent = slide.title;
+      document.getElementById('slider-badge-display').textContent = slide.badge;
+      document.getElementById('slide-spec-text').textContent = slide.spec;
+      document.getElementById('slide-dim-text').textContent = slide.dim;
+      document.getElementById('slide-price-text').innerHTML = `${slide.price} <span style="font-size:0.72rem;">/ LF</span>`;
+      document.getElementById('proto-slide-img').src = slide.img;
+
+      // Update dots
+      const dots = document.querySelectorAll('.slider-dot');
+      dots.forEach((dot, idx) => {
+        dot.style.background = (idx === currentSlide) ? 'var(--forest-deep)' : 'var(--tan)';
+      });
+    }
+
+    function nextProtoSlide() {
+      currentSlide = (currentSlide + 1) % slidesData.length;
+      renderProtoSlide();
+    }
+    function prevProtoSlide() {
+      currentSlide = (currentSlide - 1 + slidesData.length) % slidesData.length;
+      renderProtoSlide();
+    }
+    function setProtoSlide(index) {
+      currentSlide = index;
+      renderProtoSlide();
+    }
+
+    // Live CAD Footage Slider
+    function updateCadSlider(lf) {
+      document.getElementById('cad-lf-text').textContent = lf + ' LF';
+      const cost = Math.round(lf * 47);
+      document.getElementById('cad-cost-display').textContent = 'Est: $' + cost.toLocaleString() + ' ±15%';
+    }
+
+    // ZIP Code Quick Check
+    function checkQuickZip() {
+      const val = document.getElementById('quick-zip-input').value.trim();
+      const feedback = document.getElementById('quick-zip-feedback');
+      if (val === '98045') {
+        feedback.innerHTML = '&check; <strong>Si View (North Bend)</strong>: 6ft Cedar max &middot; Natural stain approved.';
+      } else if (val === '98065') {
+        feedback.innerHTML = '&check; <strong>Snoqualmie Ridge</strong>: 6ft Privacy / 4ft Raked Picket approved.';
+      } else if (val === '98029' || val === '98027') {
+        feedback.innerHTML = '&check; <strong>Issaquah Highlands</strong>: Board-on-Board Cedar &middot; ARC Form Ready.';
+      } else {
+        feedback.innerHTML = `&check; <strong>ZIP ${val} (King County)</strong>: General WA code active &middot; 6ft backyard max.`;
+      }
+    }
+
+    // Upper Right Hero Card Presets & Auto-Carousel Data
+    const heroOpenStyles = [
+      { name: "Open Design: 6' Heritage Cedar Privacy", img: "images/catalog-vpf-natural.svg" },
+      { name: "Open Design: Picture Frame Cap & Trim", img: "images/card-trials/grey-lumber-with-fern.jpg" },
+      { name: "Open Design: Shou Sugi Ban Dark Spec", img: "images/ai-generated-fences/Cast iron black yard fence _edited.jpg" },
+      { name: "Open Design: Rancher Rail & Picket", img: "images/ai-generated-fences/Rancher Illustration.jpg" }
+    ];
+    let heroStyleIdx = 0;
+    let heroCarouselTimer = null;
+
+    function checkHeroZip() {
+      const comm = document.getElementById('hero-community-select').value;
+      const imgEl = document.getElementById('hero-preview-img');
+      const badgeEl = document.getElementById('hero-design-badge');
+      const indicatorEl = document.getElementById('hero-carousel-indicator');
+
+      if (comm === 'si-view') {
+        if (heroCarouselTimer) clearInterval(heroCarouselTimer);
+        imgEl.style.opacity = '0.2';
+        setTimeout(() => {
+          imgEl.src = "images/catalog-vpf-natural.svg";
+          imgEl.style.opacity = '1';
+        }, 150);
+        badgeEl.textContent = "Si View Approved: 6' Heritage Cedar Privacy";
+        indicatorEl.textContent = "ARC SPEC LOCKED";
+        indicatorEl.style.background = "var(--forest-deep)";
+      } else {
+        startHeroCarousel();
+      }
+    }
+
+    function startHeroCarousel() {
+      if (heroCarouselTimer) clearInterval(heroCarouselTimer);
+      const imgEl = document.getElementById('hero-preview-img');
+      const badgeEl = document.getElementById('hero-design-badge');
+      const indicatorEl = document.getElementById('hero-carousel-indicator');
+      
+      indicatorEl.textContent = "AUTO CYCLING";
+      indicatorEl.style.background = "var(--ink)";
+
+      heroCarouselTimer = setInterval(() => {
+        const comm = document.getElementById('hero-community-select').value;
+        if (comm === 'no-hoa') {
+          heroStyleIdx = (heroStyleIdx + 1) % heroOpenStyles.length;
+          imgEl.style.opacity = '0.3';
+          setTimeout(() => {
+            imgEl.src = heroOpenStyles[heroStyleIdx].img;
+            badgeEl.textContent = heroOpenStyles[heroStyleIdx].name;
+            imgEl.style.opacity = '1';
+          }, 200);
+        }
+      }, 3200);
+    }
+
+    function goToCommunityDesign() {
+      const comm = document.getElementById('hero-community-select').value;
+      if (comm === 'si-view') {
+        window.location.href = "catalog.html#si-view";
+      } else {
+        window.location.href = "catalog.html";
+      }
+    }
+
+    // Initialize Hero Carousel on load
+    document.addEventListener('DOMContentLoaded', () => {
+      startHeroCarousel();
+    });
+
+    // Folio Chapters Data (6-Chapter Interactive Architecture Package)
+    const folioChapters = [
+      {
+        num: 1,
+        title: "Heritage Cedar \u2014 6' Privacy",
+        sheet: "SHEET A-01 \u2014 FRONT SHOWCASE \u2014 SI VIEW",
+        price: "$42\u2014$57",
+        img: "images/card-trials/grey-lumber-with-fern.jpg"
+      },
+      {
+        num: 2,
+        title: "Si View ARC Rules & Height Caps",
+        sheet: "SHEET A-02 \u2014 COMMUNITY GUIDELINE \u2014 SEC 4.1",
+        price: "ARC PRE-APPROVED",
+        img: "images/Holographic fence icons/Find-it-Holographic-Map-Pin.png"
+      },
+      {
+        num: 3,
+        title: "Clear WRC & Galvanized Takeoff",
+        sheet: "SHEET M-01 \u2014 MATERIAL PREVIEW",
+        price: "$2,640 EST. MATS",
+        img: "images/real-fences-structures/2508-Redwood-Stained-Heritage-Picket-Fence-Maple-Valley-Wa (9)-Compress.jpg"
+      },
+      {
+        num: 4,
+        title: "Detailed Structural Flow",
+        sheet: "SHEET B-01 \u2014 BUILDER REFERENCE MODEL",
+        price: "PERMIT READY",
+        img: "images/ai-generated-fences/Rancher Illustration.jpg"
+      },
+      {
+        num: 5,
+        title: "Rot-Barrier Kickboard & Caps",
+        sheet: "SHEET X-01 \u2014 MODULAR ADD-ONS & HARDWARE",
+        price: "+$8 / LF OPTION",
+        img: "images/real-fences-structures/2411B-Legacy-Fence-Chestnut-Brown-Skyway-Renton-Wa (8).jpg"
+      },
+      {
+        num: 6,
+        title: "Transparent ~15% Cost Ledger",
+        sheet: "SHEET L-01 \u2014 ITEMIZED PRICING LEDGER",
+        price: "$5,376 TOTAL EST",
+        img: "images/Holographic fence icons/Fence-It-Holographic-Fence.png"
+      }
+    ];
+
+    let currentFolioChapter = 0;
+
+    function setFolioChapter(index) {
+      currentFolioChapter = index;
+      document.querySelectorAll('.folio-tab-btn').forEach((btn, idx) => {
+        if (idx === index) {
+          btn.style.background = 'var(--gold-sun)';
+          btn.style.color = 'var(--ink)';
+          btn.style.fontWeight = '700';
+        } else {
+          btn.style.background = 'rgba(20,27,22,0.6)';
+          btn.style.color = '#DBD0BD';
+          btn.style.fontWeight = '400';
+        }
+      });
+      const data = folioChapters[index];
+      document.getElementById('folio-chapter-title').textContent = data.title;
+      document.getElementById('folio-chapter-desc').textContent = data.sheet;
+      document.getElementById('folio-price-display').innerHTML = `${data.price} <span style="font-size:0.75rem; font-weight:400; color:#FAF6EE;">/ LF</span>`;
+      document.getElementById('folio-display-img').src = data.img;
+      document.getElementById('folio-page-indicator').textContent = `Page ${index + 1} of 6`;
+      
+      const nextIdx = (index + 1) % 6;
+      document.getElementById('side-tab-text').textContent = `Page ${nextIdx + 1} >`;
+      
+      // Update prev button state
+      const prevBtn = document.getElementById('folio-prev-btn');
+      if (index === 0) {
+        prevBtn.style.color = '#8E9A92';
+        prevBtn.style.borderColor = 'rgba(255,255,255,0.15)';
+      } else {
+        prevBtn.style.color = '#FFFFFF';
+        prevBtn.style.borderColor = 'var(--gold-sun)';
+      }
+    }
+
+    function nextFolioChapter() {
+      currentFolioChapter = (currentFolioChapter + 1) % folioChapters.length;
+      setFolioChapter(currentFolioChapter);
+    }
+
+    function prevFolioChapter() {
+      currentFolioChapter = (currentFolioChapter - 1 + folioChapters.length) % folioChapters.length;
+      setFolioChapter(currentFolioChapter);
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    }
+    function selectHoa(name, height, stain) {
+      document.getElementById('hoa-selected-details').innerHTML = `<strong>Selected:</strong> ${name} &middot; ${height} &middot; Stain: ${stain} &middot; ARC Form auto-filled.`;
+    }
+
+    // Keyboard support (Escape to close modals)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.ff-modal-backdrop').forEach(m => m.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lew Line & Fence Frames — Master Platform Cockpit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0d1117;
+      --surface-dark: #161b22;
+      --surface-card: #1c2128;
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --sky-blue: #60A5FA;
+      --purple-accent: #C084FC;
+      --parchment: #FAF6EE;
+      --border-dark: #30363d;
+      --text-muted: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090d13;
+      color: #f0f6fc;
+      font-family: 'Rowdies', cursive, sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--surface-dark);
+      border-bottom: 2px solid var(--gold-sun);
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+    .brand-group { display: flex; align-items: center; gap: 1rem; }
+    .brand-group h1 {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--gold-sun);
+      letter-spacing: -0.5px;
+    }
+    .brand-pill {
+      color: var(--ember);
+      font-size: 0.85rem;
+      font-weight: 400;
+      background: rgba(242, 122, 34, 0.12);
+      border: 1px solid var(--ember);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+      min-width: 260px;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--surface-card);
+      border: 1.5px solid var(--border-dark);
+      color: var(--parchment);
+      padding: 0.65rem 1.2rem;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--forest-bright);
+      box-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
+    }
+    .nav-tabs {
+      display: flex;
+      background: var(--ink);
+      padding: 0.75rem 2.5rem;
+      border-bottom: 1px solid var(--border-dark);
+      gap: 0.75rem;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-weight: 400;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: var(--surface-card);
+      color: var(--gold-sun);
+      border: 1px solid var(--gold-sun);
+      font-weight: 700;
+    }
+    .tab-btn:hover:not(.active) {
+      color: #FFF;
+      background: rgba(255,255,255,0.05);
+    }
+    .badge {
+      background: rgba(255,255,255,0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+    }
+    main {
+      flex: 1;
+      padding: 2.5rem;
+      max-width: 1700px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .sub-filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
+      background: rgba(22, 27, 34, 0.6);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-dark);
+    }
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+      text-transform: uppercase;
+    }
+    .filter-chip {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-chip.active {
+      background: rgba(229, 184, 66, 0.15);
+      border-color: var(--gold-sun);
+      color: var(--gold-sun);
+      font-weight: 700;
+    }
+    .filter-chip:hover:not(.active) {
+      border-color: #8b949e;
+      color: #FFF;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.75rem;
+    }
+    .card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .card:hover {
+      border-color: var(--forest-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .tag-gold { background: rgba(229, 184, 66, 0.15); color: var(--gold-sun); border: 1px solid var(--gold-sun); }
+    .tag-ember { background: rgba(242, 122, 34, 0.15); color: var(--ember); border: 1px solid var(--ember); }
+    .tag-green { background: rgba(74, 222, 128, 0.15); color: var(--forest-bright); border: 1px solid var(--forest-bright); }
+    .tag-blue { background: rgba(96, 165, 250, 0.15); color: var(--sky-blue); border: 1px solid var(--sky-blue); }
+    .tag-purple { background: rgba(192, 132, 252, 0.15); color: var(--purple-accent); border: 1px solid var(--purple-accent); }
+    
+    .card-size {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 1rem;
+      margin-top: auto;
+      gap: 0.75rem;
+    }
+    .btn-group { display: flex; gap: 0.5rem; width: 100%; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: var(--ink);
+      color: var(--gold-sun);
+      border: 1.5px solid var(--gold-sun);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .btn:hover {
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #FFF;
+      border-color: var(--border-dark);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: #8b949e;
+      color: #FFF;
+    }
+    .btn-green {
+      color: var(--forest-bright);
+      border-color: var(--forest-bright);
+    }
+    .btn-green:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+    }
+
+    /* PREVIEW DRAWER / MODAL */
+    #previewDrawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 1300px;
+      height: 100vh;
+      background: var(--surface-dark);
+      border-left: 2px solid var(--gold-sun);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #previewDrawer.open {
+      right: 0;
+    }
+    .drawer-header {
+      padding: 1rem 1.5rem;
+      background: var(--ink);
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .drawer-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-sun);
+    }
+    .drawer-close {
+      background: transparent;
+      border: 1px solid var(--border-dark);
+      color: #FFF;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .drawer-close:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+    }
+    .drawer-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #FFF;
+    }
+    .drawer-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #drawerBackdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+      display: none;
+    }
+    #drawerBackdrop.open {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-group">
+      <h1>PLATFORM COCKPIT</h1>
+      <span class="brand-pill">LEW LINE & FENCE FRAMES</span>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search 36+ demos, canon docs, tools..." oninput="filterCards()">
+    </div>
+  </header>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchNavTab('demos')">🚀 Interactive Demos <span class="badge">36</span></button>
+    <button class="tab-btn" onclick="switchNavTab('docs')">📚 Docs & Canon <span class="badge">6</span></button>
+    <button class="tab-btn" onclick="switchNavTab('tools')">🛠️ Tools & Scripts <span class="badge">12</span></button>
+    <button class="tab-btn" onclick="switchNavTab('exports')">📦 Exports & Packets <span class="badge">5</span></button>
+    <button class="tab-btn" onclick="switchNavTab('design')">🎨 Design Studio</button>
+  </div>
+
+  <main>
+    <!-- DEMOS PANEL -->
+    <div id="panel-demos" class="panel active">
+      
+      <!-- Sub-filter chips -->
+      <div class="sub-filter-bar">
+        <span class="filter-label">Filter Category:</span>
+        <button class="filter-chip active" onclick="filterCategory('all')">All Demos (36)</button>
+        <button class="filter-chip" onclick="filterCategory('configurators')">🏗️ Configurators & Designer (5)</button>
+        <button class="filter-chip" onclick="filterCategory('blueprints')">📐 HOA Blueprints (4)</button>
+        <button class="filter-chip" onclick="filterCategory('homepage')">🌟 Homepage & Pillars (7)</button>
+        <button class="filter-chip" onclick="filterCategory('portals')">👥 Portals & Matching (7)</button>
+        <button class="filter-chip" onclick="filterCategory('labs')">🧪 Design Labs & Showcases (13)</button>
+      </div>
+
+      <div class="grid" id="demosGrid">
+
+        <!-- CONFIGURATORS & DESIGNER -->
+        <div class="card" data-category="configurators" data-title="03 heritage v1 multi-slot configurator procedural svg 03-heritage-v1-full-configurator.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">🏗️ Configurators & Designer</span>
+              <span class="card-size">392 KB</span>
+            </div>
+            <h3>03 · Heritage V1 Multi-Slot Configurator</h3>
+            <p>Master 4-slot procedural SVG configurator supporting real-time switching of fence types, heights, wood stains, post caps, and man gates with instant SVG re-rendering.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/03-heritage-v1-full-configurator.html', '03 · Heritage V1 Multi-Slot Configurator')">🔍 Quick Preview</button>
+              <a href="demos/03-heritage-v1-full-configurator.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="configurators" data-title="10 heritage v2 pnw configurator 10-heritage-v2-pnw-configurator.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">🏗️ Configurators & Designer</span>
+              <span class="card-size">6 KB</span>
+            </div>
+            <h3>10 · Heritage V2 PNW Configurator</h3>
+            <p>Pacific Northwest regional fence configurator with specialized cedar framing options, heavy snowload posts, and dark steel frame overlays.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/10-heritage-v2-pnw-configurator.html', '10 · Heritage V2 PNW Configurator')">🔍 Quick Preview</button>
+              <a href="demos/10-heritage-v2-pnw-configurator.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="configurators" data-title="designer studio 2d elevation sub-flips bottom carousel designer-studio.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">🏗️ Configurators & Designer</span>
+              <span class="card-size">52 KB</span>
+            </div>
+            <h3>Designer Studio (2D Elevation)</h3>
+            <p>Full 2D interactive elevation designer featuring the bottom carousel HUD, left option rail, live BOM estimator bar, and sub-flips panel (Framing, Fill, Finish).</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/designer-studio.html', 'Designer Studio (2D Elevation)')">🔍 Quick Preview</button>
+              <a href="demos/designer-studio.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="configurators" data-title="01 interactive architecture canvas diagramming 01-interactive-architecture-canvas.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">🏗️ Configurators & Designer</span>
+              <span class="card-size">75 KB</span>
+            </div>
+            <h3>01 · Interactive Architecture Canvas</h3>
+            <p>Interactive diagramming and visual layout canvas for mapping site architectures, route flows, and component dependency graphs.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/01-interactive-architecture-canvas.html', '01 · Interactive Architecture Canvas')">🔍 Quick Preview</button>
+              <a href="demos/01-interactive-architecture-canvas.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="configurators" data-title="founder preflight studio review tokens founder-preflight-studio.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">🏗️ Configurators & Designer</span>
+              <span class="card-size">60 KB</span>
+            </div>
+            <h3>Founder Preflight Studio</h3>
+            <p>All-in-one preflight review cockpit testing all visual variations, modal triggers, error banners, and brand token compliance.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/founder-preflight-studio.html', 'Founder Preflight Studio')">🔍 Quick Preview</button>
+              <a href="demos/founder-preflight-studio.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOA BLUEPRINTS & ARC -->
+        <div class="card" data-category="blueprints" data-title="04 heritage portrait arc blueprint sheet 04-heritage-portrait-arc-blueprint.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-green">📐 HOA Blueprints & ARC</span>
+              <span class="card-size">318 KB</span>
+            </div>
+            <h3>04 · Heritage Portrait ARC Blueprint Sheet</h3>
+            <p>Official 8.5" x 11" Portrait ARC Blueprint sheet ready for homeowner submission to HOA architectural review committees with dimension callouts and specs.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/04-heritage-portrait-arc-blueprint.html', '04 · Heritage Portrait ARC Blueprint Sheet')">🔍 Quick Preview</button>
+              <a href="demos/04-heritage-portrait-arc-blueprint.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="blueprints" data-title="05 heritage landscape arc blueprint sheet 05-heritage-landscape-arc-blueprint.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-green">📐 HOA Blueprints & ARC</span>
+              <span class="card-size">314 KB</span>
+            </div>
+            <h3>05 · Heritage Landscape ARC Blueprint Sheet</h3>
+            <p>Widescreen Landscape ARC presentation blueprint designed for contractor submittals, permit offices, and HOA committee reviews.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/05-heritage-landscape-arc-blueprint.html', '05 · Heritage Landscape ARC Blueprint Sheet')">🔍 Quick Preview</button>
+              <a href="demos/05-heritage-landscape-arc-blueprint.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="blueprints" data-title="blueprint standalone viewer cut lists bom blueprint-standalone.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-green">📐 HOA Blueprints & ARC</span>
+              <span class="card-size">17 KB</span>
+            </div>
+            <h3>Blueprint Standalone Viewer</h3>
+            <p>Clean, distraction-free blueprint and BOM inspector displaying cut lists, post hole depth specs, and hardware counts.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/blueprint-standalone.html', 'Blueprint Standalone Viewer')">🔍 Quick Preview</button>
+              <a href="demos/blueprint-standalone.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="blueprints" data-title="09 si view hoa title prototypes 09-si-view-hoa-title-prototypes.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-green">📐 HOA Blueprints & ARC</span>
+              <span class="card-size">17 KB</span>
+            </div>
+            <h3>09 · Si View HOA Title Prototypes</h3>
+            <p>Specialized HOA title blocks and rule enforcement headers for the Si View neighborhood in North Bend, WA.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/09-si-view-hoa-title-prototypes.html', '09 · Si View HOA Title Prototypes')">🔍 Quick Preview</button>
+              <a href="demos/09-si-view-hoa-title-prototypes.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOMEPAGE & PILLARS -->
+        <div class="card" data-category="homepage" data-title="02 live homepage hero carousel 02-fence-frames-homepage-live.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">149 KB</span>
+            </div>
+            <h3>02 · Live Homepage with Hero Carousel</h3>
+            <p>Complete marketing homepage prototype with the 3-Pillar layout (Find It · Frame It · Fence It), hero imagery, and live CTA flows.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/02-fence-frames-homepage-live.html', '02 · Live Homepage')">🔍 Quick Preview</button>
+              <a href="demos/02-fence-frames-homepage-live.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="07 style match wizard demo 4 step 07-style-match-wizard-demo.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>07 · Style Match Wizard Demo</h3>
+            <p>Guided 4-step wizard assisting homeowners in matching their architectural style (Modern, Craftsman, Traditional) with approved fence types.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/07-style-match-wizard-demo.html', '07 · Style Match Wizard')">🔍 Quick Preview</button>
+              <a href="demos/07-style-match-wizard-demo.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="08 fence catalog showcase 08-fence-catalog-showcase.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">15 KB</span>
+            </div>
+            <h3>08 · Fence Catalog Showcase</h3>
+            <p>Visual catalog browsing experience displaying vertical pickets, horizontal modern slats, and privacy panels with filterable tags.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/08-fence-catalog-showcase.html', '08 · Fence Catalog Showcase')">🔍 Quick Preview</button>
+              <a href="demos/08-fence-catalog-showcase.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="catalog hub style browser catalog-hub.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">11 KB</span>
+            </div>
+            <h3>Catalog Hub & Style Browser</h3>
+            <p>Structured catalog index with category navigation, quick preview modals, and material spec sheets.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/catalog-hub.html', 'Catalog Hub')">🔍 Quick Preview</button>
+              <a href="demos/catalog-hub.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="catalog detail product spec catalog-detail.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>Catalog Detail Page</h3>
+            <p>Deep product detail page showing wood grain textures, standard dimensions, wind resistance ratings, and matching gates.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/catalog-detail.html', 'Catalog Detail')">🔍 Quick Preview</button>
+              <a href="demos/catalog-detail.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="geo north bend king county geo-north-bend.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>Geo Page · North Bend, WA</h3>
+            <p>Geo-targeted landing page for King County / North Bend showcasing regional weather considerations and municipal fence height laws.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/geo-north-bend.html', 'Geo · North Bend')">🔍 Quick Preview</button>
+              <a href="demos/geo-north-bend.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="homepage" data-title="geo si view hoa community geo-si-view.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">🌟 Homepage & Pillars</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>Geo Page · Si View Community</h3>
+            <p>Hyper-local community landing page tailored to the Si View HOA architectural design guidelines and pre-approved styles.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/geo-si-view.html', 'Geo · Si View')">🔍 Quick Preview</button>
+              <a href="demos/geo-si-view.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PORTALS & WORKFLOWS -->
+        <div class="card" data-category="portals" data-title="homeowner dashboard folio hub homeowner-dashboard.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">28 KB</span>
+            </div>
+            <h3>Homeowner Dashboard & Folio Hub</h3>
+            <p>Homeowner account portal for tracking active fence projects, viewing saved Fence-Folios, and accessing contractor bids.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/homeowner-dashboard.html', 'Homeowner Dashboard')">🔍 Quick Preview</button>
+              <a href="demos/homeowner-dashboard.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="homeowner folio dossier homeowner-folio-dossier.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">10 KB</span>
+            </div>
+            <h3>Homeowner Folio Dossier</h3>
+            <p>Detailed digital dossier summarizing material specifications, ARC submission status, warranty information, and installer details.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/homeowner-folio-dossier.html', 'Homeowner Folio Dossier')">🔍 Quick Preview</button>
+              <a href="demos/homeowner-folio-dossier.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="contractor match scramble contractor-match.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>Contractor Match Scramble</h3>
+            <p>Lead distribution and 3-contractor targeted matching interface showing contractor badges, verified ratings, and quote requests.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/contractor-match.html', 'Contractor Match')">🔍 Quick Preview</button>
+              <a href="demos/contractor-match.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="contractors hub partner portal contractors-hub.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>Contractors Hub</h3>
+            <p>Partner portal for fencing contractors to claim local leads, submit project bids, and download verified ARC blueprint packets.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/contractors-hub.html', 'Contractors Hub')">🔍 Quick Preview</button>
+              <a href="demos/contractors-hub.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="auth gate sign in login auth-gate.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">25 KB</span>
+            </div>
+            <h3>Auth Gate & Sign In</h3>
+            <p>Secure multi-role authentication gate supporting homeowner logins, contractor portal access, and admin previews.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/auth-gate.html', 'Auth Gate')">🔍 Quick Preview</button>
+              <a href="demos/auth-gate.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="14 two lew split board proposal 14-two-lew-split-board-proposal.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">9 KB</span>
+            </div>
+            <h3>14 · Two Lew Split-Board Proposal</h3>
+            <p>Interactive contractor bid presentation for Two Lew Builders presenting a 3-board custom cedar split-board fence estimate.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/14-two-lew-split-board-proposal.html', '14 · Split-Board Proposal')">🔍 Quick Preview</button>
+              <a href="demos/14-two-lew-split-board-proposal.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="portals" data-title="15 two lew split rail proposal 15-two-lew-split-rail-proposal.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">👥 Portals & Workflows</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>15 · Two Lew Split-Rail Proposal</h3>
+            <p>Interactive contractor bid presentation for a rustic Western Red Cedar split-rail perimeter fence proposal.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/15-two-lew-split-rail-proposal.html', '15 · Split-Rail Proposal')">🔍 Quick Preview</button>
+              <a href="demos/15-two-lew-split-rail-proposal.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESIGN LABS & SHOWCASES -->
+        <div class="card" data-category="labs" data-title="06 design system cards guide rowdies typography 06-design-system-and-cards-guide.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">16 KB</span>
+            </div>
+            <h3>06 · Design System & Cards Guide</h3>
+            <p>Canonical interactive design system guide detailing Rowdies typography (700/400/300), 3-Pillar colors, and 50% outside corner markers.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/06-design-system-and-cards-guide.html', '06 · Design System Guide')">🔍 Quick Preview</button>
+              <a href="demos/06-design-system-and-cards-guide.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="12 component inventory studio 112x96 12-component-inventory-studio.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">1385 KB</span>
+            </div>
+            <h3>12 · Component Inventory Studio</h3>
+            <p>Comprehensive component workbench inspecting all 112x96 modular fence parts, picket types, rails, and hardware symbols.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/12-component-inventory-studio.html', '12 · Component Inventory')">🔍 Quick Preview</button>
+              <a href="demos/12-component-inventory-studio.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="13 graduated cards studio 13-graduated-cards-studio.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">47 KB</span>
+            </div>
+            <h3>13 · Graduated Cards Studio</h3>
+            <p>Interactive visual sandbox testing Wood Grain Cards, CAD Blueprints, Docked Explainer Plates, and phase-coded action buttons.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/13-graduated-cards-studio.html', '13 · Graduated Cards Studio')">🔍 Quick Preview</button>
+              <a href="demos/13-graduated-cards-studio.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="graduated cards master showcase graduated-cards-showcase.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">14 KB</span>
+            </div>
+            <h3>Graduated Cards Master Showcase</h3>
+            <p>Master presentation showcase demonstrating graduated card visual hierarchy across multiple device viewports.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/GRADUATED-CARDS-SHOWCASE.html', 'Graduated Cards Showcase')">🔍 Quick Preview</button>
+              <a href="demos/GRADUATED-CARDS-SHOWCASE.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="box styles showcase border radius box-styles-showcase.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">13 KB</span>
+            </div>
+            <h3>Box Styles Showcase</h3>
+            <p>Visual testbed for card border radiuses, dark control plates, gold uppercase labels, and ivory inputs.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/box-styles-showcase.html', 'Box Styles Showcase')">🔍 Quick Preview</button>
+              <a href="demos/box-styles-showcase.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="texture workbench wood grain cedar texture-workbench.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">11 KB</span>
+            </div>
+            <h3>Texture Workbench</h3>
+            <p>Texture calibration tool testing seamless wood grain tiling, knot patterns, and realistic cedar appearance.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/texture-workbench.html', 'Texture Workbench')">🔍 Quick Preview</button>
+              <a href="demos/texture-workbench.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="element header footer sandbox element-header-footer.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">15 KB</span>
+            </div>
+            <h3>Element Header & Footer Sandbox</h3>
+            <p>Standalone sandbox verifying responsive navigation bar, sticky elevation, and footer legal element rendering.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/element-header-footer.html', 'Header & Footer Sandbox')">🔍 Quick Preview</button>
+              <a href="demos/element-header-footer.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="16 ai models 4k matrix textures 16-ai-models-4k-matrix.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">8 KB</span>
+            </div>
+            <h3>16 · AI Models 4K Matrix</h3>
+            <p>High-resolution 4K comparative matrix evaluating AI-generated fence textures, photorealism, and geometry accuracy.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/16-ai-models-4k-matrix.html', '16 · AI Models 4K Matrix')">🔍 Quick Preview</button>
+              <a href="demos/16-ai-models-4k-matrix.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="11 embed parent smoke test iframe 11-embed-parent-smoke-test.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">10 KB</span>
+            </div>
+            <h3>11 · Embed Parent Smoke Test</h3>
+            <p>Iframe embed smoke test verifying cross-origin communication and dynamic resizing between parent sites and widgets.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/11-embed-parent-smoke-test.html', '11 · Embed Parent Smoke Test')">🔍 Quick Preview</button>
+              <a href="demos/11-embed-parent-smoke-test.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="cursor landing page bakeoff cursor-landing-page-bakeoff.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">42 KB</span>
+            </div>
+            <h3>Cursor Landing Page Bakeoff</h3>
+            <p>Comparative visual bakeoff testing multiple hero headline and call-to-action layout variations.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/cursor-landing-page-bakeoff.html', 'Cursor Landing Page Bakeoff')">🔍 Quick Preview</button>
+              <a href="demos/cursor-landing-page-bakeoff.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="antigravity status widget diagnostic antigravity_status_widget.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">9 KB</span>
+            </div>
+            <h3>Antigravity Status Widget</h3>
+            <p>Diagnostic widget monitoring active agent profiles, MCP tools, and system memory overhead.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/antigravity_status_widget.html', 'Antigravity Status Widget')">🔍 Quick Preview</button>
+              <a href="demos/antigravity_status_widget.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="17 live showcase studio launcher 17-live-showcase-studio-launcher.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">7 KB</span>
+            </div>
+            <h3>17 · Live Showcase Studio Launcher</h3>
+            <p>Centralized studio launcher organizing prototypes by phase and stakeholder audience.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/17-live-showcase-studio-launcher.html', '17 · Live Showcase Studio')">🔍 Quick Preview</button>
+              <a href="demos/17-live-showcase-studio-launcher.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-category="labs" data-title="demo antigravity prototype suite demo-antigravity.html">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">🧪 Design Labs & Showcases</span>
+              <span class="card-size">34 KB</span>
+            </div>
+            <h3>Demo Antigravity Suite</h3>
+            <p>Comprehensive prototype suite showcasing integrated agent interaction workflows and design cards.</p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="openPreview('demos/demo-antigravity.html', 'Demo Antigravity Suite')">🔍 Quick Preview</button>
+              <a href="demos/demo-antigravity.html" target="_blank" class="btn btn-green">Launch Fullscreen ↗</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DOCS PANEL -->
+    <div id="panel-docs" class="panel">
+      <div class="grid">
+        <div class="card" data-title="canon law index governance supreme">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">Canon Law</span>
+              <span class="card-size">Write-Locked</span>
+            </div>
+            <h3>FenceBook Canon Index</h3>
+            <p>Supreme venture governance, handbook laws, brand ownership, and architecture charters.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../../FenceBook/docs/canon/CANON-INDEX.md" target="_blank" class="btn">Open Canon Index</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="design rules typography rowdies colors">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">Design System</span>
+              <span class="card-size">Live Spec</span>
+            </div>
+            <h3>Design Rules & Typography</h3>
+            <p>Rowdies Bold/Regular/Light typography laws, 3-Pillar colors, and Outside Corner standards.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../../FenceBook/docs/DESIGN-RULES.md" target="_blank" class="btn">View Design Rules</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="storage plan drive layout lew line">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">Architecture</span>
+              <span class="card-size">Drive Law</span>
+            </div>
+            <h3>Formal Storage Plan</h3>
+            <p>Single source of truth drive architecture for live hubs, platform depots, and cold media.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../STORAGE-PLAN.md" target="_blank" class="btn">View Storage Plan</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="dev hub plan vite react 4200">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-gold">Engineering</span>
+              <span class="card-size">Dev Hub</span>
+            </div>
+            <h3>Dev Hub Overhaul Plan</h3>
+            <p>Vite + React dev server (:4200) specs with /api/ live middleware and Airtable caching.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../../FenceBook/docs/dev-hub-overhaul-plan.md" target="_blank" class="btn">View Spec</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLS PANEL -->
+    <div id="panel-tools" class="panel">
+      <div class="grid">
+        <div class="card" data-title="sync fence web ps1 script mirror">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">Automation</span>
+              <span class="card-size">PowerShell</span>
+            </div>
+            <h3>Web App Sync Utility</h3>
+            <p>One-click verification and bidirectional mirroring between FenceBook/apps/web-app and FFPW.</p>
+          </div>
+          <div class="card-footer">
+            <a href="scripts/sync-fence-web.ps1" target="_blank" class="btn">Inspect Script</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="switch profile ps1 antigravity">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">Agent Profile</span>
+              <span class="card-size">PowerShell</span>
+            </div>
+            <h3>Profile Switcher</h3>
+            <p>Fast CLI switcher to toggle between web-design, data-eng, minimal, and full profiles.</p>
+          </div>
+          <div class="card-footer">
+            <a href="tools/switch-profile.ps1" target="_blank" class="btn">Open Switcher</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="antigravity status widget diagnostic">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-ember">Diagnostic</span>
+              <span class="card-size">HTML Tool</span>
+            </div>
+            <h3>Antigravity Status Widget</h3>
+            <p>Live visual monitor for tracking active agent plugins, MCP overhead, and skills.</p>
+          </div>
+          <div class="card-footer">
+            <a href="tools/antigravity-status-widget.html" target="_blank" class="btn btn-green">Launch Widget ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORTS PANEL -->
+    <div id="panel-exports" class="panel">
+      <div class="grid">
+        <div class="card" data-title="hoa packets si view klahanie">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">HOA Submissions</span>
+            </div>
+            <h3>HOA Packets & Reference</h3>
+            <p>Pre-approval packets, intake JSONs, and ARC reference documents for Si View, Klahanie, and Snoqualmie Ridge.</p>
+          </div>
+          <div class="card-footer">
+            <a href="exports/hoa-packets/" target="_blank" class="btn">Browse Folder</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="contractor bids quotes newcastle">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">Proposals</span>
+            </div>
+            <h3>Contractor Bids & Quotes</h3>
+            <p>Split-rail estimates, Newcastle bids, and Two Lew Builders pricing sheets.</p>
+          </div>
+          <div class="card-footer">
+            <a href="exports/contractor-bids/" target="_blank" class="btn">Browse Folder</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="specs stitch prompt packets blueprints">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-blue">Blueprints</span>
+            </div>
+            <h3>Specs & Prompt Packets</h3>
+            <p>Google Stitch master prompt packets, Tier-1 page specifications, and blueprint matrices.</p>
+          </div>
+          <div class="card-footer">
+            <a href="exports/specs-and-prompts/" target="_blank" class="btn">Browse Folder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN PANEL -->
+    <div id="panel-design" class="panel">
+      <div class="grid">
+        <div class="card" data-title="design review queue ungraduated drafts">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">Design Studio</span>
+            </div>
+            <h3>Review Queue & Raw AI Drafts</h3>
+            <p>Heavy working vault for ungraduated candidate image trials, raw AI renders, and unoptimized textures.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../../Design/Fence Frames/review-queue/ungraduated-image-drafts/" target="_blank" class="btn">Open Review Queue</a>
+          </div>
+        </div>
+
+        <div class="card" data-title="artboards master affinity figma">
+          <div>
+            <div class="card-top">
+              <span class="card-tag tag-purple">Master Artboards</span>
+            </div>
+            <h3>Vector Artboards (.afdesign)</h3>
+            <p>Multi-layer Affinity and Figma vector source canvases for active design sessions.</p>
+          </div>
+          <div class="card-footer">
+            <a href="../../Design/Fence Frames/artboards/" target="_blank" class="btn">Open Artboards</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PREVIEW DRAWER & BACKDROP -->
+  <div id="drawerBackdrop" onclick="closePreview()"></div>
+  <div id="previewDrawer">
+    <div class="drawer-header">
+      <span class="drawer-title" id="drawerTitle">Interactive Demo Preview</span>
+      <button class="drawer-close" onclick="closePreview()">✕ Close Preview</button>
+    </div>
+    <div class="drawer-body">
+      <iframe id="previewIframe" src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    function switchNavTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      
+      event.currentTarget.classList.add('active');
+      document.getElementById('panel-' + tabId).classList.add('active');
+    }
+
+    function filterCategory(cat) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      document.querySelectorAll('#demosGrid .card').forEach(card => {
+        const itemCat = card.getAttribute('data-category');
+        if (cat === 'all' || itemCat === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        const title = card.getAttribute('data-title') || '';
+        if (title.includes(q) || q === '') {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openPreview(url, title) {
+      document.getElementById('drawerTitle').innerText = title;
+      document.getElementById('previewIframe').src = url;
+      document.getElementById('previewDrawer').classList.add('open');
+      document.getElementById('drawerBackdrop').classList.add('open');
+    }
+
+    function closePreview() {
+      document.getElementById('previewDrawer').classList.remove('open');
+      document.getElementById('drawerBackdrop').classList.remove('open');
+      document.getElementById('previewIframe').src = '';
+    }
+  </script>
+</body>
+</html>

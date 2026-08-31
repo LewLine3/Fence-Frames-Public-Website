@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fence Frames — Frame Your Vision | Find Your Fence</title>
+<script>document.documentElement.classList.add('js');</script>
+<meta name="description" content="Design your fence in the browser, get an instant price range, and generate an HOA-ready blueprint. Then match with vetted local contractors across Washington." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Fence Frames home">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10V2h8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+            <path d="M32 10V2h-8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+            <path d="M2 24v8h8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+            <path d="M32 24v8h-8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="17" cy="17" r="3" fill="#c2622d"/>
+          </svg>
+        </span>
+        <span class="name">Fence&nbsp;<span class="fr">Frames</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#how">How It Works</a>
+        <a href="#designs">Design Catalog</a>
+        <a href="#hoa">HOA &amp; Communities</a>
+        <a href="#pros">For Contractors</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-primary" onclick="document.getElementById('zip-input').focus()">Design My Fence</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+  <!-- SECTION 1 — HERO fused with FIND · FRAME · FENCE -->
+  <section class="hero" id="how">
+    <div class="wrap hero-grid">
+      <div class="reveal in">
+        <p class="tagline"><span>Frame Your Vision</span><span class="pipe" aria-hidden="true">|</span><span>Find Your Fence</span></p>
+
+        <div class="frame">
+          <span class="sheet-no">Sheet 01 &middot; Concept</span>
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <h1>Find it. Frame it.<br /><span class="em">Fence</span> it.</h1>
+        </div>
+
+        <p class="lead">Design your fence in the browser, get an honest price range in seconds, and generate an HOA-ready blueprint &mdash; then match with vetted local pros who bid on the real thing.</p>
+
+        <!-- Find / Frame / Fence, woven into the hero instead of boxed off -->
+        <div class="ffs-row">
+          <div class="ffs-item reveal in">
+            <span class="num">01</span>
+            <div><span class="word">Find</span><p>Your ZIP surfaces local material costs, permit rules, and HOA design standards.</p></div>
+          </div>
+          <div class="ffs-item reveal in">
+            <span class="num">02</span>
+            <div><span class="word">Frame</span><p>Sketch your run in the 2D configurator &mdash; height, style, gates, materials.</p></div>
+          </div>
+          <div class="ffs-item reveal in">
+            <span class="num">03</span>
+            <div><span class="word">Fence</span><p>Export your ARC blueprint, then let vetted local pros bid on the job.</p></div>
+          </div>
+        </div>
+
+        <form class="zip" onsubmit="return checkZip(event)">
+          <label for="zip-input">Start with your ZIP code</label>
+          <div class="field">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86e0b4" stroke-width="2" aria-hidden="true"><path d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+            <input id="zip-input" name="zip" inputmode="numeric" maxlength="5" placeholder="e.g. 98045 (North Bend)" aria-label="ZIP code" />
+          </div>
+          <button class="btn btn-primary" type="submit">Check My Area</button>
+          <p class="hint">Now piloting at Si View &mdash; North Bend, WA &mdash; more communities added weekly.</p>
+          <p id="zip-result" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="trust">
+          <span><span class="dot" aria-hidden="true"></span> Instant price ranges</span>
+          <span><span class="dot" aria-hidden="true"></span> ARC/HOA blueprint PDF</span>
+          <span><span class="dot" aria-hidden="true"></span> No obligation to hire</span>
+        </div>
+      </div>
+
+      <!-- Blueprint panel -->
+      <div class="blueprint reveal in" aria-label="Example fence blueprint preview">
+        <span class="corner tl" aria-hidden="true"></span>
+        <span class="corner tr" aria-hidden="true"></span>
+        <span class="corner bl" aria-hidden="true"></span>
+        <span class="corner br" aria-hidden="true"></span>
+        <div class="bp-head">
+          <div>
+            <div class="bp-title">Heritage Cedar &mdash; 6&prime; Privacy</div>
+            <div class="bp-sub">Sheet A-01 &middot; Elevation</div>
+          </div>
+          <span class="bp-tag">HOA READY</span>
+        </div>
+        <div class="bp-media">
+          <img src="images/architectural-blueprint-fence-spec.png" alt="Architectural elevation drawing of a Heritage cedar privacy fence with posts, pickets, and dimension lines" loading="lazy" />
+          <div class="tint" aria-hidden="true"></div>
+          <svg class="overlay-svg" viewBox="0 0 400 220" preserveAspectRatio="none" aria-hidden="true">
+            <g stroke="#86e0b4" stroke-width="2" fill="none">
+              <path d="M16 32 V16 H32" />
+              <path d="M368 16 H384 V32" />
+              <path d="M16 188 V204 H32" />
+              <path d="M384 188 V204 H368" />
+            </g>
+            <g stroke="#86e0b4" stroke-width="1.4" opacity="0.9">
+              <line class="draw" x1="34" y1="196" x2="366" y2="196" />
+              <path d="M34 191 v10 M366 191 v10" />
+            </g>
+            <text x="200" y="186" fill="#d8c3ab" font-family="Inter, sans-serif" font-size="10" text-anchor="middle">32&#8242; RUN &middot; 6&#8242; HEIGHT</text>
+            <g stroke="#86e0b4" stroke-width="1.2" fill="none" opacity="0.9">
+              <path d="M330 46 a12 12 0 0 1 12 -12" />
+              <line x1="342" y1="34" x2="356" y2="24" />
+            </g>
+            <text x="358" y="21" fill="#86e0b4" font-family="Inter, sans-serif" font-size="9.5">R 0.5&#8243; post cap</text>
+          </svg>
+        </div>
+        <div class="bp-foot">
+          <div>Est. range<strong>$4,200&ndash;$5,700</strong></div>
+          <div>Materials<strong>Western Red Cedar</strong></div>
+          <div>Sheet<strong>1 of 3</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — DESIGN CATALOG (grid-perfect) -->
+  <section id="designs" class="catalog-bg">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag-stamp"><span class="dot"></span>Fig. 2 &middot; Scale 1:24</span>
+        <p class="eyebrow">Design catalog</p>
+        <h2>Start from a style you love</h2>
+        <p>Every template is fully editable and priced for your ZIP. Pick one, make it yours.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="art">
+            <span class="corner dim tl" aria-hidden="true"></span>
+            <span class="corner dim br" aria-hidden="true"></span>
+            <span class="price-tab">$$</span>
+            <img src="images/privacy-fence-slats-detail.png" alt="Close-up detail of the Heritage VPF cedar privacy fence" loading="lazy" />
+          </div>
+          <div class="body">
+            <h3>Heritage VPF</h3>
+            <div class="meta">Cedar &middot; 6&prime; board-on-board</div>
+            <p>Our reference style &mdash; solid vertical cedar boards with a capped top rail. HOA-approved in every pilot community so far.</p>
+            <div class="price">$14&ndash;$19 <span>/ linear ft</span></div>
+            <span class="tag">Most popular</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="art">
+            <span class="corner dim tl" aria-hidden="true"></span>
+            <span class="corner dim br" aria-hidden="true"></span>
+            <span class="price-tab">$$$</span>
+            <img src="images/horizontal-wood-fence-steel-post.png" alt="Modern horizontal cedar picket fence with clean shadow-gap spacing" loading="lazy" />
+          </div>
+          <div class="body">
+            <h3>HF Horizontal Picket</h3>
+            <div class="meta">Cedar / composite &middot; horizontal</div>
+            <p>Clean horizontal lines with intentional shadow gaps &mdash; a contemporary profile that reads architectural, not fenced-in.</p>
+            <div class="price">$22&ndash;$30 <span>/ linear ft</span></div>
+            <span class="tag">Designer pick</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="art">
+            <span class="corner dim tl" aria-hidden="true"></span>
+            <span class="corner dim br" aria-hidden="true"></span>
+            <span class="price-tab">$</span>
+            <svg class="line-art" viewBox="0 0 200 120" fill="none" stroke="#1b4332" stroke-width="1.3" aria-hidden="true">
+              <line x1="10" y1="100" x2="190" y2="100"/>
+              <rect x="18" y="30" width="8" height="70"/><rect x="96" y="30" width="8" height="70"/><rect x="174" y="30" width="8" height="70"/>
+              <line x1="26" y1="38" x2="96" y2="38" stroke="#9d8068"/><line x1="104" y1="38" x2="174" y2="38" stroke="#9d8068"/>
+              <g stroke-width="1">
+                <path d="M34 44 L50 60 M50 44 L34 60"/><path d="M56 44 L72 60 M72 44 L56 60"/><path d="M78 44 L94 60 M94 44 L78 60"/>
+                <path d="M34 66 L50 82 M50 66 L34 82"/><path d="M56 66 L72 82 M72 66 L56 82"/><path d="M78 66 L94 82 M94 66 L78 82"/>
+                <path d="M112 44 L128 60 M128 44 L112 60"/><path d="M134 44 L150 60 M150 44 L134 60"/><path d="M156 44 L172 60 M172 44 L156 60"/>
+                <path d="M112 66 L128 82 M128 66 L112 82"/><path d="M134 66 L150 82 M150 66 L134 82"/><path d="M156 66 L172 82 M172 66 L156 82"/>
+              </g>
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Fabric Lattice Accent</h3>
+            <div class="meta">Cedar lattice &middot; open weave</div>
+            <p>Diamond lattice infill for garden borders and side yards &mdash; keeps sightlines open while still marking the line.</p>
+            <div class="price">$11&ndash;$16 <span>/ linear ft</span></div>
+            <span class="tag">Budget friendly</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — HOA / PERMITS -->
+  <section id="hoa">
+    <div class="wrap hoa">
+      <div class="reveal">
+        <p class="eyebrow">Built for the paperwork</p>
+        <h2>The blueprint your HOA<br />actually wants to see</h2>
+        <div class="list">
+          <div class="item"><span class="check" aria-hidden="true">&#10003;</span><p><strong>To-scale elevation &amp; plan views</strong> generated automatically from your design.</p></div>
+          <div class="item"><span class="check" aria-hidden="true">&#10003;</span><p><strong>Community rules pre-loaded</strong> &mdash; height caps, setbacks, and stain requirements flagged before you submit.</p></div>
+          <div class="item"><span class="check" aria-hidden="true">&#10003;</span><p><strong>One-click PDF export</strong> ready to attach to your ARC application.</p></div>
+        </div>
+        <p class="disclaimer">Unofficial planning tool &mdash; always confirm requirements with your association before building.</p>
+      </div>
+      <div class="hoa-panel reveal">
+        <span class="corner dim tl" aria-hidden="true"></span>
+        <span class="corner dim br" aria-hidden="true"></span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <strong style="font-family:'Rowdies',sans-serif;font-weight:400;color:var(--forest);font-size:17px;">Si View Community</strong>
+          <span class="pill">North Bend, WA</span>
+        </div>
+        <div class="row"><span>Max fence height</span><span>6&prime; (approved style)</span></div>
+        <div class="row"><span>Posts</span><span>4&times;4 PT &middot; 8&prime; o.c. max</span></div>
+        <div class="row"><span>Pickets</span><span>1&times;4 / 1&times;6 cedar, flat top</span></div>
+        <div class="row"><span>Finish</span><span>SW Woodscapes &ldquo;Asteroid&rdquo; within 60 days</span></div>
+        <div class="row"><span>Corner setback</span><span>5 ft from lot line</span></div>
+        <div class="row"><span>Your design status</span><span style="color:var(--forest);">&#10003; Within guidelines</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTRACTOR / HOMEOWNER SPLIT -->
+  <section id="pros" style="padding-top:0;">
+    <div class="wrap">
+      <div class="split reveal">
+        <div class="homeowner">
+          <div class="bg-texture" aria-hidden="true"></div>
+          <p class="eyebrow">Homeowners</p>
+          <h3>Free to design. Free to decide.</h3>
+          <p>Build your plan, see real pricing, and only share your details when you&rsquo;re ready for bids. No spam, no pressure.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('zip-input').focus()">Start Designing</button>
+        </div>
+        <div class="contractor">
+          <div class="bg-texture" aria-hidden="true"></div>
+          <p class="eyebrow">Contractors</p>
+          <h3>Real plans. Real budgets. Warm leads.</h3>
+          <p>Every lead arrives with a finished design, a location, and a homeowner who already knows their price range. Claim a seat and bid.</p>
+          <button class="btn btn-ghost">Join as a Pro</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="brand">
+            <span class="mark" aria-hidden="true">
+              <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 10V2h8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+                <path d="M32 10V2h-8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+                <path d="M2 24v8h8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+                <path d="M32 24v8h-8" stroke="#5fbf8f" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="17" cy="17" r="3" fill="#c2622d"/>
+              </svg>
+            </span>
+            <span class="name">Fence&nbsp;Frames</span>
+          </div>
+          <p class="colophon">Frame your vision, find your fence. Design tools and honest local pricing for Washington homeowners.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul><li><a href="#how">How it works</a></li><li><a href="#designs">Design catalog</a></li><li><a href="#hoa">HOA &amp; permits</a></li><li><a href="#top">Pricing</a></li></ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul><li><a href="#top">About</a></li><li><a href="#pros">For contractors</a></li><li><a href="#top">Coverage area</a></li><li><a href="#top">Contact</a></li></ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul><li><a href="#top">Privacy</a></li><li><a href="#top">Terms</a></li><li><a href="#top">How leads work</a></li></ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Fence Frames. Piloting at Si View, North Bend, WA.</span>
+        <span class="made">Fence Frames is a design &amp; introduction service, not a contractor.</span>
+      </div>
+    </div>
+  </footer>
+
+<script src="app.js"></script>
+</body>
+</html>

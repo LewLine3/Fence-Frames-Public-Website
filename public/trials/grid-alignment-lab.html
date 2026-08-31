@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Flush 0 to 1200px Grid Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F4ECDC;
+      --bg-soft: #FAF6EE;
+      --ink: #1a1a1a;
+      --forest-deep: #16432D;
+      --emerald-sub: rgba(46, 139, 78, 0.50);
+      --gold: #d9b872;
+      --ember: #c2622d;
+      --mark-green: #5aab6a;
+      --tan: #c4b294;
+      --grid-major: 100px;
+      --grid-minor: 25px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Canvas with Grid Centered and Locked from 0 to 1200 */
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      line-height: 1.5;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--emerald-sub) 1px, transparent 1px),
+        linear-gradient(90deg, var(--emerald-sub) 1px, transparent 1px),
+        linear-gradient(var(--forest-deep) 2px, transparent 2px),
+        linear-gradient(90deg, var(--forest-deep) 2px, transparent 2px);
+      background-size:
+        var(--grid-minor) var(--grid-minor),
+        var(--grid-minor) var(--grid-minor),
+        var(--grid-major) var(--grid-major),
+        var(--grid-major) var(--grid-major);
+      background-position: calc(50% - 600px) 0; /* Aligns grid origin dead-on with the 1200px container */
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 5rem;
+    }
+
+    /* Fixed Top Control Bar */
+    .lab-controls {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #141B16;
+      border-bottom: 3px solid var(--ink);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      color: #FAF6EE;
+    }
+    .lab-controls h1 {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+    .btn-toggle-guide {
+      background: var(--gold);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* FLUSH 1200px CONTAINER FRAME WITH MAJOR 2px LINES AT 0 AND 1200 */
+    .frame-1200-flush {
+      width: 1200px;
+      margin: 2rem auto;
+      border-left: 3px solid var(--forest-deep); /* 0px Major Line */
+      border-right: 3px solid var(--forest-deep); /* 1200px Major Line */
+      position: relative;
+      background: rgba(244, 236, 220, 0.35);
+    }
+
+    /* Coordinate Ruler */
+    .coordinate-ruler {
+      display: flex;
+      height: 34px;
+      background: var(--forest-deep);
+      border-bottom: 2px solid var(--ink);
+      color: #FAF6EE;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      position: relative;
+    }
+    .ruler-tick {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-left: 1.5px solid var(--gold);
+      padding-left: 4px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Section Demo Blocks */
+    .demo-section {
+      margin: 2rem 0;
+      padding: 1.5rem 0;
+    }
+    .demo-header {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.05rem;
+      color: var(--forest-deep);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid rgba(22, 67, 45, 0.3);
+      padding-bottom: 0.4rem;
+    }
+    .math-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      background: var(--ink);
+      color: var(--gold);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+    }
+
+    /* Card Styling */
+    .layout-box {
+      background: rgba(250, 246, 238, 0.95);
+      border: 2.5px solid var(--ink);
+      border-radius: 3px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .layout-h {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.2rem;
+      color: var(--forest-deep);
+      margin: 0.4rem 0 0.3rem;
+    }
+    .layout-p {
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    /* Dynamic 33% Corners */
+    .has-corners { position: relative; }
+    .corner-mark {
+      position: absolute;
+      width: 33%;
+      height: 33%;
+      min-width: 24px;
+      min-height: 24px;
+      max-width: 120px;
+      max-height: 90px;
+      pointer-events: none;
+      z-index: 10;
+      --mark-w: 5px;
+      --mark-tip: 15px;
+      --mark-c: var(--mark-green);
+    }
+    .corner-mark::before, .corner-mark::after { content: ""; position: absolute; background: var(--mark-c); }
+    
+    .corner-mark.tl { top: -2px; left: -2px; }
+    .corner-mark.tl::before { top: 0; left: 0; width: 100%; height: var(--mark-w); clip-path: polygon(0 0, 100% 0, 100% 40%, calc(100% - var(--mark-tip)) 100%, 0 100%); }
+    .corner-mark.tl::after { top: 0; left: 0; width: var(--mark-w); height: 100%; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mark-tip)), 40% 100%, 0 100%); }
+    
+    .corner-mark.br { bottom: -2px; right: -2px; }
+    .corner-mark.br::before { bottom: 0; right: 0; width: 100%; height: var(--mark-w); clip-path: polygon(var(--mark-tip) 0, 100% 0, 100% 100%, 0 100%, 0 60%); }
+    .corner-mark.br::after { bottom: 0; right: 0; width: var(--mark-w); height: 100%; clip-path: polygon(0 var(--mark-tip), 40% 0, 100% 0, 100% 100%, 0 100%); }
+
+    .c-green { --mark-c: var(--mark-green); }
+    .c-orange { --mark-c: var(--ember); }
+    .c-gold { --mark-c: var(--gold); }
+    .c-forest { --mark-c: var(--forest-deep); }
+
+    /* ==========================================================================
+       FLUSH 0 TO 1200 LAYOUT GRIDS (ZERO OUTER MARGINS)
+       ========================================================================== */
+
+    /* 1. FLUSH 60 / 40 GRID (675px + 50px + 475px = 1200px) */
+    .grid-flush-60-40 {
+      display: grid;
+      grid-template-columns: 675px 475px;
+      gap: 50px;
+      width: 1200px;
+    }
+
+    /* 2. FLUSH 50 / 50 GRID (575px + 50px + 575px = 1200px) */
+    .grid-flush-50-50 {
+      display: grid;
+      grid-template-columns: 575px 575px;
+      gap: 50px;
+      width: 1200px;
+    }
+
+    /* 3. FLUSH 33 / 33 / 33 GRID (350px + 75px + 350px + 75px + 350px = 1200px) */
+    .grid-flush-33-33-33 {
+      display: grid;
+      grid-template-columns: 350px 350px 350px;
+      gap: 75px;
+      width: 1200px;
+    }
+
+    /* Heights */
+    .h-250 { min-height: 250px; }
+    .h-200 { min-height: 200px; }
+
+    .overlay-active {
+      outline: 2px solid #E02424 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls -->
+  <div class="lab-controls">
+    <div>
+      <h1>Flush 0 to 1200px Grid Architecture</h1>
+      <span style="font-size:0.8rem; color:var(--tan);">Major 2px Line at 0px &middot; Major 2px Line at 1200px &middot; Zero Outer Margin Drift</span>
+    </div>
+    <button class="btn-toggle-guide" onclick="toggleOverlay()">Toggle Pixel-Snap Overlay</button>
+  </div>
+
+  <div class="frame-1200-flush">
+
+    <!-- Top Coordinate Ruler: 0 to 1200 -->
+    <div class="coordinate-ruler">
+      <div class="ruler-tick" style="left:0px; font-weight:bold; color:var(--gold);">0px (Major Line)</div>
+      <div class="ruler-tick" style="left:350px;">350px (Tri-Col 1)</div>
+      <div class="ruler-tick" style="left:575px;">575px (50/50)</div>
+      <div class="ruler-tick" style="left:600px; font-weight:bold; color:var(--gold); border-color:#FAF6EE;">600px (Centerline)</div>
+      <div class="ruler-tick" style="left:675px;">675px (60/40)</div>
+      <div class="ruler-tick" style="left:850px;">850px (Tri-Col 3)</div>
+      <div class="ruler-tick" style="right:0px; font-weight:bold; color:var(--gold); border-left:none; border-right:1.5px solid var(--gold); padding-right:4px;">1200px (Major Line)</div>
+    </div>
+
+    <!-- ====================================================================
+         1. FLUSH 60 / 40 ASYMMETRICAL HERO LAYOUT (0px to 1200px)
+         ==================================================================== -->
+    <div class="demo-section">
+      <div class="demo-header">
+        <span>1. Flush 60 / 40 Layout (Hero Frame + Featured Preset)</span>
+        <span class="math-tag">0px &rarr; 675px (27 sub) + 50px Gap (2 sub) + 475px (19 sub) &rarr; 1200px</span>
+      </div>
+
+      <div class="grid-flush-60-40">
+        <!-- 60% Left Card: Starts dead on 0px, ends at 675px (Width 675px) -->
+        <div class="layout-box has-corners h-250" style="background:#FAF6EE;">
+          <span class="corner-mark tl c-green"></span>
+          <span class="corner-mark br c-orange"></span>
+          <span class="math-tag">LEFT: 0px to 675px (27 minor squares = 675px)</span>
+          <div class="layout-h">Hero Frame (Starts Flush at 0px)</div>
+          <p class="layout-p">
+            Left outer border sits <strong>dead-on the 0px major line</strong>. Right border breaks at <strong>675px</strong>.
+          </p>
+        </div>
+
+        <!-- 40% Right Card: Starts at 725px, ends dead on 1200px (Width 475px) -->
+        <div class="layout-box has-corners h-250" style="background:#244C34; color:#FAF6EE;">
+          <span class="corner-mark tl c-gold"></span>
+          <span class="corner-mark br c-green"></span>
+          <span class="math-tag" style="background:#FAF6EE; color:var(--ink);">RIGHT: 725px to 1200px (19 minor squares = 475px)</span>
+          <div class="layout-h" style="color:var(--gold);">Featured Takeoff (Ends Flush at 1200px)</div>
+          <p class="layout-p" style="color:#C4B294;">
+            Starts at <strong>725px</strong> and outer right border sits <strong>dead-on the 1200px major line</strong>. Gutter is exactly 50px (2 sub-squares).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         2. FLUSH 50 / 50 EQUAL 2-CARD LAYOUT (0px to 1200px)
+         ==================================================================== -->
+    <div class="demo-section">
+      <div class="demo-header">
+        <span>2. Flush 50 / 50 Layout (Homeowner vs Contractor Modules)</span>
+        <span class="math-tag">0px &rarr; 575px (23 sub) + 50px Gap (2 sub) + 575px (23 sub) &rarr; 1200px</span>
+      </div>
+
+      <div class="grid-flush-50-50">
+        <!-- Card 1: 0px to 575px -->
+        <div class="layout-box has-corners h-200" style="background:#FAF6EE;">
+          <span class="corner-mark tl c-forest"></span>
+          <span class="corner-mark br c-orange"></span>
+          <span class="math-tag">CARD 1: 0px to 575px (Width 575px)</span>
+          <div class="layout-h">Homeowner Takeoff Module</div>
+          <p class="layout-p">
+            Starts flush at 0px and lands at 575px. 50px gap is centered over the 600px centerline.
+          </p>
+        </div>
+
+        <!-- Card 2: 625px to 1200px -->
+        <div class="layout-box has-corners h-200" style="background:#E8DCC8;">
+          <span class="corner-mark tl c-black"></span>
+          <span class="corner-mark br c-gold"></span>
+          <span class="math-tag">CARD 2: 625px to 1200px (Width 575px)</span>
+          <div class="layout-h">Contractor Dispatch Module</div>
+          <p class="layout-p">
+            Starts at 625px and ends flush at the 1200px major line.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         3. FLUSH 33 / 33 / 33 TRI-COLUMN LAYOUT (0px to 1200px)
+         ==================================================================== -->
+    <div class="demo-section">
+      <div class="demo-header">
+        <span>3. Flush 33 / 33 / 33 Layout (1. Find &middot; 2. Frame &middot; 3. Fence)</span>
+        <span class="math-tag">0px &rarr; 350px (14 sub) + 75px Gap + 350px + 75px Gap + 350px &rarr; 1200px</span>
+      </div>
+
+      <div class="grid-flush-33-33-33">
+        <!-- Step 1: 0px to 350px -->
+        <div class="layout-box has-corners h-200" style="background:#FAF6EE;">
+          <span class="corner-mark tl c-green"></span>
+          <span class="corner-mark br c-green"></span>
+          <span class="math-tag">STEP 1: 0px to 350px</span>
+          <div class="layout-h">1. Find It</div>
+          <p class="layout-p">Starts flush at 0px. Width 350px (14 minor squares).</p>
+        </div>
+
+        <!-- Step 2: 425px to 775px -->
+        <div class="layout-box has-corners h-200" style="background:#FAF6EE;">
+          <span class="corner-mark tl c-orange"></span>
+          <span class="corner-mark br c-orange"></span>
+          <span class="math-tag">STEP 2: 425px to 775px</span>
+          <div class="layout-h">2. Frame It</div>
+          <p class="layout-p">Width 350px. Centered symmetrically across 600px.</p>
+        </div>
+
+        <!-- Step 3: 850px to 1200px -->
+        <div class="layout-box has-corners h-200" style="background:#FAF6EE;">
+          <span class="corner-mark tl c-gold"></span>
+          <span class="corner-mark br c-gold"></span>
+          <span class="math-tag">STEP 3: 850px to 1200px</span>
+          <div class="layout-h">3. Fence It</div>
+          <p class="layout-p">Width 350px. Ends flush on the 1200px major line.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleOverlay() {
+      document.querySelectorAll('.layout-box').forEach(el => {
+        el.classList.toggle('overlay-active');
+      });
+    }
+  </script>
+</body>
+</html>

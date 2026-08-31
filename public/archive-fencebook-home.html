@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Home prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../tokens/ff-marketing-tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--ff-font-body);
+      font-weight: var(--ff-weight-regular);
+      color: var(--ff-text);
+      background: var(--ff-bg);
+    }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* Breakpoints: phone <768 · tablet 768–1279 · desktop ≥1280 */
+    .chrome {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      align-items: stretch;
+      background: var(--ff-forest-header);
+      color: var(--ff-tan);
+      border-bottom: 4px solid var(--ff-border-strong);
+    }
+    .chrome-spacer { width: clamp(0.5rem, 3vw, 2rem); }
+    .chrome nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
+      background: var(--ff-ink);
+      color: var(--ff-tan);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .chrome nav {
+      display: flex;
+      gap: clamp(0.75rem, 2vw, 1.35rem);
+      flex-wrap: wrap;
+      font-size: clamp(13px, 1.9vw, 15px);
+      font-weight: var(--ff-weight-regular);
+      justify-content: flex-end;
+    }
+    .chrome a { text-decoration: none; opacity: 0.92; }
+    .chrome a:hover { opacity: 1; }
+    .brand-mark {
+      font-family: var(--ff-font-brand);
+      font-weight: var(--ff-weight-bold);
+      letter-spacing: 0.06em;
+      font-size: clamp(15px, 2.8vw, 18px);
+      text-decoration: none;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      align-content: end;
+      padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+      color: var(--ff-cream);
+      overflow: hidden;
+    }
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(26, 26, 26, 0.35) 0%, rgba(26, 26, 26, 0.78) 62%, rgba(26, 26, 26, 0.92) 100%),
+        url("../Assets/_edited_edited%20(51).jpg") center / cover no-repeat;
+      z-index: 0;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 40rem; }
+    .hero h1 {
+      margin: 0 0 0.45rem;
+      font-family: var(--ff-font-brand);
+      font-size: clamp(40px, 7.2vw, 80px);
+      font-weight: var(--ff-weight-bold);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      max-width: 14ch;
+    }
+    .hero .tagline {
+      margin: 0 0 0.65rem;
+      font-family: var(--ff-font-tagline);
+      font-size: clamp(17px, 2.2vw, 23px);
+      font-weight: var(--ff-weight-regular);
+      letter-spacing: 0.02em;
+      opacity: 0.95;
+    }
+    .hero .support {
+      margin: 0 0 1.35rem;
+      max-width: 36rem;
+      font-family: var(--ff-font-body);
+      font-weight: var(--ff-weight-regular);
+      /* Revised 2026-08-02 (evening) — old clamp saturated at its 15px max by ~500px
+         viewport width, so it stayed flat while #heroBrand kept shrinking all the way
+         down to ~555px, making the body text look disproportionately large as the window
+         narrowed through that range. Lower floor (11px) + gentler slope keeps it tracking
+         downward across the same "small window" range instead of going flat early. */
+      font-size: clamp(11px, 0.9vw + 8px, 16px);
+      line-height: 1.35;
+      color: var(--ff-ink);
+    }
+
+    /* ---- Choose your path ---- */
+    #choosePath {
+      background: var(--ff-olive);
+      border-top: 4px solid var(--ff-border-strong);
+      border-bottom: none;
+    }
+    #choosePathHeading { color: var(--ff-ink); }
+    #choosePathBlurb { color: var(--ff-ink); opacity: 0.85; }
+    .path-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 900px) { .path-grid { grid-template-columns: 1fr; } }
+    .path-card {
+      background: var(--ff-tan);
+      border: 3px solid var(--ff-border-strong);
+      border-radius: 4px;
+      padding: 1.5rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .path-badge {
+      align-self: flex-start;
+      margin: 0 0 0.65rem;
+      padding: 0.2rem 0.55rem;
+      font-family: var(--ff-font-body);
+      font-weight: var(--ff-weight-regular);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ff-ink);
+      border: 1.5px solid var(--ff-ink);
+      border-radius: 999px;
+      background: transparent;
+    }
+    .path-card h3 {
+      font-family: var(--ff-font-display);
+      font-weight: var(--ff-weight-bold);
+      font-size: clamp(15px, 1.4vw + 10px, 18px);
+      color: var(--ff-rust);
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      margin: 0 0 0.75rem;
+    }
+    .path-card p {
+      font-family: var(--ff-font-body);
+      font-weight: var(--ff-weight-regular);
+      font-size: 0.93rem;
+      line-height: 1.5;
+      opacity: 0.92;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.3rem;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-weight: var(--ff-weight-bold);
+      font-size: 0.92rem;
+      cursor: pointer;
+      font-family: inherit;
+      background: none;
+      color: inherit;
+    }
+    .btn-primary { background: var(--ff-forest); color: var(--ff-white); }
+    .btn-primary:hover { background: var(--ff-forest-deep); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ff-cream);
+      border-color: rgba(247, 241, 230, 0.55);
+    }
+    .btn-secondary:hover { border-color: var(--ff-cream); }
+    .btn-ghost-dark {
+      background: transparent;
+      color: var(--ff-ink);
+      border-color: rgba(26, 26, 26, 0.35);
+    }
+    .btn-on-dark {
+      background: transparent;
+      color: var(--ff-cream);
+      border-color: rgba(247, 241, 230, 0.45);
+    }
+
+    /* ---- Locate start (soft gate under Choose your path) ---- */
+    #locateStart {
+      background: var(--ff-olive);
+      border-bottom: 4px solid var(--ff-border-strong);
+      padding-top: clamp(1.5rem, 3vw, 2.25rem);
+      padding-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+    }
+    #locateStartHeading { color: var(--ff-ink); margin-bottom: 0.4rem; }
+    #locateStartBlurb { color: var(--ff-ink); opacity: 0.85; margin-bottom: 1.1rem; }
+    .locate-fields {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      max-width: 48rem;
+      margin-bottom: 1.1rem;
+    }
+    @media (max-width: 720px) {
+      .locate-fields { grid-template-columns: 1fr; }
+    }
+    .locate-field label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-family: var(--ff-font-body);
+      font-weight: var(--ff-weight-regular);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ff-ink);
+      opacity: 0.8;
+    }
+    .locate-field select {
+      width: 100%;
+      min-height: 2.5rem;
+      padding: 0.4rem 0.55rem;
+      border: 2px solid var(--ff-border-strong);
+      border-radius: 4px;
+      background: var(--ff-tan);
+      color: var(--ff-ink);
+      font-family: var(--ff-font-body);
+      font-size: 0.95rem;
+    }
+    .locate-field select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #locateCommunityStatus {
+      margin: 0.35rem 0 0;
+      font-family: var(--ff-font-body);
+      font-size: 0.9rem;
+      color: var(--ff-ink);
+      opacity: 0.85;
+    }
+    .locate-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+    /* ---- How it works ---- */
+    #how { background: var(--ff-bg-alt); }
+    #howHeading { margin-bottom: 0.85rem; }
+    .how-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      max-width: 64rem;
+    }
+    .how-step {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+    .how-step img.how-icon {
+      width: 4.25rem;
+      height: 4.25rem;
+      display: block;
+    }
+    .how-step strong {
+      color: var(--ff-ink);
+      font-weight: var(--ff-weight-bold);
+      font-size: 1.05rem;
+    }
+    .how-grid p {
+      margin: 0;
+      color: var(--ff-text-muted);
+      line-height: 1.45;
+      font-weight: var(--ff-weight-light);
+    }
+
+    /* Floating fence ART — not configurator UI screenshots. Transparent cutouts that sit above the page. */
+    .float-art {
+      display: block;
+      width: min(100%, 36rem);
+      height: auto;
+      object-fit: contain;
+      background: transparent;
+      filter: drop-shadow(0 18px 28px rgba(26, 26, 26, 0.28))
+              drop-shadow(0 4px 10px rgba(26, 26, 26, 0.18));
+      transform: translateY(-4px);
+    }
+    .float-art--sm {
+      width: min(100%, 18rem);
+      margin: 0 auto;
+      filter: drop-shadow(0 14px 22px rgba(26, 26, 26, 0.22))
+              drop-shadow(0 3px 8px rgba(26, 26, 26, 0.14));
+    }
+
+    .styles {
+      display: grid;
+      gap: 1.75rem;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: center;
+    }
+    @media (max-width: 767px) {
+      .styles { grid-template-columns: 1fr; }
+      .chrome nav { font-size: 0.8rem; gap: 0.65rem; }
+    }
+    .styles-art {
+      display: grid;
+      place-items: center;
+      min-height: 16rem;
+      padding: 0.5rem 0;
+      background: transparent;
+    }
+
+    .catalog { background: var(--ff-cream); }
+    .catalog-grid {
+      display: grid;
+      gap: 1.75rem 1.25rem;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 1.35rem;
+      align-items: end;
+    }
+    @media (max-width: 767px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 768px) and (max-width: 1279px) {
+      .catalog-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .style-card {
+      text-decoration: none;
+      color: var(--ff-ink);
+      display: block;
+      text-align: center;
+      background: transparent;
+      border: none;
+      padding: 0.25rem;
+    }
+    .style-card:nth-child(2) .float-art--sm { transform: translateY(-14px); }
+    .style-card:nth-child(3) .float-art--sm { transform: translateY(-6px); }
+    .style-card span {
+      display: block;
+      margin-top: 0.85rem;
+      font-size: 0.92rem;
+      color: var(--ff-charcoal);
+    }
+
+    .tease { background: var(--ff-charcoal); color: var(--ff-cream); }
+    .tease h2 { color: var(--ff-tan); }
+    .tease .lede { color: rgba(247, 241, 230, 0.78); }
+
+    .contractors { background: var(--ff-bg); border-top: 1px solid rgba(54, 69, 79, 0.18); }
+    .contractor-split {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr 1fr;
+      max-width: 56rem;
+    }
+    @media (max-width: 767px) {
+      .contractor-split { grid-template-columns: 1fr; }
+    }
+    .panel {
+      border: 1px solid rgba(54, 69, 79, 0.25);
+      padding: 1.35rem 1.25rem;
+      background: var(--ff-white);
+    }
+    .panel h3 {
+      margin: 0 0 0.5rem;
+      font-family: var(--ff-font-brand);
+      font-size: 1.15rem;
+      font-weight: var(--ff-weight-bold);
+      letter-spacing: 0.03em;
+      color: var(--ff-brown);
+    }
+    .panel p { margin: 0 0 1rem; color: var(--ff-text-muted); line-height: 1.45; font-size: 0.95rem; font-weight: var(--ff-weight-regular); }
+    .checklist {
+      list-style: none;
+      margin: 0 0 1rem;
+      padding: 0;
+      font-size: 0.9rem;
+      font-weight: var(--ff-weight-light);
+      color: var(--ff-text-muted);
+    }
+    .checklist li {
+      padding: 0.35rem 0 0.35rem 1.35rem;
+      position: relative;
+    }
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 0.7rem;
+      height: 0.7rem;
+      border: 1px solid var(--ff-charcoal);
+    }
+
+    .trust { font-size: 0.95rem; color: var(--ff-text-muted); max-width: var(--ff-max-copy); line-height: 1.5; }
+
+    footer {
+      padding: 2rem clamp(1rem, 4vw, 2.5rem);
+      background: var(--ff-header-bg);
+      color: var(--ff-tan);
+      font-size: 0.85rem;
+    }
+    footer .links { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    footer a { color: var(--ff-tan); text-decoration: none; }
+
+    /* Demo modal for contractor contact checklist */
+    dialog.contractor-dialog {
+      border: none;
+      padding: 0;
+      max-width: 28rem;
+      width: calc(100% - 2rem);
+      background: var(--ff-cream);
+      color: var(--ff-ink);
+    }
+    dialog.contractor-dialog::backdrop { background: rgba(26, 26, 26, 0.65); }
+    .dialog-body { padding: 1.5rem; }
+    .dialog-body h2 { margin-top: 0; color: var(--ff-brown); }
+    .dialog-body label {
+      display: block;
+      font-size: 0.85rem;
+      margin: 0.75rem 0 0.25rem;
+      color: var(--ff-charcoal);
+    }
+    .dialog-body input,
+    .dialog-body textarea,
+    .dialog-body select {
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid rgba(54, 69, 79, 0.35);
+      font: inherit;
+      background: var(--ff-white);
+    }
+    .dialog-actions {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 1.15rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="chrome">
+    <a class="brand-mark" href="home.html" id="navLogo">
+      <span class="brand-name">Fence Frames</span>
+      <span class="brand-tag">Frame Your Vision | Find Your Fence</span>
+    </a>
+    <div class="chrome-spacer" aria-hidden="true"></div>
+    <nav>
+      <a href="/configure" id="navDesign">Design</a>
+      <a href="/design" id="navCatalog">Catalog</a>
+      <a href="/wa/king-county" id="navCommunities">Communities</a>
+      <a href="#contractors" id="navContractors">Contractors</a>
+      <a href="/login" id="navAccount">Account</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-media" id="heroMedia" role="img" aria-label="Wooden fence background"></div>
+      <div class="hero-inner">
+        <h1 id="heroBrand">Fence Frames</h1>
+        <p class="tagline" id="heroTagline">Frame Your Vision | Find Your Fence</p>
+        <p class="support" id="heroSupport">It’s a modern fence design platform built to solve the industry’s biggest challenges. We bring clarity to design and pricing with our powerful and totally free design tools. We go a step further — bridging the gap by partnering with local communities and contractors to bring compliance and construction to homeowners. That’s fencing fixed.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/configure" id="ctaDesign">Open configurator</a>
+          <a class="btn btn-secondary" href="/design" id="ctaCatalog">Browse catalog</a>
+          <a class="btn btn-secondary" href="/wa/king-county" id="ctaCommunities">Communities</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="locateStart">
+      <h2 id="locateStartHeading">Start with your location</h2>
+      <p class="lede" id="locateStartBlurb">Choose your city and community so we can show what fits your property. Skip anytime — design stays open.</p>
+      <div class="locate-fields">
+        <div class="locate-field">
+          <label for="locateState">State</label>
+          <select id="locateState">
+            <option value="">State</option>
+            <option value="WA">WA</option>
+          </select>
+        </div>
+        <div class="locate-field">
+          <label for="locateCity">City</label>
+          <select id="locateCity" disabled>
+            <option value="">City</option>
+          </select>
+        </div>
+        <div class="locate-field">
+          <label for="locateCommunity">Community / HOA</label>
+          <select id="locateCommunity" disabled>
+            <option value="">Select city first</option>
+          </select>
+          <p id="locateCommunityStatus" hidden>Coming soon to your area</p>
+        </div>
+      </div>
+      <div class="locate-actions">
+        <a class="btn btn-primary" href="/design" id="ctaLocateContinue">Continue to catalog</a>
+        <a class="btn btn-ghost-dark" href="/configure" id="ctaLocateDesigner">Open designer</a>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2 id="howHeading">How it works</h2>
+      <div class="how-grid">
+        <div id="howStep1">
+          <img class="step-icon" src="../Assets/icons/how-match.svg" alt="" aria-hidden="true" />
+          <div class="step-title">1. Locate</div>
+          <p class="step-body">Choose your city and community so we can show what fits your property.</p>
+        </div>
+        <div id="howStep2">
+          <img class="step-icon" src="../Assets/icons/how-design.svg" alt="" aria-hidden="true" />
+          <div class="step-title">2. Design</div>
+          <p class="step-body">Browse the full lineup, or a curated HOA set when you have one.</p>
+        </div>
+        <div class="how-step" id="howStep3">
+          <img class="how-icon" src="../Assets/icons/how-build.svg" width="68" height="68" alt="" />
+          <strong>3. Build</strong>
+          <p>Save, share, submit for ARC, or request a contractor.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="styles">
+      <div class="styles">
+        <div class="styles-art" id="styleHeroArt">
+          <!-- Floating fence ART (cutout) — not a configurator screenshot -->
+          <img
+            class="float-art"
+            src="../Assets/Fence-Art-Vertical-01.png"
+            alt="Vertical picket with gate — style art"
+            width="800"
+            height="500"
+            id="styleHeroImg"
+          />
+        </div>
+        <div>
+          <h2 id="styleHeroHeading">Style heroes</h2>
+          <p class="lede" id="styleHeroBlurb">Illustrated fence art for each look — floating cutouts, not photos of the design tool. Use them as style heroes; open the configurator when you’re ready to build yours.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="/configure" id="proofCta">Open configurator</a>
+            <a class="btn btn-ghost-dark" href="/design" id="proofCatalogCta">Browse catalog</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog" id="catalog">
+      <h2 id="catalogHeading">Fence styles</h2>
+      <p class="lede" id="catalogBlurb">Each piece is marketing art for a specific fence — float them on the page. Catalog / configurator links sit beside the art, not inside a fake designer UI.</p>
+      <div class="catalog-grid">
+        <a class="style-card" href="/design" id="catalogCard1">
+          <img class="float-art float-art--sm" src="../Assets/Fence-Art-Vertical-03.png" alt="Lattice-top privacy — style art" />
+          <span>Privacy · lattice top</span>
+        </a>
+        <a class="style-card" href="/design" id="catalogCard2">
+          <img class="float-art float-art--sm" src="../Assets/Fence-Art-Horizontal-01.png" alt="Horizontal slat — style art" />
+          <span>Horizontal slat</span>
+        </a>
+        <a class="style-card" href="/design" id="catalogCard3">
+          <img class="float-art float-art--sm" src="../Assets/Fence-Art-Metal-01.png" alt="Metal fence — style art" onerror="this.onerror=null;this.src='../Assets/Fence-Art-Vertical-02.png'" />
+          <span>Metal line</span>
+        </a>
+      </div>
+      <a class="btn btn-primary" href="/design" id="catalogCta">Go to catalog</a>
+    </section>
+
+    <section class="tease" id="communities">
+      <h2 id="communitiesHeading">Communities we serve</h2>
+      <p class="lede" id="communitiesBlurb">We’re starting in King County — North Bend and Si View first — then expanding community by community.</p>
+      <a class="btn btn-on-dark" href="/wa/king-county" id="communitiesCta">Browse King County</a>
+    </section>
+
+    <section class="contractors" id="contractors">
+      <h2 id="contractorsHeading">Contractors</h2>
+      <p class="lede" id="contractorsBlurb">Homeowners can request a contractor handoff. Licensed contractors use the members portal — not a public directory (deferred).</p>
+      <div class="contractor-split">
+        <div class="panel" id="panelContractorLogin">
+          <h3>I’m a contractor</h3>
+          <p>Log in to the members area for job board access (after approval). New? Sign up, then complete verification when prompted.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="/login" id="ctaContractorLogin">Contractor login</a>
+            <a class="btn btn-ghost-dark" href="/signup" id="ctaContractorSignup">Create account</a>
+          </div>
+        </div>
+        <div class="panel" id="panelContractorContact">
+          <h3>I need a contractor</h3>
+          <p>Homeowners: request contact after you’ve designed (or describe what you need). We’ll ask for the checklist below — login may be required before send.</p>
+          <ul class="checklist" id="contractorChecklistPreview">
+            <li>Project address / ZIP</li>
+            <li>Design link or description</li>
+            <li>Timeline &amp; contact info</li>
+            <li>Opt-in to share with a contractor</li>
+          </ul>
+          <button type="button" class="btn btn-primary" id="ctaContractorContact">Start contractor request</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust" id="trust">
+      <p id="trustCopy">Community pages summarize fence-related standards for homeowners. They are not official HOA documents or legal advice. Soft launch may require a site password.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="links">
+      <a href="/configure" id="footerDesign">Configurator</a>
+      <a href="/design" id="footerCatalog">Catalog</a>
+      <a href="/wa/king-county" id="footerCommunities">Communities</a>
+      <a href="#contractors" id="footerContractors">Contractors</a>
+      <a href="/login" id="footerAccount">Account</a>
+      <span>Privacy</span>
+      <span>Terms</span>
+    </div>
+    <p class="legal">Fence Frames — soft launch. Password gate may be on. · Privacy · Terms</p>
+  </footer>
+
+  <dialog class="contractor-dialog" id="contractorDialog" aria-labelledby="contractorDialogTitle">
+    <div class="dialog-body">
+      <h2 id="contractorDialogTitle">Contractor request</h2>
+      <p class="lede">Demo form — on Wix this becomes Members gate + lightbox or `/contractors/request` stub. Not a public contractor directory.</p>
+      <form id="contractorRequestForm">
+        <label for="reqName">Name</label>
+        <input id="reqName" name="name" required autocomplete="name" />
+        <label for="reqEmail">Email</label>
+        <input id="reqEmail" name="email" type="email" required autocomplete="email" />
+        <label for="reqZip">Project ZIP</label>
+        <input id="reqZip" name="zip" required inputmode="numeric" pattern="[0-9]{5}" />
+        <label for="reqDesign">Design link or description</label>
+        <textarea id="reqDesign" name="design" rows="3" placeholder="/configure or describe the fence"></textarea>
+        <label for="reqTimeline">Timeline</label>
+        <select id="reqTimeline" name="timeline">
+          <option>Flexible</option>
+          <option>Within 30 days</option>
+          <option>1–3 months</option>
+          <option>Just exploring</option>
+        </select>
+        <label>
+          <input type="checkbox" id="reqOptIn" name="optIn" required />
+          I agree to share this request with a Fence Frames contractor.
+        </label>
+        <div class="dialog-actions">
+          <button type="submit" class="btn btn-primary" id="btnContractorSubmit">Continue (login next)</button>
+          <button type="button" class="btn btn-ghost-dark" id="btnContractorCancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var dialog = document.getElementById('contractorDialog');
+      var openBtn = document.getElementById('ctaContractorContact');
+      var cancelBtn = document.getElementById('btnContractorCancel');
+      var form = document.getElementById('contractorRequestForm');
+      if (openBtn && dialog) {
+        openBtn.addEventListener('click', function () { dialog.showModal(); });
+      }
+      if (cancelBtn && dialog) {
+        cancelBtn.addEventListener('click', function () { dialog.close(); });
+      }
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          dialog.close();
+          window.location.href = '/login';
+        });
+      }
+    })();
+
+    /* Pilot locate strip — same serve map as FenceBook LocationServe (WA / North Bend / Si View). */
+    (function locateStart() {
+      var SERVED = {
+        WA: {
+          'North Bend': [{ slug: 'si-view', name: 'Si View' }],
+          // Unserved pilot city — selectable; community line shows coming soon.
+          Issaquah: []
+        }
+      };
+      var NO_HOA = '__no_hoa__';
+      var stateEl = document.getElementById('locateState');
+      var cityEl = document.getElementById('locateCity');
+      var communityEl = document.getElementById('locateCommunity');
+      var statusEl = document.getElementById('locateCommunityStatus');
+      var ctaCatalog = document.getElementById('ctaLocateContinue');
+      var ctaDesigner = document.getElementById('ctaLocateDesigner');
+      if (!stateEl || !cityEl || !communityEl) return;
+
+      function fill(el, items, placeholder) {
+        el.innerHTML = '';
+        var ph = document.createElement('option');
+        ph.value = '';
+        ph.textContent = placeholder;
+        el.appendChild(ph);
+        items.forEach(function (item) {
+          var opt = document.createElement('option');
+          opt.value = item.value;
+          opt.textContent = item.label;
+          el.appendChild(opt);
+        });
+      }
+
+      function syncHrefs() {
+        var q = new URLSearchParams();
+        if (stateEl.value) q.set('state', stateEl.value);
+        if (cityEl.value) q.set('city', cityEl.value);
+        var community = communityEl.value;
+        if (community && community !== NO_HOA) q.set('community_preset', community);
+        else if (community === NO_HOA) q.set('community', 'no-hoa');
+        var qs = q.toString();
+        if (ctaCatalog) ctaCatalog.href = qs ? '/design?' + qs : '/design';
+        if (ctaDesigner) ctaDesigner.href = qs ? '/configure?' + qs : '/configure';
+      }
+
+      function onCity() {
+        var state = stateEl.value;
+        var city = cityEl.value;
+        if (!city || !SERVED[state]) {
+          statusEl.hidden = true;
+          communityEl.hidden = false;
+          fill(communityEl, [], 'Select city first');
+          communityEl.disabled = true;
+          syncHrefs();
+          return;
+        }
+        var list = SERVED[state][city] || [];
+        if (!list.length) {
+          communityEl.hidden = true;
+          communityEl.disabled = true;
+          fill(communityEl, [], '');
+          statusEl.hidden = false;
+          syncHrefs();
+          return;
+        }
+        statusEl.hidden = true;
+        communityEl.hidden = false;
+        fill(communityEl, [{ value: NO_HOA, label: 'No HOA' }].concat(
+          list.map(function (c) { return { value: c.slug, label: c.name }; })
+        ), 'Community / HOA');
+        communityEl.disabled = false;
+        syncHrefs();
+      }
+
+      stateEl.addEventListener('change', function () {
+        var state = stateEl.value;
+        if (!state || !SERVED[state]) {
+          fill(cityEl, [], 'City');
+          cityEl.disabled = true;
+          fill(communityEl, [], 'Select city first');
+          communityEl.disabled = true;
+          communityEl.hidden = false;
+          statusEl.hidden = true;
+          syncHrefs();
+          return;
+        }
+        fill(cityEl, Object.keys(SERVED[state]).map(function (c) {
+          return { value: c, label: c };
+        }), 'City');
+        cityEl.disabled = false;
+        fill(communityEl, [], 'Select city first');
+        communityEl.disabled = true;
+        communityEl.hidden = false;
+        statusEl.hidden = true;
+        syncHrefs();
+      });
+      cityEl.addEventListener('change', onCity);
+      communityEl.addEventListener('change', syncHrefs);
+      syncHrefs();
+    })();
+  </script>
+</body>
+</html>

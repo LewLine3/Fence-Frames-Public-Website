@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Frame Your Vision | Find Your Fence</title>
+  <meta name="description" content="Precision engineered structural steel fence frame systems, 3D configurator, ARC blueprint engine, and contractor marketplace for homeowners and pros.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Light Effects -->
+  <div class="ambient-blur">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="9" y1="21" x2="9" y2="9"></line>
+          </svg>
+        </div>
+        <span>FENCE <span class="logo-accent">FRAMES</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#process" class="nav-link">How It Works</a></li>
+          <li><a href="#catalog" class="nav-link">Design Catalog</a></li>
+          <li><a href="#blueprint" class="nav-link">ARC Blueprint</a></li>
+          <li><a href="#configurator" class="nav-link">3D Configurator</a></li>
+          <li><a href="#calculator" class="nav-link">Estimator</a></li>
+          <li><a href="#contractors" class="nav-link">Contractor Hub</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#configurator" class="btn btn-primary btn-sm">Launch 3D Builder</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text-col">
+          <div class="pill-badge">
+            <span class="pill-dot"></span>
+            <span>Frame Your Vision | Find Your Fence</span>
+          </div>
+
+          <h1 class="hero-title">
+            Architectural Precision for <span class="text-gradient">Modern Fencing</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Eliminate sag, rot, and structural breakdown with engineered steel frame systems. Designed for rapid job site installation, HOA approval, and real-time 3D configuration.
+          </p>
+
+          <!-- ZIP Search Bar Component (#locateStart) -->
+          <div class="zip-search-box">
+            <div class="zip-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <input type="text" id="locateZip" class="zip-input" placeholder="Enter your ZIP Code (e.g. 98045)..." maxlength="5">
+            <button id="locateBtn" class="btn btn-primary btn-sm">Find Fence</button>
+          </div>
+
+          <!-- ZIP Result Banner Container -->
+          <div id="zipBanner" class="zip-result-banner" style="display: none;"></div>
+
+          <div class="hero-actions">
+            <a href="#configurator" class="btn btn-primary btn-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              Try 3D Configurator
+            </a>
+
+            <a href="#blueprint" class="btn btn-secondary btn-lg">
+              View ARC Blueprint
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value">50%</span>
+              <span class="stat-label">Faster Installation</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">150+ MPH</span>
+              <span class="stat-label">Wind Load Rating</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Zero</span>
+              <span class="stat-label">Post Sag & Warping</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Interactive Graphic Card -->
+        <div class="hero-preview-col">
+          <div class="hero-preview-card">
+            <div class="preview-header">
+              <div class="preview-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+                Heritage Frame Visualizer
+              </div>
+              <span class="status-badge">Engineered Spec</span>
+            </div>
+
+            <div class="visualizer-viewport" id="heroVisualizerViewport">
+              <div class="frame-graphic">
+                <div class="frame-outline" id="frameOutline"></div>
+                <div class="frame-pickets">
+                  <div class="picket"></div>
+                  <div class="picket"></div>
+                  <div class="picket"></div>
+                  <div class="picket"></div>
+                  <div class="picket"></div>
+                  <div class="picket"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 16px; display: flex; align-items: center; justify-content: space-between;">
+              <span id="finishLabel" style="font-size: 0.9rem; font-weight: 600; color: var(--accent-cyan);">Matte Black Structural Steel</span>
+              <button id="explodeToggleBtn" class="btn btn-sm btn-secondary" style="padding: 4px 12px; font-size: 0.75rem;">3D Exploded View</button>
+            </div>
+
+            <div class="preview-controls">
+              <button class="control-btn active" data-finish="black">Matte Black</button>
+              <button class="control-btn" data-finish="bronze">Textured Bronze</button>
+              <button class="control-btn" data-finish="silver">Galvanized Silver</button>
+            </div>
+            
+            <div class="preview-controls" style="margin-top: 8px;">
+              <button class="control-btn active" data-infill="vertical">Cedar Vertical</button>
+              <button class="control-btn" data-infill="horizontal">Horizontal Slat</button>
+              <button class="control-btn" data-infill="mesh">Steel Screen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Fence Frames Section -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Why Fence Frames</div>
+          <h2 class="section-title">Built to Outperform Traditional Wood & Vinyl</h2>
+          <p class="section-subtitle">Heavy-duty structural framework engineered for longevity, extreme wind resistance, and aesthetic perfection.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">Zero-Sag Steel Core</h3>
+            <p class="card-desc">High-tensile structural steel posts and horizontal rails guarantee your fence lines remain laser-straight for decades.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3 class="card-title">Rapid Job-Site Assembly</h3>
+            <p class="card-desc">Pre-punched alignment channels and modular brackets cut installation labor time in half compared to custom wood framing.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">HOA & Wind Approved</h3>
+            <p class="card-desc">Compliant with stringent regional HOA architectural guidelines and certified for 150+ MPH hurricane-force wind loads.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Step Process Section ("Find -> Frame -> Fence") -->
+    <section id="process" class="section" style="background: rgba(15, 21, 33, 0.4);">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Simplified Workflow</div>
+          <h2 class="section-title">From Vision to Verified Fence in 3 Steps</h2>
+          <p class="section-subtitle">Our end-to-end framework handles local guidelines, 3D design, material ordering, and contractor matching.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="process-step-card">
+            <div class="step-number-badge">1</div>
+            <h3 class="card-title" style="color: var(--accent-cyan);">FIND</h3>
+            <p class="card-desc" style="margin-bottom: 16px;">
+              Enter your location or ZIP code to auto-load municipal setback rules and pre-verified HOA architectural bylaws.
+            </p>
+            <div style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">
+              ✓ Auto-detects Si View, Snoqualmie & King County codes
+            </div>
+          </div>
+
+          <div class="process-step-card">
+            <div class="step-number-badge">2</div>
+            <h3 class="card-title" style="color: var(--accent-amber);">FRAME</h3>
+            <p class="card-desc" style="margin-bottom: 16px;">
+              Customize fence heights, infill wood types, gate post positions, and steel powdercoat finishes in real-time 3D.
+            </p>
+            <div style="font-size: 0.85rem; color: var(--accent-amber); font-weight: 600;">
+              ✓ Instant Bill-of-Materials (BOM) & price transparency
+            </div>
+          </div>
+
+          <div class="process-step-card">
+            <div class="step-number-badge">3</div>
+            <h3 class="card-title" style="color: var(--accent-emerald);">FENCE</h3>
+            <p class="card-desc" style="margin-bottom: 16px;">
+              Export a 1-page ARC Architectural Blueprint for instant board approval and match with certified local installers.
+            </p>
+            <div style="font-size: 0.85rem; color: var(--accent-emerald); font-weight: 600;">
+              ✓ Pre-qualified specs, zero hidden lead broker fees
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Design Catalog Repeater -->
+    <section id="catalog" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Architectural Styles</div>
+          <h2 class="section-title">Explore Fence Frames Product Lines</h2>
+          <p class="section-subtitle">Engineered structural steel frame assemblies tailored for residential privacy, commercial security, and high-wind environments.</p>
+        </div>
+
+        <!-- Filter Tab Bar -->
+        <div class="filter-tab-bar">
+          <button class="filter-tab active" data-filter="all">All Styles</button>
+          <button class="filter-tab" data-filter="heritage">Heritage Series</button>
+          <button class="filter-tab" data-filter="horizon">Horizon Slats</button>
+          <button class="filter-tab" data-filter="rancher">Rancher Mesh</button>
+          <button class="filter-tab" data-filter="craftsman">Craftsman Accent</button>
+        </div>
+
+        <div class="grid-3" id="catalogGrid">
+          <!-- Card 1: Heritage VPF -->
+          <div class="catalog-card" data-category="heritage">
+            <div class="catalog-preview-area">
+              <span class="price-badge">$ Starter</span>
+              <svg width="180" height="120" viewBox="0 0 200 140" fill="none">
+                <rect x="20" y="20" width="160" height="100" rx="4" stroke="var(--accent-cyan)" stroke-width="3"/>
+                <line x1="45" y1="20" x2="45" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
+                <line x1="75" y1="20" x2="75" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
+                <line x1="105" y1="20" x2="105" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
+                <line x1="135" y1="20" x2="135" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
+                <line x1="165" y1="20" x2="165" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
+              </svg>
+            </div>
+            <div class="catalog-content">
+              <div class="catalog-tags">
+                <span class="tag-pill">6ft Residential</span>
+                <span class="tag-pill">HOA Approved</span>
+              </div>
+              <h3 class="card-title">Heritage VPF Board-on-Board</h3>
+              <p class="card-desc" style="margin-bottom: 20px; flex: 1;">
+                Our core residential steel frame system. Accepts vertical cedar pickets with pre-punched steel channel alignment.
+              </p>
+              <a href="#configurator" class="btn btn-secondary btn-sm" style="width: 100%;">Customize in 3D</a>
+            </div>
+          </div>
+
+          <!-- Card 2: Horizon Slat -->
+          <div class="catalog-card" data-category="horizon">
+            <div class="catalog-preview-area">
+              <span class="price-badge">$$ Popular</span>
+              <svg width="180" height="120" viewBox="0 0 200 140" fill="none">
+                <rect x="20" y="20" width="160" height="100" rx="4" stroke="var(--accent-amber)" stroke-width="3"/>
+                <line x1="20" y1="40" x2="180" y2="40" stroke="rgba(245,158,11,0.3)" stroke-width="6"/>
+                <line x1="20" y1="65" x2="180" y2="65" stroke="rgba(245,158,11,0.3)" stroke-width="6"/>
+                <line x1="20" y1="90" x2="180" y2="90" stroke="rgba(245,158,11,0.3)" stroke-width="6"/>
+              </svg>
+            </div>
+            <div class="catalog-content">
+              <div class="catalog-tags">
+                <span class="tag-pill">Modern Architectural</span>
+                <span class="tag-pill">Horizontal Slat</span>
+              </div>
+              <h3 class="card-title">Horizon Architectural Slat</h3>
+              <p class="card-desc" style="margin-bottom: 20px; flex: 1;">
+                Sleek modern horizontal slat framing with hidden fastener tracks and anodized bronze steel posts.
+              </p>
+              <a href="#configurator" class="btn btn-secondary btn-sm" style="width: 100%;">Customize in 3D</a>
+            </div>
+          </div>
+
+          <!-- Card 3: Rancher Mesh -->
+          <div class="catalog-card" data-category="rancher">
+            <div class="catalog-preview-area">
+              <span class="price-badge">$ Heavy-Duty</span>
+              <svg width="180" height="120" viewBox="0 0 200 140" fill="none">
+                <rect x="20" y="20" width="160" height="100" rx="4" stroke="var(--text-secondary)" stroke-width="3"/>
+                <path d="M20 20L180 120M180 20L20 120" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                <rect x="40" y="40" width="120" height="60" stroke="rgba(255,255,255,0.2)" stroke-dasharray="4 4"/>
+              </svg>
+            </div>
+            <div class="catalog-content">
+              <div class="catalog-tags">
+                <span class="tag-pill">Acreage & Perimeter</span>
+                <span class="tag-pill">Galvanized Steel</span>
+              </div>
+              <h3 class="card-title">Rancher HD Steel Mesh</h3>
+              <p class="card-desc" style="margin-bottom: 20px; flex: 1;">
+                Ultra-durable perimeter fencing combining industrial steel square posts with heavy wire mesh grid panels.
+              </p>
+              <a href="#configurator" class="btn btn-secondary btn-sm" style="width: 100%;">Customize in 3D</a>
+            </div>
+          </div>
+
+          <!-- Card 4: Craftsman Accent -->
+          <div class="catalog-card" data-category="craftsman">
+            <div class="catalog-preview-area">
+              <span class="price-badge">$$$ Premium</span>
+              <svg width="180" height="120" viewBox="0 0 200 140" fill="none">
+                <rect x="20" y="20" width="160" height="100" rx="4" stroke="var(--accent-blue)" stroke-width="3"/>
+                <line x1="20" y1="45" x2="180" y2="45" stroke="var(--accent-blue)" stroke-width="2"/>
+                <line x1="45" y1="45" x2="45" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
+                <line x1="85" y1="45" x2="85" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
+                <line x1="125" y1="45" x2="125" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
+                <line x1="165" y1="45" x2="165" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
+              </svg>
+            </div>
+            <div class="catalog-content">
+              <div class="catalog-tags">
+                <span class="tag-pill">Top Rail Accent</span>
+                <span class="tag-pill">Craftsman Design</span>
+              </div>
+              <h3 class="card-title">Craftsman Top Cap & Rail</h3>
+              <p class="card-desc" style="margin-bottom: 20px; flex: 1;">
+                Decorative top-cap steel framing with integrated lattice accent or steel spindle upper section.
+              </p>
+              <a href="#configurator" class="btn btn-secondary btn-sm" style="width: 100%;">Customize in 3D</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D Configurator Showcase Section -->
+    <section id="configurator" class="section configurator-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Interactive Software</div>
+          <h2 class="section-title">Design & Customize in Real-Time 3D</h2>
+          <p class="section-subtitle">Use our Heritage 3D Configurator engine to preview fence styles, heights, hardware finishes, and gate integrations.</p>
+        </div>
+
+        <div class="iframe-container">
+          <iframe src="/configure/heritage-v1/index.html?embed=1" title="Fence Frames 3D Configurator"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARC Architectural Blueprint & HOA Engine (Antigravity Signature) -->
+    <section id="blueprint" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Instant Approval Engine</div>
+          <h2 class="section-title">1-Click ARC Architectural Blueprint</h2>
+          <p class="section-subtitle">Generate official single-page portrait blueprint specifications for HOA board submission or contractor quote verification.</p>
+        </div>
+
+        <div class="blueprint-box">
+          <div class="blueprint-header">
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: var(--accent-cyan);">
+                FENCE FRAMES ARCHITECTURAL BLUEPRINT SPEC
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                PROJECT SPEC: HERITAGE-VPF-6FT-STEEL-CORE | REVISION 2.4
+              </div>
+            </div>
+            <div class="blueprint-stamp">HOA CERTIFIED SPEC</div>
+          </div>
+
+          <!-- Wind Stress Simulator Box -->
+          <div class="wind-simulator-container" id="windSimBox">
+            <div class="wind-vector-anim"></div>
+            <div style="text-align: center; z-index: 2;">
+              <div style="font-family: var(--font-heading); font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
+                Traditional Wood Post
+              </div>
+              <div style="font-size: 0.8rem; color: #ef4444;">Warps at 65 MPH Wind</div>
+            </div>
+
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-cyan); z-index: 2;">VS</div>
+
+            <div style="text-align: center; z-index: 2;">
+              <div style="font-family: var(--font-heading); font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px;">
+                Fence Frames Steel Core
+              </div>
+              <div style="font-size: 0.8rem; color: var(--accent-emerald);">Zero Deflection at 150+ MPH</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <button id="toggleWindSimBtn" class="btn btn-secondary btn-sm">
+              💨 Run 150 MPH Wind Stress Simulation
+            </button>
+
+            <button id="blueprintViewToggle" class="btn btn-gold btn-sm" data-mode="hoa">
+              Switch to Priced Contractor Quote
+            </button>
+          </div>
+
+          <!-- Blueprint Material Ledger Sample -->
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed rgba(56,189,248,0.3); font-size: 0.88rem; color: var(--text-secondary);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span>[Mat.] Structural Heavy Steel Posts (2.5" Sq x 8' Length)</span>
+              <span class="bp-price-tag" style="display: none; color: var(--accent-cyan);">$42.50 / ea</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span>[Mat.] Modular High-Tensile Steel Rail Alignment Brackets</span>
+              <span class="bp-price-tag" style="display: none; color: var(--accent-cyan);">$8.20 / ea</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>[Adm.] Engineering Certification & Compliance Stamp Factor (15%)</span>
+              <span class="bp-price-tag" style="display: none; color: var(--accent-amber);">Included</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contractor Estimator Calculator -->
+    <section id="calculator" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="pill-badge">Contractor & Estimator Tools</div>
+          <h2 class="section-title">Instant Job Material Estimator</h2>
+          <p class="section-subtitle">Enter your project linear footage to calculate exact steel components and total shipping weight.</p>
+        </div>
+
+        <div class="calc-box">
+          <div class="calc-form">
+            <div class="form-group">
+              <label for="calcFootage" class="form-label">Fence Length (Linear Feet)</label>
+              <input type="number" id="calcFootage" class="form-input" value="150" placeholder="e.g. 150">
+            </div>
+
+            <div class="form-group">
+              <label for="calcHeight" class="form-label">Fence Height</label>
+              <select id="calcHeight" class="form-select">
+                <option value="6">6 Feet Standard</option>
+                <option value="8">8 Feet Heavy Duty</option>
+                <option value="4">4 Feet Low Profile</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="calcStyle" class="form-label">Frame Series</label>
+              <select id="calcStyle" class="form-select">
+                <option value="heritage">Heritage Residential (6 ft panels)</option>
+                <option value="commercial">Commercial HD (8 ft panels)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="justify-content: flex-end;">
+              <a href="#contractors" class="btn btn-gold" style="width: 100%; height: 50px;">Request Wholesale Pack</a>
+            </div>
+          </div>
+
+          <div class="calc-results">
+            <div class="res-card">
+              <div class="res-val" id="resPosts">26</div>
+              <div class="res-lbl">Structural Steel Posts</div>
+            </div>
+            <div class="res-card">
+              <div class="res-val" id="resFrames">25</div>
+              <div class="res-lbl">Frame Modules</div>
+            </div>
+            <div class="res-card">
+              <div class="res-val" id="resBrackets">100</div>
+              <div class="res-lbl">Fastener Brackets</div>
+            </div>
+            <div class="res-card">
+              <div class="res-val" id="resWeight">1,125 lbs</div>
+              <div class="res-lbl">Estimated Freight Weight</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contractor Scramble Hub Section -->
+    <section id="contractors" class="section">
+      <div class="container">
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <div class="pill-badge">Pro Contractor Network</div>
+            <h2 class="section-title">Become a Certified Fence Frames Installer</h2>
+            <p class="section-subtitle" style="margin-bottom: 24px;">
+              Get wholesale volume pricing, priority fabrication, direct engineering CAD downloads, and exclusive homeowner leads in your region.
+            </p>
+
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
+              <div style="font-weight: 700; color: var(--accent-amber); font-size: 0.9rem; margin-bottom: 4px;">
+                ⚡ KING COUNTY SCRAMBLE HUB: ACTIVE SEAT ALLOCATION
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                Seat 2 of 3 open. Qualified contractors get instant SMS notifications for homeowner 3D design quotes.
+              </div>
+            </div>
+
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px;">
+              <li style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Zero-Markup Leads & Direct BOM Handoff
+              </li>
+              <li style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Co-Branded 3D Configurator Widget
+              </li>
+              <li style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Fast 48-Hour Freight Dispatch on Standard Stock
+              </li>
+            </ul>
+          </div>
+
+          <div class="calc-box">
+            <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 16px;">Request Contractor Pack</h3>
+            <form onsubmit="event.preventDefault(); alert('Thank you! Our contractor team will contact you within 24 hours with wholesale pricing.');">
+              <div class="form-group" style="margin-bottom: 16px;">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-input" required placeholder="e.g. Apex Fence & Hardscapes">
+              </div>
+              <div class="form-group" style="margin-bottom: 16px;">
+                <label class="form-label">Contact Email</label>
+                <input type="email" class="form-input" required placeholder="pro@apexfence.com">
+              </div>
+              <div class="form-group" style="margin-bottom: 24px;">
+                <label class="form-label">Monthly Linear Footage</label>
+                <select class="form-select">
+                  <option>500 - 2,000 ft / month</option>
+                  <option>2,000 - 5,000 ft / month</option>
+                  <option>5,000+ ft / month</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Submit Pro Inquiry</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Unserved ZIP Modal -->
+  <div class="modal-overlay" id="unservedModal">
+    <div class="modal-card">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; color: var(--accent-cyan);">
+          Coming Soon to <span id="unservedZipDisplay">ZIP</span>!
+        </h3>
+        <button class="modal-close" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px;">
+        We are actively expanding our contractor installation network to your area. Enter your email below to explore our 3D builder now and be notified when local installers go live!
+      </p>
+      <form onsubmit="event.preventDefault(); document.getElementById('unservedModal').classList.remove('active'); alert('You are on the priority list! Redirecting to 3D builder...'); location.hash = '#configurator';">
+        <input type="email" class="form-input" required placeholder="Enter your email address..." style="width: 100%; margin-bottom: 16px;">
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Explore 3D Builder Now</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#" class="brand-logo">
+            <div class="logo-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              </svg>
+            </div>
+            <span>FENCE <span class="logo-accent">FRAMES</span></span>
+          </a>
+          <p class="footer-desc">
+            Precision steel fence framing systems, hardware, and 3D digital configuration tools for modern fencing contractors.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Products</h4>
+          <ul class="footer-links">
+            <li><a href="#catalog" class="footer-link">Heritage Series</a></li>
+            <li><a href="#catalog" class="footer-link">Horizon Slats</a></li>
+            <li><a href="#catalog" class="footer-link">Rancher Mesh</a></li>
+            <li><a href="#catalog" class="footer-link">Craftsman Accent</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Software & Tools</h4>
+          <ul class="footer-links">
+            <li><a href="#configurator" class="footer-link">3D Configurator</a></li>
+            <li><a href="#blueprint" class="footer-link">ARC Blueprint Generator</a></li>
+            <li><a href="#calculator" class="footer-link">Material Estimator</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#contractors" class="footer-link">Contractor Network</a></li>
+            <li><a href="#process" class="footer-link">How It Works</a></li>
+            <li><a href="#" class="footer-link">Support & Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Fence Frames. All rights reserved. Designed with Architectural Precision & Performance.</p>
+        <p>Frame Your Vision | Find Your Fence</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

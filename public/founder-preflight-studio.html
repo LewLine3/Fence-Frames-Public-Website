@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Founder Pre-Flight Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Rowdies', cursive, sans-serif; background-color: #080D0A; color: #FAF6EE; }
+    iframe { border: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0F1612; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #26332A; border-radius: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #E5B842; }
+
+    .tooltip-wrapper { position: relative; }
+    .tooltip-content {
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: 10px;
+      background: #141B16;
+      border: 1px solid #E5B842;
+      color: #FAF6EE;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .tooltip-wrapper:hover .tooltip-content { opacity: 1; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-row custom-scrollbar overflow-x-hidden bg-[#080D0A]">
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE CANVAS (Left / Main Area) -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- TOP MINI STATUS STRIP -->
+    <header class="bg-[#101712] border-b border-white/10 px-4 py-2 flex items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <a href="/" onclick="if(window.location.protocol==='file:'){event.preventDefault(); jumpSlide(0);} return true;" class="text-sm flex items-center gap-1.5 font-bold mr-2 hover:opacity-80" title="Fence Frames Home">
+          <img src="images/fence-frames-official-icon.png" onerror="this.style.display='none'" alt="Logo" style="width:20px; height:20px; object-fit:contain; border-radius:3px;" />
+          <span style="color:#4ADE80;">FENCE</span>
+          <span style="color:#E5B842;">FRAMES</span>
+        </a>
+        <span class="text-white/20">|</span>
+        <span id="badgeIdTop" class="text-[10px] uppercase font-bold px-2 py-0.5 bg-[#E5B842] text-[#141B16] rounded">
+          CORE-01
+        </span>
+        <span id="badgeTierTop" class="text-[9px] font-bold px-2 py-0.5 rounded text-black bg-[#4ADE80]">
+          Tier-1
+        </span>
+        <span id="badgeRenderTypeTop" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded text-slate-300 bg-slate-800 border border-slate-600">
+          STATIC
+        </span>
+        <h1 class="text-white font-bold text-sm" id="pageTitleTop">Master Homepage &amp; Brand Portal</h1>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-white/60">
+        <!-- Environment & Sync Selector -->
+        <div class="flex items-center bg-[#0A0F0C] border border-[#4ADE80]/50 rounded px-2 py-0.5 gap-1.5 text-xs shadow">
+          <span class="text-[10px] text-[#4ADE80] font-bold">ENV:</span>
+          <select id="syncEnvSelect" onchange="handleSyncEnvChange(this.value)" class="bg-transparent text-[#4ADE80] font-mono text-[11px] font-bold focus:outline-none cursor-pointer">
+            <option value="local-8080" class="bg-[#141B16] text-[#4ADE80]">Staging / Studio (:8080)</option>
+            <option value="live-prod" class="bg-[#141B16] text-[#E5B842]">Live Site (fenceframes.com)</option>
+            <option value="local-3000" class="bg-[#141B16] text-blue-400">Next.js Dev (:3000)</option>
+            <option value="custom" class="bg-[#141B16] text-[#F27A22]">Custom Domain...</option>
+          </select>
+          <input type="text" id="customEnvInput" onchange="syncCurrentSite()" placeholder="https://..." class="hidden bg-[#141B16] border border-white/20 text-white text-[10px] px-1.5 py-0.5 rounded w-36 focus:outline-none" />
+          <button onclick="syncCurrentSite()" id="btnSyncTop" class="bg-[#142319] hover:bg-[#1E3626] text-[#4ADE80] border border-[#4ADE80]/60 text-[11px] font-bold py-0.5 px-2.5 rounded flex items-center gap-1 transition shadow cursor-pointer ml-1">
+            <span id="syncIconSpin">🔄</span>
+            <span id="syncBtnText">Sync</span>
+          </button>
+        </div>
+        <span class="text-white/20">•</span>
+        <span>Route: <strong id="routeReadout" class="text-[#4ADE80] font-mono">/</strong></span>
+        <span class="text-white/20">•</span>
+        <span id="scaleStatusText" class="text-white/70">Zoom: 75%</span>
+        <span class="text-white/20">•</span>
+        <span class="text-[11px] text-white/40 hidden md:inline">Hotkeys: <strong class="text-white">R</strong> (Sync) · <strong class="text-white">Tab</strong> (Layout) · <strong class="text-white">←/→</strong> (Slides) · <strong class="text-white">+/-</strong> (Zoom)</span>
+      </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS -->
+    <main id="mainWorkspace" class="flex-1 w-full flex flex-col p-3.5 gap-4 max-w-[1900px] mx-auto">
+
+      <!-- ROW 1: LIVE INTERACTIVE SANDBOX -->
+      <section id="sandboxSection" class="w-full bg-[#101712] border-2 border-white/15 rounded-lg p-2.5 flex flex-col items-center shadow-2xl relative">
+        <div class="w-full bg-[#060A08] rounded border border-white/10 p-1 overflow-auto flex items-start justify-center min-h-[720px] max-h-[880px] custom-scrollbar">
+          <div
+            id="viewportContainer"
+            style="width: 100%; transform: scale(0.75); transform-origin: top center; transition: transform 0.12s ease, width 0.15s ease;"
+            class="rounded shadow-2xl border border-white/10 overflow-hidden bg-black flex flex-col"
+          >
+            <iframe id="pageIframe" src="homepage.html" class="w-full h-[1200px] border-0"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROW 2: INSPECTOR & CONTROLS CARDS -->
+      <section id="inspectorSection" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+        <!-- Purpose Card -->
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
+              <span>🎯</span>
+              <span>Purpose &amp; Goal</span>
+            </h3>
+            <div class="flex items-center gap-1">
+              <span id="badgePillarCard" class="text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-[#F27A22]">Tier-1</span>
+              <span id="badgeRenderTypeCard" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded text-slate-300 bg-slate-800 border border-slate-600">STATIC</span>
+            </div>
+          </div>
+          <p id="pagePurpose" class="text-xs text-white/80 font-light leading-relaxed"></p>
+        </div>
+
+        <!-- Direct URLs & Deployment Map -->
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#4ADE80] uppercase flex items-center gap-1">
+            <span>🌐</span>
+            <span>Direct Deployment &amp; Links</span>
+          </h3>
+          <div id="linksList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#F27A22] uppercase flex items-center gap-1">
+            <span>🎛️</span>
+            <span>Interactive Controls</span>
+          </h3>
+          <div id="controlsList" class="space-y-1.5 text-xs font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
+        </div>
+
+        <!-- Notes -->
+        <div class="bg-[#121814] border border-white/10 p-3.5 rounded-lg shadow flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-[#E5B842] uppercase flex items-center gap-1">
+            <span>⚖️</span>
+            <span>Code &amp; Architecture Notes</span>
+          </h3>
+          <ul id="notesList" class="list-disc list-inside space-y-1 text-xs text-white/80 font-light max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></ul>
+        </div>
+      </section>
+
+      <!-- ROW 3: FOUNDER PRECISION FEEDBACK & SECTION INSPECTOR DECK -->
+      <section class="w-full bg-[#121A15] border-2 border-[#E5B842] rounded-lg p-4 shadow-2xl flex flex-col gap-4 mb-6">
+        
+        <!-- Header Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <span class="text-xs font-bold text-[#E5B842] uppercase tracking-wider flex items-center gap-1.5">
+              <span>🛠️</span>
+              <span>SECTION INSPECTOR &amp; BATCH FEEDBACK</span>
+            </span>
+            <span id="feedbackPageBadge" class="text-[10px] font-mono font-bold bg-[#0A0F0C] border border-[#E5B842] text-[#E5B842] px-2 py-0.5 rounded">
+              PAGE-CORE-01
+            </span>
+            <span id="approvalStatusPill" class="text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]">
+              PENDING
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <!-- Target Chat Selector -->
+            <div class="flex items-center bg-[#0A0F0C] border border-white/20 rounded px-2 py-1 gap-1.5 text-xs">
+              <span class="text-[10px] text-[#4ADE80] font-bold">🎯 TARGET:</span>
+              <select id="targetChatSelect" onchange="handleTargetChatChange(this.value)" class="bg-transparent text-white font-mono text-[11px] focus:outline-none cursor-pointer">
+                <option value="active" class="bg-[#141B16] text-[#4ADE80]">Active Chat (Current)</option>
+                <option value="session-fresh" class="bg-[#141B16] text-[#E5B842]">Fresh Chat (New)</option>
+                <option value="session-brand" class="bg-[#141B16] text-white">Session: Brand &amp; UI</option>
+                <option value="session-cad" class="bg-[#141B16] text-white">Session: CAD &amp; Blueprints</option>
+                <option value="custom" class="bg-[#141B16] text-[#F27A22]">Custom Chat ID...</option>
+              </select>
+              <input type="text" id="customChatIdInput" placeholder="Paste ID..." class="hidden bg-[#141B16] border border-white/20 text-white text-[10px] px-1.5 py-0.5 rounded w-28 focus:outline-none" />
+            </div>
+
+            <!-- Direct Dispatch Button -->
+            <button
+              onclick="dispatchFeedbackDirectly()"
+              id="btnDispatchDirect"
+              class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-3.5 py-1.5 rounded border border-[#141B16] shadow-lg transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <span id="dispatchIcon">🚀</span>
+              <span id="dispatchBtnText">Dispatch to Chat</span>
+            </button>
+
+            <!-- Master Copy Batch Prompt Button -->
+            <button
+              onclick="copyMasterBatchPrompt()"
+              id="btnCopyBatchPrompt"
+              class="bg-[#E5B842] hover:bg-[#d4a835] text-[#141B16] font-bold text-xs uppercase px-3 py-1.5 rounded border border-[#141B16] shadow transition flex items-center gap-1.5 cursor-pointer"
+              title="Copy formatted markdown prompt to clipboard"
+            >
+              <span>📋</span>
+              <span>Copy Prompt</span>
+            </button>
+
+            <!-- Clear Notes Button -->
+            <button
+              onclick="clearAllPageNotes()"
+              class="bg-[#1C261F] hover:bg-[#28382D] text-white/70 hover:text-white font-bold text-xs uppercase px-2.5 py-1.5 rounded border border-white/10 transition"
+              title="Clear feedback notes for this page"
+            >
+              <span>🗑️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Page-Wide Note Box -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-white/90 flex items-center justify-between">
+            <span>📢 Page-Wide Notes &amp; Architectural Directives:</span>
+            <span class="text-[10px] text-white/40 font-mono font-normal">Applies to whole page layout</span>
+          </label>
+          <textarea
+            id="pageWideNoteInput"
+            rows="2"
+            oninput="saveSectionNote('pageWide', this.value)"
+            placeholder="e.g., Increase vertical rhythm, fix contrast on CTA buttons..."
+            class="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#E5B842] custom-scrollbar"
+          ></textarea>
+        </div>
+
+        <!-- Section Inspector Repeater Deck -->
+        <div class="flex flex-col gap-2">
+          <span class="text-xs font-bold text-white/90">🧩 Section-by-Section Precision Feedback:</span>
+          <div id="sectionsDeck" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[480px] overflow-y-auto custom-scrollbar pr-1">
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- RIGHT SIDEBAR (Vertical Control Rail & Slide Navigation) -->
+  <!-- ========================================================================= -->
+  <aside class="w-64 bg-[#0A0F0C] border-l border-white/10 p-3.5 flex flex-col justify-between gap-4 select-none shrink-0 custom-scrollbar overflow-y-auto">
+    <div class="flex flex-col gap-4">
+      
+      <!-- Brand & Tool Header -->
+      <div class="border-b border-white/10 pb-3">
+        <div class="text-xs font-bold text-[#E5B842] tracking-wider uppercase flex items-center justify-between">
+          <span>🛠️ FOUNDER STUDIO</span>
+          <span class="text-[9px] bg-[#1E2820] text-[#4ADE80] px-1.5 py-0.5 rounded font-mono">v2.0</span>
+        </div>
+        <div class="text-[11px] text-white/50 font-light mt-0.5">Tier 1, 2 &amp; 3 Page Builder Deck</div>
+      </div>
+
+      <!-- Section 1: Page Navigation Deck -->
+      <div class="flex flex-col gap-2">
+        <span class="text-[9px] text-[#E5B842] font-bold uppercase tracking-wider block text-center">PAGE NAVIGATION</span>
+        
+        <div class="flex gap-1">
+          <button onclick="prevSlide()" class="flex-1 bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs py-1.5 rounded border border-white/20 flex items-center justify-center gap-1 transition">
+            <span>▲</span><span class="text-[10px]">Prev</span>
+          </button>
+          <button onclick="nextSlide()" class="flex-1 bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs py-1.5 rounded border border-white/20 flex items-center justify-center gap-1 transition">
+            <span class="text-[10px]">Next</span><span>▼</span>
+          </button>
+        </div>
+
+        <!-- Render Type Filter Bar -->
+        <div class="flex gap-1 my-0.5">
+          <button onclick="setRenderTypeFilter('ALL')" id="filterBtnALL" class="flex-1 bg-[#E5B842] text-[#141B16] font-bold text-[9px] py-1 rounded text-center transition">ALL</button>
+          <button onclick="setRenderTypeFilter('STATIC')" id="filterBtnSTATIC" class="flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition">STATIC</button>
+          <button onclick="setRenderTypeFilter('REACT')" id="filterBtnREACT" class="flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition">REACT</button>
+        </div>
+
+        <select id="pageSelectVertical" onchange="jumpSlide(this.value)" class="w-full bg-[#0A0F0C] border-2 border-[#E5B842] text-[#E5B842] font-bold text-[11px] py-1.5 px-1 rounded text-center focus:outline-none cursor-pointer">
+        </select>
+
+        <button onclick="syncCurrentSite()" id="btnSyncRail" class="w-full mt-1 bg-[#142319] hover:bg-[#1E3626] text-[#4ADE80] border border-[#4ADE80]/50 text-[10px] font-bold py-1.5 rounded flex items-center justify-center gap-1.5 transition shadow">
+          <span>🔄</span>
+          <span>Sync Current Site</span>
+        </button>
+      </div>
+
+      <!-- Section 2: Zoom & Layout Suite -->
+      <div class="flex flex-col gap-2.5 my-2 w-full">
+        <!-- Layout Mode -->
+        <div class="bg-[#141C16] p-2 rounded border border-white/10 flex flex-col gap-1.5">
+          <span class="text-[9px] text-[#F27A22] font-bold uppercase tracking-wider text-center">VIEWPORT &amp; LAYOUT</span>
+          
+          <button onclick="toggleLayout()" id="btnLayoutRail" class="w-full bg-[#1C261F] hover:bg-[#28382D] border border-white/25 text-[#E5B842] py-1.5 px-2 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
+            <span id="iconLayoutRail">⛶</span>
+            <span class="text-[10px] text-white">Toggle Full / Split</span>
+          </button>
+
+          <div class="grid grid-cols-3 gap-1 mt-1">
+            <button onclick="setDevice('desktop')" id="btnDeskRail" class="bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center">Desk</button>
+            <button onclick="setDevice('tablet')" id="btnTabRail" class="bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center">Tab</button>
+            <button onclick="setDevice('mobile')" id="btnMobRail" class="bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center">Mob</button>
+          </div>
+        </div>
+
+        <!-- Zoom Suite -->
+        <div class="bg-[#141C16] p-2 rounded border border-white/10 flex flex-col gap-1.5">
+          <span class="text-[9px] text-[#4ADE80] font-bold uppercase tracking-wider text-center">ZOOM MAGNIFICATION</span>
+          
+          <div class="flex gap-1 items-center">
+            <button onclick="zoomStep(-0.1)" class="bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs px-2.5 py-1 rounded border border-white/20">-</button>
+            <span id="zoomReadoutRail" class="flex-1 text-center font-mono text-xs text-[#4ADE80] font-bold">75%</span>
+            <button onclick="zoomStep(0.1)" class="bg-[#1C261F] hover:bg-[#28382D] text-white font-bold text-xs px-2.5 py-1 rounded border border-white/20">+</button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-1 mt-1">
+            <button onclick="setZoom(0.5)" class="bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center">50%</button>
+            <button onclick="setZoom(0.75)" class="bg-[#E5B842] text-[#141B16] font-bold text-[9px] py-1 rounded text-center">75%</button>
+            <button onclick="setZoom(1.0)" class="bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center">100%</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex flex-col gap-2 border-t border-white/10 pt-3">
+      <button
+        onclick="toggleQuickApproval()"
+        id="btnApproveRail"
+        class="w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition"
+      >
+        <span>✓</span>
+        <span>Approve Slide</span>
+      </button>
+
+      <a
+        id="externalLinkRail"
+        href="#"
+        target="_blank"
+        class="w-full bg-[#1C261F] hover:bg-[#28382D] border border-white/20 text-[#4ADE80] text-center text-xs font-bold py-1.5 rounded flex items-center justify-center gap-1 transition"
+      >
+        <span>↗</span>
+        <span>Open Standalone</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <!-- ========================================================================= -->
+  <script>
+    let PAGES = [];
+
+    let sectionFeedback = JSON.parse(localStorage.getItem('ff_founder_feedback') || '{}');
+    let currentIndex = 0;
+    let currentZoom = 0.75;
+    let currentLayout = 'full';
+    let currentDevice = 'desktop';
+    let activeRenderFilter = 'ALL';
+    let approvals = JSON.parse(localStorage.getItem('ff_founder_approvals') || '{}');
+
+    const DEFAULT_PAGES = [
+      {
+        id: "CORE-01",
+        title: "Master Homepage & Brand Portal",
+        tier: "Tier-1",
+        srcUrl: "homepage.html",
+        displayRoute: "/",
+        renderType: "STATIC",
+        pillar: "Public Site (Tier 1)",
+        pillarColor: "#4ADE80",
+        purpose: "Main landing page — 3-pillar CTAs, hero, brand header",
+        stagingUrl: "homepage.html",
+        deploymentUrl: "https://www.fenceframes.com/",
+        preflightUrl: "founder-preflight-studio.html?page=CORE-01",
+        links: [
+          { label: "Header / nav — transparent Double-F logo", route: "SEC-01-HEADER" },
+          { label: "Hero section — 3-pillar buttons", route: "SEC-02-HERO" },
+          { label: "Three-pillar feature row", route: "SEC-03-PILLARS" },
+          { label: "Site footer", route: "SEC-04-FOOTER" }
+        ],
+        controls: [{ name: "Page Dispatch Controls", type: "Studio Inspector", purpose: "Main landing page" }],
+        notes: ["Main landing page — 3-pillar CTAs, hero, brand header"]
+      },
+      {
+        id: "CORE-02",
+        title: "Home Landing Page (Bake-Off Entry)",
+        tier: "Tier-1",
+        srcUrl: "demo-bakeoff.html",
+        displayRoute: "/demo-bakeoff",
+        renderType: "STATIC",
+        pillar: "Public Site (Tier 1)",
+        pillarColor: "#4ADE80",
+        purpose: "Alternative candidate design with 10px corner markers and Rowdies type tokens",
+        stagingUrl: "demo-bakeoff.html",
+        deploymentUrl: "https://www.fenceframes.com/demo-bakeoff",
+        preflightUrl: "founder-preflight-studio.html?page=CORE-02",
+        links: [
+          { label: "Header & Wordmark", route: "SEC-01-HEADER" },
+          { label: "Hero & Blueprint Frame", route: "SEC-02-HERO" },
+          { label: "Trust Strip", route: "SEC-03-TRUST" }
+        ],
+        controls: [{ name: "Bakeoff Controls", type: "Studio Inspector", purpose: "Bake-off entry" }],
+        notes: ["Rowdies tokens and Montenegrin Gothic One wordmark"]
+      },
+      {
+        id: "CORE-03",
+        title: "Cockpit Dashboard Prototype",
+        tier: "Tier-1",
+        srcUrl: "demo-cockpit.html",
+        displayRoute: "/demo-cockpit",
+        renderType: "STATIC",
+        pillar: "Public Site (Tier 1)",
+        pillarColor: "#4ADE80",
+        purpose: "Cockpit dashboard layout with interactive controls",
+        stagingUrl: "demo-cockpit.html",
+        deploymentUrl: "https://www.fenceframes.com/demo-cockpit",
+        preflightUrl: "founder-preflight-studio.html?page=CORE-03",
+        links: [
+          { label: "Cockpit Header", route: "SEC-01-HEADER" },
+          { label: "Interactive Canvas", route: "SEC-02-CANVAS" }
+        ],
+        controls: [{ name: "Cockpit Controls", type: "Studio Inspector", purpose: "Cockpit layout" }],
+        notes: ["Cockpit layout prototype"]
+      },
+      {
+        id: "CORE-04",
+        title: "Design System Guide",
+        tier: "Tier-1",
+        srcUrl: "design-system-guide.html",
+        displayRoute: "/design-system-guide",
+        renderType: "STATIC",
+        pillar: "Public Site (Tier 1)",
+        pillarColor: "#4ADE80",
+        purpose: "Interactive live design system reference — typography, colors, cards",
+        stagingUrl: "design-system-guide.html",
+        deploymentUrl: "https://www.fenceframes.com/design-system-guide",
+        preflightUrl: "founder-preflight-studio.html?page=CORE-04",
+        links: [
+          { label: "Rowdies type scale", route: "SEC-01-TYPOGRAPHY" },
+          { label: "3-pillar color mapping", route: "SEC-02-COLORS" },
+          { label: "Graduated card standards", route: "SEC-03-CARDS" }
+        ],
+        controls: [{ name: "Design System Tokens", type: "Studio Inspector", purpose: "Design tokens" }],
+        notes: ["Interactive live design system reference"]
+      }
+    ];
+
+    async function loadRegistryFromApi() {
+      try {
+        const res = await fetch('/api/registry');
+        if (!res.ok) throw new Error('API returned ' + res.status);
+        const data = await res.json();
+        if (data && Array.isArray(data.pages) && data.pages.length > 0) {
+          PAGES = data.pages.map(p => ({
+            id: p.pageId,
+            title: p.pageTitle,
+            tier: p.tier || 'Tier-1',
+            srcUrl: p.srcFile.startsWith('/') ? p.srcFile : '/' + p.srcFile,
+            displayRoute: p.route,
+            renderType: p.renderType || 'STATIC',
+            pillar: p.tier === 'Tier-1' ? 'Public Site (Tier 1)' : p.tier === 'Tier-2' ? 'Engineering Engine (Tier 2)' : 'HOA Layer (Tier 3)',
+            pillarColor: p.tier === 'Tier-1' ? '#4ADE80' : p.tier === 'Tier-2' ? '#60A5FA' : '#E5B842',
+            purpose: p.description || '',
+            stagingUrl: p.stagingUrl || `http://localhost:8080${p.route}`,
+            deploymentUrl: p.deploymentUrl || `https://www.fenceframes.com${p.route}`,
+            preflightUrl: p.preflightUrl || `http://localhost:8080/founder-preflight-studio.html?page=${p.pageId}`,
+            links: Object.entries(p.sections || {}).map(([secId, label]) => ({ label, route: secId, trigger: 'Section Inspector' })),
+            controls: [{ name: 'Page Dispatch Controls', type: 'Studio Inspector', purpose: p.description }],
+            notes: [p.description || '']
+          }));
+        }
+      } catch (e) {
+        console.warn('Could not fetch /api/registry, using local PAGES fallback:', e);
+        PAGES = DEFAULT_PAGES;
+      }
+      if (!PAGES || PAGES.length === 0) {
+        PAGES = DEFAULT_PAGES;
+      }
+    }
+
+    function handleSyncEnvChange(val) {
+      const customInput = document.getElementById('customEnvInput');
+      if (val === 'custom') {
+        customInput.classList.remove('hidden');
+        customInput.focus();
+      } else {
+        customInput.classList.add('hidden');
+      }
+      syncCurrentSite();
+    }
+
+    function getTargetPageUrl(p) {
+      const isFile = window.location.protocol === 'file:';
+      const envVal = document.getElementById('syncEnvSelect')?.value || (isFile ? 'local-file' : 'local-8080');
+      const customUrl = document.getElementById('customEnvInput')?.value.trim();
+
+      if (envVal === 'live-prod') {
+        const base = 'https://www.fenceframes.com';
+        const target = p.displayRoute || p.srcUrl;
+        return base + (target.startsWith('/') ? target : '/' + target);
+      } else if (envVal === 'local-3000') {
+        const base = 'http://localhost:3000';
+        const target = p.displayRoute || p.srcUrl;
+        return base + (target.startsWith('/') ? target : '/' + target);
+      } else if (envVal === 'custom' && customUrl) {
+        const base = customUrl.replace(/\/$/, '');
+        const target = p.displayRoute || p.srcUrl;
+        return base + (target.startsWith('/') ? target : '/' + target);
+      }
+
+      // Local / File handling
+      let cleanSrc = (p.srcUrl || '').replace(/^\/+/, '').replace(/^public\/+/, '');
+      if (isFile) {
+        return cleanSrc;
+      }
+      return '/' + cleanSrc;
+    }
+
+    function syncCurrentSite() {
+      const iframe = document.getElementById('pageIframe');
+      const p = PAGES[currentIndex];
+      if (!p) return;
+      const targetUrl = getTargetPageUrl(p);
+      const cacheBust = targetUrl + (targetUrl.includes('?') ? '&' : '?') + '_sync=' + Date.now();
+      iframe.src = cacheBust;
+
+      const envVal = document.getElementById('syncEnvSelect')?.value || 'local-8080';
+      const envLabel = envVal === 'live-prod' ? 'LIVE SITE' : envVal === 'local-3000' ? 'NEXT.JS (:3000)' : envVal === 'custom' ? 'CUSTOM SITE' : 'STAGING (:8080)';
+
+      const spin = document.getElementById('syncIconSpin');
+      const txt = document.getElementById('syncBtnText');
+      if (spin) spin.style.transform = 'rotate(360deg)';
+      if (txt) txt.innerText = 'SYNCED!';
+
+      const extLink = document.getElementById('externalLinkRail');
+      if (extLink) extLink.href = targetUrl;
+
+      showToast(`🔄 Synced iframe to ${envLabel}: ${targetUrl}`);
+
+      setTimeout(() => {
+        if (spin) spin.style.transform = 'none';
+        if (txt) txt.innerText = 'Sync';
+      }, 1000);
+    }
+
+    function renderPage() {
+      if (!PAGES || PAGES.length === 0) return;
+      const p = PAGES[currentIndex];
+      if (!p) return;
+
+      document.getElementById('pageSelectVertical').value = currentIndex;
+
+      document.getElementById('badgeIdTop').innerText = p.id;
+      document.getElementById('badgeTierTop').innerText = p.tier;
+      document.getElementById('badgeTierTop').style.backgroundColor = p.pillarColor;
+      
+      const renderType = p.renderType || 'STATIC';
+      const topRtBadge = document.getElementById('badgeRenderTypeTop');
+      const cardRtBadge = document.getElementById('badgeRenderTypeCard');
+      [topRtBadge, cardRtBadge].forEach(b => {
+        if (!b) return;
+        b.innerText = renderType;
+      });
+
+      document.getElementById('pageTitleTop').innerText = p.title;
+      document.getElementById('routeReadout').innerText = p.displayRoute;
+
+      const targetUrl = getTargetPageUrl(p);
+      const extLink = document.getElementById('externalLinkRail');
+      if (extLink) extLink.href = targetUrl;
+
+      const freshUrl = targetUrl + (targetUrl.includes('?') ? '&' : '?') + '_ts=' + Date.now();
+      document.getElementById('pageIframe').src = freshUrl;
+
+      document.getElementById('badgePillarCard').innerText = p.tier;
+      document.getElementById('badgePillarCard').style.backgroundColor = p.pillarColor;
+      document.getElementById('pagePurpose').innerText = p.purpose;
+
+      // Direct Links Card
+      document.getElementById('linksList').innerHTML = `
+        <div class="bg-[#0A0F0C] p-2 rounded border border-white/5 flex flex-col gap-1 text-[11px]">
+          <div class="flex justify-between items-center">
+            <span class="text-white/70">Local Staging:</span>
+            <a href="${p.stagingUrl}" target="_blank" class="text-[#4ADE80] font-mono hover:underline">👁️ View Staging</a>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-white/70">Pre-Flight Editor:</span>
+            <a href="${p.preflightUrl}" target="_blank" class="text-[#E5B842] font-mono hover:underline">🛠️ Edit Page</a>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-white/70">Live Deployment:</span>
+            <a href="${p.deploymentUrl}" target="_blank" class="text-[#60A5FA] font-mono hover:underline">🌐 Live Site</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('controlsList').innerHTML = (p.controls || []).map(c => `
+        <div class="bg-[#0A0F0C] p-2 rounded border border-white/5">
+          <strong class="font-normal text-white/95">${c.name}</strong>
+          <div class="text-[10px] text-white/60 mt-0.5">${c.purpose}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('notesList').innerHTML = (p.notes || []).map(n => `<li>${n}</li>`).join('');
+
+      renderSectionInspector(p);
+      updateApprovalState(p.id);
+    }
+
+    function setRenderTypeFilter(filter) {
+      activeRenderFilter = filter;
+      ['ALL', 'STATIC', 'REACT'].forEach(f => {
+        const btn = document.getElementById(`filterBtn${f}`);
+        if (btn) {
+          if (f === filter) {
+            btn.className = 'flex-1 bg-[#E5B842] text-[#141B16] font-bold text-[9px] py-1 rounded text-center transition';
+          } else {
+            btn.className = 'flex-1 bg-[#1C261F] text-white/70 hover:text-white text-[9px] py-1 rounded text-center transition';
+          }
+        }
+      });
+      populatePageSelect();
+    }
+
+    function populatePageSelect() {
+      const select = document.getElementById('pageSelectVertical');
+      if (!select) return;
+      const filteredItems = PAGES.map((p, originalIdx) => ({ page: p, originalIdx })).filter(item => {
+        if (activeRenderFilter === 'ALL') return true;
+        if (activeRenderFilter === 'STATIC') return item.page.renderType === 'STATIC';
+        if (activeRenderFilter === 'REACT') return item.page.renderType === 'REACT' || item.page.renderType === 'REACT-PLANNED';
+        return true;
+      });
+
+      select.innerHTML = filteredItems.map(item => {
+        const tag = item.page.renderType === 'STATIC' ? '[S]' : '[R]';
+        return `<option value="${item.originalIdx}">${tag} ${item.originalIdx+1}. ${item.page.id}</option>`;
+      }).join('');
+
+      const exists = filteredItems.some(item => item.originalIdx === currentIndex);
+      if (exists) {
+        select.value = currentIndex;
+      } else if (filteredItems.length > 0) {
+        jumpSlide(filteredItems[0].originalIdx);
+      }
+    }
+
+    function renderSectionInspector(p) {
+      document.getElementById('feedbackPageBadge').innerText = `PAGE-${p.id}`;
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      document.getElementById('pageWideNoteInput').value = pageData.pageWide || '';
+
+      const deck = document.getElementById('sectionsDeck');
+      const sections = p.links || [];
+
+      deck.innerHTML = sections.map(s => {
+        const secId = s.route;
+        const savedNote = (pageData.sections && pageData.sections[secId]) || '';
+        return `
+          <div class="bg-[#0A0F0C] border border-white/10 rounded p-2.5 flex flex-col gap-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono font-bold text-[#E5B842]">${secId}</span>
+              <span class="text-[10px] text-white/50 font-light truncate max-w-[180px]">${s.label}</span>
+            </div>
+            <textarea
+              rows="2"
+              oninput="saveSectionNote('${secId}', this.value)"
+              placeholder="Notes for ${secId}..."
+              class="w-full bg-[#121814] border border-white/10 rounded p-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#E5B842] custom-scrollbar"
+            >${savedNote}</textarea>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function saveSectionNote(key, val) {
+      const p = PAGES[currentIndex];
+      if (!sectionFeedback[p.id]) sectionFeedback[p.id] = { pageWide: '', sections: {} };
+      if (key === 'pageWide') {
+        sectionFeedback[p.id].pageWide = val;
+      } else {
+        sectionFeedback[p.id].sections[key] = val;
+      }
+      localStorage.setItem('ff_founder_feedback', JSON.stringify(sectionFeedback));
+    }
+
+    function clearAllPageNotes() {
+      const p = PAGES[currentIndex];
+      delete sectionFeedback[p.id];
+      localStorage.setItem('ff_founder_feedback', JSON.stringify(sectionFeedback));
+      renderSectionInspector(p);
+      showToast('Notes cleared for ' + p.id);
+    }
+
+    async function dispatchFeedbackDirectly() {
+      const p = PAGES[currentIndex];
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      const selectVal = document.getElementById('targetChatSelect').value;
+      const customId = document.getElementById('customChatIdInput').value.trim();
+      const targetChat = selectVal === 'custom' ? (customId || 'custom-chat') : selectVal;
+
+      const payload = {
+        pageId: p.id,
+        pageTitle: p.title,
+        route: p.displayRoute,
+        srcUrl: p.srcUrl,
+        renderType: p.renderType || 'STATIC',
+        targetChat: targetChat,
+        pageWide: pageData.pageWide || '',
+        sections: pageData.sections || {},
+        timestamp: new Date().toISOString()
+      };
+
+      const txt = document.getElementById('dispatchBtnText');
+      try {
+        txt.innerText = 'Sending...';
+        const res = await fetch('/api/dispatch-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          txt.innerText = 'Dispatched!';
+          showToast(`🚀 Dispatched directly to [${targetChat}]!`);
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        txt.innerText = 'Copied to Clipboard';
+        showToast('Copied to clipboard! Press Ctrl+V in chat.');
+        copyMasterBatchPrompt();
+      }
+
+      setTimeout(() => { txt.innerText = 'Dispatch to Chat'; }, 2000);
+    }
+
+    function copyMasterBatchPrompt() {
+      const p = PAGES[currentIndex];
+      const pageData = sectionFeedback[p.id] || { pageWide: '', sections: {} };
+      let prompt = `### 🛠️ EDIT DISPATCH: ${p.title} (${p.id})\n`;
+      prompt += `**Route:** \`${p.displayRoute}\` | **Src:** \`${p.srcUrl}\`\n\n`;
+      if (pageData.pageWide) prompt += `**PAGE-WIDE DIRECTIVE:**\n${pageData.pageWide}\n\n`;
+      if (pageData.sections && Object.keys(pageData.sections).length > 0) {
+        prompt += `**SECTION NOTES:**\n`;
+        Object.entries(pageData.sections).forEach(([sec, note]) => {
+          if (note.trim()) prompt += `- **${sec}:** ${note}\n`;
+        });
+      }
+      navigator.clipboard.writeText(prompt);
+      showToast('Master Batch Prompt copied!');
+    }
+
+    function updateApprovalState(pageId) {
+      const isApproved = !!approvals[pageId];
+      const btn = document.getElementById('btnApproveRail');
+      const pill = document.getElementById('approvalStatusPill');
+      if (isApproved) {
+        btn.className = 'w-full bg-[#E5B842] text-[#141B16] font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition';
+        btn.innerHTML = '<span>★</span><span>APPROVED</span>';
+        pill.innerText = 'APPROVED';
+        pill.className = 'text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#4ADE80] text-[#141B16]';
+      } else {
+        btn.className = 'w-full bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase py-2 rounded shadow flex items-center justify-center gap-1.5 transition';
+        btn.innerHTML = '<span>✓</span><span>Approve Slide</span>';
+        pill.innerText = 'PENDING';
+        pill.className = 'text-[9px] font-bold px-2 py-0.5 rounded uppercase bg-[#E5B842] text-[#141B16]';
+      }
+    }
+
+    function toggleQuickApproval() {
+      const p = PAGES[currentIndex];
+      approvals[p.id] = !approvals[p.id];
+      localStorage.setItem('ff_founder_approvals', JSON.stringify(approvals));
+      updateApprovalState(p.id);
+    }
+
+    function jumpSlide(idx) {
+      currentIndex = parseInt(idx, 10);
+      renderPage();
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) { currentIndex--; renderPage(); }
+    }
+
+    function nextSlide() {
+      if (currentIndex < PAGES.length - 1) { currentIndex++; renderPage(); }
+    }
+
+    function setDevice(dev) {
+      currentDevice = dev;
+      const container = document.getElementById('viewportContainer');
+      ['btnDeskRail', 'btnTabRail', 'btnMobRail'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.className = 'bg-[#1C261F] text-white/70 hover:text-white text-[10px] py-1 rounded text-center';
+      });
+
+      if (dev === 'desktop') {
+        container.style.width = '100%';
+        document.getElementById('btnDeskRail').className = 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center';
+      } else if (dev === 'tablet') {
+        container.style.width = '768px';
+        document.getElementById('btnTabRail').className = 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center';
+      } else if (dev === 'mobile') {
+        container.style.width = '390px';
+        document.getElementById('btnMobRail').className = 'bg-[#E5B842] text-[#141B16] font-bold text-[10px] py-1 rounded text-center';
+      }
+    }
+
+    function setZoom(val) {
+      currentZoom = val;
+      const container = document.getElementById('viewportContainer');
+      container.style.transform = `scale(${val})`;
+      document.getElementById('zoomReadoutRail').innerText = `${Math.round(val * 100)}%`;
+      document.getElementById('scaleStatusText').innerText = `Zoom: ${Math.round(val * 100)}%`;
+    }
+
+    function zoomStep(delta) {
+      let n = Math.min(Math.max(currentZoom + delta, 0.3), 1.5);
+      setZoom(Math.round(n * 100) / 100);
+    }
+
+    function toggleLayout() {
+      currentLayout = currentLayout === 'full' ? 'split' : 'full';
+      showToast(`Layout switched to ${currentLayout}`);
+    }
+
+    function handleTargetChatChange(val) {
+      const customInput = document.getElementById('customChatIdInput');
+      if (val === 'custom') {
+        customInput.classList.remove('hidden');
+        customInput.focus();
+      } else {
+        customInput.classList.add('hidden');
+      }
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'bg-[#141C16] border border-[#E5B842] text-[#FAF6EE] text-xs px-3.5 py-2 rounded shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2';
+      toast.innerHTML = `<span>💬</span><span>${msg}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    async function init() {
+      await loadRegistryFromApi();
+
+      // Query param selector e.g. ?page=DSGN-01
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetPageId = urlParams.get('page');
+      if (targetPageId && PAGES.length > 0) {
+        const foundIdx = PAGES.findIndex(p => p.id === targetPageId);
+        if (foundIdx !== -1) currentIndex = foundIdx;
+      }
+
+      populatePageSelect();
+      renderPage();
+
+      window.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'r' || e.key === 'R') { e.preventDefault(); syncCurrentSite(); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+        if (e.key === 'Tab') { e.preventDefault(); toggleLayout(); }
+        if (e.key === '+' || e.key === '=') zoomStep(0.1);
+        if (e.key === '-' || e.key === '_') zoomStep(-0.1);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

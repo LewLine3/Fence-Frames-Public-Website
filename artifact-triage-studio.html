@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Artifact Triage & Canon Alignment Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0F1712;
+      --bg-surface: #141E18;
+      --bg-card: #1A261F;
+      --bg-wood: #211911;
+      --ink: #0A0F0C;
+      --text: #F4ECDC;
+      --text-dim: #9BA39B;
+      --gold-sun: #E5B842;
+      --ember: #F27A22;
+      --forest-bright: #4ADE80;
+      --forest-deep: #16432D;
+      --danger: #EF4444;
+      --border: 1.5px solid rgba(229, 184, 66, 0.25);
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Rowdies', cursive;
+      font-weight: 300;
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+    h1, h2, h3, h4 { font-weight: 700; color: var(--gold-sun); letter-spacing: 0.5px; }
+    
+    header {
+      background: var(--ink);
+      border-bottom: 2px solid var(--gold-sun);
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .brand-title { display: flex; align-items: center; gap: 14px; }
+    .brand-badge {
+      background: var(--ember);
+      color: var(--ink);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .header-stats { display: flex; gap: 16px; align-items: center; }
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      display: flex;
+      gap: 8px;
+    }
+    .stat-pill strong { color: var(--forest-bright); }
+
+    .nav-tabs {
+      display: flex;
+      gap: 12px;
+      padding: 20px 32px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .tab-btn {
+      background: var(--bg-card);
+      color: var(--text-dim);
+      border: 1.5px solid transparent;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: 'Rowdies', cursive;
+      font-weight: 400;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover { color: var(--text); border-color: rgba(229, 184, 66, 0.4); }
+    .tab-btn.active {
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      border-color: var(--gold-sun);
+      box-shadow: 0 4px 12px rgba(229, 184, 66, 0.25);
+    }
+    .tab-btn.active.tab-forest {
+      background: var(--forest-bright);
+      border-color: var(--forest-bright);
+      box-shadow: 0 4px 12px rgba(74, 222, 128, 0.25);
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .repo-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chip {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--forest-deep);
+      color: var(--forest-bright);
+      border-color: var(--forest-bright);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 24px;
+    }
+
+    .item-card {
+      background: var(--bg-card);
+      border: 1.5px solid rgba(229, 184, 66, 0.2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .item-card:hover { border-color: var(--gold-sun); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .item-card.state-commit {
+      border-color: var(--forest-bright);
+      background: linear-gradient(180deg, rgba(74, 222, 128, 0.08) 0%, var(--bg-card) 100%);
+    }
+    .item-card.state-quarantine {
+      border-color: var(--danger);
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.08) 0%, var(--bg-card) 100%);
+    }
+    .item-card.state-help {
+      border-color: var(--ember);
+      background: linear-gradient(180deg, rgba(242, 122, 34, 0.08) 0%, var(--bg-card) 100%);
+    }
+
+    .card-header {
+      background: var(--ink);
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .card-title { font-size: 1.05rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .card-repo-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(229, 184, 66, 0.15);
+      color: var(--gold-sun);
+      white-space: nowrap;
+    }
+
+    .card-body {
+      padding: 16px 18px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-desc { font-size: 0.88rem; color: #D1D5DB; line-height: 1.5; }
+    .card-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: monospace;
+      background: rgba(0,0,0,0.3);
+      padding: 6px 10px;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+
+    .card-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-link {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 400;
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-link:hover { background: var(--gold-sun); color: var(--ink); border-color: var(--gold-sun); }
+    .btn-link.preview-link { background: var(--forest-deep); color: var(--forest-bright); border-color: var(--forest-bright); }
+    .btn-link.preview-link:hover { background: var(--forest-bright); color: var(--ink); }
+
+    .triage-toolbar {
+      background: var(--ink);
+      padding: 12px 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .decision-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .btn-decision {
+      padding: 8px 6px;
+      border-radius: 6px;
+      font-family: 'Rowdies', cursive;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      text-align: center;
+      transition: all 0.15s ease;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-dim);
+    }
+    .btn-decision:hover { color: var(--text); }
+    .btn-decision.btn-commit.active {
+      background: var(--forest-bright);
+      color: var(--ink);
+      border-color: var(--forest-bright);
+      box-shadow: 0 2px 8px rgba(74, 222, 128, 0.4);
+    }
+    .btn-decision.btn-quarantine.active {
+      background: var(--danger);
+      color: #FFF;
+      border-color: var(--danger);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    }
+    .btn-decision.btn-help.active {
+      background: var(--ember);
+      color: var(--ink);
+      border-color: var(--ember);
+      box-shadow: 0 2px 8px rgba(242, 122, 34, 0.4);
+    }
+    .notes-input {
+      width: 100%;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-family: inherit;
+      border-radius: 4px;
+      outline: none;
+    }
+    .notes-input:focus { border-color: var(--gold-sun); }
+
+    .preview-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      backdrop-filter: blur(4px);
+    }
+    .preview-header {
+      background: var(--ink);
+      border-bottom: 2px solid var(--gold-sun);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .preview-iframe { flex-grow: 1; border: none; width: 100%; height: 100%; background: #FFF; }
+    .btn-close-modal {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .summary-box {
+      background: var(--bg-surface);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .export-actions { display: flex; gap: 12px; margin-top: 16px; }
+    .btn-export {
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-family: 'Rowdies', cursive;
+      font-weight: 700;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .btn-export:hover { background: #FFD56B; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand-title">
+      <h2>FENCE FRAMES</h2>
+      <span class="brand-badge">Artifact Triage Studio</span>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill">🔒 <strong>ZERO COMMITS MODE</strong></div>
+      <div class="stat-pill">🌐 Port: <strong>8080 Active</strong></div>
+      <div class="stat-pill">Total Items: <strong id="totalCount">28</strong></div>
+      <div class="stat-pill">Decided: <strong id="decidedCount">0</strong> / 28</div>
+    </div>
+  </header>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active tab-ember" onclick="setTab('new-ideas')">
+      💡 New Ideas & Expansions (<span id="count-new">15</span>)
+    </button>
+    <button class="tab-btn tab-forest" onclick="setTab('helpful-canon')">
+      🟢 Helpful / Supports Canon (<span id="count-canon">13</span>)
+    </button>
+    <button class="tab-btn" onclick="setTab('summary')">
+      📋 Triage Ledger & Export
+    </button>
+  </div>
+
+  <div class="container">
+    <div class="filter-bar">
+      <div class="repo-filters">
+        <span class="filter-chip active" onclick="setFilter('all')">All Repos</span>
+        <span class="filter-chip" onclick="setFilter('Fence-Frames-Public-Website')">Fence-Frames-Public-Website</span>
+        <span class="filter-chip" onclick="setFilter('FenceBook')">FenceBook</span>
+        <span class="filter-chip" onclick="setFilter('Founder-Notebook')">Founder-Notebook</span>
+        <span class="filter-chip" onclick="setFilter('Two Lew Builders')">Two Lew Builders</span>
+        <span class="filter-chip" onclick="setFilter('Plankter Planters')">Plankter Planters</span>
+        <span class="filter-chip" onclick="setFilter('_Platform')">_Platform</span>
+      </div>
+      <div>
+        <input type="text" id="searchInput" placeholder="Search ideas, tags, files..." class="notes-input" style="width: 250px;" oninput="renderItems()">
+      </div>
+    </div>
+
+    <div id="cardsGrid" class="card-grid"></div>
+
+    <div id="summaryView" style="display:none;">
+      <div class="summary-box">
+        <h3>📋 Master Triage Review Ledger</h3>
+        <p style="color: var(--text-dim); margin-top: 6px;">
+          Review your categorized decisions. When satisfied, you can download the JSON manifest or copy markdown notes for handoff.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0;">
+          <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid var(--forest-bright); padding: 16px; border-radius: 8px;">
+            <h4 style="color: var(--forest-bright);">✅ Marked for Commit / Ingest</h4>
+            <div id="summaryCommitList" style="margin-top: 10px; font-size: 0.85rem; max-height: 250px; overflow-y: auto;"></div>
+          </div>
+          <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); padding: 16px; border-radius: 8px;">
+            <h4 style="color: var(--danger);">⛔ Marked for Quarantine / Reject</h4>
+            <div id="summaryQuarantineList" style="margin-top: 10px; font-size: 0.85rem; max-height: 250px; overflow-y: auto;"></div>
+          </div>
+          <div style="background: rgba(242, 122, 34, 0.1); border: 1px solid var(--ember); padding: 16px; border-radius: 8px;">
+            <h4 style="color: var(--ember);">❓ Needs Help / Review</h4>
+            <div id="summaryHelpList" style="margin-top: 10px; font-size: 0.85rem; max-height: 250px; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <div class="export-actions">
+          <button class="btn-export" onclick="exportJSON()">📥 Download Triage JSON</button>
+          <button class="btn-export" style="background: var(--forest-bright);" onclick="copyMarkdown()">📋 Copy Markdown Summary</button>
+          <button class="btn-export" style="background: #374151; color: white;" onclick="resetAllDecisions()">🔄 Reset Decisions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="previewModal" class="preview-modal">
+    <div class="preview-header">
+      <h3 id="previewTitle" style="color: var(--gold-sun);">Preview</h3>
+      <button class="btn-close-modal" onclick="closePreview()">✕ Close Preview</button>
+    </div>
+    <iframe id="previewIframe" class="preview-iframe" src="about:blank"></iframe>
+  </div>
+
+  <script>
+    const itemsData = [
+      {
+        id: "idea-01",
+        type: "new-ideas",
+        title: "Interactive SVG Canvas Studio",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Live dynamic canvas allowing homeowners to drag, measure, and stack fence sections in real-time.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/interactive-canvas.html",
+        liveUrl: "/interactive-canvas.html",
+        hasLive: true
+      },
+      {
+        id: "idea-02",
+        type: "new-ideas",
+        title: "Founder Preflight Studio & Auth Gate",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Preflight control dashboard to inspect active page states, test auth gating, and toggle wizard modes.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/founder-preflight-studio.html",
+        liveUrl: "/founder-preflight-studio.html",
+        hasLive: true
+      },
+      {
+        id: "idea-03",
+        type: "new-ideas",
+        title: "Geo-Targeted HOA Micro-Portals (Si View & North Bend)",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Community-specific landing pages pre-populated with neighborhood HOA guidelines, allowed heights, and pre-approved styles.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/geo-si-view.html",
+        liveUrl: "/geo-si-view.html",
+        hasLive: true
+      },
+      {
+        id: "idea-04",
+        type: "new-ideas",
+        title: "Contractor Match Router & Lead Hub",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Match engine pairing validated homeowner Folio specs with certified local fence contractors.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/contractor-match.html",
+        liveUrl: "/contractor-match.html",
+        hasLive: true
+      },
+      {
+        id: "idea-05",
+        type: "new-ideas",
+        title: "Automated ARC HOA Packet Generator",
+        repo: "FenceBook",
+        desc: "Headless Chromium contract schema that compiles downloadable, print-ready PDF HOA Architectural Review Committee (ARC) submission dossiers.",
+        file: "D:/Lew-Line-Workspaces/FenceBook/media-engine/contracts/arc-packet.schema.json",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-06",
+        type: "new-ideas",
+        title: "Community Brochure & Envelope Contracts",
+        repo: "FenceBook",
+        desc: "Media engine schemas for generating neighborhood fence catalogs and branded postal mailers.",
+        file: "D:/Lew-Line-Workspaces/FenceBook/media-engine/contracts/community-brochure.schema.json",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-07",
+        type: "new-ideas",
+        title: "Vector MCP Studio & Affinity Bridge",
+        repo: "FenceBook",
+        desc: "Protocol connecting agent workflows directly to vector design engines for automated SVG generation.",
+        file: "D:/Lew-Line-Workspaces/FenceBook/docs/affinity-mcp-setup.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-08",
+        type: "new-ideas",
+        title: "Partner Program App Architecture",
+        repo: "FenceBook",
+        desc: "App shell specification for contractor partner onboarding, tier levels, and referral commission tracking.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/01_By_Venture_and_Topic/01_Fence_Frames_Website_and_Core/2026-08-16_5c73de99/session_overview.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-09",
+        type: "new-ideas",
+        title: "Tana Supertag Schema Architecture",
+        repo: "Founder-Notebook",
+        desc: "Graph taxonomy with supertags (#ai-session, #artifact, #decision, #venture) structuring cross-repo founder intelligence.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/00_TANA_IMPORT_PASTE.txt",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-10",
+        type: "new-ideas",
+        title: "Multi-Agent Teamwork Orchestration Protocol",
+        repo: "Founder-Notebook",
+        desc: "Rule set and prompt stack for running 1 Gatekeeper Agent coordinating multiple specialized Builder Subagents.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/01_By_Venture_and_Topic/05_Storage_IDE_and_Platform_Setup/2026-08-29_fcf283a0/artifacts/agent_orchestration_pack.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-11",
+        type: "new-ideas",
+        title: "Automated Obsidian-to-PDF Proposal Pipeline",
+        repo: "Two Lew Builders",
+        desc: "PowerShell automation converting raw Obsidian estimate notes into customer-facing PDF proposals with custom CSS styling.",
+        file: "D:/Lew-Line-Workspaces/Two Lew Builders/estimates/exports/export-obsidian-to-pdf.ps1",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-12",
+        type: "new-ideas",
+        title: "Forensic Labor & Bank Debit Reconciler",
+        repo: "Two Lew Builders",
+        desc: "Automated reconciliation scripts mapping bank debit batches directly to Airtable project IDs and subcontractor payout ledger.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/01_By_Venture_and_Topic/06_Two_Lew_and_Plankter_Ventures/2026-08-22_3246e67e/session_overview.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-13",
+        type: "new-ideas",
+        title: "Modular Pilgrim Pier & Drop-in Bracket System",
+        repo: "Plankter Planters",
+        desc: "Interlocking ground pier foundation system allowing modular planter boxes to level on uneven terrain.",
+        file: "D:/Lew-Line-Workspaces/Plankter Planters/components/scaffolds/pilgrim-pier-system.svg",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-14",
+        type: "new-ideas",
+        title: "Automated SVG Planter Scaffold Generator",
+        repo: "Plankter Planters",
+        desc: "Node.js script dynamically rendering parametric CAD SVGs for long panels, short panels, floor planks, and spec cards.",
+        file: "D:/Lew-Line-Workspaces/Plankter Planters/scripts/generate-plankter-pilgrim-scaffolds.js",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "idea-15",
+        type: "new-ideas",
+        title: "Unified Multi-Root Cockpit Launcher",
+        repo: "_Platform",
+        desc: "Centralized visual mission control launcher displaying all live servers, workspace links, and prototype cards.",
+        file: "D:/Lew-Line-Workspaces/_Platform/cockpit.html",
+        liveUrl: "/cockpit.html",
+        hasLive: true
+      },
+
+      // HELPFUL / SUPPORTS CANON
+      {
+        id: "canon-01",
+        type: "helpful-canon",
+        title: "Interactive Design System Guide",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Interactive visual guide codifying Rowdies typography (700, 400, 300), 3-pillar colors (Gold #E5B842, Ember #F27A22, Forest #4ADE80), and button styles.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/design-system-guide.html",
+        liveUrl: "/design-system-guide.html",
+        hasLive: true
+      },
+      {
+        id: "canon-02",
+        type: "helpful-canon",
+        title: "Graduated Cards & Outside Corner Markers Showcase",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Reference implementations of 50% / 35% outside corner marks (.corner-mark-out), docked explainer plates, and cedar wood grain containers.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/GRADUATED-CARDS-SHOWCASE.html",
+        liveUrl: "/GRADUATED-CARDS-SHOWCASE.html",
+        hasLive: true
+      },
+      {
+        id: "canon-03",
+        type: "helpful-canon",
+        title: "Master 3-Pillar Step Flow Homepage",
+        repo: "Fence-Frames-Public-Website",
+        desc: "Production-ready public landing page structured around Find It (Step 1), Frame It (Step 2), and Fence It (Step 3).",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/homepage.html",
+        liveUrl: "/homepage.html",
+        hasLive: true
+      },
+      {
+        id: "canon-04",
+        type: "helpful-canon",
+        title: "Holographic Icon Suite (Frame, Picket, Map)",
+        repo: "Fence-Frames-Public-Website",
+        desc: "1x1 vector brand icons rendered with glowing holographic wireframes over dark forest backgrounds.",
+        file: "D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/brand/icons/holographic_fence_frame.svg",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-05",
+        type: "helpful-canon",
+        title: "Canonical UI Design Rules Specification",
+        repo: "FenceBook",
+        desc: "The definitive agent law specifying fonts, colors, box gradients, and button ticket cut geometry.",
+        file: "D:/Lew-Line-Workspaces/FenceBook/docs/DESIGN-RULES.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-06",
+        type: "helpful-canon",
+        title: "Gemini Spoke Design System (Green Print React Library)",
+        repo: "FenceBook",
+        desc: "Green Print React component specifications (PageContainer, SurfacePlate, 11-shape Button, Tailwind ff.* tokens).",
+        file: "D:/Lew-Line-Workspaces/FenceBook/docs/gemini-memory-pack/hub-and-spoke/SPOKE-DESIGN-SYSTEM.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-07",
+        type: "helpful-canon",
+        title: "Relational Airtable & 5100 COGS Schema Map",
+        repo: "FenceBook",
+        desc: "Visual relational mapping linking Projects, Footage SKUs, Subcontractor Splits, and 5100 Direct Labor accounting.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/01_By_Venture_and_Topic/04_Database_Supabase_and_Vercel/2026-08-13_2a9ec31a/artifacts/airtable_ecosystem_visual_schema.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-08",
+        type: "helpful-canon",
+        title: "Cedar Horizontal Trim SVG Scaffold",
+        repo: "FenceBook",
+        desc: "Architectural SVG scaffold defining exact dimensional trim lines for horizontal 2-rail cedar fences.",
+        file: "D:/Lew-Line-Workspaces/FenceBook/assets/svg-scaffolds/component-trim-cedar-two-rail-horizontal.svg",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-09",
+        type: "helpful-canon",
+        title: "Master AI Session Ledger & Navigation Index",
+        repo: "Founder-Notebook",
+        desc: "Comprehensive index of 94 AI conversations, timestamps, prompts, and 663 harvested artifacts.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/00_MASTER_SESSION_LEDGER.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-10",
+        type: "helpful-canon",
+        title: "Document Routing & Governance Protocol",
+        repo: "Founder-Notebook",
+        desc: "Protocols for filing founder notes, archiving transient chats, and routing documents across ventures.",
+        file: "D:/Lew-Line-Workspaces/Founder-Notebook/DOCUMENT-ROUTING.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-11",
+        type: "helpful-canon",
+        title: "Empirical Footage & Labor Cost Models",
+        repo: "Two Lew Builders",
+        desc: "Historical 2024–2025 actual project data providing empirical footage rates and supplier costs for Fence-Folio pricing.",
+        file: "D:/Archives/AI-Sessions-Drive-Archive/01_By_Venture_and_Topic/06_Two_Lew_and_Plankter_Ventures/2026-08-15_ff9d6b53/session_overview.md",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-12",
+        type: "helpful-canon",
+        title: "TLB Client Proposal Templates & Obsidian CSS",
+        repo: "Two Lew Builders",
+        desc: "Clean HTML/CSS proposal templates (Split Board & Split Rail) for client fence estimates.",
+        file: "D:/Lew-Line-Workspaces/Two Lew Builders/estimates/proposals/2606-Split-Board-Proposal.html",
+        liveUrl: null,
+        hasLive: false
+      },
+      {
+        id: "canon-13",
+        type: "helpful-canon",
+        title: "Plankter Component Template Specification",
+        repo: "Plankter Planters",
+        desc: "Engineering blueprint defining dimensional tolerances, corner lap joints, and fastener specifications.",
+        file: "D:/Lew-Line-Workspaces/Plankter Planters/components/spec/plankter-component-template-spec.md",
+        liveUrl: null,
+        hasLive: false
+      }
+    ];
+
+    let currentTab = 'new-ideas';
+    let currentFilter = 'all';
+    let decisions = JSON.parse(localStorage.getItem('ff_triage_decisions') || '{}');
+
+    function saveDecisions() {
+      localStorage.setItem('ff_triage_decisions', JSON.stringify(decisions));
+      updateCounts();
+      updateSummary();
+    }
+
+    function setTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (tab === 'summary') {
+        document.getElementById('cardsGrid').style.display = 'none';
+        document.getElementById('summaryView').style.display = 'block';
+        updateSummary();
+      } else {
+        document.getElementById('cardsGrid').style.display = 'grid';
+        document.getElementById('summaryView').style.display = 'none';
+        renderItems();
+      }
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      renderItems();
+    }
+
+    function setDecision(id, decision) {
+      if (!decisions[id]) decisions[id] = {};
+      decisions[id].status = (decisions[id].status === decision) ? null : decision;
+      saveDecisions();
+      renderItems();
+    }
+
+    function setNotes(id, notes) {
+      if (!decisions[id]) decisions[id] = {};
+      decisions[id].notes = notes;
+      saveDecisions();
+    }
+
+    function updateCounts() {
+      const newItems = itemsData.filter(i => i.type === 'new-ideas');
+      const canonItems = itemsData.filter(i => i.type === 'helpful-canon');
+      document.getElementById('count-new').textContent = newItems.length;
+      document.getElementById('count-canon').textContent = canonItems.length;
+      document.getElementById('totalCount').textContent = itemsData.length;
+
+      let decided = 0;
+      for (const k in decisions) {
+        if (decisions[k].status) decided++;
+      }
+      document.getElementById('decidedCount').textContent = decided;
+    }
+
+    function renderItems() {
+      const grid = document.getElementById('cardsGrid');
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      
+      const filtered = itemsData.filter(item => {
+        const matchesTab = (item.type === currentTab);
+        const matchesFilter = (currentFilter === 'all' || item.repo === currentFilter);
+        const matchesSearch = (!query || item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query) || item.repo.toLowerCase().includes(query));
+        return matchesTab && matchesFilter && matchesSearch;
+      });
+
+      grid.innerHTML = filtered.map(item => {
+        const d = decisions[item.id] || {};
+        const status = d.status || '';
+        const notes = d.notes || '';
+
+        let cardClass = 'item-card';
+        if (status === 'commit') cardClass += ' state-commit';
+        if (status === 'quarantine') cardClass += ' state-quarantine';
+        if (status === 'help') cardClass += ' state-help';
+
+        return `
+          <div class="${cardClass}">
+            <div class="card-header">
+              <div class="card-title">${item.title}</div>
+              <span class="card-repo-tag">${item.repo}</span>
+            </div>
+            
+            <div class="card-body">
+              <div class="card-desc">${item.desc}</div>
+              <div class="card-meta">${item.file}</div>
+              
+              <div class="card-links">
+                <a href="file:///${item.file}" target="_blank" class="btn-link">📂 Open File</a>
+                ${item.hasLive ? `<button onclick="openPreview('${item.liveUrl}', '${item.title}')" class="btn-link preview-link">🌐 Live Preview</button>` : ''}
+              </div>
+            </div>
+
+            <div class="triage-toolbar">
+              <div class="decision-buttons">
+                <button class="btn-decision btn-commit ${status === 'commit' ? 'active' : ''}" onclick="setDecision('${item.id}', 'commit')">
+                  ✅ Commit
+                </button>
+                <button class="btn-decision btn-quarantine ${status === 'quarantine' ? 'active' : ''}" onclick="setDecision('${item.id}', 'quarantine')">
+                  ⛔ Quarantine
+                </button>
+                <button class="btn-decision btn-help ${status === 'help' ? 'active' : ''}" onclick="setDecision('${item.id}', 'help')">
+                  ❓ Need Help
+                </button>
+              </div>
+              <input type="text" class="notes-input" placeholder="Founder notes / thoughts..." value="${notes}" onchange="setNotes('${item.id}', this.value)">
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateCounts();
+    }
+
+    function openPreview(url, title) {
+      document.getElementById('previewTitle').textContent = "Live Demo Preview: " + title;
+      let finalUrl = url;
+      if (window.location.protocol === 'file:' && url.startsWith('/')) {
+        finalUrl = './public' + url;
+      }
+      document.getElementById('previewIframe').src = finalUrl;
+      document.getElementById('previewModal').style.display = 'flex';
+    }
+
+    function closePreview() {
+      document.getElementById('previewModal').style.display = 'none';
+      document.getElementById('previewIframe').src = 'about:blank';
+    }
+
+    function updateSummary() {
+      const commitList = document.getElementById('summaryCommitList');
+      const quarantineList = document.getElementById('summaryQuarantineList');
+      const helpList = document.getElementById('summaryHelpList');
+
+      let commits = [], quarantines = [], helps = [];
+
+      itemsData.forEach(item => {
+        const d = decisions[item.id];
+        if (d && d.status === 'commit') commits.push({ item, notes: d.notes });
+        if (d && d.status === 'quarantine') quarantines.push({ item, notes: d.notes });
+        if (d && d.status === 'help') helps.push({ item, notes: d.notes });
+      });
+
+      commitList.innerHTML = commits.length ? commits.map(c => `• <strong>${c.item.title}</strong> (${c.item.repo}) ${c.notes ? `<br><em>Note: ${c.notes}</em>` : ''}`).join('<br><br>') : '<em>None marked yet</em>';
+      quarantineList.innerHTML = quarantines.length ? quarantines.map(q => `• <strong>${q.item.title}</strong> (${q.item.repo}) ${q.notes ? `<br><em>Note: ${q.notes}</em>` : ''}`).join('<br><br>') : '<em>None marked yet</em>';
+      helpList.innerHTML = helps.length ? helps.map(h => `• <strong>${h.item.title}</strong> (${h.item.repo}) ${h.notes ? `<br><em>Note: ${h.notes}</em>` : ''}`).join('<br><br>') : '<em>None marked yet</em>';
+    }
+
+    function exportJSON() {
+      const blob = new Blob([JSON.stringify(decisions, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'triage_decisions.json';
+      a.click();
+    }
+
+    function copyMarkdown() {
+      let md = "# Artifact Triage & Canon Alignment Summary\n\n";
+      md += "## ✅ Commit / Ingest Candidates\n";
+      itemsData.forEach(item => {
+        const d = decisions[item.id];
+        if (d && d.status === 'commit') {
+          md += `- **${item.title}** (${item.repo})\n  - Path: \`${item.file}\`\n  ${d.notes ? `  - Notes: ${d.notes}\n` : ''}`;
+        }
+      });
+      md += "\n## ⛔ Quarantine Candidates\n";
+      itemsData.forEach(item => {
+        const d = decisions[item.id];
+        if (d && d.status === 'quarantine') {
+          md += `- **${item.title}** (${item.repo})\n  - Path: \`${item.file}\`\n  ${d.notes ? `  - Notes: ${d.notes}\n` : ''}`;
+        }
+      });
+      md += "\n## ❓ Needs Help / Clarification\n";
+      itemsData.forEach(item => {
+        const d = decisions[item.id];
+        if (d && d.status === 'help') {
+          md += `- **${item.title}** (${item.repo})\n  - Path: \`${item.file}\`\n  ${d.notes ? `  - Notes: ${d.notes}\n` : ''}`;
+        }
+      });
+
+      navigator.clipboard.writeText(md).then(() => {
+        alert("Markdown summary copied to clipboard!");
+      });
+    }
+
+    function resetAllDecisions() {
+      if (confirm("Are you sure you want to reset all triage decisions?")) {
+        decisions = {};
+        saveDecisions();
+        renderItems();
+        updateSummary();
+      }
+    }
+
+    renderItems();
+  </script>
+</body>
+</html>
