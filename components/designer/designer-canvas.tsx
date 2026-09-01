@@ -20,6 +20,17 @@ const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string
   'none':          { main: '#d8c3a5', dark: '#b59f82', light: '#eddcc5', rail: '#c5af92' },
 }
 
+function normalizeSvgString(raw: string): string {
+  if (!raw) return ''
+  return raw
+    .replace(/\bwidth="[0-9.]+"/gi, 'width="100%"')
+    .replace(/\bheight="[0-9.]+"/gi, 'height="100%"')
+    .replace(
+      /<svg\b/i,
+      '<svg preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;max-width:100%;max-height:100%;display:block;"',
+    )
+}
+
 export function DesignerCanvas({
   config,
   viewAngle = 'both',
@@ -63,8 +74,8 @@ export function DesignerCanvas({
     ])
       .then(([front, back]) => {
         if (!isMounted) return
-        setFrontSvgText(front)
-        setBackSvgText(back)
+        setFrontSvgText(normalizeSvgString(front))
+        setBackSvgText(normalizeSvgString(back))
         setIsLoading(false)
       })
       .catch((err) => {
