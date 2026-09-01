@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Lighter Wood Logo Showcase & Contrast Testbench</title>
+  
+  <!-- Rowdies Font Standard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-sun: #E5B842;
+      --gold-sun-glow: rgba(229, 184, 66, 0.25);
+      --emerald-bright: #2EA055;
+      --forest-bright: #4ADE80;
+      --ink: #0B0E0C;
+      --ink-surface: #141B16;
+      --ink-border: #1E2B22;
+      --pure-black: #000000;
+      --slate-dark: #1E293B;
+      --canvas-bg: #000000;
+      --card-bg: #0E120F;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--canvas-bg);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(46, 160, 85, 0.25) 0%, rgba(0, 0, 0, 0.95) 75%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      color: #FFFFFF;
+      font-family: 'Rowdies', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      min-height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+
+    body.theme-pitch-black {
+      background-color: #000000 !important;
+      background-image: none !important;
+    }
+
+    body.theme-dark-ink {
+      background-color: #0B0E0C !important;
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(46, 160, 85, 0.3) 0%, rgba(11, 14, 12, 0.95) 75%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px) !important;
+    }
+
+    body.theme-dark-slate {
+      background-color: #0F172A !important;
+      background-image: linear-gradient(#1E293B 1px, transparent 1px), linear-gradient(90deg, #1E293B 1px, transparent 1px) !important;
+    }
+
+    body.theme-light {
+      background-color: #F8FAFC !important;
+      background-image: linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px) !important;
+      color: #0F172A !important;
+    }
+    body.theme-light .brand-title { color: #0F172A !important; text-shadow: none !important; }
+    body.theme-light .brand-desc { color: #475569 !important; }
+    body.theme-light .showcase-card { background: #FFFFFF !important; border-color: #CBD5E1 !important; box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important; }
+    body.theme-light .card-topbar { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light .card-title { color: #0F172A !important; }
+    body.theme-light .card-footer { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light .sim-card { background: #FFFFFF !important; border-color: #CBD5E1 !important; }
+    body.theme-light .sim-box { background: #F1F5F9 !important; border-color: #CBD5E1 !important; }
+    body.theme-light .navbar-preview-bar { background: #0B0E0C !important; color: #FFFFFF !important; }
+
+    .container {
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .badge-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink-surface);
+      border: 1.5px solid var(--emerald-bright);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: var(--forest-bright);
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      box-shadow: 0 0 20px rgba(46, 160, 85, 0.3);
+    }
+
+    .badge-phase .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--forest-bright);
+      box-shadow: 0 0 8px var(--forest-bright);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .brand-title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.8);
+      margin-bottom: 6px;
+    }
+
+    .brand-title span.gold {
+      color: var(--gold-sun);
+    }
+
+    .brand-tagline {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--forest-bright);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .brand-desc {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      color: #C4B294;
+      font-weight: 300;
+    }
+
+    /* Controls Toolbar */
+    .controls-toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-toggle-theme {
+      background: var(--ink-surface);
+      border: 1.5px solid var(--ink-border);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-toggle-theme.active, .btn-toggle-theme:hover {
+      border-color: var(--gold-sun);
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: linear-gradient(90deg, rgba(46, 160, 85, 0.6) 0%, rgba(222, 179, 94, 0.45) 50%, rgba(46, 160, 85, 0.6) 100%);
+      border: 1.5px solid var(--forest-bright);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 0 30px rgba(46, 160, 85, 0.3);
+    }
+
+    .section-banner h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    /* Showcase Grid */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+
+    .showcase-card {
+      background: var(--ink-surface);
+      border: 2px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+    }
+
+    .showcase-card.featured-card {
+      border-color: var(--gold-sun);
+      box-shadow: 0 0 32px var(--gold-sun-glow);
+    }
+
+    .showcase-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--forest-bright);
+      box-shadow: 0 20px 48px rgba(46, 160, 85, 0.35);
+    }
+
+    .card-topbar {
+      background: #0B0E0C;
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--ink-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .preview-container {
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background-color: #000000;
+      border-bottom: 1.5px solid var(--ink-border);
+      position: relative;
+      min-height: 280px;
+    }
+
+    .hero-img-master {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,0.9));
+      transition: transform 0.3s ease;
+    }
+
+    .hero-img-master:hover {
+      transform: scale(1.08);
+    }
+
+    .hero-medallion-img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.85));
+      transition: transform 0.3s ease;
+    }
+
+    .hero-medallion-img:hover {
+      transform: scale(1.08);
+    }
+
+    .dual-preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .testbench-section {
+      padding: 18px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .palette-swatches {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .rationale-box {
+      background: rgba(46, 160, 85, 0.15);
+      border-left: 3px solid var(--forest-bright);
+      padding: 10px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.45;
+    }
+
+    .rationale-box strong {
+      color: var(--forest-bright);
+      font-weight: 700;
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      background: #0B0E0C;
+      border-top: 1.5px solid var(--ink-border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 8px 10px;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-gold {
+      background: var(--gold-sun);
+      color: var(--ink);
+      font-weight: 700;
+      border: 1.5px solid var(--gold-sun);
+    }
+
+    .btn-gold:hover {
+      background: #FFFFFF;
+      color: var(--ink);
+      box-shadow: 0 0 16px var(--gold-sun-glow);
+    }
+
+    .btn-green {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink);
+    }
+
+    .btn-green:hover {
+      background: var(--forest-bright);
+      color: var(--ink);
+      box-shadow: 0 0 16px rgba(46, 160, 85, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1.5px solid var(--ink-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest-bright);
+      color: var(--forest-bright);
+    }
+
+    /* NAVBAR HEADER PREVIEW LAB */
+    .navbar-lab-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .navbar-preview-card {
+      background: #0E120F;
+      border: 1.5px solid var(--ink-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+    }
+
+    .navbar-preview-topbar {
+      padding: 10px 16px;
+      background: #0B0E0C;
+      border-bottom: 1px solid var(--ink-border);
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-preview-bar {
+      background: #000000;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-logo-box {
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo-box img {
+      height: 42px;
+      width: auto;
+    }
+
+    .nav-dummy-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.82rem;
+      color: #94A3B8;
+    }
+
+    .nav-dummy-btn {
+      background: var(--emerald-bright);
+      color: #FFFFFF;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: none;
+    }
+
+    /* SOCIAL SIMULATOR */
+    .sim-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .sim-card {
+      background: var(--ink-surface);
+      border: 1.5px solid var(--ink-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+
+    .sim-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--forest-bright);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-box {
+      background: #000000;
+      border: 1px solid var(--ink-border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sim-avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+      background: #000000;
+    }
+
+    .sim-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body class="theme-pitch-black">
+
+<div class="container">
+  <!-- Header -->
+  <header class="brand-header">
+    <div class="badge-phase">
+      <span class="pulse-dot"></span>
+      Lighter Wood Tone &amp; High-Contrast Test Lab
+    </div>
+    <h1 class="brand-title">FENCE <span class="gold">FRAMES</span></h1>
+    <p class="brand-tagline">Frame Your Vision | Find Your Fence</p>
+    <p class="brand-desc">
+      Comparing calibrated <strong>lighter wood species</strong> against dark backdrops &amp; solid jet black. Toned specifically to eliminate the "muddy brown blend-in" on dark navigation bars and black avatars while preserving authentic natural wood grain!
+    </p>
+  </header>
+
+  <!-- Canvas Theme Controls -->
+  <div class="controls-toolbar">
+    <span class="ctrl-label">🎛️ Global Canvas Backdrop:</span>
+    <button class="btn-toggle-theme active" onclick="setTheme('pitch-black')">⚫ Pitch Black (#000000)</button>
+    <button class="btn-toggle-theme" onclick="setTheme('dark-ink')">🌙 Dark Ink (#0B0E0C)</button>
+    <button class="btn-toggle-theme" onclick="setTheme('dark-slate')">🌌 Dark Slate (#0F172A)</button>
+    <button class="btn-toggle-theme" onclick="setTheme('light')">☀️ Light Canvas (#F8FAFC)</button>
+  </div>
+
+  <!-- Section 1: Side-by-Side Logo Comparison -->
+  <div class="section-banner">
+    <h2>🌲 Lighter Wood Colorway Suite (Master Icon + Circular Medallion)</h2>
+    <span>Test contrast on black &amp; dark backgrounds</span>
+  </div>
+
+  <main class="showcase-grid">
+
+    <!-- 0. BASELINE: ORIGINAL DARK BROWN (PROBLEM DEMO) -->
+    <article class="showcase-card">
+      <div class="card-topbar">
+        <span class="card-title">Original (Dark Brown)</span>
+        <span style="font-size:0.75rem; color:#94A3B8;">Baseline (Blends In)</span>
+      </div>
+
+      <div class="preview-container">
+        <div class="dual-preview-row">
+          <img src="../winners/brand-icon-master-canon.svg" class="hero-img-master" alt="Original Dark Brown Master">
+          <img src="../winners/brand-icon-circular-medallion.svg" class="hero-medallion-img" alt="Original Dark Brown Medallion">
+        </div>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(239, 68, 68, 0.15); border-left-color:#EF4444;">
+          <strong style="color:#EF4444;">Baseline Problem:</strong>
+          <br>• Uses dark walnut brown (#8A5E44 → #52321E).
+          <br>• On pitch black (#000000), the wood posts and rails become muddy and blend directly into the dark ground.
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:#94A3B8;">Palette Swatches:</span>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#8A5E44;" title="#8A5E44"></div>
+            <div class="swatch" style="background:#754E36;" title="#754E36"></div>
+            <div class="swatch" style="background:#633F2A;" title="#633F2A"></div>
+            <div class="swatch" style="background:#52321E;" title="#52321E"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="../winners/brand-icon-master-canon.svg" target="_blank" class="btn-action btn-outline">Inspect Original</a>
+      </div>
+    </article>
+
+
+    <!-- 1. OPTION 1: GOLDEN HONEY CEDAR (RECOMMENDED) -->
+    <article class="showcase-card featured-card">
+      <div class="card-topbar">
+        <span class="card-title">Option 1: Golden Honey Cedar ★</span>
+        <span style="font-size:0.75rem; color:var(--gold-sun);">Warm Amber (Recommended)</span>
+      </div>
+
+      <div class="preview-container">
+        <div class="dual-preview-row">
+          <img src="brand-icon-wood-golden-cedar.svg" class="hero-img-master" alt="Golden Honey Cedar Master">
+          <img src="circular-medallion-golden-cedar.svg" class="hero-medallion-img" alt="Golden Honey Cedar Medallion">
+        </div>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(229, 184, 66, 0.18); border-left-color:var(--gold-sun);">
+          <strong style="color:var(--gold-sun);">Why It Works:</strong>
+          <br>• Luminous sunlit amber highlight (#FDE68A) down to rich honey cedar (#D97706).
+          <br>• Crisp, warm contrast that radiates against pitch black without losing authentic wood grain.
+          <br>• Harmonizes perfectly with the gold 'FRAMES' wordmark.
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:#94A3B8;">Palette Swatches:</span>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#FDE68A;" title="#FDE68A"></div>
+            <div class="swatch" style="background:#F59E0B;" title="#F59E0B"></div>
+            <div class="swatch" style="background:#D97706;" title="#D97706"></div>
+            <div class="swatch" style="background:#B45309;" title="#B45309"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="brand-icon-wood-golden-cedar.svg" target="_blank" class="btn-action btn-gold">Inspect Master SVG</a>
+        <a href="circular-medallion-golden-cedar.svg" target="_blank" class="btn-action btn-green">Medallion SVG</a>
+      </div>
+    </article>
+
+
+    <!-- 2. OPTION 2: BLONDE NORDIC PINE -->
+    <article class="showcase-card">
+      <div class="card-topbar">
+        <span class="card-title">Option 2: Blonde Nordic Pine</span>
+        <span style="font-size:0.75rem; color:var(--forest-bright);">Clean Light Timber</span>
+      </div>
+
+      <div class="preview-container">
+        <div class="dual-preview-row">
+          <img src="brand-icon-wood-blonde-pine.svg" class="hero-img-master" alt="Blonde Nordic Pine Master">
+          <img src="circular-medallion-blonde-pine.svg" class="hero-medallion-img" alt="Blonde Nordic Pine Medallion">
+        </div>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box">
+          <strong>Why It Works:</strong>
+          <br>• Ultra-clean cream and blonde tones (#FFFBEB → #FDE68A → #E8C574).
+          <br>• Maximum lightness and sharpest pop off pitch black and dark slate backdrops.
+          <br>• Modern Scandinavian contractor / architectural vibe.
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:#94A3B8;">Palette Swatches:</span>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#FFFBEB;" title="#FFFBEB"></div>
+            <div class="swatch" style="background:#FDE68A;" title="#FDE68A"></div>
+            <div class="swatch" style="background:#E8C574;" title="#E8C574"></div>
+            <div class="swatch" style="background:#C9973B;" title="#C9973B"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="brand-icon-wood-blonde-pine.svg" target="_blank" class="btn-action btn-green">Inspect Master SVG</a>
+        <a href="circular-medallion-blonde-pine.svg" target="_blank" class="btn-action btn-outline">Medallion SVG</a>
+      </div>
+    </article>
+
+
+    <!-- 3. OPTION 3: SUNLIT RED CEDAR -->
+    <article class="showcase-card">
+      <div class="card-topbar">
+        <span class="card-title">Option 3: Sunlit Red Cedar</span>
+        <span style="font-size:0.75rem; color:#FB923C;">Vivid Western Cedar</span>
+      </div>
+
+      <div class="preview-container">
+        <div class="dual-preview-row">
+          <img src="brand-icon-wood-sunlit-cedar.svg" class="hero-img-master" alt="Sunlit Red Cedar Master">
+          <img src="circular-medallion-sunlit-cedar.svg" class="hero-medallion-img" alt="Sunlit Red Cedar Medallion">
+        </div>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(251, 146, 60, 0.15); border-left-color:#FB923C;">
+          <strong style="color:#FB923C;">Why It Works:</strong>
+          <br>• Warm glowing peach-amber highlight (#FED7AA) to rich orange cedar (#EA580C).
+          <br>• High visual energy and intense warmth that contrasts sharply with the emerald green frame.
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:#94A3B8;">Palette Swatches:</span>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#FED7AA;" title="#FED7AA"></div>
+            <div class="swatch" style="background:#FB923C;" title="#FB923C"></div>
+            <div class="swatch" style="background:#EA580C;" title="#EA580C"></div>
+            <div class="swatch" style="background:#C2410C;" title="#C2410C"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="brand-icon-wood-sunlit-cedar.svg" target="_blank" class="btn-action btn-green">Inspect Master SVG</a>
+        <a href="circular-medallion-sunlit-cedar.svg" target="_blank" class="btn-action btn-outline">Medallion SVG</a>
+      </div>
+    </article>
+
+
+    <!-- 4. OPTION 4: ARCHITECTURAL SANDED TAN -->
+    <article class="showcase-card">
+      <div class="card-topbar">
+        <span class="card-title">Option 4: Architectural Sanded Tan</span>
+        <span style="font-size:0.75rem; color:#E2D9C8;">Milled Neutral Timber</span>
+      </div>
+
+      <div class="preview-container">
+        <div class="dual-preview-row">
+          <img src="brand-icon-wood-architectural-tan.svg" class="hero-img-master" alt="Architectural Tan Master">
+          <img src="circular-medallion-architectural-tan.svg" class="hero-medallion-img" alt="Architectural Tan Medallion">
+        </div>
+      </div>
+
+      <div class="testbench-section">
+        <div class="rationale-box" style="background:rgba(226, 217, 200, 0.15); border-left-color:#E2D9C8;">
+          <strong style="color:#E2D9C8;">Why It Works:</strong>
+          <br>• Smooth sanded driftwood/tan (#F8FAFC → #E2D9C8 → #C4B294).
+          <br>• Neutral, blueprint-accurate contractor aesthetic with high clarity on pure black.
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:#94A3B8;">Palette Swatches:</span>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#F8FAFC;" title="#F8FAFC"></div>
+            <div class="swatch" style="background:#E2D9C8;" title="#E2D9C8"></div>
+            <div class="swatch" style="background:#C4B294;" title="#C4B294"></div>
+            <div class="swatch" style="background:#9F8C6E;" title="#9F8C6E"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a href="brand-icon-wood-architectural-tan.svg" target="_blank" class="btn-action btn-green">Inspect Master SVG</a>
+        <a href="circular-medallion-architectural-tan.svg" target="_blank" class="btn-action btn-outline">Medallion SVG</a>
+      </div>
+    </article>
+
+  </main>
+
+
+  <!-- Section 2: Website Header Navbar Simulator -->
+  <div class="section-banner" style="background: linear-gradient(90deg, rgba(229, 184, 66, 0.4) 0%, rgba(46, 160, 85, 0.6) 100%);">
+    <h2>🖥️ Website Navbar Simulator (Dark Canvas #000000)</h2>
+    <span>Verify how each wood colorway performs in real-world website navbars</span>
+  </div>
+
+  <section class="navbar-lab-grid">
+    
+    <!-- Option 1: Golden Honey Cedar Navbar -->
+    <div class="navbar-preview-card">
+      <div class="navbar-preview-topbar">
+        <span>Option 1: Golden Honey Cedar Navbar Lockup (Recommended)</span>
+        <span style="color:var(--gold-sun);">High Contrast &amp; Warm Glow</span>
+      </div>
+      <div class="navbar-preview-bar">
+        <div class="nav-logo-box">
+          <img src="fence-frames-logo-golden-cedar.svg" alt="Golden Cedar Navbar Logo">
+        </div>
+        <div class="nav-dummy-links">
+          <span>Configurator</span>
+          <span>Styles</span>
+          <span>Find Contractors</span>
+          <span>HOA Portal</span>
+        </div>
+        <button class="nav-dummy-btn">Get Honest Quote</button>
+      </div>
+    </div>
+
+    <!-- Option 2: Blonde Nordic Pine Navbar -->
+    <div class="navbar-preview-card">
+      <div class="navbar-preview-topbar">
+        <span>Option 2: Blonde Nordic Pine Navbar Lockup</span>
+        <span style="color:var(--forest-bright);">Maximum Light Pop</span>
+      </div>
+      <div class="navbar-preview-bar">
+        <div class="nav-logo-box">
+          <img src="fence-frames-logo-blonde-pine.svg" alt="Blonde Pine Navbar Logo">
+        </div>
+        <div class="nav-dummy-links">
+          <span>Configurator</span>
+          <span>Styles</span>
+          <span>Find Contractors</span>
+          <span>HOA Portal</span>
+        </div>
+        <button class="nav-dummy-btn">Get Honest Quote</button>
+      </div>
+    </div>
+
+    <!-- Option 3: Sunlit Red Cedar Navbar -->
+    <div class="navbar-preview-card">
+      <div class="navbar-preview-topbar">
+        <span>Option 3: Sunlit Red Cedar Navbar Lockup</span>
+        <span style="color:#FB923C;">Vibrant Amber Contrast</span>
+      </div>
+      <div class="navbar-preview-bar">
+        <div class="nav-logo-box">
+          <img src="fence-frames-logo-sunlit-cedar.svg" alt="Sunlit Cedar Navbar Logo">
+        </div>
+        <div class="nav-dummy-links">
+          <span>Configurator</span>
+          <span>Styles</span>
+          <span>Find Contractors</span>
+          <span>HOA Portal</span>
+        </div>
+        <button class="nav-dummy-btn">Get Honest Quote</button>
+      </div>
+    </div>
+
+    <!-- Option 4: Architectural Tan Navbar -->
+    <div class="navbar-preview-card">
+      <div class="navbar-preview-topbar">
+        <span>Option 4: Architectural Sanded Tan Navbar Lockup</span>
+        <span style="color:#E2D9C8;">Modern Neutral Clean</span>
+      </div>
+      <div class="navbar-preview-bar">
+        <div class="nav-logo-box">
+          <img src="fence-frames-logo-architectural-tan.svg" alt="Architectural Tan Navbar Logo">
+        </div>
+        <div class="nav-dummy-links">
+          <span>Configurator</span>
+          <span>Styles</span>
+          <span>Find Contractors</span>
+          <span>HOA Portal</span>
+        </div>
+        <button class="nav-dummy-btn">Get Honest Quote</button>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- Section 3: Live Social Simulator -->
+  <div class="section-banner">
+    <h2>📱 Social Avatar &amp; Mobile Simulator (Golden Honey Cedar)</h2>
+    <span>Preview Golden Honey Cedar circular medallion inside real-world 52px circular viewports</span>
+  </div>
+
+  <section class="sim-gallery">
+    <!-- Twitter/X Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">🐦 Twitter / X Profile Avatar</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle">
+          <img src="circular-medallion-golden-cedar.svg" alt="Twitter Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">Fence Frames <span style="color:#22C55E;">✓</span></div>
+          <div style="font-size:0.75rem; color:#94A3B8;">@FenceFrames • Visual Blueprints</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instagram Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">📸 Instagram Story Ring</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle" style="padding:2px; background:linear-gradient(45deg, #F59E0B, #10B981);">
+          <img src="circular-medallion-golden-cedar.svg" style="border-radius:50%;" alt="Instagram Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">fenceframes</div>
+          <div style="font-size:0.75rem; color:#94A3B8;">Frame Your Vision | Find Your Fence</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LinkedIn / Business Simulation -->
+    <div class="sim-card">
+      <div class="sim-card-title">💼 LinkedIn Company Page</div>
+      <div class="sim-box">
+        <div class="sim-avatar-circle">
+          <img src="circular-medallion-golden-cedar.svg" alt="LinkedIn Avatar">
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; color:#FFFFFF;">Fence Frames Inc.</div>
+          <div style="font-size:0.75rem; color:#94A3B8;">Construction Tech • Snoqualmie, WA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function setTheme(mode) {
+    document.body.className = '';
+    if (mode === 'pitch-black') {
+      document.body.classList.add('theme-pitch-black');
+    } else if (mode === 'dark-ink') {
+      document.body.classList.add('theme-dark-ink');
+    } else if (mode === 'dark-slate') {
+      document.body.classList.add('theme-dark-slate');
+    } else if (mode === 'light') {
+      document.body.classList.add('theme-light');
+    }
+    const buttons = document.querySelectorAll('.btn-toggle-theme');
+    buttons.forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

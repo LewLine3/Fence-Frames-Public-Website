@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Outer Bevel Rings -->
+    <linearGradient id="medallionGoldRingBP" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="35%" stop-color="#E5B842" />
+      <stop offset="70%" stop-color="#B45309" />
+      <stop offset="100%" stop-color="#78350F" />
+    </linearGradient>
+
+    <!-- Curved Earth & Grass Gradients -->
+    <linearGradient id="curvedSoilGradBP" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8C682A" />
+      <stop offset="30%" stop-color="#6F4D18" />
+      <stop offset="75%" stop-color="#462E08" />
+      <stop offset="100%" stop-color="#241303" />
+    </linearGradient>
+
+    <linearGradient id="curvedGrassGradBP" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#166534" />
+      <stop offset="25%" stop-color="#22C55E" />
+      <stop offset="50%" stop-color="#4ADE80" />
+      <stop offset="75%" stop-color="#22C55E" />
+      <stop offset="100%" stop-color="#15803D" />
+    </linearGradient>
+
+    <!-- OPTION 2: BLONDE NORDIC PINE WOOD GRADIENT -->
+    <linearGradient id="medWoodGradBP" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="25%" stop-color="#FDE68A" />
+      <stop offset="65%" stop-color="#E8C574" />
+      <stop offset="100%" stop-color="#C9973B" />
+    </linearGradient>
+
+    <!-- Faint Architectural CAD Grid -->
+    <pattern id="faint-cad-grid-bp" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#4ADE80" stroke-width="0.8" opacity="0.12" />
+      <circle cx="0" cy="0" r="1.0" fill="#4ADE80" opacity="0.25" />
+    </pattern>
+
+    <!-- Incision Patterns -->
+    <pattern id="grid-post1-med-bp" x="64" y="0" width="64" height="42" patternUnits="userSpaceOnUse">
+      <rect x="15.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="15.5" y1="16.5" x2="18.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="31.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="31.5" y1="16.5" x2="34.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="47.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="47.5" y1="16.5" x2="50.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="7.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="7.5" y1="37.5" x2="10.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="23.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="23.5" y1="37.5" x2="26.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="39.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="39.5" y1="37.5" x2="42.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="55.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="55.5" y1="37.5" x2="58.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+    </pattern>
+
+    <pattern id="grid-rail1-med-bp" x="2" y="56" width="42" height="68" patternUnits="userSpaceOnUse">
+      <rect x="6" y="15.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="15.5" x2="16.5" y2="18.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="32.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="32.5" x2="16.5" y2="35.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="49.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="49.5" x2="16.5" y2="52.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="7" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="7" x2="37.5" y2="10" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="24" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="24" x2="37.5" y2="27" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="41" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="41" x2="37.5" y2="44" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="58" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="58" x2="37.5" y2="61" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+    </pattern>
+
+    <pattern id="grid-post2-med-bp" x="170" y="0" width="64" height="42" patternUnits="userSpaceOnUse">
+      <rect x="15.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="15.5" y1="16.5" x2="18.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="31.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="31.5" y1="16.5" x2="34.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="47.5" y="6" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="47.5" y1="16.5" x2="50.5" y2="16.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="7.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="7.5" y1="37.5" x2="10.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="23.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="23.5" y1="37.5" x2="26.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="39.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="39.5" y1="37.5" x2="42.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="55.5" y="27" width="3" height="10" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="55.5" y1="37.5" x2="58.5" y2="37.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+    </pattern>
+
+    <pattern id="grid-rail2-med-bp" x="18" y="182" width="42" height="64" patternUnits="userSpaceOnUse">
+      <rect x="6" y="14.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="14.5" x2="16.5" y2="17.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="30.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="30.5" x2="16.5" y2="33.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="46.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="46.5" x2="16.5" y2="49.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="6.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="6.5" x2="37.5" y2="9.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="22.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="22.5" x2="37.5" y2="25.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="38.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="38.5" x2="37.5" y2="41.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="54.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="54.5" x2="37.5" y2="57.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+    </pattern>
+
+    <pattern id="grid-rail3-med-bp" x="18" y="304" width="42" height="56" patternUnits="userSpaceOnUse">
+      <rect x="6" y="12.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="12.5" x2="16.5" y2="15.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="26.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="26.5" x2="16.5" y2="29.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="6" y="40.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="16.5" y1="40.5" x2="16.5" y2="43.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="5.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="5.5" x2="37.5" y2="8.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="19.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="19.5" x2="37.5" y2="22.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="33.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="33.5" x2="37.5" y2="36.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+      <rect x="27" y="47.5" width="10" height="3" rx="0.8" fill="#6B4810" opacity="0.55" />
+      <line x1="37.5" y1="47.5" x2="37.5" y2="50.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+    </pattern>
+
+    <clipPath id="medallionClipBP">
+      <circle cx="256" cy="256" r="246" />
+    </clipPath>
+  </defs>
+
+  <g id="Landscape-Medallion-Blonde-Pine" clip-path="url(#medallionClipBP)">
+    <!-- 1. Pure Jet Black Background -->
+    <circle cx="256" cy="256" r="256" fill="#0B0E0C" />
+
+    <!-- 2. Faint Architectural CAD Grid -->
+    <rect x="0" y="0" width="512" height="512" fill="url(#faint-cad-grid-bp)" />
+
+    <!-- 3. MAX-SCALED FENCE STRUCTURE -->
+    <g id="Fence-Structure-Medallion-BP" transform="translate(52, 52) scale(0.885)">
+      <!-- Big 'F' -->
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 420 L 64 420 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" stroke-linejoin="round" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 420 L 64 420 Z" fill="none" stroke="#2EA055" stroke-width="11.4" stroke-linejoin="round" />
+      <path d="M 64 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 L 128 182 L 170 182 L 170 242 L 128 242 L 128 420 L 64 420 Z" fill="url(#medWoodGradBP)" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <rect x="66" y="56" width="60" height="364" fill="url(#grid-post1-med-bp)" />
+      <rect x="130" y="56" width="298" height="62" fill="url(#grid-rail1-med-bp)" />
+      <rect x="130" y="184" width="38" height="56" fill="url(#grid-rail2-med-bp)" />
+      <path d="M 430 54 L 434 54 C 438 54 440 58 440 64 L 440 110 C 440 116 438 120 434 120 L 430 120 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 128 54 L 430 54 C 436 54 440 58 440 64 L 440 110 C 440 116 436 120 430 120 L 128 120 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <path d="M 128 182 L 170 182 L 170 242 L 128 242 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+
+      <!-- Small 'F' -->
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 420 L 170 420 Z" fill="none" stroke="#0B0E0C" stroke-width="14.4" stroke-linejoin="round" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 420 L 170 420 Z" fill="none" stroke="#E5B842" stroke-width="11.4" stroke-linejoin="round" />
+      <path d="M 170 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 L 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 L 234 420 L 170 420 Z" fill="url(#medWoodGradBP)" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <rect x="172" y="184" width="60" height="236" fill="url(#grid-post2-med-bp)" />
+      <rect x="236" y="184" width="146.35" height="56" fill="url(#grid-rail2-med-bp)" />
+      <rect x="236" y="306" width="101" height="50" fill="url(#grid-rail3-med-bp)" />
+      <path d="M 384.35 182 L 388.35 182 C 390.85 182 392.35 185 392.35 190 L 392.35 234 C 392.35 239 390.85 242 388.35 242 L 384.35 242 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 339 304 L 343 304 C 345.5 304 347 307 347 312 L 347 350 C 347 355 345.5 358 343 358 L 339 358 Z" fill="#0B0E0C" stroke="#0B0E0C" stroke-width="1.2" />
+      <path d="M 234 182 L 384.35 182 C 388.35 182 392.35 186 392.35 192 L 392.35 232 C 392.35 238 388.35 242 384.35 242 L 234 242 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+      <path d="M 234 304 L 339 304 C 343 304 347 308 347 313 L 347 349 C 347 354 343 358 339 358 L 234 358 Z" fill="none" stroke="#0B0E0C" stroke-width="3.0" stroke-linejoin="round" />
+
+      <!-- Post Caps -->
+      <g id="Post-Caps-Top-Med-BP">
+        <rect x="52" y="43" width="88" height="13" rx="3.5" fill="#2EA055" stroke="#0B0E0C" stroke-width="2.8" />
+        <path d="M 54 43 L 96 22 L 96 43 Z" fill="#3DC06F" stroke="#0B0E0C" stroke-width="2.2" />
+        <path d="M 96 22 L 138 43 L 96 43 Z" fill="#1B7A45" stroke="#0B0E0C" stroke-width="2.2" />
+        <rect x="158" y="171" width="88" height="13" rx="3.5" fill="#E5B842" stroke="#0B0E0C" stroke-width="2.8" />
+        <path d="M 160 171 L 202 150 L 202 171 Z" fill="#ECC675" stroke="#0B0E0C" stroke-width="2.2" />
+        <path d="M 202 150 L 244 171 L 202 171 Z" fill="#BD9038" stroke="#0B0E0C" stroke-width="2.2" />
+      </g>
+    </g>
+
+    <!-- 4. LOWER CURVED EARTH HORIZON -->
+    <path d="M -10 422 Q 256 388 522 422 L 522 522 L -10 522 Z" fill="url(#curvedSoilGradBP)" stroke="#0B0E0C" stroke-width="3" />
+    <path d="M -10 422 Q 256 388 522 422 L 522 436 Q 256 402 -10 436 Z" fill="url(#curvedGrassGradBP)" />
+    <path d="M -10 422 Q 256 388 522 422" fill="none" stroke="#86EFAC" stroke-width="1.8" opacity="0.85" />
+    <path d="M -10 422 Q 256 388 522 422" fill="none" stroke="#0B0E0C" stroke-width="2.6" opacity="0.5" />
+
+    <!-- 5. Gold Outer Bevel Ring -->
+    <circle cx="256" cy="256" r="246" fill="none" stroke="url(#medallionGoldRingBP)" stroke-width="6.5" />
+    <circle cx="256" cy="256" r="236" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.8" />
+  </g>
+</svg>

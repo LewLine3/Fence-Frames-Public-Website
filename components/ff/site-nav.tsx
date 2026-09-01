@@ -56,13 +56,13 @@ export function SiteNav() {
 
           <a
             className="nav-text-link"
-            href="#communities"
+            href="/wa"
             onClick={(e) => {
               e.preventDefault()
               openModal("modal-hoa")
             }}
           >
-            Communities (140+)
+            Communities (/wa)
           </a>
 
           <div className="nav-dd" data-dd="frame">
@@ -79,7 +79,7 @@ export function SiteNav() {
 
           <a
             className="nav-text-link nav-text-link--contractors"
-            href="#contractors"
+            href="/contractors/projects"
             onClick={(e) => {
               e.preventDefault()
               openModal("modal-contractor")

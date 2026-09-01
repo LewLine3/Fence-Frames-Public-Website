@@ -72,11 +72,11 @@ export function SiteFooter() {
       {/* Sub footer */}
       <div style={{ maxWidth: 1440, margin: "2.5rem auto 0 auto", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "2rem", flexWrap: "wrap" }}>
         <div style={{ ...rowdies(300), fontSize: "0.85rem", color: "#A0B2A6", lineHeight: 1.5 }}>
-          <p style={{ margin: "0 0 0.4rem 0" }}>Frame your vision, find your fence. Design tools and honest local pricing for Washington homeowners.</p>
-          <p style={{ margin: 0 }}>&copy; 2026 Fence Frames. Piloting at Si View, North Bend, WA.</p>
+          <p style={{ margin: "0 0 0.4rem 0" }}>Frame Your Vision | Find Your Fence. Parametric design tools and honest local pricing for Washington homeowners.</p>
+          <p style={{ margin: 0 }}>&copy; 2026 Fence Frames. Operated by Fence Frames LLC. Piloting at Si View, North Bend, WA.</p>
         </div>
         <div style={{ ...rowdies(300), fontSize: "0.85rem", color: "#A0B2A6" }}>
-          Fence Frames is a design &amp; introduction service, not a contractor.
+          Fence Frames is an independent design platform and contractor marketplace.
         </div>
       </div>
     </footer>
