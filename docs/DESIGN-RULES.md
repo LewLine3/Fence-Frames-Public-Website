@@ -75,6 +75,10 @@ Outside corner markers (`.corner-mark-out`) must adhere to strict geometric cons
    - Each corner element spans **exactly 50% width and 50% height** (`width: 50%; height: 50%;`) of the attached container.
    - Legs measure this 50% mark independently, scaling naturally to wide or tall rectangles.
 3. **Docked Taper Termination**:
+4. **Corner Marker Color Coordination Law**:
+   - **Upper Corner Marks (`.tl`, `.tr`)**: MUST match the color of the **card title bar** (e.g., `var(--ink)`, `var(--gold-sun)`, or the active phase color).
+   - **Lower Corner Marks (`.bl`, `.br`)**: Can EITHER be that **same title bar color** OR match the **fill/border color of the card body** (e.g., `var(--forest-bright)`, `var(--forest-deep)`, or `var(--parchment)`).
+
    - At the 50% termination mark, each run finishes with a sharp angled taper.
    - **The longer side of the taper must ALWAYS be on the docked (card) side**, so the flush inner edge runs the full 50% distance and the sharp point terminates touching the container wall.
    - The taper cut / dead space is on the exterior side, keeping the card boundary completely clean.
