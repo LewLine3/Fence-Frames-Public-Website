@@ -39,5 +39,18 @@ tags: [walkthrough, tier-1, auth-gate]
 - Footer options → Rowdies Light @ ~0.7rem; brand glued to ©/King County (~2px); cols→brand ~3px.
 - Draft black plate: beat `styles.css` `.card-solid` cover/min-height; denser white/gold CAD grid (48/16) so frame gutters read.
 
+## 2026-08-31 — Incident Fix: Local File Navigation & Offline Preview
+
+- **Incident:** Opening demo/studio directly from local disk via `file:///` protocol resulted in a blank preview screen, and clicking the top-left Fence Frames logo navigated to `file:///D:/` (browser local directory listing of the D: drive).
+- **Diagnosis:**
+  1. **Security / Privacy:** Confirmed 100% strictly local to the user's browser. No data was transmitted online. The browser's native `file:///` scheme resolved `<a href="/">` to the local drive root (`file:///D:/`).
+  2. **Blank Screen Cause:** `founder-preflight-studio.html` used absolute iframe root paths (`/homepage.html`) and relied on `/api/registry`. When opened without an HTTP server (`file:///`), the iframe resolved to `file:///D:/homepage.html` (missing) and fetch failed.
+- **Fixes Applied:**
+  1. Created `public/homepage.html` as the standard landing target.
+  2. Updated `server.js` to seamlessly resolve static assets from both workspace root and `public/`.
+  3. Added `file:` protocol safeguards to `founder-preflight-studio.html`, `demo-founder-preflight.html`, and `ff-site-header.js` (`event.preventDefault()` to prevent drive-root navigation).
+  4. Added `DEFAULT_PAGES` offline fallback and relative path resolution in `founder-preflight-studio.html`.
+  5. Updated `artifact-triage-studio.html` modal preview to resolve relative URLs when opened via `file:`.
+
 ## Next
 - Owner Keep/Park on Auth Gate → then CORE-03 Blueprint.

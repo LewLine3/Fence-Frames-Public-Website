@@ -6,8 +6,7 @@
 - [http://localhost:3000/auth-gate](http://localhost:3000/auth-gate)
 - Source: [`app/auth-gate/page.tsx`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/auth-gate/page.tsx)
 
-## What's new in this paste
-- Dark sticky header · Find It / Frame It / Fence It · Accounts portal menu · + New Build
-- Parchment major/minor grid canvas
-- Flush 1200px auth card + locked guest draft cedar plate
-- Footer role switcher + mobile hamburger drawer
+## Status
+- **Preflight Studio & Demos:** Fully patched for local file protocol (`file:///`) and localhost server (`http://localhost:8080`).
+- **Offline Fallbacks & Safeguards:** Drive-root jump prevented; preview iframe fallback loaded.
+

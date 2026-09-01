@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Laser Glow Filters -->
+    <filter id="laserGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur2" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur3" />
+      <feMerge>
+        <feMergeNode in="blur3" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="laserGlowIntense" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur2" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur3" />
+      <feMerge>
+        <feMergeNode in="blur3" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <linearGradient id="laserGradVertical" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#39ff14" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a3ff00" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Holographic Ground Projection Grid -->
+  <g filter="url(#laserGlow)" opacity="0.6">
+    <ellipse cx="250" cy="420" rx="190" ry="40" fill="none" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="4,4" />
+    <ellipse cx="250" cy="420" rx="140" ry="25" fill="none" stroke="#39ff14" stroke-width="2" />
+    
+    <!-- Base Projection Laser Lines -->
+    <line x1="60" y1="420" x2="440" y2="420" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line x1="90" y1="400" x2="410" y2="400" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,4" />
+    <line x1="90" y1="440" x2="410" y2="440" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,4" />
+  </g>
+
+  <!-- 3D Holographic Fully Built Picket Fence -->
+  <g filter="url(#laserGlowIntense)">
+
+    <!-- LEFT FENCE POST (3D Wireframe Box) -->
+    <polygon points="90,140 120,125 120,390 90,405" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <polygon points="120,125 138,133 138,398 120,390" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <polygon points="90,140 120,125 138,133 108,148" fill="none" stroke="#00ff88" stroke-width="1.5" />
+    <polygon points="90,140 114,105 138,133" fill="none" stroke="#a3ff00" stroke-width="2" />
+    <polygon points="120,125 114,105" fill="none" stroke="#a3ff00" stroke-width="1.5" />
+
+    <!-- RIGHT FENCE POST (3D Wireframe Box) -->
+    <polygon points="360,125 390,140 390,405 360,390" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <polygon points="342,133 360,125 360,390 342,398" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <polygon points="342,133 360,125 390,140 372,148" fill="none" stroke="#00ff88" stroke-width="1.5" />
+    <polygon points="342,133 366,105 390,140" fill="none" stroke="#a3ff00" stroke-width="2" />
+    <polygon points="360,125 366,105" fill="none" stroke="#a3ff00" stroke-width="1.5" />
+
+    <!-- UPPER HORIZONTAL CONNECTING RAIL -->
+    <polygon points="120,190 360,190 360,210 120,210" fill="none" stroke="#39ff14" stroke-width="2" opacity="0.8" />
+    <polygon points="138,182 342,182 360,190 120,190" fill="none" stroke="#00ffcc" stroke-width="1.5" opacity="0.6" />
+
+    <!-- LOWER HORIZONTAL CONNECTING RAIL -->
+    <polygon points="120,320 360,320 360,340 120,340" fill="none" stroke="#39ff14" stroke-width="2" opacity="0.8" />
+    <polygon points="138,312 342,312 360,320 120,320" fill="none" stroke="#00ffcc" stroke-width="1.5" opacity="0.6" />
+
+    <!-- VERTICAL PICKETS (5 EVENLY SPACED 3D POINTED PICKETS) -->
+    
+    <!-- Picket 1 (x=145) -->
+    <g>
+      <!-- Pointed Spear Top -->
+      <polygon points="145,150 157,130 169,150" fill="none" stroke="#a3ff00" stroke-width="2" />
+      <!-- Body -->
+      <polygon points="145,150 169,150 169,375 145,375" fill="none" stroke="#39ff14" stroke-width="2" />
+      <!-- 3D Side Depth -->
+      <polygon points="169,150 176,155 176,380 169,375" fill="none" stroke="#00ffcc" stroke-width="1.5" />
+      <polygon points="169,150 157,130 164,135 176,155" fill="none" stroke="#00ff88" stroke-width="1" />
+      <line x1="145" y1="260" x2="169" y2="260" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2" />
+      <circle cx="157" cy="130" r="3" fill="#a3ff00" />
+    </g>
+
+    <!-- Picket 2 (x=190) -->
+    <g>
+      <!-- Pointed Spear Top -->
+      <polygon points="190,150 202,130 214,150" fill="none" stroke="#a3ff00" stroke-width="2" />
+      <!-- Body -->
+      <polygon points="190,150 214,150 214,375 190,375" fill="none" stroke="#39ff14" stroke-width="2" />
+      <!-- 3D Side Depth -->
+      <polygon points="214,150 221,155 221,380 214,375" fill="none" stroke="#00ffcc" stroke-width="1.5" />
+      <polygon points="214,150 202,130 209,135 221,155" fill="none" stroke="#00ff88" stroke-width="1" />
+      <line x1="190" y1="260" x2="214" y2="260" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2" />
+      <circle cx="202" cy="130" r="3" fill="#a3ff00" />
+    </g>
+
+    <!-- Picket 3 (Center - x=238) -->
+    <g>
+      <!-- Pointed Spear Top -->
+      <polygon points="238,145 250,122 262,145" fill="none" stroke="#a3ff00" stroke-width="2.5" />
+      <!-- Body -->
+      <polygon points="238,145 262,145 262,380 238,380" fill="none" stroke="#39ff14" stroke-width="2.5" />
+      <!-- 3D Side Depth -->
+      <polygon points="262,145 270,150 270,385 262,380" fill="none" stroke="#00ffcc" stroke-width="1.5" />
+      <polygon points="262,145 250,122 258,127 270,150" fill="none" stroke="#00ff88" stroke-width="1" />
+      <line x1="238" y1="260" x2="262" y2="260" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2" />
+      <circle cx="250" cy="122" r="4" fill="#a3ff00" />
+    </g>
+
+    <!-- Picket 4 (x=286) -->
+    <g>
+      <!-- Pointed Spear Top -->
+      <polygon points="286,150 298,130 310,150" fill="none" stroke="#a3ff00" stroke-width="2" />
+      <!-- Body -->
+      <polygon points="286,150 310,150 310,375 286,375" fill="none" stroke="#39ff14" stroke-width="2" />
+      <!-- 3D Side Depth -->
+      <polygon points="310,150 317,155 317,380 310,375" fill="none" stroke="#00ffcc" stroke-width="1.5" />
+      <polygon points="310,150 298,130 305,135 317,155" fill="none" stroke="#00ff88" stroke-width="1" />
+      <line x1="286" y1="260" x2="310" y2="260" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2" />
+      <circle cx="298" cy="130" r="3" fill="#a3ff00" />
+    </g>
+
+    <!-- Picket 5 (x=331) -->
+    <g>
+      <!-- Pointed Spear Top -->
+      <polygon points="331,150 343,130 355,150" fill="none" stroke="#a3ff00" stroke-width="2" />
+      <!-- Body -->
+      <polygon points="331,150 355,150 355,375 331,375" fill="none" stroke="#39ff14" stroke-width="2" />
+      <!-- 3D Side Depth -->
+      <polygon points="355,150 362,155 362,380 355,375" fill="none" stroke="#00ffcc" stroke-width="1.5" />
+      <polygon points="355,150 343,130 350,135 362,155" fill="none" stroke="#00ff88" stroke-width="1" />
+      <line x1="331" y1="260" x2="355" y2="260" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2" />
+      <circle cx="343" cy="130" r="3" fill="#a3ff00" />
+    </g>
+
+    <!-- Node Points & Corner Glow Bulbs -->
+    <circle cx="114" cy="105" r="5" fill="#a3ff00" />
+    <circle cx="366" cy="105" r="5" fill="#a3ff00" />
+
+    <circle cx="104" cy="398" r="4.5" fill="#39ff14" />
+    <circle cx="376" cy="398" r="4.5" fill="#39ff14" />
+  </g>
+</svg>

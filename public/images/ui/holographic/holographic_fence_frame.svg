@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Laser Glow Filters -->
+    <filter id="laserGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur2" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur3" />
+      <feMerge>
+        <feMergeNode in="blur3" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="laserGlowIntense" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur2" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur3" />
+      <feMerge>
+        <feMergeNode in="blur3" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <linearGradient id="laserGradVertical" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#39ff14" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a3ff00" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Holographic Ground Projection Grid -->
+  <g filter="url(#laserGlow)" opacity="0.6">
+    <ellipse cx="250" cy="420" rx="190" ry="40" fill="none" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="4,4" />
+    <ellipse cx="250" cy="420" rx="140" ry="25" fill="none" stroke="#39ff14" stroke-width="2" />
+    
+    <!-- Base Projection Laser Lines -->
+    <line x1="60" y1="420" x2="440" y2="420" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line x1="90" y1="400" x2="410" y2="400" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,4" />
+    <line x1="90" y1="440" x2="410" y2="440" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,4" />
+  </g>
+
+  <!-- 3D Holographic Fence Frame (NO PICKETS - ONLY 2 POSTS & 2 CONNECTING RAILS) -->
+  <g filter="url(#laserGlowIntense)">
+
+    <!-- LEFT FENCE POST (3D Wireframe Box) -->
+    <!-- Front Face -->
+    <polygon points="100,140 135,125 135,390 100,405" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <!-- Right Side Face -->
+    <polygon points="135,125 155,135 155,398 135,390" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <!-- Top Pyramid Cap -->
+    <polygon points="100,140 135,125 155,135 120,150" fill="none" stroke="#00ff88" stroke-width="1.5" />
+    <polygon points="100,140 127,105 155,135" fill="none" stroke="#a3ff00" stroke-width="2" />
+    <polygon points="135,125 127,105" fill="none" stroke="#a3ff00" stroke-width="1.5" />
+    <!-- Post Inner Wireframe Grid Lines -->
+    <line x1="100" y1="230" x2="135" y2="215" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,3" />
+    <line x1="100" y1="320" x2="135" y2="305" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,3" />
+
+
+    <!-- RIGHT FENCE POST (3D Wireframe Box) -->
+    <!-- Front Face -->
+    <polygon points="345,125 380,140 380,405 345,390" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <!-- Left Side Face -->
+    <polygon points="325,135 345,125 345,390 325,398" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <!-- Top Pyramid Cap -->
+    <polygon points="325,135 345,125 380,140 355,150" fill="none" stroke="#00ff88" stroke-width="1.5" />
+    <polygon points="325,135 352,105 380,140" fill="none" stroke="#a3ff00" stroke-width="2" />
+    <polygon points="345,125 352,105" fill="none" stroke="#a3ff00" stroke-width="1.5" />
+    <!-- Post Inner Wireframe Grid Lines -->
+    <line x1="345" y1="215" x2="380" y2="230" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,3" />
+    <line x1="345" y1="305" x2="380" y2="320" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,3" />
+
+
+    <!-- UPPER HORIZONTAL CONNECTING RAIL (3D Wireframe Beam) -->
+    <!-- Front Face of Upper Rail -->
+    <polygon points="135,175 345,175 345,200 135,200" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <!-- Top Edge/Depth Face of Upper Rail -->
+    <polygon points="155,165 325,165 345,175 135,175" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <!-- Bottom Edge/Depth Face of Upper Rail -->
+    <polygon points="135,200 345,200 325,210 155,210" fill="none" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="4,2" />
+    <!-- Inner Rail Laser Grid Pattern -->
+    <line x1="135" y1="187" x2="345" y2="187" stroke="#a3ff00" stroke-width="1.5" stroke-dasharray="6,4" />
+
+
+    <!-- LOWER HORIZONTAL CONNECTING RAIL (3D Wireframe Beam) -->
+    <!-- Front Face of Lower Rail -->
+    <polygon points="135,310 345,310 345,335 135,335" fill="none" stroke="#39ff14" stroke-width="2.5" />
+    <!-- Top Edge/Depth Face of Lower Rail -->
+    <polygon points="155,300 325,300 345,310 135,310" fill="none" stroke="#00ffcc" stroke-width="2" />
+    <!-- Bottom Edge/Depth Face of Lower Rail -->
+    <polygon points="135,335 345,335 325,345 155,345" fill="none" stroke="#00ff88" stroke-width="1.5" stroke-dasharray="4,2" />
+    <!-- Inner Rail Laser Grid Pattern -->
+    <line x1="135" y1="322" x2="345" y2="322" stroke="#a3ff00" stroke-width="1.5" stroke-dasharray="6,4" />
+
+
+    <!-- Holographic Node Points & Corner Glow Bulbs -->
+    <!-- Left Post Cap Tip -->
+    <circle cx="127" cy="105" r="5" fill="#a3ff00" />
+    <!-- Right Post Cap Tip -->
+    <circle cx="352" cy="105" r="5" fill="#a3ff00" />
+
+    <!-- Rail-Post Joint Nodes -->
+    <circle cx="135" cy="175" r="4" fill="#00ffcc" />
+    <circle cx="345" cy="175" r="4" fill="#00ffcc" />
+    <circle cx="135" cy="200" r="4" fill="#00ffcc" />
+    <circle cx="345" cy="200" r="4" fill="#00ffcc" />
+
+    <circle cx="135" cy="310" r="4" fill="#00ffcc" />
+    <circle cx="345" cy="310" r="4" fill="#00ffcc" />
+    <circle cx="135" cy="335" r="4" fill="#00ffcc" />
+    <circle cx="345" cy="335" r="4" fill="#00ffcc" />
+
+    <!-- Base Anchors -->
+    <circle cx="118" cy="398" r="4.5" fill="#39ff14" />
+    <circle cx="362" cy="398" r="4.5" fill="#39ff14" />
+  </g>
+</svg>
