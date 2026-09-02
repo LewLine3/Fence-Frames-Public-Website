@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import styles from "./site-nav.module.css"
 
-/** ELEM-01 self-contained header for pages that lack full ff-source nav cascade (e.g. /log-in). Do not use on Designer/Home. */
+/** Global site header — used on every public page including auth-gate and designer. */
 export function SiteNavElem() {
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)

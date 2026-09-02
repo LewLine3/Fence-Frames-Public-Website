@@ -17,7 +17,7 @@ export const DEV_SITE_MAP: DevSiteSection[] = [
     color: "#E5B842",
     links: [
       { href: "/", label: "Home" },
-      { href: "/frame", label: "Frame Hub" },
+      { href: "/frame", label: "Frame Foundry" },
       { href: "/catalog", label: "Catalog" },
       { href: "/designer", label: "Designer" },
       { href: "/wizard", label: "Wizard" },
@@ -25,13 +25,14 @@ export const DEV_SITE_MAP: DevSiteSection[] = [
     ],
   },
   {
-    title: "Auth & Output",
-    color: "#3B82F6",
+    title: "Account",
+    color: "#4ADE80",
     links: [
-      { href: "/auth-gate", label: "Auth Gate" },
-      { href: "/log-in", label: "Log In" },
-      { href: "/homeowner", label: "Homeowner" },
-      { href: "/blueprint", label: "Blueprint" },
+      { href: "/log-in", label: "Log In / Sign Up" },
+      { href: "/fence-folio", label: "Fence-Folio" },
+      { href: "/blueprint", label: "Blueprints" },
+      { href: "/ledger", label: "Ledgers" },
+      { href: "/material-list", label: "Material Lists" },
     ],
   },
   {
@@ -42,17 +43,6 @@ export const DEV_SITE_MAP: DevSiteSection[] = [
       { href: "/wa/king-county", label: "King County" },
       { href: "/wa/king-county/north-bend", label: "North Bend" },
       { href: "/wa/king-county/north-bend/si-view", label: "Si View" },
-    ],
-  },
-  {
-    title: "Contractors & Admin",
-    color: "#F27A22",
-    links: [
-      { href: "/contractors/projects", label: "Job Board" },
-      { href: "/contractors/onboarding", label: "Onboarding" },
-      { href: "/contractor/match", label: "SMS Scramble" },
-      { href: "/admin", label: "Admin" },
-      { href: "/preflight", label: "Preflight (dev)" },
     ],
   },
   {

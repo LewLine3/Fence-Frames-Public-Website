@@ -23,6 +23,15 @@ export function SiteFooterElem() {
           <p className={styles.tagline}>
             Build-phase site map — every page linked below while routes are in active development.
           </p>
+
+          <div className={styles.signupRow}>
+            <a href="/contractors/onboarding" className={styles.signupContractor}>
+              Sign Up as Contractor
+            </a>
+            <a href="/auth-gate" className={styles.signupHoa}>
+              Sign Up Your HOA / Community
+            </a>
+          </div>
         </div>
 
         <div className={styles.devCols}>

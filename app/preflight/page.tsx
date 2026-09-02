@@ -193,7 +193,7 @@ const PAGE_REGISTRY: PageSpec[] = [
     id: 'DSGN-01',
     tier: 'Tier 2 (Design Hub)',
     status: 'live',
-    title: 'Design Suite Hub (Frame Chooser)',
+    title: 'Frame Foundry (Design Pathway Chooser)',
     route: '/frame',
     pillar: 'Frame It (Ember Orange)',
     pillarColor: '#F27A22',

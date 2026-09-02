@@ -59,6 +59,45 @@
   margin: 0;
 }
 
+.signupRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+  max-width: 320px;
+}
+
+.signupContractor,
+.signupHoa {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.65rem 1rem;
+  border-radius: 4px;
+  border: 2px solid #1a1a1a;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.signupContractor:hover,
+.signupHoa:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+.signupContractor {
+  background: #f27a22;
+  color: #141b16;
+}
+
+.signupHoa {
+  background: #e5b842;
+  color: #141b16;
+}
+
 .badges {
   display: flex;
   gap: 0.5rem;
@@ -92,7 +131,7 @@
 }
 
 .devCols {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 @media (max-width: 1100px) {
