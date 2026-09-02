@@ -27,3 +27,7 @@ All public routes and interactive pages are built as **Next.js App Router compon
 - 🎨 **Design Rules & Brand Law**: [`docs/DESIGN-RULES.md`](docs/DESIGN-RULES.md)
 - 🌐 **Site Architecture & Routing**: [`docs/site-architecture.md`](docs/site-architecture.md)
 - 🔩 **Component Encyclopedia**: [`docs/component-tracker.md`](docs/component-tracker.md)
+
+> **📚 Full Canonical Documentation** lives in the **FenceBook** repo (`D:\Lew-Line-Workspaces\FenceBook\docs\`).
+> Start with [`FenceBook/docs/INDEX.md`](file:///D:/Lew-Line-Workspaces/FenceBook/docs/INDEX.md) for the master navigation index, tier system, and handbook sections §01–§18.
+> This repo's `docs/` folder contains only **implementation-specific** specs, trackers, and design rules needed during active development.
