@@ -482,7 +482,7 @@ export function BottomCarouselHud({
 
   const scrollCarousel = (direction: 'left' | 'right') => {
     if (containerRef.current) {
-      const scrollAmount = direction === 'left' ? -280 : 280
+      const scrollAmount = direction === 'left' ? -248 : 248
       containerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
     }
   }
@@ -490,26 +490,27 @@ export function BottomCarouselHud({
   return (
     <footer
       className={cn(
-        'w-full border-t-[2px] border-t-[#16432D]/40 flex-shrink-0 z-20 font-[\'Rowdies\'] select-none flex items-center gap-1.5',
+        'w-full flex-shrink-0 z-20 font-[\'Rowdies\'] select-none flex items-center gap-1.5',
         overlay
-          ? 'absolute bottom-0 left-0 right-0 pt-0 pb-1 px-2 shadow-[0_-8px_24px_rgba(22,67,45,0.18)]'
-          : 'relative py-2 px-3 shadow-[0_-6px_20px_rgba(22,67,45,0.15)]',
+          ? 'absolute bottom-0 left-0 right-0 pt-0 pb-0.5 px-2 overflow-hidden min-w-0 border-0 bg-transparent'
+          : 'relative py-1.5 px-3 border-t-[2px] border-t-[#16432D]/40 shadow-[0_-6px_20px_rgba(22,67,45,0.15)] overflow-hidden min-w-0',
       )}
-      style={{
-        backgroundColor: overlay ? 'rgba(244, 236, 220, 0.92)' : '#F4ECDC',
-        backgroundImage: overlay
-          ? 'linear-gradient(to top, rgba(244,236,220,0.98) 65%, rgba(244,236,220,0.55) 85%, transparent), linear-gradient(rgba(46, 139, 78, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.35) 1px, transparent 1px)'
-          : 'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
-        backgroundSize: overlay
-          ? '100% 100%, 25px 25px, 25px 25px'
-          : '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        backgroundPosition: '0 0',
-      }}
+      style={
+        overlay
+          ? { backgroundColor: 'transparent', backgroundImage: 'none' }
+          : {
+              backgroundColor: '#F4ECDC',
+              backgroundImage:
+                'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
+              backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+              backgroundPosition: '0 0',
+            }
+      }
     >
       {/* Left Chevron Button */}
       <button
         onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-6 h-[68px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
+        className="hidden sm:flex w-5 h-[52px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[9px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Left (Infinite)"
       >
         ◀
@@ -519,7 +520,7 @@ export function BottomCarouselHud({
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-0 px-0.5 relative max-h-[72px]"
+        className="flex-1 min-w-0 flex items-center gap-1.5 overflow-x-auto overflow-y-hidden no-scrollbar scroll-smooth py-0 px-0.5 relative max-h-[56px]"
         style={{
           maskImage:
             'linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent)',
@@ -533,7 +534,7 @@ export function BottomCarouselHud({
             return (
               <div
                 key={`${card.id}-${idx}`}
-                className="min-w-[280px] sm:min-w-[310px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-xl p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 relative"
+                className="min-w-[248px] sm:min-w-[268px] max-h-[52px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-lg p-2 shadow-md flex flex-col justify-between flex-shrink-0 relative overflow-hidden"
               >
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
                   <div className="flex items-center gap-1.5">
@@ -629,7 +630,7 @@ export function BottomCarouselHud({
               <button
                 key={`${card.id}-${idx}`}
                 onClick={card.onSelect}
-                className={`min-w-[200px] sm:min-w-[220px] rounded-xl p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 text-left transition-all duration-200 cursor-pointer border-2 ${
+                className={`min-w-[176px] sm:min-w-[192px] max-h-[52px] rounded-lg p-2 shadow-md flex flex-col justify-between flex-shrink-0 text-left transition-all duration-200 cursor-pointer border-2 overflow-hidden ${
                   card.selected
                     ? 'bg-[#223527] border-[#E5B842] shadow-[0_0_12px_rgba(229,184,66,0.35)] -translate-y-0.5'
                     : 'bg-[#1C241E] border-[#1A1A1A] hover:border-white/30 hover:bg-[#202C23]'
@@ -686,7 +687,7 @@ export function BottomCarouselHud({
             return (
               <div
                 key={`${card.id}-${idx}`}
-                className="min-w-[220px] sm:min-w-[240px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-xl p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 relative"
+                className="min-w-[192px] sm:min-w-[208px] max-h-[52px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-lg p-2 shadow-md flex flex-col justify-between flex-shrink-0 relative overflow-hidden"
               >
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
                   <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
@@ -740,7 +741,7 @@ export function BottomCarouselHud({
             return (
               <div
                 key={`${card.id}-${idx}`}
-                className="min-w-[220px] sm:min-w-[240px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-xl p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 relative"
+                className="min-w-[192px] sm:min-w-[208px] max-h-[52px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-lg p-2 shadow-md flex flex-col justify-between flex-shrink-0 relative overflow-hidden"
               >
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
                   <span className="font-bold text-[#4ADE80] uppercase tracking-wide text-[10px]">
@@ -781,7 +782,7 @@ export function BottomCarouselHud({
             return (
               <div
                 key={`${card.id}-${idx}`}
-                className="min-w-[220px] sm:min-w-[240px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-xl p-2.5 shadow-md flex flex-col justify-between flex-shrink-0 relative"
+                className="min-w-[192px] sm:min-w-[208px] max-h-[52px] bg-[#1C241E] border-2 border-[#1A1A1A] rounded-lg p-2 shadow-md flex flex-col justify-between flex-shrink-0 relative overflow-hidden"
               >
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-xs">
                   <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
@@ -829,7 +830,7 @@ export function BottomCarouselHud({
       {/* Right Chevron Button */}
       <button
         onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-6 h-[68px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
+        className="hidden sm:flex w-5 h-[52px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[9px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Right (Infinite)"
       >
         ▶

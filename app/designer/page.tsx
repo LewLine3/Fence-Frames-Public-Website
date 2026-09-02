@@ -106,24 +106,22 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
         />
 
-        {/* 2. Right Section: 30px Sub-Header Ribbon + 8:3 Dual CAD Stage + Bottom Flow */}
+        {/* 2. Stage: elevation fills full height; floating right toolbar + bottom carousel */}
         <div className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full">
-          {/* Ultra-thin 30px Sub-Header Ribbon */}
-          <SubHeaderRibbon
-            mode={elevationMode}
-            onModeChange={setElevationMode}
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            zoom={zoomPercent}
-            onZoomChange={setZoomPercent}
-          />
-
-          {/* Unified canvas: fence elevation fills stage; option cards overlay bottom band */}
           <section className="flex-1 min-h-0 min-w-0 overflow-hidden relative">
             <ElevationStage
               mode={elevationMode}
               zoom={zoomPercent}
               config={config}
+            />
+
+            <SubHeaderRibbon
+              mode={elevationMode}
+              onModeChange={setElevationMode}
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+              zoom={zoomPercent}
+              onZoomChange={setZoomPercent}
             />
 
             <BottomCarouselHud

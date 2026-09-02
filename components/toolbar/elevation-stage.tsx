@@ -18,6 +18,13 @@ interface ElevationStageProps {
 /** Canonical heritage assembly viewBox (inches). */
 const CAD_VIEWBOX = { w: 112, h: 95 }
 
+/**
+ * Display crop: trim empty sky above caps and equal side margins so the
+ * fence fills more of the elevation card while keeping ~the same aspect.
+ * Source art remains 112×95; only the rendered viewBox is tightened.
+ */
+const CAD_DISPLAY_CROP = { x: 7, y: 10, w: 98, h: 83 }
+
 const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string; rail: string }> = {
   'cedar-natural': { main: '#c88254', dark: '#8a4e2c', light: '#dca070', rail: '#b06840' },
   'clear-seal':    { main: '#c9a982', dark: '#9e805e', light: '#e2ccb0', rail: '#b3916d' },
@@ -36,9 +43,11 @@ const FILL_PATTERN_TO_LAYER: Record<string, string> = {
 
 function normalizeSvgString(raw: string): string {
   if (!raw) return ''
+  const crop = `${CAD_DISPLAY_CROP.x} ${CAD_DISPLAY_CROP.y} ${CAD_DISPLAY_CROP.w} ${CAD_DISPLAY_CROP.h}`
   return raw
     .replace(/\swidth="[0-9.]+"/i, '')
     .replace(/\sheight="[0-9.]+"/i, '')
+    .replace(/\sviewBox="[^"]*"/i, ` viewBox="${crop}"`)
     .replace(
       /<svg\b/i,
       '<svg preserveAspectRatio="xMidYMid meet" width="100%" height="100%"',
@@ -48,6 +57,10 @@ function normalizeSvgString(raw: string): string {
 function applySvgSlots(svg: SVGSVGElement, config: FenceConfiguration) {
   svg.setAttribute('width', '100%')
   svg.setAttribute('height', '100%')
+  svg.setAttribute(
+    'viewBox',
+    `${CAD_DISPLAY_CROP.x} ${CAD_DISPLAY_CROP.y} ${CAD_DISPLAY_CROP.w} ${CAD_DISPLAY_CROP.h}`,
+  )
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
   svg.style.display = 'block'
 
@@ -133,14 +146,16 @@ function ElevationCard({
         )}
       >
         <span>{label}</span>
-        <span className="font-mono text-[8px] opacity-85">112″ × 95″</span>
+        <span className="font-mono text-[8px] opacity-85">
+          {CAD_VIEWBOX.w}″ × {CAD_VIEWBOX.h}″
+        </span>
       </div>
 
-      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-1">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-0">
         {svgHtml ? (
           <div
             ref={hostRef}
-            className="flex h-full w-full items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full"
+            className="flex h-full w-full items-stretch justify-stretch [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full"
             dangerouslySetInnerHTML={{ __html: svgHtml }}
           />
         ) : (
@@ -218,11 +233,11 @@ export function ElevationStage({
   const isDual = mode === 'dual'
 
   return (
-    <div className="absolute inset-0 flex min-h-0 w-full items-stretch justify-center overflow-hidden px-2 pb-[84px] pt-1 select-none">
+    <div className="absolute inset-0 flex min-h-0 w-full items-stretch justify-center overflow-hidden pl-1.5 pr-[62px] pb-[60px] pt-0.5 select-none">
       <div
         className={cn(
           'flex h-full w-full min-h-0 items-stretch justify-center gap-3 transition-transform duration-150',
-          isDual ? 'max-w-[min(100%,1400px)]' : 'max-w-[min(100%,960px)]',
+          isDual ? 'max-w-[min(100%,1480px)]' : 'max-w-[min(100%,1100px)]',
         )}
         style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center center' }}
       >
