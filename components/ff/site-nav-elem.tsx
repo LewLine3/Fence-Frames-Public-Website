@@ -36,12 +36,12 @@ export function SiteNavElem() {
           </a>
 
           <nav className={styles.pillars} aria-label="Three pillars">
-            <a href="/geo-north-bend.html" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
+            <a href="/wa/king-county/north-bend" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Find It</span>
               <span className={styles.pillarSub}>(Location)</span>
             </a>
-            <a href="/catalog-hub.html" className={`${styles.pillar} ${styles.pillarFrame}`} title="Step 2 · Catalog & Designer">
+            <a href="/frame" className={`${styles.pillar} ${styles.pillarFrame}`} title="Step 2 · Catalog & Designer">
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Frame It</span>
               <span className={styles.pillarSub}>(Design)</span>
@@ -84,7 +84,7 @@ export function SiteNavElem() {
                   <span className={styles.accountSub}>Saved Fence-Folios &amp; 3-Bid Tracker</span>
                 </div>
               </a>
-              <a href="/contractors-hub.html" className={styles.accountItem}>
+              <a href="/contractors/projects" className={styles.accountItem}>
                 <span>🔨</span>
                 <div>
                   <span className={styles.accountTitle} style={{ color: "#F27A22" }}>
@@ -93,7 +93,7 @@ export function SiteNavElem() {
                   <span className={styles.accountSub}>72-Hr Job Feed &amp; Live SMS Bids</span>
                 </div>
               </a>
-              <a href="/geo-si-view.html" className={styles.accountItem}>
+              <a href="/wa/king-county/north-bend/si-view" className={styles.accountItem}>
                 <span>🏛️</span>
                 <div>
                   <span className={styles.accountTitle} style={{ color: "#E5B842" }}>
@@ -103,7 +103,7 @@ export function SiteNavElem() {
                 </div>
               </a>
               <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "2px 0" }} />
-              <a href="/log-in" className={styles.accountItem}>
+              <a href="/auth-gate" className={styles.accountItem}>
                 <span>🔑</span>
                 <div>
                   <span className={styles.accountTitle} style={{ color: "#FAF6EE" }}>

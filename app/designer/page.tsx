@@ -68,7 +68,7 @@ export default function DesignerPage() {
     } catch (e) {
       console.warn('[DesignerPage] sessionStorage unavailable', e)
     }
-    router.push('/auth-gate.html')
+    router.push('/auth-gate')
   }
 
   const handleTabChange = (tab: ViewTab) => {
