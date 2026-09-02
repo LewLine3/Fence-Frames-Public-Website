@@ -192,7 +192,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'DSGN-01',
     tier: 'Tier 2 (Design Hub)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Design Suite Hub (Frame Chooser)',
     route: '/frame',
     pillar: 'Frame It (Ember Orange)',
@@ -212,7 +212,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'DSGN-02',
     tier: 'Tier 2 (Catalog)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Pre-Built Fence Catalog Carousel',
     route: '/catalog',
     pillar: 'Frame It (Ember Orange)',
@@ -231,7 +231,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'DSGN-WIZ',
     tier: 'Tier 2 (Wizard)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Guided Detail Style Wizard',
     route: '/wizard',
     pillar: 'Frame It (Ember Orange)',
@@ -250,7 +250,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'HOME-02',
     tier: 'Tier 2 (Dossier)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Unified Fence-Folio Output Dossier',
     route: '/fence-folio',
     pillar: 'Fence It (Forest Green)',
