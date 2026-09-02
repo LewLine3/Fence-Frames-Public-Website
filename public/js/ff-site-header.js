@@ -104,7 +104,7 @@
     '        <span class="ff-brand-name"><span style="color:#4ADE80;">Fence</span>&nbsp;<span style="color:#E5B842;">Frames</span></span>' +
     "      </a>" +
     '      <nav class="ff-pillars" aria-label="Three pillars">' +
-    '        <a href="/geo-city.html" class="ff-pillar ff-pillar-find" title="Step 1 · Code & HOA Matcher">' +
+    '        <a href="/wa" class="ff-pillar ff-pillar-find" title="Step 1 · Code & HOA Matcher">' +
     '          <span class="ff-pillar-dot"></span><span class="ff-pillar-label">Find It</span><span class="ff-pillar-sub">(Location)</span>' +
     "        </a>" +
     '        <a href="/catalog-hub.html" class="ff-pillar ff-pillar-frame" title="Step 2 · Catalog & Designer">' +

@@ -3,8 +3,16 @@
   display: flex;
   flex-direction: column;
   font-family: "Rowdies", sans-serif;
-  background-color: #f4ecdc;
   color: #1a1a1a;
+  background-color: #f4ecdc;
+  background-image:
+    linear-gradient(rgba(22, 67, 45, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 67, 45, 0.35) 1px, transparent 1px),
+    linear-gradient(#16432d 2px, transparent 2px),
+    linear-gradient(90deg, #16432d 2px, transparent 2px);
+  background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  background-attachment: local;
 }
 
 .pageGutter {
@@ -72,18 +80,7 @@
 
 .canvas {
   position: relative;
-  border: 2.5px solid var(--ink, #1a1a1a);
-  border-radius: var(--radius, 5px);
   padding: 1.25rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  background-color: #f4ecdc;
-  background-image:
-    linear-gradient(rgba(22, 67, 45, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 67, 45, 0.35) 1px, transparent 1px),
-    linear-gradient(#16432d 2px, transparent 2px),
-    linear-gradient(90deg, #16432d 2px, transparent 2px);
-  background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
-  background-position: 0 0, 0 0, 0 0, 0 0;
 }
 
 @media (min-width: 640px) {

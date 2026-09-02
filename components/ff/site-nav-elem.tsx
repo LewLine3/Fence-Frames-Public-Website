@@ -37,7 +37,7 @@ export function SiteNavElem() {
           </a>
 
           <nav className={styles.pillars} aria-label="Three pillars">
-            <a href="/wa/king-county/north-bend" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
+            <a href="/wa" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Find It</span>
               <span className={styles.pillarSub}>(Location)</span>
