@@ -112,7 +112,7 @@ const PAGE_REGISTRY: PageSpec[] = [
       { label: 'ARC Blueprint', route: '/blueprint', trigger: 'Direct blueprint unlock' },
     ],
     controls: [
-      { name: 'Role Gateway Selector', type: 'Tab Switcher', purpose: 'Switches between Fence Founder (Homeowners), Fence Facilitator (HOA-Reps), and Fence Fabricator (Contractors) modes.' },
+      { name: 'Role Gateway Selector', type: 'Tab Switcher', purpose: 'Switches between Fence Founder (Homeowners), Fence Facilitator (HOA-Rep), and Fence Fabricator (Contractors) modes.' },
       { name: 'Phone Input + SMS OTP Flow', type: '2-Step Verification', purpose: 'Sends 6-digit pin via Telnyx with 120s countdown timer.' },
       { name: 'Locked Draft Preview', type: 'CAD Elevation Thumbnail', purpose: 'Shows live preview of the drafted fence before auth completion.' },
     ],
