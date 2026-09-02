@@ -13,6 +13,7 @@ import {
   calculateBaselineFenceQuote,
   calculateOptionSetLaborQuote,
 } from '@/lib/pricing-engine'
+import { createFolioFromConfig, folioHref } from '@/lib/saved-folios'
 
 const HERITAGE_BLANK_DEFAULT: FenceConfiguration = {
   heightFt: 6,
@@ -63,12 +64,13 @@ export default function DesignerPage() {
   }
 
   const handleSaveToFolio = () => {
+    const folio = createFolioFromConfig(config)
     try {
       sessionStorage.setItem('ff-locked-draft', JSON.stringify(config))
     } catch (e) {
       console.warn('[DesignerPage] sessionStorage unavailable', e)
     }
-    router.push('/auth-gate')
+    router.push(folioHref(folio.id))
   }
 
   const handleTabChange = (tab: ViewTab) => {

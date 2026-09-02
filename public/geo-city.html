@@ -86,10 +86,14 @@
       margin: 0;
       padding: 0;
       background-color: var(--parchment);
-      background-image: 
-        linear-gradient(rgba(22, 67, 45, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(22, 67, 45, 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-image:
+        linear-gradient(rgba(22, 67, 45, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.35) 1px, transparent 1px),
+        linear-gradient(#16432d 2px, transparent 2px),
+        linear-gradient(90deg, #16432d 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+      background-position: 0 0, 0 0, 0 0, 0 0;
+      background-attachment: fixed;
       color: var(--ink);
       font-family: 'Inter', sans-serif;
       line-height: 1.5;
@@ -137,9 +141,36 @@
     .c-ember { --mark-c: var(--ember); }
 
     .container {
-      max-width: 1280px;
+      max-width: 1360px;
       margin: 0 auto;
-      padding: 0 1.25rem 4rem;
+      padding: 2rem 1.75rem 4rem;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius);
+      background: transparent;
+      box-sizing: border-box;
+    }
+
+    .page-outer {
+      padding: 2rem 0.625rem 0;
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 640px) {
+      .page-outer {
+        padding: 2rem 1rem 0;
+      }
+      .container {
+        padding: 2rem 2rem 4rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .page-outer {
+        padding: 2.5rem 1.25rem 0;
+      }
+      .container {
+        padding: 2.5rem 2.25rem 4rem;
+      }
     }
 
     /* Top Container Spacing */
@@ -313,7 +344,7 @@
     .status-soon { background: #F1ECE1; color: #777777; border: 1px solid #CCCCCC; }
 
     .community-card-body {
-      padding: 14px;
+      padding: 1.25rem 1.5rem;
       background: #FFFFFF;
       flex-grow: 1;
     }
@@ -339,7 +370,7 @@
     .community-specs-preview li:last-child { border-bottom: none; }
 
     .community-card-actions {
-      padding: 12px 14px;
+      padding: 1rem 1.5rem;
       background: #FAF6EE;
       border-top: 2px solid var(--ink);
       display: flex;
@@ -584,6 +615,7 @@
   <div id="ff-universal-header"></div>
   <script src="/js/ff-site-header.js" defer></script>
 
+  <div class="page-outer">
   <main class="container" id="main-content">
 
     <!-- Breadcrumbs -->
@@ -840,6 +872,7 @@
     </article>
 
   </main>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- MASTER UNIVERSAL FOOTER (DARKENED FOREST-TO-BLACK GRADIENT MIRROR)        -->

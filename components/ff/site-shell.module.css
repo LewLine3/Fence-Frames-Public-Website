@@ -12,27 +12,26 @@
     linear-gradient(90deg, #16432d 2px, transparent 2px);
   background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
   background-position: 0 0, 0 0, 0 0, 0 0;
-  background-attachment: local;
+  background-attachment: fixed;
 }
 
+/* Minimal outer gutter only — green print runs edge-to-edge behind the primary frame */
 .pageGutter {
   flex: 1;
   width: 100%;
   box-sizing: border-box;
-  padding: 2rem 1rem;
+  padding: 2rem 0.625rem;
 }
 
 @media (min-width: 640px) {
   .pageGutter {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding: 2rem 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .pageGutter {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 2.5rem 1.25rem;
   }
 }
 
@@ -78,40 +77,45 @@
   max-width: 850px;
 }
 
+/* Primary ink frame — transparent so fixed green print shows through seamlessly */
 .canvas {
   position: relative;
-  padding: 1.25rem;
+  box-sizing: border-box;
+  border: 2.5px solid var(--ink, #1a1a1a);
+  border-radius: var(--radius, 5px);
+  background: transparent;
+  padding: 1.75rem 1.5rem;
 }
 
 @media (min-width: 640px) {
   .canvas {
-    padding: 1.5rem;
+    padding: 2rem 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .canvas {
-    padding: 2rem;
+    padding: 2.5rem 2.25rem;
   }
 }
 
 .bleedGutter {
   width: 100%;
   box-sizing: border-box;
-  padding: 1.5rem 1rem 0;
+  padding: 1.5rem 0.625rem 0;
 }
 
 @media (min-width: 640px) {
   .bleedGutter {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .bleedGutter {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 
