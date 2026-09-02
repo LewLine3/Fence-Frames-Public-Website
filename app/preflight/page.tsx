@@ -271,7 +271,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'GEO-DIR',
     tier: 'Tier 3 (Geo SEO)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Washington State Directory (Find Hub)',
     route: '/wa',
     pillar: 'Find It (Sun Gold)',
@@ -290,7 +290,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'GEO-CIT-01',
     tier: 'Tier 3 (Geo SEO)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'North Bend Flagship City Hub',
     route: '/wa/king-county/north-bend',
     pillar: 'Find It (Sun Gold)',
@@ -309,7 +309,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'GEO-COM-01',
     tier: 'Tier 3 (Geo SEO)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Si View Flagship Community & HOA Hub',
     route: '/wa/king-county/north-bend/si-view',
     pillar: 'Find It (Sun Gold)',
