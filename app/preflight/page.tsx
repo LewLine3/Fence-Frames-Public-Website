@@ -84,7 +84,7 @@ const PAGE_REGISTRY: PageSpec[] = [
     purpose: 'Official architectural submittal document for HOA ARC committees, city building departments, and contractor bidding sheets.',
     outboundLinks: [
       { label: 'Back to Designer', route: '/designer', trigger: 'Edit Design Parameters button' },
-      { label: 'Homeowner Dashboard', route: '/homeowner', trigger: 'Save to My Account CTA' },
+      { label: 'Fence Founder Dashboard', route: '/homeowner', trigger: 'Save to My Account CTA' },
       { label: 'Contractor Scramble', route: '/contractor/match', trigger: 'Request 3 Bids with this Blueprint' },
     ],
     controls: [
@@ -108,11 +108,11 @@ const PAGE_REGISTRY: PageSpec[] = [
     pillarColor: '#3B82F6',
     purpose: 'Frictionless 2-step SMS OTP authentication intercepting unauthenticated users attempting to save custom builds, unmask lumber BOM, or download ARC Blueprints.',
     outboundLinks: [
-      { label: 'Homeowner Dashboard', route: '/homeowner', trigger: 'On successful phone verification' },
+      { label: 'Fence Founder Dashboard', route: '/homeowner', trigger: 'On successful phone verification' },
       { label: 'ARC Blueprint', route: '/blueprint', trigger: 'Direct blueprint unlock' },
     ],
     controls: [
-      { name: 'Role Gateway Selector', type: 'Tab Switcher', purpose: 'Switches between Homeowner, HOA Board, and Contractor Dispatch modes.' },
+      { name: 'Role Gateway Selector', type: 'Tab Switcher', purpose: 'Switches between Fence Founder (Homeowners), Fence Facilitator (HOA-Reps), and Fence Fabricator (Contractors) modes.' },
       { name: 'Phone Input + SMS OTP Flow', type: '2-Step Verification', purpose: 'Sends 6-digit pin via Telnyx with 120s countdown timer.' },
       { name: 'Locked Draft Preview', type: 'CAD Elevation Thumbnail', purpose: 'Shows live preview of the drafted fence before auth completion.' },
     ],
@@ -125,9 +125,9 @@ const PAGE_REGISTRY: PageSpec[] = [
     id: 'HOME-01',
     tier: 'Tier 1 (Core)',
     status: 'live',
-    title: 'Homeowner Command Center & Dashboard',
+    title: 'Fence Founder Command Center & Dashboard',
     route: '/homeowner',
-    pillar: 'Portals & Homeowner Hub (Royal Blue)',
+    pillar: 'Portals & Fence Founder Hub (Royal Blue)',
     pillarColor: '#3B82F6',
     purpose: 'Authenticated homeowner command center. Houses saved Fence-Folios, tracks Si View ARC approval status, and monitors real-time contractor bids.',
     outboundLinks: [

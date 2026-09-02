@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { ACCOUNT_ROLES } from "@/lib/account-roles"
 import styles from "./site-nav.module.css"
 
 /** Global site header — used on every public page including auth-gate and designer. */
@@ -76,28 +77,28 @@ export function SiteNavElem() {
                 Select Account Portal
               </div>
               <a href="/homeowner" className={styles.accountItem}>
-                <span>🏡</span>
+                <span>{ACCOUNT_ROLES.founder.emoji}</span>
                 <div>
-                  <span className={styles.accountTitle} style={{ color: "#4ADE80" }}>
-                    Homeowner Account
+                  <span className={styles.accountTitle} style={{ color: ACCOUNT_ROLES.founder.color }}>
+                    {ACCOUNT_ROLES.founder.labelWithClarifier}
                   </span>
                   <span className={styles.accountSub}>Saved Fence-Folios &amp; 3-Bid Tracker</span>
                 </div>
               </a>
               <a href="/contractors/projects" className={styles.accountItem}>
-                <span>🔨</span>
+                <span>{ACCOUNT_ROLES.fabricator.emoji}</span>
                 <div>
-                  <span className={styles.accountTitle} style={{ color: "#F27A22" }}>
-                    Contractor Account
+                  <span className={styles.accountTitle} style={{ color: ACCOUNT_ROLES.fabricator.color }}>
+                    {ACCOUNT_ROLES.fabricator.labelWithClarifier}
                   </span>
                   <span className={styles.accountSub}>72-Hr Job Feed &amp; Live SMS Bids</span>
                 </div>
               </a>
               <a href="/wa/king-county/north-bend/si-view" className={styles.accountItem}>
-                <span>🏛️</span>
+                <span>{ACCOUNT_ROLES.facilitator.emoji}</span>
                 <div>
-                  <span className={styles.accountTitle} style={{ color: "#E5B842" }}>
-                    HOA Official Account
+                  <span className={styles.accountTitle} style={{ color: ACCOUNT_ROLES.facilitator.color }}>
+                    {ACCOUNT_ROLES.facilitator.labelWithClarifier}
                   </span>
                   <span className={styles.accountSub}>ARC Committee Portal &amp; Bylaw Standards</span>
                 </div>

@@ -1,4 +1,5 @@
 import styles from "./site-footer.module.css"
+import { ACCOUNT_ROLES } from "@/lib/account-roles"
 import { DEV_SITE_MAP } from "@/lib/dev-site-map"
 
 export function SiteFooterElem() {
@@ -26,10 +27,10 @@ export function SiteFooterElem() {
 
           <div className={styles.signupRow}>
             <a href="/contractors/onboarding" className={styles.signupContractor}>
-              Sign Up as Contractor
+              {ACCOUNT_ROLES.fabricator.signUpCta}
             </a>
             <a href="/auth-gate" className={styles.signupHoa}>
-              Sign Up Your HOA / Community
+              {ACCOUNT_ROLES.facilitator.signUpCta}
             </a>
           </div>
         </div>

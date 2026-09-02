@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { SiteShell } from '@/components/ff/site-shell'
+import { ACCOUNT_ROLES } from '@/lib/account-roles'
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -54,8 +55,8 @@ export default function ContractorOnboardingPage() {
 
           <div>
             <div className="inline-flex items-center gap-2 bg-[#4ADE80]/20 border border-[#4ADE80] px-3 py-1 rounded text-xs text-[#4ADE80] font-bold uppercase tracking-wider mb-3">
-              <span>🔨</span>
-              <span>Join the Verified Contractor Network</span>
+              <span>{ACCOUNT_ROLES.fabricator.emoji}</span>
+              <span>Join as {ACCOUNT_ROLES.fabricator.labelWithClarifier}</span>
             </div>
             <h1 style={{ ...rowdies(700), fontSize: '2.2rem', color: '#4ADE80', lineHeight: 1.15, marginBottom: '0.4rem' }}>
               Contractor Verification &amp; 1st Lead Free

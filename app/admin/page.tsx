@@ -128,7 +128,7 @@ export default function AdminControlPanelPage() {
           <span className="corner-mark-out br c-forest" style={{ zIndex: 2 }} />
 
           <h2 style={{ ...rowdies(700), fontSize: '1.3rem', color: '#E5B842', marginBottom: '1rem' }}>
-            Inbound Homeowner Lead Review Queue
+            Inbound Fence Founder Lead Review Queue
           </h2>
 
           <div className="overflow-x-auto">
@@ -136,7 +136,7 @@ export default function AdminControlPanelPage() {
               <thead>
                 <tr className="border-b border-white/20 text-[#E5B842]" style={{ ...rowdies(700) }}>
                   <th className="py-2.5 px-3">Lead ID</th>
-                  <th className="py-2.5 px-3">Homeowner</th>
+                  <th className="py-2.5 px-3">Fence Founder</th>
                   <th className="py-2.5 px-3">Community / HOA</th>
                   <th className="py-2.5 px-3">Specs</th>
                   <th className="py-2.5 px-3">Est. Mid</th>

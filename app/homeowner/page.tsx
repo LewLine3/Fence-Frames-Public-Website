@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { SiteShell } from '@/components/ff/site-shell'
+import { ACCOUNT_ROLES } from '@/lib/account-roles'
 
 interface SavedBuild {
   id: string;
@@ -282,7 +283,7 @@ export default function HomeownerDashboardPage() {
             <span className="corner-mark-out br c-gold" style={{ zIndex: 2 }} />
             <div className="bg-[#1A1A1A] text-[#E5B842] px-4 py-2 text-xs font-bold uppercase flex items-center gap-1.5">
               <span>🧰</span>
-              <span>Homeowner Toolbox</span>
+              <span>{ACCOUNT_ROLES.founder.name} Toolbox</span>
             </div>
             <div className="p-4 space-y-1.5 text-xs font-light text-[#444]">
               <div className="bg-[#E8F5EE] p-2 rounded border border-[#16432D]/15 hover:bg-[#DDF0E6] cursor-pointer flex justify-between items-center">

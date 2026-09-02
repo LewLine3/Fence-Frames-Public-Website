@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { SiteShell } from '@/components/ff/site-shell';
+import { ACCOUNT_ROLES, type PortalRoleId } from '@/lib/account-roles';
 
 // ==========================================
 // COLOR PALETTE & DESIGN TOKENS
@@ -65,7 +66,7 @@ const CropMarks = ({ type }: { type: 'technical' | 'cedar' }) => {
 // ==========================================
 export default function AuthGate() {
   // Portal Roles
-  type RoleType = 'HOMEOWNER' | 'HOA' | 'CONTRACTOR';
+  type RoleType = PortalRoleId;
   const [activeRole, setActiveRole] = useState<RoleType>('HOMEOWNER');
 
   // Multi-step Registration / OTP States
@@ -191,7 +192,7 @@ export default function AuthGate() {
                 {activeRole === 'HOMEOWNER' && (
                   <div className="bg-[#E5B842]/10 border-l-[3px] border-[#E5B842] p-3 rounded-[5px] mb-5">
                     <p className="font-rowdies-regular text-xs text-[#1A1A1A] uppercase tracking-wide">
-                      🔒 Temporary Cache Secured
+                      🔒 {ACCOUNT_ROLES.founder.labelWithClarifier}
                     </p>
                     <p className="font-rowdies-light text-[11px] text-[#1A1A1A]/80 mt-0.5">
                       Your technical parameters are preserved in local IP memory. Complete SMS validation to download complete structural assets.
@@ -202,7 +203,7 @@ export default function AuthGate() {
                 {activeRole === 'HOA' && (
                   <div className="bg-[#F27A22]/10 border-l-[3px] border-[#F27A22] p-3 rounded-[5px] mb-5">
                     <p className="font-rowdies-regular text-xs text-[#1A1A1A] uppercase tracking-wide">
-                      📋 HOA Board Route
+                      📋 {ACCOUNT_ROLES.facilitator.labelWithClarifier}
                     </p>
                     <p className="font-rowdies-light text-[11px] text-[#1A1A1A]/80 mt-0.5">
                       Access community structural submittals, spatial plots, and regional engineering reference guidelines.
@@ -213,7 +214,7 @@ export default function AuthGate() {
                 {activeRole === 'CONTRACTOR' && (
                   <div className="bg-[#4ADE80]/10 border-l-[3px] border-[#4ADE80] p-3 rounded-[5px] mb-5">
                     <p className="font-rowdies-regular text-xs text-[#1A1A1A] uppercase tracking-wide">
-                      ⚡ Contractor Dispatch Access
+                      ⚡ {ACCOUNT_ROLES.fabricator.labelWithClarifier}
                     </p>
                     <p className="font-rowdies-light text-[11px] text-[#1A1A1A]/80 mt-0.5">
                       Input credentials to unlock active regional job bidding pools, client specs, and pre-scoped tender estimates.
@@ -539,7 +540,7 @@ export default function AuthGate() {
                   boxShadow: activeRole === 'HOMEOWNER' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
                 }}
               >
-                🏠 Homeowner Client
+                {ACCOUNT_ROLES.founder.emoji} {ACCOUNT_ROLES.founder.labelWithClarifier}
               </button>
               <button
                 type="button"
@@ -550,7 +551,7 @@ export default function AuthGate() {
                   boxShadow: activeRole === 'HOA' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
                 }}
               >
-                📋 HOA Review Board
+                {ACCOUNT_ROLES.facilitator.emoji} {ACCOUNT_ROLES.facilitator.labelWithClarifier}
               </button>
               <button
                 type="button"
@@ -561,7 +562,7 @@ export default function AuthGate() {
                   boxShadow: activeRole === 'CONTRACTOR' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
                 }}
               >
-                🛠️ Licensed Contractor
+                {ACCOUNT_ROLES.fabricator.emoji} {ACCOUNT_ROLES.fabricator.labelWithClarifier}
               </button>
             </div>
           </div>

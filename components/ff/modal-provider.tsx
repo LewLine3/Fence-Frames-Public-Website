@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import type { ReactNode } from "react"
+import { ACCOUNT_ROLE_LIST, type AccountRoleKey } from "@/lib/account-roles"
 
 type ModalId = "modal-hoa" | "modal-blueprint" | "modal-contractor" | "modal-signin"
 
@@ -285,8 +286,7 @@ function ContractorModal({ active, onClose }: { active: boolean; onClose: () => 
 }
 
 function SignInModal({ active, onClose }: { active: boolean; onClose: () => void }) {
-  const [accountType, setAccountType] = useState<"Homeowner" | "Contractor" | "HOA Board">("Homeowner")
-  const types: ("Homeowner" | "Contractor" | "HOA Board")[] = ["Homeowner", "Contractor", "HOA Board"]
+  const [accountType, setAccountType] = useState<AccountRoleKey>("founder")
   return (
     <Backdrop active={active} onClose={onClose}>
       <div className="ff-modal-box has-outside-corners" style={{ maxWidth: "440px" }}>
@@ -302,18 +302,20 @@ function SignInModal({ active, onClose }: { active: boolean; onClose: () => void
           <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
             <div>
               <label style={{ ...rowdies(700), fontSize: "0.82rem" }}>Account Type:</label>
-              <div className="btn-dual-wrap" style={{ width: "100%", marginTop: "0.3rem" }}>
-                {types.map((t) => (
+              <div className="btn-dual-wrap" style={{ width: "100%", marginTop: "0.3rem", flexWrap: "wrap" }}>
+                {ACCOUNT_ROLE_LIST.map((role) => (
                   <button
-                    key={t}
+                    key={role.key}
                     style={{
-                      flex: 1,
-                      background: accountType === t ? "var(--forest-deep)" : "#FAF6EE",
-                      color: accountType === t ? "#FAF6EE" : "var(--ink)",
+                      flex: "1 1 100%",
+                      background: accountType === role.key ? "var(--forest-deep)" : "#FAF6EE",
+                      color: accountType === role.key ? "#FAF6EE" : "var(--ink)",
+                      fontSize: "0.72rem",
+                      padding: "0.45rem 0.35rem",
                     }}
-                    onClick={() => setAccountType(t)}
+                    onClick={() => setAccountType(role.key)}
                   >
-                    {t}
+                    {role.labelWithClarifier}
                   </button>
                 ))}
               </div>
