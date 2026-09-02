@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { type ElevationMode } from '@/lib/toolbar/spec'
 import { FenceConfiguration } from '@/lib/pricing-engine'
 import { cn } from '@/lib/utils'
@@ -16,6 +15,9 @@ interface ElevationStageProps {
   backSvgHtml?: string
 }
 
+/** Canonical heritage assembly viewBox (inches). */
+const CAD_VIEWBOX = { w: 112, h: 95 }
+
 const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string; rail: string }> = {
   'cedar-natural': { main: '#c88254', dark: '#8a4e2c', light: '#dca070', rail: '#b06840' },
   'clear-seal':    { main: '#c9a982', dark: '#9e805e', light: '#e2ccb0', rail: '#b3916d' },
@@ -25,15 +27,86 @@ const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string
   'none':          { main: '#d8c3a5', dark: '#b59f82', light: '#eddcc5', rail: '#c5af92' },
 }
 
+const FILL_PATTERN_TO_LAYER: Record<string, string> = {
+  'board-on-board': 'board-on-board',
+  'flat-top-privacy': 'standard',
+  'standard-gap': 'standard',
+  'shadowbox': 'shadowbox',
+}
+
 function normalizeSvgString(raw: string): string {
   if (!raw) return ''
   return raw
-    .replace(/\bwidth="[0-9.]+"/gi, 'width="100%"')
-    .replace(/\bheight="[0-9.]+"/gi, 'height="100%"')
+    .replace(/\swidth="[0-9.]+"/i, '')
+    .replace(/\sheight="[0-9.]+"/i, '')
     .replace(
       /<svg\b/i,
-      '<svg preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;max-width:100%;max-height:100%;display:block;"',
+      '<svg preserveAspectRatio="xMidYMid meet" width="100%" height="100%"',
     )
+}
+
+function applySvgSlots(svg: SVGSVGElement, config: FenceConfiguration) {
+  svg.setAttribute('width', '100%')
+  svg.setAttribute('height', '100%')
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+  svg.style.display = 'block'
+
+  const isPT = config.postType.includes('pt') || config.postType.includes('pressure-treated')
+  const postMatSelector = isPT ? 'pt' : 'cedar'
+
+  svg.querySelectorAll('[data-post-material]').forEach((el) => {
+    const mat = el.getAttribute('data-post-material')
+    ;(el as HTMLElement).style.display = mat === postMatSelector ? '' : 'none'
+  })
+
+  const isPTRails =
+    (config.woodGrade as string) === 'standard-doug-fir' || config.woodGrade === 'pressure-treated'
+  const railMatSelector = isPTRails ? 'pt' : 'cedar'
+
+  svg.querySelectorAll('[data-frame-material]').forEach((el) => {
+    const mat = el.getAttribute('data-frame-material')
+    ;(el as HTMLElement).style.display = mat === railMatSelector ? '' : 'none'
+  })
+
+  const middleRailGroup = svg.querySelector('#Middle-Rail-Group, [data-rail-tier="middle"]')
+  if (middleRailGroup) {
+    ;(middleRailGroup as HTMLElement).style.display = config.railCount >= 3 ? '' : 'none'
+  }
+
+  const capGroup = svg.querySelector('#fill-cap, [data-slot="rail-cap-material"]')
+  if (capGroup) {
+    ;(capGroup as HTMLElement).style.display = config.topCap ? '' : 'none'
+  }
+
+  svg.querySelectorAll('[data-cap-material]').forEach((el) => {
+    const mat = el.getAttribute('data-cap-material')
+    ;(el as HTMLElement).style.display = mat === railMatSelector ? '' : 'none'
+  })
+
+  const trimGroup = svg.querySelector('#Trim-Group, [data-slot="trim-package"]')
+  if (trimGroup) {
+    ;(trimGroup as HTMLElement).style.display =
+      config.trimStyle && config.trimStyle !== 'none' ? '' : 'none'
+  }
+
+  const targetFill = FILL_PATTERN_TO_LAYER[config.fillPattern] || 'standard'
+  svg.querySelectorAll('.picket-fill-layer[data-picket-fill]').forEach((el) => {
+    const fill = el.getAttribute('data-picket-fill')
+    ;(el as HTMLElement).style.display = fill === targetFill ? '' : 'none'
+  })
+
+  const palette = STAIN_PALETTES[config.stainType] || STAIN_PALETTES['cedar-natural']
+  svg.querySelectorAll('linearGradient[id*="shine" i]').forEach((grad) => {
+    const stops = grad.querySelectorAll('stop')
+    if (stops.length >= 3) {
+      stops[0].setAttribute('stop-color', palette.light)
+      stops[1].setAttribute('stop-color', palette.main)
+      stops[2].setAttribute('stop-color', palette.dark)
+    } else if (stops.length === 2) {
+      stops[0].setAttribute('stop-color', palette.light)
+      stops[1].setAttribute('stop-color', palette.main)
+    }
+  })
 }
 
 function ElevationCard({
@@ -52,30 +125,29 @@ function ElevationCard({
   hostRef?: React.RefObject<HTMLDivElement | null>
 }) {
   return (
-    <div className="w-full h-full max-h-full min-w-0 flex-1 overflow-hidden rounded-2xl border-[2.5px] border-[#16432D]/70 bg-canvas-ivory flex flex-col justify-between shadow-[0_14px_36px_rgba(22,67,45,0.25)] select-none">
-      {/* Card Header Strip */}
+    <div className="flex h-full w-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border-2 border-[#16432D]/70 bg-[#F4ECDC] shadow-[0_10px_28px_rgba(22,67,45,0.22)] select-none">
       <div
         className={cn(
-          'flex h-7 shrink-0 items-center justify-between px-3 text-[11px] font-bold uppercase leading-none text-canvas-ivory font-[\'Rowdies\'] shadow-sm',
+          'flex h-6 shrink-0 items-center justify-between px-2.5 text-[10px] font-bold uppercase leading-none text-canvas-ivory font-[\'Rowdies\']',
           accent,
         )}
       >
         <span>{label}</span>
-        <span className="font-mono text-[9px] opacity-85">112″ × 95″ CAD</span>
+        <span className="font-mono text-[8px] opacity-85">112″ × 95″</span>
       </div>
 
-      {/* Vector Display Area (Full Height & Width Expansion with Clean Margins) */}
-      <div className="relative min-h-0 flex-1 w-full flex items-center justify-center overflow-hidden p-2 sm:p-3">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-1">
         {svgHtml ? (
           <div
             ref={hostRef}
-            className="w-full h-full flex items-center justify-center overflow-hidden [&_svg]:max-h-full [&_svg]:max-w-full [&_svg]:w-full [&_svg]:h-full [&_svg]:object-contain"
+            className="flex h-full w-full items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full"
             dangerouslySetInnerHTML={{ __html: svgHtml }}
           />
-        ) : src ? (
-          <Image src={src} alt={alt} fill className="object-contain p-2" />
         ) : (
-          <div className="text-[10px] text-panel-charcoal/60 font-mono">Loading Elevation CAD...</div>
+          <div className="flex flex-col items-center justify-center gap-2 text-[10px] text-panel-charcoal/60 font-mono">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#16432D]/30 border-t-[#16432D]" />
+            Loading elevation CAD…
+          </div>
         )}
       </div>
     </div>
@@ -97,7 +169,6 @@ export function ElevationStage({
   const frontHostRef = useRef<HTMLDivElement>(null)
   const backHostRef = useRef<HTMLDivElement>(null)
 
-  // Fetch authentic Heritage vector SVGs from public/configure
   useEffect(() => {
     if (propFrontSvg && propBackSvg) {
       setFrontSvgText(normalizeSvgString(propFrontSvg))
@@ -107,10 +178,12 @@ export function ElevationStage({
 
     let isMounted = true
     Promise.all([
-      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame.svg')
-        .then((res) => (res.ok ? res.text() : Promise.reject('Failed to load Front SVG'))),
-      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame-back.svg')
-        .then((res) => (res.ok ? res.text() : Promise.reject('Failed to load Back SVG'))),
+      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame.svg').then((res) =>
+        res.ok ? res.text() : Promise.reject('Failed to load Front SVG'),
+      ),
+      fetch('/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame-back.svg').then((res) =>
+        res.ok ? res.text() : Promise.reject('Failed to load Back SVG'),
+      ),
     ])
       .then(([front, back]) => {
         if (!isMounted) return
@@ -126,144 +199,68 @@ export function ElevationStage({
     }
   }, [propFrontSvg, propBackSvg])
 
-  // Apply dynamic material & geometry slots to mounted SVGs
   useEffect(() => {
     if (!config) return
 
-    const applySlots = (hostEl: HTMLElement | null) => {
+    const applyToHost = (hostEl: HTMLElement | null) => {
       if (!hostEl) return
       const svg = hostEl.querySelector('svg')
       if (!svg) return
-
-      svg.setAttribute('width', '100%')
-      svg.setAttribute('height', '100%')
-      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
-      svg.style.maxWidth = '100%'
-      svg.style.maxHeight = '100%'
-      svg.style.display = 'block'
-
-      // 1. Post Materials & Styles (Cedar vs PT vs Steel)
-      const isPT = config.postType.includes('pt') || config.postType.includes('pressure-treated')
-      const postMatSelector = isPT ? 'pt' : 'cedar'
-      
-      const postElements = svg.querySelectorAll('[data-post-material]')
-      postElements.forEach((el) => {
-        const mat = el.getAttribute('data-post-material')
-        ;(el as HTMLElement).style.display = mat === postMatSelector ? '' : 'none'
-      })
-
-      // 2. Rails Visibility & Counts
-      const isPTRails = (config.woodGrade as string) === 'standard-doug-fir' || config.woodGrade === 'pressure-treated'
-      const railMatSelector = isPTRails ? 'pt' : 'cedar'
-      
-      const railElements = svg.querySelectorAll('[data-frame-material]')
-      railElements.forEach((el) => {
-        const mat = el.getAttribute('data-frame-material')
-        ;(el as HTMLElement).style.display = mat === railMatSelector ? '' : 'none'
-      })
-
-      const middleRailGroup = svg.querySelector('#Middle-Rail-Group, [data-rail-tier="middle"]')
-      if (middleRailGroup) {
-        (middleRailGroup as HTMLElement).style.display = config.railCount >= 3 ? '' : 'none'
-      }
-
-      // 3. Top Cap & Post Caps
-      const capGroup = svg.querySelector('#fill-cap, [data-slot="rail-cap-material"]')
-      if (capGroup) {
-        (capGroup as HTMLElement).style.display = config.topCap ? '' : 'none'
-      }
-
-      const capMatElements = svg.querySelectorAll('[data-cap-material]')
-      capMatElements.forEach((el) => {
-        const mat = el.getAttribute('data-cap-material')
-        ;(el as HTMLElement).style.display = mat === railMatSelector ? '' : 'none'
-      })
-
-      // 4. Trim Packages
-      const trimGroup = svg.querySelector('#Trim-Group, [data-slot="trim-package"]')
-      if (trimGroup) {
-        (trimGroup as HTMLElement).style.display = config.trimStyle && config.trimStyle !== 'none' ? '' : 'none'
-      }
-
-      // 5. Pickets
-      const picketGroups = svg.querySelectorAll('[id*="picket"], [data-slot="picket-fill"]')
-      picketGroups.forEach((el) => {
-        const id = el.id || ''
-        if (config.fillPattern === 'board-on-board') {
-          if (id.includes('flat-top') || id.includes('gothic')) (el as HTMLElement).style.display = 'none'
-          else (el as HTMLElement).style.display = ''
-        } else if (config.fillPattern === 'flat-top-privacy' || config.fillPattern === 'standard-gap') {
-          if (id.includes('board-on-board') || id.includes('gothic')) (el as HTMLElement).style.display = 'none'
-          else (el as HTMLElement).style.display = ''
-        }
-      })
-
-      // 6. Dynamic Stain & Wood Color Updates on Gradients
-      const palette = STAIN_PALETTES[config.stainType] || STAIN_PALETTES['cedar-natural']
-      const shineGrads = svg.querySelectorAll('linearGradient')
-      shineGrads.forEach((grad) => {
-        const id = (grad.id || '').toLowerCase()
-        if (
-          id.includes('shine') ||
-          id.includes('cedar') ||
-          id.includes('rail') ||
-          id.includes('trim') ||
-          id.includes('cap') ||
-          id.includes('post') ||
-          id.includes('picket')
-        ) {
-          const stops = grad.querySelectorAll('stop')
-          if (stops.length >= 3) {
-            stops[0].setAttribute('stop-color', palette.light)
-            stops[1].setAttribute('stop-color', palette.main)
-            stops[2].setAttribute('stop-color', palette.dark)
-          } else if (stops.length === 2) {
-            stops[0].setAttribute('stop-color', palette.light)
-            stops[1].setAttribute('stop-color', palette.main)
-          }
-        }
-      })
+      applySvgSlots(svg, config)
     }
 
-    if (frontHostRef.current && frontSvgText) applySlots(frontHostRef.current)
-    if (backHostRef.current && backSvgText) applySlots(backHostRef.current)
+    applyToHost(frontHostRef.current)
+    applyToHost(backHostRef.current)
   }, [config, frontSvgText, backSvgText, mode])
 
+  const showFront = mode !== 'back'
+  const showBack = mode !== 'front'
   const isDual = mode === 'dual'
-  const frontVisible = mode !== 'back' ? 'flex' : 'hidden'
-  const backVisible = mode === 'front' ? 'hidden' : isDual ? 'hidden lg:flex' : 'flex'
 
   return (
-    <div className="flex h-full min-h-0 w-full items-center justify-center overflow-hidden p-3 sm:p-4 md:p-5 relative select-none">
+    <div className="absolute inset-0 flex min-h-0 w-full items-stretch justify-center overflow-hidden px-2 pb-[84px] pt-1 select-none">
       <div
         className={cn(
-          'w-full h-full max-h-[96%] flex items-center justify-center gap-4 sm:gap-6 transition-all duration-150',
+          'flex h-full w-full min-h-0 items-stretch justify-center gap-3 transition-transform duration-150',
+          isDual ? 'max-w-[min(100%,1400px)]' : 'max-w-[min(100%,960px)]',
         )}
         style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center center' }}
       >
-        {/* Front Elevation (Street Face) */}
-        <div className={cn(frontVisible, 'h-full max-h-full min-w-0 flex-1 flex items-center justify-center')}>
-          <ElevationCard
-            src={frontImageSrc}
-            svgHtml={frontSvgText}
-            alt="Front elevation (street face) of the fence design"
-            label="Front Elevation · Street Face"
-            accent="bg-accent-forest"
-            hostRef={frontHostRef}
-          />
-        </div>
+        {showFront && (
+          <div
+            className={cn(
+              'flex h-full min-h-0 min-w-0 items-center justify-center',
+              isDual ? 'flex-1' : 'h-full w-full',
+            )}
+          >
+            <ElevationCard
+              src={frontImageSrc}
+              svgHtml={frontSvgText}
+              alt="Front elevation (street face) of the fence design"
+              label="Front Elevation · Street Face"
+              accent="bg-accent-forest"
+              hostRef={frontHostRef}
+            />
+          </div>
+        )}
 
-        {/* Back Elevation (Framing Face) */}
-        <div className={cn(backVisible, 'h-full max-h-full min-w-0 flex-1 flex items-center justify-center')}>
-          <ElevationCard
-            src={backImageSrc}
-            svgHtml={backSvgText}
-            alt="Back elevation (framing face) of the fence design"
-            label="Back Elevation · Framing Face"
-            accent="bg-toolbar-orange"
-            hostRef={backHostRef}
-          />
-        </div>
+        {showBack && (
+          <div
+            className={cn(
+              'flex h-full min-h-0 min-w-0 items-center justify-center',
+              isDual ? 'hidden flex-1 lg:flex' : 'h-full w-full',
+            )}
+          >
+            <ElevationCard
+              src={backImageSrc}
+              svgHtml={backSvgText}
+              alt="Back elevation (framing face) of the fence design"
+              label="Back Elevation · Framing Face"
+              accent="bg-toolbar-orange"
+              hostRef={backHostRef}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

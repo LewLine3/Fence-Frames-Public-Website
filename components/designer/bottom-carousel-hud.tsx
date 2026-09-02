@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react'
 import { FenceConfiguration, PricingBreakdown } from '@/lib/pricing-engine'
 import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
+import { cn } from '@/lib/utils'
 
 interface BottomCarouselHudProps {
   config: FenceConfiguration;
@@ -14,6 +15,8 @@ interface BottomCarouselHudProps {
   onOpenLedgerModal?: () => void;
   activeChapter?: string | null;
   onSelectChapter?: (chapterId: string | null) => void;
+  /** When true, pins carousel as a bottom overlay on the elevation canvas. */
+  overlay?: boolean;
 }
 
 interface DynamicCard {
@@ -39,6 +42,7 @@ export function BottomCarouselHud({
   onOpenLedgerModal,
   activeChapter,
   onSelectChapter,
+  overlay = false,
 }: BottomCarouselHudProps) {
   const [activeMathModel, setActiveMathModel] = useState<'canonical' | 'trial'>('canonical')
 
@@ -485,19 +489,27 @@ export function BottomCarouselHud({
 
   return (
     <footer
-      className="w-full border-t-[2px] border-t-[#16432D]/40 py-2 px-3 flex-shrink-0 z-20 shadow-[0_-6px_20px_rgba(22,67,45,0.15)] font-['Rowdies'] select-none flex items-center gap-2 relative"
+      className={cn(
+        'w-full border-t-[2px] border-t-[#16432D]/40 flex-shrink-0 z-20 font-[\'Rowdies\'] select-none flex items-center gap-1.5',
+        overlay
+          ? 'absolute bottom-0 left-0 right-0 pt-0 pb-1 px-2 shadow-[0_-8px_24px_rgba(22,67,45,0.18)]'
+          : 'relative py-2 px-3 shadow-[0_-6px_20px_rgba(22,67,45,0.15)]',
+      )}
       style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage:
-          'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        backgroundColor: overlay ? 'rgba(244, 236, 220, 0.92)' : '#F4ECDC',
+        backgroundImage: overlay
+          ? 'linear-gradient(to top, rgba(244,236,220,0.98) 65%, rgba(244,236,220,0.55) 85%, transparent), linear-gradient(rgba(46, 139, 78, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.35) 1px, transparent 1px)'
+          : 'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
+        backgroundSize: overlay
+          ? '100% 100%, 25px 25px, 25px 25px'
+          : '25px 25px, 25px 25px, 100px 100px, 100px 100px',
         backgroundPosition: '0 0',
       }}
     >
       {/* Left Chevron Button */}
       <button
         onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-6 h-[76px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
+        className="hidden sm:flex w-6 h-[68px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Left (Infinite)"
       >
         ◀
@@ -507,7 +519,7 @@ export function BottomCarouselHud({
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 flex items-stretch gap-3 overflow-x-auto no-scrollbar scroll-smooth py-0.5 px-1 relative"
+        className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-0 px-0.5 relative max-h-[72px]"
         style={{
           maskImage:
             'linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent)',
@@ -817,7 +829,7 @@ export function BottomCarouselHud({
       {/* Right Chevron Button */}
       <button
         onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-6 h-[76px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
+        className="hidden sm:flex w-6 h-[68px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#16432D]/50 rounded-lg items-center justify-center text-[10px] transition flex-shrink-0 shadow-md cursor-pointer"
         title="Scroll Right (Infinite)"
       >
         ▶

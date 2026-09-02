@@ -40,7 +40,7 @@ export default function DesignerPage() {
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
   const [config, setConfig] = useState<FenceConfiguration>(HERITAGE_BLANK_DEFAULT)
-  const [elevationMode, setElevationMode] = useState<ElevationMode>('dual')
+  const [elevationMode, setElevationMode] = useState<ElevationMode>('front')
   const [zoomPercent, setZoomPercent] = useState<number>(100)
   const [activeChapter, setActiveChapter] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<ViewTab>('2D Canvas')
@@ -116,27 +116,27 @@ export default function DesignerPage() {
             onZoomChange={setZoomPercent}
           />
 
-          {/* Strictly Proportional CAD Elevation Stage */}
-          <section className="flex-1 min-h-0 min-w-0 overflow-hidden flex flex-col relative">
+          {/* Unified canvas: fence elevation fills stage; option cards overlay bottom band */}
+          <section className="flex-1 min-h-0 min-w-0 overflow-hidden relative">
             <ElevationStage
               mode={elevationMode}
               zoom={zoomPercent}
               config={config}
             />
-          </section>
 
-          {/* Bottom Horizontal Endless Card Flow (from corner hub junction to screen edge) */}
-          <BottomCarouselHud
-            config={config}
-            pricing={pricing}
-            trialPricing={trialPricing}
-            onChange={handleConfigChange}
-            onResetDefaults={handleResetDefaults}
-            onSaveToFolio={handleSaveToFolio}
-            onOpenLedgerModal={() => handleTabChange('Blueprint')}
-            activeChapter={activeChapter}
-            onSelectChapter={setActiveChapter}
-          />
+            <BottomCarouselHud
+              overlay
+              config={config}
+              pricing={pricing}
+              trialPricing={trialPricing}
+              onChange={handleConfigChange}
+              onResetDefaults={handleResetDefaults}
+              onSaveToFolio={handleSaveToFolio}
+              onOpenLedgerModal={() => handleTabChange('Blueprint')}
+              activeChapter={activeChapter}
+              onSelectChapter={setActiveChapter}
+            />
+          </section>
         </div>
       </div>
     </div>
