@@ -16,17 +16,25 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
   const isNorthBend = citySlug === 'north-bend'
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* ── BREADCRUMBS ── */}
-        <div className="text-xs text-white/50 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
-          <Link href="/" className="hover:text-[#E5B842] text-white/70">Home</Link>
+        <div className="text-xs text-[#16432D]/60 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
+          <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
-          <Link href="/wa" className="hover:text-[#E5B842] text-white/70">Washington</Link>
+          <Link href="/wa" className="hover:text-[#E5B842] text-[#16432D]">Washington</Link>
           <span>/</span>
-          <Link href="/wa/king-county" className="hover:text-[#E5B842] text-white/70">King County</Link>
+          <Link href="/wa/king-county" className="hover:text-[#E5B842] text-[#16432D]">King County</Link>
           <span>/</span>
           <span className="text-[#E5B842] capitalize">{citySlug.replace('-', ' ')} (98045)</span>
         </div>
@@ -185,9 +193,9 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
             <div
               className="has-outside-corners p-6 rounded-lg flex flex-col justify-between relative"
               style={{
-                background: '#121814',
+                background: '#FAF6EE',
                 border: '2px solid var(--ink)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.25)',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
               }}
             >
               <span className="corner-mark-out tl c-gold" />
@@ -197,13 +205,13 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
                 <span style={{ ...rowdies(700), fontSize: '0.72rem', color: '#E5B842' }}>
                   COMMUNITY #02
                 </span>
-                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#FAF6EE', margin: '0.2rem 0 0.4rem 0' }}>
+                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#1A1A1A', margin: '0.2rem 0 0.4rem 0' }}>
                   Riverbend Community
                 </h3>
-                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#B5C2BA', marginBottom: '1rem', lineHeight: 1.45 }}>
+                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', marginBottom: '1rem', lineHeight: 1.45 }}>
                   River valley natural stain requirements with semi-transparent cedar sealer mandates and 6ft height limits.
                 </p>
-                <div className="bg-[#0A0F0C] p-2.5 rounded text-[11px] text-[#DBD0BD] mb-4 space-y-1" style={{ ...rowdies(300) }}>
+                <div className="bg-[#EFE8D8] p-2.5 rounded text-[11px] text-[#333] mb-4 space-y-1" style={{ ...rowdies(300) }}>
                   <div>✓ Natural wood tones only</div>
                   <div>✓ 2x4 framing rails with Simpson brackets</div>
                 </div>
@@ -232,9 +240,9 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
             <div
               className="has-outside-corners p-6 rounded-lg flex flex-col justify-between relative"
               style={{
-                background: '#121814',
+                background: '#FAF6EE',
                 border: '2px solid var(--ink)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.25)',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
               }}
             >
               <span className="corner-mark-out tl c-gold" />
@@ -244,13 +252,13 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
                 <span style={{ ...rowdies(700), fontSize: '0.72rem', color: '#E5B842' }}>
                   COMMUNITY #03
                 </span>
-                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#FAF6EE', margin: '0.2rem 0 0.4rem 0' }}>
+                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#1A1A1A', margin: '0.2rem 0 0.4rem 0' }}>
                   Forster Woods HOA
                 </h3>
-                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#B5C2BA', marginBottom: '1rem', lineHeight: 1.45 }}>
+                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', marginBottom: '1rem', lineHeight: 1.45 }}>
                   Architectural review board checklist requiring Good Neighbor alternating pickets on all dividing lot lines.
                 </p>
-                <div className="bg-[#0A0F0C] p-2.5 rounded text-[11px] text-[#DBD0BD] mb-4 space-y-1" style={{ ...rowdies(300) }}>
+                <div className="bg-[#EFE8D8] p-2.5 rounded text-[11px] text-[#333] mb-4 space-y-1" style={{ ...rowdies(300) }}>
                   <div>✓ Alternating shadowbox or picture frame</div>
                   <div>✓ Black powder hardware required</div>
                 </div>
@@ -281,9 +289,9 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8"
           style={{
-            background: '#0D140F',
+            background: '#EFE8D8',
             border: '2px solid var(--ink)',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
           }}
         >
           <span className="corner-mark-out tl c-gold" />
@@ -294,7 +302,7 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
               <h2 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#E5B842', margin: 0 }}>
                 Verified North Bend Fence Contractors (Anti-Monopoly 3-Seat Roster)
               </h2>
-              <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#DBD0BD', margin: '0.2rem 0 0 0' }}>
+              <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#333', margin: '0.2rem 0 0 0' }}>
                 All contractors hold active WA L&amp;I licenses, $1M general liability insurance, and build from Fence Frames ARC Blueprints.
               </p>
             </div>
@@ -306,15 +314,15 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
               { name: 'Snoqualmie Valley Fencing', ubi: 'WA L&I #SNOQV*221L9', rating: '5.0 ★ (28 Reviews)', exp: '9 Yrs Valley Specialist' },
               { name: 'Mt. Si Woodworks', ubi: 'WA L&I #MTSIW*774P1', rating: '4.8 ★ (35 Reviews)', exp: '11 Yrs Custom Timber' },
             ].map((pro) => (
-              <div key={pro.name} className="bg-[#121814] p-4 rounded-lg border border-white/10 flex flex-col justify-between">
+              <div key={pro.name} className="bg-[#FAF6EE] p-4 rounded-lg border border-[#16432D]/15 flex flex-col justify-between">
                 <div>
-                  <h4 style={{ ...rowdies(700), fontSize: '1rem', color: '#FAF6EE', marginBottom: '0.2rem' }}>
+                  <h4 style={{ ...rowdies(700), fontSize: '1rem', color: '#1A1A1A', marginBottom: '0.2rem' }}>
                     {pro.name}
                   </h4>
                   <div style={{ ...rowdies(300), fontSize: '0.72rem', color: '#E5B842', marginBottom: '0.4rem' }}>
                     {pro.ubi} · {pro.rating}
                   </div>
-                  <p style={{ ...rowdies(300), fontSize: '0.78rem', color: '#B5C2BA' }}>
+                  <p style={{ ...rowdies(300), fontSize: '0.78rem', color: '#444' }}>
                     {pro.exp} · Specializing in Mt. Si wind corridor reinforced 3-rail cedar installations.
                   </p>
                 </div>

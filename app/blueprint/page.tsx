@@ -64,15 +64,23 @@ export default function BlueprintPage() {
   const concreteBags = postCount * 2
 
   return (
-    <div className="min-h-screen bg-[#0F1411] text-[#141B16] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       {/* Screen Only Navigation */}
       <div className="print:hidden">
         <SiteNav />
       </div>
 
       {/* Screen Only Top Control Bar */}
-      <section className="print:hidden w-full bg-[#18201B] border-b-2 border-[#E5B842] py-3 px-4 shadow-xl sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 text-white">
+      <section className="print:hidden w-full bg-[#102B1E] border-b-2 border-[#4ADE80] py-3 px-4 shadow-xl sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[#FAF6EE]">
           <div className="flex items-center gap-3">
             <Link
               href="/designer"
@@ -118,7 +126,10 @@ export default function BlueprintPage() {
       {/* ===================================================================== */}
       {/* 8.5" x 11" PORTRAIT ARCHITECTURAL SHEET CONTAINER */}
       {/* ===================================================================== */}
-      <main className="flex-1 w-full max-w-[850px] mx-auto my-6 p-8 bg-[#FAF8F5] border-4 border-[#141B16] rounded-sm shadow-2xl print:m-0 print:p-6 print:border-2 print:shadow-none print:max-w-none print:w-full print:bg-white flex flex-col justify-between min-h-[1100px]">
+      <div className="flex-1 w-full max-w-[850px] mx-auto my-6 px-4 print:m-0 print:p-0 print:max-w-none relative">
+        <span className="corner-mark-out tl c-forest print:hidden" style={{ zIndex: 2 }} />
+        <span className="corner-mark-out br c-gold print:hidden" style={{ zIndex: 2 }} />
+      <main className="w-full p-8 bg-[#FAF6EE] border-4 border-[#141B16] rounded-sm shadow-2xl print:m-0 print:p-6 print:border-2 print:shadow-none print:max-w-none print:w-full print:bg-white flex flex-col justify-between min-h-[1100px]">
 
         {/* 1. TITLE BLOCK HEADER */}
         <header className="border-b-4 border-[#141B16] pb-4 mb-5 flex flex-wrap items-start justify-between gap-4">
@@ -352,6 +363,7 @@ export default function BlueprintPage() {
         </footer>
 
       </main>
+      </div>
 
       <div className="print:hidden">
         <SiteFooter />

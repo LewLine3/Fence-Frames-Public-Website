@@ -28,15 +28,23 @@ export default function ContractorOnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1000px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* ── BREADCRUMBS ── */}
-        <div className="text-xs text-white/50 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
-          <Link href="/" className="hover:text-[#E5B842] text-white/70">Home</Link>
+        <div className="text-xs text-[#16432D]/70 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
+          <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
-          <Link href="/contractors/projects" className="hover:text-[#E5B842] text-white/70">Contractor Dispatch</Link>
+          <Link href="/contractors/projects" className="hover:text-[#E5B842] text-[#16432D]">Contractor Dispatch</Link>
           <span>/</span>
           <span className="text-[#4ADE80]">Contractor Onboarding &amp; Verification</span>
         </div>
@@ -76,9 +84,9 @@ export default function ContractorOnboardingPage() {
             onSubmit={handleSubmit}
             className="has-outside-corners p-6 sm:p-10 rounded-lg space-y-6"
             style={{
-              background: '#121814',
+              background: '#FAF6EE',
               border: '2px solid var(--ink)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
             }}
           >
             <span className="corner-mark-out tl c-gold" />
@@ -91,25 +99,25 @@ export default function ContractorOnboardingPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs" style={{ ...rowdies(300) }}>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">Business Name (As registered with WA DOR)</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">Business Name (As registered with WA DOR)</label>
                   <input
                     required
                     type="text"
                     value={formData.businessName}
                     onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                    placeholder="e.g. Cascade Fence & Deck LLC"
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    placeholder="e.g. Cascade Fence &amp; Deck LLC"
+                    className="w-full bg-[#EFE8D8] border border-[#1A1A1A]/30 rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   />
                 </div>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">WA L&amp;I Contractor License / UBI #</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">WA L&amp;I Contractor License / UBI #</label>
                   <input
                     required
                     type="text"
                     value={formData.ubiNumber}
                     onChange={(e) => setFormData({ ...formData, ubiNumber: e.target.value })}
                     placeholder="e.g. CASCAD*891K2 or 603-XXX-XXX"
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    className="w-full bg-[#EFE8D8] border border-[#1A1A1A]/30 rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   />
                 </div>
               </div>
@@ -122,25 +130,25 @@ export default function ContractorOnboardingPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs" style={{ ...rowdies(300) }}>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">Primary Contact Name</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">Primary Contact Name</label>
                   <input
                     required
                     type="text"
                     value={formData.contactName}
                     onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
                     placeholder="e.g. Dave Miller"
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    className="w-full bg-[#FAF6EE] border-2 border-[#1A1A1A] rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   />
                 </div>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">Mobile Phone (For Instant 72-Hr SMS Scramble Alerts)</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">Mobile Phone (For Instant 72-Hr SMS Scramble Alerts)</label>
                   <input
                     required
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="e.g. (425) 555-0199"
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    className="w-full bg-[#FAF6EE] border-2 border-[#1A1A1A] rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   />
                 </div>
               </div>
@@ -153,11 +161,11 @@ export default function ContractorOnboardingPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs" style={{ ...rowdies(300) }}>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">Preferred Dispatch Territory</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">Preferred Dispatch Territory</label>
                   <select
                     value={formData.territory}
                     onChange={(e) => setFormData({ ...formData, territory: e.target.value })}
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    className="w-full bg-[#FAF6EE] border-2 border-[#1A1A1A] rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   >
                     <option value="king-county-east">North Bend, Snoqualmie &amp; East King County</option>
                     <option value="king-county-central">Issaquah, Sammamish &amp; Bellevue</option>
@@ -166,22 +174,22 @@ export default function ContractorOnboardingPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[#FAF6EE] mb-1 font-bold">General Liability Insurance Carrier</label>
+                  <label className="block text-[#1A1A1A] mb-1 font-bold">General Liability Insurance Carrier</label>
                   <input
                     required
                     type="text"
                     value={formData.insuranceProvider}
                     onChange={(e) => setFormData({ ...formData, insuranceProvider: e.target.value })}
                     placeholder="e.g. Liberty Mutual ($1,000,000 Min)"
-                    className="w-full bg-[#0A0F0C] border border-white/20 rounded p-2.5 text-white focus:outline-none focus:border-[#4ADE80]"
+                    className="w-full bg-[#FAF6EE] border-2 border-[#1A1A1A] rounded p-2.5 text-[#1A1A1A] focus:outline-none focus:border-[#4ADE80]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Submit CTA */}
-            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-xs text-[#A5D6A7]" style={{ ...rowdies(300) }}>
+            <div className="pt-4 border-t border-[#1A1A1A]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-2 text-xs text-[#444]" style={{ ...rowdies(300) }}>
                 <span className="text-[#4ADE80] font-bold">✓</span>
                 <span>Includes 1 Free Lead Credit ($39 Value) on verification approval</span>
               </div>

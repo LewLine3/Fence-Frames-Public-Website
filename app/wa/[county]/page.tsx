@@ -35,15 +35,23 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
   const isKingCounty = countySlug === 'king-county'
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* ── BREADCRUMBS ── */}
-        <div className="text-xs text-white/50 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
-          <Link href="/" className="hover:text-[#E5B842] text-white/70">Home</Link>
+        <div className="text-xs text-[#16432D]/60 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
+          <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
-          <Link href="/wa" className="hover:text-[#E5B842] text-white/70">Washington</Link>
+          <Link href="/wa" className="hover:text-[#E5B842] text-[#16432D]">Washington</Link>
           <span>/</span>
           <span className="text-[#E5B842] capitalize">{countySlug.replace('-', ' ')}</span>
         </div>
@@ -85,12 +93,12 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
               href={`/wa/king-county/${city.slug}`}
               className="has-outside-corners flex flex-col justify-between p-6 rounded-lg transition-transform hover:-translate-y-1 relative"
               style={{
-                background: '#121814',
+                background: '#FAF6EE',
                 backgroundImage:
                   'linear-gradient(rgba(74,222,128,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.06) 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
                 border: city.isFlagship ? '2.5px solid #E5B842' : '2px solid var(--ink)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.25)',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
                 textDecoration: 'none',
               }}
             >
@@ -109,21 +117,21 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
                   )}
                 </div>
 
-                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#FAF6EE', marginBottom: '0.3rem' }}>
+                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#1A1A1A', marginBottom: '0.3rem' }}>
                   {city.name}, WA
                 </h3>
 
-                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#B5C2BA', marginBottom: '0.8rem', lineHeight: 1.4 }}>
+                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', marginBottom: '0.8rem', lineHeight: 1.4 }}>
                   {city.description}
                 </p>
 
-                <div className="bg-[#0A0F0C] p-2 rounded text-[11px] text-[#E5B842] mb-3 inline-block" style={{ ...rowdies(400) }}>
+                <div className="bg-[#EFE8D8] p-2 rounded text-[11px] text-[#E5B842] mb-3 inline-block" style={{ ...rowdies(400) }}>
                   🌪️ Wind: {city.windRating}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs">
-                <span style={{ ...rowdies(400), color: '#DBD0BD' }}>
+              <div className="pt-3 border-t border-[#16432D]/15 flex items-center justify-between text-xs">
+                <span style={{ ...rowdies(400), color: '#333' }}>
                   {city.hoasCount} Active HOA Communities
                 </span>
                 <span className="text-[#4ADE80] font-bold">View City Hub →</span>
@@ -136,9 +144,9 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8"
           style={{
-            background: '#0F1A12',
+            background: '#EFE8D8',
             border: '2px solid var(--ink)',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
           }}
         >
           <span className="corner-mark-out tl c-forest" />
@@ -147,17 +155,17 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
           <h2 style={{ ...rowdies(700), fontSize: '1.3rem', color: '#4ADE80', marginBottom: '0.8rem' }}>
             King County Residential Fence Code (Title 21A Summary)
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#DBD0BD]" style={{ ...rowdies(300) }}>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Backyard Height (6ft Max):</strong>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#333]" style={{ ...rowdies(300) }}>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Backyard Height (6ft Max):</strong>
               Per Title 21A.14.210, fences in rear and side interior setbacks may not exceed 6ft in height without an architectural variance permit.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Front Yard Setback (4ft Max):</strong>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Front Yard Setback (4ft Max):</strong>
               Fences in front yard street setbacks must not exceed 42"–48" in height to preserve driver sightline triangles at driveway intersections.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Clearance Over Property Line:</strong>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Clearance Over Property Line:</strong>
               Posts and footing concrete must be contained entirely within the surveyed property parcel unless a recorded Good Neighbor Agreement exists.
             </div>
           </div>

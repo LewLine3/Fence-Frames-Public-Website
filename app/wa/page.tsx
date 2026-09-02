@@ -39,13 +39,21 @@ export default function WashingtonDirectoryPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* ── BREADCRUMBS ── */}
-        <div className="text-xs text-white/50 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
-          <Link href="/" className="hover:text-[#E5B842] text-white/70">Home</Link>
+        <div className="text-xs text-[#16432D]/60 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
+          <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
           <span className="text-[#E5B842]">Washington State Directory</span>
         </div>
@@ -86,7 +94,7 @@ export default function WashingtonDirectoryPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Washington counties..."
-                className="w-full bg-[#0E1510] border-2 border-[#E5B842] text-white rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-[#4ADE80]"
+                className="w-full bg-[#FAF6EE] border-2 border-[#E5B842] text-[#1A1A1A] rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-[#4ADE80] placeholder-[#888]"
                 style={{ ...rowdies(300) }}
               />
             </div>
@@ -101,12 +109,12 @@ export default function WashingtonDirectoryPage() {
               href={`/wa/${county.slug}`}
               className="has-outside-corners flex flex-col justify-between p-6 rounded-lg transition-transform hover:-translate-y-1 relative"
               style={{
-                background: '#121814',
+                background: '#FAF6EE',
                 backgroundImage:
                   'linear-gradient(rgba(74,222,128,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.06) 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
                 border: county.isFlagship ? '2.5px solid #E5B842' : '2px solid var(--ink)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.25)',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
                 textDecoration: 'none',
               }}
             >
@@ -125,16 +133,16 @@ export default function WashingtonDirectoryPage() {
                   )}
                 </div>
 
-                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#FAF6EE', marginBottom: '0.4rem' }}>
+                <h3 style={{ ...rowdies(700), fontSize: '1.4rem', color: '#1A1A1A', marginBottom: '0.4rem' }}>
                   {county.name}
                 </h3>
 
-                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#B5C2BA', marginBottom: '1rem', lineHeight: 1.4 }}>
+                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', marginBottom: '1rem', lineHeight: 1.4 }}>
                   {county.windExposure}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+              <div className="pt-4 border-t border-[#16432D]/15 flex items-center justify-between text-xs">
                 <span style={{ ...rowdies(400), color: '#E5B842' }}>
                   {county.activeCities} Active Cities · {county.activeHoas} HOAs
                 </span>
@@ -148,9 +156,9 @@ export default function WashingtonDirectoryPage() {
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8"
           style={{
-            background: '#0F1A12',
+            background: '#EFE8D8',
             border: '2px solid #4ADE80',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
           }}
         >
           <span className="corner-mark-out tl c-forest" />
@@ -159,17 +167,17 @@ export default function WashingtonDirectoryPage() {
           <h2 style={{ ...rowdies(700), fontSize: '1.3rem', color: '#4ADE80', marginBottom: '0.6rem' }}>
             Washington State Residential Fencing Structural Rules
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#DBD0BD]" style={{ ...rowdies(300) }}>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Permit Exemption Rule:</strong>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#333]" style={{ ...rowdies(300) }}>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Permit Exemption Rule:</strong>
               Fences up to 6ft in rear/side yards and 4ft in front yard setbacks are universally permit-exempt across most WA municipal jurisdictions unless located in a critical shoreline or wetland buffer.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Frost Depth &amp; Post Embedment:</strong>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Frost Depth &amp; Post Embedment:</strong>
               Standard Western Washington frost line requires 24" minimum post depth with 50lb quick-set concrete collars. Mountain foothills (North Bend, Gold Bar) require 30"–36" depth.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">Rot-Barrier Law (WAC Code):</strong>
+            <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">Rot-Barrier Law (WAC Code):</strong>
               Un-treated Western Red Cedar pickets must maintain a 2" clearance above finish soil grade or rest upon a ground-contact pressure-treated bottom kickboard.
             </div>
           </div>

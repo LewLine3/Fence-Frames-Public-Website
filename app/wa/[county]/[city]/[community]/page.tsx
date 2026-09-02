@@ -62,19 +62,27 @@ export default function SiViewCommunityPage({
   const communitySlug = resolvedParams.community || 'si-view'
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* ── BREADCRUMBS ── */}
-        <div className="text-xs text-white/50 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
-          <Link href="/" className="hover:text-[#E5B842] text-white/70">Home</Link>
+        <div className="text-xs text-[#16432D]/60 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
+          <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
-          <Link href="/wa" className="hover:text-[#E5B842] text-white/70">Washington</Link>
+          <Link href="/wa" className="hover:text-[#E5B842] text-[#16432D]">Washington</Link>
           <span>/</span>
-          <Link href="/wa/king-county" className="hover:text-[#E5B842] text-white/70">King County</Link>
+          <Link href="/wa/king-county" className="hover:text-[#E5B842] text-[#16432D]">King County</Link>
           <span>/</span>
-          <Link href="/wa/king-county/north-bend" className="hover:text-[#E5B842] text-white/70">North Bend</Link>
+          <Link href="/wa/king-county/north-bend" className="hover:text-[#E5B842] text-[#16432D]">North Bend</Link>
           <span>/</span>
           <span className="text-[#E5B842]">Si View HOA</span>
         </div>
@@ -140,9 +148,9 @@ export default function SiViewCommunityPage({
                 key={d.id}
                 className="has-outside-corners flex flex-col rounded-lg overflow-hidden relative"
                 style={{
-                  background: '#121814',
+                  background: '#FAF6EE',
                   border: '2px solid var(--ink)',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
                 }}
               >
                 <span className="corner-mark-out tl c-gold" style={{ zIndex: 2 }} />
@@ -172,7 +180,7 @@ export default function SiViewCommunityPage({
                 <div
                   style={{
                     height: 200,
-                    background: '#10261A',
+                    background: '#E8F5EE',
                     borderBottom: '2px solid var(--ink)',
                     display: 'flex',
                     alignItems: 'center',
@@ -200,7 +208,7 @@ export default function SiViewCommunityPage({
                       </span>
                     </div>
 
-                    <p style={{ ...rowdies(300), fontSize: '0.85rem', lineHeight: 1.45, color: '#DBD0BD', marginBottom: '1rem' }}>
+                    <p style={{ ...rowdies(300), fontSize: '0.85rem', lineHeight: 1.45, color: '#333', marginBottom: '1rem' }}>
                       {d.desc}
                     </p>
                   </div>
@@ -253,9 +261,9 @@ export default function SiViewCommunityPage({
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8"
           style={{
-            background: '#0F1A12',
+            background: '#EFE8D8',
             border: '2px solid var(--ink)',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
           }}
         >
           <span className="corner-mark-out tl c-forest" />
@@ -265,17 +273,17 @@ export default function SiViewCommunityPage({
             Si View CC&amp;R Section 4.2 Mandatory Fencing Bylaws
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#DBD0BD]" style={{ ...rowdies(300) }}>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">§4.2.1 Permitted Wood Species:</strong>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#333]" style={{ ...rowdies(300) }}>
+            <div className="bg-[#EFE8D8] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">§4.2.1 Permitted Wood Species:</strong>
               All exterior facing pickets, trim boards, and post caps must be manufactured from Western Red Cedar (WRC). Pressure treated lumber is permitted for below-grade posts only.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">§4.2.2 Greenbelt Buffer Rule:</strong>
+            <div className="bg-[#EFE8D8] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">§4.2.2 Greenbelt Buffer Rule:</strong>
               Lots bordering common greenbelts or designated parks may not install solid privacy fencing higher than 4ft along the rear lot line without special ARC review board approval.
             </div>
-            <div className="bg-[#09100C] p-4 rounded border border-white/5">
-              <strong className="text-white block mb-1">§4.2.3 Factory Pre-Stain Finish:</strong>
+            <div className="bg-[#EFE8D8] p-4 rounded border border-[#16432D]/15">
+              <strong className="text-[#1A1A1A] block mb-1">§4.2.3 Factory Pre-Stain Finish:</strong>
               Fences must be sealed within 60 days of completion using an approved natural cedar tone UV sealer (Cedar Natural, Chestnut Brown, or Clear Seal).
             </div>
           </div>

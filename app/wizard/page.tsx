@@ -74,7 +74,15 @@ export default function StyleMatchWizardPage() {
   const match = getMatchedStyle()
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1280px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -134,9 +142,9 @@ export default function StyleMatchWizardPage() {
           <div
             className="lg:col-span-7 has-outside-corners p-6 sm:p-8 rounded-lg flex flex-col justify-between"
             style={{
-              background: '#121814',
-              border: '2px solid var(--ink)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+              background: '#FAF6EE',
+              border: '2px solid #1A1A1A',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
             }}
           >
             <span className="corner-mark-out tl c-gold" />
@@ -148,7 +156,7 @@ export default function StyleMatchWizardPage() {
                 <span style={{ ...rowdies(700), fontSize: '0.8rem', color: '#E5B842', textTransform: 'uppercase' }}>
                   Step 1 of 4 · Primary Purpose
                 </span>
-                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#FAF6EE', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
+                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#1A1A1A', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
                   What is the main goal for your new fence?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -183,7 +191,7 @@ export default function StyleMatchWizardPage() {
                 <span style={{ ...rowdies(700), fontSize: '0.8rem', color: '#E5B842', textTransform: 'uppercase' }}>
                   Step 2 of 4 · Yard Slope &amp; Terrain
                 </span>
-                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#FAF6EE', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
+                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#1A1A1A', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
                   What is your property terrain like?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -218,7 +226,7 @@ export default function StyleMatchWizardPage() {
                 <span style={{ ...rowdies(700), fontSize: '0.8rem', color: '#E5B842', textTransform: 'uppercase' }}>
                   Step 3 of 4 · Lumber &amp; Finish
                 </span>
-                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#FAF6EE', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
+                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#1A1A1A', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
                   What material finish do you prefer?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -253,7 +261,7 @@ export default function StyleMatchWizardPage() {
                 <span style={{ ...rowdies(700), fontSize: '0.8rem', color: '#E5B842', textTransform: 'uppercase' }}>
                   Step 4 of 4 · Target Budget
                 </span>
-                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#FAF6EE', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
+                <h2 style={{ ...rowdies(700), fontSize: '1.5rem', color: '#1A1A1A', marginTop: '0.3rem', marginBottom: '1.2rem' }}>
                   What is your target investment level?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">

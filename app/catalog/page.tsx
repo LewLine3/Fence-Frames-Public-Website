@@ -160,7 +160,15 @@ export default function PreBuiltCatalogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080D0A] text-[#FAF6EE] flex flex-col font-['Rowdies']">
+    <div
+      className="min-h-screen flex flex-col font-['Rowdies']"
+      style={{
+        backgroundColor: '#F4ECDC',
+        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
+        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
+        color: '#1A1A1A',
+      }}
+    >
       <SiteNav />
 
       <main className="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -195,7 +203,7 @@ export default function PreBuiltCatalogPage() {
 
             {/* Interactive Footage Controller */}
             <div
-              className="bg-[#121A14] border-2 border-[#E5B842] p-4 rounded-lg flex flex-col gap-2 min-w-[280px]"
+              className="bg-[#16432D] border-2 border-[#E5B842] p-4 rounded-lg flex flex-col gap-2 min-w-[280px]"
               style={{ boxShadow: '0 6px 16px rgba(0,0,0,0.4)' }}
             >
               <div className="flex justify-between items-center text-xs">
@@ -245,9 +253,9 @@ export default function PreBuiltCatalogPage() {
                     fontSize: '0.8rem',
                     padding: '0.35rem 0.8rem',
                     borderRadius: 4,
-                    border: activeCategory === c.id ? '1.5px solid #E5B842' : '1.5px solid rgba(255,255,255,0.15)',
-                    background: activeCategory === c.id ? '#E5B842' : 'rgba(20,27,22,0.6)',
-                    color: activeCategory === c.id ? '#141B16' : '#DBD0BD',
+                    border: activeCategory === c.id ? '1.5px solid #E5B842' : '1.5px solid rgba(22,67,45,0.40)',
+                    background: activeCategory === c.id ? '#E5B842' : 'rgba(22,67,45,0.15)',
+                    color: activeCategory === c.id ? '#141B16' : '#16432D',
                     cursor: 'pointer',
                   }}
                 >
@@ -264,14 +272,14 @@ export default function PreBuiltCatalogPage() {
               <button
                 onClick={handlePrev}
                 disabled={carouselIndex === 0}
-                className="bg-[#141B16] border border-white/20 hover:border-[#E5B842] disabled:opacity-30 text-[#E5B842] px-3 py-1 rounded text-xs font-bold cursor-pointer transition"
+                className="bg-[#16432D] border border-[#16432D] hover:border-[#E5B842] disabled:opacity-30 text-[#E5B842] px-3 py-1 rounded text-xs font-bold cursor-pointer transition"
               >
                 ◀ Prev 3
               </button>
               <button
                 onClick={handleNext}
                 disabled={carouselIndex + 3 >= filteredStyles.length}
-                className="bg-[#141B16] border border-white/20 hover:border-[#E5B842] disabled:opacity-30 text-[#E5B842] px-3 py-1 rounded text-xs font-bold cursor-pointer transition"
+                className="bg-[#16432D] border border-[#16432D] hover:border-[#E5B842] disabled:opacity-30 text-[#E5B842] px-3 py-1 rounded text-xs font-bold cursor-pointer transition"
               >
                 Next 3 ▶
               </button>
@@ -291,21 +299,19 @@ export default function PreBuiltCatalogPage() {
                 key={style.id}
                 className="has-outside-corners flex flex-col rounded-lg overflow-hidden relative"
                 style={{
-                  background: '#1C140E',
-                  backgroundImage:
-                    'linear-gradient(rgba(229,184,66,0.06) 1px, transparent 1px), repeating-linear-gradient(45deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 2px, transparent 2px, transparent 6px)',
-                  border: '2.5px solid var(--ink)',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+                  background: '#FAF6EE',
+                  border: '2.5px solid #1A1A1A',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
                 }}
               >
                 <span className="corner-mark-out tl c-forest" style={{ zIndex: 2 }} />
                 <span className="corner-mark-out br c-gold" style={{ zIndex: 2 }} />
 
-                {/* Ribbon */}
+                {/* Ink Title Bar */}
                 <div
                   style={{
-                    background: 'var(--gold-sun)',
-                    color: 'var(--ink)',
+                    background: '#1A1A1A',
+                    color: '#E5B842',
                     padding: '0.65rem 1rem',
                     borderBottom: '2.5px solid var(--ink)',
                     ...rowdies(700),
@@ -316,7 +322,7 @@ export default function PreBuiltCatalogPage() {
                   }}
                 >
                   <span className="truncate pr-2">{style.name}</span>
-                  <span style={{ fontSize: '0.72rem', background: '#141B16', color: '#4ADE80', padding: '0.15rem 0.45rem', borderRadius: 3, flexShrink: 0 }}>
+                  <span style={{ fontSize: '0.72rem', background: '#16432D', color: '#4ADE80', padding: '0.15rem 0.45rem', borderRadius: 3, flexShrink: 0, border: '1px solid rgba(74,222,128,0.4)' }}>
                     ${style.pricePerLf}/LF
                   </span>
                 </div>
@@ -372,9 +378,9 @@ export default function PreBuiltCatalogPage() {
                   <div>
                     {/* Live Estimate Readout */}
                     <div
-                      className="bg-[#0F1711] border border-[#4ADE80]/30 rounded p-2.5 mb-3 flex items-center justify-between"
+                      className="bg-[#E8F5EE] border border-[#4ADE80]/50 rounded p-2.5 mb-3 flex items-center justify-between"
                     >
-                      <span style={{ ...rowdies(400), fontSize: '0.75rem', color: '#B5C2BA' }}>
+                      <span style={{ ...rowdies(400), fontSize: '0.75rem', color: '#444' }}>
                         {linearFootage} LF Total Estimate:
                       </span>
                       <span style={{ ...rowdies(700), fontSize: '1.05rem', color: '#4ADE80' }}>
@@ -382,23 +388,23 @@ export default function PreBuiltCatalogPage() {
                       </span>
                     </div>
 
-                    <p style={{ ...rowdies(300), fontSize: '0.84rem', lineHeight: 1.45, color: '#DBD0BD', marginBottom: '0.8rem' }}>
+                    <p style={{ ...rowdies(300), fontSize: '0.84rem', lineHeight: 1.45, color: '#333', marginBottom: '0.8rem' }}>
                       {style.description}
                     </p>
 
                     {/* Spec Bullets */}
-                    <div className="grid grid-cols-2 gap-1.5 text-[11px] text-white/70 mb-4" style={{ ...rowdies(300) }}>
-                      <div className="bg-[#0B100D] p-1.5 rounded border border-white/5">
-                        <strong className="text-white/90 block">Height:</strong> {style.height}
+                    <div className="grid grid-cols-2 gap-1.5 text-[11px] text-[#444] mb-4" style={{ ...rowdies(300) }}>
+                      <div className="bg-[#EFE8D8] p-1.5 rounded border border-[#16432D]/20">
+                        <strong className="text-[#1A1A1A] block">Height:</strong> {style.height}
                       </div>
-                      <div className="bg-[#0B100D] p-1.5 rounded border border-white/5">
-                        <strong className="text-white/90 block">Lumber:</strong> {style.lumber}
+                      <div className="bg-[#EFE8D8] p-1.5 rounded border border-[#16432D]/20">
+                        <strong className="text-[#1A1A1A] block">Lumber:</strong> {style.lumber}
                       </div>
-                      <div className="bg-[#0B100D] p-1.5 rounded border border-white/5">
-                        <strong className="text-white/90 block">Framing:</strong> {style.framing}
+                      <div className="bg-[#EFE8D8] p-1.5 rounded border border-[#16432D]/20">
+                        <strong className="text-[#1A1A1A] block">Framing:</strong> {style.framing}
                       </div>
-                      <div className="bg-[#0B100D] p-1.5 rounded border border-white/5">
-                        <strong className="text-white/90 block">Finish:</strong> {style.stain}
+                      <div className="bg-[#EFE8D8] p-1.5 rounded border border-[#16432D]/20">
+                        <strong className="text-[#1A1A1A] block">Finish:</strong> {style.stain}
                       </div>
                     </div>
                   </div>
