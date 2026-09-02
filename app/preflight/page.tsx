@@ -330,7 +330,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'PRO-04',
     tier: 'Tier 4 (Marketplace)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Contractors / Projects Marketplace Dispatch',
     route: '/contractors/projects',
     pillar: 'Fence It (Forest Green)',
@@ -349,7 +349,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'PRO-05',
     tier: 'Tier 4 (Marketplace)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Targeted Match SMS Scramble Landing',
     route: '/contractor/match',
     pillar: 'Fence It (Forest Green)',
@@ -367,7 +367,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'PRO-06',
     tier: 'Tier 4 (Marketplace)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Contractor Onboarding & WA Verification',
     route: '/contractors/onboarding',
     pillar: 'Fence It (Forest Green)',
@@ -385,7 +385,7 @@ const PAGE_REGISTRY: PageSpec[] = [
   {
     id: 'ADM-01',
     tier: 'Tier 5 (Admin)',
-    status: 'spec-ready',
+    status: 'live',
     title: 'Admin Control Panel & Lead Review',
     route: '/admin',
     pillar: 'Admin Control',
