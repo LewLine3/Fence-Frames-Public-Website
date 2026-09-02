@@ -14,6 +14,7 @@ import {
   GeoFactRow,
   GeoHubColumns,
   GeoTitleBar,
+  geoCtaStyle,
   rowdies,
   GEO,
 } from '@/components/ff/geo-hub'
@@ -89,11 +90,13 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
             searchValue={search}
             onSearchChange={setSearch}
             items={directoryItems}
+            surface="tanBlackGrid"
+            titleTone="ember"
           />
         </GeoDirectoryColumn>
 
         <GeoContextColumn>
-          <GeoContextCard title={`${countyLabel} Location Overview`}>
+          <GeoContextCard title={`${countyLabel} Location Overview`} surface="woodPlanks" titleTone="ink">
             <p style={{ ...rowdies(300), fontSize: '0.88rem', color: '#444', margin: '0 0 1rem', lineHeight: 1.5 }}>
               King County Title 21A governs rear-yard height limits, front setback caps, and property-line footing
               placement before you layer HOA ARC standards on top.
@@ -109,53 +112,40 @@ export default function CountyHubPage({ params }: { params: Promise<{ county: st
               style={{ background: '#EFE8D8', border: `2px solid ${GEO.goldSun}` }}
             >
               <p style={{ ...rowdies(400), fontSize: '0.78rem', color: GEO.ink, margin: '0 0 0.5rem', lineHeight: 1.45 }}>
-                <strong style={{ color: GEO.goldSun }}>Need municipal-only guidance?</strong> Start a build without an HOA
-                preset if your community is not yet indexed.
+                <strong style={{ color: GEO.goldSun }}>Need municipal-only guidance?</strong> Start a build without an
+                HOA preset if your community is not yet indexed.
               </p>
-              <Link
-                href="/designer?county=king-county"
-                style={{
-                  ...rowdies(700),
-                  fontSize: '0.78rem',
-                  backgroundColor: GEO.goldSun,
-                  color: '#141B16',
-                  padding: '0.5rem 0.85rem',
-                  borderRadius: 4,
-                  textDecoration: 'none',
-                  border: `2px solid ${GEO.ink}`,
-                  display: 'inline-block',
-                  textTransform: 'uppercase',
-                }}
-              >
+              <Link href="/designer?county=king-county" style={geoCtaStyle('gold')}>
                 County Municipal Build →
               </Link>
             </div>
           </GeoContextCard>
+
+          <GeoAdvisorySection
+            subtitle="King County · Title 21A Summary"
+            title="Residential Fence Code Highlights"
+            surface="hatchForest"
+          >
+            <div className="grid grid-cols-1 gap-3 text-xs text-[#333]" style={rowdies(300)}>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Backyard Height (6ft Max):</strong>
+                Per Title 21A.14.210, fences in rear and side interior setbacks may not exceed 6ft in height without an
+                architectural variance permit.
+              </div>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Front Yard Setback (4ft Max):</strong>
+                Fences in front yard street setbacks must not exceed 42&quot;–48&quot; in height to preserve driver
+                sightline triangles at driveway intersections.
+              </div>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Clearance Over Property Line:</strong>
+                Posts and footing concrete must be contained entirely within the surveyed property parcel unless a
+                recorded Good Neighbor Agreement exists.
+              </div>
+            </div>
+          </GeoAdvisorySection>
         </GeoContextColumn>
       </GeoHubColumns>
-
-      <GeoAdvisorySection
-        subtitle="King County · Title 21A Summary"
-        title="Residential Fence Code Highlights"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#333]" style={rowdies(300)}>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Backyard Height (6ft Max):</strong>
-            Per Title 21A.14.210, fences in rear and side interior setbacks may not exceed 6ft in height without an
-            architectural variance permit.
-          </div>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Front Yard Setback (4ft Max):</strong>
-            Fences in front yard street setbacks must not exceed 42&quot;–48&quot; in height to preserve driver sightline
-            triangles at driveway intersections.
-          </div>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Clearance Over Property Line:</strong>
-            Posts and footing concrete must be contained entirely within the surveyed property parcel unless a recorded
-            Good Neighbor Agreement exists.
-          </div>
-        </div>
-      </GeoAdvisorySection>
     </SiteShell>
   )
 }

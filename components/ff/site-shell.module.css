@@ -77,13 +77,13 @@
   max-width: 850px;
 }
 
-/* Primary ink frame — transparent so fixed green print shows through seamlessly */
+/* Primary ink frame — translucent tan wash; green print still reads clearly behind */
 .canvas {
   position: relative;
   box-sizing: border-box;
   border: 2.5px solid var(--ink, #1a1a1a);
   border-radius: var(--radius, 5px);
-  background: transparent;
+  background: rgba(244, 236, 220, 0.42);
   padding: 1.75rem 1.5rem;
 }
 

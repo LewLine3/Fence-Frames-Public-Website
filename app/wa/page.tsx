@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
+import Link from 'next/link'
 import { SiteShell } from '@/components/ff/site-shell'
 import {
   GeoAdvisorySection,
@@ -13,6 +14,7 @@ import {
   GeoFactRow,
   GeoHubColumns,
   GeoTitleBar,
+  geoCtaStyle,
   rowdies,
   GEO,
 } from '@/components/ff/geo-hub'
@@ -85,11 +87,13 @@ export default function WashingtonDirectoryPage() {
             searchValue={search}
             onSearchChange={setSearch}
             items={directoryItems}
+            surface="doublePlank"
+            titleTone="forest"
           />
         </GeoDirectoryColumn>
 
         <GeoContextColumn>
-          <GeoContextCard title="Washington Location Overview">
+          <GeoContextCard title="Washington Location Overview" surface="woodPlanks" titleTone="ink">
             <p style={{ ...rowdies(300), fontSize: '0.88rem', color: '#444', margin: '0 0 1rem', lineHeight: 1.5 }}>
               Fence Frames indexes building codes, frost depth guidelines, municipal setback exemptions, and HOA bylaws
               across Washington&apos;s active pilot counties.
@@ -102,7 +106,7 @@ export default function WashingtonDirectoryPage() {
 
             <div
               className="rounded-lg ff-card-inner-sm mt-4"
-              style={{ background: GEO.cream, border: `1.5px solid ${GEO.tanDeep}` }}
+              style={{ background: GEO.cream, border: `2px solid ${GEO.goldSun}` }}
             >
               <p style={{ ...rowdies(400), fontSize: '0.78rem', color: GEO.ink, margin: '0 0 0.35rem' }}>
                 Statewide permit baseline
@@ -113,28 +117,36 @@ export default function WashingtonDirectoryPage() {
               </p>
             </div>
           </GeoContextCard>
+
+          <GeoAdvisorySection
+            title="Washington State Residential Fencing Structural Rules"
+            surface="microQuad"
+          >
+            <div className="grid grid-cols-1 gap-3 text-xs text-[#333]" style={rowdies(300)}>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Permit Exemption Rule:</strong>
+                Fences up to 6ft in rear/side yards and 4ft in front yard setbacks are universally permit-exempt across
+                most WA municipal jurisdictions unless located in a critical shoreline or wetland buffer.
+              </div>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Frost Depth &amp; Post Embedment:</strong>
+                Standard Western Washington frost line requires 24&quot; minimum post depth with 50lb quick-set concrete
+                collars. Mountain foothills (North Bend, Gold Bar) require 30&quot;–36&quot; depth.
+              </div>
+              <div className="p-3 rounded border-2 border-[#1A1A1A]" style={{ background: GEO.creamLight }}>
+                <strong className="text-[#1A1A1A] block mb-1">Rot-Barrier Law (WAC Code):</strong>
+                Un-treated Western Red Cedar pickets must maintain a 2&quot; clearance above finish soil grade or rest
+                upon a ground-contact pressure-treated bottom kickboard.
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/wa/king-county" style={geoCtaStyle('gold')}>
+                Open King County Hub →
+              </Link>
+            </div>
+          </GeoAdvisorySection>
         </GeoContextColumn>
       </GeoHubColumns>
-
-      <GeoAdvisorySection title="Washington State Residential Fencing Structural Rules">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#333]" style={rowdies(300)}>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Permit Exemption Rule:</strong>
-            Fences up to 6ft in rear/side yards and 4ft in front yard setbacks are universally permit-exempt across most
-            WA municipal jurisdictions unless located in a critical shoreline or wetland buffer.
-          </div>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Frost Depth &amp; Post Embedment:</strong>
-            Standard Western Washington frost line requires 24&quot; minimum post depth with 50lb quick-set concrete
-            collars. Mountain foothills (North Bend, Gold Bar) require 30&quot;–36&quot; depth.
-          </div>
-          <div className="bg-[#F4ECDC] p-4 rounded border border-[#16432D]/15">
-            <strong className="text-[#1A1A1A] block mb-1">Rot-Barrier Law (WAC Code):</strong>
-            Un-treated Western Red Cedar pickets must maintain a 2&quot; clearance above finish soil grade or rest upon a
-            ground-contact pressure-treated bottom kickboard.
-          </div>
-        </div>
-      </GeoAdvisorySection>
     </SiteShell>
   )
 }

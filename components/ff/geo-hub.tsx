@@ -8,13 +8,14 @@ export const rowdies = (weight: 300 | 400 | 700) => ({
   fontWeight: weight,
 })
 
-/** M-CLASH-4 wireframe tokens */
+/** M-CLASH-4 + graduated card library tokens */
 export const GEO = {
   cream: '#F8F4EC',
   creamLight: '#FAF6EE',
   forestDeep: '#1B4332',
   forest: '#2F5D3A',
   tanDeep: '#9E8A68',
+  tan: '#C4B294',
   gold: '#D9B872',
   goldSun: '#E5B842',
   forestBright: '#4ADE80',
@@ -23,11 +24,132 @@ export const GEO = {
   muted: '#383B3E',
 } as const
 
+/**
+ * Graduated card surfaces from the standard card container
+ * (wood / grid / hatch / solid). Prefer CSS patterns; wood uses a
+ * graduated texture photo.
+ */
+export type GeoSurfaceId =
+  | 'woodPlanks'
+  | 'tanBlackGrid'
+  | 'solidForest'
+  | 'hatchCream'
+  | 'hatchForest'
+  | 'hatchGold'
+  | 'doublePlank'
+  | 'majorForest'
+  | 'microQuad'
+
+const WOOD_TEXTURE = '/images/textures/trial-finger-joint.png'
+
+export function geoSurfaceStyle(id: GeoSurfaceId): React.CSSProperties {
+  switch (id) {
+    case 'woodPlanks':
+      return {
+        backgroundColor: '#3D2A18',
+        backgroundImage: `linear-gradient(rgba(28,24,14,0.28), rgba(28,24,14,0.28)), url('${WOOD_TEXTURE}')`,
+        backgroundSize: 'cover, cover',
+        backgroundPosition: 'center',
+      }
+    case 'tanBlackGrid':
+      return {
+        backgroundColor: GEO.creamLight,
+        backgroundImage:
+          'linear-gradient(rgba(26,26,26,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(26,26,26,0.12) 1px, transparent 1px)',
+        backgroundSize: '18px 18px',
+      }
+    case 'solidForest':
+      return { backgroundColor: GEO.forestDeep, backgroundImage: 'none' }
+    case 'hatchCream':
+      return {
+        backgroundColor: '#FFFFFF',
+        backgroundImage:
+          'repeating-linear-gradient(135deg, rgba(196,178,148,0.35) 0 1px, transparent 1px 10px)',
+      }
+    case 'hatchForest':
+      return {
+        backgroundColor: GEO.forestDeep,
+        backgroundImage:
+          'repeating-linear-gradient(135deg, rgba(217,184,114,0.22) 0 1px, transparent 1px 11px)',
+      }
+    case 'hatchGold':
+      return {
+        backgroundColor: GEO.gold,
+        backgroundImage:
+          'repeating-linear-gradient(135deg, rgba(26,26,26,0.18) 0 1px, transparent 1px 10px)',
+      }
+    case 'doublePlank':
+      return {
+        backgroundColor: GEO.cream,
+        backgroundImage:
+          'repeating-linear-gradient(0deg, transparent 0 11px, rgba(158,138,104,0.45) 11px 12px, transparent 12px 14px, rgba(158,138,104,0.28) 14px 15px)',
+      }
+    case 'majorForest':
+      return {
+        backgroundColor: GEO.forestDeep,
+        backgroundImage:
+          'linear-gradient(rgba(74,222,128,0.18) 2px, transparent 2px), linear-gradient(90deg, rgba(74,222,128,0.18) 2px, transparent 2px)',
+        backgroundSize: '48px 48px',
+      }
+    case 'microQuad':
+      return {
+        backgroundColor: GEO.forestDeep,
+        backgroundImage:
+          'linear-gradient(rgba(74,222,128,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.22) 1px, transparent 1px)',
+        backgroundSize: '10px 10px',
+      }
+    default: {
+      const _exhaustive: never = id
+      return _exhaustive
+    }
+  }
+}
+
+export type GeoTitleTone = 'forest' | 'ember' | 'gold' | 'ink'
+
+export function geoTitleBarStyle(tone: GeoTitleTone = 'forest'): React.CSSProperties {
+  switch (tone) {
+    case 'forest':
+      return { background: GEO.forestDeep, color: GEO.creamLight }
+    case 'ember':
+      return { background: GEO.ember, color: GEO.creamLight }
+    case 'gold':
+      return { background: GEO.goldSun, color: GEO.ink }
+    case 'ink':
+      return { background: GEO.ink, color: GEO.goldSun }
+    default: {
+      const _exhaustive: never = tone
+      return _exhaustive
+    }
+  }
+}
+
+export type GeoCtaTone = 'gold' | 'ember' | 'forest' | 'cream'
+
+export function geoCtaStyle(tone: GeoCtaTone = 'gold'): React.CSSProperties {
+  const fills: Record<GeoCtaTone, { bg: string; color: string }> = {
+    gold: { bg: GEO.goldSun, color: GEO.ink },
+    ember: { bg: GEO.ember, color: GEO.creamLight },
+    forest: { bg: GEO.forest, color: GEO.creamLight },
+    cream: { bg: GEO.creamLight, color: GEO.forestDeep },
+  }
+  const { bg, color } = fills[tone]
+  return {
+    ...rowdies(700),
+    backgroundColor: bg,
+    color,
+    border: `2px solid ${GEO.ink}`,
+    borderRadius: 8,
+    padding: '0.55rem 0.9rem',
+    textDecoration: 'none',
+    display: 'inline-block',
+    textTransform: 'uppercase' as const,
+    fontSize: '0.78rem',
+  }
+}
+
 export const geoCardShell: React.CSSProperties = {
-  background: GEO.creamLight,
-  backgroundImage:
-    'linear-gradient(rgba(74,222,128,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.05) 1px, transparent 1px)',
-  backgroundSize: '20px 20px',
+  ...geoSurfaceStyle('tanBlackGrid'),
   border: `2px solid ${GEO.ink}`,
   borderRadius: 10,
   boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
@@ -76,7 +198,7 @@ export function GeoTitleBar({ title, subtitle }: { title: string; subtitle?: str
     <div
       className="has-outside-corners ff-card-inner-sm mb-6 relative"
       style={{
-        background: GEO.forestDeep,
+        ...geoSurfaceStyle('majorForest'),
         border: `2px solid ${GEO.ink}`,
         borderRadius: 10,
       }}
@@ -107,7 +229,7 @@ export function GeoDirectoryColumn({ children }: { children: React.ReactNode }) 
 }
 
 export function GeoContextColumn({ children }: { children: React.ReactNode }) {
-  return <div className="lg:col-span-5">{children}</div>
+  return <div className="lg:col-span-5 flex flex-col gap-6">{children}</div>
 }
 
 interface GeoDirectoryCardProps {
@@ -118,6 +240,8 @@ interface GeoDirectoryCardProps {
   onSearchChange?: (value: string) => void
   items: GeoDirectoryItem[]
   emptyMessage?: string
+  surface?: GeoSurfaceId
+  titleTone?: GeoTitleTone
 }
 
 function DirectoryTile({ item }: { item: GeoDirectoryItem }) {
@@ -152,10 +276,10 @@ function DirectoryTile({ item }: { item: GeoDirectoryItem }) {
         </p>
       ) : null}
       {item.meta ? (
-        <span style={{ ...rowdies(400), fontSize: '0.68rem', color: GEO.forestBright, display: 'block' }}>{item.meta}</span>
+        <span style={{ ...rowdies(400), fontSize: '0.68rem', color: GEO.forest, display: 'block' }}>{item.meta}</span>
       ) : null}
       {!isDisabled ? (
-        <span style={{ ...rowdies(700), fontSize: '0.68rem', color: GEO.forest, marginTop: '0.35rem', display: 'inline-block' }}>
+        <span style={{ ...rowdies(700), fontSize: '0.68rem', color: GEO.ember, marginTop: '0.35rem', display: 'inline-block' }}>
           Open hub →
         </span>
       ) : (
@@ -167,7 +291,7 @@ function DirectoryTile({ item }: { item: GeoDirectoryItem }) {
   )
 
   const tileStyle: React.CSSProperties = {
-    background: isDisabled ? '#F4F0E8' : GEO.cream,
+    ...geoSurfaceStyle('hatchCream'),
     border,
     borderRadius: 8,
     padding: '0.75rem 0.85rem',
@@ -175,6 +299,7 @@ function DirectoryTile({ item }: { item: GeoDirectoryItem }) {
     display: 'block',
     transition: 'transform 0.15s ease',
     opacity: isDisabled ? 0.85 : 1,
+    boxShadow: `2px 2px 0 ${GEO.ink}`,
   }
 
   if (item.href) {
@@ -196,24 +321,39 @@ export function GeoDirectoryCard({
   onSearchChange,
   items,
   emptyMessage = 'No matches found.',
+  surface = 'doublePlank',
+  titleTone = 'forest',
 }: GeoDirectoryCardProps) {
+  const titleStyle = geoTitleBarStyle(titleTone)
   return (
-    <div className="has-outside-corners relative" style={geoCardShell}>
+    <div
+      className="has-outside-corners relative"
+      style={{
+        ...geoSurfaceStyle(surface),
+        border: `2px solid ${GEO.ink}`,
+        borderRadius: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+        overflow: 'hidden',
+      }}
+    >
       <span className="corner-mark-out tl c-gold" style={{ zIndex: 2 }} />
       <span className="corner-mark-out br c-forest" style={{ zIndex: 2 }} />
 
       <div
         className="ff-card-inner-sm flex flex-wrap items-center justify-between gap-2"
-        style={{ background: GEO.forest, borderBottom: `2px solid ${GEO.ink}` }}
+        style={{ ...titleStyle, borderBottom: `2px solid ${GEO.ink}` }}
       >
-        <h2 style={{ ...rowdies(700), fontSize: '1rem', color: GEO.creamLight, margin: 0 }}>{title}</h2>
+        <h2 style={{ ...rowdies(700), fontSize: '1rem', color: titleStyle.color, margin: 0 }}>{title}</h2>
         {countLabel ? (
           <span style={{ ...rowdies(400), fontSize: '0.72rem', color: GEO.gold }}>{countLabel}</span>
         ) : null}
       </div>
 
       {onSearchChange && searchPlaceholder ? (
-        <div className="ff-card-inner-sm" style={{ borderBottom: `1px solid ${GEO.tanDeep}` }}>
+        <div
+          className="ff-card-inner-sm"
+          style={{ borderBottom: `1px solid ${GEO.tanDeep}`, background: 'rgba(250,246,238,0.88)' }}
+        >
           <input
             type="text"
             value={searchValue}
@@ -227,10 +367,12 @@ export function GeoDirectoryCard({
 
       <div
         className="ff-card-inner grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[520px] overflow-y-auto"
-        style={{ alignContent: 'start' }}
+        style={{ alignContent: 'start', background: 'rgba(248,244,236,0.82)' }}
       >
         {items.length === 0 ? (
-          <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#666', margin: 0, gridColumn: '1 / -1' }}>{emptyMessage}</p>
+          <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#666', margin: 0, gridColumn: '1 / -1' }}>
+            {emptyMessage}
+          </p>
         ) : (
           items.map((item) => <DirectoryTile key={item.key} item={item} />)
         )}
@@ -242,25 +384,37 @@ export function GeoDirectoryCard({
 export function GeoContextCard({
   title,
   children,
-  titleBarColor = GEO.forestDeep,
+  titleTone = 'ink',
+  surface = 'woodPlanks',
 }: {
   title: string
   children: React.ReactNode
-  titleBarColor?: string
+  titleTone?: GeoTitleTone
+  surface?: GeoSurfaceId
 }) {
+  const titleStyle = geoTitleBarStyle(titleTone)
+
   return (
-    <div className="has-outside-corners relative" style={geoCardShell}>
+    <div
+      className="has-outside-corners relative"
+      style={{
+        ...geoSurfaceStyle(surface),
+        border: `2px solid ${GEO.ink}`,
+        borderRadius: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+        overflow: 'hidden',
+      }}
+    >
       <span className="corner-mark-out tl c-gold" style={{ zIndex: 2 }} />
       <span className="corner-mark-out br c-forest" style={{ zIndex: 2 }} />
 
-      <div
-        className="ff-card-inner-sm"
-        style={{ background: titleBarColor, borderBottom: `2px solid ${GEO.ink}` }}
-      >
-        <h2 style={{ ...rowdies(700), fontSize: '1rem', color: GEO.creamLight, margin: 0 }}>{title}</h2>
+      <div className="ff-card-inner-sm" style={{ ...titleStyle, borderBottom: `2px solid ${GEO.ink}` }}>
+        <h2 style={{ ...rowdies(700), fontSize: '1rem', color: titleStyle.color, margin: 0 }}>{title}</h2>
       </div>
 
-      <div className="ff-card-inner">{children}</div>
+      <div className="ff-card-inner" style={{ background: 'rgba(250,246,238,0.94)' }}>
+        {children}
+      </div>
     </div>
   )
 }
@@ -281,53 +435,84 @@ export function GeoAdvisorySection({
   title,
   subtitle,
   children,
-  accent = GEO.forestBright,
+  surface = 'microQuad',
 }: {
   title: string
   subtitle?: string
   children: React.ReactNode
+  surface?: GeoSurfaceId
+  /** @deprecated retained for call-site compatibility */
   accent?: string
 }) {
   return (
     <section
-      className="has-outside-corners ff-card-inner rounded-lg mb-4 relative"
+      className="has-outside-corners ff-card-inner rounded-lg mb-0 relative"
       style={{
-        ...geoCardShell,
-        border: `2px solid ${accent}`,
+        ...geoSurfaceStyle(surface),
+        border: `2px solid ${GEO.ink}`,
+        borderRadius: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
       }}
     >
       <span className="corner-mark-out tl c-forest" />
       <span className="corner-mark-out br c-gold" style={{ zIndex: 2 }} />
 
-      {subtitle ? (
-        <span style={{ ...rowdies(700), fontSize: '0.75rem', color: GEO.goldSun, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          {subtitle}
-        </span>
-      ) : null}
-      <h2 style={{ ...rowdies(700), fontSize: '1.25rem', color: GEO.forestDeep, margin: subtitle ? '0.15rem 0 1rem' : '0 0 1rem' }}>
-        {title}
-      </h2>
-      {children}
+      <div
+        style={{
+          background: 'rgba(250,246,238,0.94)',
+          borderRadius: 8,
+          padding: '0.85rem 1rem',
+        }}
+      >
+        {subtitle ? (
+          <span
+            style={{
+              ...rowdies(700),
+              fontSize: '0.75rem',
+              color: GEO.goldSun,
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+            }}
+          >
+            {subtitle}
+          </span>
+        ) : null}
+        <h2
+          style={{
+            ...rowdies(700),
+            fontSize: '1.15rem',
+            color: GEO.forestDeep,
+            margin: subtitle ? '0.15rem 0 1rem' : '0 0 1rem',
+          }}
+        >
+          {title}
+        </h2>
+        {children}
+      </div>
     </section>
   )
 }
 
 export function GeoRuleGrid({ rules }: { rules: { badge: string; val: string; desc: string }[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {rules.map((rule) => (
         <div
           key={rule.badge}
           className="rounded ff-card-inner"
-          style={{ background: '#FFFFFF', border: `2px solid ${GEO.ink}`, boxShadow: `2px 2px 0 ${GEO.ink}` }}
+          style={{
+            ...geoSurfaceStyle('hatchCream'),
+            border: `2px solid ${GEO.ink}`,
+            boxShadow: `2px 2px 0 ${GEO.ink}`,
+          }}
         >
           <span
             style={{
               ...rowdies(700),
               fontSize: '0.65rem',
               color: GEO.forestDeep,
-              background: 'rgba(74,222,128,0.12)',
-              border: '1px solid rgba(22,67,45,0.25)',
+              background: GEO.gold,
+              border: `1px solid ${GEO.ink}`,
               padding: '0.1rem 0.45rem',
               borderRadius: 3,
               display: 'inline-block',
@@ -340,6 +525,45 @@ export function GeoRuleGrid({ rules }: { rules: { badge: string; val: string; de
           <p style={{ ...rowdies(300), fontSize: '0.78rem', color: '#555', margin: 0, lineHeight: 1.4 }}>{rule.desc}</p>
         </div>
       ))}
+    </div>
+  )
+}
+
+/** Graduated frame for HOA / community cards (styling only — not hub layout). */
+export function GeoGraduatedPanel({
+  title,
+  children,
+  surface,
+  titleTone = 'forest',
+  className,
+}: {
+  title?: string
+  children: React.ReactNode
+  surface: GeoSurfaceId
+  titleTone?: GeoTitleTone
+  className?: string
+}) {
+  const titleStyle = geoTitleBarStyle(titleTone)
+  return (
+    <div
+      className={['has-outside-corners relative overflow-hidden', className].filter(Boolean).join(' ')}
+      style={{
+        ...geoSurfaceStyle(surface),
+        border: `2px solid ${GEO.ink}`,
+        borderRadius: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+      }}
+    >
+      <span className="corner-mark-out tl c-gold" style={{ zIndex: 2 }} />
+      <span className="corner-mark-out br c-forest" style={{ zIndex: 2 }} />
+      {title ? (
+        <div className="ff-card-inner-sm" style={{ ...titleStyle, borderBottom: `2px solid ${GEO.ink}` }}>
+          <h2 style={{ ...rowdies(700), fontSize: '0.95rem', color: titleStyle.color, margin: 0 }}>{title}</h2>
+        </div>
+      ) : null}
+      <div className="ff-card-inner" style={{ background: 'rgba(250,246,238,0.92)' }}>
+        {children}
+      </div>
     </div>
   )
 }

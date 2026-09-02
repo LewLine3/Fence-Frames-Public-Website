@@ -15,6 +15,7 @@ import {
   GeoHubColumns,
   GeoRuleGrid,
   GeoTitleBar,
+  geoCtaStyle,
   rowdies,
   GEO,
 } from '@/components/ff/geo-hub'
@@ -142,19 +143,21 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
             searchValue={search}
             onSearchChange={setSearch}
             items={directoryItems}
+            surface="hatchCream"
+            titleTone="forest"
           />
         </GeoDirectoryColumn>
 
         <GeoContextColumn>
-          <GeoContextCard title={`${cityName} Location Overview`} titleBarColor={GEO.forestDeep}>
+          <GeoContextCard title={`${cityName} Location Overview`} surface="woodPlanks" titleTone="ink">
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span
                 style={{
                   ...rowdies(700),
                   fontSize: '0.72rem',
-                  background: 'rgba(229,184,66,0.18)',
-                  border: `1.5px solid ${GEO.goldSun}`,
-                  color: '#B8860B',
+                  background: GEO.goldSun,
+                  border: `1.5px solid ${GEO.ink}`,
+                  color: GEO.ink,
                   padding: '0.25rem 0.65rem',
                   borderRadius: 4,
                   textTransform: 'uppercase',
@@ -166,9 +169,9 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
                 style={{
                   ...rowdies(700),
                   fontSize: '0.72rem',
-                  background: 'rgba(74,222,128,0.12)',
-                  border: `1.5px solid ${GEO.forestBright}`,
-                  color: GEO.forestDeep,
+                  background: GEO.forest,
+                  border: `1.5px solid ${GEO.ink}`,
+                  color: GEO.creamLight,
                   padding: '0.25rem 0.65rem',
                   borderRadius: 4,
                 }}
@@ -195,62 +198,47 @@ export default function CityHubPage({ params }: { params: Promise<{ county: stri
                 <strong style={{ color: GEO.goldSun }}>HOA not listed?</strong> Start a build using North Bend municipal
                 codes only — no community-specific ARC preset required.
               </p>
-              <Link
-                href="/designer?city=north-bend"
-                style={{
-                  ...rowdies(700),
-                  fontSize: '0.78rem',
-                  backgroundColor: GEO.goldSun,
-                  color: '#141B16',
-                  padding: '0.5rem 0.85rem',
-                  borderRadius: 4,
-                  textDecoration: 'none',
-                  border: `2px solid ${GEO.ink}`,
-                  display: 'inline-block',
-                  textTransform: 'uppercase',
-                }}
-              >
+              <Link href="/designer?city=north-bend" style={geoCtaStyle('gold')}>
                 Start Municipal Build →
               </Link>
             </div>
           </GeoContextCard>
+
+          <GeoAdvisorySection
+            subtitle={`City of ${cityName} · Municipal Code Title 18`}
+            title="Residential Fence Bylaws & Setbacks"
+            surface="majorForest"
+          >
+            <GeoRuleGrid
+              rules={[
+                { badge: 'Backyard Privacy', val: '6′ Max', desc: 'Permit-exempt for standard rear and side yards up to property line.' },
+                { badge: 'Front Yard Setback', val: '4′ Max', desc: 'Fences within the 15-foot front setback capped at 48 inches.' },
+                { badge: 'Corner Lot Visibility', val: '25′ Clear Zone', desc: 'Sight triangle at street intersections; max 36″ in clear zone.' },
+                { badge: 'Underground Utilities', val: 'Call 811', desc: 'Washington 811 locate call required 48 business hours before excavation.' },
+              ]}
+            />
+
+            <div
+              className="rounded-lg ff-card-inner flex flex-col sm:flex-row items-start gap-3 mt-4"
+              style={{
+                background: GEO.creamLight,
+                border: `2px solid ${GEO.ember}`,
+              }}
+            >
+              <span className="text-2xl shrink-0">🌪️</span>
+              <div>
+                <h3 style={{ ...rowdies(700), fontSize: '0.95rem', color: GEO.ember, marginBottom: '0.15rem' }}>
+                  Mt. Si Wind Corridor Structural Advisory (80 MPH Exposure B)
+                </h3>
+                <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', margin: 0, lineHeight: 1.45 }}>
+                  City of North Bend engineering standards recommend 3-rail horizontal framing, 4×4 PT incised posts, and
+                  30″–36″ concrete footing depth to prevent wind blow-over during Snoqualmie Pass east wind events.
+                </p>
+              </div>
+            </div>
+          </GeoAdvisorySection>
         </GeoContextColumn>
       </GeoHubColumns>
-
-      <GeoAdvisorySection
-        subtitle={`City of ${cityName} · Municipal Code Title 18`}
-        title="Residential Fence Bylaws & Setbacks"
-      >
-        <GeoRuleGrid
-          rules={[
-            { badge: 'Backyard Privacy', val: '6′ Max', desc: 'Permit-exempt for standard rear and side yards up to property line.' },
-            { badge: 'Front Yard Setback', val: '4′ Max', desc: 'Fences within the 15-foot front setback capped at 48 inches.' },
-            { badge: 'Corner Lot Visibility', val: '25′ Clear Zone', desc: 'Sight triangle at street intersections; max 36″ in clear zone.' },
-            { badge: 'Underground Utilities', val: 'Call 811', desc: 'Washington 811 locate call required 48 business hours before excavation.' },
-          ]}
-        />
-
-        <div
-          className="has-outside-corners rounded-lg ff-card-inner flex flex-col sm:flex-row items-start gap-3 mt-6"
-          style={{
-            background: GEO.creamLight,
-            border: `2px solid ${GEO.ember}`,
-          }}
-        >
-          <span className="corner-mark-out tl c-orange" />
-          <span className="corner-mark-out br c-gold" style={{ zIndex: 2 }} />
-          <span className="text-2xl shrink-0">🌪️</span>
-          <div>
-            <h3 style={{ ...rowdies(700), fontSize: '0.95rem', color: GEO.ember, marginBottom: '0.15rem' }}>
-              Mt. Si Wind Corridor Structural Advisory (80 MPH Exposure B)
-            </h3>
-            <p style={{ ...rowdies(300), fontSize: '0.82rem', color: '#444', margin: 0, lineHeight: 1.45 }}>
-              City of North Bend engineering standards recommend 3-rail horizontal framing, 4×4 PT incised posts, and
-              30″–36″ concrete footing depth to prevent wind blow-over during Snoqualmie Pass east wind events.
-            </p>
-          </div>
-        </div>
-      </GeoAdvisorySection>
     </SiteShell>
   )
 }
