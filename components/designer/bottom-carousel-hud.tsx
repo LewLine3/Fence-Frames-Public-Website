@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react'
 import { FenceConfiguration, PricingBreakdown } from '@/lib/pricing-engine'
 import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
+import { getChapterOptions } from '@/lib/configurator/options-catalog'
 import { cn } from '@/lib/utils'
 
 interface BottomCarouselHudProps {
@@ -28,6 +29,7 @@ interface DynamicCard {
   cost?: string;
   description?: string;
   colorPreview?: string;
+  thumbSrc?: string;
   selected?: boolean;
   onSelect?: () => void;
 }
@@ -41,18 +43,16 @@ export function BottomCarouselHud({
   onSaveToFolio,
   onOpenLedgerModal,
   activeChapter,
-  onSelectChapter,
   overlay = false,
 }: BottomCarouselHudProps) {
   const [activeMathModel, setActiveMathModel] = useState<'canonical' | 'trial'>('canonical')
 
   const activePricing = activeMathModel === 'trial' && trialPricing ? trialPricing : pricing
 
-  // Dynamic cards spawned based on active selection / chapter
+  // Dynamic cards from shared options catalog (+ always-on calc / specs / folio / takeoff)
   const cards: DynamicCard[] = useMemo(() => {
     const list: DynamicCard[] = []
 
-    // 1. PRIMARY CARD: PRICING CALCULATOR (Always present)
     list.push({
       id: 'pricing-calculator',
       type: 'calc',
@@ -60,276 +60,10 @@ export function BottomCarouselHud({
       subtitle: `${config.linearFeet} LF Standard`,
     })
 
-    // 2. DYNAMIC CARDS SPAWNED BY CURRENTLY ACTIVE CHAPTER
-    if (activeChapter === 'stain' || !activeChapter) {
-      list.push(
-        {
-          id: 'stain-cedar-natural',
-          type: 'swatch',
-          title: 'Cedar Natural',
-          subtitle: 'Pro Wood Stain',
-          cost: '+$4.75/LF',
-          description: 'Warm golden honey stain, 3-yr UV & water seal.',
-          colorPreview: 'linear-gradient(135deg, #C68A4C, #A46932)',
-          selected: config.stainType === 'cedar-natural',
-          onSelect: () => onChange({ stainType: 'cedar-natural' }),
-        },
-        {
-          id: 'stain-chestnut-brown',
-          type: 'swatch',
-          title: 'Chestnut Brown',
-          subtitle: 'Pro Wood Stain',
-          cost: '+$4.75/LF',
-          description: 'Deep rich chestnut tone with moisture shield.',
-          colorPreview: 'linear-gradient(135deg, #633E26, #422613)',
-          selected: config.stainType === 'chestnut-brown',
-          onSelect: () => onChange({ stainType: 'chestnut-brown' }),
-        },
-        {
-          id: 'stain-redwood',
-          type: 'swatch',
-          title: 'Redwood Tone',
-          subtitle: 'Pro Wood Stain',
-          cost: '+$4.75/LF',
-          description: 'Classic vibrant Pacific redwood tone.',
-          colorPreview: 'linear-gradient(135deg, #8B3A2B, #622216)',
-          selected: config.stainType === 'redwood',
-          onSelect: () => onChange({ stainType: 'redwood' }),
-        },
-        {
-          id: 'stain-dark-walnut',
-          type: 'swatch',
-          title: 'Dark Walnut',
-          subtitle: 'Pro Wood Stain',
-          cost: '+$4.75/LF',
-          description: 'Architectural charcoal-walnut modern finish.',
-          colorPreview: 'linear-gradient(135deg, #2E2219, #18120C)',
-          selected: config.stainType === 'dark-walnut',
-          onSelect: () => onChange({ stainType: 'dark-walnut' }),
-        },
-        {
-          id: 'stain-clear-seal',
-          type: 'swatch',
-          title: 'Clear Sealant',
-          subtitle: 'Pro Seal',
-          cost: '+$4.75/LF',
-          description: 'Preserves raw natural wood grain with sealant.',
-          colorPreview: 'linear-gradient(135deg, #E3CEAA, #C7AE83)',
-          selected: config.stainType === 'clear-seal',
-          onSelect: () => onChange({ stainType: 'clear-seal' }),
-        },
-        {
-          id: 'stain-none',
-          type: 'swatch',
-          title: 'Raw / Unfinished',
-          subtitle: 'Natural Cedar',
-          cost: '$0.00',
-          description: 'Unfinished natural cedar for weathered silver look.',
-          colorPreview: 'linear-gradient(135deg, #DEC396, #BFA06C)',
-          selected: config.stainType === 'none',
-          onSelect: () => onChange({ stainType: 'none' }),
-        },
-      )
-    } else if (activeChapter === 'posts') {
-      list.push(
-        {
-          id: 'post-4x4-cedar',
-          type: 'swatch',
-          title: '4x4 Incense Cedar',
-          subtitle: 'Timber Post',
-          cost: 'Included',
-          description: 'Natural rot-resistant 4x4 western red cedar core.',
-          colorPreview: 'linear-gradient(135deg, #A87D48, #825A27)',
-          selected: config.postType === '4x4-cedar',
-          onSelect: () => onChange({ postType: '4x4-cedar' }),
-        },
-        {
-          id: 'post-4x6-cedar',
-          type: 'swatch',
-          title: '4x6 Heavy Timber',
-          subtitle: 'High Wind Core',
-          cost: '+$2.20/LF',
-          description: '50% higher lateral load resistance for wind zones.',
-          colorPreview: 'linear-gradient(135deg, #916839, #6D481C)',
-          selected: config.postType === '4x6-cedar',
-          onSelect: () => onChange({ postType: '4x6-cedar' }),
-        },
-        {
-          id: 'post-steel',
-          type: 'swatch',
-          title: 'PostMaster Steel',
-          subtitle: 'Concealed In-Line',
-          cost: '+$4.20/LF',
-          description: 'Heavy-gauge galvanized in-line steel fence posts.',
-          colorPreview: 'linear-gradient(135deg, #6B7280, #374151)',
-          selected: config.postType === 'postmaster-steel',
-          onSelect: () => onChange({ postType: 'postmaster-steel' }),
-        },
-        {
-          id: 'cap-pyramid-cedar',
-          type: 'swatch',
-          title: 'Cedar Pyramid Cap',
-          subtitle: 'Post Topper',
-          cost: '+$1.10/LF',
-          description: 'Mitered 4-way water shed cap for post longevity.',
-          colorPreview: 'linear-gradient(135deg, #B58852, #8F622C)',
-          selected: config.postCap === 'cedar-pyramid',
-          onSelect: () => onChange({ postCap: 'cedar-pyramid' }),
-        },
-        {
-          id: 'cap-copper',
-          type: 'swatch',
-          title: 'Copper Pyramid Cap',
-          subtitle: 'Architectural Cap',
-          cost: '+$1.80/LF',
-          description: 'Solid copper cap that develops natural patina.',
-          colorPreview: 'linear-gradient(135deg, #B87333, #8C4E19)',
-          selected: config.postCap === 'copper-pyramid',
-          onSelect: () => onChange({ postCap: 'copper-pyramid' }),
-        },
-        {
-          id: 'cap-solar-led',
-          type: 'swatch',
-          title: 'Solar LED Cap',
-          subtitle: 'Ambient Lighting',
-          cost: '+$3.20/LF',
-          description: 'Built-in dusk-to-dawn perimeter lighting topper.',
-          colorPreview: 'linear-gradient(135deg, #F59E0B, #1F2937)',
-          selected: config.postCap === 'solar-led',
-          onSelect: () => onChange({ postCap: 'solar-led' }),
-        },
-      )
-    } else if (activeChapter === 'pickets') {
-      list.push(
-        {
-          id: 'picket-bob',
-          type: 'swatch',
-          title: 'Board-on-Board',
-          subtitle: '100% Total Privacy',
-          cost: '+$12.00/LF',
-          description: '16 pickets/bay with 1.5″ overlap for zero sightlines.',
-          colorPreview: 'linear-gradient(135deg, #9C713D, #6B4920)',
-          selected: config.fillPattern === 'board-on-board',
-          onSelect: () => onChange({ fillPattern: 'board-on-board' }),
-        },
-        {
-          id: 'picket-flat-top',
-          type: 'swatch',
-          title: 'Flat Top 1/2″ Gap',
-          subtitle: 'Standard Airflow',
-          cost: '+$8.50/LF',
-          description: '14 pickets/bay with clean breeze ventilation spacing.',
-          colorPreview: 'linear-gradient(135deg, #B3864E, #7D5523)',
-          selected: config.fillPattern === 'flat-top-privacy',
-          onSelect: () => onChange({ fillPattern: 'flat-top-privacy' }),
-        },
-        {
-          id: 'picket-shadowbox',
-          type: 'swatch',
-          title: 'Shadowbox Alternating',
-          subtitle: 'Good Neighbor',
-          cost: '+$11.50/LF',
-          description: 'Alternating pickets on front and back for airflow.',
-          colorPreview: 'linear-gradient(135deg, #875F2F, #573A15)',
-          selected: config.fillPattern === 'shadowbox',
-          onSelect: () => onChange({ fillPattern: 'shadowbox' }),
-        },
-        {
-          id: 'lumber-tight-knot',
-          type: 'swatch',
-          title: 'Tight-Knot Cedar',
-          subtitle: 'Lumber Grade',
-          cost: '+$2.50/LF',
-          description: 'Authentic PNW character grain with tight sound knots.',
-          colorPreview: 'linear-gradient(135deg, #C2965D, #8C6531)',
-          selected: config.woodGrade === 'tight-knot',
-          onSelect: () => onChange({ woodGrade: 'tight-knot' }),
-        },
-        {
-          id: 'lumber-clear-cedar',
-          type: 'swatch',
-          title: 'Clear Architectural',
-          subtitle: 'Knot-Free Select',
-          cost: '+$7.50/LF',
-          description: 'Select knot-free vertical grain cedar pickets.',
-          colorPreview: 'linear-gradient(135deg, #E0B47A, #A67D45)',
-          selected: config.woodGrade === 'clear-cedar',
-          onSelect: () => onChange({ woodGrade: 'clear-cedar' }),
-        },
-      )
-    } else if (activeChapter === 'rails') {
-      list.push(
-        {
-          id: 'rail-3',
-          type: 'swatch',
-          title: '3-Rail Structural',
-          subtitle: 'Heavy Duty',
-          cost: '$5.80/LF',
-          description: '3 horizontal 2x4 rails backing full picket length.',
-          colorPreview: 'linear-gradient(135deg, #A87D48, #6B4920)',
-          selected: config.railCount === 3,
-          onSelect: () => onChange({ railCount: 3 }),
-        },
-        {
-          id: 'rail-2',
-          type: 'swatch',
-          title: '2-Rail Minimalist',
-          subtitle: 'Low Profile',
-          cost: '$4.00/LF',
-          description: '2 horizontal 2x4 rails for 4ft low-profile perimeters.',
-          colorPreview: 'linear-gradient(135deg, #B58852, #8F622C)',
-          selected: config.railCount === 2,
-          onSelect: () => onChange({ railCount: 2 }),
-        },
-        {
-          id: 'rail-top-cap',
-          type: 'swatch',
-          title: '2x6 Continuous Cap',
-          subtitle: 'Weather Shield',
-          cost: '+$2.25/LF',
-          description: 'Protective top cap board preventing end-grain rot.',
-          colorPreview: 'linear-gradient(135deg, #7D5523, #4E3211)',
-          selected: config.topCap,
-          onSelect: () => onChange({ topCap: !config.topCap }),
-        },
-      )
-    } else if (activeChapter === 'hardware') {
-      list.push(
-        {
-          id: 'hw-black-powder',
-          type: 'swatch',
-          title: 'Black Powder Coat',
-          subtitle: 'Architectural Fasteners',
-          cost: '+$2.40/LF',
-          description: 'Black ceramic-coated structural screws and Simpson ties.',
-          colorPreview: 'linear-gradient(135deg, #2D3748, #1A202C)',
-          selected: config.hardwareTier === 'black-powder',
-          onSelect: () => onChange({ hardwareTier: 'black-powder' }),
-        },
-        {
-          id: 'hw-galvanized',
-          type: 'swatch',
-          title: 'Hot-Dip Galvanized',
-          subtitle: 'Standard Zinc',
-          cost: '$1.40/LF',
-          description: 'Corrosion resistant hot-dip galvanized fasteners.',
-          colorPreview: 'linear-gradient(135deg, #9CA3AF, #6B7280)',
-          selected: config.hardwareTier === 'galvanized',
-          onSelect: () => onChange({ hardwareTier: 'galvanized' }),
-        },
-        {
-          id: 'hw-stainless',
-          type: 'swatch',
-          title: '316 Marine Stainless',
-          subtitle: 'Coastal Grade',
-          cost: '+$3.10/LF',
-          description: 'Maximum salt-air and moisture endurance warranty.',
-          colorPreview: 'linear-gradient(135deg, #E5E7EB, #9CA3AF)',
-          selected: config.hardwareTier === 'stainless-steel',
-          onSelect: () => onChange({ hardwareTier: 'stainless-steel' }),
-        },
-      )
-    } else if (activeChapter === 'gates') {
+    const chapterId = activeChapter || 'stain'
+    const chapterOptions = getChapterOptions(chapterId)
+
+    if (chapterId === 'gates') {
       list.push(
         {
           id: 'gate-walk',
@@ -343,7 +77,6 @@ export function BottomCarouselHud({
           onSelect: () =>
             onChange({
               gates: {
-                ...config.gates,
                 walkGates: (config.gates?.walkGates || 0) > 0 ? 0 : 1,
                 driveGates: config.gates?.driveGates || 0,
               },
@@ -361,118 +94,32 @@ export function BottomCarouselHud({
           onSelect: () =>
             onChange({
               gates: {
-                ...config.gates,
                 walkGates: config.gates?.walkGates || 0,
                 driveGates: (config.gates?.driveGates || 0) > 0 ? 0 : 1,
               },
             }),
         },
       )
-    } else if (activeChapter === 'height') {
-      list.push(
-        {
-          id: 'h-6ft',
+    } else {
+      for (const option of chapterOptions) {
+        list.push({
+          id: option.id,
           type: 'swatch',
-          title: '6ft Finished Height',
-          subtitle: 'Residential Standard',
-          cost: '$18.00/LF',
-          description: 'Standard privacy height for suburban residential lots.',
-          colorPreview: 'linear-gradient(135deg, #4ADE80, #166534)',
-          selected: config.heightFt === 6,
-          onSelect: () => onChange({ heightFt: 6 }),
-        },
-        {
-          id: 'h-8ft',
-          type: 'swatch',
-          title: '8ft Max Privacy',
-          subtitle: 'Boundary Screen',
-          cost: '$26.00/LF',
-          description: 'Maximum height privacy fence for perimeter boundary.',
-          colorPreview: 'linear-gradient(135deg, #22C55E, #14532D)',
-          selected: config.heightFt === 8,
-          onSelect: () => onChange({ heightFt: 8 }),
-        },
-        {
-          id: 'h-4ft',
-          type: 'swatch',
-          title: '4ft Low-Profile',
-          subtitle: 'Front Yard Code',
-          cost: '$14.00/LF',
-          description: 'HOA & city ARC compliant front perimeter height.',
-          colorPreview: 'linear-gradient(135deg, #86EFAC, #15803D)',
-          selected: config.heightFt === 4,
-          onSelect: () => onChange({ heightFt: 4 }),
-        },
-        {
-          id: 'bay-8ft',
-          type: 'swatch',
-          title: '8ft Post Spacing',
-          subtitle: 'Standard 112″ Bay',
-          cost: 'Included',
-          description: 'Standard 8ft on-center post spacing module.',
-          colorPreview: 'linear-gradient(135deg, #A87D48, #6B4920)',
-          selected: config.postSpacingFt === 8,
-          onSelect: () => onChange({ postSpacingFt: 8 }),
-        },
-      )
-    } else if (activeChapter === 'trim') {
-      list.push(
-        {
-          id: 'trim-none',
-          type: 'swatch',
-          title: 'Clean Line (No Trim)',
-          subtitle: 'Modern Minimalist',
-          cost: '$0.00',
-          description: 'Exposed picket ends for clean contemporary profile.',
-          colorPreview: 'linear-gradient(135deg, #71717A, #3F3F46)',
-          selected: config.trimStyle === 'none',
-          onSelect: () => onChange({ trimStyle: 'none' }),
-        },
-        {
-          id: 'trim-facia',
-          type: 'swatch',
-          title: '1x4 Facia Trim',
-          subtitle: 'Top & Bottom Border',
-          cost: '+$1.80/LF',
-          description: 'Finished dimensional 1x4 horizontal fascia trim band.',
-          colorPreview: 'linear-gradient(135deg, #A87D48, #6B4920)',
-          selected: config.trimStyle === 'standard-1x4',
-          onSelect: () => onChange({ trimStyle: 'standard-1x4' }),
-        },
-        {
-          id: 'trim-kickboard',
-          type: 'swatch',
-          title: '2x6 Rot Kickboard',
-          subtitle: 'Ground Protection',
-          cost: '+$2.80/LF',
-          description: 'Sacrificial ground-contact board protecting pickets.',
-          colorPreview: 'linear-gradient(135deg, #78350F, #451A03)',
-          selected: config.trimStyle === 'kickboard-2x6',
-          onSelect: () => onChange({ trimStyle: 'kickboard-2x6' }),
-        },
-      )
+          title: option.label,
+          subtitle: option.description,
+          cost: option.costLabel,
+          description: option.description,
+          colorPreview: option.colorPreview,
+          thumbSrc: option.thumbSrc,
+          selected: option.selectedWhen(config),
+          onSelect: () => onChange(option.patch),
+        })
+      }
     }
 
-    // 3. JOB SPECS SUMMARY CARD
-    list.push({
-      id: 'job-specs',
-      type: 'specs',
-      title: 'Job Specs',
-    })
-
-    // 4. FOLIO & 3-BID DISPATCH CARD
-    list.push({
-      id: 'folio-dispatch',
-      type: 'action',
-      title: 'Folio & 3-Bid',
-    })
-
-    // 5. TAKEOFF LEDGER CARD
-    list.push({
-      id: 'takeoff-ledger',
-      type: 'takeoff',
-      title: 'Takeoff Ledger',
-    })
+    list.push({ id: 'job-specs', type: 'specs', title: 'Job Specs' })
+    list.push({ id: 'folio-dispatch', type: 'action', title: 'Folio & 3-Bid' })
+    list.push({ id: 'takeoff-ledger', type: 'takeoff', title: 'Takeoff Ledger' })
 
     return list
   }, [config, activeChapter, onChange])
@@ -660,12 +307,19 @@ export function BottomCarouselHud({
                   style={titleBarStyle}
                 >
                   <div className="flex items-center gap-1.5 min-w-0">
-                    {card.colorPreview && (
+                    {card.thumbSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={card.thumbSrc}
+                        alt=""
+                        className="w-4 h-4 rounded border border-white/30 object-contain bg-black/40 shrink-0"
+                      />
+                    ) : card.colorPreview ? (
                       <span
                         className="w-3 h-3 rounded-full border border-white/30 shadow-sm shrink-0"
                         style={{ background: card.colorPreview }}
                       />
-                    )}
+                    ) : null}
                     <span className="font-bold uppercase tracking-wide text-[10px] truncate text-[#E5B842]">
                       {card.title}
                     </span>

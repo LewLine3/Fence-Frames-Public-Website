@@ -34,8 +34,11 @@ const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string
 const FILL_PATTERN_TO_LAYER: Record<string, string> = {
   'board-on-board': 'board-on-board',
   'flat-top-privacy': 'standard',
+  'standard': 'standard',
   'standard-gap': 'standard',
+  'gothic': 'gothic',
   'shadowbox': 'shadowbox',
+  'butt-joint': 'standard',
 }
 
 function normalizeSvgString(raw: string): string {
@@ -108,9 +111,26 @@ function applySvgSlots(svg: SVGSVGElement, config: FenceConfiguration) {
   }
 
   const targetFill = FILL_PATTERN_TO_LAYER[config.fillPattern] || 'standard'
+  const targetSpacing = config.picketSpacing ?? '1-16-privacy'
+  const targetWidth = config.picketWidth ?? '5.5'
+
   svg.querySelectorAll('.picket-fill-layer[data-picket-fill]').forEach((el) => {
     const fill = el.getAttribute('data-picket-fill')
-    ;(el as HTMLElement).style.display = fill === targetFill ? '' : 'none'
+    const spacing = el.getAttribute('data-picket-spacing')
+    const width = el.getAttribute('data-picket-width')
+    const widthLocked = el.getAttribute('data-picket-width-locked') === 'true'
+
+    let show = fill === targetFill
+    if (show && fill === 'standard') {
+      // Standard fill has spacing × width variants in the assembly
+      if (spacing && spacing !== targetSpacing) show = false
+      if (width && width !== targetWidth) show = false
+    } else if (show && widthLocked && width && width !== targetWidth) {
+      // gothic / shadowbox / BoB locked to their authored width
+      show = width === targetWidth || targetWidth === '5.5'
+    }
+
+    ;(el as HTMLElement).style.display = show ? '' : 'none'
   })
 
   const palette = STAIN_PALETTES[config.stainType] || STAIN_PALETTES['cedar-natural']

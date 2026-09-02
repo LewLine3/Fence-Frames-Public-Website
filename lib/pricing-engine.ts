@@ -22,8 +22,13 @@ export interface FenceConfiguration {
 
   // 4. Fill Material (Dynamically switches based on fenceStyleCategory)
   fenceStyleCategory: FenceStyleCategory;
-  fillPattern: string; // e.g. 'board-on-board', 'flat-top-privacy', 'horizontal-slat', 'welded-wire-black', 'square-lattice'
+  /** Heritage: standard | gothic | board-on-board | shadowbox; Next aliases: flat-top-privacy, butt-joint */
+  fillPattern: string;
   fenceStyle?: string; // legacy support
+  /** Heritage picketSpacing IDs */
+  picketSpacing?: '1-16-privacy' | 'gap-0-5' | 'gap-1' | 'gap-3' | 'gap-5-5';
+  /** Heritage picketWidth — inches as string */
+  picketWidth?: '3.5' | '5.5';
 
   // 5. Stain & Sealant
   stainType: 'none' | 'clear-seal' | 'cedar-natural' | 'chestnut-brown' | 'redwood' | 'dark-walnut';
@@ -33,6 +38,19 @@ export interface FenceConfiguration {
 
   // 7. Hardware & Fasteners
   hardwareTier: 'galvanized' | 'black-powder' | 'stainless-steel';
+  /** Heritage bracket IDs (+ simpson-tie Next alias) */
+  bracketType?:
+    | 'none'
+    | 'u-black'
+    | 'u-galv'
+    | 'l-1'
+    | 'l-2'
+    | 'l-4'
+    | 'l-6'
+    | 'poly-u'
+    | 'wood-2x2'
+    | 'wood-2x4'
+    | 'simpson-tie';
 
   // 8. Gates & Access
   gates: {
@@ -75,7 +93,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   const postCount = Math.ceil(lf / (config.postSpacingFt || 8)) + 1;
 
   // Metric 1: General Base Rate
-  let m1Base = config.heightFt === 4 ? 14.00 : config.heightFt === 6 ? 18.00 : 26.00;
+  let m1Base = config.heightFt === 4 ? 14.00 : config.heightFt === 5 ? 16.00 : config.heightFt === 6 ? 18.00 : 26.00;
   if (config.woodGrade === 'clear-cedar') m1Base += 7.50;
   if (config.woodGrade === 'tight-knot') m1Base += 2.50;
 
@@ -86,16 +104,22 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   if (config.postCap !== 'none') m2PostPerLf += 1.10;
 
   // Metric 3: Rails & Framing
-  let m3RailPerLf = config.railCount === 2 ? 4.00 : 5.80;
+  let m3RailPerLf = config.railCount === 2 ? 4.00 : config.railCount === 4 ? 7.40 : 5.80;
   if (config.topCap) m3RailPerLf += 2.25;
 
   // Metric 4: Fill Material (Keyed to Style Category)
   let m4FillPerLf = 8.50;
-  if (config.fillPattern === 'board-on-board') m4FillPerLf = 12.00; // 20% extra overlap pickets
+  if (config.fillPattern === 'board-on-board') m4FillPerLf = 12.00;
   else if (config.fillPattern === 'shadowbox') m4FillPerLf = 11.50;
+  else if (config.fillPattern === 'gothic') m4FillPerLf = 9.50;
+  else if (config.fillPattern === 'butt-joint') m4FillPerLf = 10.00;
   else if (config.fenceStyleCategory === 'horizontal-board') m4FillPerLf = 13.50;
   else if (config.fenceStyleCategory === 'fabric-wire') m4FillPerLf = 7.20;
   else if (config.fenceStyleCategory === 'lattice-craftsman') m4FillPerLf = 10.00;
+
+  if (config.picketWidth === '3.5') m4FillPerLf += 0.80;
+  if (config.picketSpacing === 'gap-1') m4FillPerLf -= 0.40;
+  if (config.picketSpacing === 'gap-3') m4FillPerLf -= 1.20;
 
   // Metric 5: Stain & Sealant
   const m5StainPerLf = config.stainType !== 'none' ? 4.75 : 0;
@@ -109,6 +133,13 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   let m7HwPerLf = 1.40;
   if (config.hardwareTier === 'black-powder') m7HwPerLf = 2.40;
   if (config.hardwareTier === 'stainless-steel') m7HwPerLf = 3.10;
+  if (config.bracketType && config.bracketType !== 'none') {
+    if (config.bracketType === 'u-black') m7HwPerLf += 0.85;
+    else if (config.bracketType === 'u-galv') m7HwPerLf += 0.65;
+    else if (config.bracketType === 'simpson-tie') m7HwPerLf += 1.10;
+    else if (config.bracketType.startsWith('wood-')) m7HwPerLf += 0.45;
+    else m7HwPerLf += 0.55;
+  }
 
   // Metric 8: Gates & Access
   const walkGateTotal = (config.gates?.walkGates || 0) * 385.00;

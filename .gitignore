@@ -34,7 +34,12 @@ worktrees/
 out/
 build/
 dist/
+*.tsbuildinfo
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Accidental root drops / generative scratch (keep branded assets under public/images/)
+public/Gemini_Generated_Image_*.jpg
+public/Gemini_Generated_Image_*.png

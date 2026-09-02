@@ -36,6 +36,9 @@ const HERITAGE_BLANK_DEFAULT: FenceConfiguration = {
   stainType: 'cedar-natural',
   trimStyle: 'none',
   hardwareTier: 'black-powder',
+  picketSpacing: '1-16-privacy',
+  picketWidth: '5.5',
+  bracketType: 'none',
   gates: {
     walkGates: 0,
     driveGates: 0,

@@ -4,6 +4,11 @@ import React, { useState } from 'react'
 import { FenceConfiguration } from '@/lib/pricing-engine'
 import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
 import { ChapterConfigPanel } from '@/components/designer/chapter-config-panel'
+import {
+  CHAPTERS,
+  getChapterCostMetric,
+  getChapterLivePreview,
+} from '@/lib/configurator/options-catalog'
 import { cn } from '@/lib/utils'
 
 interface LeftOptionRailProps {
@@ -14,70 +19,45 @@ interface LeftOptionRailProps {
   onResetDefaults?: () => void
 }
 
-export const CHAPTERS = [
-  { id: 'height', num: '01', menuLabel: 'GENERAL', label: 'Height & Spacing', icon: '📐', preview: "6' Std · 8' Bay" },
-  { id: 'posts', num: '02', menuLabel: 'POSTS', label: 'Posts & Caps', icon: '🪵', preview: '4x4 Cedar · Pyramid' },
-  { id: 'rails', num: '03', menuLabel: 'RAILS', label: 'Rails & Framing', icon: '🪜', preview: '3-Rail · 2x6 Cap' },
-  { id: 'pickets', num: '04', menuLabel: 'PICKETS / FILL', label: 'Pickets & Infill', icon: '🌲', preview: 'Board-on-Board' },
-  { id: 'stain', num: '05', menuLabel: 'STAIN', label: 'Stain & Finish', icon: '🎨', preview: 'Cedar Natural' },
-  { id: 'trim', num: '06', menuLabel: 'TRIM', label: 'Trim & Facia', icon: '📏', preview: 'Clean Line' },
-  { id: 'gates', num: '07', menuLabel: 'GATES', label: 'Gates & Access', icon: '🚪', preview: 'Walk & Drive Gates' },
-  { id: 'hardware', num: '08', menuLabel: 'HARDWARE', label: 'Hardware & Ties', icon: '🔩', preview: 'Black Powder' },
-]
+export { CHAPTERS, getChapterCostMetric }
 
-export function getChapterCostMetric(id: string, config: FenceConfiguration): string {
-  switch (id) {
-    case 'height': {
-      const base = config.heightFt === 4 ? 14 : config.heightFt === 6 ? 18 : 26
-      const grade = config.woodGrade === 'clear-cedar' ? 7.5 : config.woodGrade === 'tight-knot' ? 2.5 : 0
-      return `$${(base + grade).toFixed(2)}/LF`
-    }
-    case 'posts': {
-      let post = 6.5
-      if (config.postType === '4x6-cedar') post += 2.2
-      if (config.postType === 'postmaster-steel') post += 4.2
-      if (config.postCap !== 'none') post += 1.1
-      return `$${post.toFixed(2)}/LF`
-    }
-    case 'rails': {
-      let rail = config.railCount === 2 ? 4.0 : 5.8
-      if (config.topCap) rail += 2.25
-      return `$${rail.toFixed(2)}/LF`
-    }
-    case 'pickets': {
-      let fill = 8.5
-      if (config.fillPattern === 'board-on-board') fill = 12.0
-      else if (config.fillPattern === 'shadowbox') fill = 11.5
-      return `$${fill.toFixed(2)}/LF`
-    }
-    case 'stain': {
-      return config.stainType === 'none' ? '$0.00' : '$4.75/LF'
-    }
-    case 'trim': {
-      if (config.trimStyle === 'picture-frame-trim') return '$3.20/LF'
-      if (config.trimStyle === 'kickboard-2x6') return '$2.80/LF'
-      return '$0.00'
-    }
-    case 'gates': {
-      const walk = (config.gates?.walkGates || 0) * 385
-      const drive = (config.gates?.driveGates || 0) * 850
-      return walk + drive > 0 ? `$${walk + drive}` : '$385/ea'
-    }
-    case 'hardware': {
-      let hw = 1.4
-      if (config.hardwareTier === 'black-powder') hw = 2.4
-      if (config.hardwareTier === 'stainless-steel') hw = 3.1
-      return `$${hw.toFixed(2)}/LF`
-    }
-    default:
-      return '$0.00'
-  }
+/** Gold → Ember → Tan cycle on the green rail (pillars + wood, reads clearer than brown/tan alone). */
+const MENU_TONES = [
+  {
+    id: 'gold',
+    background: 'linear-gradient(180deg, #C9A03A 0%, #8F7024 55%, #6B5418 100%)',
+    border: '#E5B842',
+    label: '#FAF6EE',
+    sub: 'rgba(250,246,238,0.82)',
+    chipBorder: 'rgba(229,184,66,0.55)',
+  },
+  {
+    id: 'ember',
+    background: 'linear-gradient(180deg, #F27A22 0%, #C45A12 55%, #8F3F0C 100%)',
+    border: '#F27A22',
+    label: '#FAF6EE',
+    sub: 'rgba(250,246,238,0.85)',
+    chipBorder: 'rgba(242,122,34,0.55)',
+  },
+  {
+    id: 'tan',
+    background: 'linear-gradient(180deg, #C4A574 0%, #8F7550 55%, #5C4A32 100%)',
+    border: '#C4A574',
+    label: '#FAF6EE',
+    sub: 'rgba(250,246,238,0.82)',
+    chipBorder: 'rgba(196,165,116,0.55)',
+  },
+] as const
+
+function menuToneForChapter(num: string) {
+  const n = Math.max(1, parseInt(num, 10) || 1)
+  return MENU_TONES[(n - 1) % MENU_TONES.length]
 }
 
 const railShellStyle: React.CSSProperties = {
   backgroundColor: '#1C180E',
   backgroundImage:
-    'linear-gradient(rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(145deg, #0D120F 0%, #1A170F 30%, #3D3014 65%, #594418 100%)',
+    'linear-gradient(rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.40) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.85) 2px, transparent 2px), linear-gradient(145deg, #0D120F 0%, #142920 28%, #1B4332 58%, #3D3014 100%)',
   backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px, 100% 100%',
   backgroundPosition: '0 0, 0 0, 0 0, 0 0, 0 0',
   borderRight: '3px solid #F27A22',
@@ -100,32 +80,8 @@ export function LeftOptionRail({
     else setInternalActive(id)
   }
 
-  // Desktop keeps the menu visible while a chapter is open (fly-out).
-  // Infinite loop only when the overview list is the primary scroll surface.
+  // Infinite loop only on the main chapter list (in-rail drill-in replaces it).
   const { containerRef, tripled, handleScroll } = useInfiniteLoop(CHAPTERS, 'y')
-
-  const getChapterValue = (id: string) => {
-    switch (id) {
-      case 'height':
-        return `${config.heightFt}' H · ${config.postSpacingFt}' Bay`
-      case 'posts':
-        return `${config.postType.split('-')[0].toUpperCase()} · ${config.postCap.split('-')[0]}`
-      case 'rails':
-        return `${config.railCount}-Rail ${config.topCap ? '+ Cap' : ''}`
-      case 'pickets':
-        return config.fillPattern === 'board-on-board' ? 'BoB (100%)' : 'Standard 1/2″'
-      case 'stain':
-        return config.stainType.replace('-', ' ')
-      case 'trim':
-        return config.trimStyle === 'none' ? 'Clean Line' : config.trimStyle.replace('-', ' ')
-      case 'gates':
-        return `${config.gates?.walkGates || 0} Walk · ${config.gates?.driveGates || 0} Drive`
-      case 'hardware':
-        return config.hardwareTier.replace('-', ' ')
-      default:
-        return ''
-    }
-  }
 
   const currentIdx = CHAPTERS.findIndex((c) => c.id === active)
   const prevChapter = currentIdx > 0 ? CHAPTERS[currentIdx - 1].id : null
@@ -147,9 +103,8 @@ export function LeftOptionRail({
   return (
     <aside
       className={cn(
-        'hidden md:flex flex-shrink-0 flex-col justify-between select-none font-[\'Rowdies\'] relative z-30 h-full min-h-0',
-        // Tablet: compact rail. Desktop: full menu width; fly-out overlays canvas (not layout width).
-        'w-[88px] lg:w-[280px]',
+        "hidden md:flex flex-shrink-0 flex-col justify-between select-none font-['Rowdies'] relative z-30 h-full min-h-0",
+        'w-[88px] lg:w-[300px]',
       )}
       suppressHydrationWarning
       style={railShellStyle}
@@ -163,39 +118,41 @@ export function LeftOptionRail({
           boxShadow: 'inset 0 -1px 0 rgba(229,184,66,0.35)',
         }}
       >
-        {/* Tablet in-place: show back when drilling in */}
-        <div className={cn('w-full', active ? 'flex lg:hidden' : 'hidden')}>
+        {active ? (
           <button
             onClick={() => setActive(null)}
-            className="flex items-center justify-center w-full gap-1 text-[9px] text-[#FAF6EE] hover:text-[#E5B842] transition font-bold uppercase px-1.5 py-1.5 rounded-md border-2 border-[#C4A574]"
+            className="flex items-center justify-center w-full gap-2 text-[10px] lg:text-[11px] text-[#FAF6EE] hover:text-[#E5B842] transition font-bold uppercase px-2 py-2 rounded-md border-2 border-[#C4A574]"
             style={{ background: 'linear-gradient(180deg, #3D3014 0%, #2A2218 100%)' }}
             title="Return to all options"
           >
-            ◀
+            <span>◀</span>
+            <span className="hidden lg:inline truncate">
+              Back · {activeChapterMeta?.menuLabel ?? 'Menu'}
+            </span>
           </button>
-        </div>
-
-        <div className={cn('w-full items-center justify-between gap-2', active ? 'hidden lg:flex' : 'flex')}>
-          <span className="hidden lg:inline text-xs font-bold text-[#E5B842] uppercase tracking-wider">
-            Option Menu
-          </span>
-          <span className="lg:hidden mx-auto text-[9px] font-bold text-[#E5B842]">OPTS</span>
-          <span
-            className="hidden lg:inline text-[9px] text-[#FAF6EE] border-2 border-[#C4A574] px-2 py-0.5 rounded-md font-mono font-bold shadow-[1px_1px_0_#1A1A1A]"
-            style={{ background: 'rgba(0,0,0,0.35)' }}
-          >
-            01–08 LOOP
-          </span>
-        </div>
+        ) : (
+          <div className="w-full flex items-center justify-between gap-2">
+            <span className="hidden lg:inline text-xs font-bold text-[#E5B842] uppercase tracking-wider">
+              Option Menu
+            </span>
+            <span className="lg:hidden mx-auto text-[9px] font-bold text-[#E5B842]">OPTS</span>
+            <span
+              className="hidden lg:inline text-[9px] text-[#FAF6EE] border-2 border-[#C4A574] px-2 py-0.5 rounded-md font-mono font-bold shadow-[1px_1px_0_#1A1A1A]"
+              style={{ background: 'rgba(0,0,0,0.35)' }}
+            >
+              01–08 LOOP
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Scroll body */}
+      {/* Scroll body — main menu OR in-rail detail (no side fly-out) */}
       <div
-        ref={containerRef}
-        onScroll={handleScroll}
+        ref={active ? undefined : containerRef}
+        onScroll={active ? undefined : handleScroll}
         className={cn(
           'flex-1 overflow-y-auto overflow-x-hidden no-scrollbar scroll-smooth relative',
-          'px-2 lg:px-4 py-4 lg:py-6',
+          'px-2 lg:px-4 py-4 lg:py-5',
         )}
         style={{
           scrollbarWidth: 'none',
@@ -206,118 +163,90 @@ export function LeftOptionRail({
             'linear-gradient(to bottom, transparent, black 20px, black calc(100% - 28px), transparent)',
         }}
       >
-        {/* Menu list — always on desktop; tablet hides while drilling in */}
-        <div className={cn('flex flex-col gap-3 lg:gap-6 pb-8', active ? 'hidden lg:flex' : 'flex')}>
-          {tripled.map((ch, idx) => {
-            const costMetric = getChapterCostMetric(ch.id, config)
-            const liveValue = getChapterValue(ch.id)
-            const isSelected = active === ch.id
+        {!active && (
+          <div className="flex flex-col gap-3 lg:gap-4 pb-8">
+            {tripled.map((ch, idx) => {
+              const costMetric = getChapterCostMetric(ch.id, config)
+              const liveValue = getChapterLivePreview(ch.id, config)
+              const tone = menuToneForChapter(ch.num)
 
-            return (
-              <button
-                key={`${ch.id}-${idx}`}
-                onClick={() => setActive(ch.id === active ? null : ch.id)}
-                className={cn(
-                  'w-full rounded-xl text-left transition-all duration-200 flex flex-col justify-between cursor-pointer group',
-                  'min-h-[64px] lg:min-h-[96px] gap-2 lg:gap-3 hover:-translate-y-0.5',
-                  isSelected && 'ring-2 ring-[#E5B842] ring-offset-1 ring-offset-[#1C180E]',
-                )}
-                style={{
-                  background: isSelected
-                    ? 'linear-gradient(180deg, #1B4332 0%, #142920 100%)'
-                    : 'linear-gradient(180deg, #4A3A22 0%, #2E2418 55%, #241C12 100%)',
-                  border: `2px solid ${isSelected ? '#E5B842' : '#C4A574'}`,
-                  boxShadow: '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.12)',
-                  padding: '0.75rem 0.65rem',
-                }}
-                title={ch.menuLabel}
-              >
-                {/* Compact tablet face */}
-                <div className="flex lg:hidden flex-col items-center gap-1 text-center">
-                  <span className="text-[#E5B842] font-mono font-bold text-[11px]">{ch.num}</span>
-                  <span className="text-[8px] font-bold uppercase text-[#FAF6EE] leading-tight">
-                    {ch.menuLabel.split(' ')[0]}
-                  </span>
-                </div>
-
-                {/* Full desktop face */}
-                <div className="hidden lg:flex items-start gap-3 w-full">
-                  <span className="text-[#E5B842] text-sm leading-none mt-1 shrink-0 transition-transform group-hover:translate-x-0.5">
-                    ▶
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold uppercase tracking-wide text-[#FAF6EE] group-hover:text-[#E5B842] transition-colors leading-tight">
-                      {ch.menuLabel}
-                    </div>
-                    <div className="text-[10px] text-[#DBD0BD]/90 font-light mt-1 truncate">{ch.label}</div>
+              return (
+                <button
+                  key={`${ch.id}-${idx}`}
+                  onClick={() => setActive(ch.id)}
+                  className={cn(
+                    'w-full rounded-xl text-left transition-all duration-200 flex flex-col justify-between cursor-pointer group',
+                    'min-h-[64px] lg:min-h-[100px] gap-2 lg:gap-3 hover:-translate-y-0.5',
+                  )}
+                  style={{
+                    background: tone.background,
+                    border: `2px solid ${tone.border}`,
+                    boxShadow: '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.18)',
+                    padding: '0.85rem 0.7rem',
+                  }}
+                  title={ch.menuLabel}
+                >
+                  {/* Compact tablet face */}
+                  <div className="flex lg:hidden flex-col items-center gap-1 text-center">
+                    <span className="text-[#141B16] font-mono font-bold text-[11px] drop-shadow-sm">
+                      {ch.num}
+                    </span>
+                    <span className="text-[8px] font-bold uppercase text-[#FAF6EE] leading-tight">
+                      {ch.menuLabel.split(' ')[0]}
+                    </span>
                   </div>
-                  <span
-                    className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-[11px] border-2 border-[#C4A574]/60"
-                    style={{ background: 'rgba(0,0,0,0.45)', color: '#E5B842' }}
-                  >
-                    {ch.num}
-                  </span>
-                </div>
 
-                <div className="hidden lg:flex items-center justify-between gap-2 pt-2 border-t border-[#C4A574]/25 w-full">
-                  <span
-                    className="text-[10px] text-[#FAF6EE] font-semibold truncate max-w-[58%] px-2.5 py-1 rounded-md border border-[#C4A574]/40"
-                    style={{ background: 'rgba(0,0,0,0.35)' }}
-                  >
-                    {liveValue}
-                  </span>
-                  <span
-                    className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border-2 border-[#4ADE80]/50 shrink-0"
-                    style={{ background: '#141B16', color: '#4ADE80' }}
-                  >
-                    {costMetric}
-                  </span>
-                </div>
-              </button>
-            )
-          })}
-        </div>
+                  {/* Full desktop face */}
+                  <div className="hidden lg:flex items-start gap-3 w-full">
+                    <span className="text-[#141B16] text-sm leading-none mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 font-bold">
+                      ▶
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className="text-sm font-bold uppercase tracking-wide leading-tight"
+                        style={{ color: tone.label }}
+                      >
+                        {ch.menuLabel}
+                      </div>
+                      <div className="text-[10px] font-light mt-1 truncate" style={{ color: tone.sub }}>
+                        {ch.label}
+                      </div>
+                    </div>
+                    <span
+                      className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-[11px] border-2"
+                      style={{
+                        background: 'rgba(0,0,0,0.4)',
+                        color: '#E5B842',
+                        borderColor: tone.chipBorder,
+                      }}
+                    >
+                      {ch.num}
+                    </span>
+                  </div>
 
-        {/* Tablet-only in-place drill-in */}
-        {panelProps && (
-          <div className="lg:hidden">
-            <ChapterConfigPanel {...panelProps} />
+                  <div className="hidden lg:flex items-center justify-between gap-2 pt-2 border-t border-black/25 w-full">
+                    <span
+                      className="text-[10px] text-[#FAF6EE] font-semibold truncate max-w-[58%] px-2.5 py-1 rounded-md border"
+                      style={{ background: 'rgba(0,0,0,0.35)', borderColor: tone.chipBorder }}
+                    >
+                      {liveValue}
+                    </span>
+                    <span
+                      className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border-2 border-[#4ADE80]/50 shrink-0"
+                      style={{ background: '#141B16', color: '#4ADE80' }}
+                    >
+                      {costMetric}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
           </div>
         )}
-      </div>
 
-      {/* Desktop fly-out — preserves left menu, overlays canvas to the right */}
-      {panelProps && (
-        <div
-          className="hidden lg:flex absolute left-full top-0 bottom-0 w-[300px] z-40 flex-col overflow-hidden border-r-[3px] border-[#F27A22] shadow-[8px_0_24px_rgba(0,0,0,0.45)]"
-          style={{
-            background: 'linear-gradient(180deg, #1A170F 0%, #12100C 100%)',
-          }}
-        >
-          <div
-            className="px-3 py-2.5 flex items-center justify-between flex-shrink-0 border-b-2 border-[#1A1A1A]"
-            style={{ background: 'linear-gradient(180deg, #1B4332 0%, #142920 100%)' }}
-          >
-            <span className="text-[11px] font-bold text-[#E5B842] uppercase tracking-wide truncate">
-              {activeChapterMeta?.menuLabel}
-            </span>
-            <button
-              type="button"
-              onClick={() => setActive(null)}
-              className="text-[10px] font-bold text-[#FAF6EE] hover:text-[#E5B842] px-2 py-1 rounded border border-[#C4A574]/60"
-              title="Close options"
-            >
-              ✕
-            </button>
-          </div>
-          <div
-            className="flex-1 overflow-y-auto no-scrollbar px-3 py-3"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            <ChapterConfigPanel {...panelProps} />
-          </div>
-        </div>
-      )}
+        {/* In-rail detail menu (replaces main list) */}
+        {panelProps && <ChapterConfigPanel {...panelProps} />}
+      </div>
 
       {/* Studio hub */}
       <div
