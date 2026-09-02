@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { SiteNav } from '@/components/ff/site-nav'
 import { SiteFooter } from '@/components/ff/site-footer'
+import { lockStaffDesk } from '@/app/staff/gate/actions'
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -92,6 +93,21 @@ export default function AdminControlPanelPage() {
             <span style={{ ...rowdies(300), fontSize: '0.7rem', color: '#8E9A92' }}>
               Emergency kill switch halts all outgoing 72-hr scramble SMS alerts.
             </span>
+            <form action={lockStaffDesk}>
+              <button
+                type="submit"
+                className="mt-2 w-full py-1.5 cursor-pointer"
+                style={{
+                  ...rowdies(400),
+                  background: 'transparent',
+                  color: '#DBD0BD',
+                  border: '2px solid var(--ink)',
+                  fontSize: '0.72rem',
+                }}
+              >
+                Lock desk
+              </button>
+            </form>
           </div>
         </section>
 

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Heritage Component Catalog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --cream: #f3ebe0;
+      --tan: #9d8068;
+      --tan-light: #ddd0b8;
+      --forest: #1b382b;
+      --gold-sun: #e5b842;
+      --surface: #242220;
+      --control: #1a1918;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Rowdies', sans-serif;
+      font-weight: 300;
+      color: var(--cream);
+      background: var(--ink);
+      background-image:
+        linear-gradient(180deg, rgba(27, 56, 43, 0.35) 0%, transparent 40%),
+        repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(74, 222, 128, 0.06) 24px),
+        repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(74, 222, 128, 0.06) 24px);
+    }
+    .cc-shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 3rem;
+    }
+    .cc-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .cc-brand {
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--gold-sun);
+      margin: 0;
+    }
+    .cc-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .cc-nav a {
+      font-weight: 400;
+      font-size: 0.82rem;
+      color: var(--cream);
+      text-decoration: none;
+      border: 2px solid var(--ink);
+      background: var(--tan);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+    }
+    .cc-nav a:hover { background: var(--tan-light); color: var(--ink); }
+    .cc-header {
+      background: var(--surface);
+      border: 2px solid var(--tan);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .cc-header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.65rem;
+      font-weight: 700;
+    }
+    .cc-header p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--tan);
+    }
+    .cc-stats {
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--tan-light);
+    }
+    .cc-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cc-filters label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--tan);
+      flex: 1 1 160px;
+    }
+    .cc-filters select,
+    .cc-filters input {
+      background: var(--control);
+      color: var(--cream);
+      border: 1px solid rgba(163, 135, 110, 0.5);
+      border-radius: 5px;
+      padding: 0.45rem 0.65rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+    .cc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .cc-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--tan);
+      padding: 2rem;
+    }
+    .cc-card {
+      background: var(--forest);
+      border: 2px solid var(--tan);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    }
+    .cc-card__media {
+      background: #141312;
+      border-bottom: 2px solid var(--ink);
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+    .cc-card__svg {
+      max-width: 100%;
+      max-height: 140px;
+      height: auto;
+      display: block;
+    }
+    .cc-card__head {
+      background: var(--tan);
+      border-bottom: 2px solid var(--ink);
+      padding: 0.45rem 0.65rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .cc-card__title {
+      margin: 0;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      flex: 1;
+    }
+    .cc-badge {
+      font-size: 0.58rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid var(--ink);
+      white-space: nowrap;
+    }
+    .badge--live { background: #4ade80; color: var(--ink); }
+    .badge--art { background: var(--gold-sun); color: var(--ink); }
+    .badge--pending { background: #555; color: var(--cream); }
+    .cc-card__body {
+      padding: 0.65rem 0.75rem 0.85rem;
+      flex: 1;
+    }
+    .cc-card__id {
+      margin: 0 0 0.25rem;
+      font-size: 0.68rem;
+    }
+    .cc-card__id code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.65rem;
+      color: var(--gold-sun);
+      word-break: break-all;
+    }
+    .cc-card__meta {
+      margin: 0;
+      font-size: 0.72rem;
+      color: var(--tan-light);
+      text-transform: capitalize;
+    }
+    .cc-card__note {
+      margin: 0.45rem 0 0;
+      font-size: 0.72rem;
+      color: #ccc;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="cc-shell">
+    <div class="cc-top">
+      <p class="cc-brand">Fence Frames</p>
+      <nav class="cc-nav" aria-label="Catalog navigation">
+        <a href="heritage-pilot.html">Heritage pilot</a>
+        <a href="heritage-pilot.html?view=catalog">Greatest Hits catalog</a>
+        <a href="index.html">Layer stack preview</a>
+      </nav>
+    </div>
+
+    <header class="cc-header">
+      <h1>Heritage Component Catalog</h1>
+      <p>Sym atoms and decorative parts under <code>configure/heritage-v1/components/</code> — V1 readiness tracked per <code>docs/component-tracker.md</code>.</p>
+      <p class="cc-stats" id="cc-stats">Loading inventory…</p>
+    </header>
+
+    <div class="cc-filters">
+      <label>
+        Category
+        <select id="cc-filter-category"><option value="all">All categories</option></select>
+      </label>
+      <label>
+        Tier
+        <select id="cc-filter-tier">
+          <option value="all">All tiers</option>
+          <option value="sym">Sym atoms (live stack)</option>
+          <option value="component">Decorative / Airtable</option>
+        </select>
+      </label>
+      <label>
+        Readiness
+        <select id="cc-filter-ready">
+          <option value="all">All states</option>
+          <option value="live">V1 · Live in pilot</option>
+          <option value="art">V1 art on disk</option>
+          <option value="backlog">Backlog</option>
+        </select>
+      </label>
+      <label>
+        Search
+        <input type="search" id="cc-search" placeholder="picket, bracket, sym-…" />
+      </label>
+    </div>
+
+    <div class="cc-grid" id="cc-grid" aria-live="polite">
+      <p class="cc-empty">Loading components…</p>
+    </div>
+  </div>
+
+  <script src="component-catalog.js"></script>
+</body>
+</html>

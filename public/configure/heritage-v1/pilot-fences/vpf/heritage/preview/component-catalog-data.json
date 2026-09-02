@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "title": "Fence Frames — Heritage Component Catalog",
+    "updated": "2026-09-02",
+    "componentsBase": "../../../../components/",
+    "trackerDoc": "docs/component-tracker.md"
+  },
+  "categories": [
+    { "id": "posts", "label": "Posts" },
+    { "id": "caps", "label": "Post caps" },
+    { "id": "pickets", "label": "Pickets" },
+    { "id": "rails", "label": "Rails & caps" },
+    { "id": "trim", "label": "Trim" },
+    { "id": "brackets", "label": "Brackets" },
+    { "id": "fill", "label": "Ground / fill" }
+  ],
+  "components": [
+    { "id": "sym-post-pt-4x4", "label": "Post — PT 4×4", "category": "posts", "path": "posts/sym-post-pt-4x4.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-post-cedar-4x4", "label": "Post — Cedar 4×4", "category": "posts", "path": "posts/sym-post-cedar-4x4.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+
+    { "id": "sym-post-cap-cedar-pyramid", "label": "Post cap — Cedar pyramid", "category": "caps", "path": "caps/sym-post-cap-cedar-pyramid.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-post-cap-metal-pyramid", "label": "Post cap — Metal pyramid black", "category": "caps", "path": "caps/sym-post-cap-metal-pyramid.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-post-cap-solar-pyramid", "label": "Post cap — Solar pyramid", "category": "caps", "path": "caps/sym-post-cap-solar-pyramid.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-post-cap-copper-pyramid", "label": "Post cap — Copper over wood", "category": "caps", "path": "caps/sym-post-cap-copper-pyramid.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+
+    { "id": "sym-picket-cedar-flat-top-heritage", "label": "Picket — flat top (Heritage)", "category": "pickets", "path": "pickets/sym-picket-cedar-flat-top-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-picket-cedar-gothic-heritage", "label": "Picket — gothic (Heritage)", "category": "pickets", "path": "pickets/sym-picket-cedar-gothic-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-picket-cedar-shadowbox-heritage", "label": "Picket — shadowbox (Heritage)", "category": "pickets", "path": "pickets/sym-picket-cedar-shadowbox-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-picket-cedar-board-on-board-heritage", "label": "Picket — board on board (Heritage)", "category": "pickets", "path": "pickets/sym-picket-cedar-board-on-board-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "component-picket-cedar-flat-top", "label": "Picket — flat top (decorative)", "category": "pickets", "path": "pickets/component-picket-cedar-flat-top.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false, "notes": "Airtable Selection row — not wired in V1 pilot" },
+    { "id": "component-picket-cedar-gothic", "label": "Picket — gothic (decorative)", "category": "pickets", "path": "pickets/component-picket-cedar-gothic.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+    { "id": "component-picket-cedar-dog-eared", "label": "Picket — dog eared (decorative)", "category": "pickets", "path": "pickets/component-picket-cedar-dog-eared.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+
+    { "id": "sym-rail-top-heritage", "label": "Top rail — standard (Heritage)", "category": "rails", "path": "rails/sym-rail-top-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-rail-top-lowered", "label": "Top rail — lowered / Traditions", "category": "rails", "path": "rails/sym-rail-top-lowered.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-rail-bottom-heritage", "label": "Bottom rail — standard (Heritage)", "category": "rails", "path": "rails/sym-rail-bottom-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-rail-bottom-lowered", "label": "Bottom rail — lowered / Lineage·Legacy", "category": "rails", "path": "rails/sym-rail-bottom-lowered.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-rail-middle-heritage", "label": "Middle rail — triple-rail", "category": "rails", "path": "rails/sym-rail-middle-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-rail-cap-ref-1.5", "label": "Rail cap — 1.5″ ref", "category": "rails", "path": "rails/sym-rail-cap-ref-1.5.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "component-rail-cedar-two-rail-standard", "label": "Rail — two rail standard (decorative)", "category": "rails", "path": "rails/component-rail-cedar-two-rail-standard.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+    { "id": "component-rail-cedar-two-rail-narrow", "label": "Rail — two rail narrow (decorative)", "category": "rails", "path": "rails/component-rail-cedar-two-rail-narrow.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+    { "id": "component-rail-cedar-two-rail-wide", "label": "Rail — two rail wide (decorative)", "category": "rails", "path": "rails/component-rail-cedar-two-rail-wide.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+    { "id": "component-rail-cedar-three-rail-standard", "label": "Rail — three rail standard (decorative)", "category": "rails", "path": "rails/component-rail-cedar-three-rail-standard.svg", "tier": "component", "v1Ready": false, "wiredInPilot": false },
+
+    { "id": "sym-trim-top-cedar", "label": "Trim — top cedar 1T", "category": "trim", "path": "trim/sym-trim-top-cedar.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-trim-top-pt", "label": "Trim — top PT 1T", "category": "trim", "path": "trim/sym-trim-top-pt.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-trim-bottom-cedar", "label": "Trim — bottom cedar 2T", "category": "trim", "path": "trim/sym-trim-bottom-cedar.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-trim-bottom-pt", "label": "Trim — bottom PT 2T", "category": "trim", "path": "trim/sym-trim-bottom-pt.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-trim-middle-cedar", "label": "Trim — middle cedar 3T", "category": "trim", "path": "trim/sym-trim-middle-cedar.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-trim-middle-pt", "label": "Trim — middle PT 3T", "category": "trim", "path": "trim/sym-trim-middle-pt.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+
+    { "id": "sym-bracket-u-2x4-black", "label": "Bracket — U fence black", "category": "brackets", "path": "brackets/sym-bracket-u-2x4-black.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-u-2x4-galv", "label": "Bracket — U fence galvanized", "category": "brackets", "path": "brackets/sym-bracket-u-2x4-galv.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-l-1in", "label": "Bracket — L angle 1″", "category": "brackets", "path": "brackets/sym-bracket-l-1in.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-l-2in", "label": "Bracket — L angle 2″", "category": "brackets", "path": "brackets/sym-bracket-l-2in.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-l-4in", "label": "Bracket — L angle 4″", "category": "brackets", "path": "brackets/sym-bracket-l-4in.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-l-6in", "label": "Bracket — L angle 6″", "category": "brackets", "path": "brackets/sym-bracket-l-6in.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-poly-u", "label": "Bracket — poly U", "category": "brackets", "path": "brackets/sym-bracket-poly-u.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-wood-block-2x2-pt", "label": "Bracket — wood block 2×2 PT", "category": "brackets", "path": "brackets/sym-bracket-wood-block-2x2-pt.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-wood-block-2x2-cedar", "label": "Bracket — wood block 2×2 cedar", "category": "brackets", "path": "brackets/sym-bracket-wood-block-2x2-cedar.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-wood-block-2x4-pt", "label": "Bracket — wood block 2×4 PT", "category": "brackets", "path": "brackets/sym-bracket-wood-block-2x4-pt.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-wood-block-2x4-cedar", "label": "Bracket — wood block 2×4 cedar", "category": "brackets", "path": "brackets/sym-bracket-wood-block-2x4-cedar.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-bracket-post-flange-anchor", "label": "Bracket — post flange anchor", "category": "brackets", "path": "brackets/sym-bracket-post-flange-anchor.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": false, "notes": "Art on disk; pilot wiring pending" },
+    { "id": "sym-bracket-rail-hanger-hidden", "label": "Bracket — rail hanger hidden", "category": "brackets", "path": "brackets/sym-bracket-rail-hanger-hidden.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": false },
+    { "id": "sym-bracket-t-black-steel", "label": "Bracket — T black steel", "category": "brackets", "path": "brackets/sym-bracket-t-black-steel.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": false },
+    { "id": "sym-bracket-tie-2x4-simpson", "label": "Bracket — tie 2×4 Simpson", "category": "brackets", "path": "brackets/sym-bracket-tie-2x4-simpson.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": false },
+    { "id": "sym-fencing-staple", "label": "Fastener — fencing staple", "category": "brackets", "path": "brackets/sym-fencing-staple.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": false },
+
+    { "id": "sym-ground-grass-heritage", "label": "Ground — grass (Heritage)", "category": "fill", "path": "fill/ground/sym-ground-grass-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "sym-grass-front-heritage", "label": "Ground — grass front layer", "category": "fill", "path": "fill/ground/sym-grass-front-heritage.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true },
+    { "id": "grass-module", "label": "Ground — grass module tile", "category": "fill", "path": "fill/ground/grass-module.svg", "tier": "sym", "v1Ready": true, "wiredInPilot": true }
+  ]
+}
