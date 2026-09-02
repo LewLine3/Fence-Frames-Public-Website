@@ -3,17 +3,20 @@ const rowdies = (weight: 300 | 400 | 700) => ({
   fontWeight: weight,
 })
 
+const fullBleed = {
+  width: "100vw",
+  marginLeft: "calc(50% - 50vw)",
+  marginRight: "calc(50% - 50vw)",
+} as const
+
 type ShoppingCard = {
   href: string
   ribbon: string
-  ribbonBg: string
-  ribbonColor: string
   imgBg: string
   img: string
   imgFit: "cover" | "contain"
   imgBordered?: boolean
-  bodyBg: string
-  bodyBgImage?: string
+  bodyBgImage: string
   tag: string
   tagColor: string
   title: string
@@ -27,14 +30,11 @@ const cards: ShoppingCard[] = [
   {
     href: "/catalog",
     ribbon: "Browse Styles",
-    ribbonBg: "var(--gold-sun)",
-    ribbonColor: "var(--ink)",
     imgBg: "var(--forest-bright)",
     img: "/images/user-uploads/media_1787002208257.png",
     imgFit: "cover",
-    bodyBg: "#1C140E",
     bodyBgImage:
-      "linear-gradient(rgba(229,184,66,0.06) 1px, transparent 1px), repeating-linear-gradient(45deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 2px, transparent 2px, transparent 6px)",
+      "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/homepage/card-bg-dark-wood-vertical.jpg')",
     tag: "⚡ FASTEST OPTION",
     tagColor: "var(--gold-sun)",
     title: "Catalog",
@@ -46,15 +46,12 @@ const cards: ShoppingCard[] = [
   {
     href: "/designer",
     ribbon: "Build Freely",
-    ribbonBg: "var(--ember)",
-    ribbonColor: "var(--ink)",
     imgBg: "var(--ink)",
     img: "/images/user-uploads/media_1787002299587.png",
     imgFit: "contain",
     imgBordered: true,
-    bodyBg: "#10261A",
     bodyBgImage:
-      "linear-gradient(rgba(74,222,128,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.12) 1px, transparent 1px)",
+      "linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('/images/homepage/card-bg-wood-horizontal.jpg')",
     tag: "🎨 LIVE 3D CANVAS",
     tagColor: "var(--ember)",
     title: "Designer",
@@ -66,14 +63,11 @@ const cards: ShoppingCard[] = [
   {
     href: "/wizard",
     ribbon: "Guided Details",
-    ribbonBg: "var(--gold-sun)",
-    ribbonColor: "var(--ink)",
     imgBg: "var(--ink)",
     img: "/images/tool-wizard-guided.jpg",
     imgFit: "cover",
-    bodyBg: "#1C140E",
     bodyBgImage:
-      "linear-gradient(rgba(229,184,66,0.06) 1px, transparent 1px), repeating-linear-gradient(45deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 2px, transparent 2px, transparent 6px)",
+      "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/homepage/card-bg-dark-wood-vertical.jpg')",
     tag: "📝 STEP-BY-STEP",
     tagColor: "#FAF6EE",
     title: "Wizard",
@@ -87,35 +81,34 @@ const cards: ShoppingCard[] = [
 export function FrameIt() {
   return (
     <section className="step-section" id="frame-pillar" style={{ marginBottom: "1.5rem" }}>
-      {/* Top row */}
+      {/* Full-bleed merged banner — text + image edge-to-edge */}
       <div
+        className="has-outside-corners"
         style={{
+          ...fullBleed,
           display: "grid",
           gridTemplateColumns: "1.15fr 0.85fr",
-          gap: "1.5rem",
-          alignItems: "stretch",
-          marginBottom: "1.2rem",
+          border: "2.5px solid var(--ink)",
+          borderRadius: 0,
+          overflow: "hidden",
+          boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
+          marginBottom: "1.8rem",
+          minHeight: 220,
         }}
       >
         <div
-          className="card-solid has-outside-corners"
           style={{
             backgroundColor: "#26150D",
             backgroundImage:
               "repeating-linear-gradient(45deg, rgba(242,122,34,0.18) 0px, rgba(242,122,34,0.18) 2px, transparent 2px, transparent 14px)",
-            border: "2.5px solid var(--ink)",
-            borderRadius: "var(--radius)",
-            padding: "1.5rem 1.8rem",
-            minHeight: 180,
+            padding: "2rem 2.4rem",
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
+            borderRight: "2.5px solid var(--ink)",
           }}
         >
-          <span className="corner-mark-out tl c-orange" />
-          <span className="corner-mark-out br c-forest" />
           <h2
             style={{
               ...rowdies(700),
@@ -136,25 +129,17 @@ export function FrameIt() {
         </div>
 
         <div
-          className="has-outside-corners"
           style={{
-            border: "2.5px solid var(--ink)",
-            borderRadius: "var(--radius)",
-            overflow: "hidden",
             background: "#0E281B",
             position: "relative",
             minHeight: "100%",
-            boxSizing: "border-box",
-            display: "flex",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
+            overflow: "hidden",
           }}
         >
-          <span className="corner-mark-out tr c-forest" style={{ zIndex: 2 }} />
-          <span className="corner-mark-out bl c-orange" style={{ zIndex: 2 }} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/Holographic fence icons/Frame-it-Holographic-Fence-widescreen.png"
-            alt="Frame It — timber frame turning holographic"
+            src="/images/homepage/frame-it-banner-fence-digital-twin.jpg"
+            alt="Frame It — physical fence transitioning to holographic blueprint"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
         </div>
@@ -175,9 +160,10 @@ export function FrameIt() {
               borderRadius: "var(--radius)",
               overflow: "hidden",
               boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-              background: c.bodyBg,
+              backgroundColor: "#1C140E",
               backgroundImage: c.bodyBgImage,
-              backgroundSize: "20px 20px, auto",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               position: "relative",
             }}
           >
@@ -187,8 +173,8 @@ export function FrameIt() {
             {/* Ribbon */}
             <div
               style={{
-                background: c.ribbonBg,
-                color: c.ribbonColor,
+                background: "var(--gold-sun)",
+                color: "var(--ink)",
                 padding: "0.6rem 1rem",
                 borderBottom: "2.5px solid var(--ink)",
                 ...rowdies(700),

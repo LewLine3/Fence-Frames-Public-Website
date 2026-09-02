@@ -67,18 +67,28 @@ export function FenceFolio() {
       className="step-section has-outside-corners"
       id="fence-pillar"
       style={{
+        ...{
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+        },
         display: "grid",
         gridTemplateColumns: "1.1fr 1fr",
         gap: "2rem",
         alignItems: "stretch",
         marginBottom: "1.5rem",
-        padding: "2.5rem 2rem",
-        backgroundColor: "#0B130E",
-        backgroundImage:
-          "linear-gradient(rgba(74,222,128,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.08) 1px, transparent 1px), linear-gradient(180deg, #09100B 0%, #112016 100%)",
-        backgroundSize: "24px 24px, 24px 24px, 100% 100%",
-        border: "2.5px solid var(--ink)",
-        borderRadius: "var(--radius)",
+        padding: "2.5rem clamp(1.5rem, 4vw, 3rem)",
+        backgroundColor: "#0A0908",
+        backgroundImage: `
+          linear-gradient(rgba(0,0,0,0.55) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,0,0,0.55) 1px, transparent 1px),
+          linear-gradient(90deg, #0A0908 0%, #1A1408 35%, rgba(229,184,66,0.45) 72%, #C9982A 100%)
+        `,
+        backgroundSize: "28px 28px, 28px 28px, 100% 100%",
+        border: "none",
+        borderTop: "2.5px solid var(--ink)",
+        borderBottom: "2.5px solid var(--ink)",
+        borderRadius: 0,
         boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
         position: "relative",
       }}
