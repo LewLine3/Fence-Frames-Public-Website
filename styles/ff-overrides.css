@@ -24,6 +24,22 @@
   --mark-c: var(--gold-sun);
 }
 
+/* Rowdies weight helpers (auth-gate and legacy inline styles) */
+.font-rowdies-bold {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 700;
+}
+
+.font-rowdies-regular {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 400;
+}
+
+.font-rowdies-light {
+  font-family: 'Rowdies', sans-serif;
+  font-weight: 300;
+}
+
 /* ---- Hero + pillar layout grids ---- */
 .proto-hero-split {
   display: grid;

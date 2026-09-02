@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { SiteNav } from '@/components/ff/site-nav';
+import { SiteFooter } from '@/components/ff/site-footer';
 
 // ==========================================
 // COLOR PALETTE & DESIGN TOKENS
@@ -82,10 +84,6 @@ export default function AuthGate() {
   // Verification Success simulation state
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Stateful Header Dropdowns & Mobile Navigation Drawer
-  const [isAccountsOpen, setIsAccountsOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   // Trigger countdown timer on Step 2
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
@@ -162,178 +160,23 @@ export default function AuthGate() {
 
   return (
     <div
-      className="min-h-screen flex flex-col justify-between p-4 md:p-6 select-none relative overflow-x-hidden"
+      className="min-h-screen flex flex-col font-['Rowdies'] select-none relative overflow-x-hidden"
       style={{
         backgroundColor: COLORS.parchment,
         backgroundImage: `
-          linear-gradient(rgba(46, 139, 78, 0.20) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(46, 139, 78, 0.20) 1px, transparent 1px),
+          linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px),
           linear-gradient(#16432D 2px, transparent 2px),
           linear-gradient(90deg, #16432D 2px, transparent 2px)
         `,
         backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        backgroundPosition: 'calc(50% - 600px) 0px',
+        color: '#1A1A1A',
       }}
     >
-      {/* FONTS IMPORT */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
-        
-        body {
-          font-family: 'Rowdies', sans-serif !important;
-          background-color: #F4ECDC;
-          color: #1A1A1A;
-        }
-        .font-rowdies-bold { font-family: 'Rowdies', sans-serif; font-weight: 700; }
-        .font-rowdies-regular { font-family: 'Rowdies', sans-serif; font-weight: 400; }
-        .font-rowdies-light { font-family: 'Rowdies', sans-serif; font-weight: 300; }
-      `}</style>
+      <SiteNav />
 
-      {/* ==========================================
-          UNIVERSAL HEADER
-          ========================================== */}
-      <header className="w-full max-w-[1200px] mx-auto bg-[#141B16] border-b-[2.5px] border-[#1A1A1A] rounded-[5px] shadow-[0px_4px_20px_rgba(0,0,0,0.25)] sticky top-0 z-50 transition-all">
-        <div className="w-full px-4 py-3 flex items-center justify-between">
-          
-          {/* Logo & Brand Wordmark */}
-          <div className="flex items-center space-x-6">
-            <a href="/" className="flex items-center space-x-2.5 no-underline">
-              {/* Custom Inline SVG Logo */}
-              <svg className="w-9 h-9 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" viewBox="0 0 100 100" fill="none">
-                <rect x="5" y="5" width="90" height="90" rx="10" fill="#16432D" stroke="#E5B842" strokeWidth="6" />
-                <path d="M 30 75 L 30 25 L 70 25 M 30 48 L 65 48" stroke="#FAF6EE" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <div>
-                <span className="font-rowdies-bold text-lg md:text-xl tracking-wide uppercase leading-none">
-                  <span style={{ color: COLORS.green }}>Fence</span>
-                  <span style={{ color: COLORS.gold }}> Frames</span>
-                </span>
-                <span className="block text-[8px] text-[#DBD0BD] tracking-widest font-rowdies-light leading-none">PORTRAIT ARCHITECTURAL STANDARDS</span>
-              </div>
-            </a>
-
-            {/* Desktop Tucked-Left Pillar Buttons */}
-            <nav className="hidden lg:flex items-center space-x-2.5">
-              <a href="#" className="flex items-center space-x-1.5 bg-[#FAF6EE]/10 px-3 py-1.5 rounded-[5px] border border-[#FAF6EE]/20 hover:border-[#E5B842] transition-colors" title="Step 1 · Code & HOA Matcher">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.gold }} />
-                <span className="font-rowdies-regular text-xs text-[#FAF6EE]">Find It <span className="font-rowdies-light opacity-60">(Location)</span></span>
-              </a>
-
-              <a href="#" className="flex items-center space-x-1.5 bg-[#FAF6EE]/10 px-3 py-1.5 rounded-[5px] border border-[#FAF6EE]/20 hover:border-[#F27A22] transition-colors" title="Step 2 · Architectural Catalog">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.orange }} />
-                <span className="font-rowdies-regular text-xs text-[#FAF6EE]">Frame It <span className="font-rowdies-light opacity-60">(Design)</span></span>
-              </a>
-
-              <a href="#" className="flex items-center space-x-1.5 bg-[#FAF6EE]/10 px-3 py-1.5 rounded-[5px] border border-[#FAF6EE]/20 hover:border-[#4ADE80] transition-colors" title="Step 3 · Blueprints & Cost Takeoff">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.green }} />
-                <span className="font-rowdies-regular text-xs text-[#FAF6EE]">Fence It <span className="font-rowdies-light opacity-60">(Build)</span></span>
-              </a>
-            </nav>
-          </div>
-
-          {/* Desktop Right Actions: Dropdown & CTA Button */}
-          <div className="flex items-center space-x-3">
-            {/* Accounts Dropdown Wrapper */}
-            <div className="relative">
-              <button
-                onClick={() => setIsAccountsOpen(!isAccountsOpen)}
-                className="flex items-center space-x-2 bg-[#FAF6EE]/10 border border-[#FAF6EE]/20 px-3 py-1.5 rounded-[5px] text-xs font-rowdies-regular hover:bg-[#FAF6EE]/20 transition-colors text-[#FAF6EE]"
-              >
-                <span>👤</span>
-                <span>Accounts</span>
-                <span className="text-[9px] opacity-80">▼</span>
-              </button>
-
-              {isAccountsOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-[#1A1A1A] border-2 border-[#FAF6EE]/10 rounded-[5px] shadow-[0_10px_25px_rgba(0,0,0,0.5)] z-50 text-left">
-                  <div className="p-3 border-b border-[#FAF6EE]/10 text-[10px] text-[#E5B842] font-rowdies-bold uppercase tracking-wider">
-                    Select Account Portal
-                  </div>
-                  
-                  <button onClick={() => { setActiveRole('HOMEOWNER'); resetOTPStep(); setIsAccountsOpen(false); }} className="w-full flex items-center space-x-3 p-3 hover:bg-[#FAF6EE]/5 transition-colors text-left border-none bg-transparent">
-                    <span className="text-base">🏡</span>
-                    <div>
-                      <span className="block font-rowdies-regular text-xs text-[#4ADE80]">Homeowner Account</span>
-                      <span className="block font-rowdies-light text-[9px] text-[#FAF6EE]/70">Saved Fence-Folios & 3-Bid Tracker</span>
-                    </div>
-                  </button>
-
-                  <button onClick={() => { setActiveRole('HOA'); resetOTPStep(); setIsAccountsOpen(false); }} className="w-full flex items-center space-x-3 p-3 hover:bg-[#FAF6EE]/5 transition-colors text-left border-none bg-transparent">
-                    <span className="text-base">🏛️</span>
-                    <div>
-                      <span className="block font-rowdies-regular text-xs text-[#E5B842]">HOA Board Portal</span>
-                      <span className="block font-rowdies-light text-[9px] text-[#FAF6EE]/70">ARC Review & Community Bylaws</span>
-                    </div>
-                  </button>
-
-                  <button onClick={() => { setActiveRole('CONTRACTOR'); resetOTPStep(); setIsAccountsOpen(false); }} className="w-full flex items-center space-x-3 p-3 hover:bg-[#FAF6EE]/5 transition-colors text-left border-none bg-transparent">
-                    <span className="text-base">🔨</span>
-                    <div>
-                      <span className="block font-rowdies-regular text-xs text-[#F27A22]">Contractor Portal</span>
-                      <span className="block font-rowdies-light text-[9px] text-[#FAF6EE]/70">72-Hour Job Feed & Dispatch</span>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Chamfered CTA */}
-            <a
-              href="#"
-              className="hidden sm:inline-flex items-center justify-center font-rowdies-regular text-xs text-[#1A1A1A] bg-[#E5B842] border-[2px] border-[#1A1A1A] hover:bg-[#FAF6EE] transition-all px-3 py-1.5 shadow-[2px_2px_0px_0px_#1A1A1A]"
-              style={{ clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)' }}
-            >
-              + New Build
-            </a>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden flex flex-col justify-between w-6 h-5 bg-transparent border-none cursor-pointer p-0"
-            >
-              <span className={`w-full h-0.5 bg-[#FAF6EE] rounded transition-transform ${isMobileMenuOpen ? 'transform rotate-45 translate-y-2' : ''}`} />
-              <span className={`w-full h-0.5 bg-[#FAF6EE] rounded transition-opacity ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`w-full h-0.5 bg-[#FAF6EE] rounded transition-transform ${isMobileMenuOpen ? 'transform -rotate-45 -translate-y-2.5' : ''}`} />
-            </button>
-          </div>
-
-        </div>
-
-        {/* Mobile Responsive Navigation Drawer */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden w-full bg-[#1A1A1A] border-t border-[#FAF6EE]/10 p-4 space-y-4">
-            <span className="block font-rowdies-regular text-[10px] text-[#FAF6EE]/50 uppercase tracking-widest">Navigation Pathways</span>
-            <div className="grid grid-cols-3 gap-2">
-              <a href="#" className="flex flex-col items-center p-2 bg-[#FAF6EE]/5 rounded-[5px] border border-[#FAF6EE]/10">
-                <span className="w-2.5 h-2.5 rounded-full mb-1" style={{ backgroundColor: COLORS.gold }} />
-                <span className="font-rowdies-regular text-[10px] text-[#FAF6EE]">Find It</span>
-              </a>
-              <a href="#" className="flex flex-col items-center p-2 bg-[#FAF6EE]/5 rounded-[5px] border border-[#FAF6EE]/10">
-                <span className="w-2.5 h-2.5 rounded-full mb-1" style={{ backgroundColor: COLORS.orange }} />
-                <span className="font-rowdies-regular text-[10px] text-[#FAF6EE]">Frame It</span>
-              </a>
-              <a href="#" className="flex flex-col items-center p-2 bg-[#FAF6EE]/5 rounded-[5px] border border-[#FAF6EE]/10">
-                <span className="w-2.5 h-2.5 rounded-full mb-1" style={{ backgroundColor: COLORS.green }} />
-                <span className="font-rowdies-regular text-[10px] text-[#FAF6EE]">Fence It</span>
-              </a>
-            </div>
-            
-            <span className="block font-rowdies-regular text-[10px] text-[#FAF6EE]/50 uppercase tracking-widest mt-2">Mobile Quick Build</span>
-            <a
-              href="#"
-              className="flex items-center justify-center font-rowdies-regular text-xs text-[#1A1A1A] bg-[#E5B842] border-[2px] border-[#1A1A1A] py-2.5 shadow-[2px_2px_0px_0px_#1A1A1A]"
-              style={{ clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)' }}
-            >
-              + New Build
-            </a>
-          </div>
-        )}
-      </header>
-
-      {/* ==========================================
-          MAIN TWO-COLUMN WORKSPACE (FLUSH 1200px)
-          ========================================== */}
-      <main className="w-full max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 my-6 items-start px-0">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* LEFT COLUMN: SECURITY AUTH GATEWAY */}
         <section className="lg:col-span-7 flex flex-col space-y-6">
@@ -350,7 +193,10 @@ export default function AuthGate() {
                   PORTAL SECURE GATEWAY
                 </div>
 
-                <h2 className="font-rowdies-bold text-2xl md:text-3xl leading-tight text-[#1A1A1A] uppercase">
+                <h1 className="font-rowdies-bold text-2xl md:text-3xl leading-tight text-[#1A1A1A] uppercase">
+                  Log In / Sign Up
+                </h1>
+                <h2 className="font-rowdies-regular text-sm md:text-base leading-tight text-[#16432D] uppercase mt-1">
                   Unlock Architectural File
                 </h2>
                 
@@ -693,64 +539,54 @@ export default function AuthGate() {
             </div>
           </div>
         </section>
+
+        {/* Demo role switcher — in-page only, not a footer substitute */}
+        <section className="lg:col-span-12 mt-2">
+          <div className="has-outside-corners rounded-[5px] border-[2px] border-[#1A1A1A] bg-[#FAF6EE] p-4 shadow-[3px_3px_0px_0px_#1A1A1A]">
+            <span className="font-rowdies-regular text-[10px] text-[#1A1A1A]/60 uppercase tracking-wider block mb-2">
+              Demo · Switch Account Portal
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                onClick={() => { setActiveRole('HOMEOWNER'); resetOTPStep(); }}
+                className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
+                style={{
+                  backgroundColor: activeRole === 'HOMEOWNER' ? COLORS.gold : 'transparent',
+                  boxShadow: activeRole === 'HOMEOWNER' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
+                }}
+              >
+                🏠 Homeowner Client
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveRole('HOA'); resetOTPStep(); }}
+                className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
+                style={{
+                  backgroundColor: activeRole === 'HOA' ? COLORS.orange : 'transparent',
+                  boxShadow: activeRole === 'HOA' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
+                }}
+              >
+                📋 HOA Review Board
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveRole('CONTRACTOR'); resetOTPStep(); }}
+                className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
+                style={{
+                  backgroundColor: activeRole === 'CONTRACTOR' ? COLORS.green : 'transparent',
+                  boxShadow: activeRole === 'CONTRACTOR' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
+                }}
+              >
+                🛠️ Licensed Contractor
+              </button>
+            </div>
+          </div>
+        </section>
+        </div>
       </main>
 
-      {/* ==========================================
-          UNIVERSAL FOOTER & ACTIVE switcher
-          ========================================== */}
-      <footer className="w-full max-w-[1200px] mx-auto mt-6 pt-4 border-t-[2.5px] border-[#1A1A1A] flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 bg-[#FAF6EE]/90 backdrop-blur-sm p-4 rounded-[5px] shadow-[3px_3px_0px_0px_#1A1A1A]">
-        {/* Active Role Configuration Switcher */}
-        <div className="flex flex-col space-y-1.5">
-          <span className="font-rowdies-regular text-[10px] text-[#1A1A1A]/60 uppercase tracking-wider text-center md:text-left">
-            INTERACTIVE ROLE GATEWAYS (SWITCH MODE)
-          </span>
-          
-          <div className="flex flex-wrap gap-1.5 justify-center md:justify-start">
-            <button
-              onClick={() => { setActiveRole('HOMEOWNER'); resetOTPStep(); }}
-              className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
-              style={{
-                backgroundColor: activeRole === 'HOMEOWNER' ? COLORS.gold : 'transparent',
-                boxShadow: activeRole === 'HOMEOWNER' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
-              }}
-            >
-              🏠 Homeowner Client
-            </button>
-
-            <button
-              onClick={() => { setActiveRole('HOA'); resetOTPStep(); }}
-              className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
-              style={{
-                backgroundColor: activeRole === 'HOA' ? COLORS.orange : 'transparent',
-                boxShadow: activeRole === 'HOA' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
-              }}
-            >
-              📋 HOA Review Board
-            </button>
-
-            <button
-              onClick={() => { setActiveRole('CONTRACTOR'); resetOTPStep(); }}
-              className="px-2.5 py-1 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-[10px] uppercase tracking-wider transition-all"
-              style={{
-                backgroundColor: activeRole === 'CONTRACTOR' ? COLORS.green : 'transparent',
-                boxShadow: activeRole === 'CONTRACTOR' ? '1.5px 1.5px 0px 0px #1A1A1A' : 'none',
-              }}
-            >
-              🛠️ Licensed Contractor
-            </button>
-          </div>
-        </div>
-
-        {/* Brand Firewall Compliant Entity Footer */}
-        <div className="text-center md:text-right space-y-0.5 self-center">
-          <p className="font-rowdies-bold text-xs text-[#1A1A1A]">
-            FENCE FRAMES LLC
-          </p>
-          <p className="font-rowdies-light text-[9px] text-[#1A1A1A]/60 uppercase tracking-wider">
-            Secure Cloud Archive Submittals &middot; All Rights Reserved.
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
