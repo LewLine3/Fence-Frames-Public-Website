@@ -15,12 +15,9 @@ interface ElevationStageProps {
   backSvgHtml?: string
 }
 
-/** Canonical heritage assembly viewBox (inches). */
-const CAD_VIEWBOX = { w: 112, h: 95 }
-
 /**
  * Display crop: trim empty sky above caps and equal side margins so the
- * fence fills more of the elevation card while keeping ~the same aspect.
+ * fence fills more of the elevation stage while keeping ~the same aspect.
  * Source art remains 112×95; only the rendered viewBox is tightened.
  */
 const CAD_DISPLAY_CROP = { x: 7, y: 10, w: 98, h: 83 }
@@ -50,7 +47,8 @@ function normalizeSvgString(raw: string): string {
     .replace(/\sviewBox="[^"]*"/i, ` viewBox="${crop}"`)
     .replace(
       /<svg\b/i,
-      '<svg preserveAspectRatio="xMidYMid meet" width="100%" height="100%"',
+      // xMidYMax docks grass/ground to the bottom edge of the stage
+      '<svg preserveAspectRatio="xMidYMax meet" width="100%" height="100%"',
     )
 }
 
@@ -61,8 +59,15 @@ function applySvgSlots(svg: SVGSVGElement, config: FenceConfiguration) {
     'viewBox',
     `${CAD_DISPLAY_CROP.x} ${CAD_DISPLAY_CROP.y} ${CAD_DISPLAY_CROP.w} ${CAD_DISPLAY_CROP.h}`,
   )
-  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+  svg.setAttribute('preserveAspectRatio', 'xMidYMax meet')
   svg.style.display = 'block'
+  svg.style.background = 'transparent'
+
+  // Drop the charcoal sky plate so reverse green-print reads behind the fence art.
+  const bgGroup = svg.querySelector('#Background-Group, [data-slot="background"]')
+  if (bgGroup) {
+    ;(bgGroup as HTMLElement).style.display = 'none'
+  }
 
   const isPT = config.postType.includes('pt') || config.postType.includes('pressure-treated')
   const postMatSelector = isPT ? 'pt' : 'cedar'
@@ -123,11 +128,8 @@ function applySvgSlots(svg: SVGSVGElement, config: FenceConfiguration) {
 }
 
 function ElevationCard({
-  src,
   svgHtml,
   alt,
-  label,
-  accent,
   hostRef,
 }: {
   src?: string
@@ -137,34 +139,24 @@ function ElevationCard({
   accent: string
   hostRef?: React.RefObject<HTMLDivElement | null>
 }) {
+  // No chrome plate — fence art is the container edge (strand-docked).
   return (
-    <div className="flex h-full w-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border-2 border-[#16432D]/70 bg-[#F4ECDC] shadow-[0_10px_28px_rgba(22,67,45,0.22)] select-none">
-      <div
-        className={cn(
-          'flex h-6 shrink-0 items-center justify-between px-2.5 text-[10px] font-bold uppercase leading-none text-canvas-ivory font-[\'Rowdies\']',
-          accent,
-        )}
-      >
-        <span>{label}</span>
-        <span className="font-mono text-[8px] opacity-85">
-          {CAD_VIEWBOX.w}″ × {CAD_VIEWBOX.h}″
-        </span>
-      </div>
-
-      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-0">
-        {svgHtml ? (
-          <div
-            ref={hostRef}
-            className="flex h-full w-full items-stretch justify-stretch [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full"
-            dangerouslySetInnerHTML={{ __html: svgHtml }}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center gap-2 text-[10px] text-panel-charcoal/60 font-mono">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#16432D]/30 border-t-[#16432D]" />
-            Loading elevation CAD…
-          </div>
-        )}
-      </div>
+    <div
+      className="relative flex h-full w-full min-h-0 min-w-0 items-end justify-center overflow-hidden bg-transparent select-none"
+      aria-label={alt}
+    >
+      {svgHtml ? (
+        <div
+          ref={hostRef}
+          className="flex h-full w-full items-end justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full"
+          dangerouslySetInnerHTML={{ __html: svgHtml }}
+        />
+      ) : (
+        <div className="mb-8 flex flex-col items-center justify-center gap-2 text-[10px] text-[#FAF6EE]/70 font-mono">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-[#4ADE80]" />
+          Loading elevation CAD…
+        </div>
+      )}
     </div>
   )
 }
@@ -233,18 +225,19 @@ export function ElevationStage({
   const isDual = mode === 'dual'
 
   return (
-    <div className="absolute inset-0 flex min-h-0 w-full items-stretch justify-center overflow-hidden pl-1.5 pr-[62px] pb-[60px] pt-0.5 select-none">
+    // Strand-dock: bottom of fence/grass sits on the brown ground line (slight overlap).
+    <div className="absolute inset-0 flex min-h-0 w-full items-end justify-center overflow-hidden pl-0 pr-[56px] pb-[5px] pt-0 select-none">
       <div
         className={cn(
-          'flex h-full w-full min-h-0 items-stretch justify-center gap-3 transition-transform duration-150',
-          isDual ? 'max-w-[min(100%,1480px)]' : 'max-w-[min(100%,1100px)]',
+          'flex h-full w-full min-h-0 items-end justify-center gap-2 transition-transform duration-150',
+          isDual ? 'max-w-none' : 'max-w-none',
         )}
-        style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center center' }}
+        style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center bottom' }}
       >
         {showFront && (
           <div
             className={cn(
-              'flex h-full min-h-0 min-w-0 items-center justify-center',
+              'flex h-full min-h-0 min-w-0 items-end justify-center',
               isDual ? 'flex-1' : 'h-full w-full',
             )}
           >
@@ -262,7 +255,7 @@ export function ElevationStage({
         {showBack && (
           <div
             className={cn(
-              'flex h-full min-h-0 min-w-0 items-center justify-center',
+              'flex h-full min-h-0 min-w-0 items-end justify-center',
               isDual ? 'hidden flex-1 lg:flex' : 'h-full w-full',
             )}
           >
