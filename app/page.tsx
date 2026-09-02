@@ -11,7 +11,7 @@ export default function HomePage() {
     <ModalProvider>
       <div id="top">
         <SiteNav />
-        <main className="wrap" style={{ paddingTop: "2rem" }}>
+        <main className="wrap home-main">
           <Hero />
           <FrameIt />
           <FenceFolio />

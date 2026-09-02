@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { SiteShell } from '@/components/ff/site-shell'
 
 interface SavedBuild {
   id: string;
@@ -54,21 +53,11 @@ export default function HomeownerDashboardPage() {
   ])
 
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies']"
-      style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      <SiteNav />
-
-      {/* TOP WELCOME BANNER */}
-      <section className="w-full px-4 sm:px-6 pt-6">
+    <SiteShell
+      width="dashboard"
+      bleed={
         <div
-          className="max-w-6xl mx-auto has-outside-corners p-6 sm:p-8 rounded-lg relative overflow-hidden"
+          className="has-outside-corners p-6 sm:p-8 rounded-lg relative overflow-hidden"
           style={{
             backgroundColor: '#102B1E',
             backgroundImage:
@@ -108,10 +97,9 @@ export default function HomeownerDashboardPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* MAIN DASHBOARD CONTENT */}
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 my-4">
+      }
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
         {/* LEFT / MAIN COLUMN (SAVED BUILDS & BLUEPRINTS) */}
         <section className="lg:col-span-8 flex flex-col gap-6">
@@ -314,9 +302,7 @@ export default function HomeownerDashboardPage() {
 
         </section>
 
-      </main>
-
-      <SiteFooter />
-    </div>
+      </div>
+    </SiteShell>
   )
 }

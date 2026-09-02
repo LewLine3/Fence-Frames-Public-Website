@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { SiteShell } from '@/components/ff/site-shell'
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -25,19 +24,8 @@ export default function TargetedMatchScramblePage() {
   const seconds = timeLeft % 60
 
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies']"
-      style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      <SiteNav />
-
-      <main className="flex-1 max-w-[1100px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        {/* ── HIGH URGENCY HEADER ── */}
+    <SiteShell width="folio">
+{/* ── HIGH URGENCY HEADER ── */}
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8 relative overflow-hidden"
           style={{
@@ -204,9 +192,6 @@ export default function TargetedMatchScramblePage() {
             Every lead is protected under Master Handbook §10. If the homeowner does not respond after 3 verified outreach attempts within 72 hours, 100% of your seat purchase ($39.00) is credited back to your contractor wallet automatically.
           </p>
         </section>
-      </main>
-
-      <SiteFooter />
-    </div>
+    </SiteShell>
   )
 }

@@ -9,7 +9,27 @@
     url("/images/card-trials/Wood-wet-card-background.jpg");
   background-size: cover;
   background-position: center;
-  border-top: 3px solid #e5b842;
+  border-top: none;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5px;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 1px,
+    #f27a22 1px,
+    #f27a22 4px,
+    #000 4px,
+    #000 5px
+  );
 }
 
 .grid {

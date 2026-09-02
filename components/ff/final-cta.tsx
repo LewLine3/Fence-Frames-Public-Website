@@ -12,11 +12,11 @@ export function FinalCta() {
 
   return (
     <section
-      className="final-cta-section"
+      className="final-cta-section home-section"
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
-        marginBottom: "0.75rem",
+        marginBottom: 0,
         border: "2.5px solid var(--ink)",
         borderRadius: "var(--radius)",
         overflow: "hidden",

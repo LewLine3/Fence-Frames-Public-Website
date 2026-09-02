@@ -8,6 +8,17 @@ const rowdies = (weight: 300 | 400 | 700) => ({
   fontWeight: weight,
 })
 
+const greenPrintGrid = {
+  backgroundImage:
+    "linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px)," +
+    "linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px)," +
+    "linear-gradient(#16432D 2px, transparent 2px)," +
+    "linear-gradient(90deg, #16432D 2px, transparent 2px)," +
+    "linear-gradient(90deg, rgba(10,9,8,0.92) 0%, rgba(26,20,8,0.88) 40%, rgba(229,184,66,0.35) 78%, rgba(201,152,42,0.55) 100%)",
+  backgroundSize: "25px 25px, 25px 25px, 100px 100px, 100px 100px, 100% 100%",
+  backgroundPosition: "0 0, 0 0, 0 0, 0 0, center",
+} as const
+
 const folioChapters = [
   {
     tab: "1. Cover",
@@ -63,249 +74,195 @@ export function FenceFolio() {
   const prev = () => setChapter((c) => (c - 1 + total) % total)
 
   return (
-    <section
-      className="step-section has-outside-corners"
-      id="fence-pillar"
-      style={{
-        ...{
-          width: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          marginRight: "calc(50% - 50vw)",
-        },
-        display: "grid",
-        gridTemplateColumns: "1.1fr 1fr",
-        gap: "2rem",
-        alignItems: "stretch",
-        marginBottom: "1.5rem",
-        padding: "2.5rem clamp(1.5rem, 4vw, 3rem)",
-        backgroundColor: "#0A0908",
-        backgroundImage: `
-          linear-gradient(rgba(0,0,0,0.55) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,0,0,0.55) 1px, transparent 1px),
-          linear-gradient(90deg, #0A0908 0%, #1A1408 35%, rgba(229,184,66,0.45) 72%, #C9982A 100%)
-        `,
-        backgroundSize: "28px 28px, 28px 28px, 100% 100%",
-        border: "none",
-        borderTop: "2.5px solid var(--ink)",
-        borderBottom: "2.5px solid var(--ink)",
-        borderRadius: 0,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-        position: "relative",
-      }}
-    >
-      <span className="corner-mark-out tl c-orange" style={{ zIndex: 2 }} />
-      <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
+    <section className="step-section home-section" id="fence-pillar">
+      <div
+        className="has-outside-corners fence-folio-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.1fr 1fr",
+          gap: "1.5rem",
+          alignItems: "stretch",
+          padding: "1.75rem",
+          backgroundColor: "#0A0908",
+          ...greenPrintGrid,
+          border: "2.5px solid var(--ink)",
+          borderRadius: "var(--radius)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.22)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <span className="corner-mark-out tl c-orange" style={{ zIndex: 2 }} />
+        <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
 
-      {/* ── LEFT COLUMN: Fence It Copy + Checklist Card ── */}
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        <div>
-          <h2
-            style={{
-              ...rowdies(700),
-              fontSize: "2.5rem",
-              color: "#4ADE80",
-              lineHeight: 1.1,
-              marginBottom: "0.4rem",
-              letterSpacing: "0.01em",
-            }}
-          >
-            Fence it.
-          </h2>
-          <p
-            style={{
-              ...rowdies(400),
-              fontSize: "1.05rem",
-              color: "#FAF6EE",
-              lineHeight: 1.35,
-              marginBottom: "1.5rem",
-            }}
-          >
-            The blueprint your community actually wants to see.
-          </p>
-
-          {/* Dark Container Plate */}
-          <div
-            style={{
-              background: "#080E0A",
-              border: "1.5px solid rgba(74,222,128,0.35)",
-              borderRadius: "var(--radius)",
-              padding: "1.4rem",
-              boxShadow: "inset 0 0 16px rgba(0,0,0,0.6)",
-            }}
-          >
-            <div
+        {/* ── LEFT COLUMN: Fence It copy + checklist + Find a Builder ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div>
+            <h2
               style={{
                 ...rowdies(700),
-                fontSize: "0.8rem",
-                color: "#E5B842",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "1.2rem",
+                fontSize: "2.5rem",
+                color: "#4ADE80",
+                lineHeight: 1.1,
+                marginBottom: "0.4rem",
+                letterSpacing: "0.01em",
               }}
             >
-              EVERY FENCE-FOLIO INCLUDES
-            </div>
+              Fence it.
+            </h2>
+            <p
+              style={{
+                ...rowdies(400),
+                fontSize: "1.05rem",
+                color: "#FAF6EE",
+                lineHeight: 1.35,
+                marginBottom: "1rem",
+              }}
+            >
+              The blueprint your community actually wants to see.
+            </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
-              {/* Item 1 */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                <div
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: "50%",
-                    background: "#4ADE80",
-                    color: "#080E0A",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    marginTop: 2,
-                  }}
-                >
-                  ✓
-                </div>
-                <div>
-                  <h4 style={{ ...rowdies(700), fontSize: "0.95rem", color: "#FAF6EE", margin: "0 0 0.15rem 0" }}>
-                    Code Compliant
-                  </h4>
-                  <p style={{ ...rowdies(300), fontSize: "0.82rem", color: "#B5C2BA", lineHeight: 1.4, margin: 0 }}>
-                    Community and local rules built in and listed to give you or your builder all the information in one place.
-                  </p>
-                </div>
+            <div
+              style={{
+                background: "#080E0A",
+                border: "1.5px solid rgba(74,222,128,0.35)",
+                borderRadius: "var(--radius)",
+                padding: "1.4rem",
+                boxShadow: "inset 0 0 16px rgba(0,0,0,0.6)",
+              }}
+            >
+              <div
+                style={{
+                  ...rowdies(700),
+                  fontSize: "0.8rem",
+                  color: "#E5B842",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  marginBottom: "1.2rem",
+                }}
+              >
+                EVERY FENCE-FOLIO INCLUDES
               </div>
 
-              {/* Item 2 */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                <div
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: "50%",
-                    background: "#4ADE80",
-                    color: "#080E0A",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    marginTop: 2,
-                  }}
-                >
-                  ✓
-                </div>
-                <div>
-                  <h4 style={{ ...rowdies(700), fontSize: "0.95rem", color: "#FAF6EE", margin: "0 0 0.15rem 0" }}>
-                    Fence Documents
-                  </h4>
-                  <p style={{ ...rowdies(300), fontSize: "0.82rem", color: "#B5C2BA", lineHeight: 1.4, margin: "0 0 0.5rem 0" }}>
-                    The Fence-Folio bundles several standalone documents into one easily viewable package. Included are:
-                  </p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", paddingLeft: "0.5rem" }}>
-                    <div style={{ ...rowdies(300), fontSize: "0.8rem", color: "#FAF6EE", display: "flex", gap: "0.4rem" }}>
-                      <span style={{ color: "#4ADE80", fontWeight: 700 }}>✓</span>
-                      <span><strong>Builder&rsquo;s Blueprint</strong> &mdash; Elevation + plan views ready for ARC or contractor handoff.</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
+                {[
+                  {
+                    title: "Code Compliant",
+                    copy: "Community and local rules built in and listed to give you or your builder all the information in one place.",
+                  },
+                  {
+                    title: "Fence Documents",
+                    copy: "The Fence-Folio bundles several standalone documents into one easily viewable package. Included are:",
+                    bullets: [
+                      "Builder's Blueprint — Elevation + plan views ready for ARC or contractor handoff.",
+                      "Material List — Takeoff with quantities so substitutions can't sneak in.",
+                      "Pricing Estimate — Honest ±15% range for your ZIP — not a hard quote.",
+                    ],
+                  },
+                  {
+                    title: "PDF Export",
+                    copy: "One-click PDF export, ready to download or attach to your ARC application.",
+                  },
+                  {
+                    title: "HOA Submission",
+                    copy: "If your community is a partnered HOA, we'll submit your documents directly to them on your behalf.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                    <div
+                      style={{
+                        width: 22,
+                        height: 22,
+                        borderRadius: "50%",
+                        background: "#4ADE80",
+                        color: "#080E0A",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        marginTop: 2,
+                      }}
+                    >
+                      ✓
                     </div>
-                    <div style={{ ...rowdies(300), fontSize: "0.8rem", color: "#FAF6EE", display: "flex", gap: "0.4rem" }}>
-                      <span style={{ color: "#4ADE80", fontWeight: 700 }}>✓</span>
-                      <span><strong>Material List</strong> &mdash; Takeoff with quantities so substitutions can&rsquo;t sneak in.</span>
-                    </div>
-                    <div style={{ ...rowdies(300), fontSize: "0.8rem", color: "#FAF6EE", display: "flex", gap: "0.4rem" }}>
-                      <span style={{ color: "#4ADE80", fontWeight: 700 }}>✓</span>
-                      <span><strong>Pricing Estimate</strong> &mdash; Honest &plusmn;15% range for your ZIP &mdash; not a hard quote.</span>
+                    <div>
+                      <h4 style={{ ...rowdies(700), fontSize: "0.95rem", color: "#FAF6EE", margin: "0 0 0.15rem 0" }}>
+                        {item.title}
+                      </h4>
+                      <p style={{ ...rowdies(300), fontSize: "0.82rem", color: "#B5C2BA", lineHeight: 1.4, margin: item.bullets ? "0 0 0.5rem 0" : 0 }}>
+                        {item.copy}
+                      </p>
+                      {item.bullets && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", paddingLeft: "0.5rem" }}>
+                          {item.bullets.map((b) => (
+                            <div key={b} style={{ ...rowdies(300), fontSize: "0.8rem", color: "#FAF6EE", display: "flex", gap: "0.4rem" }}>
+                              <span style={{ color: "#4ADE80", fontWeight: 700 }}>✓</span>
+                              <span>{b}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Item 3 */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                <div
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: "50%",
-                    background: "#4ADE80",
-                    color: "#080E0A",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    marginTop: 2,
-                  }}
-                >
-                  ✓
-                </div>
-                <div>
-                  <h4 style={{ ...rowdies(700), fontSize: "0.95rem", color: "#FAF6EE", margin: "0 0 0.15rem 0" }}>
-                    PDF Export
-                  </h4>
-                  <p style={{ ...rowdies(300), fontSize: "0.82rem", color: "#B5C2BA", lineHeight: 1.4, margin: 0 }}>
-                    One-click PDF export, ready to download or attach to your ARC application.
-                  </p>
-                </div>
-              </div>
-
-              {/* Item 4 */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                <div
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: "50%",
-                    background: "#4ADE80",
-                    color: "#080E0A",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    marginTop: 2,
-                  }}
-                >
-                  ✓
-                </div>
-                <div>
-                  <h4 style={{ ...rowdies(700), fontSize: "0.95rem", color: "#FAF6EE", margin: "0 0 0.15rem 0" }}>
-                    HOA Submission
-                  </h4>
-                  <p style={{ ...rowdies(300), fontSize: "0.82rem", color: "#B5C2BA", lineHeight: 1.4, margin: 0 }}>
-                    If your community is a partnered HOA, we&rsquo;ll submit your documents directly to them on your behalf.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* ── RIGHT COLUMN: Interactive FENCE-FOLIO Widget + Find a Builder Button ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {/* Folio Card */}
+          <button
+            type="button"
+            onClick={() => open("contractor")}
+            className="has-outside-corners"
+            style={{
+              background: "#121A14",
+              border: "2px solid var(--ink)",
+              borderRadius: "var(--radius)",
+              padding: "0.85rem 1.2rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              cursor: "pointer",
+              position: "relative",
+              boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
+              width: "100%",
+            }}
+          >
+            <span className="corner-mark-out bl c-gold" />
+            <span className="corner-mark-out tr c-forest" style={{ zIndex: 2 }} />
+            <span style={{ ...rowdies(700), fontSize: "1.05rem", color: "#E5B842", marginBottom: "0.15rem" }}>
+              Find a Builder
+            </span>
+            <span style={{ ...rowdies(300), fontSize: "0.8rem", color: "#B5C2BA" }}>
+              Match with 3 vetted local pros who bid on your finished plan.
+            </span>
+          </button>
+        </div>
+
+        {/* ── RIGHT COLUMN: Interactive Fence-Folio widget ── */}
         <div
           className="card-solid has-outside-corners"
           style={{
             backgroundColor: "#16432D",
             backgroundImage:
               "linear-gradient(rgba(74,222,128,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.14) 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
+            backgroundSize: "25px 25px, 25px 25px",
             border: "2.5px solid var(--ink)",
             borderRadius: "var(--radius)",
             padding: "1.4rem",
             boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
             position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0,
           }}
         >
           <span className="corner-mark-out tl c-orange" />
           <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
 
-          {/* Header Bar */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem" }}>
             <span style={{ ...rowdies(700), fontSize: "1.1rem", color: "#E5B842", letterSpacing: "0.04em" }}>
               FENCE-FOLIO
@@ -325,7 +282,6 @@ export function FenceFolio() {
             </span>
           </div>
 
-          {/* Chapter Tabs */}
           <div
             role="tablist"
             style={{
@@ -362,7 +318,6 @@ export function FenceFolio() {
             ))}
           </div>
 
-          {/* Title + Price */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.9rem", gap: "0.8rem" }}>
             <div>
               <h3 style={{ ...rowdies(700), fontSize: "1.2rem", color: "#FFFFFF", marginBottom: "0.2rem", lineHeight: 1.2 }}>
@@ -391,7 +346,7 @@ export function FenceFolio() {
             </div>
           </div>
 
-          {/* Viewport with Rulers */}
+          {/* Preview viewport — grows with content, no ruler chrome */}
           <div
             style={{
               position: "relative",
@@ -399,89 +354,37 @@ export function FenceFolio() {
               border: "2px solid #141B16",
               borderRadius: 4,
               overflow: "hidden",
+              flex: "1 1 auto",
               minHeight: 220,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "flex-end",
               boxShadow: "inset 0 0 20px rgba(0,0,0,0.7)",
             }}
           >
-            {/* Top Ruler */}
             <div
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 20,
-                borderBottom: "1px solid rgba(229,184,66,0.3)",
+                flex: 1,
+                padding: "1rem",
                 display: "flex",
-                justifyContent: "space-around",
                 alignItems: "center",
-                ...rowdies(300),
-                fontSize: "0.6rem",
-                color: "rgba(229,184,66,0.7)",
-                background: "rgba(0,0,0,0.4)",
-              }}
-            >
-              <span>0&prime;</span>
-              <span>2&prime;</span>
-              <span>4&prime;</span>
-              <span>6&prime;</span>
-              <span>8&prime;</span>
-            </div>
-            {/* Left Ruler */}
-            <div
-              style={{
-                position: "absolute",
-                top: 20,
-                left: 0,
-                bottom: 0,
-                width: 18,
-                borderRight: "1px solid rgba(229,184,66,0.3)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-                alignItems: "center",
-                ...rowdies(300),
-                fontSize: "0.6rem",
-                color: "rgba(229,184,66,0.7)",
-                background: "rgba(0,0,0,0.4)",
-              }}
-            >
-              <span>6&prime;</span>
-              <span>4&prime;</span>
-              <span>2&prime;</span>
-            </div>
-
-            {/* Rendered CAD Preview */}
-            <div
-              style={{
-                marginLeft: 18,
-                marginTop: 20,
-                padding: "0.8rem 1rem 0 1rem",
-                display: "flex",
                 justifyContent: "center",
-                alignItems: "flex-end",
-                minHeight: 180,
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                key={data.img}
                 src={data.img || "/placeholder.svg"}
                 alt={data.title}
                 style={{
                   width: "100%",
-                  maxHeight: 170,
+                  height: "auto",
+                  maxWidth: "100%",
                   objectFit: "contain",
-                  position: "relative",
-                  zIndex: 2,
                   filter: "brightness(0.95)",
                 }}
               />
             </div>
 
-            {/* Next Chapter Button Overlay */}
             <button
               type="button"
               onClick={next}
@@ -510,7 +413,6 @@ export function FenceFolio() {
             </button>
           </div>
 
-          {/* Footer Nav Controls */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.9rem" }}>
             <button
               type="button"
@@ -549,37 +451,6 @@ export function FenceFolio() {
             </button>
           </div>
         </div>
-
-        {/* ── Docked Button Plate: Find a Builder ── */}
-        <button
-          type="button"
-          onClick={() => open("contractor")}
-          className="has-outside-corners"
-          style={{
-            background: "#121A14",
-            border: "2px solid var(--ink)",
-            borderRadius: "var(--radius)",
-            padding: "0.85rem 1.2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            cursor: "pointer",
-            position: "relative",
-            boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
-            width: "100%",
-          }}
-        >
-          <span className="corner-mark-out bl c-gold" />
-          <span className="corner-mark-out tr c-forest" style={{ zIndex: 2 }} />
-          <span style={{ ...rowdies(700), fontSize: "1.05rem", color: "#E5B842", marginBottom: "0.15rem" }}>
-            Find a Builder
-          </span>
-          <span style={{ ...rowdies(300), fontSize: "0.8rem", color: "#B5C2BA" }}>
-            Match with 3 vetted local pros who bid on your finished plan.
-          </span>
-        </button>
       </div>
     </section>
   )

@@ -3,12 +3,6 @@ const rowdies = (weight: 300 | 400 | 700) => ({
   fontWeight: weight,
 })
 
-const fullBleed = {
-  width: "100vw",
-  marginLeft: "calc(50% - 50vw)",
-  marginRight: "calc(50% - 50vw)",
-} as const
-
 type ShoppingCard = {
   href: string
   ribbon: string
@@ -80,22 +74,23 @@ const cards: ShoppingCard[] = [
 
 export function FrameIt() {
   return (
-    <section className="step-section" id="frame-pillar" style={{ marginBottom: "1.5rem" }}>
-      {/* Full-bleed merged banner — text + image edge-to-edge */}
+    <section className="step-section home-section" id="frame-pillar">
+      {/* Containerized banner — aligned with hero / wrap edges */}
       <div
-        className="has-outside-corners"
+        className="has-outside-corners frame-it-banner-grid"
         style={{
-          ...fullBleed,
           display: "grid",
           gridTemplateColumns: "1.15fr 0.85fr",
           border: "2.5px solid var(--ink)",
-          borderRadius: 0,
+          borderRadius: "var(--radius)",
           overflow: "hidden",
           boxShadow: "0 6px 18px rgba(0,0,0,0.14)",
-          marginBottom: "1.8rem",
           minHeight: 220,
         }}
       >
+        <span className="corner-mark-out tl c-orange" style={{ zIndex: 2 }} />
+        <span className="corner-mark-out br c-gold" style={{ zIndex: 2 }} />
+
         <div
           style={{
             backgroundColor: "#26150D",
@@ -132,7 +127,7 @@ export function FrameIt() {
           style={{
             background: "#0E281B",
             position: "relative",
-            minHeight: "100%",
+            minHeight: 200,
             overflow: "hidden",
           }}
         >
@@ -140,13 +135,28 @@ export function FrameIt() {
           <img
             src="/images/homepage/frame-it-banner-fence-digital-twin.jpg"
             alt="Frame It — physical fence transitioning to holographic blueprint"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "115%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "left center",
+              display: "block",
+            }}
           />
         </div>
       </div>
 
       {/* 3 shopping mode cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.8rem" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "1.25rem",
+          marginTop: "1.25rem",
+        }}
+      >
         {cards.map((c) => (
           <a
             key={c.title}
@@ -170,7 +180,6 @@ export function FrameIt() {
             <span className={`corner-mark-out ${c.cornerA}`} style={{ zIndex: 2 }} />
             <span className={`corner-mark-out ${c.cornerB}`} style={{ zIndex: 2 }} />
 
-            {/* Ribbon */}
             <div
               style={{
                 background: "var(--gold-sun)",
@@ -186,7 +195,6 @@ export function FrameIt() {
               <span>{c.ribbon}</span>
             </div>
 
-            {/* Image Preview Box */}
             <div
               style={{
                 height: 220,
@@ -211,7 +219,6 @@ export function FrameIt() {
               />
             </div>
 
-            {/* Body */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "1.2rem" }}>
               <span
                 style={{

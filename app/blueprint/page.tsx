@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { SiteShell } from '@/components/ff/site-shell'
 import {
   FenceConfiguration,
   PricingBreakdown,
@@ -64,69 +63,55 @@ export default function BlueprintPage() {
   const concreteBags = postCount * 2
 
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies']"
-      style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      {/* Screen Only Navigation */}
-      <div className="print:hidden">
-        <SiteNav />
-      </div>
-
-      {/* Screen Only Top Control Bar */}
-      <section className="print:hidden w-full bg-[#102B1E] border-b-2 border-[#4ADE80] py-3 px-4 shadow-xl sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[#FAF6EE]">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/designer"
-              className="bg-[#111713] hover:bg-[#222E25] border border-white/20 text-[#FAF6EE] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition"
-            >
-              <span>←</span>
-              <span>Edit in Designer</span>
-            </Link>
-            <span className="text-white/30">|</span>
-            <span className="text-xs text-[#E5B842] font-bold uppercase">
-              📄 Portrait 8.5&quot; × 11&quot; ARC Architectural Sheet
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 flex-wrap">
-            {/* Pricing ON/OFF Toggle */}
-            <div className="flex items-center gap-2 bg-[#111713] px-3 py-1.5 rounded-full border border-white/20 text-xs">
-              <span className="text-white/70 font-normal">Pricing Visibility:</span>
-              <button
-                onClick={() => setShowPricing(!showPricing)}
-                className={`px-3 py-0.5 rounded-full font-bold transition ${
-                  showPricing
-                    ? 'bg-[#4ADE80] text-[#141B16]'
-                    : 'bg-[#E5B842] text-[#141B16]'
-                }`}
+    <SiteShell
+      width="document"
+      printHideChrome
+      contained={false}
+      bleed={
+        <section className="bg-[#102B1E] border-b-2 border-[#4ADE80] py-3 px-4 shadow-xl sticky top-0 z-40 rounded-md border-2 border-[#141B16]">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-[#FAF6EE]">
+            <div className="flex items-center gap-3">
+              <Link
+                href="/designer"
+                className="bg-[#111713] hover:bg-[#222E25] border border-white/20 text-[#FAF6EE] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition"
               >
-                {showPricing ? 'Pricing ON (Contractor Bids)' : 'Pricing OFF (ARC Submittal)'}
-              </button>
+                <span>←</span>
+                <span>Edit in Designer</span>
+              </Link>
+              <span className="text-white/30">|</span>
+              <span className="text-xs text-[#E5B842] font-bold uppercase">
+                📄 Portrait 8.5&quot; × 11&quot; ARC Architectural Sheet
+              </span>
             </div>
 
-            {/* Print Button */}
-            <button
-              onClick={handlePrint}
-              className="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-5 py-2 rounded border-2 border-[#141B16] shadow-lg flex items-center gap-1.5 transition active:scale-95"
-            >
-              <span>🖨️</span>
-              <span>Print ARC Blueprint PDF</span>
-            </button>
-          </div>
-        </div>
-      </section>
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2 bg-[#111713] px-3 py-1.5 rounded-full border border-white/20 text-xs">
+                <span className="text-white/70 font-normal">Pricing Visibility:</span>
+                <button
+                  onClick={() => setShowPricing(!showPricing)}
+                  className={`px-3 py-0.5 rounded-full font-bold transition ${
+                    showPricing
+                      ? 'bg-[#4ADE80] text-[#141B16]'
+                      : 'bg-[#E5B842] text-[#141B16]'
+                  }`}
+                >
+                  {showPricing ? 'Pricing ON (Contractor Bids)' : 'Pricing OFF (ARC Submittal)'}
+                </button>
+              </div>
 
-      {/* ===================================================================== */}
-      {/* 8.5" x 11" PORTRAIT ARCHITECTURAL SHEET CONTAINER */}
-      {/* ===================================================================== */}
-      <div className="flex-1 w-full max-w-[850px] mx-auto my-6 px-4 print:m-0 print:p-0 print:max-w-none relative">
+              <button
+                onClick={handlePrint}
+                className="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-5 py-2 rounded border-2 border-[#141B16] shadow-lg flex items-center gap-1.5 transition active:scale-95"
+              >
+                <span>🖨️</span>
+                <span>Print ARC Blueprint PDF</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      }
+    >
+      <div className="w-full print:m-0 print:p-0 print:max-w-none relative">
         <span className="corner-mark-out tl c-forest print:hidden" style={{ zIndex: 2 }} />
         <span className="corner-mark-out br c-gold print:hidden" style={{ zIndex: 2 }} />
       <main className="w-full p-8 bg-[#FAF6EE] border-4 border-[#141B16] rounded-sm shadow-2xl print:m-0 print:p-6 print:border-2 print:shadow-none print:max-w-none print:w-full print:bg-white flex flex-col justify-between min-h-[1100px]">
@@ -364,10 +349,6 @@ export default function BlueprintPage() {
 
       </main>
       </div>
-
-      <div className="print:hidden">
-        <SiteFooter />
-      </div>
-    </div>
+    </SiteShell>
   )
 }

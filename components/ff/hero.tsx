@@ -28,7 +28,6 @@ const heroOpenStyles = [
 export function Hero() {
   const [community, setCommunity] = useState("no-hoa")
   const [styleIdx, setStyleIdx] = useState(0)
-  const [imgVisible, setImgVisible] = useState(true)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const isSiView = community === "si-view"
@@ -39,11 +38,7 @@ export function Hero() {
       return
     }
     timerRef.current = setInterval(() => {
-      setImgVisible(false)
-      setTimeout(() => {
-        setStyleIdx((i) => (i + 1) % heroOpenStyles.length)
-        setImgVisible(true)
-      }, 200)
+      setStyleIdx((i) => (i + 1) % heroOpenStyles.length)
     }, 3200)
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
@@ -479,14 +474,14 @@ export function Hero() {
                     inset: "0.4rem",
                     borderRadius: 4,
                     background: previewBg,
-                    transition: "background-color 0.4s ease",
                   }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+                  key={previewImg}
                   src={previewImg || "/placeholder.svg"}
                   alt="Community fence style preview"
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", padding: "0.4rem", transition: "opacity 0.4s ease", opacity: imgVisible ? 1 : 0.3 }}
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", padding: "0.4rem" }}
                 />
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 0.2rem" }}>

@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { SiteNav } from '@/components/ff/site-nav';
-import { SiteFooter } from '@/components/ff/site-footer';
+import { SiteShell } from '@/components/ff/site-shell';
 
 // ==========================================
 // COLOR PALETTE & DESIGN TOKENS
@@ -159,24 +158,8 @@ export default function AuthGate() {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies'] select-none relative overflow-x-hidden"
-      style={{
-        backgroundColor: COLORS.parchment,
-        backgroundImage: `
-          linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px),
-          linear-gradient(#16432D 2px, transparent 2px),
-          linear-gradient(90deg, #16432D 2px, transparent 2px)
-        `,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      <SiteNav />
-
-      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8 md:py-12">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <SiteShell width="auth">
+<div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* LEFT COLUMN: SECURITY AUTH GATEWAY */}
         <section className="lg:col-span-7 flex flex-col space-y-6">
@@ -584,9 +567,6 @@ export default function AuthGate() {
           </div>
         </section>
         </div>
-      </main>
-
-      <SiteFooter />
-    </div>
+    </SiteShell>
   );
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { SiteShell } from '@/components/ff/site-shell'
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -10,19 +9,8 @@ const rowdies = (weight: 300 | 400 | 700) => ({
 
 export default function TermsPage() {
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies']"
-      style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      <SiteNav />
-
-      <main className="flex-1 max-w-[820px] w-full mx-auto px-4 sm:px-6 py-8 md:py-12">
-        {/* ── Header Banner ── */}
+    <SiteShell width="legal">
+{/* ── Header Banner ── */}
         <section
           className="has-outside-corners p-6 sm:p-8 rounded-lg mb-8 relative overflow-hidden"
           style={{
@@ -171,10 +159,7 @@ export default function TermsPage() {
             </div>
           </div>
         </div>
-      </main>
-
-      <SiteFooter />
-    </div>
+    </SiteShell>
   )
 }
 

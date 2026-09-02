@@ -46,15 +46,40 @@
   grid-template-columns: 1.08fr 0.92fr;
   gap: 1.8rem;
   align-items: stretch;
-  margin-bottom: 2.5rem;
-  /* Buffer 1 — the "mat": one grid square (25px) of dark-green inside the
-     container edges, which sit on the 0 / 1200 major grid lines. */
+  margin-bottom: 0;
   padding: 25px;
 }
+
+/* ---- Homepage section rhythm: tight, even vertical spacing ---- */
+.wrap.home-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.wrap.home-main > .step-section,
+.wrap.home-main > .home-section {
+  padding: 0 !important;
+  margin: 0 !important;
+  scroll-margin-top: 80px;
+}
+
+.wrap.home-main > .final-cta-section {
+  margin-bottom: 0 !important;
+}
+
 @media (max-width: 980px) {
   .proto-hero-split {
     grid-template-columns: 1fr;
     padding: 16px;
+  }
+  .fence-folio-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .frame-it-banner-grid {
+    grid-template-columns: 1fr !important;
   }
   .folio-two-col-layout {
     grid-template-columns: 1fr !important;

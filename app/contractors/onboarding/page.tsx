@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { SiteNav } from '@/components/ff/site-nav'
-import { SiteFooter } from '@/components/ff/site-footer'
+import { SiteShell } from '@/components/ff/site-shell'
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -28,19 +27,8 @@ export default function ContractorOnboardingPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-col font-['Rowdies']"
-      style={{
-        backgroundColor: '#F4ECDC',
-        backgroundImage: `linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)`,
-        backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
-        color: '#1A1A1A',
-      }}
-    >
-      <SiteNav />
-
-      <main className="flex-1 max-w-[1000px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        {/* ── BREADCRUMBS ── */}
+    <SiteShell width="form">
+{/* ── BREADCRUMBS ── */}
         <div className="text-xs text-[#16432D]/70 mb-4 flex items-center gap-2" style={{ ...rowdies(300) }}>
           <Link href="/" className="hover:text-[#E5B842] text-[#16432D]">Home</Link>
           <span>/</span>
@@ -253,9 +241,6 @@ export default function ContractorOnboardingPage() {
             </div>
           </div>
         )}
-      </main>
-
-      <SiteFooter />
-    </div>
+    </SiteShell>
   )
 }
