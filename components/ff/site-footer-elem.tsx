@@ -1,5 +1,6 @@
 import styles from "./site-footer.module.css"
 import { ACCOUNT_ROLES } from "@/lib/account-roles"
+import { BRAND_ASSETS } from "@/lib/brand-assets"
 import { DEV_SITE_MAP } from "@/lib/dev-site-map"
 
 export function SiteFooterElem() {
@@ -10,11 +11,19 @@ export function SiteFooterElem() {
           <a href="/" className={styles.brandLink}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/fence-frames-logo-icon.svg"
+              src={BRAND_ASSETS.logo}
               alt=""
-              width={38}
-              height={38}
-              style={{ width: 38, height: 38, objectFit: "contain", filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.6))" }}
+              width={52}
+              height={52}
+              style={{
+                width: 52,
+                height: 52,
+                objectFit: "cover",
+                borderRadius: 6,
+                border: "1.5px solid #E5B842",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.5)",
+                flexShrink: 0,
+              }}
             />
             <span className={styles.brandName}>
               <span style={{ color: "#4ADE80" }}>Fence</span>&nbsp;

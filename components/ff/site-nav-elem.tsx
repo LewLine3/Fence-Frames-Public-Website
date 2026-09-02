@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { ACCOUNT_ROLES } from "@/lib/account-roles"
+import { BRAND_ASSETS } from "@/lib/brand-assets"
 import styles from "./site-nav.module.css"
 
 /** Global site header — used on every public page including auth-gate and designer. */
@@ -24,11 +25,19 @@ export function SiteNavElem() {
           <a className={styles.brand} href="/" aria-label="Fence Frames home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/fence-frames-logo-icon.svg"
+              src={BRAND_ASSETS.logo}
               alt=""
-              width={34}
-              height={34}
-              style={{ width: 34, height: 34, objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))" }}
+              width={48}
+              height={48}
+              style={{
+                width: 48,
+                height: 48,
+                objectFit: "cover",
+                borderRadius: 6,
+                border: "1.5px solid #E5B842",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.45)",
+                flexShrink: 0,
+              }}
             />
             <span className={styles.brandName}>
               <span style={{ color: "#4ADE80" }}>Fence</span>&nbsp;

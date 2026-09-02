@@ -100,7 +100,7 @@
     '  <div class="ff-nav-inner">' +
     '    <div class="ff-nav-left">' +
     '      <a class="ff-brand" href="/" onclick="if(window.location.protocol===\'file:\'){event.preventDefault(); window.scrollTo({top:0,behavior:\'smooth\'});} return true;" aria-label="Fence Frames home">' +
-    '        <img src="/images/fence-frames-logo-icon.svg" alt="" width="46" height="46" style="width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.6));flex-shrink:0;" />' +
+    '        <img src="/images/brand/logo-dual-f.jpg" alt="" width="48" height="48" style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1.5px solid #E5B842;box-shadow:0 2px 6px rgba(0,0,0,0.45);flex-shrink:0;" />' +
     '        <span class="ff-brand-name"><span style="color:#4ADE80;">Fence</span>&nbsp;<span style="color:#E5B842;">Frames</span></span>' +
     "      </a>" +
     '      <nav class="ff-pillars" aria-label="Three pillars">' +
