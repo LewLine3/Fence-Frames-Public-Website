@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SiteShell } from '@/components/ff/site-shell';
 import { ACCOUNT_ROLES, type PortalRoleId } from '@/lib/account-roles';
+import { clearMembership, writeMembership } from '@/lib/membership-session';
 
 // ==========================================
 // COLOR PALETTE & DESIGN TOKENS
@@ -64,9 +66,31 @@ const CropMarks = ({ type }: { type: 'technical' | 'cedar' }) => {
 // ==========================================
 // CORE PAGE COMPONENT
 // ==========================================
+function safeNextPath(raw: string | null): string {
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/blueprint';
+  return raw;
+}
+
 export default function AuthGate() {
+  return (
+    <React.Suspense
+      fallback={
+        <SiteShell width="auth">
+          <div className="font-rowdies-light text-sm text-[#16432D] p-8">Loading sign-in…</div>
+        </SiteShell>
+      }
+    >
+      <AuthGateInner />
+    </React.Suspense>
+  );
+}
+
+function AuthGateInner() {
   // Portal Roles
   type RoleType = PortalRoleId;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextPath = safeNextPath(searchParams.get('next'));
   const [activeRole, setActiveRole] = useState<RoleType>('HOMEOWNER');
 
   // Multi-step Registration / OTP States
@@ -139,12 +163,27 @@ export default function AuthGate() {
     }
   };
 
-  // Verify entered OTP
+  // Verify entered OTP — persist membership, then return to locked destination
   const handleVerifyOTP = (e: React.FormEvent) => {
     e.preventDefault();
     if (otpCode.join('').length < 6) return;
+    writeMembership({
+      role: activeRole,
+      fullName: fullName.trim() || 'Member',
+      phone: phone.trim() || undefined,
+      zip: zip.trim() || undefined,
+      verifiedAt: Date.now(),
+    });
     setIsSuccess(true);
   };
+
+  useEffect(() => {
+    if (!isSuccess) return;
+    const t = window.setTimeout(() => {
+      router.replace(nextPath);
+    }, 1200);
+    return () => window.clearTimeout(t);
+  }, [isSuccess, nextPath, router]);
 
   const formatTimer = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -367,12 +406,23 @@ export default function AuthGate() {
 
                 <div className="p-3 border-[2px] border-dashed border-[#1A1A1A] rounded-[5px] bg-[#4ADE80]/10 max-w-xs mx-auto">
                   <p className="font-rowdies-light text-[11px] text-[#1A1A1A]/80 uppercase">
-                    Redirecting to standalone blueprint workspace...
+                    Redirecting to your Fence It destination…
                   </p>
                 </div>
 
                 <button
+                  type="button"
+                  onClick={() => router.replace(nextPath)}
+                  className="w-full max-w-xs mx-auto py-2.5 rounded-[5px] border-[2px] border-[#1A1A1A] font-rowdies-regular text-xs uppercase tracking-wider text-[#1A1A1A] transition-all hover:translate-y-[-1px] hover:shadow-[2px_2px_0px_0px_#1A1A1A]"
+                  style={{ backgroundColor: COLORS.green }}
+                >
+                  Continue →
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => {
+                    clearMembership();
                     setIsSuccess(false);
                     setStep(1);
                     setOtpCode(new Array(6).fill(''));

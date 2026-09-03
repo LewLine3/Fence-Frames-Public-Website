@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Supabase Component Overlay &amp; Coordinate Alignment Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F4ECDC;
+      --bg-card: #FAF6EE;
+      --ink: #141B16;
+      --forest: #2F5D3A;
+      --forest-deep: #16432D;
+      --gold: #D9B872;
+      --gold-dark: #B89243;
+      --ember: #C2622D;
+      --ember-bright: #D4732F;
+      --tan: #C4B294;
+      --tan-light: #EBE1D0;
+      --cyan-inspect: #00E5FF;
+      --border: 2px solid var(--ink);
+      --radius: 4px;
+      --maxw: 1440px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(46, 139, 78, 0.20) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 139, 78, 0.20) 1px, transparent 1px),
+        linear-gradient(rgba(22, 67, 45, 0.45) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.45) 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      background: var(--ink);
+      color: #FAF6EE;
+      border-bottom: 3px solid var(--gold);
+      padding: 0.9rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+    }
+    .header-inner {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .brand-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-tag {
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .db-status {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+    .status-pill {
+      background: rgba(46, 139, 78, 0.25);
+      border: 1px solid #5AAB6A;
+      color: #7FE592;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .status-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #7FE592;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #7FE592;
+    }
+
+    /* Main Grid Layout: Elevation Stage + Real Stack Composer */
+    .studio-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 1040px) {
+      .studio-main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Elevation Stage Panel */
+    .elevation-panel {
+      background: var(--bg-card);
+      border: var(--border);
+      border-radius: var(--radius);
+      box-shadow: 6px 6px 0 rgba(20, 27, 22, 0.85);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-header {
+      background: var(--forest-deep);
+      color: #FAF6EE;
+      padding: 0.75rem 1.25rem;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border);
+    }
+    .elevation-viewport {
+      background: #FFFFFF;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
+      position: relative;
+      border-bottom: 2px solid var(--ink);
+    }
+    .elevation-svg-stage {
+      width: 100%;
+      max-height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .elevation-svg-stage svg {
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+    }
+
+    /* Target Reticle & Highlight */
+    .highlight-active {
+      filter: drop-shadow(0 0 8px var(--cyan-inspect)) drop-shadow(0 0 16px var(--cyan-inspect)) !important;
+      stroke: var(--cyan-inspect) !important;
+      stroke-width: 1.5px !important;
+      animation: pulseHighlight 1.5s infinite alternate;
+    }
+    @keyframes pulseHighlight {
+      from { opacity: 0.85; filter: drop-shadow(0 0 6px var(--cyan-inspect)); }
+      to { opacity: 1; filter: drop-shadow(0 0 18px var(--cyan-inspect)); }
+    }
+
+    /* Stage Controls Bar */
+    .stage-tools-bar {
+      background: var(--tan-light);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+    }
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .toggle-btn {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      background: #FFFFFF;
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .toggle-btn.active {
+      background: var(--forest-deep);
+      color: #FAF6EE;
+    }
+
+    /* Inspector & Coordinate Readout */
+    .inspector-panel {
+      background: var(--bg-card);
+      border: var(--border);
+      border-radius: var(--radius);
+      box-shadow: 6px 6px 0 rgba(20, 27, 22, 0.85);
+      display: flex;
+      flex-direction: column;
+    }
+    .inspector-inner {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      overflow-y: auto;
+      max-height: 700px;
+    }
+    .inspector-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.95rem;
+      color: var(--forest-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 2px solid var(--forest);
+      padding-bottom: 0.35rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .control-row label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .control-select {
+      width: 100%;
+      padding: 0.45rem 0.65rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      background: #FFFFFF;
+    }
+
+    /* Coordinate Box */
+    .coord-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      padding: 0.85rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    .coord-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    .coord-val {
+      font-weight: 700;
+      color: var(--forest-deep);
+    }
+    .coord-badge-pass {
+      color: #2F5D3A;
+      font-weight: 700;
+    }
+
+    /* Canonical Quote Box */
+    .bom-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      padding: 0.85rem;
+      font-size: 0.8rem;
+    }
+    .bom-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+    }
+    .bom-row.total {
+      font-weight: 800;
+      border-top: 1.5px solid var(--ink);
+      padding-top: 0.4rem;
+      margin-top: 0.4rem;
+      color: var(--forest-deep);
+    }
+
+    /* Category Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.82rem;
+      padding: 0.45rem 0.95rem;
+      background: var(--bg-card);
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      cursor: pointer;
+      color: var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover {
+      background: var(--gold);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .filter-btn.active {
+      background: var(--forest-deep);
+      color: #FAF6EE;
+      box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4);
+      transform: translate(1px, 1px);
+    }
+
+    /* Component Cards Grid */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .comp-card {
+      background: var(--bg-card);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem;
+      box-shadow: 4px 4px 0 var(--ink);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .comp-card.active-in-fence {
+      border: 2.5px solid var(--forest);
+      box-shadow: 0 0 0 2px var(--gold), 5px 5px 0 var(--ink);
+    }
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+    .comp-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1rem;
+      color: var(--forest-deep);
+      line-height: 1.25;
+    }
+    .comp-badge {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.68rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--ink);
+      color: var(--gold);
+      border-radius: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .comp-svg-preview {
+      background: #FFFFFF;
+      border: 1.5px solid var(--ink);
+      height: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      margin-bottom: 0.75rem;
+      padding: 0.5rem;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .comp-svg-preview img, .comp-svg-preview svg {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .overlay-action-btn {
+      width: 100%;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      padding: 0.5rem;
+      background: var(--gold);
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      cursor: pointer;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .overlay-action-btn:hover {
+      background: #E5C37E;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .comp-desc {
+      font-size: 0.8rem;
+      color: #333;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+      flex-grow: 1;
+    }
+    .vendor-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74rem;
+    }
+    .vendor-table th {
+      background: var(--ink);
+      color: #FAF6EE;
+      text-align: left;
+      padding: 0.2rem 0.4rem;
+      font-family: 'Rowdies', sans-serif;
+      font-size: 0.65rem;
+    }
+    .vendor-table td {
+      padding: 0.2rem 0.4rem;
+      border-bottom: 1px solid var(--tan);
+    }
+    .vendor-table tr:last-child td { border-bottom: none; }
+    .price-best { font-weight: 700; color: var(--forest); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap header-inner">
+      <div class="brand-title">
+        <span>FENCE FRAMES</span>
+        <span class="brand-tag">Component Overlay &amp; Coordinate Studio</span>
+      </div>
+      <div class="db-status">
+        <span>Supabase: <code>hikpszwtglrkfgivcdaa</code></span>
+        <span class="status-pill">38 Master Components Loaded</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Main Studio Grid: Real Vector Elevation + Inspector -->
+    <div class="studio-main-grid">
+
+      <!-- Left: Real Vector Elevation Stage -->
+      <section class="elevation-panel">
+        <div class="panel-header">
+          <span>Real-Time Fence Stack Composer (Module 112×96 in)</span>
+          <span id="activeLayerLabel" style="font-size: 0.82rem; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--gold);">
+            Active Inspection: Cedar Flat-Top 1×6 Infill
+          </span>
+        </div>
+
+        <div class="elevation-viewport">
+          <div class="elevation-svg-stage" id="svgStage">
+            <!-- Rendered by Stack Composer Engine -->
+          </div>
+        </div>
+
+        <!-- Stage Tools Bar -->
+        <div class="stage-tools-bar">
+          <div class="toggle-group">
+            <button id="btnGrid" class="toggle-btn active">
+              <span>📐</span> Coordinate Rulers (Y=12, 13.3, 32.5, 72, 84)
+            </button>
+            <button id="btnHighlight" class="toggle-btn active">
+              <span>🎯</span> Inspect Reticle
+            </button>
+            <button id="btnSolo" class="toggle-btn">
+              <span>🔍</span> Solo Selected Layer
+            </button>
+          </div>
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--forest-deep);">
+            Canon Coordinate Base: <code>stack-composer-manifest.js</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Coordinate & BOM Inspector -->
+      <aside class="inspector-panel">
+        <div class="panel-header">
+          <span>Alignment &amp; Math Inspector</span>
+        </div>
+        <div class="inspector-inner">
+
+          <!-- Layer Selectors -->
+          <div class="control-row">
+            <label for="selCap">1. Post Cap Layer (Z=25)</label>
+            <select id="selCap" class="control-select">
+              <option value="none">None (Flush Cut Post Top)</option>
+              <option value="post-cap-cedar-pyramid" selected>4×4 Cedar Pyramid Cap (4.25×3.5 in)</option>
+              <option value="post-cap-metal-pyramid">4×4 Black Aluminum Cap (3.875×3.5 in)</option>
+              <option value="post-cap-copper-pyramid">4×4 Solid Copper Cap (4.25×3.5 in)</option>
+              <option value="post-cap-solar-pyramid">4×4 Solar LED Cap (4.25×4.25 in)</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="selPicket">2. Picket Infill Layer (Z=15)</label>
+            <select id="selPicket" class="control-select">
+              <option value="picket-cedar-flat-1x6" selected>1×6 Flat-Top Cedar (5.5 in width, 1/4 in gap)</option>
+              <option value="picket-cedar-gothic-1x6">1×6 Gothic Point Cedar (French Peak)</option>
+              <option value="picket-cedar-dogear-1x6">1×6 Dog-Ear Cedar (Angle Chamfer)</option>
+              <option value="picket-cedar-shadowbox-1x6">1×6 Shadowbox (Alternating Faces)</option>
+              <option value="picket-cedar-board-on-board-1x6">1×6 Board-on-Board (1 in Overlap)</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="selBracket">3. Structural Bracket Layer (Z=44)</label>
+            <select id="selBracket" class="control-select">
+              <option value="none">Direct Nailed / Screwed (No Bracket)</option>
+              <option value="bracket-u-2x4-black" selected>Black 2×4 U-Bracket (2.5×3.5 in)</option>
+              <option value="bracket-u-2x4-galv">Simpson Strong-Tie FB24Z Galv (2.5×3.5 in)</option>
+              <option value="bracket-wood-block-2x4-cedar">2×4 Cedar Shelf Block (3.5×6 in)</option>
+              <option value="bracket-wood-block-2x2-cedar">2×2 Cedar Cleat Block (1.5×6 in)</option>
+              <option value="bracket-hidden-hanger">Concealed Rail Hanger (2.5×3.5 in)</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="selTrim">4. Picture-Frame Fascia Trim (Z=18)</label>
+            <select id="selTrim" class="control-select">
+              <option value="trim-1x4-cedar-1tier" selected>1-Tier Cedar Top Rail Fascia (3.5×89.375 in)</option>
+              <option value="trim-1x4-cedar-2tier">2-Tier Cedar Top &amp; Bottom Fascia</option>
+              <option value="trim-1x4-pt-1tier">1-Tier PT Fascia</option>
+              <option value="none">None (Exposed Framing)</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="selFlange">5. Post Foundation Anchor (Z=8)</label>
+            <select id="selFlange" class="control-select">
+              <option value="none" selected>Standard In-Ground (24″ Deep + Concrete)</option>
+              <option value="bracket-post-flange-anchor">Surface Mount 4×4 Flange Anchor (5.5×6 in)</option>
+            </select>
+          </div>
+
+          <!-- Coordinate Readout Box -->
+          <div class="coord-box">
+            <div style="font-weight:700; margin-bottom:0.4rem; color:var(--forest-deep);">
+              📐 TARGET LAYER COORDINATES:
+            </div>
+            <div class="coord-row"><span>Layer ID:</span> <code class="coord-val" id="inspLayerId">pickets-infill</code></div>
+            <div class="coord-row"><span>Bounding Box (X, Y):</span> <code class="coord-val" id="inspXY">(11.3125, 12.0000)</code></div>
+            <div class="coord-row"><span>Dimensions (W × H):</span> <code class="coord-val" id="inspWH">89.375 × 72.000 in</code></div>
+            <div class="coord-row"><span>Z-Index Order:</span> <code class="coord-val" id="inspZ">15</code></div>
+            <div class="coord-row"><span>Ground Grade Delta:</span> <code class="coord-val" id="inspGrade">0.000 in (Flush at Y=84)</code></div>
+            <div class="coord-row"><span>Post Seating Check:</span> <span class="coord-badge-pass" id="inspCheck">✓ PERFECT MATCH</span></div>
+          </div>
+
+          <!-- Live Canonical BOM & Quote -->
+          <div class="bom-box">
+            <div style="font-weight:700; margin-bottom:0.4rem; color:var(--forest-deep);">
+              💰 CANONICAL QUOTE ENGINE (8FT BAY):
+            </div>
+            <div class="bom-row"><span>Raw Materials (MC):</span> <strong id="bomMC">$197.74</strong></div>
+            <div class="bom-row"><span>Burdened (M = MC × 1.25):</span> <span id="bomM">$247.18</span></div>
+            <div class="bom-row"><span>Labor (L = M × 2.0):</span> <span id="bomL">$494.35</span></div>
+            <div class="bom-row"><span>Admin Fee (A = 10%):</span> <span id="bomA">$74.15</span></div>
+            <div class="bom-row total"><span>Quoted Mid:</span> <span id="bomMid">$815.68</span></div>
+            <div style="font-size: 0.72rem; color: #555; margin-top: 0.3rem;">
+              Homeowner Range (±15%): <strong id="bomRange" style="color:var(--forest);">$693 – $938</strong>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-cat="all">All Components (38)</button>
+      <button class="filter-btn" data-cat="caps">Post Caps (4)</button>
+      <button class="filter-btn" data-cat="pickets">Pickets &amp; Infill (6)</button>
+      <button class="filter-btn" data-cat="brackets">Brackets &amp; Cleats (8)</button>
+      <button class="filter-btn" data-cat="posts">Posts &amp; Rails (6)</button>
+      <button class="filter-btn" data-cat="trim">Fascia Trim (4)</button>
+      <button class="filter-btn" data-cat="hardware">Gate Kits &amp; Hardware (8)</button>
+      <button class="filter-btn" data-cat="finish">Finish &amp; Remediation (3)</button>
+    </div>
+
+    <!-- Components Grid with Direct "Overlay into Fence" buttons -->
+    <div class="components-grid" id="componentsGrid"></div>
+
+  </main>
+
+  <script>
+    // Supabase Master Database Component Data
+    const COMPONENTS = [
+      {
+        sku: 'post-cap-cedar-pyramid',
+        category: 'caps',
+        name: '4×4 Cedar Pyramid Post Cap',
+        svg: 'caps/sym-post-cap-cedar-pyramid.svg',
+        place: { x: 7.625, y: 8.5, w: 4.25, h: 3.5, z: 25 },
+        targetControl: { id: 'selCap', value: 'post-cap-cedar-pyramid' },
+        desc: '4×4 Western Red Cedar pyramid cap protecting post end-grain from rain rot.',
+        unit: 'ea', basis: 'perPost', qty: 1, lifespan: 15,
+        prices: [
+          { vendor: "Home Depot", sku: "1000007207", price: 6.48 },
+          { vendor: "Lowe's", sku: "482910", price: 6.98 },
+          { vendor: "Dunn Lumber", sku: "CAP-44PYR-CD", price: 6.25, best: true },
+          { vendor: "Chinook", sku: "CAP-44PYR-CD", price: 6.50 }
+        ]
+      },
+      {
+        sku: 'post-cap-metal-pyramid',
+        category: 'caps',
+        name: '4×4 Black Aluminum Pyramid Post Cap',
+        svg: 'caps/sym-post-cap-metal-pyramid.svg',
+        place: { x: 7.8125, y: 8.5, w: 3.875, h: 3.5, z: 25 },
+        targetControl: { id: 'selCap', value: 'post-cap-metal-pyramid' },
+        desc: 'Durable powder-coated matte black aluminum pyramid cap for 4×4 posts.',
+        unit: 'ea', basis: 'perPost', qty: 1, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "313791000", price: 8.98 },
+          { vendor: "Lowe's", sku: "118293", price: 9.48 },
+          { vendor: "Dunn Lumber", sku: "CAP-44ALUM-BK", price: 8.50, best: true },
+          { vendor: "Chinook", sku: "CAP-44ALUM-BK", price: 8.75 }
+        ]
+      },
+      {
+        sku: 'post-cap-copper-pyramid',
+        category: 'caps',
+        name: '4×4 Solid Copper Pyramid Post Cap',
+        svg: 'caps/sym-post-cap-copper-pyramid.svg',
+        place: { x: 7.625, y: 8.5, w: 4.25, h: 3.5, z: 25 },
+        targetControl: { id: 'selCap', value: 'post-cap-copper-pyramid' },
+        desc: 'Solid raw copper pyramid post cap that naturally patinas to verdigris over time.',
+        unit: 'ea', basis: 'perPost', qty: 1, lifespan: 30,
+        prices: [
+          { vendor: "Home Depot", sku: "202316524", price: 14.98 },
+          { vendor: "Lowe's", sku: "338291", price: 15.48 },
+          { vendor: "Dunn Lumber", sku: "CAP-44COP-PYR", price: 14.50, best: true },
+          { vendor: "Chinook", sku: "CAP-44COP-PYR", price: 14.75 }
+        ]
+      },
+      {
+        sku: 'post-cap-solar-pyramid',
+        category: 'caps',
+        name: '4×4 Solar LED Pyramid Post Cap',
+        svg: 'caps/sym-post-cap-solar-pyramid.svg',
+        place: { x: 7.625, y: 7.75, w: 4.25, h: 4.25, z: 25 },
+        targetControl: { id: 'selCap', value: 'post-cap-solar-pyramid' },
+        desc: 'Solar-powered ambient down-lighting LED pyramid post cap with rechargeable battery.',
+        unit: 'ea', basis: 'perPost', qty: 1, lifespan: 10,
+        prices: [
+          { vendor: "Home Depot", sku: "300958100", price: 19.98 },
+          { vendor: "Lowe's", sku: "449281", price: 21.48 },
+          { vendor: "Dunn Lumber", sku: "CAP-44SOL-LED", price: 19.50, best: true },
+          { vendor: "Chinook", sku: "CAP-44SOL-LED", price: 19.95 }
+        ]
+      },
+      {
+        sku: 'picket-cedar-flat-1x6',
+        category: 'pickets',
+        name: '1×6 Cedar Flat-Top Picket (6ft)',
+        svg: 'pickets/sym-picket-cedar-flat-top-heritage.svg',
+        place: { x: 11.3125, y: 12.0, w: 89.375, h: 72.0, z: 15 },
+        targetControl: { id: 'selPicket', value: 'picket-cedar-flat-1x6' },
+        desc: 'Flat-top cedar boards gapped a quarter inch or less — full privacy from the street.',
+        unit: 'ea', basis: 'perPicket', qty: 17, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "458520", price: 4.28, best: true },
+          { vendor: "Lowe's", sku: "93210", price: 4.38 },
+          { vendor: "Dunn Lumber", sku: "CDR16-6FT", price: 4.45 },
+          { vendor: "Chinook", sku: "CDR106-06FT", price: 4.55 }
+        ]
+      },
+      {
+        sku: 'picket-cedar-gothic-1x6',
+        category: 'pickets',
+        name: '1×6 Cedar Gothic-Point Picket (6ft)',
+        svg: 'pickets/sym-picket-cedar-gothic-heritage.svg',
+        place: { x: 11.3125, y: 12.0, w: 89.375, h: 72.0, z: 15 },
+        targetControl: { id: 'selPicket', value: 'picket-cedar-gothic-1x6' },
+        desc: 'Traditional French gothic pointed top Western Red Cedar picket.',
+        unit: 'ea', basis: 'perPicket', qty: 17, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "458514", price: 4.68, best: true },
+          { vendor: "Lowe's", sku: "93215", price: 4.78 },
+          { vendor: "Dunn Lumber", sku: "CDR16-6GOTH", price: 4.85 },
+          { vendor: "Chinook", sku: "CDR106-06GOTH", price: 4.95 }
+        ]
+      },
+      {
+        sku: 'picket-cedar-dogear-1x6',
+        category: 'pickets',
+        name: '1×6 Cedar Dog-Ear Picket (6ft)',
+        svg: 'pickets/component-picket-cedar-dog-eared.svg',
+        place: { x: 11.3125, y: 12.0, w: 89.375, h: 72.0, z: 15 },
+        targetControl: { id: 'selPicket', value: 'picket-cedar-dogear-1x6' },
+        desc: 'Classic dog-eared corner cut Western Red Cedar picket.',
+        unit: 'ea', basis: 'perPicket', qty: 17, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "458507", price: 3.98, best: true },
+          { vendor: "Lowe's", sku: "93208", price: 4.18 },
+          { vendor: "Dunn Lumber", sku: "CDR16-6DE", price: 4.15 },
+          { vendor: "Chinook", sku: "CDR106-06DE", price: 4.25 }
+        ]
+      },
+      {
+        sku: 'picket-cedar-shadowbox-1x6',
+        category: 'pickets',
+        name: '1×6 Cedar Shadowbox Alternating Picket',
+        svg: 'pickets/sym-picket-cedar-shadowbox-heritage.svg',
+        place: { x: 11.3125, y: 12.0, w: 89.375, h: 72.0, z: 15 },
+        targetControl: { id: 'selPicket', value: 'picket-cedar-shadowbox-1x6' },
+        desc: 'Alternating board-on-side shadowbox semi-privacy cedar picket configuration.',
+        unit: 'ea', basis: 'perPicket', qty: 20, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "458520", price: 4.28, best: true },
+          { vendor: "Lowe's", sku: "93210", price: 4.38 },
+          { vendor: "Dunn Lumber", sku: "CDR16-6FT", price: 4.45 },
+          { vendor: "Chinook", sku: "CDR106-06FT", price: 4.55 }
+        ]
+      },
+      {
+        sku: 'picket-cedar-board-on-board-1x6',
+        category: 'pickets',
+        name: '1×6 Cedar Board-on-Board Overlap Picket',
+        svg: 'pickets/sym-picket-cedar-board-on-board-heritage.svg',
+        place: { x: 11.3125, y: 12.0, w: 89.375, h: 72.0, z: 15 },
+        targetControl: { id: 'selPicket', value: 'picket-cedar-board-on-board-1x6' },
+        desc: '100% full-privacy overlapping board-on-board cedar picket layout.',
+        unit: 'ea', basis: 'perPicket', qty: 21, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "458520", price: 4.28, best: true },
+          { vendor: "Lowe's", sku: "93210", price: 4.38 },
+          { vendor: "Dunn Lumber", sku: "CDR16-6FT", price: 4.45 },
+          { vendor: "Chinook", sku: "CDR106-06FT", price: 4.55 }
+        ]
+      },
+      {
+        sku: 'bracket-u-2x4-black',
+        category: 'brackets',
+        name: 'Powder-Coated Black 2×4 Rail U-Bracket',
+        svg: 'brackets/sym-bracket-u-2x4-black.svg',
+        place: { x: 9.875, y: 13.3125, w: 2.5, h: 3.5, z: 44 },
+        targetControl: { id: 'selBracket', value: 'bracket-u-2x4-black' },
+        desc: 'Ornamental architectural matte black powder-coated steel 2×4 rail hanger.',
+        unit: 'ea', basis: 'perPanel', qty: 4, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "56627", price: 5.48 },
+          { vendor: "Lowe's", sku: "894210", price: 5.98 },
+          { vendor: "Dunn Lumber", sku: "OZ-FB24-BK", price: 5.25, best: true },
+          { vendor: "Chinook", sku: "OZ-FB24-BK", price: 5.40 }
+        ]
+      },
+      {
+        sku: 'bracket-u-2x4-galv',
+        category: 'brackets',
+        name: 'Simpson Strong-Tie FB24Z Galv 2×4 Bracket',
+        svg: 'brackets/sym-bracket-u-2x4-galv.svg',
+        place: { x: 9.875, y: 13.3125, w: 2.5, h: 3.5, z: 44 },
+        targetControl: { id: 'selBracket', value: 'bracket-u-2x4-galv' },
+        desc: 'ZMAX galvanized structural 2×4 rail-to-post concealed connection bracket.',
+        unit: 'ea', basis: 'perPanel', qty: 4, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "100155097", price: 1.98 },
+          { vendor: "Lowe's", sku: "192831", price: 2.08 },
+          { vendor: "Dunn Lumber", sku: "FB24Z", price: 1.90, best: true },
+          { vendor: "Chinook", sku: "FB24Z", price: 1.95 }
+        ]
+      },
+      {
+        sku: 'bracket-wood-block-2x4-cedar',
+        category: 'brackets',
+        name: '2×4 Cedar Structural Support Block',
+        svg: 'brackets/sym-bracket-wood-block-2x4-cedar.svg',
+        place: { x: 11.5, y: 16.8, w: 3.5, h: 6.0, z: 38 },
+        targetControl: { id: 'selBracket', value: 'bracket-wood-block-2x4-cedar' },
+        desc: 'Heavy 2×4 cedar structural shelf block under rails.',
+        unit: 'ea', basis: 'perPanel', qty: 4, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "460677", price: 2.45 },
+          { vendor: "Lowe's", sku: "93260", price: 2.55 },
+          { vendor: "Dunn Lumber", sku: "CDR24-8", price: 2.25, best: true },
+          { vendor: "Chinook", sku: "CDR24-8", price: 2.30 }
+        ]
+      },
+      {
+        sku: 'bracket-wood-block-2x2-cedar',
+        category: 'brackets',
+        name: '2×2 Cedar Nailer Cleat Block',
+        svg: 'brackets/sym-bracket-wood-block-2x2-cedar.svg',
+        place: { x: 11.5, y: 16.8, w: 1.5, h: 6.0, z: 38 },
+        targetControl: { id: 'selBracket', value: 'bracket-wood-block-2x2-cedar' },
+        desc: 'Jobsite-cut 2×2 cedar nailer cleat for hidden picket backing.',
+        unit: 'ea', basis: 'perPanel', qty: 4, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "460670", price: 1.65 },
+          { vendor: "Lowe's", sku: "93250", price: 1.75 },
+          { vendor: "Dunn Lumber", sku: "CDR22-8", price: 1.50, best: true },
+          { vendor: "Chinook", sku: "CDR22-8", price: 1.55 }
+        ]
+      },
+      {
+        sku: 'bracket-hidden-hanger',
+        category: 'brackets',
+        name: 'Concealed Rail Hanger Bracket',
+        svg: 'brackets/sym-bracket-rail-hanger-hidden.svg',
+        place: { x: 9.875, y: 13.3125, w: 2.5, h: 3.5, z: 44 },
+        targetControl: { id: 'selBracket', value: 'bracket-hidden-hanger' },
+        desc: 'Concealed flange stainless rail hanger hidden behind pickets.',
+        unit: 'ea', basis: 'perPanel', qty: 4, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "205340112", price: 2.75 },
+          { vendor: "Lowe's", sku: "302911", price: 2.85 },
+          { vendor: "Dunn Lumber", sku: "HANGER-CONC", price: 2.60, best: true },
+          { vendor: "Chinook", sku: "HANGER-CONC", price: 2.65 }
+        ]
+      },
+      {
+        sku: 'bracket-post-flange-anchor',
+        category: 'brackets',
+        name: 'Surface Mount Post Base Flange Anchor (4×4)',
+        svg: 'brackets/sym-bracket-post-flange-anchor.svg',
+        place: { x: 7.0, y: 78.0, w: 5.5, h: 6.0, z: 8 },
+        targetControl: { id: 'selFlange', value: 'bracket-post-flange-anchor' },
+        desc: 'Simpson Strong-Tie ABA44Z surface mount post base anchor for patio/concrete mounting.',
+        unit: 'ea', basis: 'perPost', qty: 1, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "100140221", price: 18.98 },
+          { vendor: "Lowe's", sku: "119284", price: 19.48 },
+          { vendor: "Dunn Lumber", sku: "ABA44Z", price: 18.50, best: true },
+          { vendor: "Chinook", sku: "ABA44Z", price: 18.75 }
+        ]
+      },
+      {
+        sku: 'trim-1x4-cedar-1tier',
+        category: 'trim',
+        name: '1×4 Cedar Fascia Trim (1-Tier)',
+        svg: 'trim/sym-trim-top-cedar.svg',
+        place: { x: 11.3125, y: 13.3125, w: 89.375, h: 3.5, z: 18 },
+        targetControl: { id: 'selTrim', value: 'trim-1x4-cedar-1tier' },
+        desc: 'Single 1×4 Western Red Cedar fascia trim band at top rail.',
+        unit: 'ea', basis: 'perPanel', qty: 1, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "93255", price: 9.98 },
+          { vendor: "Lowe's", sku: "460655", price: 10.48 },
+          { vendor: "Dunn Lumber", sku: "CDR14-8", price: 9.50, best: true }
+        ]
+      },
+      {
+        sku: 'trim-1x4-cedar-2tier',
+        category: 'trim',
+        name: '1×4 Cedar Fascia Trim (2-Tier Top & Bottom)',
+        svg: 'trim/sym-trim-top-cedar.svg',
+        place: { x: 11.3125, y: 13.3125, w: 89.375, h: 3.5, z: 18 },
+        targetControl: { id: 'selTrim', value: 'trim-1x4-cedar-2tier' },
+        desc: 'Dual 1×4 Western Red Cedar fascia trim at both top and bottom rails.',
+        unit: 'ea', basis: 'perPanel', qty: 2, lifespan: 20,
+        prices: [
+          { vendor: "Home Depot", sku: "93255", price: 19.96 },
+          { vendor: "Lowe's", sku: "460655", price: 20.96 },
+          { vendor: "Dunn Lumber", sku: "CDR14-8-PAIR", price: 19.00, best: true },
+          { vendor: "Chinook", sku: "CDR14-8-PAIR", price: 19.50 }
+        ]
+      },
+      {
+        sku: 'trim-1x4-pt-1tier',
+        category: 'trim',
+        name: '1×4 PT Fascia Trim (1-Tier)',
+        svg: 'trim/sym-trim-top-pt.svg',
+        place: { x: 11.3125, y: 13.3125, w: 89.375, h: 3.5, z: 18 },
+        targetControl: { id: 'selTrim', value: 'trim-1x4-pt-1tier' },
+        desc: 'Pressure-treated 1×4 fascia trim board at top rail.',
+        unit: 'ea', basis: 'perPanel', qty: 1, lifespan: 25,
+        prices: [
+          { vendor: "Home Depot", sku: "256290", price: 5.48 },
+          { vendor: "Lowe's", sku: "448140", price: 5.88 },
+          { vendor: "Dunn Lumber", sku: "PT14-8", price: 5.25, best: true },
+          { vendor: "Chinook", sku: "PT14-8", price: 5.35 }
+        ]
+      }
+    ];
+
+    const SUPABASE_STORAGE_ROOT = 'https://hikpszwtglrkfgivcdaa.supabase.co/storage/v1/object/public/component-svgs/';
+
+    let showGrid = true;
+    let showHighlight = true;
+    let soloMode = false;
+    let highlightedSku = 'picket-cedar-flat-1x6';
+
+    // Build Stack Elevation SVG
+    function renderStackElevation() {
+      const capKey = document.getElementById('selCap').value;
+      const picketKey = document.getElementById('selPicket').value;
+      const bracketKey = document.getElementById('selBracket').value;
+      const trimKey = document.getElementById('selTrim').value;
+      const flangeKey = document.getElementById('selFlange').value;
+
+      // Module dimensions: 112 × 96 (display height 86 in)
+      let svg = `<svg viewBox="0 0 112 96" xmlns="http://www.w3.org/2000/svg" style="background:#F9F9FB;">`;
+
+      // 1. Sky & Ground Grade Reference
+      svg += `
+        <!-- Grade Reference Line (Y=84) -->
+        <line x1="0" y1="84" x2="112" y2="84" stroke="#4A7A54" stroke-width="1.5" stroke-dasharray="3,3" />
+        <text x="2" y="82.5" font-size="2.6" font-family="Inter" fill="#4A7A54" font-weight="700">GROUND GRADE (Y=84)</text>
+      `;
+
+      // 2. Optional Coordinate Grid & Rulers
+      if (showGrid) {
+        svg += `
+          <!-- Rulers -->
+          <g opacity="0.35" stroke="#16432D" stroke-width="0.3" stroke-dasharray="1,1">
+            <line x1="0" y1="12" x2="112" y2="12" />
+            <line x1="0" y1="13.3125" x2="112" y2="13.3125" />
+            <line x1="0" y1="32.5" x2="112" y2="32.5" />
+            <line x1="0" y1="72" x2="112" y2="72" />
+          </g>
+          <g font-size="2.2" font-family="monospace" fill="#16432D" opacity="0.6">
+            <text x="2" y="11.5">Y=12 (Post Top / Picket Top)</text>
+            <text x="2" y="15.8">Y=13.31 (Top Rail)</text>
+            <text x="2" y="71.2">Y=72.0 (Bottom Rail)</text>
+          </g>
+        `;
+      }
+
+      // Layer 8: Post Foundation Flange Anchors
+      if (flangeKey === 'bracket-post-flange-anchor' && (!soloMode || highlightedSku === 'bracket-post-flange-anchor')) {
+        const isHl = showHighlight && highlightedSku === 'bracket-post-flange-anchor';
+        svg += `
+          <g class="${isHl ? 'highlight-active' : ''}">
+            <image href="${SUPABASE_STORAGE_ROOT}brackets/sym-bracket-post-flange-anchor.svg" x="7" y="78" width="5.5" height="6" preserveAspectRatio="none" />
+            <image href="${SUPABASE_STORAGE_ROOT}brackets/sym-bracket-post-flange-anchor.svg" x="99.5" y="78" width="5.5" height="6" preserveAspectRatio="none" />
+          </g>
+        `;
+      }
+
+      // Layer 10: Posts (Left at x=8, Right at x=100.5, y=12, w=3.5, h=72)
+      if (!soloMode || highlightedSku.startsWith('post-4x4')) {
+        svg += `
+          <g id="layer-posts">
+            <image href="${SUPABASE_STORAGE_ROOT}posts/sym-post-cedar-4x4.svg" x="8" y="12" width="3.5" height="72" preserveAspectRatio="none" />
+            <image href="${SUPABASE_STORAGE_ROOT}posts/sym-post-cedar-4x4.svg" x="100.5" y="12" width="3.5" height="72" preserveAspectRatio="none" />
+          </g>
+        `;
+      }
+
+      // Layer 12: Structural Rails (Top y=13.3125, Bottom y=72, w=89.375)
+      if (!soloMode || highlightedSku.startsWith('rail-')) {
+        svg += `
+          <g id="layer-rails">
+            <image href="${SUPABASE_STORAGE_ROOT}rails/sym-rail-top-heritage.svg" x="11.3125" y="13.3125" width="89.375" height="3.5" preserveAspectRatio="none" />
+            <image href="${SUPABASE_STORAGE_ROOT}rails/sym-rail-top-heritage.svg" x="11.3125" y="72" width="89.375" height="3.5" preserveAspectRatio="none" />
+            <!-- Top Cap (y=12, h=1.5) -->
+            <image href="${SUPABASE_STORAGE_ROOT}rails/sym-rail-cap-ref-1.5.svg" x="11.3125" y="12" width="89.375" height="1.5" preserveAspectRatio="none" />
+          </g>
+        `;
+      }
+
+      // Layer 15: Pickets Infill (x=11.3125, y=12, w=89.375, h=72)
+      if (picketKey !== 'none' && (!soloMode || highlightedSku === picketKey)) {
+        const isHl = showHighlight && highlightedSku === picketKey;
+        const picketItem = COMPONENTS.find(c => c.sku === picketKey);
+        const picketSvgUrl = picketItem ? `${SUPABASE_STORAGE_ROOT}${picketItem.svg}` : `${SUPABASE_STORAGE_ROOT}pickets/sym-picket-cedar-flat-top-heritage.svg`;
+        svg += `
+          <g id="layer-pickets" class="${isHl ? 'highlight-active' : ''}">
+            <image href="${picketSvgUrl}" x="0" y="0" width="112" height="95" preserveAspectRatio="none" />
+          </g>
+        `;
+      }
+
+      // Layer 18: Fascia Trim (Top y=13.3125, Bottom y=72)
+      if (trimKey !== 'none' && (!soloMode || highlightedSku === trimKey)) {
+        const isHl = showHighlight && highlightedSku === trimKey;
+        const isPT = trimKey.includes('pt');
+        const trimSvgUrl = isPT ? `${SUPABASE_STORAGE_ROOT}trim/sym-trim-top-pt.svg` : `${SUPABASE_STORAGE_ROOT}trim/sym-trim-top-cedar.svg`;
+        svg += `
+          <g id="layer-trim" class="${isHl ? 'highlight-active' : ''}">
+            <image href="${trimSvgUrl}" x="11.3125" y="13.3125" width="89.375" height="3.5" preserveAspectRatio="none" />
+            ${trimKey.includes('2tier') ? `<image href="${trimSvgUrl}" x="11.3125" y="72" width="89.375" height="3.5" preserveAspectRatio="none" />` : ''}
+          </g>
+        `;
+      }
+
+      // Layer 25: Post Caps (Placed centered above left post x=8 and right post x=100.5)
+      if (capKey !== 'none' && (!soloMode || highlightedSku === capKey)) {
+        const isHl = showHighlight && highlightedSku === capKey;
+        const capItem = COMPONENTS.find(c => c.sku === capKey);
+        if (capItem) {
+          const p = capItem.place;
+          const leftX = p.x;
+          const rightX = 100.5 + 3.5 / 2 - p.w / 2;
+          svg += `
+            <g id="layer-caps" class="${isHl ? 'highlight-active' : ''}">
+              <image href="${SUPABASE_STORAGE_ROOT}${capItem.svg}" x="${leftX}" y="${p.y}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+              <image href="${SUPABASE_STORAGE_ROOT}${capItem.svg}" x="${rightX}" y="${p.y}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+            </g>
+          `;
+        }
+      }
+
+      // Layer 44: Brackets (Left post junction & Right post junction)
+      if (bracketKey !== 'none' && (!soloMode || highlightedSku === bracketKey)) {
+        const isHl = showHighlight && highlightedSku === bracketKey;
+        const brkItem = COMPONENTS.find(c => c.sku === bracketKey);
+        if (brkItem) {
+          const p = brkItem.place;
+          const leftX = p.x;
+          const rightX = 100.5 - (p.x - 8);
+          svg += `
+            <g id="layer-brackets" class="${isHl ? 'highlight-active' : ''}">
+              <!-- Top Rail Left & Right -->
+              <image href="${SUPABASE_STORAGE_ROOT}${brkItem.svg}" x="${leftX}" y="${p.y}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+              <image href="${SUPABASE_STORAGE_ROOT}${brkItem.svg}" x="${rightX}" y="${p.y}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+              <!-- Bottom Rail Left & Right -->
+              <image href="${SUPABASE_STORAGE_ROOT}${brkItem.svg}" x="${leftX}" y="${p.y + 58.6875}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+              <image href="${SUPABASE_STORAGE_ROOT}${brkItem.svg}" x="${rightX}" y="${p.y + 58.6875}" width="${p.w}" height="${p.h}" preserveAspectRatio="none" />
+            </g>
+          `;
+        }
+      }
+
+      svg += `</svg>`;
+      document.getElementById('svgStage').innerHTML = svg;
+
+      // Update Inspector Readout
+      updateInspectorReadout();
+    }
+
+    function updateInspectorReadout() {
+      const activeComp = COMPONENTS.find(c => c.sku === highlightedSku) || COMPONENTS[4];
+      document.getElementById('activeLayerLabel').innerText = `Active Inspection: ${activeComp.name}`;
+      document.getElementById('inspLayerId').innerText = activeComp.sku;
+      
+      const p = activeComp.place;
+      document.getElementById('inspXY').innerText = `(${p.x.toFixed(4)}, ${p.y.toFixed(4)})`;
+      document.getElementById('inspWH').innerText = `${p.w.toFixed(3)} × ${p.h.toFixed(3)} in`;
+      document.getElementById('inspZ').innerText = `${p.z}`;
+      document.getElementById('inspGrade').innerText = p.y + p.h >= 84 ? `0.000 in (Lands on Grade Y=84)` : `${(84 - (p.y + p.h)).toFixed(2)} in above grade`;
+
+      // Update Canonical BOM
+      let rawMC = 24.98 + 9.70 + 5.48 + 30.96 + 15.48; // Framing baseline
+      const capKey = document.getElementById('selCap').value;
+      const picketKey = document.getElementById('selPicket').value;
+      const bracketKey = document.getElementById('selBracket').value;
+      const trimKey = document.getElementById('selTrim').value;
+
+      if (capKey === 'post-cap-cedar-pyramid') rawMC += 6.48;
+      if (capKey === 'post-cap-metal-pyramid') rawMC += 8.98;
+      if (capKey === 'post-cap-copper-pyramid') rawMC += 14.98;
+      if (capKey === 'post-cap-solar-pyramid') rawMC += 19.98;
+
+      if (picketKey === 'picket-cedar-gothic-1x6') rawMC += 17 * 4.68;
+      else if (picketKey === 'picket-cedar-dogear-1x6') rawMC += 17 * 3.98;
+      else if (picketKey === 'picket-cedar-shadowbox-1x6') rawMC += 20 * 4.28;
+      else if (picketKey === 'picket-cedar-board-on-board-1x6') rawMC += 21 * 4.28;
+      else rawMC += 17 * 4.28;
+
+      if (bracketKey === 'bracket-u-2x4-black') rawMC += 4 * 5.48;
+      if (bracketKey === 'bracket-u-2x4-galv') rawMC += 4 * 1.98;
+      if (bracketKey === 'bracket-wood-block-2x4-cedar') rawMC += 4 * 2.45;
+      if (bracketKey === 'bracket-hidden-hanger') rawMC += 4 * 2.75;
+
+      if (trimKey === 'trim-1x4-cedar-1tier') rawMC += 9.98;
+      if (trimKey === 'trim-1x4-cedar-2tier') rawMC += 19.96;
+      if (trimKey === 'trim-1x4-pt-1tier') rawMC += 5.48;
+
+      const burdenM = rawMC * 1.25;
+      const laborL = burdenM * 2.0;
+      const adminA = (burdenM + laborL) * 0.10;
+      const midQuote = burdenM + laborL + adminA;
+
+      document.getElementById('bomMC').innerText = `$${rawMC.toFixed(2)}`;
+      document.getElementById('bomM').innerText = `$${burdenM.toFixed(2)}`;
+      document.getElementById('bomL').innerText = `$${laborL.toFixed(2)}`;
+      document.getElementById('bomA').innerText = `$${adminA.toFixed(2)}`;
+      document.getElementById('bomMid').innerText = `$${midQuote.toFixed(2)}`;
+      document.getElementById('bomRange').innerText = `$${Math.round(midQuote * 0.85)} – $${Math.round(midQuote * 1.15)}`;
+    }
+
+    // Direct Overlay Action
+    function overlayComponent(sku) {
+      highlightedSku = sku;
+      const comp = COMPONENTS.find(c => c.sku === sku);
+      if (comp && comp.targetControl) {
+        const select = document.getElementById(comp.targetControl.id);
+        if (select) select.value = comp.targetControl.value;
+      }
+      renderStackElevation();
+      
+      // Update card highlighting
+      document.querySelectorAll('.comp-card').forEach(c => c.classList.remove('active-in-fence'));
+      const activeCard = document.querySelector(`[data-sku="${sku}"]`);
+      if (activeCard) activeCard.classList.add('active-in-fence');
+
+      // Scroll smoothly to elevation stage
+      document.getElementById('svgStage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Render Cards Grid
+    function renderGrid(filter = 'all') {
+      const grid = document.getElementById('componentsGrid');
+      grid.innerHTML = '';
+      const filtered = filter === 'all' ? COMPONENTS : COMPONENTS.filter(c => c.category === filter);
+
+      filtered.forEach(c => {
+        const card = document.createElement('div');
+        card.className = `comp-card ${c.sku === highlightedSku ? 'active-in-fence' : ''}`;
+        card.dataset.sku = c.sku;
+
+        const vendorRows = c.prices.map(p => `
+          <tr>
+            <td><strong>${p.vendor}</strong></td>
+            <td><code>${p.sku}</code></td>
+            <td class="${p.best ? 'price-best' : ''}">$${p.price.toFixed(2)}</td>
+          </tr>
+        `).join('');
+
+        const svgUrl = c.svg ? `${SUPABASE_STORAGE_ROOT}${c.svg}` : null;
+        const svgPreview = svgUrl 
+          ? `<img src="${svgUrl}" alt="${c.name}" onerror="this.onerror=null; this.src='components/${c.svg}'" />`
+          : `<span style="font-size:0.8rem; font-weight:700; color:#888;">Assembly Hardware Box</span>`;
+
+        card.innerHTML = `
+          <div class="comp-header">
+            <h4 class="comp-title">${c.name}</h4>
+            <span class="comp-badge">${c.category}</span>
+          </div>
+          <div class="comp-svg-preview" onclick="overlayComponent('${c.sku}')">
+            ${svgPreview}
+          </div>
+          <button class="overlay-action-btn" onclick="overlayComponent('${c.sku}')">
+            <span>🎯</span> Overlay &amp; Verify on Fence
+          </button>
+          <p class="comp-desc">${c.desc}</p>
+          <table class="vendor-table">
+            <thead>
+              <tr><th>Vendor</th><th>SKU</th><th>Price</th></tr>
+            </thead>
+            <tbody>
+              ${vendorRows}
+            </tbody>
+          </table>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Listeners
+    ['selCap', 'selPicket', 'selBracket', 'selTrim', 'selFlange'].forEach(id => {
+      document.getElementById(id).addEventListener('change', (e) => {
+        highlightedSku = e.target.value;
+        renderStackElevation();
+      });
+    });
+
+    document.getElementById('btnGrid').addEventListener('click', (e) => {
+      showGrid = !showGrid;
+      e.currentTarget.classList.toggle('active', showGrid);
+      renderStackElevation();
+    });
+
+    document.getElementById('btnHighlight').addEventListener('click', (e) => {
+      showHighlight = !showHighlight;
+      e.currentTarget.classList.toggle('active', showHighlight);
+      renderStackElevation();
+    });
+
+    document.getElementById('btnSolo').addEventListener('click', (e) => {
+      soloMode = !soloMode;
+      e.currentTarget.classList.toggle('active', soloMode);
+      renderStackElevation();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        renderGrid(e.target.dataset.cat);
+      });
+    });
+
+    // Initialize
+    renderGrid('all');
+    renderStackElevation();
+  </script>
+</body>
+</html>

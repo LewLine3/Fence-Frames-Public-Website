@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { MembershipGate } from '@/components/ff/membership-gate'
 import { SiteShell } from '@/components/ff/site-shell'
 import { ACCOUNT_ROLES } from '@/lib/account-roles'
 import { folioHref, getSavedFolios, type SavedFolio } from '@/lib/saved-folios'
@@ -36,6 +37,14 @@ function arcLabel(status: SavedFolio['arcStatus']): string {
 }
 
 export default function HomeownerDashboardPage() {
+  return (
+    <MembershipGate next="/homeowner">
+      <HomeownerDashboardInner />
+    </MembershipGate>
+  )
+}
+
+function HomeownerDashboardInner() {
   const [builds, setBuilds] = useState<SavedFolio[]>([])
 
   useEffect(() => {

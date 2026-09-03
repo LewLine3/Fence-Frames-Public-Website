@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { MembershipGate } from '@/components/ff/membership-gate'
 import { SiteShell } from '@/components/ff/site-shell'
 import {
   FenceConfiguration,
@@ -16,7 +17,7 @@ const SECTIONS = [
   { id: 'total', short: 'Total', full: 'Final Price' },
 ] as const
 
-export default function FenceFolioPage() {
+function FenceFolioPageInner() {
   const [showPricing, setShowPricing] = useState(true)
   const [loadedFromStorage, setLoadedFromStorage] = useState(false)
 
@@ -573,5 +574,13 @@ export default function FenceFolioPage() {
         </div>
       </div>
     </SiteShell>
+  )
+}
+
+export default function FenceFolioPage() {
+  return (
+    <MembershipGate next="/blueprint">
+      <FenceFolioPageInner />
+    </MembershipGate>
   )
 }

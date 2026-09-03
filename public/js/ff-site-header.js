@@ -110,7 +110,7 @@
     '        <a href="/catalog-hub.html" class="ff-pillar ff-pillar-frame" title="Step 2 · Catalog & Designer">' +
     '          <span class="ff-pillar-dot"></span><span class="ff-pillar-label">Frame It</span><span class="ff-pillar-sub">(Design)</span>' +
     "        </a>" +
-    '        <a href="/blueprint" class="ff-pillar ff-pillar-fence" title="Step 3 · Blueprints & Takeoff">' +
+    '        <a href="/auth-gate?next=%2Fblueprint" class="ff-pillar ff-pillar-fence" id="ff-pillar-fence-it" title="Step 3 · Fence-Folio (members) — sign in required">' +
     '          <span class="ff-pillar-dot"></span><span class="ff-pillar-label">Fence It</span><span class="ff-pillar-sub">(Build)</span>' +
     "        </a>" +
     "      </nav>" +
@@ -164,6 +164,16 @@
         menu.classList.remove("is-open")
         btn.setAttribute("aria-expanded", "false")
       })
+    }
+
+    // Members skip login on Fence It pillar
+    try {
+      var fenceLink = root.querySelector("#ff-pillar-fence-it")
+      if (fenceLink && window.localStorage.getItem("ff_membership")) {
+        fenceLink.setAttribute("href", "/blueprint")
+      }
+    } catch (e) {
+      /* ignore */
     }
   }
 

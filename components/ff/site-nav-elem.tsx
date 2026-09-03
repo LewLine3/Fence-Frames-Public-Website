@@ -3,12 +3,19 @@
 import { useEffect, useRef, useState } from "react"
 import { ACCOUNT_ROLES } from "@/lib/account-roles"
 import { BRAND_ASSETS } from "@/lib/brand-assets"
+import { fenceItHref, membershipLoginHref } from "@/lib/membership-session"
 import styles from "./site-nav.module.css"
 
 /** Global site header — used on every public page including auth-gate and designer. */
 export function SiteNavElem() {
   const [open, setOpen] = useState(false)
+  /** Guests default to login; members upgrade to /blueprint after mount. */
+  const [fenceHref, setFenceHref] = useState(membershipLoginHref("/blueprint"))
   const wrapRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setFenceHref(fenceItHref())
+  }, [])
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -58,7 +65,11 @@ export function SiteNavElem() {
               <span className={styles.pillarLabel}>Frame It</span>
               <span className={styles.pillarSub}>(Design)</span>
             </a>
-            <a href="/blueprint" className={`${styles.pillar} ${styles.pillarFence}`} title="Step 3 · Fence-Folio">
+            <a
+              href={fenceHref}
+              className={`${styles.pillar} ${styles.pillarFence}`}
+              title="Step 3 · Fence-Folio (members) — sign in required"
+            >
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Fence It</span>
               <span className={styles.pillarSub}>(Folio)</span>
