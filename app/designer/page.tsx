@@ -14,11 +14,7 @@ import {
   calculateOptionSetLaborQuote,
 } from '@/lib/pricing-engine'
 import { createFolioFromConfig, folioHref } from '@/lib/saved-folios'
-import {
-  DESIGNER_GROUND_BROWN,
-  greenPrintBackground,
-  reverseGreenPrintBackground,
-} from '@/lib/green-print'
+import { DESIGNER_GROUND_BROWN, greenPrintBackground } from '@/lib/green-print'
 
 const HERITAGE_BLANK_DEFAULT: FenceConfiguration = {
   heightFt: 6,
@@ -108,10 +104,10 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
         />
 
-        {/* 2. Stage: reverse green-print behind fence + floating HUD */}
+        {/* 2. Stage: white green-print behind fence + floating HUD */}
         <div
           className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full"
-          style={reverseGreenPrintBackground}
+          style={greenPrintBackground}
         >
           <section className="flex-1 min-h-0 min-w-0 overflow-hidden relative">
             <ElevationStage

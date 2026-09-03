@@ -136,18 +136,18 @@ export function BottomCarouselHud({
 
   const cardShell = (selected?: boolean): React.CSSProperties => ({
     background: selected
-      ? 'linear-gradient(180deg, #1B4332 0%, #142920 100%)'
-      : 'linear-gradient(180deg, #4A3A22 0%, #2E2418 55%, #241C12 100%)',
-    border: `2px solid ${selected ? '#E5B842' : '#C4A574'}`,
+      ? 'linear-gradient(180deg, #DCC4A4 0%, #C9B08E 100%)'
+      : '#E8D4BC',
+    border: `2px solid ${selected ? '#1A1A1A' : '#8B7355'}`,
     boxShadow: selected
-      ? '3px 3px 0 #1A1A1A, 0 0 14px rgba(229,184,66,0.28), inset 0 1px 0 rgba(250,246,238,0.12)'
-      : '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.12)',
+      ? '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(255,255,255,0.35)'
+      : '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(255,255,255,0.25)',
   })
 
   const titleBarStyle: React.CSSProperties = {
-    background: 'linear-gradient(180deg, #1B4332 0%, #142920 100%)',
+    background: 'linear-gradient(180deg, #5C4030 0%, #3D2414 100%)',
     borderBottom: '2px solid #1A1A1A',
-    boxShadow: 'inset 0 -1px 0 rgba(74,222,128,0.35)',
+    boxShadow: 'inset 0 -1px 0 rgba(255,255,255,0.08)',
   }
 
   return (
@@ -155,7 +155,7 @@ export function BottomCarouselHud({
       className={cn(
         "w-full flex-shrink-0 z-20 font-['Rowdies'] select-none flex items-end gap-2",
         overlay
-          ? 'absolute left-0 right-0 bottom-[28%] pt-0 pb-0 px-2 overflow-visible min-w-0 border-0 bg-transparent'
+          ? 'absolute left-0 right-0 bottom-[9%] pt-0 pb-0 px-2 overflow-visible min-w-0 border-0 bg-transparent'
           : 'relative py-2 px-3 border-t-[2px] border-t-[#16432D]/40 shadow-[0_-6px_20px_rgba(22,67,45,0.15)] overflow-hidden min-w-0',
       )}
       style={
@@ -173,7 +173,7 @@ export function BottomCarouselHud({
       {/* Left Chevron Button */}
       <button
         onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-7 h-[118px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#C4A574] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
+        className="hidden sm:flex w-7 h-[118px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
         title="Scroll Left (Infinite)"
       >
         ◀
@@ -205,19 +205,19 @@ export function BottomCarouselHud({
                   style={titleBarStyle}
                 >
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#4ADE80]" />
-                    <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
+                    <span className="font-bold text-white uppercase tracking-wide text-[10px]">
                       Pricing Calculator
                     </span>
                   </div>
 
-                  <div className="flex bg-black/40 p-0.5 rounded border border-[#C4A574]/40 text-[7px]">
+                  <div className="flex bg-black/25 p-0.5 rounded border border-[#8B7355]/50 text-[7px]">
                     <button
                       onClick={() => setActiveMathModel('canonical')}
                       className={`px-1.5 py-0.5 rounded transition ${
                         activeMathModel === 'canonical'
-                          ? 'bg-[#E5B842] text-[#141B16] font-bold'
-                          : 'text-[#FAF6EE]/70'
+                          ? 'bg-[#E8D4BC] text-[#1A1A1A] font-bold'
+                          : 'text-white/75'
                       }`}
                     >
                       Canon
@@ -226,8 +226,8 @@ export function BottomCarouselHud({
                       onClick={() => setActiveMathModel('trial')}
                       className={`px-1.5 py-0.5 rounded transition ${
                         activeMathModel === 'trial'
-                          ? 'bg-[#F27A22] text-white font-bold'
-                          : 'text-[#FAF6EE]/70'
+                          ? 'bg-[#E8D4BC] text-[#1A1A1A] font-bold'
+                          : 'text-white/75'
                       }`}
                     >
                       Trial
@@ -238,8 +238,8 @@ export function BottomCarouselHud({
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-[8px] text-[#DBD0BD] font-light">Linear Footage:</span>
-                      <span className="text-[10px] font-bold text-[#FAF6EE] bg-black/35 px-1.5 py-0.5 rounded border border-[#C4A574]/40">
+                      <span className="text-[8px] text-[#1A1A1A]/65 font-light">Linear Footage:</span>
+                      <span className="text-[10px] font-bold text-[#1A1A1A] bg-white/45 px-1.5 py-0.5 rounded border border-[#8B7355]/45">
                         {config.linearFeet} LF
                       </span>
                     </div>
@@ -261,8 +261,8 @@ export function BottomCarouselHud({
                           onClick={() => onChange({ linearFeet: preset })}
                           className={`px-1.5 py-0.5 text-[7px] rounded border transition ${
                             config.linearFeet === preset
-                              ? 'bg-[#F27A22] text-white font-bold border-[#1A1A1A]'
-                              : 'bg-black/35 hover:bg-[#F27A22] hover:text-white text-[#FAF6EE]/80 border-[#C4A574]/40'
+                              ? 'bg-[#3D2414] text-white font-bold border-[#1A1A1A]'
+                              : 'bg-white/40 hover:bg-[#3D2414] hover:text-white text-[#1A1A1A]/80 border-[#8B7355]/45'
                           }`}
                         >
                           {preset === 8 ? '8 LF' : `${preset} LF`}
@@ -271,18 +271,18 @@ export function BottomCarouselHud({
                     </div>
                   </div>
 
-                  <div className="pt-1 border-t border-[#C4A574]/25 flex items-center justify-between">
+                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between">
                     <div>
-                      <span className="text-[7px] text-[#DBD0BD] uppercase font-light block leading-none">
+                      <span className="text-[7px] text-[#1A1A1A]/60 uppercase font-light block leading-none">
                         Quote (±15%)
                       </span>
-                      <span className="text-[11px] font-bold text-[#4ADE80]">
+                      <span className="text-[11px] font-bold text-[#1A1A1A]">
                         ${activePricing.totalMin.toLocaleString()} — $
                         {activePricing.totalMax.toLocaleString()}
                       </span>
                     </div>
 
-                    <span className="text-[7px] text-[#FAF6EE]/60 font-mono">
+                    <span className="text-[7px] text-[#1A1A1A]/55 font-mono">
                       ${activePricing.pricePerLfMin.toFixed(2)}/LF
                     </span>
                   </div>
@@ -320,7 +320,7 @@ export function BottomCarouselHud({
                         style={{ background: card.colorPreview }}
                       />
                     ) : null}
-                    <span className="font-bold uppercase tracking-wide text-[10px] truncate text-[#E5B842]">
+                    <span className="font-bold uppercase tracking-wide text-[10px] truncate text-white">
                       {card.title}
                     </span>
                   </div>
@@ -328,8 +328,8 @@ export function BottomCarouselHud({
                   <span
                     className={`text-[8px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
                       card.selected
-                        ? 'bg-[#E5B842] text-[#141B16]'
-                        : 'bg-black/50 text-[#4ADE80] border border-[#4ADE80]/40'
+                        ? 'bg-[#E8D4BC] text-[#1A1A1A]'
+                        : 'bg-black/30 text-white border border-white/25'
                     }`}
                   >
                     {card.cost}
@@ -337,15 +337,15 @@ export function BottomCarouselHud({
                 </div>
 
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="text-[8px] text-[#DBD0BD] line-clamp-3 leading-snug font-light">
+                  <div className="text-[8px] text-[#1A1A1A]/75 line-clamp-3 leading-snug font-light">
                     {card.description}
                   </div>
 
-                  <div className="pt-1 border-t border-[#C4A574]/25 flex items-center justify-between text-[7px]">
-                    <span className="text-[#FAF6EE]/55">{card.subtitle}</span>
+                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px]">
+                    <span className="text-[#1A1A1A]/60">{card.subtitle}</span>
                     <span
                       className={`font-bold flex items-center gap-0.5 ${
-                        card.selected ? 'text-[#E5B842]' : 'text-[#4ADE80]'
+                        card.selected ? 'text-[#3D2414]' : 'text-[#1A1A1A]/70'
                       }`}
                     >
                       {card.selected ? 'Active ✓' : 'Select ▶'}
@@ -368,47 +368,47 @@ export function BottomCarouselHud({
                   className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
                   style={titleBarStyle}
                 >
-                  <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
+                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
                     Job Specs
                   </span>
-                  <span className="text-[7px] text-[#4ADE80] font-mono">PASSED ARC-01</span>
+                  <span className="text-[7px] text-white/70 font-mono">PASSED ARC-01</span>
                 </div>
 
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="grid grid-cols-2 gap-1 text-[8px] text-[#FAF6EE]/85">
-                    <div className="p-1 px-1.5 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[#FAF6EE]/40 block text-[6px]">HEIGHT / BAY</span>
-                      <span className="font-bold text-[#E5B842] truncate block">
+                  <div className="grid grid-cols-2 gap-1 text-[8px] text-[#1A1A1A]/85">
+                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[#1A1A1A]/50 block text-[6px]">HEIGHT / BAY</span>
+                      <span className="font-bold text-[#1A1A1A] truncate block">
                         {config.heightFt}&apos; · {config.postSpacingFt}&apos; Bay
                       </span>
                     </div>
-                    <div className="p-1 px-1.5 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[#FAF6EE]/40 block text-[6px]">POST TIMBER</span>
-                      <span className="font-bold text-[#FAF6EE] truncate block">
+                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[#1A1A1A]/50 block text-[6px]">POST TIMBER</span>
+                      <span className="font-bold text-[#1A1A1A] truncate block">
                         {config.postType.split('-')[0].toUpperCase()}
                       </span>
                     </div>
-                    <div className="p-1 px-1.5 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[#FAF6EE]/40 block text-[6px]">RAILS &amp; CAP</span>
-                      <span className="font-bold text-[#FAF6EE] truncate block">
+                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[#1A1A1A]/50 block text-[6px]">RAILS &amp; CAP</span>
+                      <span className="font-bold text-[#1A1A1A] truncate block">
                         {config.railCount}-Rail {config.topCap ? '+ Cap' : ''}
                       </span>
                     </div>
-                    <div className="p-1 px-1.5 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[#FAF6EE]/40 block text-[6px]">INFILL</span>
-                      <span className="font-bold text-[#4ADE80] truncate block">
+                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[#1A1A1A]/50 block text-[6px]">INFILL</span>
+                      <span className="font-bold text-[#1A1A1A] truncate block">
                         {config.fillPattern === 'board-on-board' ? 'BoB' : 'Std'}
                       </span>
                     </div>
                   </div>
 
-                  <div className="pt-1 border-t border-[#C4A574]/25 flex items-center justify-between text-[7px] text-[#FAF6EE]/60">
+                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px] text-[#1A1A1A]/60">
                     <span>
-                      Stain: <strong className="text-[#FAF6EE]">{config.stainType.split('-')[0]}</strong>
+                      Stain: <strong className="text-[#1A1A1A]">{config.stainType.split('-')[0]}</strong>
                     </span>
                     <span>
                       Gates:{' '}
-                      <strong className="text-[#E5B842]">{config.gates?.walkGates || 0}W</strong>
+                      <strong className="text-[#3D2414]">{config.gates?.walkGates || 0}W</strong>
                     </span>
                   </div>
                 </div>
@@ -428,32 +428,32 @@ export function BottomCarouselHud({
                   className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
                   style={titleBarStyle}
                 >
-                  <span className="font-bold text-[#4ADE80] uppercase tracking-wide text-[10px]">
+                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
                     Folio &amp; 3-Bid
                   </span>
-                  <span className="text-[7px] text-[#E5B842] font-mono">READY</span>
+                  <span className="text-[7px] text-white/70 font-mono">READY</span>
                 </div>
 
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="text-[8px] text-[#DBD0BD] space-y-1 font-light">
+                  <div className="text-[8px] text-[#1A1A1A]/75 space-y-1 font-light">
                     <p className="line-clamp-2">Open Fence-Folio &amp; get 3 matched bids.</p>
-                    <div className="flex items-center gap-1.5 text-[7px] text-[#FAF6EE]/50">
+                    <div className="flex items-center gap-1.5 text-[7px] text-[#1A1A1A]/55">
                       <span>🛡️ 72-Hr Refund</span>
                       <span>📋 ARC Ready</span>
                     </div>
                   </div>
 
-                  <div className="pt-1 border-t border-[#C4A574]/25 flex items-center gap-1.5">
+                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center gap-1.5">
                     <button
                       onClick={onResetDefaults}
-                      className="px-1.5 py-1 bg-black/40 hover:bg-white/10 text-[#FAF6EE]/70 hover:text-white text-[9px] rounded-lg border border-[#C4A574]/40 transition"
+                      className="px-1.5 py-1 bg-white/45 hover:bg-white/70 text-[#1A1A1A]/75 hover:text-[#1A1A1A] text-[9px] rounded-lg border border-[#8B7355]/45 transition"
                       title="Reset 8 LF"
                     >
                       ↺
                     </button>
                     <button
                       onClick={onSaveToFolio}
-                      className="flex-1 rounded-lg bg-[#4ADE80] hover:bg-[#FAF6EE] text-[#141B16] font-bold text-[10px] py-1.5 border-2 border-[#1A1A1A] transition text-center shadow"
+                      className="flex-1 rounded-lg bg-[#3D2414] hover:bg-[#5C4030] text-white font-bold text-[10px] py-1.5 border-2 border-[#1A1A1A] transition text-center shadow"
                     >
                       Save to Folio →
                     </button>
@@ -475,12 +475,12 @@ export function BottomCarouselHud({
                   className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
                   style={titleBarStyle}
                 >
-                  <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
+                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
                     Fence-Folio
                   </span>
                   <button
                     onClick={onOpenLedgerModal}
-                    className="text-[7px] text-[#F27A22] hover:underline font-bold"
+                    className="text-[7px] text-[#E8D4BC] hover:underline font-bold"
                   >
                     Open ↗
                   </button>
@@ -488,27 +488,27 @@ export function BottomCarouselHud({
 
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
                   <div className="grid grid-cols-3 gap-1 text-center text-[8px]">
-                    <div className="p-1 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[6px] text-[#FAF6EE]/40 block">MATERIALS</span>
-                      <span className="font-bold text-[#FAF6EE]">${activePricing.materialsCostMin}</span>
+                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[6px] text-[#1A1A1A]/50 block">MATERIALS</span>
+                      <span className="font-bold text-[#1A1A1A]">${activePricing.materialsCostMin}</span>
                     </div>
-                    <div className="p-1 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[6px] text-[#FAF6EE]/40 block">LABOR</span>
-                      <span className="font-bold text-[#E5B842]">${activePricing.laborCostMin}</span>
+                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[6px] text-[#1A1A1A]/50 block">LABOR</span>
+                      <span className="font-bold text-[#1A1A1A]">${activePricing.laborCostMin}</span>
                     </div>
-                    <div className="p-1 bg-black/35 rounded border border-[#C4A574]/25">
-                      <span className="text-[6px] text-[#FAF6EE]/40 block">ADMIN</span>
-                      <span className="font-bold text-[#4ADE80]">
+                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
+                      <span className="text-[6px] text-[#1A1A1A]/50 block">ADMIN</span>
+                      <span className="font-bold text-[#1A1A1A]">
                         ${activePricing.adminPermitCost}
                       </span>
                     </div>
                   </div>
 
-                  <div className="pt-1 border-t border-[#C4A574]/25 flex items-center justify-between text-[7px] text-[#FAF6EE]/50">
+                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px] text-[#1A1A1A]/55">
                     <span>
                       {Math.ceil(config.linearFeet / 8) + 1} Posts · {config.linearFeet * 2} Pickets
                     </span>
-                    <span className="text-[#4ADE80]">Synced</span>
+                    <span className="text-[#3D2414]">Synced</span>
                   </div>
                 </div>
               </div>
@@ -522,7 +522,7 @@ export function BottomCarouselHud({
       {/* Right Chevron Button */}
       <button
         onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-7 h-[118px] bg-[#141B16] hover:bg-[#1C241E] text-white/70 hover:text-[#E5B842] border-2 border-[#C4A574] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
+        className="hidden sm:flex w-7 h-[118px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
         title="Scroll Right (Infinite)"
       >
         ▶

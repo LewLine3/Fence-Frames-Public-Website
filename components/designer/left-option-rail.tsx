@@ -21,31 +21,23 @@ interface LeftOptionRailProps {
 
 export { CHAPTERS, getChapterCostMetric }
 
-/** Gold → Ember → Tan cycle on the green rail (pillars + wood, reads clearer than brown/tan alone). */
+/** Dark brown + light tan cycle on the green rail. */
 const MENU_TONES = [
   {
-    id: 'gold',
-    background: 'linear-gradient(180deg, #C9A03A 0%, #8F7024 55%, #6B5418 100%)',
-    border: '#E5B842',
-    label: '#FAF6EE',
-    sub: 'rgba(250,246,238,0.82)',
-    chipBorder: 'rgba(229,184,66,0.55)',
-  },
-  {
-    id: 'ember',
-    background: 'linear-gradient(180deg, #F27A22 0%, #C45A12 55%, #8F3F0C 100%)',
-    border: '#F27A22',
-    label: '#FAF6EE',
-    sub: 'rgba(250,246,238,0.85)',
-    chipBorder: 'rgba(242,122,34,0.55)',
+    id: 'brown',
+    background: 'linear-gradient(180deg, #5C4030 0%, #3D2414 100%)',
+    border: '#3D2414',
+    label: '#FFFFFF',
+    sub: 'rgba(255,255,255,0.75)',
+    chipBorder: 'rgba(196,165,116,0.45)',
   },
   {
     id: 'tan',
-    background: 'linear-gradient(180deg, #C4A574 0%, #8F7550 55%, #5C4A32 100%)',
-    border: '#C4A574',
-    label: '#FAF6EE',
-    sub: 'rgba(250,246,238,0.82)',
-    chipBorder: 'rgba(196,165,116,0.55)',
+    background: 'linear-gradient(180deg, #E8D4BC 0%, #DCC4A4 100%)',
+    border: '#8B7355',
+    label: '#1A1A1A',
+    sub: 'rgba(26,26,26,0.65)',
+    chipBorder: 'rgba(61,36,20,0.35)',
   },
 ] as const
 
@@ -188,17 +180,17 @@ export function LeftOptionRail({
                 >
                   {/* Compact tablet face */}
                   <div className="flex lg:hidden flex-col items-center gap-1 text-center">
-                    <span className="text-[#141B16] font-mono font-bold text-[11px] drop-shadow-sm">
+                    <span className="font-mono font-bold text-[11px] drop-shadow-sm" style={{ color: tone.label }}>
                       {ch.num}
                     </span>
-                    <span className="text-[8px] font-bold uppercase text-[#FAF6EE] leading-tight">
+                    <span className="text-[8px] font-bold uppercase leading-tight" style={{ color: tone.label }}>
                       {ch.menuLabel.split(' ')[0]}
                     </span>
                   </div>
 
                   {/* Full desktop face */}
                   <div className="hidden lg:flex items-start gap-3 w-full">
-                    <span className="text-[#141B16] text-sm leading-none mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 font-bold">
+                    <span className="text-sm leading-none mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 font-bold" style={{ color: tone.label }}>
                       ▶
                     </span>
                     <div className="flex-1 min-w-0">

@@ -1,11 +1,11 @@
 import type { CSSProperties } from 'react'
 
-/** Canonical green-print drafting grid — cream paper + forest grid. */
+/** Canonical green-print drafting grid — white paper + forest sublines. */
 export const greenPrintBackground: CSSProperties = {
-  backgroundColor: '#F4ECDC',
+  backgroundColor: '#FFFFFF',
   backgroundImage:
-    'linear-gradient(rgba(22,67,45,0.35) 1px, transparent 1px),' +
-    'linear-gradient(90deg, rgba(22,67,45,0.35) 1px, transparent 1px),' +
+    'linear-gradient(rgba(22, 67, 45, 0.28) 1px, transparent 1px),' +
+    'linear-gradient(90deg, rgba(22, 67, 45, 0.28) 1px, transparent 1px),' +
     'linear-gradient(#16432D 2px, transparent 2px),' +
     'linear-gradient(90deg, #16432D 2px, transparent 2px)',
   backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',

@@ -20,7 +20,7 @@ interface ElevationStageProps {
  * fence fills more of the elevation stage while keeping ~the same aspect.
  * Source art remains 112×95; only the rendered viewBox is tightened.
  */
-const CAD_DISPLAY_CROP = { x: 7, y: 10, w: 98, h: 83 }
+const CAD_DISPLAY_CROP = { x: 7, y: 8, w: 98, h: 86 }
 
 const STAIN_PALETTES: Record<string, { main: string; dark: string; light: string; rail: string }> = {
   'cedar-natural': { main: '#c88254', dark: '#8a4e2c', light: '#dca070', rail: '#b06840' },
@@ -246,7 +246,7 @@ export function ElevationStage({
 
   return (
     // Strand-dock: bottom of fence/grass sits on the brown ground line (slight overlap).
-    <div className="absolute inset-0 flex min-h-0 w-full items-end justify-center overflow-hidden pl-0 pr-[56px] pb-[5px] pt-0 select-none">
+    <div className="absolute inset-0 flex min-h-0 w-full items-end justify-center overflow-hidden pl-0 pr-[56px] pb-0 pt-0 select-none">
       <div
         className={cn(
           'flex h-full w-full min-h-0 items-end justify-center gap-2 transition-transform duration-150',
