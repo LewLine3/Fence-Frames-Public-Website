@@ -164,7 +164,7 @@ export function BottomCarouselHud({
           : {
               backgroundColor: '#F4ECDC',
               backgroundImage:
-                'linear-gradient(rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.40) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
+                'linear-gradient(rgba(46, 139, 78, 0.50) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 139, 78, 0.50) 1px, transparent 1px), linear-gradient(#16432D 2px, transparent 2px), linear-gradient(90deg, #16432D 2px, transparent 2px)',
               backgroundSize: '25px 25px, 25px 25px, 100px 100px, 100px 100px',
               backgroundPosition: '0 0',
             }

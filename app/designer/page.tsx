@@ -104,7 +104,7 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
         />
 
-        {/* 2. Stage: white green-print behind fence + floating HUD */}
+        {/* 2. Stage: green-print (cream paper + emerald sublines) behind fence + HUD */}
         <div
           className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full"
           style={greenPrintBackground}
