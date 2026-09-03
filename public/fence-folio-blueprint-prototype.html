@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fence-Folio — Architectural Blueprint, Material Takeoff & Labor Dossier</title>
+  <title>Fence-Folio — Complete Architectural Blueprint &amp; Contractor Dossier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Rowdies:wght@300;400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,9 +19,7 @@
       --ff-gold: #E5B842;
       --ff-ember: #F27A22;
       --ff-blueprint-blue: #0A192F;
-      --ff-blueprint-grid: rgba(56, 189, 248, 0.08);
       --ff-blueprint-cyan: #38BDF8;
-      --ff-wireframe-wood: rgba(200, 130, 84, 0.25);
     }
 
     body {
@@ -47,7 +45,7 @@
       border: 2px solid #1e3a5f;
     }
 
-    /* Print Formatting */
+    /* Print Formatting: Each Sheet Breaks Cleanly on 8.5" x 11" Page */
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; color: black !important; }
@@ -57,7 +55,9 @@
         width: 100% !important;
         max-width: 100% !important;
         background: white !important;
-        page-break-after: always;
+        margin: 0 0 2rem 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
       }
       .blueprint-canvas {
         background: white !important;
@@ -69,7 +69,7 @@
 <body class="min-h-screen flex flex-col items-center">
 
   <!-- ========================================================================= -->
-  <!-- TOP APPLICATION BAR & SHEET SWITCHER -->
+  <!-- TOP APPLICATION BAR & QUICK-JUMP SHEET NAVIGATOR -->
   <!-- ========================================================================= -->
   <header class="no-print w-full bg-[#141B16] border-b-2 border-[#E5B842] py-3 px-6 shadow-2xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
@@ -80,116 +80,100 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base font-bold tracking-wide text-white font-display uppercase">FENCE-FOLIO</h1>
-            <span class="text-[10px] uppercase tracking-wider bg-[#E5B842]/20 text-[#E5B842] border border-[#E5B842]/40 px-1.5 py-0.5 rounded font-mono">STANDALONE PROTOTYPE</span>
+            <span class="text-[10px] uppercase tracking-wider bg-[#E5B842]/20 text-[#E5B842] border border-[#E5B842]/40 px-1.5 py-0.5 rounded font-mono">SCROLLABLE DOSSIER</span>
           </div>
-          <p class="text-[11px] text-gray-400">Integrated Visual Blueprint · Material Takeoff (BOM) · Contractor Labor Dossier</p>
+          <p class="text-[11px] text-gray-400">Continuous 4-Sheet Architectural Plan Set · Visual Blueprint · Material Takeoff (BOM) · Labor Dossier</p>
         </div>
       </div>
 
-      <!-- Sheet Navigation Tabs -->
+      <!-- Quick Jump Links -->
       <nav class="flex items-center gap-1.5 bg-[#0d120e] p-1 rounded-lg border border-white/10 text-xs">
-        <button onclick="switchSheet('A1')" id="tab-A1" class="sheet-tab px-3 py-1.5 rounded font-bold transition flex items-center gap-1.5 bg-[#E5B842] text-[#141B16]">
-          <span>📄</span><span>A1: Architectural</span>
-        </button>
-        <button onclick="switchSheet('S1')" id="tab-S1" class="sheet-tab px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
-          <span>🔩</span><span>S1: Framing &amp; Fasteners</span>
-        </button>
-        <button onclick="switchSheet('D1')" id="tab-D1" class="sheet-tab px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+        <a href="#sheet-A1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>📄</span><span>A1: Elevation</span>
+        </a>
+        <a href="#sheet-S1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>🔩</span><span>S1: Framing Wireframe</span>
+        </a>
+        <a href="#sheet-D1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
           <span>📐</span><span>D1: Dimensions</span>
-        </button>
-        <button onclick="switchSheet('B1')" id="tab-B1" class="sheet-tab px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+        </a>
+        <a href="#sheet-B1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
           <span>📊</span><span>B1: BOM &amp; Labor</span>
-        </button>
+        </a>
       </nav>
 
       <!-- Print & Export Actions -->
       <div class="flex items-center gap-3">
         <button onclick="window.print()" class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] shadow flex items-center gap-2 transition active:scale-95">
           <span>🖨️</span>
-          <span>Print / Export PDF</span>
+          <span>Print / Export 4-Page PDF</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN ARCHITECTURAL FOLIO CONTAINER -->
+  <!-- MAIN SCROLLABLE DOSSIER (ALL 4 SHEETS STACKED SEQUENTIALLY) -->
   <!-- ========================================================================= -->
-  <main class="w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-6">
+  <main class="w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-12">
 
-    <!-- MASTER SHEET WRAPPER (ARCHITECTURAL TITLE BLOCK & DRAWING AREA) -->
-    <div class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[900px]">
-
-      <!-- 1. ARCHITECTURAL TITLE BLOCK HEADER -->
-      <header class="border-b-4 border-[#141B16] pb-4 mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-2xl">🌲</span>
-            <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
-              FENCE FRAMES · FENCE-FOLIO BLUEPRINT
-            </h2>
-          </div>
-          <p class="text-xs text-gray-700 font-medium">
-            Standard PNW Heritage Privacy Panel (6′ Height × 8′ Span) · Canonical 104″ × 78″ Artboard Standard
-          </p>
-        </div>
-
-        <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
-          <div class="text-[#E5B842] font-bold text-xs">DOC HASH: #FF-FOLIO-8912-V2</div>
-          <div id="sheet-indicator" class="text-white font-bold">SHEET A1 OF 4 (ELEVATION)</div>
-          <div>SCALE: 1/2″ = 1′-0″ · 104×78 CANON</div>
-          <div class="text-[#4ADE80] font-bold mt-1">✓ HOURLY LABOR &amp; BOM VERIFIED</div>
-        </div>
-      </header>
-
-      <!-- 2. PROJECT METADATA SUMMARY STRIP -->
-      <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Fence Style</span>
-          <strong class="text-[#141B16] text-sm">Heritage Framed Privacy</strong>
-        </div>
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Panel Height / Span</span>
-          <strong class="text-[#141B16] text-sm">6′ Height (72″) × 8′ (96″ OC)</strong>
-        </div>
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Lumber Species</span>
-          <strong class="text-[#141B16] text-sm">WRC Cedar / PT Ground Contact</strong>
-        </div>
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Framing Method</span>
-          <strong id="meta-framing-method" class="text-[#141B16] text-sm">Angled Toe-Screw (45°)</strong>
-        </div>
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Fastener Waste Factor</span>
-          <strong class="text-[#16a34a] text-sm font-bold">33.33% Contractor Buffer</strong>
-        </div>
-        <div>
-          <span class="text-gray-500 block text-[10px] uppercase font-bold">Estimated Mid Cost</span>
-          <strong class="text-[#141B16] text-sm font-bold">$3,485 (±15% Range)</strong>
-        </div>
-      </section>
-
-      <!-- ===================================================================== -->
-      <!-- SHEET 1: ARCHITECTURAL ELEVATION & MATERIAL CALLOUTS (FULL COLOR) -->
-      <!-- ===================================================================== -->
-      <section id="sheet-A1" class="sheet-view flex flex-col gap-4">
-        <div class="flex items-center justify-between">
+    <!-- ======================================================================= -->
+    <!-- SHEET 1 (PAGE 1): ARCHITECTURAL ELEVATION & MATERIAL CALLOUTS           -->
+    <!-- ======================================================================= -->
+    <div id="sheet-A1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h3 class="text-lg font-bold font-display uppercase tracking-wider text-[#141B16]">
-              Sheet A1 — Architectural Elevation &amp; Material Callouts
-            </h3>
-            <p class="text-xs text-gray-600">Full-fidelity architectural presentation with leader line material callouts.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">🌲</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                FENCE FRAMES · ARCHITECTURAL PRESENTATION
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Standard Pacific Northwest Heritage Framed Privacy Panel · Canonical 104″ × 78″ Artboard
+            </p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-gray-600">Visual Finish:</span>
-            <span class="px-2.5 py-1 rounded bg-[#c88254]/20 border border-[#c88254] text-[#8a4e2c] font-bold text-xs">Natural Cedar Face</span>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-A1</div>
+            <div class="text-white font-bold">SHEET 1 OF 4 (ELEVATION &amp; MATERIALS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · 104×78 STANDARD</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ ARC PERMIT SUBMITTAL READY</div>
           </div>
-        </div>
+        </header>
 
+        <!-- Project Metadata Summary Strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Fence Style</span>
+            <strong class="text-[#141B16] text-sm">Heritage Framed Privacy</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Panel Height / Span</span>
+            <strong class="text-[#141B16] text-sm">6′ Height (72″) × 8′ (96″ OC)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Lumber Species</span>
+            <strong class="text-[#141B16] text-sm">WRC Cedar / PT Incised Post</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Fastener Allowance</span>
+            <strong class="text-[#16a34a] text-sm font-bold">33.33% Contractor Buffer</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Material Finish</span>
+            <strong class="text-[#141B16] text-sm">Natural Cedar Face / Clear</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Jurisdiction</span>
+            <strong class="text-[#141B16] text-sm">King County / Snohomish</strong>
+          </div>
+        </section>
+
+        <!-- SVG Elevation Drawing Area with Leader Lines -->
         <div class="w-full bg-[#111827] rounded border-2 border-[#141B16] p-4 relative shadow-inner overflow-hidden">
-          <!-- 104 x 78 Master SVG Viewport with Leader Arms -->
-          <svg viewBox="-12 -2 128 84" class="w-full h-auto drop-shadow-xl" style="max-height: 540px;">
+          <svg viewBox="-12 -2 128 84" class="w-full h-auto drop-shadow-xl" style="max-height: 520px;">
             <defs>
               <marker id="dot-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
                 <circle cx="5" cy="5" r="3.5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
@@ -200,8 +184,6 @@
               <marker id="dot-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
                 <circle cx="5" cy="5" r="3.5" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
               </marker>
-
-              <!-- Cedar Wood Grain Pattern -->
               <pattern id="pat-cedar-picket" patternUnits="userSpaceOnUse" width="5.5" height="18">
                 <line x1="0.8" y1="0" x2="0.8" y2="18" stroke="#a7683f" stroke-width="0.1" opacity="0.4"/>
                 <line x1="2.2" y1="0" x2="2.2" y2="18" stroke="#a7683f" stroke-width="0.15" opacity="0.5"/>
@@ -210,139 +192,119 @@
               </pattern>
             </defs>
 
-            <!-- =============================== -->
-            <!-- PASS 1: STRUCTURAL BLACK SHELL  -->
-            <!-- =============================== -->
-            <g id="a1-structural-shells">
-              <!-- Ground baseline shell -->
+            <!-- Pass 1: Black Structural Shells -->
+            <g id="a1-shells">
               <rect x="0" y="76.375" width="104" height="1.625" fill="#000000"/>
-              <!-- Left post shell -->
               <rect x="4" y="6" width="3.5" height="72" fill="#000000"/>
-              <!-- Right post shell -->
               <rect x="96.5" y="6" width="3.5" height="72" fill="#000000"/>
-              <!-- Rail cap shell -->
               <rect x="7.3125" y="6" width="89.375" height="1.5" fill="#000000"/>
-              <!-- Top rail shell -->
               <rect x="7.3125" y="7.3125" width="89.375" height="3.5" fill="#000000"/>
-              <!-- Picket bay continuous backing shell -->
               <rect x="7.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
-              <!-- Bottom trim shell -->
               <rect x="7.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
-              <!-- Post cap shells -->
               <path d="M 3.5 6 L 3.5 4.5 L 5.75 1.5 L 8.0 4.5 L 8.0 6 Z" fill="#000000"/>
               <path d="M 96.0 6 L 96.0 4.5 L 98.25 1.5 L 100.5 4.5 L 100.5 6 Z" fill="#000000"/>
             </g>
 
-            <!-- =============================== -->
-            <!-- PASS 2: FULL COLOR WOOD FILLS   -->
-            <!-- =============================== -->
-            <g id="a1-wood-fills">
-              <!-- Soil -->
+            <!-- Pass 2: Wood Color Fills -->
+            <g id="a1-fills">
               <rect x="0" y="76.5625" width="104" height="1.4375" fill="#543716"/>
-              <!-- Left Post -->
               <rect x="4.1875" y="6.1875" width="3.125" height="71.625" fill="#755038"/>
-              <!-- Right Post -->
               <rect x="96.6875" y="6.1875" width="3.125" height="71.625" fill="#755038"/>
-              <!-- Rail Cap -->
               <rect x="7.5" y="6.1875" width="89" height="1.125" fill="#d49868"/>
-              <!-- Top Rail -->
               <rect x="7.5" y="7.5" width="89" height="3.125" fill="#6c4834"/>
-              <!-- Pickets: 16 individual boards with 1/16" gaps -->
-              <g id="a1-pickets-field">
-                <rect x="7.5" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="7.5" y="7.5" width="5.5" height="69.06" fill="url(#pat-cedar-picket)"/>
-                <rect x="13.0625" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="13.0625" y="7.5" width="5.5" height="69.06" fill="url(#pat-cedar-picket)"/>
-                <rect x="18.625" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="18.625" y="7.5" width="5.5" height="69.06" fill="url(#pat-cedar-picket)"/>
-                <rect x="24.1875" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="29.75" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="35.3125" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="40.875" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="46.4375" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="52.0" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="57.5625" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="63.125" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="68.6875" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="74.25" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="79.8125" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="85.375" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-                <rect x="90.9375" y="7.5" width="5.5" height="69.06" fill="#c88254"/>
-              </g>
-              <!-- Bottom Trim -->
+              <!-- 16 Pickets with 1/16" privacy gaps -->
+              <rect x="7.5" y="7.5" width="89" height="69.06" fill="#c88254"/>
+              <rect x="7.5" y="7.5" width="89" height="69.06" fill="url(#pat-cedar-picket)"/>
               <rect x="7.5" y="66.1875" width="89" height="3.125" fill="#c88254"/>
-              <!-- Post Caps -->
               <path d="M 3.6875 5.8125 L 3.6875 4.6 L 5.75 1.8 L 7.8125 4.6 L 7.8125 5.8125 Z" fill="#e5a93c"/>
               <path d="M 96.1875 5.8125 L 96.1875 4.6 L 98.25 1.8 L 100.3125 4.6 L 100.3125 5.8125 Z" fill="#e5a93c"/>
-              <!-- Grass -->
               <path d="M 0 78 Q 8 75.5 16 78 Q 30 75.5 45 78 Q 65 75.5 80 78 Q 92 75.5 104 78 Z" fill="#227e1f"/>
             </g>
 
-            <!-- ============================================== -->
-            <!-- SPAGHETTI ARMS (LEADER LINES) MATERIAL CALLOUTS-->
-            <!-- ============================================== -->
-            <g id="a1-spaghetti-arms" font-family="'Space Grotesk', sans-serif" font-size="2.2" font-weight="600">
-              <!-- Leader 1: Post Cap -->
+            <!-- Leader Lines (Spaghetti Arms) Material Callouts -->
+            <g font-family="'Space Grotesk', sans-serif" font-size="2.2" font-weight="600">
               <path d="M 5.75 2.5 L -2 0 L -8 0" fill="none" stroke="#f59e0b" stroke-width="0.3" marker-start="url(#dot-gold)"/>
               <rect x="-11.5" y="-2" width="22" height="3.6" fill="#1e293b" stroke="#f59e0b" stroke-width="0.25" rx="0.5"/>
-              <text x="-0.5" y="0.5" fill="#fef3c7" text-anchor="middle" font-size="1.9">4×4 Pyramid Cap (Cedar/Solar)</text>
+              <text x="-0.5" y="0.5" fill="#fef3c7" text-anchor="middle" font-size="1.9">4×4 Pyramid Cap (Cedar)</text>
 
-              <!-- Leader 2: 2x4 Rail Cap -->
               <path d="M 45 6.75 L 45 1.5 L 56 1.5" fill="none" stroke="#f59e0b" stroke-width="0.3" marker-start="url(#dot-gold)"/>
               <rect x="56" y="-0.2" width="30" height="3.4" fill="#1e293b" stroke="#f59e0b" stroke-width="0.25" rx="0.5"/>
               <text x="71" y="2.2" fill="#fef3c7" text-anchor="middle" font-size="1.9">2×4 WRC Cedar Rail Cap (S4S)</text>
 
-              <!-- Leader 3: 1x4 Top Face Trim -->
               <path d="M 28 8.8 L 28 13 L 20 13" fill="none" stroke="#f59e0b" stroke-width="0.3" marker-start="url(#dot-gold)"/>
               <rect x="-8" y="11.2" width="28" height="3.4" fill="#1e293b" stroke="#f59e0b" stroke-width="0.25" rx="0.5"/>
               <text x="6" y="13.6" fill="#fef3c7" text-anchor="middle" font-size="1.9">1×4 Cedar Top Trim (Fascia)</text>
 
-              <!-- Leader 4: 1x6 Flat Top Pickets -->
               <path d="M 50 40 L 72 35 L 78 35" fill="none" stroke="#10b981" stroke-width="0.3" marker-start="url(#dot-green)"/>
               <rect x="78" y="33.2" width="34" height="3.6" fill="#064e3b" stroke="#10b981" stroke-width="0.25" rx="0.5"/>
-              <text x="95" y="35.7" fill="#a7f3d0" text-anchor="middle" font-size="1.9">1×6 WRC Pickets (1/16″ Privacy Gap)</text>
+              <text x="95" y="35.7" fill="#a7f3d0" text-anchor="middle" font-size="1.9">1×6 WRC Pickets (1/16″ Gap)</text>
 
-              <!-- Leader 5: 1x4 Bottom Kickboard -->
               <path d="M 35 67.8 L 25 72 L 18 72" fill="none" stroke="#f59e0b" stroke-width="0.3" marker-start="url(#dot-gold)"/>
               <rect x="-10" y="70.2" width="28" height="3.4" fill="#1e293b" stroke="#f59e0b" stroke-width="0.25" rx="0.5"/>
               <text x="4" y="72.6" fill="#fef3c7" text-anchor="middle" font-size="1.9">1×4 Bottom Kickboard Trim</text>
 
-              <!-- Leader 6: 4x4 Structural Post -->
               <path d="M 98.25 50 L 106 50 L 110 50" fill="none" stroke="#0ea5e9" stroke-width="0.3" marker-start="url(#dot-cyan)"/>
               <rect x="110" y="48.2" width="24" height="3.6" fill="#0c4a6e" stroke="#0ea5e9" stroke-width="0.25" rx="0.5"/>
               <text x="122" y="50.7" fill="#bae6fd" text-anchor="middle" font-size="1.9">4×4 PT Incised Post (GC)</text>
             </g>
           </svg>
         </div>
-      </section>
+      </div>
 
-      <!-- ===================================================================== -->
-      <!-- SHEET 2: STRUCTURAL FRAMING & HIDDEN FASTENERS (X-RAY WIREFRAME) -->
-      <!-- ===================================================================== -->
-      <section id="sheet-S1" class="sheet-view hidden flex flex-col gap-4">
-        <div class="flex flex-wrap items-center justify-between gap-2">
+      <!-- Sheet Footer -->
+      <footer class="mt-6 pt-3 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANON REF: 104×78-SHELL-V2</div>
+        <div>PAGE 1 OF 4</div>
+      </footer>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SHEET 2 (PAGE 2): STRUCTURAL FRAMING & HIDDEN FASTENERS WIREFRAME       -->
+    <!-- ======================================================================= -->
+    <div id="sheet-S1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h3 class="text-lg font-bold font-display uppercase tracking-wider text-[#141B16]">
-              Sheet S1 — Structural Framing &amp; Hidden Fasteners (X-Ray Wireframe)
-            </h3>
-            <p class="text-xs text-gray-600">See-through architectural wireframe exposing internal framing fasteners, toe-nail screws, and brackets.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">🔩</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                STRUCTURAL FRAMING &amp; HIDDEN FASTENERS (X-RAY)
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              See-Through Engineering Wireframe Exposing Toe-Nailed Screws, Metal Hangers &amp; Picket Nails
+            </p>
           </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-S1</div>
+            <div class="text-white font-bold">SHEET 2 OF 4 (FRAMING &amp; FASTENERS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · 33.33% WASTE BUFFER</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ IBC / IRC CODE COMPLIANT</div>
+          </div>
+        </header>
 
-          <!-- Framing Fastener Mode Toggle -->
-          <div class="flex items-center gap-1.5 bg-[#141B16] p-1 rounded-md text-xs">
-            <span class="text-gray-300 font-bold px-2 text-[11px]">Framing Connection:</span>
-            <button onclick="setFramingStyle('toenail')" id="btn-framing-toenail" class="px-2.5 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition">
+        <!-- Framing Mode Selector Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-gray-600 uppercase text-[11px]">Active Connection Model:</span>
+            <span id="active-framing-badge" class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold font-mono">
+              Angled Toe-Screws @ 45° (3× per rail end)
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5 no-print">
+            <button onclick="setFramingStyle('toenail')" id="btn-framing-toenail" class="px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm">
               🔩 Angled Toe-Screws (3×/End)
             </button>
-            <button onclick="setFramingStyle('bracket')" id="btn-framing-bracket" class="px-2.5 py-1 rounded font-medium text-gray-300 hover:text-white transition">
+            <button onclick="setFramingStyle('bracket')" id="btn-framing-bracket" class="px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm">
               🛠️ Simpson Strong-Tie FB24Z
             </button>
           </div>
         </div>
 
+        <!-- Wireframe Blueprint Drawing -->
         <div class="w-full blueprint-canvas rounded border-2 border-[#1e3a5f] p-4 relative shadow-2xl overflow-hidden">
-          <!-- 104 x 78 Wireframe Blueprint SVG -->
-          <svg viewBox="-12 -2 128 84" class="w-full h-auto drop-shadow-xl" style="max-height: 540px;">
+          <svg viewBox="-12 -2 128 84" class="w-full h-auto drop-shadow-xl" style="max-height: 520px;">
             <defs>
               <marker id="wf-dot-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
                 <circle cx="5" cy="5" r="3.5" fill="#fbbf24" stroke="#000" stroke-width="1"/>
@@ -359,46 +321,30 @@
             <line x1="0" y1="78" x2="104" y2="78" stroke="#38bdf8" stroke-width="0.6"/>
             <text x="52" y="81" fill="#38bdf8" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.8">GRADE BASELINE (Y = 78.00″ · ZERO ADDED HEIGHT BELOW)</text>
 
-            <!-- GHOSTED TIMBER WIREFRAME (See-through outer envelopes) -->
+            <!-- Ghosted Timber Envelopes (Transparent CAD wireframe) -->
             <rect x="4" y="6" width="3.5" height="72" fill="rgba(56, 189, 248, 0.05)" stroke="#38bdf8" stroke-width="0.3" stroke-dasharray="2 1"/>
             <rect x="96.5" y="6" width="3.5" height="72" fill="rgba(56, 189, 248, 0.05)" stroke="#38bdf8" stroke-width="0.3" stroke-dasharray="2 1"/>
-
-            <!-- 2x4 Top Rail Wireframe -->
             <rect x="7.3125" y="7.3125" width="89.375" height="3.5" fill="rgba(245, 158, 11, 0.08)" stroke="#f59e0b" stroke-width="0.35"/>
-            <!-- 2x4 Mid Rail Wireframe -->
-            <rect x="7.3125" y="32.5" width="89.375" height="3.5" fill="rgba(245, 158, 11, 0.04)" stroke="#f59e0b" stroke-width="0.25" stroke-dasharray="3 1.5"/>
-            <!-- 2x4 Bottom Rail Wireframe -->
             <rect x="7.3125" y="66" width="89.375" height="3.5" fill="rgba(245, 158, 11, 0.08)" stroke="#f59e0b" stroke-width="0.35"/>
 
-            <!-- GHOSTED CEDAR PICKETS (Semi-transparent X-ray lines showing ring-shank nails through wood) -->
-            <g id="ghost-pickets" opacity="0.25" stroke="#94a3b8" stroke-width="0.2">
-              <line x1="13" y1="7.5" x2="13" y2="76.5"/>
-              <line x1="18.5" y1="7.5" x2="18.5" y2="76.5"/>
-              <line x1="24.1" y1="7.5" x2="24.1" y2="76.5"/>
-              <line x1="29.7" y1="7.5" x2="29.7" y2="76.5"/>
-              <line x1="35.3" y1="7.5" x2="35.3" y2="76.5"/>
-              <line x1="40.8" y1="7.5" x2="40.8" y2="76.5"/>
-              <line x1="46.4" y1="7.5" x2="46.4" y2="76.5"/>
-              <line x1="52.0" y1="7.5" x2="52.0" y2="76.5"/>
-              <line x1="57.5" y1="7.5" x2="57.5" y2="76.5"/>
-              <line x1="63.1" y1="7.5" x2="63.1" y2="76.5"/>
-              <line x1="68.6" y1="7.5" x2="68.6" y2="76.5"/>
-              <line x1="74.2" y1="7.5" x2="74.2" y2="76.5"/>
-              <line x1="79.8" y1="7.5" x2="79.8" y2="76.5"/>
-              <line x1="85.3" y1="7.5" x2="85.3" y2="76.5"/>
-              <line x1="90.9" y1="7.5" x2="90.9" y2="76.5"/>
+            <!-- Ghosted Pickets (See-through linework) -->
+            <g opacity="0.25" stroke="#94a3b8" stroke-width="0.2">
+              <line x1="13" y1="7.5" x2="13" y2="76.5"/><line x1="18.5" y1="7.5" x2="18.5" y2="76.5"/>
+              <line x1="24.1" y1="7.5" x2="24.1" y2="76.5"/><line x1="29.7" y1="7.5" x2="29.7" y2="76.5"/>
+              <line x1="35.3" y1="7.5" x2="35.3" y2="76.5"/><line x1="40.8" y1="7.5" x2="40.8" y2="76.5"/>
+              <line x1="46.4" y1="7.5" x2="46.4" y2="76.5"/><line x1="52.0" y1="7.5" x2="52.0" y2="76.5"/>
+              <line x1="57.5" y1="7.5" x2="57.5" y2="76.5"/><line x1="63.1" y1="7.5" x2="63.1" y2="76.5"/>
+              <line x1="68.6" y1="7.5" x2="68.6" y2="76.5"/><line x1="74.2" y1="7.5" x2="74.2" y2="76.5"/>
+              <line x1="79.8" y1="7.5" x2="79.8" y2="76.5"/><line x1="85.3" y1="7.5" x2="85.3" y2="76.5"/>
             </g>
 
-            <!-- ========================================================= -->
-            <!-- FASTENER LAYER: INFILL PICKET NAILS (6 PER PICKET BUDGET) -->
-            <!-- ========================================================= -->
-            <g id="picket-nails-layer" fill="#38bdf8" stroke="#000" stroke-width="0.06">
+            <!-- Fasteners: Infill Picket Ring Nails (6 per picket budget) -->
+            <g fill="#38bdf8" stroke="#000" stroke-width="0.06">
               <circle cx="10.2" cy="8.2" r="0.18"/><circle cx="10.2" cy="10.0" r="0.18"/>
               <circle cx="15.8" cy="8.2" r="0.18"/><circle cx="15.8" cy="10.0" r="0.18"/>
               <circle cx="21.4" cy="8.2" r="0.18"/><circle cx="21.4" cy="10.0" r="0.18"/>
               <circle cx="27.0" cy="8.2" r="0.18"/><circle cx="27.0" cy="10.0" r="0.18"/>
               <circle cx="32.6" cy="8.2" r="0.18"/><circle cx="32.6" cy="10.0" r="0.18"/>
-
               <circle cx="10.2" cy="67.0" r="0.18"/><circle cx="10.2" cy="68.8" r="0.18"/>
               <circle cx="15.8" cy="67.0" r="0.18"/><circle cx="15.8" cy="68.8" r="0.18"/>
               <circle cx="21.4" cy="67.0" r="0.18"/><circle cx="21.4" cy="68.8" r="0.18"/>
@@ -406,11 +352,9 @@
               <circle cx="32.6" cy="67.0" r="0.18"/><circle cx="32.6" cy="68.8" r="0.18"/>
             </g>
 
-            <!-- ========================================================= -->
-            <!-- OPTION A: ANGLED TOE-NAILED STRUCTURAL SCREWS (ACTIVE)    -->
-            <!-- ========================================================= -->
+            <!-- Framing Style A: Angled Toe-Screws -->
             <g id="layer-toenails">
-              <!-- Left Post / Top Rail Joint (3 Screws Angled @ 45°) -->
+              <!-- Left Post / Top Rail Joint (3 Screws) -->
               <g stroke="#f97316" stroke-width="0.3" fill="none">
                 <line x1="8.8" y1="7.8" x2="6.6" y2="5.6" stroke-linecap="round"/>
                 <line x1="8.8" y1="9.0" x2="6.2" y2="9.0" stroke-linecap="round"/>
@@ -441,67 +385,108 @@
               <circle cx="95.2" cy="10.2" r="0.25" fill="#f97316"/>
             </g>
 
-            <!-- ========================================================= -->
-            <!-- OPTION B: SIMPSON STRONG-TIE FB24Z BRACKETS (TOGGLEABLE)  -->
-            <!-- ========================================================= -->
+            <!-- Framing Style B: Simpson FB24Z Brackets -->
             <g id="layer-brackets" class="hidden">
-              <!-- Left Post Top Bracket -->
               <rect x="7.5" y="7.3125" width="2.2" height="3.5" fill="rgba(56, 189, 248, 0.4)" stroke="#38bdf8" stroke-width="0.2"/>
               <circle cx="6.5" cy="8.2" r="0.2" fill="#38bdf8"/>
               <circle cx="6.5" cy="10.0" r="0.2" fill="#38bdf8"/>
               <circle cx="8.6" cy="10.6" r="0.2" fill="#f59e0b"/>
 
-              <!-- Left Post Bottom Bracket -->
               <rect x="7.5" y="66" width="2.2" height="3.5" fill="rgba(56, 189, 248, 0.4)" stroke="#38bdf8" stroke-width="0.2"/>
               <circle cx="6.5" cy="66.8" r="0.2" fill="#38bdf8"/>
               <circle cx="6.5" cy="68.6" r="0.2" fill="#38bdf8"/>
               <circle cx="8.6" cy="69.3" r="0.2" fill="#f59e0b"/>
 
-              <!-- Right Post Top Bracket -->
               <rect x="94.3" y="7.3125" width="2.2" height="3.5" fill="rgba(56, 189, 248, 0.4)" stroke="#38bdf8" stroke-width="0.2"/>
               <circle cx="97.5" cy="8.2" r="0.2" fill="#38bdf8"/>
               <circle cx="97.5" cy="10.0" r="0.2" fill="#38bdf8"/>
             </g>
 
-            <!-- ============================================== -->
-            <!-- WIREFRAME SPAGHETTI ARMS & FASTENER CALLOUTS   -->
-            <!-- ============================================== -->
-            <g id="s1-wireframe-callouts" font-family="'Fira Code', monospace" font-size="1.9">
-              <!-- Callout 1: Angled Toe-Screws -->
+            <!-- Leader Line Callouts -->
+            <g font-family="'Fira Code', monospace" font-size="1.9">
               <path d="M 8.8 9.0 L -2 15 L -8 15" fill="none" stroke="#f97316" stroke-width="0.3" marker-start="url(#wf-dot-ember)"/>
               <rect x="-11.5" y="13.2" width="34" height="6.2" fill="#0f172a" stroke="#f97316" stroke-width="0.3" rx="0.5"/>
               <text x="5.5" y="15.4" fill="#fb923c" font-weight="700">3× #10 3.25″ STRUCTURAL SCREWS</text>
-              <text x="5.5" y="17.8" fill="#cbd5e1" font-size="1.6">Toe-nailed @ 45° (6 per rail with 33% waste)</text>
+              <text x="5.5" y="17.8" fill="#cbd5e1" font-size="1.6">Toe-nailed @ 45° (6/rail w/ 33.33% buffer)</text>
 
-              <!-- Callout 2: Infill Ring-Shank Nails -->
               <path d="M 21.4 10.0 L 21.4 3.5 L 30 3.5" fill="none" stroke="#38bdf8" stroke-width="0.3" marker-start="url(#wf-dot-cyan)"/>
               <rect x="30" y="1.8" width="36" height="6.2" fill="#0f172a" stroke="#38bdf8" stroke-width="0.3" rx="0.5"/>
               <text x="48" y="4.0" fill="#7dd3fc" font-weight="700">2× 2″ SS RING-SHANK NAILS</text>
-              <text x="48" y="6.4" fill="#cbd5e1" font-size="1.6">Per rail contact (6 nails/picket with 33% waste)</text>
+              <text x="48" y="6.4" fill="#cbd5e1" font-size="1.6">Per rail contact (6/picket w/ 33.33% buffer)</text>
 
-              <!-- Callout 3: Trim Washer-Head Screws -->
               <path d="M 45 66 L 45 58 L 56 58" fill="none" stroke="#fbbf24" stroke-width="0.3" marker-start="url(#wf-dot-gold)"/>
               <rect x="56" y="56.2" width="38" height="6.2" fill="#0f172a" stroke="#fbbf24" stroke-width="0.3" rx="0.5"/>
               <text x="75" y="58.4" fill="#fde047" font-weight="700">ORNAMENTAL WASHER SCREWS</text>
-              <text x="75" y="60.8" fill="#cbd5e1" font-size="1.6">Spaced 11″ OC (16 per 8ft trim board w/ buffer)</text>
+              <text x="75" y="60.8" fill="#cbd5e1" font-size="1.6">Spaced 11″ OC (16/board w/ 33.33% buffer)</text>
             </g>
           </svg>
         </div>
-      </section>
+      </div>
 
-      <!-- ===================================================================== -->
-      <!-- SHEET 3: DIMENSIONAL CAD BLUEPRINT & ATTACHMENT HEIGHTS -->
-      <!-- ===================================================================== -->
-      <section id="sheet-D1" class="sheet-view hidden flex flex-col gap-4">
-        <div>
-          <h3 class="text-lg font-bold font-display uppercase tracking-wider text-[#141B16]">
-            Sheet D1 — Dimensional Blueprint &amp; Attachment Datums
-          </h3>
-          <p class="text-xs text-gray-600">Pure engineering CAD view showing exact physical elevations, on-center spacing, and mounting heights.</p>
-        </div>
+      <!-- Sheet Footer -->
+      <footer class="mt-6 pt-3 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · FASTENER SPECIFICATION: V2.4</div>
+        <div>PAGE 2 OF 4</div>
+      </footer>
+    </div>
 
+    <!-- ======================================================================= -->
+    <!-- SHEET 3 (PAGE 3): DIMENSIONAL CAD BLUEPRINT & ATTACHMENT DATUMS         -->
+    <!-- ======================================================================= -->
+    <div id="sheet-D1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">📐</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                DIMENSIONAL BLUEPRINT &amp; INSTALLATION DATUMS
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Crisp Engineering CAD View Showing On-Center Spans, Clear Bays, and Rail Attachment Centerlines
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-D1</div>
+            <div class="text-white font-bold">SHEET 3 OF 4 (CAD DIMENSIONS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · DATUM ACCURACY: 1/16″</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ ZERO ACCUMULATED ERROR</div>
+          </div>
+        </header>
+
+        <!-- Engineering Datums Summary Strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Post On-Center (OC)</span>
+            <strong class="text-[#141B16] text-sm font-mono">96.00″ (8′-0″)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Clear Bay Span</span>
+            <strong class="text-[#141B16] text-sm font-mono">89.00″ Between Posts</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Top Rail Centerline</span>
+            <strong class="text-[#141B16] text-sm font-mono">Y = 9.06″ (1.31″ Clr)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Bottom Rail Centerline</span>
+            <strong class="text-[#141B16] text-sm font-mono">Y = 67.75″ (4.25″ Clr)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Kickboard Clearance</span>
+            <strong class="text-[#141B16] text-sm font-mono">1.50″ Above Grade</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Hole Excavation</span>
+            <strong class="text-[#141B16] text-sm font-mono">24″ Min Depth · 120 lb</strong>
+          </div>
+        </section>
+
+        <!-- Clean Dimension CAD Drawing -->
         <div class="w-full blueprint-canvas rounded border-2 border-[#1e3a5f] p-4 relative shadow-2xl overflow-hidden">
-          <svg viewBox="-8 -2 124 84" class="w-full h-auto drop-shadow-xl" style="max-height: 540px;" font-family="'Fira Code', monospace" font-size="1.9">
+          <svg viewBox="-8 -2 124 84" class="w-full h-auto drop-shadow-xl" style="max-height: 520px;" font-family="'Fira Code', monospace" font-size="1.9">
             <defs>
               <marker id="d-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
                 <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34d399"/>
@@ -522,67 +507,79 @@
             <rect x="7.3125" y="66" width="89.375" height="3.5" fill="none" stroke="#34d399" stroke-width="0.4"/>
             <line x1="0" y1="78" x2="104" y2="78" stroke="#38bdf8" stroke-width="0.6"/>
 
-            <!-- HORIZONTAL DIMENSION RULERS -->
-            <!-- 96.00" Post On-Center Span -->
+            <!-- Horizontal Rulers -->
             <line x1="5.75" y1="3" x2="98.25" y2="3" stroke="#34d399" stroke-width="0.35" marker-start="url(#d-arrow-green)" marker-end="url(#d-arrow-green)"/>
             <rect x="42" y="1.6" width="20" height="2.8" fill="#0f172a" stroke="#34d399" stroke-width="0.2"/>
             <text x="52" y="3.6" fill="#34d399" text-anchor="middle" font-weight="700">96.00″ ON-CENTER</text>
 
-            <!-- 89.00" Clear Bay Span -->
             <line x1="7.5" y1="12.5" x2="96.5" y2="12.5" stroke="#38bdf8" stroke-width="0.3" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
             <rect x="42" y="11.1" width="20" height="2.8" fill="#0f172a" stroke="#38bdf8" stroke-width="0.2"/>
             <text x="52" y="13.1" fill="#38bdf8" text-anchor="middle">89.00″ CLEAR BAY</text>
 
-            <!-- 4.00" Left & Right Breather Margins -->
             <line x1="0" y1="3" x2="4" y2="3" stroke="#38bdf8" stroke-width="0.25" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
             <text x="2" y="2.2" fill="#38bdf8" text-anchor="middle" font-size="1.6">4″</text>
-
             <line x1="100" y1="3" x2="104" y2="3" stroke="#38bdf8" stroke-width="0.25" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
             <text x="102" y="2.2" fill="#38bdf8" text-anchor="middle" font-size="1.6">4″</text>
 
-            <!-- VERTICAL ELEVATION DATUMS (RIGHT RULER) -->
-            <!-- 6.00" Cap Headroom -->
+            <!-- Vertical Datums -->
             <line x1="101.5" y1="0" x2="101.5" y2="6" stroke="#e5a93c" stroke-width="0.3" marker-start="url(#d-arrow-gold)" marker-end="url(#d-arrow-gold)"/>
             <text x="103" y="3.5" fill="#e5a93c">6″ CAP HEADROOM</text>
-
-            <!-- 72.00" Panel Height -->
             <line x1="101.5" y1="6" x2="101.5" y2="78" stroke="#34d399" stroke-width="0.4" marker-start="url(#d-arrow-green)" marker-end="url(#d-arrow-green)"/>
             <text x="103" y="42" fill="#34d399" font-weight="700">72.00″ PANEL HEIGHT (6′-0″)</text>
 
-            <!-- SPECIFIC MOUNTING DATUMS -->
-            <!-- Top Rail Centerline Datum: Y = 9.06" -->
+            <!-- Attachment Centerlines -->
             <line x1="7.3" y1="9.06" x2="-2" y2="9.06" stroke="#f59e0b" stroke-width="0.25" stroke-dasharray="2 1"/>
             <text x="-3" y="9.5" fill="#f59e0b" text-anchor="end">TOP RAIL CL = Y 9.06″ (1.31″ below cap)</text>
 
-            <!-- Bottom Rail Centerline Datum: Y = 67.75" -->
             <line x1="7.3" y1="67.75" x2="-2" y2="67.75" stroke="#f59e0b" stroke-width="0.25" stroke-dasharray="2 1"/>
             <text x="-3" y="68.2" fill="#f59e0b" text-anchor="end">BOTTOM RAIL CL = Y 67.75″ (4.25″ above grade)</text>
 
-            <!-- Kickboard Ground Clearance Datum -->
             <line x1="7.3" y1="69.5" x2="-2" y2="69.5" stroke="#38bdf8" stroke-width="0.25" stroke-dasharray="2 1"/>
             <text x="-3" y="72.5" fill="#38bdf8" text-anchor="end">KICKBOARD CLEARANCE = 1.50″ MIN</text>
 
-            <!-- Underground Foundation Note -->
             <rect x="30" y="79" width="44" height="3" fill="#0f172a" stroke="#38bdf8" stroke-width="0.2"/>
             <text x="52" y="81.2" fill="#7dd3fc" text-anchor="middle" font-size="1.7">FOUNDATION: 24″ MIN DEPTH · 120 LB QUIKRETE · 6″ AGGREGATE</text>
           </svg>
         </div>
-      </section>
+      </div>
 
-      <!-- ===================================================================== -->
-      <!-- SHEET 4: COMBINED BOM MATERIAL LIST & DYNAMIC LABOR ESTIMATE -->
-      <!-- ===================================================================== -->
-      <section id="sheet-B1" class="sheet-view hidden flex flex-col gap-6">
-        <div>
-          <h3 class="text-lg font-bold font-display uppercase tracking-wider text-[#141B16]">
-            Sheet B1 — Combined Material Takeoff (BOM) &amp; Labor Dossier
-          </h3>
-          <p class="text-xs text-gray-600">The core engine of Fence-Folio: parametric takeoff with 33.33% contractor fastener waste + discrete component labor schedule.</p>
-        </div>
+      <!-- Sheet Footer -->
+      <footer class="mt-6 pt-3 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CAD DATUM SPECIFICATION: 104×78-V2</div>
+        <div>PAGE 3 OF 4</div>
+      </footer>
+    </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- ======================================================================= -->
+    <!-- SHEET 4 (PAGE 4): COMBINED BOM TAKEOFF & CONTRACTOR LABOR DOSSIER       -->
+    <!-- ======================================================================= -->
+    <div id="sheet-B1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">📊</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                MATERIAL TAKEOFF (BOM) &amp; LABOR DOSSIER
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Parametric Material List with 33.33% Contractor Fastener Waste Buffer + Discrete Component Labor Schedule
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-B1</div>
+            <div class="text-white font-bold">SHEET 4 OF 4 (PRICING &amp; LABOR)</div>
+            <div>TRADE RATE: $75/HR LOADED SHOP RATE</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ CANONICAL QUOTE ENGINE VERIFIED</div>
+          </div>
+        </header>
 
-          <!-- PILLAR 1: ITEMIZED MATERIAL TAKEOFF (BOM) -->
+        <!-- Two Column Takeoff Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+          <!-- Pillar 1: Material Takeoff BOM -->
           <div class="bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
@@ -654,11 +651,11 @@
                       <td class="text-right">$5.48</td>
                       <td class="text-right font-bold">$76.72</td>
                     </tr>
-                    <!-- FASTENER ROWS WITH 33.33% WASTE -->
+                    <!-- Fasteners with 33.33% Waste Buffer -->
                     <tr class="bg-amber-50">
                       <td class="py-1.5 font-bold text-amber-900">
                         Framing Screws (#10 3.25″)
-                        <span class="block text-[9px] font-normal text-amber-700">6 per rail (33.33% contractor waste buffer)</span>
+                        <span class="block text-[9px] font-normal text-amber-700">6/rail (33.33% contractor waste buffer)</span>
                       </td>
                       <td class="text-center text-amber-800">6/rail</td>
                       <td class="text-center font-bold text-amber-900">1 × 5 lb Box</td>
@@ -668,7 +665,7 @@
                     <tr class="bg-amber-50">
                       <td class="py-1.5 font-bold text-amber-900">
                         Picket Nails (2″ SS Ring)
-                        <span class="block text-[9px] font-normal text-amber-700">6 per picket (33.33% contractor waste buffer)</span>
+                        <span class="block text-[9px] font-normal text-amber-700">6/picket (33.33% contractor waste buffer)</span>
                       </td>
                       <td class="text-center text-amber-800">6/picket</td>
                       <td class="text-center font-bold text-amber-900">1 × 3.6k Box</td>
@@ -678,7 +675,7 @@
                     <tr class="bg-amber-50">
                       <td class="py-1.5 font-bold text-amber-900">
                         Trim Washer Screws (Black/Gold)
-                        <span class="block text-[9px] font-normal text-amber-700">16 per 8′ trim board (33.33% waste buffer)</span>
+                        <span class="block text-[9px] font-normal text-amber-700">16/trim board (33.33% waste buffer)</span>
                       </td>
                       <td class="text-center text-amber-800">16/board</td>
                       <td class="text-center font-bold text-amber-900">2 × 250 pk</td>
@@ -696,7 +693,7 @@
             </div>
           </div>
 
-          <!-- PILLAR 2: DISCRETE COMPONENT LABOR ESTIMATE -->
+          <!-- Pillar 2: Dynamic Labor Estimate -->
           <div class="bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
@@ -781,7 +778,7 @@
 
         </div>
 
-        <!-- PILLAR 3: COMBINED FENCE-FOLIO QUOTE ENGINE (monetization_rules.md) -->
+        <!-- Pillar 3: Canonical Quote Range Output -->
         <div class="bg-[#141B16] text-[#FAF6EE] p-5 rounded border-2 border-[#141B16] shadow-xl">
           <div class="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
             <div class="flex items-center gap-2">
@@ -816,7 +813,6 @@
             </div>
           </div>
 
-          <!-- Homeowner Range Display -->
           <div class="bg-[#2F5D3A] p-4 rounded-lg flex flex-wrap items-center justify-between gap-4 border border-[#4ADE80]/40">
             <div>
               <span class="text-[11px] font-bold text-emerald-200 uppercase tracking-wider block font-display">HOMEOWNER GUARANTEED ESTIMATE RANGE (±15%)</span>
@@ -829,45 +825,18 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- 3. FOOTER SIGN-OFF BLOCK -->
-      <footer class="mt-8 pt-4 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-gray-600">
-        <div>
-          <span>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE</span> · <span>CANON REF: 104×78-SHELL-V2</span>
-        </div>
-        <div>
-          <span>PRODUCED FOR: HOMEOWNER &amp; LICENSED CONTRACTOR TENDER</span> · <span>PAGE: 1 / 4</span>
-        </div>
+      <!-- Sheet Footer -->
+      <footer class="mt-6 pt-3 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANONICAL MONETIZATION RULES: § QUOTE MATH</div>
+        <div>PAGE 4 OF 4</div>
       </footer>
-
     </div>
 
   </main>
 
   <script>
-    function switchSheet(sheetId) {
-      document.querySelectorAll('.sheet-view').forEach(el => el.classList.add('hidden'));
-      document.getElementById('sheet-' + sheetId).classList.remove('hidden');
-
-      document.querySelectorAll('.sheet-tab').forEach(b => {
-        b.classList.remove('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-        b.classList.add('font-medium', 'text-gray-300');
-      });
-
-      const activeBtn = document.getElementById('tab-' + sheetId);
-      activeBtn.classList.add('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-      activeBtn.classList.remove('font-medium', 'text-gray-300');
-
-      const titles = {
-        'A1': 'SHEET A1 OF 4 (ELEVATION)',
-        'S1': 'SHEET S1 OF 4 (FRAMING & FASTENERS)',
-        'D1': 'SHEET D1 OF 4 (DIMENSIONS)',
-        'B1': 'SHEET B1 OF 4 (BOM & LABOR)'
-      };
-      document.getElementById('sheet-indicator').textContent = titles[sheetId] || 'SHEET ' + sheetId;
-    }
-
     function setFramingStyle(style) {
       const isToe = style === 'toenail';
       document.getElementById('layer-toenails').classList.toggle('hidden', !isToe);
@@ -875,19 +844,20 @@
 
       const btnToe = document.getElementById('btn-framing-toenail');
       const btnBrk = document.getElementById('btn-framing-bracket');
+      const badge = document.getElementById('active-framing-badge');
 
       if (isToe) {
         btnToe.classList.add('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-        btnToe.classList.remove('font-medium', 'text-gray-300');
+        btnToe.classList.remove('bg-gray-200', 'text-gray-800');
         btnBrk.classList.remove('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-        btnBrk.classList.add('font-medium', 'text-gray-300');
-        document.getElementById('meta-framing-method').textContent = 'Angled Toe-Screw (45°)';
+        btnBrk.classList.add('bg-gray-200', 'text-gray-800');
+        badge.textContent = 'Angled Toe-Screws @ 45° (3× per rail end)';
       } else {
         btnBrk.classList.add('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-        btnBrk.classList.remove('font-medium', 'text-gray-300');
+        btnBrk.classList.remove('bg-gray-200', 'text-gray-800');
         btnToe.classList.remove('bg-[#E5B842]', 'text-[#141B16]', 'font-bold');
-        btnToe.classList.add('font-medium', 'text-gray-300');
-        document.getElementById('meta-framing-method').textContent = 'Simpson Strong-Tie FB24Z';
+        btnToe.classList.add('bg-gray-200', 'text-gray-800');
+        badge.textContent = 'Simpson Strong-Tie FB24Z Hangers (4× screws into post)';
       }
     }
   </script>
