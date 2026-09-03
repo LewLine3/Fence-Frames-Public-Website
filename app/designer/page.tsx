@@ -6,7 +6,7 @@ import { SiteNav } from '@/components/ff/site-nav'
 import { SubHeaderRibbon } from '@/components/toolbar/sub-header-ribbon'
 import { ElevationStage } from '@/components/toolbar/elevation-stage'
 import { LeftOptionRail } from '@/components/designer/left-option-rail'
-import { BottomCarouselHud } from '@/components/designer/bottom-carousel-hud'
+import { ModuleDock } from '@/components/designer/module-dock'
 import { type ElevationMode, type ViewTab } from '@/lib/toolbar/spec'
 import {
   FenceConfiguration,
@@ -100,7 +100,7 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
         />
 
-        {/* Stage column: fence fills remaining height; carousel is a docked bottom row */}
+        {/* Stage column: fence fills remaining height; module dock sits below ground strand */}
         <div
           className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full"
           style={greenPrintBackground}
@@ -118,7 +118,7 @@ export default function DesignerPage() {
             />
           </section>
 
-          {/* Ground strand — fence grass docks onto this line above the carousel */}
+          {/* Ground strand — fence grass docks onto this line above the module dock */}
           <div
             aria-hidden
             className="pointer-events-none flex-shrink-0 w-full z-30"
@@ -129,16 +129,13 @@ export default function DesignerPage() {
             }}
           />
 
-          <BottomCarouselHud
+          <ModuleDock
             config={config}
             pricing={pricing}
             trialPricing={trialPricing}
             onChange={handleConfigChange}
             onResetDefaults={handleResetDefaults}
             onSaveToFolio={handleSaveToFolio}
-            onOpenLedgerModal={() => handleTabChange('Fence-Folio')}
-            activeChapter={activeChapter}
-            onSelectChapter={setActiveChapter}
           />
         </div>
       </div>

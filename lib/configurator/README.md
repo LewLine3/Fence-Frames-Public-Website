@@ -9,7 +9,7 @@ Single source of truth for designer option menus.
 
 UI consumers:
 - `components/designer/chapter-config-panel.tsx` (left-rail detail)
-- `components/designer/bottom-carousel-hud.tsx` (horizontal HUD)
+- `components/designer/module-dock.tsx` (docked calculator / templates / AI modules)
 - `components/designer/left-option-rail.tsx` (chapter list)
 
 Live art stays under `/configure/heritage-v1/components/`. Supabase migration scaffold: `supabase/migrations/20260902_configurator_options.sql`.
