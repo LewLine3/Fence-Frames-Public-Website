@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Frames — Canon Heritage vs Batch 1 Verification Studio</title>
+  <style>
+    :root {
+      --ff-dark: #0f1115;
+      --ff-panel: #171b22;
+      --ff-card: #202632;
+      --ff-border: #2e3646;
+      --ff-gold: #e5a93c;
+      --ff-gold-glow: rgba(229, 169, 60, 0.25);
+      --ff-cyan: #38bdf8;
+      --ff-text: #f1f5f9;
+      --ff-muted: #94a3b8;
+      --ff-green: #34d399;
+      --ff-red: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ff-dark);
+      color: var(--ff-text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--ff-panel);
+      border-bottom: 1px solid var(--ff-border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-title { font-size: 18px; font-weight: 700; color: #fff; }
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(229, 169, 60, 0.15);
+      color: var(--ff-gold);
+      border: 1px solid rgba(229, 169, 60, 0.3);
+    }
+    .view-toggles { display: flex; gap: 8px; }
+    .btn {
+      background: var(--ff-card);
+      border: 1px solid var(--ff-border);
+      color: var(--ff-text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--ff-gold); color: var(--ff-gold); }
+    .btn.active {
+      background: var(--ff-gold);
+      color: #111;
+      border-color: var(--ff-gold);
+      box-shadow: 0 0 12px var(--ff-gold-glow);
+    }
+    
+    .verdict-banner {
+      background: #1e1b12;
+      border-bottom: 1px solid #644a1d;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .verdict-tag {
+      background: var(--ff-gold);
+      color: #000;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    main {
+      flex: 1;
+      padding: 24px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Side by Side Dual View */
+    .split-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .panel-box {
+      background: var(--ff-panel);
+      border: 1px solid var(--ff-border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-box.canon { border-top: 4px solid var(--ff-cyan); }
+    .panel-box.batch1 { border-top: 4px solid var(--ff-gold); }
+    .panel-head {
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--ff-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; }
+    .panel-subtitle { font-size: 12px; color: var(--ff-muted); margin-top: 2px; }
+    .panel-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .canon .panel-badge { background: rgba(56, 189, 248, 0.15); color: var(--ff-cyan); }
+    .batch1 .panel-badge { background: rgba(229, 169, 60, 0.15); color: var(--ff-gold); }
+
+    .elevation-viewport {
+      background: #090a0d;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 420px;
+    }
+    .elevation-viewport svg {
+      width: 100%;
+      height: auto;
+      max-height: 380px;
+      display: block;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .specs-grid {
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 13px;
+      border-top: 1px solid var(--ff-border);
+      background: rgba(0, 0, 0, 0.15);
+    }
+    .spec-item { display: flex; flex-direction: column; gap: 2px; }
+    .spec-label { font-size: 11px; color: var(--ff-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .spec-val { font-weight: 600; font-family: monospace; color: #fff; }
+
+    /* Crossfade Onion Skin Slider */
+    .onion-section {
+      background: var(--ff-panel);
+      border: 1px solid var(--ff-border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .onion-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+    .slider-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    input[type=range] {
+      flex: 1;
+      accent-color: var(--ff-gold);
+      height: 6px;
+      cursor: pointer;
+    }
+    .onion-viewport {
+      position: relative;
+      background: #090a0d;
+      border: 1px solid var(--ff-border);
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .onion-layer {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.05s ease-out;
+    }
+    .onion-layer svg {
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+    }
+
+    /* Isolated Atom Comparison Grid */
+    .atoms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .atom-card {
+      background: var(--ff-panel);
+      border: 1px solid var(--ff-border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .atom-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--ff-border);
+      padding-bottom: 8px;
+    }
+    .atom-title { font-size: 14px; font-weight: 700; }
+    .atom-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .atom-box {
+      background: #090a0d;
+      border: 1px solid var(--ff-border);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .atom-preview {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .atom-preview svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .atom-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .atom-tag.canon { background: rgba(56, 189, 248, 0.2); color: var(--ff-cyan); }
+    .atom-tag.batch1 { background: rgba(229, 169, 60, 0.2); color: var(--ff-gold); }
+    .atom-metrics { font-size: 11px; font-family: monospace; color: var(--ff-muted); text-align: center; }
+
+    /* Discrepancy Breakdown Table */
+    .audit-table-box {
+      background: var(--ff-panel);
+      border: 1px solid var(--ff-border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    .audit-table-title {
+      padding: 16px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--ff-border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 18px;
+      color: var(--ff-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--ff-border);
+    }
+    td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--ff-border);
+    }
+    tr:last-child td { border-bottom: none; }
+    .badge-diff {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .diff-style { background: rgba(248, 113, 113, 0.15); color: var(--ff-red); }
+    .diff-dim { background: rgba(229, 169, 60, 0.15); color: var(--ff-gold); }
+    .diff-match { background: rgba(52, 211, 153, 0.15); color: var(--ff-green); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-title">Fence Frames Design Lab</div>
+      <div class="brand-badge">Side-by-Side Art & Scale Audit</div>
+    </div>
+    <div class="view-toggles">
+      <button class="btn active" onclick="switchView('split')">Split View</button>
+      <button class="btn" onclick="switchView('onion')">Onion-Skin Crossfade</button>
+      <button class="btn" onclick="switchView('atoms')">Atom Breakdown</button>
+      <button class="btn" onclick="switchView('table')">Dimension Audit Table</button>
+      <button class="btn" onclick="switchView('tight')" style="border-color: var(--ff-cyan); color: var(--ff-cyan);">✨ Tight Transparent (100×80)</button>
+    </div>
+  </header>
+
+  <div class="verdict-banner">
+    <div class="verdict-tag">AUDIT VERDICT</div>
+    <div>
+      <strong>I 100% AGREE WITH YOUR OBSERVATION.</strong> The components differ in both <strong>art style</strong> (Canon uses 0.1875″ black architectural shells, organic elliptical wood grain patterns, and specular nail heads; Batch 1 used linear gradients and flat CAD strokes) and <strong>dimensions</strong> (Canon artboard is <code>112×95 in</code> with 69.44″ pickets, while legacy panels were on <code>140×112 in</code> and isolated atoms were cropped to tight local bounding boxes, causing them to render smaller).
+    </div>
+  </div>
+
+  <main>
+
+    <!-- SECTION 1: DUAL SPLIT ELEVATION -->
+    <div id="view-split" class="split-container">
+      
+      <!-- LEFT: CANON HERITAGE V1 -->
+      <div class="panel-box canon">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Original Canon Heritage V1</div>
+            <div class="panel-subtitle">asm-heritage-hrtg-frame.svg · Master Architectural Law</div>
+          </div>
+          <div class="panel-badge">CANON BASELINE</div>
+        </div>
+        <div class="elevation-viewport">
+          <svg viewBox="0 0 112 95" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="canon-sky" x1="0" y1="0" x2="0" y2="84" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#353330"/>
+                <stop offset="100%" stop-color="#45372a" stop-opacity="0"/>
+              </linearGradient>
+              <pattern id="canon-cedar-grain" patternUnits="userSpaceOnUse" width="3.125" height="24">
+                <ellipse cx="1.09" cy="7.8" rx="0.25" ry="0.68" fill="#785030" opacity="0.4"/>
+                <ellipse cx="2.4" cy="14.7" rx="0.18" ry="0.37" fill="#5e3828" opacity="0.45"/>
+                <path d="M 0.28 0 L 0.28 24 M 0.62 0 L 0.62 24 M 1.46 0 L 1.46 24" stroke="#120908" stroke-width="0.04" opacity="0.8"/>
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="112" height="84" fill="url(#canon-sky)"/>
+            <rect x="0" y="84" width="112" height="2" fill="#000000"/>
+            <rect x="0.1875" y="84.1875" width="111.625" height="1.625" fill="#6a481b"/>
+            
+            <!-- Posts with 0.1875 Shell -->
+            <rect x="8" y="12" width="3.5" height="72" fill="#000000"/>
+            <rect x="8.1875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+            <rect x="8.1875" y="12.1875" width="3.125" height="71.625" fill="url(#canon-cedar-grain)"/>
+            <rect x="100.5" y="12" width="3.5" height="72" fill="#000000"/>
+            <rect x="100.6875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+            <rect x="100.6875" y="12.1875" width="3.125" height="71.625" fill="url(#canon-cedar-grain)"/>
+
+            <!-- Rail Cap (y=12, h=1.5) -->
+            <rect x="11.3125" y="12" width="89.375" height="1.5" fill="#000000"/>
+            <rect x="11.5" y="12.1875" width="89" height="1.125" fill="#d49868"/>
+
+            <!-- Top Rail (y=13.31, h=3.5) -->
+            <rect x="11.3125" y="13.3125" width="89.375" height="3.5" fill="#000000"/>
+            <rect x="11.5" y="13.5" width="89" height="3.125" fill="#6c4834"/>
+
+            <!-- Pickets with 0.1875 Shell -->
+            <rect x="11.3125" y="13.3125" width="89.375" height="69.4375" fill="#000000"/>
+            <g id="canon-pickets">
+              <rect x="11.5" y="13.5" width="2.78" height="69.06" fill="#c88254"/>
+              <rect x="14.65" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="20.59" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="26.53" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="32.46" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="38.4" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="44.34" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="50.28" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="56.21" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="62.15" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="68.09" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="74.03" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="79.96" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="85.9" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="91.84" y="13.5" width="5.5" height="69.06" fill="#c88254"/>
+              <rect x="97.71" y="13.5" width="2.78" height="69.06" fill="#c88254"/>
+            </g>
+
+            <!-- Bottom Trim (y=72, h=3.5) -->
+            <rect x="11.3125" y="72" width="89.375" height="3.5" fill="#000000"/>
+            <rect x="11.5" y="72.1875" width="89" height="3.125" fill="#c88254"/>
+
+            <path d="M 0 84 Q 5 81 10 84 Q 15 82 20 84 Q 30 81 40 84 Q 50 82 60 84 Q 75 81 90 84 Q 100 82 112 84 Z" fill="#227e1f"/>
+          </svg>
+        </div>
+        <div class="specs-grid">
+          <div class="spec-item"><span class="spec-label">Artboard</span><span class="spec-val">112 × 95 in</span></div>
+          <div class="spec-item"><span class="spec-label">Post Span</span><span class="spec-val">89.00 in</span></div>
+          <div class="spec-item"><span class="spec-label">Picket Height</span><span class="spec-val">69.4375 in</span></div>
+          <div class="spec-item"><span class="spec-label">Art Technique</span><span class="spec-val">0.1875″ Black Shell + Wood Grain Ellipses</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: BATCH 1 GENERATED ELEVATION -->
+      <div class="panel-box batch1">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Batch 1 Generated Suite</div>
+            <div class="panel-subtitle">batch1-component-test-studio.html · Isolated Vector Atoms</div>
+          </div>
+          <div class="panel-badge">GENERATED SUITE</div>
+        </div>
+        <div class="elevation-viewport">
+          <svg viewBox="0 0 112 95" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="b1-cedar-shine" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#c4a878"/>
+                <stop offset="50%" stop-color="#b8886b"/>
+                <stop offset="100%" stop-color="#9a7550"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="112" height="84" fill="#171b22"/>
+            <rect x="0" y="84" width="112" height="2" fill="#523328"/>
+
+            <!-- Simplified Posts -->
+            <rect x="8" y="12" width="3.5" height="72" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.15"/>
+            <rect x="100.5" y="12" width="3.5" height="72" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.15"/>
+
+            <!-- Batch 1 Post Caps (Narrower, taller pyramid) -->
+            <path d="M 7.625 12 L 7.625 10.5 L 9.75 9 L 11.875 10.5 L 11.875 12 Z" fill="url(#b1-cedar-shine)" stroke="#000" stroke-width="0.1"/>
+            <path d="M 100.125 12 L 100.125 10.5 L 102.25 9 L 104.375 10.5 L 104.375 12 Z" fill="url(#b1-cedar-shine)" stroke="#000" stroke-width="0.1"/>
+
+            <!-- Rails (Flat stroke) -->
+            <rect x="11.5" y="13.5" width="89" height="3.5" fill="#6c4834" stroke="#523328" stroke-width="0.15"/>
+            <rect x="11.5" y="32.5" width="89" height="3.5" fill="#6c4834" stroke="#523328" stroke-width="0.15"/>
+            <rect x="11.5" y="72" width="89" height="3.5" fill="#6c4834" stroke="#523328" stroke-width="0.15"/>
+
+            <!-- Batch 1 Gothic Pickets -->
+            <g id="b1-gothic-pickets" opacity="0.9">
+              <path d="M 14.65 15.5 L 17.4 13.31 L 20.15 15.5 L 20.15 82.75 L 14.65 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 20.59 15.5 L 23.34 13.31 L 26.09 15.5 L 26.09 82.75 L 20.59 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 26.53 15.5 L 29.28 13.31 L 32.03 15.5 L 32.03 82.75 L 26.53 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 32.46 15.5 L 35.21 13.31 L 37.96 15.5 L 37.96 82.75 L 32.46 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 38.4 15.5 L 41.15 13.31 L 43.9 15.5 L 43.9 82.75 L 38.4 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 44.34 15.5 L 47.09 13.31 L 49.84 15.5 L 49.84 82.75 L 44.34 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 50.28 15.5 L 53.03 13.31 L 55.78 15.5 L 55.78 82.75 L 50.28 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 56.21 15.5 L 58.96 13.31 L 61.71 15.5 L 61.71 82.75 L 56.21 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 62.15 15.5 L 64.9 13.31 L 67.65 15.5 L 67.65 82.75 L 62.15 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 68.09 15.5 L 70.84 13.31 L 73.59 15.5 L 73.59 82.75 L 68.09 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 74.03 15.5 L 76.78 13.31 L 79.53 15.5 L 79.53 82.75 L 74.03 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 79.96 15.5 L 82.71 13.31 L 85.46 15.5 L 85.46 82.75 L 79.96 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 85.9 15.5 L 88.65 13.31 L 91.4 15.5 L 91.4 82.75 L 85.9 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+              <path d="M 91.84 15.5 L 94.59 13.31 L 97.34 15.5 L 97.34 82.75 L 91.84 82.75 Z" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+            </g>
+
+            <!-- Metal U-Brackets -->
+            <rect x="11.5" y="13.31" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+            <rect x="99.25" y="13.31" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+            <rect x="11.5" y="72" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+            <rect x="99.25" y="72" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+          </svg>
+        </div>
+        <div class="specs-grid">
+          <div class="spec-item"><span class="spec-label">Artboard</span><span class="spec-val">112 × 95 in (Scaled)</span></div>
+          <div class="spec-item"><span class="spec-label">Post Span</span><span class="spec-val">89.00 in</span></div>
+          <div class="spec-item"><span class="spec-label">Picket Height</span><span class="spec-val">69.44 in</span></div>
+          <div class="spec-item"><span class="spec-label">Art Technique</span><span class="spec-val">Flat Stroke + SVG LinearGradients</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: ONION SKIN CROSSFADE SLIDER -->
+    <div id="view-onion" class="onion-section" style="display: none;">
+      <div class="onion-controls">
+        <span style="font-weight: 700; color: var(--ff-cyan);">100% CANON HERITAGE</span>
+        <div class="slider-container">
+          <input type="range" id="onionSlider" min="0" max="100" value="50" oninput="updateCrossfade(this.value)">
+          <span id="sliderVal" style="font-family: monospace; font-weight: 700; min-width: 40px;">50%</span>
+        </div>
+        <span style="font-weight: 700; color: var(--ff-gold);">100% BATCH 1 GENERATED</span>
+      </div>
+      <div class="onion-viewport">
+        <div class="onion-layer" id="layer-canon">
+          <svg viewBox="0 0 112 95" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="112" height="84" fill="#353330"/>
+            <rect x="0" y="84" width="112" height="2" fill="#000000"/>
+            <rect x="8" y="12" width="3.5" height="72" fill="#000000"/>
+            <rect x="8.1875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+            <rect x="100.5" y="12" width="3.5" height="72" fill="#000000"/>
+            <rect x="100.6875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+            <rect x="11.3125" y="12" width="89.375" height="1.5" fill="#000000"/>
+            <rect x="11.5" y="12.1875" width="89" height="1.125" fill="#d49868"/>
+            <rect x="11.3125" y="13.3125" width="89.375" height="3.5" fill="#000000"/>
+            <rect x="11.5" y="13.5" width="89" height="3.125" fill="#6c4834"/>
+            <rect x="11.3125" y="13.3125" width="89.375" height="69.4375" fill="#000000"/>
+            <rect x="11.5" y="13.5" width="89" height="69.06" fill="#c88254"/>
+            <rect x="11.3125" y="72" width="89.375" height="3.5" fill="#000000"/>
+            <rect x="11.5" y="72.1875" width="89" height="3.125" fill="#c88254"/>
+          </svg>
+        </div>
+        <div class="onion-layer" id="layer-batch1" style="opacity: 0.5;">
+          <svg viewBox="0 0 112 95" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="112" height="84" fill="#171b22" opacity="0.7"/>
+            <rect x="0" y="84" width="112" height="2" fill="#523328"/>
+            <rect x="8" y="12" width="3.5" height="72" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.15"/>
+            <rect x="100.5" y="12" width="3.5" height="72" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.15"/>
+            <path d="M 7.625 12 L 7.625 10.5 L 9.75 9 L 11.875 10.5 L 11.875 12 Z" fill="#c4a878" stroke="#000" stroke-width="0.1"/>
+            <path d="M 100.125 12 L 100.125 10.5 L 102.25 9 L 104.375 10.5 L 104.375 12 Z" fill="#c4a878" stroke="#000" stroke-width="0.1"/>
+            <rect x="11.5" y="13.5" width="89" height="3.5" fill="#6c4834" stroke="#523328" stroke-width="0.15"/>
+            <rect x="11.5" y="72" width="89" height="3.5" fill="#6c4834" stroke="#523328" stroke-width="0.15"/>
+            <rect x="11.5" y="13.5" width="89" height="69.06" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.1"/>
+            <rect x="11.5" y="13.31" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+            <rect x="99.25" y="13.31" width="1.25" height="3.5" fill="#1e293b" stroke="#000" stroke-width="0.1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ATOM BREAKDOWN GRID -->
+    <div id="view-atoms" class="atoms-grid" style="display: none;">
+      
+      <!-- Post Cap Atom -->
+      <div class="atom-card">
+        <div class="atom-header">
+          <div class="atom-title">1. Post Cap (Cedar Pyramid)</div>
+          <span class="badge-diff diff-style">Style & Scale Diff</span>
+        </div>
+        <div class="atom-duo">
+          <div class="atom-box">
+            <span class="atom-tag canon">Canon Heritage</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 10 8">
+                <path fill="#b8886b" stroke="#6b4f3a" stroke-width="0.3" d="M 1 7 L 9 7 L 9 6.5 C 9 5.5 8 4.8 6.5 4.2 L 5 3 L 3.5 4.2 C 2 4.8 1 5.5 1 6.5 Z"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">Base: 4.50″ · Height: 3.00″<br>Contour Stroke Style</div>
+          </div>
+          <div class="atom-box">
+            <span class="atom-tag batch1">Batch 1 Generated</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 10 8">
+                <path fill="#c4a878" stroke="#000" stroke-width="0.2" d="M 2 7 L 2 5 L 5 3 L 8 5 L 8 7 Z"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">Base: 4.25″ · Height: 3.50″<br>Linear Gradient Style</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pickets Atom -->
+      <div class="atom-card">
+        <div class="atom-header">
+          <div class="atom-title">2. Pickets (1×6 Cedar)</div>
+          <span class="badge-diff diff-style">Pattern Grain Diff</span>
+        </div>
+        <div class="atom-duo">
+          <div class="atom-box">
+            <span class="atom-tag canon">Canon Heritage</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 10 20">
+                <rect x="1" y="1" width="8" height="18" fill="#000"/>
+                <rect x="1.4" y="1.4" width="7.2" height="17.2" fill="#c88254"/>
+                <ellipse cx="5" cy="8" rx="1" ry="2" fill="#785030" opacity="0.4"/>
+                <line x1="3" y1="1" x2="3" y2="19" stroke="#120908" stroke-width="0.2"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">0.1875″ Black Shell<br>Organic Knots & Ellipses</div>
+          </div>
+          <div class="atom-box">
+            <span class="atom-tag batch1">Batch 1 Generated</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 10 20">
+                <rect x="1.5" y="1" width="7" height="18" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.2"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">Flat Stain Fill<br>No Procedural Knots</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rail & Bracket Atom -->
+      <div class="atom-card">
+        <div class="atom-header">
+          <div class="atom-title">3. Rail & Structural Brackets</div>
+          <span class="badge-diff diff-dim">Joint Topology Diff</span>
+        </div>
+        <div class="atom-duo">
+          <div class="atom-box">
+            <span class="atom-tag canon">Canon Heritage</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 14 10">
+                <rect x="0" y="0" width="3" height="10" fill="#000"/>
+                <rect x="0.2" y="0.2" width="2.6" height="9.6" fill="#c88254"/>
+                <rect x="2.8" y="2" width="11" height="3" fill="#000"/>
+                <rect x="3" y="2.2" width="10.8" height="2.6" fill="#6c4834"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">Toe-nailed / Flush joint<br>Hidden inside shell</div>
+          </div>
+          <div class="atom-box">
+            <span class="atom-tag batch1">Batch 1 Generated</span>
+            <div class="atom-preview">
+              <svg viewBox="0 0 14 10">
+                <rect x="0" y="0" width="3" height="10" fill="#b8886b" stroke="#6b4f3a" stroke-width="0.2"/>
+                <rect x="3" y="2" width="11" height="3" fill="#6c4834" stroke="#523328" stroke-width="0.2"/>
+                <rect x="2.8" y="1.8" width="1.5" height="3.4" fill="#1e293b" stroke="#000" stroke-width="0.2"/>
+              </svg>
+            </div>
+            <div class="atom-metrics">External Metal U-Bracket<br>Powder-coated black</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 4: DIMENSIONAL & ART AUDIT TABLE -->
+    <div id="view-table" class="audit-table-box" style="display: none;">
+      <div class="audit-table-title">Comprehensive Technical Discrepancy Breakdown</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Property / Dimension</th>
+            <th>Original Canon Heritage</th>
+            <th>Batch 1 Generated</th>
+            <th>Discrepancy Status</th>
+            <th>Corrective Resolution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Master Artboard</strong></td>
+            <td><code>112 × 95 in</code> (Canon) / <code>140 × 112 in</code> (Legacy)</td>
+            <td><code>112 × 96 in</code> (Studio Frame) / Isolated Atoms</td>
+            <td><span class="badge-diff diff-dim">1.0″ Height Delta</span></td>
+            <td>Normalize all components to canonical <code>112 × 95 in</code> master module.</td>
+          </tr>
+          <tr>
+            <td><strong>Picket Elevation Height</strong></td>
+            <td><code>69.4375 in</code> (Y: 13.3125 → 82.75)</td>
+            <td><code>69.25 in</code> to <code>71.00 in</code></td>
+            <td><span class="badge-diff diff-dim">~1.5″ Variance</span></td>
+            <td>Lock pickets to exactly <code>69.4375 in</code> with 1.25″ ground clearance above <code>Y=84</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Member Outline Technique</strong></td>
+            <td><strong>Double-Layer Black Shell</strong> (0.1875″ black backing rects)</td>
+            <td>CSS Stroke (<code>stroke: #6b4f3a; stroke-width: 0.15</code>)</td>
+            <td><span class="badge-diff diff-style">Major Art Style Diff</span></td>
+            <td>Apply original Canon black shell technique to all components for crisp architectural lines.</td>
+          </tr>
+          <tr>
+            <td><strong>Wood Grain & Texture</strong></td>
+            <td><strong>Procedural Ellipses & Knots</strong> (Unique SVG grain per picket <code>s00-s14</code>)</td>
+            <td>Linear Gradients (<code>linearGradient</code>) & Flat Fills</td>
+            <td><span class="badge-diff diff-style">Major Art Style Diff</span></td>
+            <td>Inject authentic Canon procedural wood grain defs (<code>#cedar-post-grain</code>, <code>#pt-grain-rail</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Hardware & Fasteners</strong></td>
+            <td>Toe-nailed pneumatic brads with specular highlight dots</td>
+            <td>External powder-coated steel brackets & structural screws</td>
+            <td><span class="badge-diff diff-match">Intended Upgrade</span></td>
+            <td>Keep brackets as customizable optional accessories, but match Canon outline shell style.</td>
+          </tr>
+          <tr>
+            <td><strong>Post Caps Scale</strong></td>
+            <td><code>4.50″ wide × 3.00″ high</code> (Overhang 0.50″ on 3.5″ post)</td>
+            <td><code>4.25″ wide × 3.50″ high</code> (Overhang 0.375″ on 3.5″ post)</td>
+            <td><span class="badge-diff diff-dim">Slightly narrower / taller</span></td>
+            <td>Re-scale cap base to 4.50″ so it visually covers the 3.5″ post top with authoritative overhang.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 5: TIGHT TRANSPARENT PROPOSAL (100x80) -->
+    <div id="view-tight" style="display: none;">
+      <div style="background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; color: #fff;">Proposed Tight Transparent Architecture (100″ × 80″)</h3>
+            <p style="font-size: 13px; color: var(--ff-muted); margin-top: 4px;">
+              Keeps standard <strong>96″ × 72″ fence panel</strong> intact · Allocates <strong>6″ headroom</strong> for tallest caps (solar/finial) · Leaves <strong>2″ side margins</strong> for cap overhang · <strong>0″ ground datum</strong> at bottom · <strong>100% transparent</strong>
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; color: var(--ff-muted); font-weight: 600;">Test Backdrop:</span>
+            <button class="btn" onclick="setTightBg('#171b22')" style="padding: 4px 10px; font-size: 11px;">Dark UI Card</button>
+            <button class="btn" onclick="setTightBg('#f8fafc')" style="padding: 4px 10px; font-size: 11px; background: #fff; color: #111;">Light Theme</button>
+            <button class="btn" onclick="setTightBg('#1e3a24')" style="padding: 4px 10px; font-size: 11px; background: #1e3a24; color: #a7f3d0;">Yard Green</button>
+          </div>
+        </div>
+
+        <div class="split-container" style="margin-bottom: 0;">
+          <!-- OLD: 112x95 with baked sky -->
+          <div class="panel-box" style="border-top: 4px solid var(--ff-muted);">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Old 112 × 95 with Baked Sky</div>
+                <div class="panel-subtitle">16″ dead side margins · Hardcoded charcoal gradient · Fixed dark aesthetic</div>
+              </div>
+              <span class="badge-diff diff-style">~62% Fill Ratio</span>
+            </div>
+            <div class="elevation-viewport" style="background: #090a0d;">
+              <svg viewBox="0 0 112 95" style="border: 1px dashed rgba(255,255,255,0.2);">
+                <defs>
+                  <linearGradient id="old-sky" x1="0" y1="0" x2="0" y2="84" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#353330"/>
+                    <stop offset="100%" stop-color="#45372a" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="112" height="84" fill="url(#old-sky)"/>
+                <rect x="0" y="84" width="112" height="2" fill="#000000"/>
+                <rect x="8" y="12" width="3.5" height="72" fill="#000000"/>
+                <rect x="8.1875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+                <rect x="100.5" y="12" width="3.5" height="72" fill="#000000"/>
+                <rect x="100.6875" y="12.1875" width="3.125" height="71.625" fill="#c88254"/>
+                <rect x="11.3125" y="12" width="89.375" height="1.5" fill="#000000"/>
+                <rect x="11.5" y="12.1875" width="89" height="1.125" fill="#d49868"/>
+                <rect x="11.3125" y="13.3125" width="89.375" height="69.4375" fill="#000000"/>
+                <rect x="11.5" y="13.5" width="89" height="69.06" fill="#c88254"/>
+                <rect x="11.3125" y="72" width="89.375" height="3.5" fill="#000000"/>
+                <rect x="11.5" y="72.1875" width="89" height="3.125" fill="#c88254"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- NEW: 104x78 (Exact 4:3 Ratio) with NO height below -->
+          <div class="panel-box" style="border-top: 4px solid var(--ff-green);">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Canonical 104 × 78 Architecture (Exact 4:3 Ratio · Zero Height Below)</div>
+                <div class="panel-subtitle">Base 96″ × 72″ fence (4:3) · +6″ cap headroom on top · 0″ added below · +8″ width split evenly as 4″ left & 4″ right</div>
+              </div>
+              <span class="badge-diff diff-match">104 × 78 (4:3)</span>
+            </div>
+            <div class="elevation-viewport" id="tightViewport" style="background: #171b22; transition: background 0.3s; padding: 10px;">
+              <!-- 104 x 78 EXACT 4:3 Artboard (104 / 78 = 1.3333... == 96 / 72 = 1.3333...) -->
+              <svg viewBox="0 0 104 78" style="border: 1px dashed var(--ff-green); width: 100%; height: auto;">
+                <defs>
+                  <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34d399"/>
+                  </marker>
+                  <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8"/>
+                  </marker>
+                  <marker id="arrow-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#e5a93c"/>
+                  </marker>
+                </defs>
+
+                <!-- Ground Line / Soil Baseline: Sits EXACTLY at bottom edge Y=78 (NO added height below) -->
+                <rect x="0" y="76.375" width="104" height="1.625" fill="#000000"/>
+                <rect x="0" y="76.5625" width="104" height="1.4375" fill="#6a481b"/>
+
+                <!-- Left Post (x=4.00, y=6.00, w=3.50, h=72.00) -> ends flush at Y=78.00 -->
+                <rect x="4" y="6" width="3.5" height="72" fill="#000000"/>
+                <rect x="4.1875" y="6.1875" width="3.125" height="71.625" fill="#c88254"/>
+
+                <!-- Right Post (x=96.50, y=6.00, w=3.50, h=72.00) -> ends flush at Y=78.00 -->
+                <rect x="96.5" y="6" width="3.5" height="72" fill="#000000"/>
+                <rect x="96.6875" y="6.1875" width="3.125" height="71.625" fill="#c88254"/>
+
+                <!-- Rail Cap (x=7.3125, y=6.00, w=89.375, h=1.50) -->
+                <rect x="7.3125" y="6" width="89.375" height="1.5" fill="#000000"/>
+                <rect x="7.5" y="6.1875" width="89" height="1.125" fill="#d49868"/>
+
+                <!-- Top Rail (x=7.3125, y=7.3125, w=89.375, h=3.50) -->
+                <rect x="7.3125" y="7.3125" width="89.375" height="3.5" fill="#000000"/>
+                <rect x="7.5" y="7.5" width="89" height="3.125" fill="#6c4834"/>
+
+                <!-- Unified Black Shell for Pickets (x=7.3125, y=7.3125, w=89.375, h=69.4375) -->
+                <rect x="7.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
+                <!-- Pickets Fill (Flush down to ground clearance) -->
+                <rect x="7.5" y="7.5" width="89" height="69.06" fill="#c88254"/>
+
+                <!-- Bottom Trim (x=7.3125, y=66.00, w=89.375, h=3.50) -->
+                <rect x="7.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
+                <rect x="7.5" y="66.1875" width="89" height="3.125" fill="#c88254"/>
+
+                <!-- Post Caps: 4.5" base centered on 3.5" post (overhangs 0.5" each side), 5" rise into Y=1..6 -->
+                <!-- Left Cap: center x=5.75 -> base x=3.50..8.00 -->
+                <path d="M 3.5 6 L 3.5 4.5 L 5.75 1.5 L 8.0 4.5 L 8.0 6 Z" fill="#000000"/>
+                <path d="M 3.6875 5.8125 L 3.6875 4.6 L 5.75 1.8 L 7.8125 4.6 L 7.8125 5.8125 Z" fill="#e5a93c"/>
+
+                <!-- Right Cap: center x=98.25 -> base x=96.00..100.50 -->
+                <path d="M 96.0 6 L 96.0 4.5 L 98.25 1.5 L 100.5 4.5 L 100.5 6 Z" fill="#000000"/>
+                <path d="M 96.1875 5.8125 L 96.1875 4.6 L 98.25 1.8 L 100.3125 4.6 L 100.3125 5.8125 Z" fill="#e5a93c"/>
+
+                <!-- Subtle botanical grass blades at bottom boundary Y=78 -->
+                <path d="M 0 78 Q 8 75.5 16 78 Q 30 75.5 45 78 Q 65 75.5 80 78 Q 92 75.5 104 78 Z" fill="#227e1f"/>
+
+                <!-- HUD DIMENSION RULERS & ANNOTATIONS -->
+                <g id="hud-rulers" font-family="monospace" font-size="2.2" font-weight="700">
+                  <!-- Left 4" Margin -->
+                  <line x1="0" y1="3" x2="4" y2="3" stroke="#38bdf8" stroke-width="0.3" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
+                  <text x="2" y="2.2" text-anchor="middle" fill="#38bdf8">4″</text>
+
+                  <!-- 96" Fence Core Span -->
+                  <line x1="4" y1="3" x2="100" y2="3" stroke="#34d399" stroke-width="0.4" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+                  <text x="52" y="2.2" text-anchor="middle" fill="#34d399">96.00″ FENCE CORE (8ft Span)</text>
+
+                  <!-- Right 4" Margin -->
+                  <line x1="100" y1="3" x2="104" y2="3" stroke="#38bdf8" stroke-width="0.3" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
+                  <text x="102" y="2.2" text-anchor="middle" fill="#38bdf8">4″</text>
+
+                  <!-- Vertical Height Rulers (Right Side) -->
+                  <!-- 6" Cap Headroom (Y=0 to Y=6) -->
+                  <line x1="102" y1="0.5" x2="102" y2="6" stroke="#e5a93c" stroke-width="0.3" marker-start="url(#arrow-gold)" marker-end="url(#arrow-gold)"/>
+                  <text x="102.5" y="3.6" fill="#e5a93c">6″ Cap</text>
+
+                  <!-- 72" Fence Height (Y=6 to Y=78) -->
+                  <line x1="102" y1="6" x2="102" y2="78" stroke="#34d399" stroke-width="0.4" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+                  <text x="102.5" y="42" fill="#34d399">72.00″ (6ft Panel Height)</text>
+
+                  <!-- Bottom Baseline callout -->
+                  <text x="52" y="77.2" text-anchor="middle" font-size="1.8" fill="#a7f3d0">GROUND GRADE AT Y=78 (ZERO ADDED HEIGHT BELOW)</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function switchView(viewName) {
+      document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.btn')).find(b => b.getAttribute('onclick').includes(viewName));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('view-split').style.display = viewName === 'split' ? 'grid' : 'none';
+      document.getElementById('view-onion').style.display = viewName === 'onion' ? 'block' : 'none';
+      document.getElementById('view-atoms').style.display = viewName === 'atoms' ? 'grid' : 'none';
+      document.getElementById('view-table').style.display = viewName === 'table' ? 'block' : 'none';
+      document.getElementById('view-tight').style.display = viewName === 'tight' ? 'block' : 'none';
+    }
+
+    function updateCrossfade(val) {
+      const opacity = val / 100;
+      document.getElementById('layer-batch1').style.opacity = opacity;
+      document.getElementById('sliderVal').textContent = val + '%';
+    }
+
+    function setTightBg(color) {
+      document.getElementById('tightViewport').style.background = color;
+    }
+  </script>
+</body>
+</html>
