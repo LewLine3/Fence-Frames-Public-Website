@@ -91,8 +91,22 @@ const MARKETPLACE_PROJECTS: LeadProject[] = [
 
 export default function MarketplaceProjectsPage() {
   const [filterFootage, setFilterFootage] = useState<string>('all')
+  const [projects, setProjects] = useState<LeadProject[]>(MARKETPLACE_PROJECTS)
+  const [isLive, setIsLive] = useState<boolean>(false)
 
-  const filteredProjects = MARKETPLACE_PROJECTS.filter((p) => {
+  React.useEffect(() => {
+    fetch('/api/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.projects?.length > 0) {
+          setProjects(data.projects)
+          setIsLive(true)
+        }
+      })
+      .catch((err) => console.warn('Using fallback marketplace leads:', err))
+  }, [])
+
+  const filteredProjects = projects.filter((p) => {
     if (filterFootage === 'small') return p.footage < 100
     if (filterFootage === 'medium') return p.footage >= 100 && p.footage <= 180
     if (filterFootage === 'large') return p.footage > 180
@@ -131,6 +145,11 @@ export default function MarketplaceProjectsPage() {
               <div className="inline-flex items-center gap-2 bg-[#4ADE80]/20 border border-[#4ADE80] px-3 py-1 rounded text-xs text-[#4ADE80] font-bold uppercase tracking-wider mb-3">
                 <span>⚡</span>
                 <span>Pillar 3 · Contractor Marketplace Dispatch</span>
+                {isLive ? (
+                  <span className="ml-2 bg-[#4ADE80] text-black text-[10px] px-2 py-0.5 rounded font-black">
+                    ● LIVE FEED
+                  </span>
+                ) : null}
               </div>
               <h1 style={{ ...rowdies(700), fontSize: '2.4rem', color: '#4ADE80', lineHeight: 1.15, marginBottom: '0.4rem' }}>
                 Verified Contractor Lead Feed

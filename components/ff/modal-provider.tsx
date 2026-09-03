@@ -219,65 +219,218 @@ function BlueprintModal({ active, onClose }: { active: boolean; onClose: () => v
 }
 
 function ContractorModal({ active, onClose }: { active: boolean; onClose: () => void }) {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
+  const [zip, setZip] = useState('98045')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submittedProject, setSubmittedProject] = useState<{ id: string; quote: any } | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name || !phone || !email) {
+      setError('Please provide your name, phone, and email.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      let config: any = null
+      const rawDraft = typeof window !== 'undefined' ? (sessionStorage.getItem('ff_active_draft') || sessionStorage.getItem('ff-locked-draft')) : null
+      if (rawDraft) {
+        const parsed = JSON.parse(rawDraft)
+        config = parsed.config || parsed
+      }
+
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          homeownerName: name,
+          homeownerPhone: phone,
+          homeownerEmail: email,
+          streetAddress: address || 'Address provided on consultation',
+          city: 'North Bend',
+          county: 'King County',
+          zipCode: zip || '98045',
+          linearFeet: config?.linearFeet || 120,
+          terrain: config?.terrain || 'flat',
+          config: config || {},
+          communitySlug: 'si-view',
+        }),
+      })
+
+      const data = await res.json()
+      if (data?.success) {
+        setSubmittedProject({ id: data.projectId, quote: data.quote })
+      } else {
+        setError(data?.error || 'Failed to dispatch project')
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Error connecting to service')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const seats: [string, string][] = [
     ["1. Cascade Fence & Deck LLC", "Licensed WA · 48 Projects in King County · ARC Certified"],
     ["2. Snoqualmie Valley Craftsmen", "Licensed WA · Red Cedar Specialist · 5.0 Rating"],
     ["3. Eastside Perimeter Pros", "Licensed WA · Steel & Cedar Systems · ARC Ready"],
   ]
+
   return (
     <Backdrop active={active} onClose={onClose}>
-      <div className="ff-modal-box has-outside-corners">
+      <div className="ff-modal-box has-outside-corners" style={{ maxWidth: '520px' }}>
         <span className="corner-mark-out tl c-orange" />
         <span className="corner-mark-out br c-gold" />
         <div className="ff-modal-header">
           <h3 style={{ ...rowdies(700), fontSize: "1.2rem", color: "var(--gold)" }}>
-            Capped 3-Seat Contractor Dispatch
+            {submittedProject ? '⚡ Lead Dispatched to Marketplace' : 'Capped 3-Seat Contractor Dispatch'}
           </h3>
           <button className="ff-modal-close" onClick={onClose} aria-label="Close">
             &times;
           </button>
         </div>
         <div className="ff-modal-body">
-          <p style={{ ...rowdies(300), fontSize: "0.88rem", marginBottom: "1rem" }}>
-            Your Fence-Folio (look, materials, and labor) goes to exactly 3 vetted local builders. Bids lock
-            within 72 hours with a clear ±15% estimate range:
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.2rem" }}>
-            {seats.map(([name, meta], i) => (
-              <div
-                key={name}
-                style={{
-                  background: "#FAF6EE",
-                  border: "1.5px solid var(--ink)",
-                  borderRadius: "var(--radius)",
-                  padding: "0.8rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "0.8rem",
-                }}
-              >
-                <div>
-                  <strong style={rowdies(700)}>{name}</strong>
-                  <div style={{ ...rowdies(300), fontSize: "0.78rem", color: "var(--forest-deep)" }}>{meta}</div>
+          {submittedProject ? (
+            <div className="space-y-4">
+              <div className="bg-[#0E2417] p-4 rounded border-2 border-[#4ADE80] text-sm text-[#FAF6EE]">
+                <div className="font-bold text-[#4ADE80] text-base mb-1">✓ Your Blueprint Has Been Dispatched!</div>
+                <p className="text-xs text-[#DBD0BD] mb-2">
+                  Project ID: <strong className="font-mono text-white">#{submittedProject.id.slice(0, 8)}</strong>
+                </p>
+                <div className="text-xs space-y-1">
+                  <div><strong>Honest Estimate:</strong> ${submittedProject.quote?.totalMin?.toLocaleString()} – ${submittedProject.quote?.totalMax?.toLocaleString()} (±15%)</div>
+                  <div><strong>Status:</strong> Up to 3 vetted local contractors will review your takeoff within 72 hours.</div>
                 </div>
-                <span className="seat-badge" style={rowdies(400)}>
-                  Seat {i + 1} · Verified
-                </span>
               </div>
-            ))}
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <button
-              className="ff-btn btn-ember btn-lip"
-              onClick={() => {
-                alert("Fence-Folio sent to 3 vetted builders. 72h timer active.")
-                onClose()
-              }}
-            >
-              Dispatch 3 Bids (Free) &rarr;
-            </button>
-          </div>
+              <div className="text-right">
+                <a
+                  href="/contractors/projects"
+                  className="ff-btn btn-ember btn-lip inline-block"
+                  onClick={onClose}
+                >
+                  View Marketplace Feed &rarr;
+                </a>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <p style={{ ...rowdies(300), fontSize: "0.85rem", marginBottom: "0.8rem", color: "#3D2B1F" }}>
+                Your Fence-Folio (blueprint, material takeoff, and labor estimate) goes to exactly 3 vetted local builders in King County:
+              </p>
+
+              {/* Verified Builders */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginBottom: "1rem" }}>
+                {seats.map(([name, meta], i) => (
+                  <div
+                    key={name}
+                    style={{
+                      background: "#FAF6EE",
+                      border: "1.5px solid var(--ink)",
+                      borderRadius: "var(--radius)",
+                      padding: "0.6rem 0.8rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: "0.6rem",
+                    }}
+                  >
+                    <div>
+                      <strong style={{ ...rowdies(700), fontSize: "0.82rem" }}>{name}</strong>
+                      <div style={{ ...rowdies(300), fontSize: "0.72rem", color: "var(--forest-deep)" }}>{meta}</div>
+                    </div>
+                    <span className="seat-badge" style={{ ...rowdies(400), fontSize: "0.7rem" }}>
+                      Seat {i + 1}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Contact Fields */}
+              <div className="space-y-2 mb-4 text-xs" style={{ ...rowdies(400) }}>
+                <div>
+                  <label className="block text-[#1C0F08] font-bold mb-0.5">Your Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Sarah Jenkins"
+                    className="w-full p-2 border border-[#141B16] rounded bg-white text-[#141B16]"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[#1C0F08] font-bold mb-0.5">Mobile Phone (for bids) *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="(425) 555-0192"
+                      className="w-full p-2 border border-[#141B16] rounded bg-white text-[#141B16]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#1C0F08] font-bold mb-0.5">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="sarah@example.com"
+                      className="w-full p-2 border border-[#141B16] rounded bg-white text-[#141B16]"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="col-span-2">
+                    <label className="block text-[#1C0F08] font-bold mb-0.5">Property Street Address</label>
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="1420 Mt Si Blvd"
+                      className="w-full p-2 border border-[#141B16] rounded bg-white text-[#141B16]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#1C0F08] font-bold mb-0.5">ZIP Code</label>
+                    <input
+                      type="text"
+                      value={zip}
+                      onChange={(e) => setZip(e.target.value)}
+                      placeholder="98045"
+                      className="w-full p-2 border border-[#141B16] rounded bg-white text-[#141B16]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {error && (
+                <div className="text-red-600 text-xs font-bold mb-2">
+                  ⚠️ {error}
+                </div>
+              )}
+
+              <div style={{ textAlign: "right" }}>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="ff-btn btn-ember btn-lip"
+                  style={{ cursor: isSubmitting ? 'wait' : 'pointer' }}
+                >
+                  {isSubmitting ? 'Dispatching...' : 'Dispatch 3 Bids (Free) →'}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </Backdrop>

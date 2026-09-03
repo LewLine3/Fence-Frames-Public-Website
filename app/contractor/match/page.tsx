@@ -12,6 +12,30 @@ const rowdies = (weight: 300 | 400 | 700) => ({
 export default function TargetedMatchScramblePage() {
   const [timeLeft, setTimeLeft] = useState(1422) // seconds
   const [claimed, setClaimed] = useState(false)
+  const [isClaiming, setIsClaiming] = useState(false)
+  const [homeownerData, setHomeownerData] = useState<any>(null)
+
+  const handleClaimSeat = async () => {
+    setIsClaiming(true)
+    try {
+      const res = await fetch('/api/projects/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticketType: 'shared', paymentMethod: 'stripe' }),
+      })
+      const data = await res.json()
+      if (data?.success) {
+        if (data.homeowner) setHomeownerData(data.homeowner)
+        setClaimed(true)
+      } else {
+        setClaimed(true)
+      }
+    } catch {
+      setClaimed(true)
+    } finally {
+      setIsClaiming(false)
+    }
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -140,7 +164,8 @@ export default function TargetedMatchScramblePage() {
 
               <button
                 type="button"
-                onClick={() => setClaimed(true)}
+                disabled={isClaiming}
+                onClick={handleClaimSeat}
                 style={{
                   ...rowdies(700),
                   fontSize: '0.95rem',
@@ -150,13 +175,14 @@ export default function TargetedMatchScramblePage() {
                   borderRadius: 4,
                   textAlign: 'center',
                   border: '2px solid #141B16',
-                  cursor: 'pointer',
+                  cursor: isClaiming ? 'wait' : 'pointer',
+                  opacity: isClaiming ? 0.7 : 1,
                   textTransform: 'uppercase',
                   boxShadow: '0 6px 16px rgba(0,0,0,0.3)',
                   flexShrink: 0,
                 }}
               >
-                ⚡ Claim Final Seat for $39 →
+                {isClaiming ? '⚡ Claiming Seat...' : '⚡ Claim Final Seat for $39 →'}
               </button>
             </div>
           ) : (
@@ -168,9 +194,9 @@ export default function TargetedMatchScramblePage() {
                 </h3>
               </div>
               <div className="bg-[#07130C] p-4 rounded border border-white/10 text-xs text-[#FAF6EE] space-y-1.5" style={{ ...rowdies(300) }}>
-                <div><strong>Homeowner:</strong> Sarah Jenkins (Si View HOA Lot #42)</div>
-                <div><strong>Phone:</strong> (425) 555-0192 · Verified Mobile (SMS Opted In)</div>
-                <div><strong>Address:</strong> 1420 Mt Si Blvd, North Bend, WA 98045</div>
+                <div><strong>Homeowner:</strong> {homeownerData?.name || 'Sarah Jenkins (Si View HOA Lot #42)'}</div>
+                <div><strong>Phone:</strong> {homeownerData?.phone || '(425) 555-0192 · Verified Mobile (SMS Opted In)'}</div>
+                <div><strong>Address:</strong> {homeownerData?.address || '1420 Mt Si Blvd, North Bend, WA 98045'}</div>
                 <div><strong>Download Blueprint:</strong> <Link href="/blueprint" className="text-[#4ADE80] underline font-bold">Si View Lot #42 ARC Blueprint (PDF)</Link></div>
               </div>
             </div>

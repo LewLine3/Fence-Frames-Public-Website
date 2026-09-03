@@ -10,6 +10,7 @@ export interface FenceConfiguration {
   postSpacingFt: number; // 6, 8
   linearFeet: number;
   woodGrade: 'tight-knot' | 'clear-cedar' | 'pressure-treated';
+  terrain?: 'flat' | 'moderate' | 'steep'; // Universal Terrain Span Engine
 
   // 2. Posts & Footings
   postType: '4x4-cedar' | '4x6-cedar' | '4x4-pt' | 'postmaster-steel';
@@ -90,15 +91,19 @@ export interface PricingBreakdown {
  */
 export function calculateBaselineFenceQuote(config: FenceConfiguration): PricingBreakdown {
   const lf = Math.max(1, config.linearFeet);
-  const postCount = Math.ceil(lf / (config.postSpacingFt || 8)) + 1;
+  
+  // Universal Terrain Span Engine: 8ft (flat), 7.5ft (moderate), 7.0ft (steep)
+  const effectiveSpan = config.terrain === 'steep' ? 7.0 : config.terrain === 'moderate' ? 7.5 : (config.postSpacingFt || 8.0);
+  const postCount = Math.ceil(lf / effectiveSpan) + 1; // The +1 Boundary Post Law
 
   // Metric 1: General Base Rate
   let m1Base = config.heightFt === 4 ? 14.00 : config.heightFt === 5 ? 16.00 : config.heightFt === 6 ? 18.00 : 26.00;
   if (config.woodGrade === 'clear-cedar') m1Base += 7.50;
   if (config.woodGrade === 'tight-knot') m1Base += 2.50;
 
-  // Metric 2: Posts & Footings
-  let m2PostPerLf = 6.50;
+  // Metric 2: Posts & Footings (scaled dynamically by terrain span impact)
+  const terrainPostFactor = effectiveSpan === 7.0 ? 1.14 : effectiveSpan === 7.5 ? 1.07 : 1.0;
+  let m2PostPerLf = 6.50 * terrainPostFactor;
   if (config.postType === '4x6-cedar') m2PostPerLf += 2.20;
   if (config.postType === 'postmaster-steel') m2PostPerLf += 4.20;
   if (config.postCap !== 'none') m2PostPerLf += 1.10;
@@ -146,10 +151,7 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   const driveGateTotal = (config.gates?.driveGates || 0) * 850.00;
   const m8GatesTotal = walkGateTotal + driveGateTotal;
 
-  // Admin & Municipal Submittal buffer
-  const adminPerLf = 2.10;
-
-  // Canonical Quote Math Engine (monetization_rules.md)
+  // Canonical Quote Math Engine (monetization_rules.md & ADR-001 §A5)
   // MC = Raw material costs from BOM
   const rawMaterials = (m1Base + m2PostPerLf + m3RailPerLf + m4FillPerLf + m5StainPerLf + m6TrimPerLf + m7HwPerLf) * lf + m8GatesTotal;
   
@@ -157,8 +159,9 @@ export function calculateBaselineFenceQuote(config: FenceConfiguration): Pricing
   const M = rawMaterials * 1.25;
   // L = M * 2.0 (Labor = 2x burdened material cost)
   const L = M * 2.0;
-  // A = (M + L) * 0.10 (10% Administrative & overhead cost)
-  const A = (M + L) * 0.10;
+  // A = (M + L) * ADMIN_FEE_PCT (15% baseline default per ADR-001 §A5; replaces old 10% placeholder)
+  const ADMIN_FEE_PCT = 0.15;
+  const A = (M + L) * ADMIN_FEE_PCT;
 
   const quotedMid = M + L + A;
   const totalMin = Math.round(quotedMid * 0.85); // -15%
@@ -301,3 +304,14 @@ export function calculateOptionSetLaborQuote(config: FenceConfiguration): Pricin
     pricePerLfMax: Number((Math.round(totalCombined * 1.08) / lf).toFixed(2)),
   };
 }
+
+/**
+ * 4 Lead Seat Tiers ($19–$99 Shared / $79–$399 Exclusive)
+ */
+export function getLeadTicketPricing(quotedMid: number): { sharedPriceCents: number; exclusivePriceCents: number } {
+  if (quotedMid < 1500) return { sharedPriceCents: 1900, exclusivePriceCents: 7900 };
+  if (quotedMid < 5000) return { sharedPriceCents: 3900, exclusivePriceCents: 15900 };
+  if (quotedMid < 10000) return { sharedPriceCents: 6900, exclusivePriceCents: 27900 };
+  return { sharedPriceCents: 9900, exclusivePriceCents: 39900 };
+}
+
