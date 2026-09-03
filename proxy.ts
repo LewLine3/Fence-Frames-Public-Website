@@ -26,6 +26,9 @@ export function proxy(request: NextRequest) {
   return hideAsNotFound(request)
 }
 
-export const proxyConfig = {
+// Next.js 16 reads `config.matcher` (not `proxyConfig`). A wrong export name
+// drops the matcher, so this gate runs on every path — including `/` and
+// `/_next/static/*` — and production returns site-wide 404s without a staff cookie.
+export const config = {
   matcher: ['/admin', '/admin/:path*'],
 }
