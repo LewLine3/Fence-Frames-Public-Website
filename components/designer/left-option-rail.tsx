@@ -257,7 +257,7 @@ export function LeftOptionRail({
         }}
       >
         {!active && (
-          <div className="flex flex-col gap-3 lg:gap-3.5 pb-8">
+          <div className="flex flex-col gap-6 lg:gap-7 pb-10">
             {tripled.map((ch, idx) => {
               const costMetric = getChapterCostMetric(ch.id, config)
               const liveValue = getChapterLivePreview(ch.id, config)
@@ -269,32 +269,32 @@ export function LeftOptionRail({
                   onClick={() => setActive(ch.id)}
                   className={cn(
                     'w-full text-left transition-all duration-200 cursor-pointer group overflow-hidden',
-                    'rounded-2xl border-2 border-[#1A1A1A]',
-                    'min-h-[72px] lg:min-h-[132px]',
+                    'rounded-xl border-2 border-[#1A1A1A]',
+                    'min-h-[52px] lg:min-h-[78px]',
                     'hover:-translate-y-0.5',
                   )}
                   style={{
-                    boxShadow: '3px 3px 0 #1A1A1A',
+                    boxShadow: '2px 2px 0 #1A1A1A',
                   }}
                   title={ch.menuLabel}
                 >
                   {/* Compact tablet face */}
                   <div
-                    className="flex lg:hidden flex-col items-stretch overflow-hidden rounded-2xl"
-                    style={{ minHeight: 72 }}
+                    className="flex lg:hidden flex-col items-stretch overflow-hidden rounded-xl"
+                    style={{ minHeight: 52 }}
                   >
                     <div
-                      className="px-1.5 py-1.5 text-center border-b-2 border-[#1A1A1A]"
+                      className="px-1 py-1 text-center border-b border-[#1A1A1A]"
                       style={{ background: skin.headerBg, color: skin.headerFg }}
                     >
-                      <span className="font-mono font-bold text-[11px] block">{ch.num}</span>
+                      <span className="font-mono font-bold text-[10px] block">{ch.num}</span>
                     </div>
                     <div
-                      className="flex-1 flex items-center justify-center px-1 py-1.5"
+                      className="flex-1 flex items-center justify-center px-1 py-1"
                       style={skin.body}
                     >
                       <span
-                        className="text-[8px] font-bold uppercase leading-tight text-center"
+                        className="text-[7px] font-bold uppercase leading-tight text-center"
                         style={{ color: skin.titleColor }}
                       >
                         {ch.menuLabel.split(' ')[0]}
@@ -302,56 +302,60 @@ export function LeftOptionRail({
                     </div>
                   </div>
 
-                  {/* Full desktop face — inventory lab layout */}
-                  <div className="hidden lg:flex flex-col h-full min-h-[132px] overflow-hidden rounded-2xl">
+                  {/* Full desktop face — compact inventory lab layout */}
+                  <div className="hidden lg:flex flex-col h-full min-h-[78px] overflow-hidden rounded-xl">
                     <div
-                      className="flex items-center justify-between px-3 py-2 border-b-2 border-[#1A1A1A] flex-shrink-0"
+                      className="flex items-center justify-between px-2.5 py-1 border-b border-[#1A1A1A] flex-shrink-0"
                       style={{ background: skin.headerBg, color: skin.headerFg }}
                     >
-                      <span className="font-bold uppercase tracking-wide text-[12px] truncate">
+                      <span className="font-bold uppercase tracking-wide text-[11px] truncate">
                         {ch.menuLabel}
                       </span>
-                      <span className="font-mono text-[10px] font-bold opacity-80 shrink-0 ml-2">
+                      <span className="font-mono text-[9px] font-bold opacity-80 shrink-0 ml-2">
                         #{ch.num}
                       </span>
                     </div>
 
                     <div
-                      className="flex-1 flex flex-col justify-between px-2.5 py-2.5 min-h-0"
+                      className="flex-1 flex items-center gap-2 px-2 py-1.5 min-h-0"
                       style={skin.body}
                     >
                       {skin.useOverlay ? (
-                        <div className="mt-auto rounded-xl border border-[#1A1A1A]/50 bg-[#FAF6EE]/95 px-2.5 py-2 shadow-sm">
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#D9B872] px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-[#1A1A1A] border border-[#1A1A1A]/15">
-                            {liveValue}
-                          </span>
-                          <div
-                            className="mt-1 font-bold text-[14px] leading-tight truncate"
-                            style={{ color: skin.titleColor }}
-                          >
-                            {ch.label}
+                        <div className="w-full rounded-lg border border-[#1A1A1A]/40 bg-[#FAF6EE]/95 px-2 py-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span
+                              className="font-bold text-[12px] leading-tight truncate"
+                              style={{ color: skin.titleColor }}
+                            >
+                              {ch.label}
+                            </span>
+                            <span className="shrink-0 rounded-full bg-[#D9B872] px-1.5 py-0.5 text-[7px] font-bold uppercase text-[#1A1A1A]">
+                              {liveValue}
+                            </span>
                           </div>
-                          <div className="mt-0.5 text-[10px] font-light truncate" style={{ color: skin.subColor }}>
+                          <div className="text-[9px] font-light truncate" style={{ color: skin.subColor }}>
                             {costMetric}
                           </div>
                         </div>
                       ) : (
                         <>
-                          <span className="inline-flex self-start items-center gap-1 rounded-full bg-[#D9B872] px-2.5 py-0.5 text-[8px] font-bold uppercase tracking-wide text-[#1A1A1A] border border-[#1A1A1A]/15">
-                            {liveValue} · {costMetric}
+                          <div className="flex-1 min-w-0">
+                            <div
+                              className="font-bold text-[12px] leading-tight truncate"
+                              style={{ color: skin.titleColor }}
+                            >
+                              {ch.label}
+                            </div>
+                            <div
+                              className="text-[9px] font-light truncate"
+                              style={{ color: skin.subColor }}
+                            >
+                              {ch.preview}
+                            </div>
+                          </div>
+                          <span className="shrink-0 rounded-full bg-[#D9B872] px-1.5 py-0.5 text-[7px] font-bold uppercase text-[#1A1A1A] border border-[#1A1A1A]/15">
+                            {liveValue}
                           </span>
-                          <div
-                            className="mt-2 font-bold text-[15px] leading-tight"
-                            style={{ color: skin.titleColor }}
-                          >
-                            {ch.label}
-                          </div>
-                          <div
-                            className="mt-0.5 text-[10px] font-light truncate"
-                            style={{ color: skin.subColor }}
-                          >
-                            {ch.preview}
-                          </div>
                         </>
                       )}
                     </div>
