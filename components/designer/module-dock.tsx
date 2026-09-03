@@ -3,9 +3,10 @@
 import React, { useMemo, useState } from 'react'
 import { FenceConfiguration, PricingBreakdown } from '@/lib/pricing-engine'
 import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
+import { CHAPTERS, getChapterOptions } from '@/lib/configurator/options-catalog'
 import { cn } from '@/lib/utils'
 
-type ModuleId = 'calculator' | 'templates' | 'ai'
+type ModuleId = 'calculator' | 'options' | 'templates' | 'ai'
 
 interface DesignerTemplate {
   id: string
@@ -21,13 +22,23 @@ interface ModuleDockProps {
   onChange: (updated: Partial<FenceConfiguration>) => void
   onResetDefaults: () => void
   onSaveToFolio: () => void
+  /** Left-rail chapter — drives the Options Browse module. */
+  activeChapter?: string | null
 }
 
 const MODULES: { id: ModuleId; title: string; tone: 'brown' | 'tan' }[] = [
   { id: 'calculator', title: 'Price Calculator', tone: 'brown' },
-  { id: 'templates', title: 'Template Starts', tone: 'tan' },
-  { id: 'ai', title: 'AI Assist', tone: 'brown' },
+  { id: 'options', title: 'Category Options', tone: 'tan' },
+  { id: 'templates', title: 'Template Starts', tone: 'brown' },
+  { id: 'ai', title: 'AI Assist', tone: 'tan' },
 ]
+
+const MODULE_INDEX: Record<ModuleId, string> = {
+  calculator: '01',
+  options: '02',
+  templates: '03',
+  ai: '04',
+}
 
 const TEMPLATES: DesignerTemplate[] = [
   {
@@ -103,6 +114,8 @@ const SHELL = {
   },
 } as const
 
+type ShellTone = (typeof SHELL)[keyof typeof SHELL]
+
 export function ModuleDock({
   config,
   pricing,
@@ -110,12 +123,16 @@ export function ModuleDock({
   onChange,
   onResetDefaults,
   onSaveToFolio,
+  activeChapter = null,
 }: ModuleDockProps) {
   const [mathModel, setMathModel] = useState<'canonical' | 'trial'>('canonical')
   const [aiPrompt, setAiPrompt] = useState('')
+  const [optionsEndless, setOptionsEndless] = useState(true)
 
   const activePricing = mathModel === 'trial' && trialPricing ? trialPricing : pricing
   const { containerRef, tripled, handleScroll } = useInfiniteLoop(MODULES, 'x')
+
+  const chapterMeta = CHAPTERS.find((c) => c.id === activeChapter) ?? null
 
   const activeTemplateId = useMemo(() => {
     for (const t of TEMPLATES) {
@@ -174,7 +191,7 @@ export function ModuleDock({
                 style={{ background: shell.bg }}
               >
                 <div
-                  className="flex items-center justify-between px-3 py-1.5 border-b-2 border-[#1A1A1A] flex-shrink-0"
+                  className="flex items-center justify-between px-3 py-1.5 border-b-2 border-[#1A1A1A] flex-shrink-0 gap-2"
                   style={{ color: shell.fg }}
                 >
                   <div className="flex items-center gap-2 min-w-0">
@@ -185,12 +202,27 @@ export function ModuleDock({
                       className="hidden sm:inline text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-full border border-black/20"
                       style={{ background: shell.chip, color: shell.fg }}
                     >
-                      {mod.id === 'calculator' ? '01' : mod.id === 'templates' ? '02' : '03'} / 03
+                      {MODULE_INDEX[mod.id]} / 04
                     </span>
                   </div>
-                  <span className="text-[9px] font-light truncate" style={{ color: shell.muted }}>
-                    Swipe for next module
-                  </span>
+                  {mod.id === 'options' ? (
+                    <button
+                      type="button"
+                      onClick={() => setOptionsEndless((v) => !v)}
+                      className="shrink-0 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border-2 border-[#1A1A1A] transition"
+                      style={{
+                        background: optionsEndless ? '#D9B872' : shell.chip,
+                        color: optionsEndless ? '#1A1A1A' : shell.fg,
+                      }}
+                      title="Toggle endless option carousel"
+                    >
+                      Endless {optionsEndless ? 'On' : 'Off'}
+                    </button>
+                  ) : (
+                    <span className="text-[9px] font-light truncate" style={{ color: shell.muted }}>
+                      Swipe for next module
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex-1 min-h-0 px-3 py-2">
@@ -206,6 +238,16 @@ export function ModuleDock({
                       shell={shell}
                     />
                   )}
+                  {mod.id === 'options' && (
+                    <OptionsBrowseBody
+                      config={config}
+                      chapterId={activeChapter}
+                      chapterLabel={chapterMeta?.menuLabel ?? null}
+                      endless={optionsEndless}
+                      onChange={onChange}
+                      shell={shell}
+                    />
+                  )}
                   {mod.id === 'templates' && (
                     <TemplatesBody
                       templates={TEMPLATES}
@@ -215,11 +257,7 @@ export function ModuleDock({
                     />
                   )}
                   {mod.id === 'ai' && (
-                    <AiBody
-                      prompt={aiPrompt}
-                      onPrompt={setAiPrompt}
-                      shell={shell}
-                    />
+                    <AiBody prompt={aiPrompt} onPrompt={setAiPrompt} shell={shell} />
                   )}
                 </div>
               </div>
@@ -240,6 +278,171 @@ export function ModuleDock({
   )
 }
 
+type OptionBrowseItem = {
+  id: string
+  label: string
+  cost?: string
+  colorPreview?: string
+  thumbSrc?: string
+  selected: boolean
+  onSelect: () => void
+}
+
+function OptionsBrowseBody({
+  config,
+  chapterId,
+  chapterLabel,
+  endless,
+  onChange,
+  shell,
+}: {
+  config: FenceConfiguration
+  chapterId: string | null
+  chapterLabel: string | null
+  endless: boolean
+  onChange: (updated: Partial<FenceConfiguration>) => void
+  shell: ShellTone
+}) {
+  const items: OptionBrowseItem[] = useMemo(() => {
+    if (!chapterId) return []
+
+    if (chapterId === 'gates') {
+      return [
+        {
+          id: 'gate-walk',
+          label: '4ft Walk Gate',
+          cost: '$385/ea',
+          colorPreview: 'linear-gradient(135deg, #D97706, #92400E)',
+          selected: (config.gates?.walkGates || 0) > 0,
+          onSelect: () =>
+            onChange({
+              gates: {
+                walkGates: (config.gates?.walkGates || 0) > 0 ? 0 : 1,
+                driveGates: config.gates?.driveGates || 0,
+              },
+            }),
+        },
+        {
+          id: 'gate-drive',
+          label: '10ft Drive Gate',
+          cost: '$850/ea',
+          colorPreview: 'linear-gradient(135deg, #B45309, #78350F)',
+          selected: (config.gates?.driveGates || 0) > 0,
+          onSelect: () =>
+            onChange({
+              gates: {
+                walkGates: config.gates?.walkGates || 0,
+                driveGates: (config.gates?.driveGates || 0) > 0 ? 0 : 1,
+              },
+            }),
+        },
+      ]
+    }
+
+    return getChapterOptions(chapterId).map((option) => ({
+      id: option.id,
+      label: option.label,
+      cost: option.costLabel,
+      colorPreview: option.colorPreview,
+      thumbSrc: option.thumbSrc,
+      selected: option.selectedWhen(config),
+      onSelect: () => onChange(option.patch),
+    }))
+  }, [chapterId, config, onChange])
+
+  const { containerRef, tripled, handleScroll } = useInfiniteLoop(items, 'x')
+  const displayItems = endless ? tripled : items
+
+  if (!chapterId) {
+    return (
+      <div className="h-full flex items-center justify-center px-2">
+        <p className="text-[11px] font-light text-center" style={{ color: shell.muted }}>
+          Select a category on the left rail — options for that chapter appear here as a carousel.
+        </p>
+      </div>
+    )
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="h-full flex items-center justify-center px-2">
+        <p className="text-[11px] font-light text-center" style={{ color: shell.muted }}>
+          No browse options for {chapterLabel ?? chapterId}.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-full flex flex-col gap-1 min-w-0">
+      <div className="flex items-center justify-between gap-2 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wide truncate" style={{ color: shell.muted }}>
+          {chapterLabel ?? chapterId} · {items.length} options
+        </span>
+        <span className="text-[8px] font-light shrink-0" style={{ color: shell.muted }}>
+          {endless ? 'Loop scroll' : 'Finite strip'}
+        </span>
+      </div>
+      <div
+        key={endless ? 'endless' : 'finite'}
+        ref={endless ? containerRef : undefined}
+        onScroll={endless ? handleScroll : undefined}
+        className="flex-1 min-h-0 flex items-stretch gap-2 overflow-x-auto no-scrollbar scroll-smooth"
+      >
+        {displayItems.map((item, idx) => (
+          <button
+            key={`${item.id}-${idx}`}
+            type="button"
+            onClick={item.onSelect}
+            className={cn(
+              'shrink-0 w-[132px] rounded-lg border-2 px-2 py-1.5 text-left flex items-center gap-2 transition',
+              item.selected ? 'border-[#1A1A1A] -translate-y-0.5' : 'border-black/25',
+            )}
+            style={{
+              background: item.selected ? '#D9B872' : shell.chip,
+              color: item.selected ? '#1A1A1A' : shell.fg,
+              boxShadow: item.selected ? '2px 2px 0 #1A1A1A' : undefined,
+            }}
+            title={item.label}
+          >
+            {item.thumbSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={item.thumbSrc}
+                alt=""
+                className="w-9 h-9 rounded-md object-contain bg-black/20 border border-black/20 shrink-0"
+              />
+            ) : item.colorPreview ? (
+              <span
+                className="w-9 h-9 rounded-md border border-black/20 shrink-0 shadow-sm"
+                style={{ background: item.colorPreview }}
+              />
+            ) : (
+              <span
+                className="w-9 h-9 rounded-md border border-black/20 shrink-0 flex items-center justify-center text-[10px] font-bold"
+                style={{ background: item.selected ? 'rgba(26,26,26,0.12)' : 'rgba(0,0,0,0.08)' }}
+              >
+                ·
+              </span>
+            )}
+            <div className="min-w-0 flex-1">
+              <div className="text-[10px] font-bold leading-tight line-clamp-2">{item.label}</div>
+              {item.cost && (
+                <div
+                  className="mt-0.5 text-[8px] font-mono font-bold"
+                  style={{ color: item.selected ? 'rgba(26,26,26,0.65)' : shell.muted }}
+                >
+                  {item.cost}
+                </div>
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function CalculatorBody({
   config,
   activePricing,
@@ -257,7 +460,7 @@ function CalculatorBody({
   onChange: (updated: Partial<FenceConfiguration>) => void
   onResetDefaults: () => void
   onSaveToFolio: () => void
-  shell: (typeof SHELL)['brown']
+  shell: ShellTone
 }) {
   return (
     <div className="h-full flex flex-col justify-between gap-1.5">
@@ -363,7 +566,7 @@ function TemplatesBody({
   templates: DesignerTemplate[]
   activeId: string | null
   onApply: (patch: Partial<FenceConfiguration>) => void
-  shell: (typeof SHELL)['tan']
+  shell: ShellTone
 }) {
   return (
     <div className="h-full flex gap-2 overflow-x-auto no-scrollbar items-stretch">
@@ -406,7 +609,7 @@ function AiBody({
 }: {
   prompt: string
   onPrompt: (v: string) => void
-  shell: (typeof SHELL)['brown']
+  shell: ShellTone
 }) {
   return (
     <div className="h-full flex flex-col justify-between gap-2">

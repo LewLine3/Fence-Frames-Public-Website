@@ -136,6 +136,7 @@ export default function DesignerPage() {
             onChange={handleConfigChange}
             onResetDefaults={handleResetDefaults}
             onSaveToFolio={handleSaveToFolio}
+            activeChapter={activeChapter}
           />
         </div>
       </div>

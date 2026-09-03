@@ -1,6 +1,6 @@
 /**
  * Shared configurator option catalog — single source of truth for
- * left-rail detail menu + bottom HUD carousel.
+ * left-rail detail menu + ModuleDock Category Options carousel.
  *
  * Heritage VPF IDs (from pilot HTML / stack-composer) are mapped onto
  * FenceConfiguration patches. SVG thumbs point at canonical component art
