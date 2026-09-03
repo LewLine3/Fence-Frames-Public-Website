@@ -13,33 +13,33 @@ export type DevSiteSection = {
 
 export const DEV_SITE_MAP: DevSiteSection[] = [
   {
-    title: "Core & Design",
+    title: "Core & Account",
     color: "#E5B842",
     links: [
       { href: "/", label: "Home" },
-      { href: "/frame", label: "Frame Foundry" },
-      { href: "/catalog", label: "Catalog" },
-      { href: "/designer", label: "Designer" },
-      { href: "/wizard", label: "Wizard" },
+      { href: "/log-in", label: "Log In / Sign Up" },
+      { href: "/homeowner", label: "My Folios" },
       { href: "/blueprint", label: "Fence-Folio" },
     ],
   },
   {
-    title: "Account",
-    color: "#4ADE80",
+    title: "Design",
+    color: "#F27A22",
     links: [
-      { href: "/log-in", label: "Log In / Sign Up" },
-      { href: "/homeowner", label: "My Folios" },
+      { href: "/frame", label: "Frame Foundry" },
+      { href: "/catalog", label: "Catalog" },
+      { href: "/designer", label: "Designer" },
+      { href: "/wizard", label: "Wizard" },
     ],
   },
   {
-    title: "Geo & Local",
+    title: "Location",
     color: "#4ADE80",
     links: [
-      { href: "/wa", label: "WA Directory" },
-      { href: "/wa/king-county", label: "King County" },
-      { href: "/wa/king-county/north-bend", label: "North Bend" },
-      { href: "/wa/king-county/north-bend/si-view", label: "Si View" },
+      { href: "/wa", label: "State Directory" },
+      { href: "/wa/king-county", label: "County Selection" },
+      { href: "/wa/king-county/north-bend", label: "City Code Compliancy" },
+      { href: "/wa/king-county/north-bend/si-view", label: "Community / HOA Bylaws" },
     ],
   },
   {

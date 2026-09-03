@@ -84,38 +84,55 @@
   flex-direction: column;
   gap: 0.65rem;
   margin-top: 0.25rem;
-  max-width: 320px;
+  max-width: 340px;
 }
 
-.signupContractor,
-.signupHoa {
-  display: block;
+.signupBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
   text-align: center;
   text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 4px;
   border: 2px solid #1a1a1a;
   box-shadow: 3px 3px 0 #1a1a1a;
+  color: #141b16;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-.signupContractor:hover,
-.signupHoa:hover {
+.signupBtn:hover {
   transform: translate(1px, 1px);
   box-shadow: 2px 2px 0 #1a1a1a;
 }
 
-.signupContractor {
-  background: #f27a22;
-  color: #141b16;
+.signupFounder {
+  background: #4ade80;
 }
 
-.signupHoa {
+.signupFabricator {
+  background: #f27a22;
+}
+
+.signupFacilitator {
   background: #e5b842;
-  color: #141b16;
+}
+
+.signupMain {
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.signupClarifier {
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  opacity: 0.85;
 }
 
 .badges {

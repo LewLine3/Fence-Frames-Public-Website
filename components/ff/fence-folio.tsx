@@ -250,7 +250,7 @@ export function FenceFolio() {
             onClick={() => open("contractor")}
             className="has-outside-corners"
             style={{
-              background: "#121A14",
+              background: "#E5B842",
               border: "2px solid var(--ink)",
               borderRadius: "var(--radius)",
               padding: "0.85rem 1.2rem",
@@ -265,12 +265,12 @@ export function FenceFolio() {
               width: "100%",
             }}
           >
-            <span className="corner-mark-out bl c-gold" />
-            <span className="corner-mark-out tr c-forest" style={{ zIndex: 2 }} />
-            <span style={{ ...rowdies(700), fontSize: "1.05rem", color: "#E5B842", marginBottom: "0.15rem" }}>
+            <span className="corner-mark-out bl c-forest" />
+            <span className="corner-mark-out tr c-orange" style={{ zIndex: 2 }} />
+            <span style={{ ...rowdies(700), fontSize: "1.05rem", color: "#141B16", marginBottom: "0.15rem" }}>
               Find a Builder
             </span>
-            <span style={{ ...rowdies(300), fontSize: "0.8rem", color: "#B5C2BA" }}>
+            <span style={{ ...rowdies(300), fontSize: "0.8rem", color: "#2A332C" }}>
               Match with 3 vetted local pros who bid on your finished plan.
             </span>
           </button>

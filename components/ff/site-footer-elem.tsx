@@ -18,10 +18,8 @@ export function SiteFooterElem() {
               style={{
                 width: 52,
                 height: 52,
-                objectFit: "cover",
-                borderRadius: 6,
-                border: "1.5px solid #E5B842",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.5)",
+                objectFit: "contain",
+                filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.5))",
                 flexShrink: 0,
               }}
             />
@@ -35,11 +33,17 @@ export function SiteFooterElem() {
           </p>
 
           <div className={styles.signupRow}>
-            <a href="/contractors/onboarding" className={styles.signupContractor}>
-              {ACCOUNT_ROLES.fabricator.signUpCta}
+            <a href="/auth-gate" className={`${styles.signupBtn} ${styles.signupFounder}`}>
+              <span className={styles.signupMain}>Sign Up as {ACCOUNT_ROLES.founder.name}</span>
+              <span className={styles.signupClarifier}>({ACCOUNT_ROLES.founder.clarifier})</span>
             </a>
-            <a href="/auth-gate" className={styles.signupHoa}>
-              {ACCOUNT_ROLES.facilitator.signUpCta}
+            <a href="/contractors/onboarding" className={`${styles.signupBtn} ${styles.signupFabricator}`}>
+              <span className={styles.signupMain}>Sign Up as {ACCOUNT_ROLES.fabricator.name}</span>
+              <span className={styles.signupClarifier}>({ACCOUNT_ROLES.fabricator.clarifier})</span>
+            </a>
+            <a href="/auth-gate" className={`${styles.signupBtn} ${styles.signupFacilitator}`}>
+              <span className={styles.signupMain}>Sign Up as {ACCOUNT_ROLES.facilitator.name}</span>
+              <span className={styles.signupClarifier}>({ACCOUNT_ROLES.facilitator.clarifier})</span>
             </a>
           </div>
         </div>

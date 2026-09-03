@@ -44,7 +44,11 @@ export function SiteNavElem() {
           </a>
 
           <nav className={styles.pillars} aria-label="Three pillars">
-            <a href="/wa" className={`${styles.pillar} ${styles.pillarFind}`} title="Step 1 · Code & HOA Matcher">
+            <a
+              href="/wa"
+              className={`${styles.pillar} ${styles.pillarFind}`}
+              title="Step 1 · State Directory → County Selection → City Code Compliancy → Community / HOA Bylaws"
+            >
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Find It</span>
               <span className={styles.pillarSub}>(Location)</span>

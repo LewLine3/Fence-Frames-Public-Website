@@ -15,6 +15,7 @@ type ActionItem = {
   action?: "contractor" | "blueprint"
   cornerA: string
   cornerB: string
+  fill?: string
 }
 
 const actions: ActionItem[] = [
@@ -23,7 +24,8 @@ const actions: ActionItem[] = [
     sub: "Match with 3 vetted local pros who bid on your finished Fence-Folio.",
     action: "contractor",
     cornerA: "tl c-forest",
-    cornerB: "br c-gold",
+    cornerB: "br c-orange",
+    fill: "#E5B842",
   },
   {
     label: "Open Fence-Folio",
@@ -122,7 +124,7 @@ export function FenceIt() {
             border: "2px solid var(--ink)",
             borderRadius: "var(--radius)",
             padding: "1.2rem 1.4rem",
-            background: "#FAF6EE",
+            background: a.fill ?? "#FAF6EE",
             textAlign: "left" as const,
             cursor: "pointer",
             color: "var(--ink)",
