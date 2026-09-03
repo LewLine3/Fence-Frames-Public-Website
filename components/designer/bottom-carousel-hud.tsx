@@ -1,37 +1,124 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FenceConfiguration, PricingBreakdown } from '@/lib/pricing-engine'
 import { useInfiniteLoop } from '@/hooks/use-infinite-loop'
 import { getChapterOptions } from '@/lib/configurator/options-catalog'
 import { cn } from '@/lib/utils'
 
 interface BottomCarouselHudProps {
-  config: FenceConfiguration;
-  pricing: PricingBreakdown;
-  trialPricing?: PricingBreakdown;
-  onChange: (updated: Partial<FenceConfiguration>) => void;
-  onResetDefaults: () => void;
-  onSaveToFolio: () => void;
-  onOpenLedgerModal?: () => void;
-  activeChapter?: string | null;
-  onSelectChapter?: (chapterId: string | null) => void;
+  config: FenceConfiguration
+  pricing: PricingBreakdown
+  trialPricing?: PricingBreakdown
+  onChange: (updated: Partial<FenceConfiguration>) => void
+  onResetDefaults: () => void
+  onSaveToFolio: () => void
+  onOpenLedgerModal?: () => void
+  activeChapter?: string | null
+  onSelectChapter?: (chapterId: string | null) => void
   /** When true, pins carousel as a bottom overlay on the elevation canvas. */
-  overlay?: boolean;
+  overlay?: boolean
 }
 
 interface DynamicCard {
-  id: string;
-  type: 'calc' | 'swatch' | 'specs' | 'action' | 'takeoff';
-  title: string;
-  subtitle?: string;
-  badge?: string;
-  cost?: string;
-  description?: string;
-  colorPreview?: string;
-  thumbSrc?: string;
-  selected?: boolean;
-  onSelect?: () => void;
+  id: string
+  type: 'calc' | 'swatch' | 'specs' | 'action' | 'takeoff'
+  title: string
+  subtitle?: string
+  badge?: string
+  cost?: string
+  description?: string
+  colorPreview?: string
+  thumbSrc?: string
+  selected?: boolean
+  onSelect?: () => void
+}
+
+const GOLD = '#D9B872'
+const INK = '#1A1A1A'
+const IVORY = '#FAF6EE'
+const FOREST = '#16432D'
+const EMBER = '#C2622D'
+const WOOD_TX = '/images/textures/trial-planks-knots.png'
+
+/** ~1 full card + two peeking neighbors (2–3 visible). */
+const SLIDE =
+  'w-[42%] min-w-[360px] max-w-[560px] h-[188px] shrink-0 rounded-md overflow-hidden flex flex-col relative border-[2px] border-[#1A1A1A]'
+
+const hatchGold: React.CSSProperties = {
+  backgroundColor: GOLD,
+  backgroundImage:
+    'repeating-linear-gradient(-45deg, rgba(26,26,26,0.12) 0px, rgba(26,26,26,0.12) 1.5px, transparent 1.5px, transparent 10px)',
+}
+
+const majorForest: React.CSSProperties = {
+  backgroundColor: FOREST,
+  backgroundImage:
+    'linear-gradient(rgba(217,184,114,0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(217,184,114,0.25) 2px, transparent 2px)',
+  backgroundSize: '60px 60px',
+}
+
+const microQuad: React.CSSProperties = {
+  backgroundColor: '#1F4A32',
+  backgroundImage:
+    'linear-gradient(rgba(250,246,238,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(250,246,238,0.10) 1px, transparent 1px)',
+  backgroundSize: '10px 10px',
+}
+
+const timberGrain: React.CSSProperties = {
+  backgroundColor: '#6B4A2E',
+  backgroundImage: `url('${WOOD_TX}')`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+}
+
+function GoldBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-[#D9B872] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[#1A1A1A] border border-[#1A1A1A]/20">
+      {children}
+    </span>
+  )
+}
+
+function TitleBar({
+  tone,
+  tab,
+  children,
+}: {
+  tone: 'ink' | 'gold'
+  tab?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      className="flex items-center justify-between px-3 py-1.5 flex-shrink-0 border-b-2 border-[#1A1A1A]"
+      style={{
+        background: tone === 'ink' ? INK : GOLD,
+        color: tone === 'ink' ? GOLD : INK,
+        clipPath: tab ? 'polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 8px)' : undefined,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function EmberCorner() {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute bottom-0 right-0 z-10 h-7 w-7"
+      style={{ borderRight: `4px solid ${EMBER}`, borderBottom: `4px solid ${EMBER}` }}
+    />
+  )
+}
+
+function OverlayPlate({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mt-auto mx-2.5 mb-2.5 rounded-lg border border-black/50 bg-[#141B16]/94 px-3 py-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.35)]">
+      {children}
+    </div>
+  )
 }
 
 export function BottomCarouselHud({
@@ -49,7 +136,6 @@ export function BottomCarouselHud({
 
   const activePricing = activeMathModel === 'trial' && trialPricing ? trialPricing : pricing
 
-  // Dynamic cards from shared options catalog (+ always-on calc / specs / folio / takeoff)
   const cards: DynamicCard[] = useMemo(() => {
     const list: DynamicCard[] = []
 
@@ -124,39 +210,25 @@ export function BottomCarouselHud({
     return list
   }, [config, activeChapter, onChange])
 
-  // Hook for infinite horizontal scroll in the bottom carousel
   const { containerRef, tripled, handleScroll } = useInfiniteLoop(cards, 'x')
 
   const scrollCarousel = (direction: 'left' | 'right') => {
-    if (containerRef.current) {
-      const scrollAmount = direction === 'left' ? -248 : 248
-      containerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-    }
+    const el = containerRef.current
+    if (!el) return
+    const amount = Math.round(el.clientWidth * 0.42)
+    el.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' })
   }
 
-  const cardShell = (selected?: boolean): React.CSSProperties => ({
-    background: selected
-      ? 'linear-gradient(180deg, #DCC4A4 0%, #C9B08E 100%)'
-      : '#E8D4BC',
-    border: `2px solid ${selected ? '#1A1A1A' : '#8B7355'}`,
-    boxShadow: selected
-      ? '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(255,255,255,0.35)'
-      : '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(255,255,255,0.25)',
-  })
-
-  const titleBarStyle: React.CSSProperties = {
-    background: 'linear-gradient(180deg, #5C4030 0%, #3D2414 100%)',
-    borderBottom: '2px solid #1A1A1A',
-    boxShadow: 'inset 0 -1px 0 rgba(255,255,255,0.08)',
-  }
+  const chevronClass =
+    'hidden sm:flex w-8 h-[188px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-md items-center justify-center text-[11px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer'
 
   return (
     <footer
       className={cn(
         "w-full flex-shrink-0 z-20 font-['Rowdies'] select-none flex items-end gap-2",
         overlay
-          ? 'absolute left-0 right-0 bottom-[9%] pt-0 pb-0 px-2 overflow-visible min-w-0 border-0 bg-transparent'
-          : 'relative py-2 px-3 border-t-[2px] border-t-[#16432D]/40 shadow-[0_-6px_20px_rgba(22,67,45,0.15)] overflow-hidden min-w-0',
+          ? 'absolute left-0 right-0 bottom-[7%] pt-0 pb-0 px-2 overflow-visible min-w-0 border-0 bg-transparent'
+          : 'relative py-2 px-3 border-t-[2px] border-t-[#16432D]/40 overflow-hidden min-w-0',
       )}
       style={
         overlay
@@ -170,361 +242,239 @@ export function BottomCarouselHud({
             }
       }
     >
-      {/* Left Chevron Button */}
-      <button
-        onClick={() => scrollCarousel('left')}
-        className="hidden sm:flex w-7 h-[118px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
-        title="Scroll Left (Infinite)"
-      >
+      <button onClick={() => scrollCarousel('left')} className={chevronClass} title="Scroll Left (Infinite)">
         ◀
       </button>
 
-      {/* Endless Horizontal Card Carousel Track with Infinite Loop Wrapping */}
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 min-w-0 flex items-end gap-2.5 overflow-x-auto overflow-y-visible no-scrollbar scroll-smooth py-1 px-0.5 relative max-h-[140px]"
-        style={{
-          maskImage:
-            'linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent)',
-        }}
+        className="flex-1 min-w-0 flex items-end gap-3 overflow-x-auto overflow-y-visible no-scrollbar scroll-smooth py-1 px-0.5 relative"
       >
         {tripled.map((card, idx) => {
-          // A. PRICING CALCULATOR CARD
-          if (card.type === 'calc') {
-            return (
-              <div
-                key={`${card.id}-${idx}`}
-                className="min-w-[248px] sm:min-w-[268px] h-[118px] rounded-xl flex flex-col flex-shrink-0 relative overflow-hidden"
-                style={cardShell()}
-              >
+          switch (card.type) {
+            case 'calc':
+              return (
                 <div
-                  className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
-                  style={titleBarStyle}
+                  key={`${card.id}-${idx}`}
+                  className={SLIDE}
+                  style={{ ...hatchGold, boxShadow: '3px 3px 0 #1A1A1A' }}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
-                    <span className="font-bold text-white uppercase tracking-wide text-[10px]">
-                      Pricing Calculator
+                  <TitleBar tone="ink">
+                    <span className="font-bold uppercase tracking-wide text-[13px] truncate">
+                      Instant 2D Takeoff Calculator
                     </span>
-                  </div>
-
-                  <div className="flex bg-black/25 p-0.5 rounded border border-[#8B7355]/50 text-[7px]">
-                    <button
-                      onClick={() => setActiveMathModel('canonical')}
-                      className={`px-1.5 py-0.5 rounded transition ${
-                        activeMathModel === 'canonical'
-                          ? 'bg-[#E8D4BC] text-[#1A1A1A] font-bold'
-                          : 'text-white/75'
-                      }`}
-                    >
-                      Canon
-                    </button>
-                    <button
-                      onClick={() => setActiveMathModel('trial')}
-                      className={`px-1.5 py-0.5 rounded transition ${
-                        activeMathModel === 'trial'
-                          ? 'bg-[#E8D4BC] text-[#1A1A1A] font-bold'
-                          : 'text-white/75'
-                      }`}
-                    >
-                      Trial
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-[8px] text-[#1A1A1A]/65 font-light">Linear Footage:</span>
-                      <span className="text-[10px] font-bold text-[#1A1A1A] bg-white/45 px-1.5 py-0.5 rounded border border-[#8B7355]/45">
-                        {config.linearFeet} LF
-                      </span>
+                    <div className="flex bg-black/40 p-0.5 rounded border border-[#D9B872]/40 text-[8px] shrink-0 ml-2">
+                      <button
+                        onClick={() => setActiveMathModel('canonical')}
+                        className={`px-1.5 py-0.5 rounded transition ${
+                          activeMathModel === 'canonical' ? 'bg-[#D9B872] text-[#1A1A1A] font-bold' : 'text-[#D9B872]/80'
+                        }`}
+                      >
+                        Canon
+                      </button>
+                      <button
+                        onClick={() => setActiveMathModel('trial')}
+                        className={`px-1.5 py-0.5 rounded transition ${
+                          activeMathModel === 'trial' ? 'bg-[#D9B872] text-[#1A1A1A] font-bold' : 'text-[#D9B872]/80'
+                        }`}
+                      >
+                        Trial
+                      </button>
                     </div>
+                  </TitleBar>
 
-                    <input
-                      type="range"
-                      min="8"
-                      max="300"
-                      step="1"
-                      value={config.linearFeet}
-                      onChange={(e) => onChange({ linearFeet: Number(e.target.value) })}
-                      className="w-full h-1 bg-black/40 rounded-lg appearance-none cursor-pointer accent-[#F27A22]"
-                    />
-
-                    <div className="flex items-center gap-1">
-                      {[8, 48, 96, 120, 200].map((preset) => (
-                        <button
-                          key={preset}
-                          onClick={() => onChange({ linearFeet: preset })}
-                          className={`px-1.5 py-0.5 text-[7px] rounded border transition ${
-                            config.linearFeet === preset
-                              ? 'bg-[#3D2414] text-white font-bold border-[#1A1A1A]'
-                              : 'bg-white/40 hover:bg-[#3D2414] hover:text-white text-[#1A1A1A]/80 border-[#8B7355]/45'
-                          }`}
-                        >
-                          {preset === 8 ? '8 LF' : `${preset} LF`}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between">
+                  <div className="flex-1 flex flex-col justify-between px-3 py-2 min-h-0">
                     <div>
-                      <span className="text-[7px] text-[#1A1A1A]/60 uppercase font-light block leading-none">
-                        Quote (±15%)
-                      </span>
-                      <span className="text-[11px] font-bold text-[#1A1A1A]">
-                        ${activePricing.totalMin.toLocaleString()} — $
-                        {activePricing.totalMax.toLocaleString()}
-                      </span>
+                      <GoldBadge>Standard · {config.linearFeet} LF</GoldBadge>
+                      <div className="mt-1.5 font-bold text-white text-[20px] leading-tight drop-shadow-[0_1px_1px_rgba(0,0,0,0.45)]">
+                        ${activePricing.totalMin.toLocaleString()} — ${activePricing.totalMax.toLocaleString()}
+                      </div>
                     </div>
 
-                    <span className="text-[7px] text-[#1A1A1A]/55 font-mono">
-                      ${activePricing.pricePerLfMin.toFixed(2)}/LF
-                    </span>
+                    <div className="space-y-1.5">
+                      <input
+                        type="range"
+                        min="8"
+                        max="300"
+                        step="1"
+                        value={config.linearFeet}
+                        onChange={(e) => onChange({ linearFeet: Number(e.target.value) })}
+                        className="w-full h-1.5 bg-black/35 rounded-lg appearance-none cursor-pointer accent-[#1A1A1A]"
+                      />
+                      <div className="flex items-center gap-1">
+                        {[8, 48, 96, 120, 200].map((preset) => (
+                          <button
+                            key={preset}
+                            onClick={() => onChange({ linearFeet: preset })}
+                            className={`px-2 py-0.5 text-[9px] rounded border transition ${
+                              config.linearFeet === preset
+                                ? 'bg-[#1A1A1A] text-[#D9B872] font-bold border-[#1A1A1A]'
+                                : 'bg-white/35 hover:bg-[#1A1A1A] hover:text-[#D9B872] text-[#1A1A1A] border-[#1A1A1A]/40'
+                            }`}
+                          >
+                            {preset} LF
+                          </button>
+                        ))}
+                        <span className="ml-auto text-[9px] font-bold text-[#1A1A1A]">
+                          ${activePricing.pricePerLfMin.toFixed(2)}/LF
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          }
+              )
 
-          // B. DYNAMIC SWATCH & INSPECTION CARDS
-          if (card.type === 'swatch') {
-            return (
-              <button
-                key={`${card.id}-${idx}`}
-                onClick={card.onSelect}
-                className={`min-w-[176px] sm:min-w-[192px] h-[118px] rounded-xl flex flex-col flex-shrink-0 text-left transition-all duration-200 cursor-pointer overflow-hidden ${
-                  card.selected ? '-translate-y-1' : 'hover:-translate-y-0.5'
-                }`}
-                style={cardShell(card.selected)}
-              >
-                <div
-                  className="flex items-center justify-between px-2.5 py-1.5 w-full flex-shrink-0"
-                  style={titleBarStyle}
+            case 'swatch':
+              return (
+                <button
+                  key={`${card.id}-${idx}`}
+                  type="button"
+                  onClick={card.onSelect}
+                  className={cn(SLIDE, 'text-left cursor-pointer transition-transform', card.selected && '-translate-y-1')}
+                  style={{
+                    backgroundColor: '#5C3A22',
+                    backgroundImage: card.thumbSrc
+                      ? `linear-gradient(#C8B89A 0 48%, #4A2C1A 48% 100%), url('${card.thumbSrc}')`
+                      : card.colorPreview
+                        ? `${card.colorPreview}`
+                        : `linear-gradient(#C8B89A 0 48%, #4A2C1A 48% 100%), url('${WOOD_TX}')`,
+                    backgroundSize: card.thumbSrc ? '100% 100%, contain' : 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    boxShadow: card.selected ? `3px 3px 0 ${INK}, 0 0 0 2px ${GOLD}` : `3px 3px 0 ${INK}`,
+                  }}
                 >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    {card.thumbSrc ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={card.thumbSrc}
-                        alt=""
-                        className="w-4 h-4 rounded border border-white/30 object-contain bg-black/40 shrink-0"
-                      />
-                    ) : card.colorPreview ? (
-                      <span
-                        className="w-3 h-3 rounded-full border border-white/30 shadow-sm shrink-0"
-                        style={{ background: card.colorPreview }}
-                      />
+                  <TitleBar tone="gold">
+                    <span className="font-bold text-[13px] truncate">{card.title}</span>
+                    {card.cost ? (
+                      <span className="text-[10px] font-bold shrink-0 ml-2">{card.cost}</span>
                     ) : null}
-                    <span className="font-bold uppercase tracking-wide text-[10px] truncate text-white">
+                  </TitleBar>
+
+                  <OverlayPlate>
+                    <GoldBadge>
+                      {card.selected ? 'Active' : 'Select'} · {card.subtitle || card.title}
+                    </GoldBadge>
+                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: GOLD }}>
                       {card.title}
-                    </span>
-                  </div>
+                    </div>
+                    <p className="mt-0.5 text-[11px] font-light leading-snug text-white/90 line-clamp-2">
+                      {card.description}
+                    </p>
+                  </OverlayPlate>
+                </button>
+              )
 
-                  <span
-                    className={`text-[8px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
-                      card.selected
-                        ? 'bg-[#E8D4BC] text-[#1A1A1A]'
-                        : 'bg-black/30 text-white border border-white/25'
-                    }`}
-                  >
-                    {card.cost}
-                  </span>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="text-[8px] text-[#1A1A1A]/75 line-clamp-3 leading-snug font-light">
-                    {card.description}
-                  </div>
-
-                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px]">
-                    <span className="text-[#1A1A1A]/60">{card.subtitle}</span>
-                    <span
-                      className={`font-bold flex items-center gap-0.5 ${
-                        card.selected ? 'text-[#3D2414]' : 'text-[#1A1A1A]/70'
-                      }`}
-                    >
-                      {card.selected ? 'Active ✓' : 'Select ▶'}
-                    </span>
-                  </div>
-                </div>
-              </button>
-            )
-          }
-
-          // C. JOB SPECS CARD
-          if (card.type === 'specs') {
-            return (
-              <div
-                key={`${card.id}-${idx}`}
-                className="min-w-[192px] sm:min-w-[208px] h-[118px] rounded-xl flex flex-col flex-shrink-0 relative overflow-hidden"
-                style={cardShell()}
-              >
+            case 'specs':
+              return (
                 <div
-                  className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
-                  style={titleBarStyle}
+                  key={`${card.id}-${idx}`}
+                  className={SLIDE}
+                  style={{ ...majorForest, boxShadow: '3px 3px 0 #1A1A1A' }}
                 >
-                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
-                    Job Specs
-                  </span>
-                  <span className="text-[7px] text-white/70 font-mono">PASSED ARC-01</span>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="grid grid-cols-2 gap-1 text-[8px] text-[#1A1A1A]/85">
-                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[#1A1A1A]/50 block text-[6px]">HEIGHT / BAY</span>
-                      <span className="font-bold text-[#1A1A1A] truncate block">
-                        {config.heightFt}&apos; · {config.postSpacingFt}&apos; Bay
-                      </span>
-                    </div>
-                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[#1A1A1A]/50 block text-[6px]">POST TIMBER</span>
-                      <span className="font-bold text-[#1A1A1A] truncate block">
-                        {config.postType.split('-')[0].toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[#1A1A1A]/50 block text-[6px]">RAILS &amp; CAP</span>
-                      <span className="font-bold text-[#1A1A1A] truncate block">
-                        {config.railCount}-Rail {config.topCap ? '+ Cap' : ''}
-                      </span>
-                    </div>
-                    <div className="p-1 px-1.5 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[#1A1A1A]/50 block text-[6px]">INFILL</span>
-                      <span className="font-bold text-[#1A1A1A] truncate block">
-                        {config.fillPattern === 'board-on-board' ? 'BoB' : 'Std'}
-                      </span>
+                  <TitleBar tone="gold">
+                    <span className="font-bold text-[13px]">Job Specs</span>
+                    <span className="text-[9px] font-bold uppercase">ARC-01</span>
+                  </TitleBar>
+                  <div className="flex-1 flex flex-col items-start justify-between px-3 py-2.5 min-h-0">
+                    <GoldBadge>
+                      {config.heightFt}&apos; H · {config.postSpacingFt}&apos; Bay
+                    </GoldBadge>
+                    <div>
+                      <div className="font-bold text-[18px] leading-tight" style={{ color: GOLD }}>
+                        {config.postType.split('-')[0].toUpperCase()} · {config.railCount}-Rail
+                        {config.topCap ? ' + Cap' : ''}
+                      </div>
+                      <div className="mt-1 text-[11px] font-light" style={{ color: IVORY }}>
+                        Infill {config.fillPattern === 'board-on-board' ? 'Board-on-Board' : 'Standard'} · Stain{' '}
+                        {config.stainType.split('-')[0]} · Gates {config.gates?.walkGates || 0}W
+                      </div>
                     </div>
                   </div>
-
-                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px] text-[#1A1A1A]/60">
-                    <span>
-                      Stain: <strong className="text-[#1A1A1A]">{config.stainType.split('-')[0]}</strong>
-                    </span>
-                    <span>
-                      Gates:{' '}
-                      <strong className="text-[#3D2414]">{config.gates?.walkGates || 0}W</strong>
-                    </span>
-                  </div>
+                  <EmberCorner />
                 </div>
-              </div>
-            )
-          }
+              )
 
-          // D. FOLIO & 3-BID DISPATCH CARD
-          if (card.type === 'action') {
-            return (
-              <div
-                key={`${card.id}-${idx}`}
-                className="min-w-[192px] sm:min-w-[208px] h-[118px] rounded-xl flex flex-col flex-shrink-0 relative overflow-hidden"
-                style={cardShell()}
-              >
+            case 'action':
+              return (
                 <div
-                  className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
-                  style={titleBarStyle}
+                  key={`${card.id}-${idx}`}
+                  className={SLIDE}
+                  style={{ ...timberGrain, boxShadow: '3px 3px 0 #1A1A1A' }}
                 >
-                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
-                    Folio &amp; 3-Bid
-                  </span>
-                  <span className="text-[7px] text-white/70 font-mono">READY</span>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="text-[8px] text-[#1A1A1A]/75 space-y-1 font-light">
-                    <p className="line-clamp-2">Open Fence-Folio &amp; get 3 matched bids.</p>
-                    <div className="flex items-center gap-1.5 text-[7px] text-[#1A1A1A]/55">
-                      <span>🛡️ 72-Hr Refund</span>
-                      <span>📋 ARC Ready</span>
+                  <TitleBar tone="gold" tab>
+                    <span className="font-bold text-[13px]">Folio &amp; 3-Bid</span>
+                    <span className="text-[9px] font-bold uppercase">Ready</span>
+                  </TitleBar>
+                  <OverlayPlate>
+                    <GoldBadge>Dispatch · Fence-Folio</GoldBadge>
+                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: GOLD }}>
+                      Open Fence-Folio
                     </div>
-                  </div>
+                    <p className="mt-0.5 text-[11px] font-light text-white/90">
+                      Lock the takeoff and get 3 matched bids. 72-hr refund · ARC ready.
+                    </p>
+                    <div className="mt-2 flex items-center gap-1.5">
+                      <button
+                        onClick={onResetDefaults}
+                        className="px-2 py-1 bg-white/10 hover:bg-white/20 text-white text-[11px] rounded border border-white/25"
+                        title="Reset 8 LF"
+                      >
+                        ↺
+                      </button>
+                      <button
+                        onClick={onSaveToFolio}
+                        className="flex-1 rounded bg-[#D9B872] hover:bg-[#E5B842] text-[#1A1A1A] font-bold text-[12px] py-1.5 border-2 border-[#1A1A1A]"
+                      >
+                        Save to Folio →
+                      </button>
+                    </div>
+                  </OverlayPlate>
+                </div>
+              )
 
-                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center gap-1.5">
+            case 'takeoff':
+              return (
+                <div
+                  key={`${card.id}-${idx}`}
+                  className={SLIDE}
+                  style={{ ...microQuad, boxShadow: '3px 3px 0 #1A1A1A' }}
+                >
+                  <TitleBar tone="gold">
+                    <span className="font-bold text-[13px]">Fence-Folio</span>
                     <button
-                      onClick={onResetDefaults}
-                      className="px-1.5 py-1 bg-white/45 hover:bg-white/70 text-[#1A1A1A]/75 hover:text-[#1A1A1A] text-[9px] rounded-lg border border-[#8B7355]/45 transition"
-                      title="Reset 8 LF"
+                      onClick={onOpenLedgerModal}
+                      className="text-[10px] font-bold hover:underline"
                     >
-                      ↺
+                      Open ↗
                     </button>
-                    <button
-                      onClick={onSaveToFolio}
-                      className="flex-1 rounded-lg bg-[#3D2414] hover:bg-[#5C4030] text-white font-bold text-[10px] py-1.5 border-2 border-[#1A1A1A] transition text-center shadow"
-                    >
-                      Save to Folio →
-                    </button>
+                  </TitleBar>
+                  <div className="flex-1 flex flex-col items-start justify-between px-3 py-2.5 min-h-0">
+                    <GoldBadge>Materials · Labor · Admin</GoldBadge>
+                    <div>
+                      <div className="font-bold text-[18px] leading-tight" style={{ color: GOLD }}>
+                        ${activePricing.materialsCostMin} · ${activePricing.laborCostMin} · $
+                        {activePricing.adminPermitCost}
+                      </div>
+                      <div className="mt-1 text-[11px] font-light" style={{ color: IVORY }}>
+                        {Math.ceil(config.linearFeet / 8) + 1} Posts · {config.linearFeet * 2} Pickets · Synced
+                      </div>
+                    </div>
                   </div>
+                  <EmberCorner />
                 </div>
-              </div>
-            )
+              )
+
+            default: {
+              const _never: never = card.type
+              return _never
+            }
           }
-
-          // E. TAKEOFF LEDGER CARD
-          if (card.type === 'takeoff') {
-            return (
-              <div
-                key={`${card.id}-${idx}`}
-                className="min-w-[192px] sm:min-w-[208px] h-[118px] rounded-xl flex flex-col flex-shrink-0 relative overflow-hidden"
-                style={cardShell()}
-              >
-                <div
-                  className="flex items-center justify-between px-2.5 py-1.5 flex-shrink-0"
-                  style={titleBarStyle}
-                >
-                  <span className="font-bold text-white uppercase tracking-wide text-[10px]">
-                    Fence-Folio
-                  </span>
-                  <button
-                    onClick={onOpenLedgerModal}
-                    className="text-[7px] text-[#E8D4BC] hover:underline font-bold"
-                  >
-                    Open ↗
-                  </button>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
-                  <div className="grid grid-cols-3 gap-1 text-center text-[8px]">
-                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[6px] text-[#1A1A1A]/50 block">MATERIALS</span>
-                      <span className="font-bold text-[#1A1A1A]">${activePricing.materialsCostMin}</span>
-                    </div>
-                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[6px] text-[#1A1A1A]/50 block">LABOR</span>
-                      <span className="font-bold text-[#1A1A1A]">${activePricing.laborCostMin}</span>
-                    </div>
-                    <div className="p-1 bg-white/40 rounded border border-[#8B7355]/35">
-                      <span className="text-[6px] text-[#1A1A1A]/50 block">ADMIN</span>
-                      <span className="font-bold text-[#1A1A1A]">
-                        ${activePricing.adminPermitCost}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="pt-1 border-t border-[#8B7355]/35 flex items-center justify-between text-[7px] text-[#1A1A1A]/55">
-                    <span>
-                      {Math.ceil(config.linearFeet / 8) + 1} Posts · {config.linearFeet * 2} Pickets
-                    </span>
-                    <span className="text-[#3D2414]">Synced</span>
-                  </div>
-                </div>
-              </div>
-            )
-          }
-
-          return null
         })}
       </div>
 
-      {/* Right Chevron Button */}
-      <button
-        onClick={() => scrollCarousel('right')}
-        className="hidden sm:flex w-7 h-[118px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-xl items-center justify-center text-[10px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer"
-        title="Scroll Right (Infinite)"
-      >
+      <button onClick={() => scrollCarousel('right')} className={chevronClass} title="Scroll Right (Infinite)">
         ▶
       </button>
     </footer>
