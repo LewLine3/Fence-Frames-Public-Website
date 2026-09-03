@@ -21,132 +21,33 @@ interface LeftOptionRailProps {
 
 export { CHAPTERS, getChapterCostMetric }
 
-const GOLD = '#D9B872'
-const INK = '#1A1A1A'
-const FOREST = '#1B4332'
-const FOREST_DEEP = '#16432D'
-const WOOD_TX = '/images/textures/trial-planks-knots.png'
+/** Dark brown + light tan cycle — black text on tan, white text on brown. */
+const MENU_TONES = [
+  {
+    id: 'brown',
+    background: 'linear-gradient(180deg, #5C4030 0%, #3D2414 100%)',
+    border: '#3D2414',
+    label: '#FFFFFF',
+    sub: 'rgba(255,255,255,0.75)',
+    chipBg: 'rgba(0,0,0,0.35)',
+    chipBorder: 'rgba(196,165,116,0.45)',
+    chipFg: '#E5B842',
+  },
+  {
+    id: 'tan',
+    background: 'linear-gradient(180deg, #E8D4BC 0%, #DCC4A4 100%)',
+    border: '#8B7355',
+    label: '#1A1A1A',
+    sub: 'rgba(26,26,26,0.65)',
+    chipBg: 'rgba(255,255,255,0.45)',
+    chipBorder: 'rgba(61,36,20,0.35)',
+    chipFg: '#3D2414',
+  },
+] as const
 
-type ChapterSkin = {
-  id: string
-  headerBg: string
-  headerFg: string
-  body: React.CSSProperties
-  titleColor: string
-  subColor: string
-  useOverlay?: boolean
-}
-
-/** Inventory-lab skins for vertical option cards (cycles by chapter #). */
-const CHAPTER_SKINS: ChapterSkin[] = [
-  {
-    id: 'woodPlanks',
-    headerBg: FOREST,
-    headerFg: '#FAF6EE',
-    body: {
-      backgroundColor: '#E8DCC8',
-      backgroundImage: `linear-gradient(rgba(232,220,200,0.55), rgba(232,220,200,0.55)), url('${WOOD_TX}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    titleColor: FOREST_DEEP,
-    subColor: 'rgba(22,67,45,0.75)',
-  },
-  {
-    id: 'tanBlackGrid',
-    headerBg: FOREST,
-    headerFg: '#FAF6EE',
-    body: {
-      backgroundColor: '#E8DCC8',
-      backgroundImage:
-        'linear-gradient(rgba(26,26,26,0.18) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(26,26,26,0.18) 1.5px, transparent 1.5px)',
-      backgroundSize: '28px 28px',
-    },
-    titleColor: FOREST_DEEP,
-    subColor: 'rgba(22,67,45,0.75)',
-  },
-  {
-    id: 'hatchCream',
-    headerBg: FOREST,
-    headerFg: '#FAF6EE',
-    body: {
-      backgroundColor: '#FAF6EE',
-      backgroundImage:
-        'repeating-linear-gradient(45deg, rgba(22,67,45,0.12) 0px, rgba(22,67,45,0.12) 1.5px, transparent 1.5px, transparent 10px)',
-    },
-    titleColor: FOREST_DEEP,
-    subColor: 'rgba(22,67,45,0.75)',
-  },
-  {
-    id: 'doublePlank',
-    headerBg: FOREST,
-    headerFg: '#FAF6EE',
-    body: {
-      backgroundColor: '#D8C7A5',
-      backgroundImage:
-        'repeating-linear-gradient(0deg, rgba(26,26,26,0.16) 0px, rgba(26,26,26,0.16) 2px, transparent 2px, transparent 28px)',
-    },
-    titleColor: FOREST_DEEP,
-    subColor: 'rgba(22,67,45,0.75)',
-  },
-  {
-    id: 'hatchGold',
-    headerBg: INK,
-    headerFg: GOLD,
-    body: {
-      backgroundColor: GOLD,
-      backgroundImage:
-        'repeating-linear-gradient(-45deg, rgba(26,26,26,0.12) 0px, rgba(26,26,26,0.12) 1.5px, transparent 1.5px, transparent 10px)',
-    },
-    titleColor: '#FFFFFF',
-    subColor: 'rgba(26,26,26,0.7)',
-  },
-  {
-    id: 'overlayWood',
-    headerBg: FOREST,
-    headerFg: '#FAF6EE',
-    body: {
-      backgroundColor: '#6B4A2E',
-      backgroundImage: `url('${WOOD_TX}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    titleColor: FOREST_DEEP,
-    subColor: 'rgba(56,59,62,0.85)',
-    useOverlay: true,
-  },
-  {
-    id: 'majorForest',
-    headerBg: GOLD,
-    headerFg: INK,
-    body: {
-      backgroundColor: FOREST_DEEP,
-      backgroundImage:
-        'linear-gradient(rgba(217,184,114,0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(217,184,114,0.25) 2px, transparent 2px)',
-      backgroundSize: '48px 48px',
-    },
-    titleColor: GOLD,
-    subColor: 'rgba(250,246,238,0.75)',
-  },
-  {
-    id: 'inkOverlayWood',
-    headerBg: INK,
-    headerFg: GOLD,
-    body: {
-      backgroundColor: '#5C3A22',
-      backgroundImage: `linear-gradient(#C8B89A 0 45%, #4A2C1A 45% 100%), url('${WOOD_TX}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    titleColor: INK,
-    subColor: 'rgba(56,59,62,0.85)',
-    useOverlay: true,
-  },
-]
-
-function skinForChapter(num: string): ChapterSkin {
+function menuToneForChapter(num: string) {
   const n = Math.max(1, parseInt(num, 10) || 1)
-  return CHAPTER_SKINS[(n - 1) % CHAPTER_SKINS.length]
+  return MENU_TONES[(n - 1) % MENU_TONES.length]
 }
 
 const railShellStyle: React.CSSProperties = {
@@ -261,104 +162,61 @@ export function LeftOptionRail({
             {tripled.map((ch, idx) => {
               const costMetric = getChapterCostMetric(ch.id, config)
               const liveValue = getChapterLivePreview(ch.id, config)
-              const skin = skinForChapter(ch.num)
+              const tone = menuToneForChapter(ch.num)
 
               return (
                 <button
                   key={`${ch.id}-${idx}`}
                   onClick={() => setActive(ch.id)}
                   className={cn(
-                    'w-full text-left transition-all duration-200 cursor-pointer group overflow-hidden',
-                    'rounded-xl border-2 border-[#1A1A1A]',
-                    'min-h-[52px] lg:min-h-[78px]',
-                    'hover:-translate-y-0.5',
+                    'w-full rounded-xl text-left transition-all duration-200 flex flex-col justify-center cursor-pointer group',
+                    'min-h-[52px] lg:min-h-[76px] hover:-translate-y-0.5',
                   )}
                   style={{
-                    boxShadow: '2px 2px 0 #1A1A1A',
+                    background: tone.background,
+                    border: `2px solid ${tone.border}`,
+                    boxShadow: '2px 2px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.18)',
+                    padding: '0.55rem 0.65rem',
                   }}
                   title={ch.menuLabel}
                 >
-                  {/* Compact tablet face */}
-                  <div
-                    className="flex lg:hidden flex-col items-stretch overflow-hidden rounded-xl"
-                    style={{ minHeight: 52 }}
-                  >
-                    <div
-                      className="px-1 py-1 text-center border-b border-[#1A1A1A]"
-                      style={{ background: skin.headerBg, color: skin.headerFg }}
-                    >
-                      <span className="font-mono font-bold text-[10px] block">{ch.num}</span>
-                    </div>
-                    <div
-                      className="flex-1 flex items-center justify-center px-1 py-1"
-                      style={skin.body}
-                    >
-                      <span
-                        className="text-[7px] font-bold uppercase leading-tight text-center"
-                        style={{ color: skin.titleColor }}
-                      >
-                        {ch.menuLabel.split(' ')[0]}
-                      </span>
-                    </div>
+                  <div className="flex lg:hidden flex-col items-center gap-0.5 text-center">
+                    <span className="font-mono font-bold text-[10px]" style={{ color: tone.label }}>
+                      {ch.num}
+                    </span>
+                    <span className="text-[7px] font-bold uppercase leading-tight" style={{ color: tone.label }}>
+                      {ch.menuLabel.split(' ')[0]}
+                    </span>
                   </div>
 
-                  {/* Full desktop face — compact inventory lab layout */}
-                  <div className="hidden lg:flex flex-col h-full min-h-[78px] overflow-hidden rounded-xl">
-                    <div
-                      className="flex items-center justify-between px-2.5 py-1 border-b border-[#1A1A1A] flex-shrink-0"
-                      style={{ background: skin.headerBg, color: skin.headerFg }}
+                  <div className="hidden lg:flex items-center gap-2.5 w-full">
+                    <span
+                      className="text-sm leading-none shrink-0 font-bold transition-transform group-hover:translate-x-0.5"
+                      style={{ color: tone.label }}
                     >
-                      <span className="font-bold uppercase tracking-wide text-[11px] truncate">
+                      ▶
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className="text-[12px] font-bold uppercase tracking-wide leading-tight truncate"
+                        style={{ color: tone.label }}
+                      >
                         {ch.menuLabel}
-                      </span>
-                      <span className="font-mono text-[9px] font-bold opacity-80 shrink-0 ml-2">
-                        #{ch.num}
-                      </span>
+                      </div>
+                      <div className="text-[9px] font-light truncate mt-0.5" style={{ color: tone.sub }}>
+                        {ch.label} · {liveValue}
+                      </div>
                     </div>
-
-                    <div
-                      className="flex-1 flex items-center gap-2 px-2 py-1.5 min-h-0"
-                      style={skin.body}
+                    <span
+                      className="shrink-0 text-[9px] font-mono font-bold px-2 py-1 rounded-md border"
+                      style={{
+                        background: tone.chipBg,
+                        color: tone.chipFg,
+                        borderColor: tone.chipBorder,
+                      }}
                     >
-                      {skin.useOverlay ? (
-                        <div className="w-full rounded-lg border border-[#1A1A1A]/40 bg-[#FAF6EE]/95 px-2 py-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <span
-                              className="font-bold text-[12px] leading-tight truncate"
-                              style={{ color: skin.titleColor }}
-                            >
-                              {ch.label}
-                            </span>
-                            <span className="shrink-0 rounded-full bg-[#D9B872] px-1.5 py-0.5 text-[7px] font-bold uppercase text-[#1A1A1A]">
-                              {liveValue}
-                            </span>
-                          </div>
-                          <div className="text-[9px] font-light truncate" style={{ color: skin.subColor }}>
-                            {costMetric}
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="flex-1 min-w-0">
-                            <div
-                              className="font-bold text-[12px] leading-tight truncate"
-                              style={{ color: skin.titleColor }}
-                            >
-                              {ch.label}
-                            </div>
-                            <div
-                              className="text-[9px] font-light truncate"
-                              style={{ color: skin.subColor }}
-                            >
-                              {ch.preview}
-                            </div>
-                          </div>
-                          <span className="shrink-0 rounded-full bg-[#D9B872] px-1.5 py-0.5 text-[7px] font-bold uppercase text-[#1A1A1A] border border-[#1A1A1A]/15">
-                            {liveValue}
-                          </span>
-                        </>
-                      )}
-                    </div>
+                      {costMetric}
+                    </span>
                   </div>
                 </button>
               )

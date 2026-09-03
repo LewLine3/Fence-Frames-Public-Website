@@ -54,7 +54,6 @@ export default function DesignerPage() {
     setIsMounted(true)
   }, [])
 
-  // Real-time Pricing Engines (Canonical Multiplier + Discrete Trial Labor)
   const pricing = calculateBaselineFenceQuote(config)
   const trialPricing = calculateOptionSetLaborQuote(config)
 
@@ -90,12 +89,9 @@ export default function DesignerPage() {
       suppressHydrationWarning
       style={greenPrintBackground}
     >
-      {/* 1. Master Universal Header */}
       <SiteNav />
 
-      {/* Main Studio Workspace */}
       <div className="flex-1 flex flex-row overflow-hidden relative min-h-0 w-full">
-        {/* Left Column: Full-Height Continuous Option Stream + Corner Hub Anchor */}
         <LeftOptionRail
           config={config}
           onChange={handleConfigChange}
@@ -104,17 +100,13 @@ export default function DesignerPage() {
           onResetDefaults={handleResetDefaults}
         />
 
-        {/* 2. Stage: green-print (cream paper + emerald sublines) behind fence + HUD */}
+        {/* Stage column: fence fills remaining height; carousel is a docked bottom row */}
         <div
           className="flex-1 flex flex-col overflow-hidden relative min-w-0 h-full"
           style={greenPrintBackground}
         >
           <section className="flex-1 min-h-0 min-w-0 overflow-hidden relative">
-            <ElevationStage
-              mode={elevationMode}
-              zoom={zoomPercent}
-              config={config}
-            />
+            <ElevationStage mode={elevationMode} zoom={zoomPercent} config={config} />
 
             <SubHeaderRibbon
               mode={elevationMode}
@@ -124,34 +116,32 @@ export default function DesignerPage() {
               zoom={zoomPercent}
               onZoomChange={setZoomPercent}
             />
-
-            <BottomCarouselHud
-              overlay
-              config={config}
-              pricing={pricing}
-              trialPricing={trialPricing}
-              onChange={handleConfigChange}
-              onResetDefaults={handleResetDefaults}
-              onSaveToFolio={handleSaveToFolio}
-              onOpenLedgerModal={() => handleTabChange('Fence-Folio')}
-              activeChapter={activeChapter}
-              onSelectChapter={setActiveChapter}
-            />
           </section>
+
+          {/* Ground strand — fence grass docks onto this line above the carousel */}
+          <div
+            aria-hidden
+            className="pointer-events-none flex-shrink-0 w-full z-30"
+            style={{
+              height: 6,
+              background: DESIGNER_GROUND_BROWN,
+              boxShadow: '0 -1px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.12)',
+            }}
+          />
+
+          <BottomCarouselHud
+            config={config}
+            pricing={pricing}
+            trialPricing={trialPricing}
+            onChange={handleConfigChange}
+            onResetDefaults={handleResetDefaults}
+            onSaveToFolio={handleSaveToFolio}
+            onOpenLedgerModal={() => handleTabChange('Fence-Folio')}
+            activeChapter={activeChapter}
+            onSelectChapter={setActiveChapter}
+          />
         </div>
       </div>
-
-      {/* Full-bleed dark brown ground strand — grass docks slightly over this line */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 right-0 z-40"
-        style={{
-          height: 8,
-          background: DESIGNER_GROUND_BROWN,
-          boxShadow: '0 -1px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.12)',
-        }}
-      />
     </div>
   )
 }
-
