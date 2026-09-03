@@ -753,14 +753,21 @@
             </div>
           </div>
 
-          <!-- NEW: 104x78 (Exact 4:3 Ratio) with NO height below -->
+          <!-- NEW: 104x78 (Exact 4:3 Ratio) with 2-PASS RENDERING CONTROLS -->
           <div class="panel-box" style="border-top: 4px solid var(--ff-green);">
             <div class="panel-head">
               <div>
-                <div class="panel-title">Canonical 104 × 78 Architecture (Exact 4:3 Ratio · Zero Height Below)</div>
-                <div class="panel-subtitle">Base 96″ × 72″ fence (4:3) · +6″ cap headroom on top · 0″ added below · +8″ width split evenly as 4″ left & 4″ right</div>
+                <div class="panel-title">Canonical 104 × 78 Architecture · Two-Tone & Fastener Test</div>
+                <div class="panel-subtitle">Base 96″ × 72″ fence · Black & Wood Two-Tone · Ornamental Washer Screws on Trim</div>
               </div>
-              <span class="badge-diff diff-match">104 × 78 (4:3)</span>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;">
+                <button class="btn" id="btn-tone-cedar" onclick="setTwoTone('cedar')" style="padding: 4px 8px; font-size: 11px;">Single-Tone Cedar</button>
+                <button class="btn active" id="btn-tone-twotone" onclick="setTwoTone('twotone')" style="padding: 4px 8px; font-size: 11px; border-color: var(--ff-gold); color: var(--ff-gold);">✨ Two-Tone (Black & Wood)</button>
+                <button class="btn" id="btn-washer-toggle" onclick="cycleWashers()" style="padding: 4px 8px; font-size: 11px;">🔩 Washer Screws: Gold</button>
+                <button class="btn active" id="btn-pass-both" onclick="setRenderPass('both')" style="padding: 4px 8px; font-size: 11px;">Combined</button>
+                <button class="btn" id="btn-pass-shells" onclick="setRenderPass('shells')" style="padding: 4px 8px; font-size: 11px;">Pass 1: Shells</button>
+                <button class="btn" id="btn-pass-details" onclick="setRenderPass('details')" style="padding: 4px 8px; font-size: 11px;">Pass 2: Details</button>
+              </div>
             </div>
             <div class="elevation-viewport" id="tightViewport" style="background: #171b22; transition: background 0.3s; padding: 10px;">
               <!-- 104 x 78 EXACT 4:3 Artboard (104 / 78 = 1.3333... == 96 / 72 = 1.3333...) -->
@@ -777,46 +784,101 @@
                   </marker>
                 </defs>
 
-                <!-- Ground Line / Soil Baseline: Sits EXACTLY at bottom edge Y=78 (NO added height below) -->
-                <rect x="0" y="76.375" width="104" height="1.625" fill="#000000"/>
-                <rect x="0" y="76.5625" width="104" height="1.4375" fill="#6a481b"/>
+                <!-- ========================================== -->
+                <!-- PASS 1: STRUCTURAL BLACK SHELL SILHOUETTE  -->
+                <!-- ========================================== -->
+                <g id="pass-1-structural-shells">
+                  <!-- Ground Line Shell (flush bottom Y=78) -->
+                  <rect x="0" y="76.375" width="104" height="1.625" fill="#000000"/>
 
-                <!-- Left Post (x=4.00, y=6.00, w=3.50, h=72.00) -> ends flush at Y=78.00 -->
-                <rect x="4" y="6" width="3.5" height="72" fill="#000000"/>
-                <rect x="4.1875" y="6.1875" width="3.125" height="71.625" fill="#c88254"/>
+                  <!-- Left Post Shell (x=4..7.5, y=6..78) -->
+                  <rect x="4" y="6" width="3.5" height="72" fill="#000000"/>
 
-                <!-- Right Post (x=96.50, y=6.00, w=3.50, h=72.00) -> ends flush at Y=78.00 -->
-                <rect x="96.5" y="6" width="3.5" height="72" fill="#000000"/>
-                <rect x="96.6875" y="6.1875" width="3.125" height="71.625" fill="#c88254"/>
+                  <!-- Right Post Shell (x=96.5..100, y=6..78) -->
+                  <rect x="96.5" y="6" width="3.5" height="72" fill="#000000"/>
 
-                <!-- Rail Cap (x=7.3125, y=6.00, w=89.375, h=1.50) -->
-                <rect x="7.3125" y="6" width="89.375" height="1.5" fill="#000000"/>
-                <rect x="7.5" y="6.1875" width="89" height="1.125" fill="#d49868"/>
+                  <!-- Rail Cap Shell (x=7.3125, y=6, w=89.375, h=1.5) -->
+                  <rect x="7.3125" y="6" width="89.375" height="1.5" fill="#000000"/>
 
-                <!-- Top Rail (x=7.3125, y=7.3125, w=89.375, h=3.50) -->
-                <rect x="7.3125" y="7.3125" width="89.375" height="3.5" fill="#000000"/>
-                <rect x="7.5" y="7.5" width="89" height="3.125" fill="#6c4834"/>
+                  <!-- Top Rail Shell (x=7.3125, y=7.3125, w=89.375, h=3.5) -->
+                  <rect x="7.3125" y="7.3125" width="89.375" height="3.5" fill="#000000"/>
 
-                <!-- Unified Black Shell for Pickets (x=7.3125, y=7.3125, w=89.375, h=69.4375) -->
-                <rect x="7.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
-                <!-- Pickets Fill (Flush down to ground clearance) -->
-                <rect x="7.5" y="7.5" width="89" height="69.06" fill="#c88254"/>
+                  <!-- Unified Picket Bay Shell (x=7.3125, y=7.3125, w=89.375, h=69.4375) -->
+                  <rect x="7.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
 
-                <!-- Bottom Trim (x=7.3125, y=66.00, w=89.375, h=3.50) -->
-                <rect x="7.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
-                <rect x="7.5" y="66.1875" width="89" height="3.125" fill="#c88254"/>
+                  <!-- Bottom Trim Shell (x=7.3125, y=66, w=89.375, h=3.5) -->
+                  <rect x="7.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
 
-                <!-- Post Caps: 4.5" base centered on 3.5" post (overhangs 0.5" each side), 5" rise into Y=1..6 -->
-                <!-- Left Cap: center x=5.75 -> base x=3.50..8.00 -->
-                <path d="M 3.5 6 L 3.5 4.5 L 5.75 1.5 L 8.0 4.5 L 8.0 6 Z" fill="#000000"/>
-                <path d="M 3.6875 5.8125 L 3.6875 4.6 L 5.75 1.8 L 7.8125 4.6 L 7.8125 5.8125 Z" fill="#e5a93c"/>
+                  <!-- Left Post Cap Shell (x=3.5..8.0, y=1.5..6) -->
+                  <path d="M 3.5 6 L 3.5 4.5 L 5.75 1.5 L 8.0 4.5 L 8.0 6 Z" fill="#000000"/>
 
-                <!-- Right Cap: center x=98.25 -> base x=96.00..100.50 -->
-                <path d="M 96.0 6 L 96.0 4.5 L 98.25 1.5 L 100.5 4.5 L 100.5 6 Z" fill="#000000"/>
-                <path d="M 96.1875 5.8125 L 96.1875 4.6 L 98.25 1.8 L 100.3125 4.6 L 100.3125 5.8125 Z" fill="#e5a93c"/>
+                  <!-- Right Post Cap Shell (x=96.0..100.5, y=1.5..6) -->
+                  <path d="M 96.0 6 L 96.0 4.5 L 98.25 1.5 L 100.5 4.5 L 100.5 6 Z" fill="#000000"/>
+                </g>
 
-                <!-- Subtle botanical grass blades at bottom boundary Y=78 -->
-                <path d="M 0 78 Q 8 75.5 16 78 Q 30 75.5 45 78 Q 65 75.5 80 78 Q 92 75.5 104 78 Z" fill="#227e1f"/>
+                <!-- ========================================== -->
+                <!-- PASS 2: COLOR, TEXTURE & DETAILING LAYER   -->
+                <!-- ========================================== -->
+                <g id="pass-2-surface-details">
+                  <!-- Ground Soil Fill -->
+                  <rect x="0" y="76.5625" width="104" height="1.4375" fill="#6a481b"/>
+
+                  <!-- Left Post Wood Fill -->
+                  <rect id="wood-post-left" class="tone-frame" x="4.1875" y="6.1875" width="3.125" height="71.625" fill="#262524"/>
+
+                  <!-- Right Post Wood Fill -->
+                  <rect id="wood-post-right" class="tone-frame" x="96.6875" y="6.1875" width="3.125" height="71.625" fill="#262524"/>
+
+                  <!-- Rail Cap Inset Wood Fill -->
+                  <rect id="wood-rail-cap" class="tone-trim" x="7.5" y="6.1875" width="89" height="1.125" fill="#32302d"/>
+
+                  <!-- Top Rail Inset Wood Fill -->
+                  <rect id="wood-top-rail" class="tone-frame" x="7.5" y="7.5" width="89" height="3.125" fill="#262524"/>
+
+                  <!-- Pickets Inset Wood Fill (Natural Warm Honey Cedar in Two-Tone) -->
+                  <rect id="wood-pickets" class="tone-pickets" x="7.5" y="7.5" width="89" height="69.06" fill="#c88254"/>
+
+                  <!-- Bottom Trim Inset Wood Fill -->
+                  <rect id="wood-bottom-trim" class="tone-trim" x="7.5" y="66.1875" width="89" height="3.125" fill="#32302d"/>
+
+                  <!-- Left Post Cap Inset Wood Detail -->
+                  <path id="wood-cap-left" class="tone-caps" d="M 3.6875 5.8125 L 3.6875 4.6 L 5.75 1.8 L 7.8125 4.6 L 7.8125 5.8125 Z" fill="#1b1a19"/>
+
+                  <!-- Right Post Cap Inset Wood Detail -->
+                  <path id="wood-cap-right" class="tone-caps" d="M 96.1875 5.8125 L 96.1875 4.6 L 98.25 1.8 L 100.3125 4.6 L 100.3125 5.8125 Z" fill="#1b1a19"/>
+
+                  <!-- ============================================== -->
+                  <!-- FORK C: ORNAMENTAL WASHER-HEAD SCREWS ON TRIM  -->
+                  <!-- ============================================== -->
+                  <g id="ornamental-washers-trim">
+                    <!-- Top Trim Washer Screws (Y=6.75 on Cap & Y=9.0 on Top Rail) -->
+                    <!-- Spaced across the 89" bay every 11" -->
+                    <g fill="#d97706" stroke="#000000" stroke-width="0.08" class="washer-dot">
+                      <circle cx="12" cy="6.75" r="0.28"/><circle cx="12" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="23" cy="6.75" r="0.28"/><circle cx="23" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="34" cy="6.75" r="0.28"/><circle cx="34" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="45" cy="6.75" r="0.28"/><circle cx="45" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="56" cy="6.75" r="0.28"/><circle cx="56" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="67" cy="6.75" r="0.28"/><circle cx="67" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="78" cy="6.75" r="0.28"/><circle cx="78" cy="6.75" r="0.1" fill="#78350f"/>
+                      <circle cx="89" cy="6.75" r="0.28"/><circle cx="89" cy="6.75" r="0.1" fill="#78350f"/>
+                    </g>
+                    <!-- Bottom Trim Washer Screws (Y=67.75) -->
+                    <g fill="#d97706" stroke="#000000" stroke-width="0.08" class="washer-dot">
+                      <circle cx="12" cy="67.75" r="0.28"/><circle cx="12" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="23" cy="67.75" r="0.28"/><circle cx="23" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="34" cy="67.75" r="0.28"/><circle cx="34" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="45" cy="67.75" r="0.28"/><circle cx="45" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="56" cy="67.75" r="0.28"/><circle cx="56" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="67" cy="67.75" r="0.28"/><circle cx="67" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="78" cy="67.75" r="0.28"/><circle cx="78" cy="67.75" r="0.1" fill="#78350f"/>
+                      <circle cx="89" cy="67.75" r="0.28"/><circle cx="89" cy="67.75" r="0.1" fill="#78350f"/>
+                    </g>
+                  </g>
+
+                  <!-- Botanical Grass Detail at Y=78 -->
+                  <path d="M 0 78 Q 8 75.5 16 78 Q 30 75.5 45 78 Q 65 75.5 80 78 Q 92 75.5 104 78 Z" fill="#227e1f"/>
+                </g>
 
                 <!-- HUD DIMENSION RULERS & ANNOTATIONS -->
                 <g id="hud-rulers" font-family="monospace" font-size="2.2" font-weight="700">
@@ -874,6 +936,91 @@
 
     function setTightBg(color) {
       document.getElementById('tightViewport').style.background = color;
+    }
+
+    let currentWasherMode = 'gold';
+    const washerModes = ['gold', 'black', 'none'];
+
+    function cycleWashers() {
+      const idx = washerModes.indexOf(currentWasherMode);
+      currentWasherMode = washerModes[(idx + 1) % washerModes.length];
+      applyWasherStyle();
+    }
+
+    function applyWasherStyle() {
+      const btn = document.getElementById('btn-washer-toggle');
+      const g = document.getElementById('ornamental-washers-trim');
+      if (!g) return;
+
+      if (currentWasherMode === 'none') {
+        g.style.display = 'none';
+        btn.textContent = '🔩 Fasteners: Concealed';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      } else if (currentWasherMode === 'gold') {
+        g.style.display = '';
+        btn.textContent = '🔩 Washer Screws: Gold';
+        btn.style.borderColor = 'var(--ff-gold)';
+        btn.style.color = 'var(--ff-gold)';
+        g.querySelectorAll('.washer-dot').forEach(el => {
+          el.setAttribute('fill', '#d97706');
+          el.setAttribute('stroke', '#000000');
+        });
+      } else if (currentWasherMode === 'black') {
+        g.style.display = '';
+        btn.textContent = '🔩 Washer Screws: Black';
+        btn.style.borderColor = '#9ca3af';
+        btn.style.color = '#fff';
+        g.querySelectorAll('.washer-dot').forEach(el => {
+          el.setAttribute('fill', '#111827');
+          el.setAttribute('stroke', '#4b5563');
+        });
+      }
+    }
+
+    function setTwoTone(mode) {
+      document.getElementById('btn-tone-cedar').classList.toggle('active', mode === 'cedar');
+      document.getElementById('btn-tone-twotone').classList.toggle('active', mode === 'twotone');
+
+      const frameEls = document.querySelectorAll('.tone-frame');
+      const trimEls = document.querySelectorAll('.tone-trim');
+      const capEls = document.querySelectorAll('.tone-caps');
+      const picketEls = document.querySelectorAll('.tone-pickets');
+
+      if (mode === 'twotone') {
+        // Modern Two-Tone: Architectural Black framing & trim, Honey Cedar pickets
+        frameEls.forEach(el => el.setAttribute('fill', '#262524'));
+        trimEls.forEach(el => el.setAttribute('fill', '#32302d'));
+        capEls.forEach(el => el.setAttribute('fill', '#1b1a19'));
+        picketEls.forEach(el => el.setAttribute('fill', '#c88254'));
+      } else {
+        // Single-Tone Cedar: Warm wood across all members
+        frameEls.forEach(el => el.setAttribute('fill', '#c88254'));
+        trimEls.forEach(el => el.setAttribute('fill', '#d49868'));
+        capEls.forEach(el => el.setAttribute('fill', '#e5a93c'));
+        picketEls.forEach(el => el.setAttribute('fill', '#c88254'));
+      }
+    }
+
+    function setRenderPass(mode) {
+      ['both', 'shells', 'details'].forEach(m => {
+        const btn = document.getElementById('btn-pass-' + m);
+        if (btn) btn.classList.toggle('active', m === mode);
+      });
+
+      const shells = document.getElementById('pass-1-structural-shells');
+      const details = document.getElementById('pass-2-surface-details');
+
+      if (mode === 'both') {
+        shells.style.display = '';
+        details.style.display = '';
+      } else if (mode === 'shells') {
+        shells.style.display = '';
+        details.style.display = 'none';
+      } else if (mode === 'details') {
+        shells.style.display = 'none';
+        details.style.display = '';
+      }
     }
   </script>
 </body>
