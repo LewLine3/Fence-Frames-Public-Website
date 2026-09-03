@@ -8,30 +8,6 @@ export function SiteFooterElem() {
     <footer className={styles.footer}>
       <div className={styles.grid}>
         <div className={styles.brandCol}>
-          <a href="/" className={styles.brandLink}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={BRAND_ASSETS.logo}
-              alt=""
-              width={52}
-              height={52}
-              style={{
-                width: 52,
-                height: 52,
-                objectFit: "contain",
-                filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.5))",
-                flexShrink: 0,
-              }}
-            />
-            <span className={styles.brandName}>
-              <span style={{ color: "#4ADE80" }}>Fence</span>&nbsp;
-              <span style={{ color: "#E5B842" }}>Frames</span>
-            </span>
-          </a>
-          <p className={styles.tagline}>
-            Build-phase site map — every page linked below while routes are in active development.
-          </p>
-
           <div className={styles.signupRow}>
             <a href="/auth-gate" className={`${styles.signupBtn} ${styles.signupFounder}`}>
               <span className={styles.signupMain}>Sign Up as {ACCOUNT_ROLES.founder.name}</span>
@@ -69,7 +45,21 @@ export function SiteFooterElem() {
       </div>
 
       <div className={styles.bottom}>
-        <span>© 2026 Fence Frames · Build sitemap footer</span>
+        <a href="/" className={styles.bottomBrand}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={BRAND_ASSETS.logo}
+            alt=""
+            width={28}
+            height={28}
+          />
+          <span className={styles.bottomBrandName}>
+            <span style={{ color: "#4ADE80" }}>Fence</span>
+            &nbsp;
+            <span style={{ color: "#E5B842" }}>Frames</span>
+          </span>
+          <span className={styles.bottomCopy}>© 2026</span>
+        </a>
         <span>King County, WA</span>
       </div>
     </footer>
