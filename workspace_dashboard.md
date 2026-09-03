@@ -23,11 +23,13 @@ tags: [supabase, components, heritage, pilot, catalog, pricing]
 2. [`20260903000002_batch1_heritage_components.sql`](file:///d:/Lew-Line-Workspaces/FenceBook/supabase/migrations/20260903000002_batch1_heritage_components.sql) — Batch 1 Heritage V1 full component suite & 4-vendor pricing
 3. [`upload-batch1-svgs.mjs`](file:///d:/Lew-Line-Workspaces/FenceBook/scripts/upload-batch1-svgs.mjs) — Automated SVG uploader to Supabase Storage
 4. [`batch1-component-test-studio.html`](file:///d:/Lew-Line-Workspaces/FenceBook/assets/fence-svg/batch1-component-test-studio.html) — Interactive component tester with live SVG elevation & canonical quote math
+5. [`fence-folio-blueprint-prototype.html`](file:///d:/Lew-Line-Workspaces/FenceBook/assets/fence-svg/fence-folio-blueprint-prototype.html) — Single scrollable 4-sheet architectural plan set (A1 Elevation, S1 Framing & Fasteners X-Ray, D1 Dimensions, B1 BOM Takeoff with 33.33% fastener waste & discrete labor)
 
 ## Sync & Deployment Status
-- **FenceBook**: `main` branch up-to-date (`7c56be4`) pushed to GitHub.
-- **Fence-Frames-Public-Website**: Both `staging` and `main` branches up-to-date (`7690edd`) pushed to GitHub. Next.js production build verified (25/25 routes).
-- **Public Studio Route**: `https://<public-domain>/batch1-component-test-studio.html` or `http://localhost:3000/batch1-component-test-studio.html`.
+- **FenceBook**: `main` branch up-to-date (`bf50dc0`) pushed to GitHub.
+- **Fence-Frames-Public-Website**: Both `staging` and `main` branches up-to-date (`861c143`) pushed to GitHub.
+- **Design**: `main` branch up-to-date (`7e67db3`) pushed to GitHub.
+- **Public Prototype Route**: `http://localhost:8080/fence-folio-blueprint-prototype.html` or `http://localhost:3000/fence-folio-blueprint-prototype.html`.
 
 ## Deployment Pipeline Protocol (Standard Operating Law)
 For all component batches, schemas, and configurator enhancements:
@@ -49,6 +51,9 @@ Codified in `.agents/AGENTS.md`:
   - `6.00″ → 78.00″`: **$72.00″$ Fence Height** ($6\text{ ft}$ panel). Post tops & rail cap sit at $Y = 6.00″$; bottom of posts, trim, and pickets reach ground baseline at $Y = 78.00″$.
   - `Y = 78.00″`: **Ground Baseline**. Absolute bottom of canvas; **zero added height below**.
 - **The Shell Law**: All dimensional coordinates measure to the outer edge of the component black shell (`#000000`). Inner wood fills are inset by $0.1875″$ ($3/16″$). No SVG strokes used for geometry.
+- **2-Pass Rendering Architecture (Shells → Details)**:
+  - **Pass 1 (Structural Silhouette)**: All black shells render together, merging overlapping joints into a solid frame without collision lines.
+  - **Pass 2 (Surface & Color Details)**: Inset wood fills, wood grain/knots, and hardware fasteners render in place. Two-Tone (black frame + honey cedar pickets) is natively supported by separating framing shells from picket details.
 
 ## Next Pilot Batch
 - **Batch 2:** Horizontal Fence (HF) — Rancher (`HSB-RNCH`), Homesteader (`HSB-HMST`), & Horizontal Picket (`HPF-HPKT`)
