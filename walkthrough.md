@@ -1,12 +1,27 @@
 ---
-title: "Walkthrough — Tier-1 HTML-first session"
+title: "Walkthrough — Frame hub + prior sessions"
 type: reference
 category: fence-frames
-updated: 2026-08-26
-tags: [walkthrough, tier-1, auth-gate]
+updated: 2026-09-03
+tags: [walkthrough, frame, hub]
 ---
 
 # Walkthrough
+
+## 2026-09-03 — Frame hub: drop comparison fluff
+
+- Removed comparison matrix (2D CAD / timing / slider fluff).
+- Folded “best for” + plain bullets into Catalog / Designer / Wizard cards; larger previews.
+- No bottom fluff row — pathway cards carry the useful bits only.
+
+## 2026-09-03 — Frame hub layout (catalog up)
+
+- Reworked [`app/frame/page.tsx`](app/frame/page.tsx) so it no longer mirrors the homepage 3-equal-card grid.
+- **Top row:** guidance plate (start with Catalog → Designer/Wizard or Fence-Folio) + Catalog card.
+- **Bottom row:** Designer + Wizard at full half-width each.
+- Fixed main-card padding (removed oversized `p-6/sm:p-10` + clipped `overflow-hidden` on cornered plates).
+- Dropped unused style-filter chips and comparison matrix for a cleaner hub.
+- Responsive stack via `.frame-hub-top` / `.frame-hub-tools` in `styles/ff-overrides.css`.
 
 ## 2026-08-26 — Session start (ROXY starter)
 

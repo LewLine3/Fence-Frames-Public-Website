@@ -6,6 +6,8 @@ const rowdies = (weight: 300 | 400 | 700) => ({
 type ShoppingCard = {
   href: string
   ribbon: string
+  ribbonBg: string
+  ribbonColor: string
   imgBg: string
   img: string
   imgFit: "cover" | "contain"
@@ -24,6 +26,8 @@ const cards: ShoppingCard[] = [
   {
     href: "/catalog",
     ribbon: "Browse Styles",
+    ribbonBg: "var(--forest-bright)",
+    ribbonColor: "var(--ink)",
     imgBg: "var(--forest-bright)",
     img: "/images/user-uploads/media_1787002208257.png",
     imgFit: "cover",
@@ -40,6 +44,8 @@ const cards: ShoppingCard[] = [
   {
     href: "/designer",
     ribbon: "Build Freely",
+    ribbonBg: "var(--ink)",
+    ribbonColor: "var(--gold-sun)",
     imgBg: "var(--ink)",
     img: "/images/user-uploads/media_1787002299587.png",
     imgFit: "contain",
@@ -51,12 +57,14 @@ const cards: ShoppingCard[] = [
     title: "Designer",
     titleColor: "#F27A22",
     copy: "Open the live canvas and customize materials, styles, and features with real-time cost as you go.",
-    cornerA: "tl c-gold",
+    cornerA: "tl c-black",
     cornerB: "br c-orange",
   },
   {
     href: "/wizard",
     ribbon: "Guided Details",
+    ribbonBg: "var(--forest-bright)",
+    ribbonColor: "var(--ink)",
     imgBg: "var(--ink)",
     img: "/images/tool-wizard-guided.jpg",
     imgFit: "cover",
@@ -182,8 +190,8 @@ export function FrameIt() {
 
             <div
               style={{
-                background: "var(--gold-sun)",
-                color: "var(--ink)",
+                background: c.ribbonBg,
+                color: c.ribbonColor,
                 padding: "0.6rem 1rem",
                 borderBottom: "2.5px solid var(--ink)",
                 ...rowdies(700),

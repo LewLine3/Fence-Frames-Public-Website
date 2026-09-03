@@ -1,12 +1,25 @@
-# Workspace Dashboard — Auth Gate v2
+---
+title: "Workspace Dashboard — Frame Hub Layout"
+type: dashboard
+category: fence-frames
+updated: 2026-09-03
+tags: [frame, hub, catalog, designer, wizard]
+---
 
-**Focus:** CORE-02 Auth Gate with universal header, grid ground, Accounts dropdown
+# Workspace Dashboard — Frame Hub
+
+**Focus:** `/frame` pathway hub — catalog shares top row; designer + wizard wider below
 
 ## Live
-- [http://localhost:3000/auth-gate](http://localhost:3000/auth-gate)
-- Source: [`app/auth-gate/page.tsx`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/auth-gate/page.tsx)
+- [http://localhost:3000/frame](http://localhost:3000/frame)
+- Source: [`app/frame/page.tsx`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/frame/page.tsx)
+- Layout CSS: [`styles/ff-overrides.css`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/styles/ff-overrides.css) (`.frame-hub-top`, `.frame-hub-tools`)
 
-## Status
-- **Preflight Studio & Demos:** Fully patched for local file protocol (`file:///`) and localhost server (`http://localhost:8080`).
-- **Offline Fallbacks & Safeguards:** Drive-root jump prevented; preview iframe fallback loaded.
+## Layout
+1. **Top row:** Intro guidance plate + Catalog card (start here)
+2. **Bottom row:** Designer | Wizard (equal wide half-span)
+3. Copy steers users to Catalog → refine → Designer/Wizard or Fence-Folio + contractor
 
+## Related
+- Design rules: [design-system-guide.html](http://localhost:8080/design-system-guide.html)
+- Walkthrough: [`walkthrough.md`](file:///D:/Lew-Line-Workspaces/Fence-Frames-Public-Website/walkthrough.md)
