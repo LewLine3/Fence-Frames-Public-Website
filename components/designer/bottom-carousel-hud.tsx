@@ -41,9 +41,9 @@ const FOREST = '#16432D'
 const EMBER = '#C2622D'
 const WOOD_TX = '/images/textures/trial-planks-knots.png'
 
-/** ~1 full card + two peeking neighbors (2–3 visible). */
+/** ~1 full card + two peeking neighbors (2–3 visible). All corners rounded. */
 const SLIDE =
-  'w-[42%] min-w-[360px] max-w-[560px] h-[188px] shrink-0 rounded-md overflow-hidden flex flex-col relative border-[2px] border-[#1A1A1A]'
+  'w-[42%] min-w-[360px] max-w-[560px] h-[188px] shrink-0 rounded-2xl overflow-hidden flex flex-col relative border-[2px] border-[#1A1A1A]'
 
 const hatchGold: React.CSSProperties = {
   backgroundColor: GOLD,
@@ -82,21 +82,17 @@ function GoldBadge({ children }: { children: React.ReactNode }) {
 
 function TitleBar({
   tone,
-  tab,
   children,
 }: {
-  tone: 'ink' | 'gold'
-  tab?: boolean
+  tone: 'ink' | 'gold' | 'forest'
   children: React.ReactNode
 }) {
+  const bg = tone === 'ink' ? INK : tone === 'forest' ? FOREST : GOLD
+  const fg = tone === 'gold' ? INK : tone === 'forest' ? IVORY : GOLD
   return (
     <div
       className="flex items-center justify-between px-3 py-1.5 flex-shrink-0 border-b-2 border-[#1A1A1A]"
-      style={{
-        background: tone === 'ink' ? INK : GOLD,
-        color: tone === 'ink' ? GOLD : INK,
-        clipPath: tab ? 'polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 8px)' : undefined,
-      }}
+      style={{ background: bg, color: fg }}
     >
       {children}
     </div>
@@ -113,9 +109,22 @@ function EmberCorner() {
   )
 }
 
-function OverlayPlate({ children }: { children: React.ReactNode }) {
+function OverlayPlate({
+  children,
+  light,
+}: {
+  children: React.ReactNode
+  light?: boolean
+}) {
   return (
-    <div className="mt-auto mx-2.5 mb-2.5 rounded-lg border border-black/50 bg-[#141B16]/94 px-3 py-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.35)]">
+    <div
+      className={cn(
+        'mt-auto mx-2.5 mb-2.5 rounded-xl border px-3 py-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.28)]',
+        light
+          ? 'border-[#1A1A1A]/40 bg-[#FAF6EE]/95'
+          : 'border-black/50 bg-[#141B16]/94',
+      )}
+    >
       {children}
     </div>
   )
@@ -220,7 +229,7 @@ export function BottomCarouselHud({
   }
 
   const chevronClass =
-    'hidden sm:flex w-8 h-[188px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-md items-center justify-center text-[11px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer'
+    'hidden sm:flex w-8 h-[188px] bg-[#3D2414] hover:bg-[#5C4030] text-white/80 hover:text-white border-2 border-[#8B7355] rounded-2xl items-center justify-center text-[11px] transition flex-shrink-0 shadow-[3px_3px_0_#1A1A1A] cursor-pointer'
 
   return (
     <footer
@@ -345,21 +354,21 @@ export function BottomCarouselHud({
                     boxShadow: card.selected ? `3px 3px 0 ${INK}, 0 0 0 2px ${GOLD}` : `3px 3px 0 ${INK}`,
                   }}
                 >
-                  <TitleBar tone="gold">
+                  <TitleBar tone="forest">
                     <span className="font-bold text-[13px] truncate">{card.title}</span>
                     {card.cost ? (
                       <span className="text-[10px] font-bold shrink-0 ml-2">{card.cost}</span>
                     ) : null}
                   </TitleBar>
 
-                  <OverlayPlate>
+                  <OverlayPlate light>
                     <GoldBadge>
                       {card.selected ? 'Active' : 'Select'} · {card.subtitle || card.title}
                     </GoldBadge>
-                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: GOLD }}>
+                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: FOREST }}>
                       {card.title}
                     </div>
-                    <p className="mt-0.5 text-[11px] font-light leading-snug text-white/90 line-clamp-2">
+                    <p className="mt-0.5 text-[11px] font-light leading-snug text-[#383B3E] line-clamp-2">
                       {card.description}
                     </p>
                   </OverlayPlate>
@@ -403,29 +412,29 @@ export function BottomCarouselHud({
                   className={SLIDE}
                   style={{ ...timberGrain, boxShadow: '3px 3px 0 #1A1A1A' }}
                 >
-                  <TitleBar tone="gold" tab>
+                  <TitleBar tone="forest">
                     <span className="font-bold text-[13px]">Folio &amp; 3-Bid</span>
                     <span className="text-[9px] font-bold uppercase">Ready</span>
                   </TitleBar>
-                  <OverlayPlate>
+                  <OverlayPlate light>
                     <GoldBadge>Dispatch · Fence-Folio</GoldBadge>
-                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: GOLD }}>
+                    <div className="mt-1 font-bold text-[16px] leading-tight" style={{ color: FOREST }}>
                       Open Fence-Folio
                     </div>
-                    <p className="mt-0.5 text-[11px] font-light text-white/90">
+                    <p className="mt-0.5 text-[11px] font-light text-[#383B3E]">
                       Lock the takeoff and get 3 matched bids. 72-hr refund · ARC ready.
                     </p>
                     <div className="mt-2 flex items-center gap-1.5">
                       <button
                         onClick={onResetDefaults}
-                        className="px-2 py-1 bg-white/10 hover:bg-white/20 text-white text-[11px] rounded border border-white/25"
+                        className="px-2 py-1 bg-black/5 hover:bg-black/10 text-[#1A1A1A] text-[11px] rounded-xl border border-[#1A1A1A]/25"
                         title="Reset 8 LF"
                       >
                         ↺
                       </button>
                       <button
                         onClick={onSaveToFolio}
-                        className="flex-1 rounded bg-[#D9B872] hover:bg-[#E5B842] text-[#1A1A1A] font-bold text-[12px] py-1.5 border-2 border-[#1A1A1A]"
+                        className="flex-1 rounded-xl bg-[#D9B872] hover:bg-[#E5B842] text-[#1A1A1A] font-bold text-[12px] py-1.5 border-2 border-[#1A1A1A]"
                       >
                         Save to Folio →
                       </button>

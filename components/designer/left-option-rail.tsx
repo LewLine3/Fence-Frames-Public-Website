@@ -21,29 +21,132 @@ interface LeftOptionRailProps {
 
 export { CHAPTERS, getChapterCostMetric }
 
-/** Dark brown + light tan cycle on the green rail. */
-const MENU_TONES = [
-  {
-    id: 'brown',
-    background: 'linear-gradient(180deg, #5C4030 0%, #3D2414 100%)',
-    border: '#3D2414',
-    label: '#FFFFFF',
-    sub: 'rgba(255,255,255,0.75)',
-    chipBorder: 'rgba(196,165,116,0.45)',
-  },
-  {
-    id: 'tan',
-    background: 'linear-gradient(180deg, #E8D4BC 0%, #DCC4A4 100%)',
-    border: '#8B7355',
-    label: '#1A1A1A',
-    sub: 'rgba(26,26,26,0.65)',
-    chipBorder: 'rgba(61,36,20,0.35)',
-  },
-] as const
+const GOLD = '#D9B872'
+const INK = '#1A1A1A'
+const FOREST = '#1B4332'
+const FOREST_DEEP = '#16432D'
+const WOOD_TX = '/images/textures/trial-planks-knots.png'
 
-function menuToneForChapter(num: string) {
+type ChapterSkin = {
+  id: string
+  headerBg: string
+  headerFg: string
+  body: React.CSSProperties
+  titleColor: string
+  subColor: string
+  useOverlay?: boolean
+}
+
+/** Inventory-lab skins for vertical option cards (cycles by chapter #). */
+const CHAPTER_SKINS: ChapterSkin[] = [
+  {
+    id: 'woodPlanks',
+    headerBg: FOREST,
+    headerFg: '#FAF6EE',
+    body: {
+      backgroundColor: '#E8DCC8',
+      backgroundImage: `linear-gradient(rgba(232,220,200,0.55), rgba(232,220,200,0.55)), url('${WOOD_TX}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    titleColor: FOREST_DEEP,
+    subColor: 'rgba(22,67,45,0.75)',
+  },
+  {
+    id: 'tanBlackGrid',
+    headerBg: FOREST,
+    headerFg: '#FAF6EE',
+    body: {
+      backgroundColor: '#E8DCC8',
+      backgroundImage:
+        'linear-gradient(rgba(26,26,26,0.18) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(26,26,26,0.18) 1.5px, transparent 1.5px)',
+      backgroundSize: '28px 28px',
+    },
+    titleColor: FOREST_DEEP,
+    subColor: 'rgba(22,67,45,0.75)',
+  },
+  {
+    id: 'hatchCream',
+    headerBg: FOREST,
+    headerFg: '#FAF6EE',
+    body: {
+      backgroundColor: '#FAF6EE',
+      backgroundImage:
+        'repeating-linear-gradient(45deg, rgba(22,67,45,0.12) 0px, rgba(22,67,45,0.12) 1.5px, transparent 1.5px, transparent 10px)',
+    },
+    titleColor: FOREST_DEEP,
+    subColor: 'rgba(22,67,45,0.75)',
+  },
+  {
+    id: 'doublePlank',
+    headerBg: FOREST,
+    headerFg: '#FAF6EE',
+    body: {
+      backgroundColor: '#D8C7A5',
+      backgroundImage:
+        'repeating-linear-gradient(0deg, rgba(26,26,26,0.16) 0px, rgba(26,26,26,0.16) 2px, transparent 2px, transparent 28px)',
+    },
+    titleColor: FOREST_DEEP,
+    subColor: 'rgba(22,67,45,0.75)',
+  },
+  {
+    id: 'hatchGold',
+    headerBg: INK,
+    headerFg: GOLD,
+    body: {
+      backgroundColor: GOLD,
+      backgroundImage:
+        'repeating-linear-gradient(-45deg, rgba(26,26,26,0.12) 0px, rgba(26,26,26,0.12) 1.5px, transparent 1.5px, transparent 10px)',
+    },
+    titleColor: '#FFFFFF',
+    subColor: 'rgba(26,26,26,0.7)',
+  },
+  {
+    id: 'overlayWood',
+    headerBg: FOREST,
+    headerFg: '#FAF6EE',
+    body: {
+      backgroundColor: '#6B4A2E',
+      backgroundImage: `url('${WOOD_TX}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    titleColor: FOREST_DEEP,
+    subColor: 'rgba(56,59,62,0.85)',
+    useOverlay: true,
+  },
+  {
+    id: 'majorForest',
+    headerBg: GOLD,
+    headerFg: INK,
+    body: {
+      backgroundColor: FOREST_DEEP,
+      backgroundImage:
+        'linear-gradient(rgba(217,184,114,0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(217,184,114,0.25) 2px, transparent 2px)',
+      backgroundSize: '48px 48px',
+    },
+    titleColor: GOLD,
+    subColor: 'rgba(250,246,238,0.75)',
+  },
+  {
+    id: 'inkOverlayWood',
+    headerBg: INK,
+    headerFg: GOLD,
+    body: {
+      backgroundColor: '#5C3A22',
+      backgroundImage: `linear-gradient(#C8B89A 0 45%, #4A2C1A 45% 100%), url('${WOOD_TX}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    titleColor: INK,
+    subColor: 'rgba(56,59,62,0.85)',
+    useOverlay: true,
+  },
+]
+
+function skinForChapter(num: string): ChapterSkin {
   const n = Math.max(1, parseInt(num, 10) || 1)
-  return MENU_TONES[(n - 1) % MENU_TONES.length]
+  return CHAPTER_SKINS[(n - 1) % CHAPTER_SKINS.length]
 }
 
 const railShellStyle: React.CSSProperties = {
@@ -72,12 +175,12 @@ export function LeftOptionRail({
     else setInternalActive(id)
   }
 
-  // Infinite loop only on the main chapter list (in-rail drill-in replaces it).
   const { containerRef, tripled, handleScroll } = useInfiniteLoop(CHAPTERS, 'y')
 
   const currentIdx = CHAPTERS.findIndex((c) => c.id === active)
   const prevChapter = currentIdx > 0 ? CHAPTERS[currentIdx - 1].id : null
-  const nextChapter = currentIdx >= 0 && currentIdx < CHAPTERS.length - 1 ? CHAPTERS[currentIdx + 1].id : null
+  const nextChapter =
+    currentIdx >= 0 && currentIdx < CHAPTERS.length - 1 ? CHAPTERS[currentIdx + 1].id : null
   const activeChapterMeta = CHAPTERS.find((c) => c.id === active)
 
   const panelProps = active
@@ -101,7 +204,6 @@ export function LeftOptionRail({
       suppressHydrationWarning
       style={railShellStyle}
     >
-      {/* Header */}
       <div
         className="px-2 lg:px-4 py-3 flex items-center justify-between flex-shrink-0 shadow-md"
         style={{
@@ -113,7 +215,7 @@ export function LeftOptionRail({
         {active ? (
           <button
             onClick={() => setActive(null)}
-            className="flex items-center justify-center w-full gap-2 text-[10px] lg:text-[11px] text-[#FAF6EE] hover:text-[#E5B842] transition font-bold uppercase px-2 py-2 rounded-md border-2 border-[#C4A574]"
+            className="flex items-center justify-center w-full gap-2 text-[10px] lg:text-[11px] text-[#FAF6EE] hover:text-[#E5B842] transition font-bold uppercase px-2 py-2 rounded-xl border-2 border-[#C4A574]"
             style={{ background: 'linear-gradient(180deg, #3D3014 0%, #2A2218 100%)' }}
             title="Return to all options"
           >
@@ -129,7 +231,7 @@ export function LeftOptionRail({
             </span>
             <span className="lg:hidden mx-auto text-[9px] font-bold text-[#E5B842]">OPTS</span>
             <span
-              className="hidden lg:inline text-[9px] text-[#FAF6EE] border-2 border-[#C4A574] px-2 py-0.5 rounded-md font-mono font-bold shadow-[1px_1px_0_#1A1A1A]"
+              className="hidden lg:inline text-[9px] text-[#FAF6EE] border-2 border-[#C4A574] px-2 py-0.5 rounded-full font-mono font-bold shadow-[1px_1px_0_#1A1A1A]"
               style={{ background: 'rgba(0,0,0,0.35)' }}
             >
               01–08 LOOP
@@ -138,13 +240,12 @@ export function LeftOptionRail({
         )}
       </div>
 
-      {/* Scroll body — main menu OR in-rail detail (no side fly-out) */}
       <div
         ref={active ? undefined : containerRef}
         onScroll={active ? undefined : handleScroll}
         className={cn(
           'flex-1 overflow-y-auto overflow-x-hidden no-scrollbar scroll-smooth relative',
-          'px-2 lg:px-4 py-4 lg:py-5',
+          'px-2 lg:px-3 py-4 lg:py-5',
         )}
         style={{
           scrollbarWidth: 'none',
@@ -156,79 +257,104 @@ export function LeftOptionRail({
         }}
       >
         {!active && (
-          <div className="flex flex-col gap-3 lg:gap-4 pb-8">
+          <div className="flex flex-col gap-3 lg:gap-3.5 pb-8">
             {tripled.map((ch, idx) => {
               const costMetric = getChapterCostMetric(ch.id, config)
               const liveValue = getChapterLivePreview(ch.id, config)
-              const tone = menuToneForChapter(ch.num)
+              const skin = skinForChapter(ch.num)
 
               return (
                 <button
                   key={`${ch.id}-${idx}`}
                   onClick={() => setActive(ch.id)}
                   className={cn(
-                    'w-full rounded-xl text-left transition-all duration-200 flex flex-col justify-between cursor-pointer group',
-                    'min-h-[64px] lg:min-h-[100px] gap-2 lg:gap-3 hover:-translate-y-0.5',
+                    'w-full text-left transition-all duration-200 cursor-pointer group overflow-hidden',
+                    'rounded-2xl border-2 border-[#1A1A1A]',
+                    'min-h-[72px] lg:min-h-[132px]',
+                    'hover:-translate-y-0.5',
                   )}
                   style={{
-                    background: tone.background,
-                    border: `2px solid ${tone.border}`,
-                    boxShadow: '3px 3px 0 #1A1A1A, inset 0 1px 0 rgba(250,246,238,0.18)',
-                    padding: '0.85rem 0.7rem',
+                    boxShadow: '3px 3px 0 #1A1A1A',
                   }}
                   title={ch.menuLabel}
                 >
                   {/* Compact tablet face */}
-                  <div className="flex lg:hidden flex-col items-center gap-1 text-center">
-                    <span className="font-mono font-bold text-[11px] drop-shadow-sm" style={{ color: tone.label }}>
-                      {ch.num}
-                    </span>
-                    <span className="text-[8px] font-bold uppercase leading-tight" style={{ color: tone.label }}>
-                      {ch.menuLabel.split(' ')[0]}
-                    </span>
-                  </div>
-
-                  {/* Full desktop face */}
-                  <div className="hidden lg:flex items-start gap-3 w-full">
-                    <span className="text-sm leading-none mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 font-bold" style={{ color: tone.label }}>
-                      ▶
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <div
-                        className="text-sm font-bold uppercase tracking-wide leading-tight"
-                        style={{ color: tone.label }}
-                      >
-                        {ch.menuLabel}
-                      </div>
-                      <div className="text-[10px] font-light mt-1 truncate" style={{ color: tone.sub }}>
-                        {ch.label}
-                      </div>
+                  <div
+                    className="flex lg:hidden flex-col items-stretch overflow-hidden rounded-2xl"
+                    style={{ minHeight: 72 }}
+                  >
+                    <div
+                      className="px-1.5 py-1.5 text-center border-b-2 border-[#1A1A1A]"
+                      style={{ background: skin.headerBg, color: skin.headerFg }}
+                    >
+                      <span className="font-mono font-bold text-[11px] block">{ch.num}</span>
                     </div>
-                    <span
-                      className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-[11px] border-2"
-                      style={{
-                        background: 'rgba(0,0,0,0.4)',
-                        color: '#E5B842',
-                        borderColor: tone.chipBorder,
-                      }}
+                    <div
+                      className="flex-1 flex items-center justify-center px-1 py-1.5"
+                      style={skin.body}
                     >
-                      {ch.num}
-                    </span>
+                      <span
+                        className="text-[8px] font-bold uppercase leading-tight text-center"
+                        style={{ color: skin.titleColor }}
+                      >
+                        {ch.menuLabel.split(' ')[0]}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="hidden lg:flex items-center justify-between gap-2 pt-2 border-t border-black/25 w-full">
-                    <span
-                      className="text-[10px] text-[#FAF6EE] font-semibold truncate max-w-[58%] px-2.5 py-1 rounded-md border"
-                      style={{ background: 'rgba(0,0,0,0.35)', borderColor: tone.chipBorder }}
+                  {/* Full desktop face — inventory lab layout */}
+                  <div className="hidden lg:flex flex-col h-full min-h-[132px] overflow-hidden rounded-2xl">
+                    <div
+                      className="flex items-center justify-between px-3 py-2 border-b-2 border-[#1A1A1A] flex-shrink-0"
+                      style={{ background: skin.headerBg, color: skin.headerFg }}
                     >
-                      {liveValue}
-                    </span>
-                    <span
-                      className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border-2 border-[#4ADE80]/50 shrink-0"
-                      style={{ background: '#141B16', color: '#4ADE80' }}
+                      <span className="font-bold uppercase tracking-wide text-[12px] truncate">
+                        {ch.menuLabel}
+                      </span>
+                      <span className="font-mono text-[10px] font-bold opacity-80 shrink-0 ml-2">
+                        #{ch.num}
+                      </span>
+                    </div>
+
+                    <div
+                      className="flex-1 flex flex-col justify-between px-2.5 py-2.5 min-h-0"
+                      style={skin.body}
                     >
-                      {costMetric}
-                    </span>
+                      {skin.useOverlay ? (
+                        <div className="mt-auto rounded-xl border border-[#1A1A1A]/50 bg-[#FAF6EE]/95 px-2.5 py-2 shadow-sm">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#D9B872] px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-[#1A1A1A] border border-[#1A1A1A]/15">
+                            {liveValue}
+                          </span>
+                          <div
+                            className="mt-1 font-bold text-[14px] leading-tight truncate"
+                            style={{ color: skin.titleColor }}
+                          >
+                            {ch.label}
+                          </div>
+                          <div className="mt-0.5 text-[10px] font-light truncate" style={{ color: skin.subColor }}>
+                            {costMetric}
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <span className="inline-flex self-start items-center gap-1 rounded-full bg-[#D9B872] px-2.5 py-0.5 text-[8px] font-bold uppercase tracking-wide text-[#1A1A1A] border border-[#1A1A1A]/15">
+                            {liveValue} · {costMetric}
+                          </span>
+                          <div
+                            className="mt-2 font-bold text-[15px] leading-tight"
+                            style={{ color: skin.titleColor }}
+                          >
+                            {ch.label}
+                          </div>
+                          <div
+                            className="mt-0.5 text-[10px] font-light truncate"
+                            style={{ color: skin.subColor }}
+                          >
+                            {ch.preview}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </button>
               )
@@ -236,11 +362,9 @@ export function LeftOptionRail({
           </div>
         )}
 
-        {/* In-rail detail menu (replaces main list) */}
         {panelProps && <ChapterConfigPanel {...panelProps} />}
       </div>
 
-      {/* Studio hub */}
       <div
         className="p-2 lg:p-3 flex flex-col gap-1.5 flex-shrink-0 z-10"
         style={{
@@ -250,7 +374,7 @@ export function LeftOptionRail({
         }}
       >
         <div className="flex items-center gap-2 justify-center lg:justify-start">
-          <div className="w-6 h-6 rounded-[4px] bg-[#E5B842] text-[#141B16] flex items-center justify-center font-bold text-xs shadow">
+          <div className="w-6 h-6 rounded-xl bg-[#E5B842] text-[#141B16] flex items-center justify-center font-bold text-xs shadow">
             FF
           </div>
           <div className="hidden lg:block">
