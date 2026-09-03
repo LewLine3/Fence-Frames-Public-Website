@@ -52,7 +52,7 @@ export default function DesignerPage() {
   const [elevationMode, setElevationMode] = useState<ElevationMode>('front')
   const [zoomPercent, setZoomPercent] = useState<number>(100)
   const [activeChapter, setActiveChapter] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<ViewTab>('2D Canvas')
+  const [activeTab, setActiveTab] = useState<ViewTab>('Design')
 
   useEffect(() => {
     setIsMounted(true)
@@ -83,7 +83,7 @@ export default function DesignerPage() {
 
   const handleTabChange = (tab: ViewTab) => {
     setActiveTab(tab)
-    if (tab === 'Blueprint' || tab === 'Ledger') {
+    if (tab === 'Fence-Folio') {
       router.push('/blueprint')
     }
   }
@@ -137,7 +137,7 @@ export default function DesignerPage() {
               onChange={handleConfigChange}
               onResetDefaults={handleResetDefaults}
               onSaveToFolio={handleSaveToFolio}
-              onOpenLedgerModal={() => handleTabChange('Blueprint')}
+              onOpenLedgerModal={() => handleTabChange('Fence-Folio')}
               activeChapter={activeChapter}
               onSelectChapter={setActiveChapter}
             />

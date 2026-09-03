@@ -1,7 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import Link from "next/link"
 import { useModals } from "./modal-provider"
+import { HERITAGE_8LF_DEMO, folioMaterialQuantities } from "@/lib/folio-demo-config"
+import { calculateBaselineFenceQuote } from "@/lib/pricing-engine"
 
 const rowdies = (weight: 300 | 400 | 700) => ({
   fontFamily: "'Rowdies', sans-serif",
@@ -19,54 +22,85 @@ const greenPrintGrid = {
   backgroundPosition: "0 0, 0 0, 0 0, 0 0, center",
 } as const
 
-const folioChapters = [
-  {
-    tab: "1. Cover",
-    title: "Heritage Cedar — 6' Privacy",
-    sheet: "SHEET A-01 — FRONT SHOWCASE — SI VIEW",
-    price: "$42–$57",
-    img: "/images/catalog-vpf-natural.svg",
-  },
-  {
-    tab: "2. Community",
-    title: "Si View ARC Rules & Height Caps",
-    sheet: "SHEET A-02 — COMMUNITY GUIDELINE — SEC 4.1",
-    price: "ARC PRE-APPROVED",
-    img: "/images/Holographic fence icons/Find-it-Holographic-Map-Pin.png",
-  },
-  {
-    tab: "3. Materials",
-    title: "Clear WRC & Galvanized Takeoff",
-    sheet: "SHEET M-01 — MATERIAL PREVIEW",
-    price: "$2,640 EST. MATS",
-    img: "/images/real-fences-structures/2508-Redwood-Stained-Heritage-Picket-Fence-Maple-Valley-Wa (9)-Compress.jpg",
-  },
-  {
-    tab: "4. Blueprint",
-    title: "Detailed Structural Flow",
-    sheet: "SHEET B-01 — BUILDER REFERENCE MODEL",
-    price: "PERMIT READY",
-    img: "/images/ai-generated-fences/Rancher Fence Illustration.jpg",
-  },
-  {
-    tab: "5. Add-ons",
-    title: "Rot-Barrier Kickboard & Caps",
-    sheet: "SHEET X-01 — MODULAR ADD-ONS & HARDWARE",
-    price: "+$8 / LF OPTION",
-    img: "/images/real-fences-structures/2411B-Legacy-Fence-Chestnut-Brown-Skyway-Renton-Wa (8).jpg",
-  },
-  {
-    tab: "6. Ledger",
-    title: "Transparent ~15% Cost Ledger",
-    sheet: "SHEET L-01 — ITEMIZED PRICING LEDGER",
-    price: "$5,376 TOTAL EST",
-    img: "/images/Holographic fence icons/Fence-It-Holographic-Fence.png",
-  },
-]
+const fmt = (n: number) => `$${n.toLocaleString()}`
+const fmtRange = (min: number, max: number) => `${fmt(min)} – ${fmt(max)}`
 
 export function FenceFolio() {
   const [chapter, setChapter] = useState(0)
   const { open } = useModals()
+
+  const config = HERITAGE_8LF_DEMO
+  const pricing = useMemo(() => calculateBaselineFenceQuote(config), [config])
+  const qty = useMemo(() => folioMaterialQuantities(config), [config])
+
+  const materialMid = Math.round((pricing.materialsCostMin + pricing.materialsCostMax) / 2)
+  const laborMid = Math.round((pricing.laborCostMin + pricing.laborCostMax) / 2)
+  const materialRows = pricing.itemizedMetrics.filter(
+    (m) => m.category === "Materials" || m.category === "Gates",
+  )
+
+  const materialLines = [
+    {
+      label: "Posts & concrete",
+      qty: `${qty.postCount} posts · ${qty.concreteBags} bags`,
+      est: materialRows[1]?.totalEst,
+    },
+    {
+      label: "Rails & top cap",
+      qty: `${qty.total2x4Rails}× 2x4×${qty.railLengthEach}'`,
+      est: materialRows[2]?.totalEst,
+    },
+    {
+      label: "Pickets",
+      qty: `${Math.round(qty.picketCount)}× 1x6×6' cedar`,
+      est: materialRows[3]?.totalEst,
+    },
+    {
+      label: "Stain & hardware",
+      qty: "Cedar natural · black ties",
+      est: (materialRows[4]?.totalEst ?? 0) + (materialRows[6]?.totalEst ?? 0),
+    },
+  ]
+
+  const folioChapters = [
+    {
+      tab: "Visual",
+      tabFull: "Visual Blueprint",
+      title: "Heritage Cedar — how your fence looks",
+      sheet: `${config.linearFeet} LF panel · ${config.heightFt}' tall · front & back`,
+      price: "PREVIEW",
+      priceNote: "",
+      img: "/images/ai-generated-fences/Rancher Fence Illustration.jpg",
+    },
+    {
+      tab: "Material",
+      tabFull: "Material Cost",
+      title: "What to buy for this 8 LF section",
+      sheet: `${qty.postCount} posts · ${Math.round(qty.picketCount)} pickets · live takeoff`,
+      price: fmtRange(pricing.materialsCostMin, pricing.materialsCostMax),
+      priceNote: "",
+      img: "/images/real-fences-structures/2508-Redwood-Stained-Heritage-Picket-Fence-Maple-Valley-Wa (9)-Compress.jpg",
+    },
+    {
+      tab: "Labor",
+      tabFull: "Labor Estimate",
+      title: "Install for this section",
+      sheet: "Site prep, posts, framing & hang — separate from materials",
+      price: fmtRange(pricing.laborCostMin, pricing.laborCostMax),
+      priceNote: "",
+      img: "/images/real-fences-structures/2411B-Legacy-Fence-Chestnut-Brown-Skyway-Renton-Wa (8).jpg",
+    },
+    {
+      tab: "Total",
+      tabFull: "Final Price",
+      title: "Fence-Folio combined estimate",
+      sheet: `Material ~${fmt(materialMid)} + labor ~${fmt(laborMid)} · ±15%`,
+      price: fmtRange(pricing.totalMin, pricing.totalMax),
+      priceNote: "",
+      img: "/images/catalog-vpf-natural.svg",
+    },
+  ]
+
   const data = folioChapters[chapter]
   const total = folioChapters.length
 
@@ -95,7 +129,6 @@ export function FenceFolio() {
         <span className="corner-mark-out tl c-orange" style={{ zIndex: 2 }} />
         <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
 
-        {/* ── LEFT COLUMN: Fence It copy + checklist + Find a Builder ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <div>
             <h2
@@ -119,7 +152,7 @@ export function FenceFolio() {
                 marginBottom: "1rem",
               }}
             >
-              The blueprint your community actually wants to see.
+              The Fence-Folio your community and builders can actually use.
             </p>
 
             <div
@@ -152,20 +185,21 @@ export function FenceFolio() {
                   },
                   {
                     title: "Fence Documents",
-                    copy: "The Fence-Folio bundles several standalone documents into one easily viewable package. Included are:",
+                    copy: "One Fence-Folio package with three clear parts, then a combined final price:",
                     bullets: [
-                      "Builder's Blueprint — Elevation + plan views ready for ARC or contractor handoff.",
-                      "Material List — Takeoff with quantities so substitutions can't sneak in.",
-                      "Pricing Estimate — Honest ±15% range for your ZIP — not a hard quote.",
+                      "Visual — How your fence looks from the street and the yard.",
+                      "Material — What to buy, with material cost.",
+                      "Labor — Install estimate, kept separate from materials.",
+                      "Final price — Material + labor rolled into one ±15% range.",
                     ],
+                  },
+                  {
+                    title: "Live sample",
+                    copy: `Widget shows real numbers for a ${config.linearFeet} LF · ${config.heightFt}' Heritage panel (same as the designer default).`,
                   },
                   {
                     title: "PDF Export",
                     copy: "One-click PDF export, ready to download or attach to your ARC application.",
-                  },
-                  {
-                    title: "HOA Submission",
-                    copy: "If your community is a partnered HOA, we'll submit your documents directly to them on your behalf.",
                   },
                 ].map((item) => (
                   <div key={item.title} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
@@ -242,7 +276,6 @@ export function FenceFolio() {
           </button>
         </div>
 
-        {/* ── RIGHT COLUMN: Interactive Fence-Folio widget ── */}
         <div
           className="card-solid has-outside-corners"
           style={{
@@ -263,9 +296,18 @@ export function FenceFolio() {
           <span className="corner-mark-out tl c-orange" />
           <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", gap: "0.5rem", flexWrap: "wrap" }}>
             <span style={{ ...rowdies(700), fontSize: "1.1rem", color: "#E5B842", letterSpacing: "0.04em" }}>
               FENCE-FOLIO
+            </span>
+            <span
+              style={{
+                ...rowdies(400),
+                fontSize: "0.65rem",
+                color: "#A5D6A7",
+              }}
+            >
+              Live · {config.linearFeet} LF · {config.heightFt}&apos; Heritage
             </span>
             <span
               style={{
@@ -299,6 +341,7 @@ export function FenceFolio() {
                 type="button"
                 role="tab"
                 aria-selected={chapter === i}
+                title={c.tabFull}
                 onClick={() => setChapter(i)}
                 style={{
                   ...rowdies(400),
@@ -335,18 +378,23 @@ export function FenceFolio() {
                 padding: "0.3rem 0.65rem",
                 textAlign: "right",
                 flexShrink: 0,
+                maxWidth: "48%",
               }}
             >
               <div style={{ ...rowdies(400), fontSize: "0.6rem", color: "#E5B842", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-                EST. PRICE
+                {data.tabFull}
               </div>
-              <div style={{ ...rowdies(700), fontSize: "1.05rem", color: "#E5B842" }}>
-                {data.price} <span style={{ fontSize: "0.7rem", fontWeight: 400, color: "#FAF6EE" }}>/ LF</span>
+              <div style={{ ...rowdies(700), fontSize: chapter === 0 ? "0.85rem" : "0.95rem", color: "#E5B842", lineHeight: 1.2 }}>
+                {data.price}
+                {chapter === 3 && (
+                  <span style={{ display: "block", fontSize: "0.65rem", fontWeight: 400, color: "#FAF6EE", marginTop: 2 }}>
+                    ${pricing.pricePerLfMin}–${pricing.pricePerLfMax} / LF
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Preview viewport — grows with content, no ruler chrome */}
           <div
             style={{
               position: "relative",
@@ -366,23 +414,117 @@ export function FenceFolio() {
                 flex: 1,
                 padding: "1rem",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                flexDirection: "column",
+                gap: "0.75rem",
+                overflowY: "auto",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                key={data.img}
-                src={data.img || "/placeholder.svg"}
-                alt={data.title}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxWidth: "100%",
-                  objectFit: "contain",
-                  filter: "brightness(0.95)",
-                }}
-              />
+              {chapter === 0 && (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={data.img}
+                    alt={data.title}
+                    style={{ width: "100%", height: "auto", maxHeight: 160, objectFit: "contain", filter: "brightness(0.95)" }}
+                  />
+                  <p style={{ ...rowdies(300), fontSize: "0.75rem", color: "#A5D6A7", margin: 0, textAlign: "center" }}>
+                    One {config.postSpacingFt}&apos; bay · board-on-board cedar
+                  </p>
+                </>
+              )}
+
+              {chapter === 1 && (
+                <table style={{ width: "100%", ...rowdies(300), fontSize: "0.72rem", color: "#DBD0BD", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ color: "#E5B842", textAlign: "left" }}>
+                      <th style={{ paddingBottom: 6 }}>Item</th>
+                      <th style={{ paddingBottom: 6 }}>Qty</th>
+                      <th style={{ paddingBottom: 6, textAlign: "right" }}>Est.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {materialLines.map((line) => (
+                      <tr key={line.label} style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                        <td style={{ padding: "6px 4px 6px 0", color: "#FAF6EE", fontWeight: 700 }}>{line.label}</td>
+                        <td style={{ padding: "6px 4px", fontFamily: "monospace", fontSize: "0.68rem" }}>{line.qty}</td>
+                        <td style={{ padding: "6px 0 6px 4px", textAlign: "right", color: "#4ADE80", fontWeight: 700 }}>
+                          {line.est != null ? fmt(line.est) : "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr style={{ borderTop: "1px solid rgba(229,184,66,0.35)" }}>
+                      <td colSpan={2} style={{ paddingTop: 8, color: "#E5B842", fontWeight: 700 }}>
+                        Material subtotal
+                      </td>
+                      <td style={{ paddingTop: 8, textAlign: "right", color: "#E5B842", fontWeight: 700 }}>
+                        ~{fmt(materialMid)}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              )}
+
+              {chapter === 2 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  <div style={{ background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.25)", borderRadius: 4, padding: "0.65rem" }}>
+                    <strong style={{ ...rowdies(700), fontSize: "0.78rem", color: "#4ADE80", display: "block", marginBottom: 4 }}>
+                      Site prep & posts
+                    </strong>
+                    <span style={{ ...rowdies(300), fontSize: "0.72rem", color: "#DBD0BD" }}>
+                      Dig & set {qty.postCount} posts for {config.linearFeet} LF
+                    </span>
+                  </div>
+                  <div style={{ background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.25)", borderRadius: 4, padding: "0.65rem" }}>
+                    <strong style={{ ...rowdies(700), fontSize: "0.78rem", color: "#4ADE80", display: "block", marginBottom: 4 }}>
+                      Framing & hang
+                    </strong>
+                    <span style={{ ...rowdies(300), fontSize: "0.72rem", color: "#DBD0BD" }}>
+                      {config.railCount}-rail frame + {Math.round(qty.picketCount)} pickets
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 8, borderTop: "1px solid rgba(229,184,66,0.25)" }}>
+                    <span style={{ ...rowdies(700), fontSize: "0.72rem", color: "#E5B842" }}>Labor subtotal</span>
+                    <span style={{ ...rowdies(700), fontSize: "0.85rem", color: "#FAF6EE" }}>~{fmt(laborMid)}</span>
+                  </div>
+                </div>
+              )}
+
+              {chapter === 3 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", ...rowdies(400), fontSize: "0.78rem", color: "#DBD0BD" }}>
+                    <span>Material</span>
+                    <span style={{ color: "#FAF6EE", fontWeight: 700 }}>~{fmt(materialMid)}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", ...rowdies(400), fontSize: "0.78rem", color: "#DBD0BD" }}>
+                    <span>Labor</span>
+                    <span style={{ color: "#FAF6EE", fontWeight: 700 }}>~{fmt(laborMid)}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", ...rowdies(400), fontSize: "0.78rem", color: "#DBD0BD" }}>
+                    <span>Admin / overhead</span>
+                    <span style={{ color: "#FAF6EE", fontWeight: 700 }}>~{fmt(pricing.adminPermitCost)}</span>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 8,
+                      paddingTop: 8,
+                      borderTop: "1px solid rgba(229,184,66,0.35)",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "baseline",
+                    }}
+                  >
+                    <span style={{ ...rowdies(700), fontSize: "0.8rem", color: "#4ADE80" }}>Final price</span>
+                    <span style={{ ...rowdies(700), fontSize: "1rem", color: "#4ADE80" }}>
+                      {fmtRange(pricing.totalMin, pricing.totalMax)}
+                    </span>
+                  </div>
+                  <p style={{ ...rowdies(300), fontSize: "0.68rem", color: "#8E9A92", margin: 0, textAlign: "center" }}>
+                    Scales with LF in the designer — this sample is one {config.linearFeet} LF panel
+                  </p>
+                </div>
+              )}
             </div>
 
             <button
@@ -413,7 +555,7 @@ export function FenceFolio() {
             </button>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.9rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.9rem", gap: "0.5rem", flexWrap: "wrap" }}>
             <button
               type="button"
               onClick={prev}
@@ -431,8 +573,24 @@ export function FenceFolio() {
               &lt; Prev
             </button>
             <span style={{ ...rowdies(400), fontSize: "0.8rem", color: "#A5D6A7" }}>
-              Page {chapter + 1} of {total}
+              {data.tabFull} · {chapter + 1} of {total}
             </span>
+            <Link
+              href="/blueprint"
+              style={{
+                ...rowdies(700),
+                fontSize: "0.75rem",
+                background: "#4ADE80",
+                color: "#141B16",
+                border: "1.5px solid #141B16",
+                borderRadius: 3,
+                padding: "0.35rem 0.8rem",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Open full Fence-Folio →
+            </Link>
             <button
               type="button"
               onClick={next}

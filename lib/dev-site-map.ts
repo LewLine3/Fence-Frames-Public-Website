@@ -21,7 +21,7 @@ export const DEV_SITE_MAP: DevSiteSection[] = [
       { href: "/catalog", label: "Catalog" },
       { href: "/designer", label: "Designer" },
       { href: "/wizard", label: "Wizard" },
-      { href: "/fence-folio", label: "Fence-Folio" },
+      { href: "/blueprint", label: "Fence-Folio" },
     ],
   },
   {
@@ -29,10 +29,7 @@ export const DEV_SITE_MAP: DevSiteSection[] = [
     color: "#4ADE80",
     links: [
       { href: "/log-in", label: "Log In / Sign Up" },
-      { href: "/fence-folio", label: "Fence-Folio" },
-      { href: "/blueprint", label: "Blueprints" },
-      { href: "/ledger", label: "Ledgers" },
-      { href: "/material-list", label: "Material Lists" },
+      { href: "/homeowner", label: "My Folios" },
     ],
   },
   {

@@ -32,10 +32,8 @@ export function SiteNavElem() {
               style={{
                 width: 48,
                 height: 48,
-                objectFit: "cover",
-                borderRadius: 6,
-                border: "1.5px solid #E5B842",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.45)",
+                objectFit: "contain",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.45))",
                 flexShrink: 0,
               }}
             />
@@ -56,10 +54,10 @@ export function SiteNavElem() {
               <span className={styles.pillarLabel}>Frame It</span>
               <span className={styles.pillarSub}>(Design)</span>
             </a>
-            <a href="/blueprint" className={`${styles.pillar} ${styles.pillarFence}`} title="Step 3 · Blueprints & Takeoff">
+            <a href="/blueprint" className={`${styles.pillar} ${styles.pillarFence}`} title="Step 3 · Fence-Folio">
               <span className={styles.pillarDot} />
               <span className={styles.pillarLabel}>Fence It</span>
-              <span className={styles.pillarSub}>(Build)</span>
+              <span className={styles.pillarSub}>(Folio)</span>
             </a>
           </nav>
         </div>

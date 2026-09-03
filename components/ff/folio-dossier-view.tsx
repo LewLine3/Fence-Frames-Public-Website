@@ -25,12 +25,12 @@ export function FolioDossierView({ folio }: FolioDossierViewProps) {
   const maxEst = folio.costMax
 
   const chapters = [
-    { id: 'cover', tab: '1. Cover Sheet', title: `${folio.style} — ${folio.height}' Privacy Showcase`, code: 'SHEET A-01 · ELEVATION & SPECS', badge: 'ARCHITECTURAL COVER' },
-    { id: 'community', tab: '2. Community Rules', title: `${folio.community.split('·')[0].trim()} CC&R Compliance`, code: 'SHEET A-02 · ARC VERIFICATION', badge: '🏛️ PRE-APPROVED' },
-    { id: 'materials', tab: '3. Material List / BOM', title: 'Parametric Lumber & Fastener Takeoff', code: 'SHEET M-01 · BILL OF MATERIALS', badge: 'QUANTITY VERIFIED' },
-    { id: 'blueprint', tab: '4. Builder Blueprint', title: '1:24 Scale Structural Framing Model', code: 'SHEET B-01 · CONSTRUCTION BLUEPRINT', badge: 'PERMIT READY' },
-    { id: 'addons', tab: '5. Add-ons & Hardware', title: 'Rot-Barrier Kickboard & Simpson Ties', code: 'SHEET X-01 · HARDWARE & EXTRAS', badge: 'MODULAR SPECS' },
-    { id: 'ledger', tab: '6. Pricing Ledger', title: 'Itemized Labor & Material Pricing Breakdown', code: 'SHEET L-01 · COST LEDGER', badge: '±15% TRANSPARENCY' },
+    { id: 'cover', tab: 'Cover', tabFull: 'Cover', title: `${folio.style} — ${folio.height}' Privacy Showcase`, code: 'COVER · HOW IT LOOKS', badge: 'SAVED DESIGN' },
+    { id: 'community', tab: 'Community', tabFull: 'Community Rules', title: `${folio.community.split('·')[0].trim()} Rules`, code: 'COMMUNITY · ARC CHECK', badge: 'PRE-APPROVED' },
+    { id: 'visual', tab: 'Visual', tabFull: 'Visual Blueprint', title: 'How your fence looks', code: 'VISUAL BLUEPRINT', badge: 'FRONT & BACK' },
+    { id: 'material', tab: 'Material', tabFull: 'Material Cost', title: 'What to buy + material cost', code: 'MATERIAL COST', badge: 'QUANTITIES' },
+    { id: 'labor', tab: 'Labor', tabFull: 'Labor Estimate', title: 'Install cost, separate from materials', code: 'LABOR ESTIMATE', badge: 'INSTALL' },
+    { id: 'total', tab: 'Total', tabFull: 'Final Price', title: 'Fence-Folio combined estimate', code: 'FINAL PRICE', badge: '±15%' },
   ]
 
   const current = chapters[activeChapter]
@@ -86,7 +86,7 @@ export function FolioDossierView({ folio }: FolioDossierViewProps) {
               className="bg-[#E5B842] hover:bg-[#d6a836] text-[#141B16] px-4 py-2 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer uppercase"
             >
               <span>🖨️</span>
-              <span>Print 8.5&quot; × 11&quot; PDF</span>
+              <span>Print Letter PDF</span>
             </button>
 
             <Link
@@ -164,7 +164,7 @@ export function FolioDossierView({ folio }: FolioDossierViewProps) {
               </div>
               <div className="md:col-span-5 flex flex-col gap-4">
                 <div className="bg-[#0A0F0C] ff-card-inner rounded border border-white/10">
-                  <h4 style={{ ...rowdies(700), fontSize: '0.9rem', color: '#E5B842', marginBottom: '0.5rem' }}>Project Architectural Takeoff</h4>
+                  <h4 style={{ ...rowdies(700), fontSize: '0.9rem', color: '#E5B842', marginBottom: '0.5rem' }}>Project Snapshot</h4>
                   <ul className="space-y-1.5 text-xs text-[#DBD0BD]" style={{ ...rowdies(300) }}>
                     <li><strong>Total Linear Footage:</strong> {folio.lf} LF</li>
                     <li><strong>Finished Height:</strong> {folio.height}ft</li>
@@ -192,43 +192,73 @@ export function FolioDossierView({ folio }: FolioDossierViewProps) {
           )}
 
           {activeChapter === 2 && (
-            <div className="bg-[#0A0F0C] ff-card-inner rounded-lg border border-white/10">
-              <p style={{ ...rowdies(300), fontSize: '0.85rem', color: '#DBD0BD', margin: 0 }}>
-                Parametric BOM generated for {folio.lf} LF · {folio.height}ft {folio.style}. Full lumber takeoff unlocks when connected to FenceBook catalog.
+            <div className="bg-[#10261A] border-2 border-[#141B16] rounded-lg ff-card-inner flex flex-col items-center justify-center min-h-[380px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/ai-generated-fences/Rancher Fence Illustration.jpg" alt="Visual Blueprint — how the fence looks" style={{ maxHeight: 300, maxWidth: '100%', objectFit: 'contain', filter: 'brightness(0.95)' }} />
+              <p style={{ ...rowdies(300), fontSize: '0.8rem', color: '#A5D6A7', marginTop: '1rem' }}>
+                Visual Blueprint · front &amp; back look for {folio.style}
               </p>
             </div>
           )}
 
           {activeChapter === 3 && (
-            <div className="bg-[#10261A] border-2 border-[#141B16] rounded-lg ff-card-inner flex flex-col items-center justify-center min-h-[380px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/ai-generated-fences/Rancher Fence Illustration.jpg" alt="Blueprint elevation" style={{ maxHeight: 300, maxWidth: '100%', objectFit: 'contain', filter: 'brightness(0.95)' }} />
+            <div className="bg-[#0A0F0C] ff-card-inner rounded-lg border border-white/10">
+              <h3 style={{ ...rowdies(700), fontSize: '1.1rem', color: '#E5B842', marginBottom: '0.5rem' }}>Material Cost</h3>
+              <p style={{ ...rowdies(300), fontSize: '0.85rem', color: '#DBD0BD', margin: 0 }}>
+                What to buy for {folio.lf} LF · {folio.height}ft {folio.style}. Full shopping quantities unlock with your
+                designer session.
+              </p>
+              <Link
+                href="/blueprint?section=material"
+                style={{ ...rowdies(700), fontSize: '0.8rem', color: '#4ADE80', marginTop: '1rem', display: 'inline-block' }}
+              >
+                Open Material in Fence-Folio →
+              </Link>
             </div>
           )}
 
           {activeChapter === 4 && (
-            <div className="bg-[#0A0F0C] ff-card-inner rounded border border-white/10">
-              <p style={{ ...rowdies(300), fontSize: '0.85rem', color: '#DBD0BD', margin: 0 }}>Add-ons chapter — gates, kickboards, and hardware specs from your designer session.</p>
+            <div className="bg-[#0A0F0C] ff-card-inner rounded-lg border border-white/10">
+              <h3 style={{ ...rowdies(700), fontSize: '1.1rem', color: '#E5B842', marginBottom: '0.5rem' }}>Labor Estimate</h3>
+              <p style={{ ...rowdies(300), fontSize: '0.85rem', color: '#DBD0BD', margin: 0 }}>
+                Install cost kept separate from materials — site prep, posts, framing, and hang for {folio.lf} LF.
+              </p>
+              <Link
+                href="/blueprint?section=labor"
+                style={{ ...rowdies(700), fontSize: '0.8rem', color: '#4ADE80', marginTop: '1rem', display: 'inline-block' }}
+              >
+                Open Labor in Fence-Folio →
+              </Link>
             </div>
           )}
 
           {activeChapter === 5 && (
             <div className="bg-[#0A0F0C] ff-card-inner rounded-lg border border-white/10">
-              <h3 style={{ ...rowdies(700), fontSize: '1.1rem', color: '#E5B842' }}>Itemized Ledger ({folio.lf} LF)</h3>
+              <h3 style={{ ...rowdies(700), fontSize: '1.1rem', color: '#E5B842' }}>Final Price ({folio.lf} LF)</h3>
               <p style={{ ...rowdies(300), fontSize: '0.85rem', color: '#4ADE80', marginTop: '0.5rem' }}>
-                ${minEst.toLocaleString()} – ${maxEst.toLocaleString()} total (${Math.round(minEst / folio.lf)} – ${Math.round(maxEst / folio.lf)} / LF)
+                ${minEst.toLocaleString()} – ${maxEst.toLocaleString()} total (${Math.round(minEst / folio.lf)} – $
+                {Math.round(maxEst / folio.lf)} / LF)
               </p>
+              <p style={{ ...rowdies(300), fontSize: '0.8rem', color: '#DBD0BD', marginTop: '0.75rem' }}>
+                Material + labor rolled into one Fence-Folio estimate (±15%).
+              </p>
+              <Link
+                href="/blueprint?section=total"
+                style={{ ...rowdies(700), fontSize: '0.8rem', color: '#4ADE80', marginTop: '1rem', display: 'inline-block' }}
+              >
+                Open Final Price in Fence-Folio →
+              </Link>
             </div>
           )}
 
           <div className="flex justify-between items-center mt-8 pt-4 border-t border-[#E5B842]/30 text-xs text-[#A5D6A7]">
-            <span>Page {activeChapter + 1} of {chapters.length}</span>
+            <span>Page {activeChapter + 1} of {chapters.length} · {current.tabFull}</span>
             <div className="flex gap-2">
               <button type="button" onClick={() => setActiveChapter((c) => Math.max(0, c - 1))} disabled={activeChapter === 0} className="bg-[#0E2417] border border-white/20 disabled:opacity-30 text-white px-3 py-1 rounded cursor-pointer">
-                &lt; Previous Sheet
+                &lt; Previous
               </button>
               <button type="button" onClick={() => setActiveChapter((c) => Math.min(chapters.length - 1, c + 1))} disabled={activeChapter === chapters.length - 1} className="bg-[#E5B842] text-[#141B16] font-bold px-3 py-1 rounded cursor-pointer">
-                Next Sheet &gt;
+                Next &gt;
               </button>
             </div>
           </div>

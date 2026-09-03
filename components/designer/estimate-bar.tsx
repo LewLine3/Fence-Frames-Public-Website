@@ -69,13 +69,13 @@ export function EstimateBar({ config, pricing, onOpenContractorMatch }: Estimate
               onClick={() => setActiveDrawer(activeDrawer === 'bom' ? 'none' : 'bom')}
               className={`px-3 py-1.5 rounded transition ${activeDrawer === 'bom' ? 'bg-[#E5B842] text-[#141B16] font-bold' : 'text-white/80 hover:text-white'}`}
             >
-              📋 Material Takeoff (BOM)
+              📋 Material
             </button>
             <button
               onClick={handleSaveAndProceed}
               className="px-3 py-1.5 text-white/80 hover:text-white transition"
             >
-              📐 ARC Blueprint Preview
+              📐 Fence-Folio
             </button>
           </div>
 
@@ -110,7 +110,7 @@ export function EstimateBar({ config, pricing, onOpenContractorMatch }: Estimate
             onClick={handleSaveAndProceed}
             className="bg-[#4ADE80] hover:bg-[#3ec470] active:scale-[0.98] text-[#141B16] font-['Rowdies'] font-bold text-xs uppercase px-5 py-3 rounded-md border-2 border-[#141B16] shadow-lg flex items-center gap-2 transition"
           >
-            <span>Save Fence-Folio &amp; Get Blueprint</span>
+            <span>Open Fence-Folio</span>
             <span>→</span>
           </button>
         </div>

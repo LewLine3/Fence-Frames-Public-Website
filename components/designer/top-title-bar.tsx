@@ -9,9 +9,9 @@ interface TopTitleBarProps {
   onViewAngleChange: (angle: 'both' | 'front' | 'back') => void;
   zoomLevel: number;
   onZoomChange: (zoom: number) => void;
-  activeViewMode?: 'canvas' | 'blueprint' | 'materials' | 'ledger';
-  onViewModeChange?: (mode: 'canvas' | 'blueprint' | 'materials' | 'ledger') => void;
-  onSelectChapter?: (chapterId: string) => void;
+  activeViewMode?: 'design' | 'folio'
+  onViewModeChange?: (mode: 'design' | 'folio') => void
+  onSelectChapter?: (chapterId: string) => void
 }
 
 export function TopTitleBar({
@@ -20,7 +20,7 @@ export function TopTitleBar({
   onViewAngleChange,
   zoomLevel,
   onZoomChange,
-  activeViewMode = 'canvas',
+  activeViewMode = 'design',
   onViewModeChange,
   onSelectChapter,
 }: TopTitleBarProps) {
@@ -71,31 +71,19 @@ export function TopTitleBar({
         </div>
       </div>
 
-      {/* 2. Center: View Modes (Minimal Text Links with 10px Padding) */}
+      {/* 2. Center: Design | Fence-Folio */}
       <div className="flex items-center gap-2 text-[9px] text-white/40 uppercase tracking-wider font-bold">
         <button
-          onClick={() => onViewModeChange?.('canvas')}
-          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'canvas' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
+          onClick={() => onViewModeChange?.('design')}
+          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'design' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
-          2D Canvas
+          Design
         </button>
         <button
-          onClick={() => onViewModeChange?.('blueprint')}
-          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'blueprint' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
+          onClick={() => onViewModeChange?.('folio')}
+          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'folio' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
         >
-          Blueprint
-        </button>
-        <button
-          onClick={() => onViewModeChange?.('materials')}
-          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'materials' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
-        >
-          Material List
-        </button>
-        <button
-          onClick={() => onViewModeChange?.('ledger')}
-          className={`px-2 py-0.5 rounded transition ${activeViewMode === 'ledger' ? 'text-[#E5B842] bg-white/5 font-bold' : 'hover:text-white hover:bg-white/5'}`}
-        >
-          Project Ledger
+          Fence-Folio
         </button>
       </div>
 

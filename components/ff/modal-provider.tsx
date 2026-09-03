@@ -155,7 +155,7 @@ function BlueprintModal({ active, onClose }: { active: boolean; onClose: () => v
         <span className="corner-mark-out br c-orange" style={{ zIndex: 2 }} />
         <div className="ff-modal-header">
           <h3 style={{ ...rowdies(700), fontSize: "1.2rem", color: "var(--gold)" }}>
-            Architectural Blueprint Sheet (ARC Ready · 1:24 Scale)
+            Fence-Folio Preview · Visual · Material · Labor
           </h3>
           <button className="ff-modal-close" onClick={onClose} aria-label="Close">
             &times;
@@ -175,17 +175,17 @@ function BlueprintModal({ active, onClose }: { active: boolean; onClose: () => v
               backgroundSize: "20px 20px",
             }}
           >
-            <svg width="100%" height="220" viewBox="0 0 500 200">
+            <svg width="100%" height="220" viewBox="0 0 500 200" aria-label="Visual Blueprint preview">
               <rect x="5" y="5" width="490" height="190" fill="none" stroke="#1A1A1A" strokeWidth="2" />
               <rect x="340" y="145" width="155" height="50" fill="#FAF6EE" stroke="#1A1A1A" strokeWidth="1.5" />
               <text x="350" y="162" fontFamily="'Rowdies',sans-serif" fontSize="10" fill="#16432D">
-                FENCE FRAMES MASTER SPEC
+                FENCE-FOLIO · VISUAL
               </text>
               <text x="350" y="176" fontFamily="'Rowdies',sans-serif" fontSize="8" fill="#1A1A1A">
-                SHEET: A-101 (ELEVATION)
+                FRONT &amp; BACK LOOK
               </text>
               <text x="350" y="188" fontFamily="'Rowdies',sans-serif" fontSize="8" fill="#1A1A1A">
-                SCALE: 1:24 (1/2&quot; = 1&apos;-0&quot;)
+                + MATERIAL · LABOR · TOTAL
               </text>
               <rect x="40" y="30" width="16" height="130" fill="#9E8A68" stroke="#1A1A1A" strokeWidth="1.5" />
               <rect x="200" y="30" width="16" height="130" fill="#9E8A68" stroke="#1A1A1A" strokeWidth="1.5" />
@@ -195,23 +195,22 @@ function BlueprintModal({ active, onClose }: { active: boolean; onClose: () => v
               <rect x="40" y="135" width="336" height="10" fill="#C4B294" stroke="#1A1A1A" strokeWidth="1.2" />
               <line x1="56" y1="175" x2="200" y2="175" stroke="#C2622D" strokeWidth="1.5" strokeDasharray="3 3" />
               <text x="128" y="170" fontFamily="'Rowdies',sans-serif" fontSize="10" fill="#C2622D" textAnchor="middle">
-                8&apos;-0&quot; O.C. SPAN
+                8&apos;-0&quot; POST SPAN
               </text>
             </svg>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ ...rowdies(700), fontSize: "0.85rem", color: "var(--forest-deep)" }}>
-              Includes Materials Takeoff + Fastener Schedule
+              Includes Visual Blueprint, Material Cost &amp; Labor Estimate
             </span>
-            <button
+            <a
               className="ff-btn btn-forest btn-chamfer"
-              onClick={() => {
-                alert("Downloading ARC Architectural Blueprint Sheet (PDF)...")
-                onClose()
-              }}
+              href="/blueprint"
+              style={{ textDecoration: "none" }}
+              onClick={onClose}
             >
-              Download PDF Package &darr;
-            </button>
+              Open Fence-Folio →
+            </a>
           </div>
         </div>
       </div>
@@ -240,8 +239,8 @@ function ContractorModal({ active, onClose }: { active: boolean; onClose: () => 
         </div>
         <div className="ff-modal-body">
           <p style={{ ...rowdies(300), fontSize: "0.88rem", marginBottom: "1rem" }}>
-            Your fence blueprint and takeoff quantities are dispatched to exactly 3 vetted local builders. Bids lock
-            within 72 hours with transparent ±15% ledger guarantees:
+            Your Fence-Folio (look, materials, and labor) goes to exactly 3 vetted local builders. Bids lock
+            within 72 hours with a clear ±15% estimate range:
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.2rem" }}>
             {seats.map(([name, meta], i) => (
@@ -272,7 +271,7 @@ function ContractorModal({ active, onClose }: { active: boolean; onClose: () => 
             <button
               className="ff-btn btn-ember btn-lip"
               onClick={() => {
-                alert("Takeoff dispatched to 3 vetted builders. 72h timer active.")
+                alert("Fence-Folio sent to 3 vetted builders. 72h timer active.")
                 onClose()
               }}
             >

@@ -21,10 +21,8 @@ const MODE_STYLES: Record<ElevationMode, string> = {
 }
 
 const TAB_SHORT: Record<ViewTab, string> = {
-  '2D Canvas': '2D',
-  Blueprint: 'BP',
-  Takeoff: 'TO',
-  Ledger: 'LD',
+  Design: 'Des',
+  'Fence-Folio': 'Folio',
 }
 
 export function SubHeaderRibbon({

@@ -7,7 +7,7 @@ export const FENCE_SPEC = {
   ],
 }
 
-export const VIEW_TABS = ['2D Canvas', 'Blueprint', 'Takeoff', 'Ledger'] as const
+export const VIEW_TABS = ['Design', 'Fence-Folio'] as const
 export type ViewTab = (typeof VIEW_TABS)[number]
 
 export type ElevationMode = 'dual' | 'front' | 'back'

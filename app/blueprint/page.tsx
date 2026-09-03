@@ -9,11 +9,17 @@ import {
   calculateBaselineFenceQuote,
 } from '@/lib/pricing-engine'
 
-export default function BlueprintPage() {
-  const [showPricing, setShowPricing] = useState<boolean>(true)
-  const [loadedFromStorage, setLoadedFromStorage] = useState<boolean>(false)
+const SECTIONS = [
+  { id: 'visual', short: 'Visual', full: 'Visual Blueprint' },
+  { id: 'material', short: 'Material', full: 'Material Cost' },
+  { id: 'labor', short: 'Labor', full: 'Labor Estimate' },
+  { id: 'total', short: 'Total', full: 'Final Price' },
+] as const
 
-  // Default Blueprint Configuration
+export default function FenceFolioPage() {
+  const [showPricing, setShowPricing] = useState(true)
+  const [loadedFromStorage, setLoadedFromStorage] = useState(false)
+
   const [config, setConfig] = useState<FenceConfiguration>({
     heightFt: 6,
     postSpacingFt: 8,
@@ -36,7 +42,6 @@ export default function BlueprintPage() {
     },
   })
 
-  // Hydrate draft from sessionStorage if redirected from Designer
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem('ff_active_draft')
@@ -47,8 +52,24 @@ export default function BlueprintPage() {
           setLoadedFromStorage(true)
         }
       }
-    } catch (e) {}
+    } catch {
+      /* ignore */
+    }
   }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const fromQuery = new URLSearchParams(window.location.search).get('section')
+    const fromHash = window.location.hash.replace('#', '')
+    const target = fromQuery || fromHash
+    if (!target) return
+    const el = document.getElementById(target)
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    }
+  }, [loadedFromStorage])
 
   const pricing: PricingBreakdown = calculateBaselineFenceQuote(config)
 
@@ -59,35 +80,68 @@ export default function BlueprintPage() {
   const postCount = Math.ceil(config.linearFeet / (config.postSpacingFt || 8)) + 1
   const railLengthEach = config.postSpacingFt || 8
   const total2x4Rails = postCount * config.railCount
-  const picketCount = Math.ceil((config.linearFeet * 12) / 5.5) * (config.fillPattern === 'board-on-board' ? 1.2 : 1)
+  const picketCount =
+    Math.ceil((config.linearFeet * 12) / 5.5) *
+    (config.fillPattern === 'board-on-board' ? 1.2 : 1)
   const concreteBags = postCount * 2
+
+  const materialRows = pricing.itemizedMetrics.filter(
+    (m) => m.category === 'Materials' || m.category === 'Gates',
+  )
+  const materialMid = Math.round(
+    (pricing.materialsCostMin + pricing.materialsCostMax) / 2,
+  )
+  const laborMid = Math.round((pricing.laborCostMin + pricing.laborCostMax) / 2)
+  const adminMid = pricing.adminPermitCost
+  const totalMid = Math.round((pricing.totalMin + pricing.totalMax) / 2)
 
   return (
     <SiteShell
-      width="document"
+      width="hub"
       printHideChrome
       contained={false}
       bleed={
-        <section className="bg-[#102B1E] border-b-2 border-[#4ADE80] py-3 px-4 shadow-xl sticky top-0 z-40 rounded-md border-2 border-[#141B16]">
+        <section className="bg-[#102B1E] border-2 border-[#141B16] rounded-md py-3 px-4 shadow-xl sticky top-0 z-40 print:hidden">
           <div className="flex flex-wrap items-center justify-between gap-4 text-[#FAF6EE]">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <Link
                 href="/designer"
                 className="bg-[#111713] hover:bg-[#222E25] border border-white/20 text-[#FAF6EE] px-3.5 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition"
               >
                 <span>←</span>
-                <span>Edit in Designer</span>
+                <span>Back to Design</span>
               </Link>
-              <span className="text-white/30">|</span>
-              <span className="text-xs text-[#E5B842] font-bold uppercase">
-                📄 Portrait 8.5&quot; × 11&quot; ARC Architectural Sheet
+              <span className="text-white/30 hidden sm:inline">|</span>
+              <span className="text-xs text-[#4ADE80] font-bold uppercase tracking-wide">
+                Fence-Folio
               </span>
+              {loadedFromStorage && (
+                <span className="text-[10px] text-[#E5B842]/80 font-light">Draft loaded</span>
+              )}
             </div>
 
-            <div className="flex items-center gap-4 flex-wrap">
+            <nav
+              className="flex items-center gap-1.5 flex-wrap"
+              aria-label="Fence-Folio sections"
+            >
+              {SECTIONS.map((s) => (
+                <a
+                  key={s.id}
+                  href={`#${s.id}`}
+                  className="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wide bg-[#111713] border border-white/15 text-[#FAF6EE]/80 hover:text-[#E5B842] hover:border-[#E5B842]/50 transition"
+                  title={s.full}
+                >
+                  <span className="sm:hidden">{s.short}</span>
+                  <span className="hidden sm:inline">{s.full}</span>
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-3 flex-wrap">
               <div className="flex items-center gap-2 bg-[#111713] px-3 py-1.5 rounded-full border border-white/20 text-xs">
-                <span className="text-white/70 font-normal">Pricing Visibility:</span>
+                <span className="text-white/70 font-light">Pricing:</span>
                 <button
+                  type="button"
                   onClick={() => setShowPricing(!showPricing)}
                   className={`px-3 py-0.5 rounded-full font-bold transition ${
                     showPricing
@@ -95,259 +149,428 @@ export default function BlueprintPage() {
                       : 'bg-[#E5B842] text-[#141B16]'
                   }`}
                 >
-                  {showPricing ? 'Pricing ON (Contractor Bids)' : 'Pricing OFF (ARC Submittal)'}
+                  {showPricing ? 'ON' : 'OFF (ARC)'}
                 </button>
               </div>
 
               <button
+                type="button"
                 onClick={handlePrint}
                 className="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-5 py-2 rounded border-2 border-[#141B16] shadow-lg flex items-center gap-1.5 transition active:scale-95"
               >
-                <span>🖨️</span>
-                <span>Print ARC Blueprint PDF</span>
+                <span>Print Letter PDF</span>
               </button>
             </div>
           </div>
         </section>
       }
     >
-      <div className="w-full print:m-0 print:p-0 print:max-w-none relative">
+      <div className="w-full relative print:m-0 print:p-0">
         <span className="corner-mark-out tl c-forest print:hidden" style={{ zIndex: 2 }} />
         <span className="corner-mark-out br c-gold print:hidden" style={{ zIndex: 2 }} />
-      <main className="w-full p-8 bg-[#FAF6EE] border-4 border-[#141B16] rounded-sm shadow-2xl print:m-0 print:p-6 print:border-2 print:shadow-none print:max-w-none print:w-full print:bg-white flex flex-col justify-between min-h-[1100px]">
 
-        {/* 1. TITLE BLOCK HEADER */}
-        <header className="border-b-4 border-[#141B16] pb-4 mb-5 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">🌲</span>
-              <h1 className="text-xl font-bold tracking-wide text-[#141B16] uppercase">
-                FENCE FRAMES · ARCHITECTURAL SUBMITTAL SHEET
-              </h1>
-            </div>
-            <p className="text-xs text-gray-700 font-light">
-              Official Submittal Blueprint for HOA Architectural Review Committees &amp; City Building Permitting
-            </p>
-          </div>
-
-          <div className="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[200px]">
-            <div className="text-[#E5B842] font-bold text-xs">DOC HASH: #FF-98045-8912</div>
-            <div>SHEET: 1 OF 1 (PORTRAIT)</div>
-            <div>SCALE: 1/2&quot; = 1&apos;-0&quot;</div>
-            <div className="text-[#4ADE80] font-bold mt-1">✓ SI VIEW ARC PRE-APPROVED</div>
-          </div>
-        </header>
-
-        {/* 2. PROJECT IDENTIFICATION GRID */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-3.5 border-2 border-[#141B16] mb-5 text-xs">
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase font-normal">Project / Lot</span>
-            <strong className="text-[#141B16]">Si View Lot #42 Fence</strong>
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase font-normal">Jurisdiction / HOA</span>
-            <strong className="text-[#141B16]">Si View HOA · North Bend, WA</strong>
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase font-normal">Fence Architecture</span>
-            <strong className="text-[#141B16]">Heritage 3-Rail Board-on-Board</strong>
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase font-normal">Total Run Footage</span>
-            <strong className="text-[#141B16]">{config.linearFeet} Linear Feet ({config.heightFt}&apos; Tall)</strong>
-          </div>
-        </section>
-
-        {/* 3. 2D CAD ARCHITECTURAL ELEVATION DRAWING */}
-        <section className="border-2 border-[#141B16] bg-white p-4 mb-5">
-          <div className="flex justify-between items-center mb-2 border-b border-gray-300 pb-1">
-            <h3 className="font-bold text-xs uppercase text-[#141B16]">
-              FIG 1.0 — FRONT &amp; BACK STRUCTURAL ELEVATION ({config.postSpacingFt}&apos;-0&quot; O.C. TYPICAL BAY)
-            </h3>
-            <span className="text-[10px] text-gray-500 font-mono">ALL DIMENSIONS ARE VERIFIED BUILDER STANDARDS</span>
-          </div>
-
-          {/* SVG Architectural Drawing */}
-          <div className="w-full flex items-center justify-center py-2">
-            <svg width="740" height="240" viewBox="0 0 740 240" className="w-full h-auto">
-              <defs>
-                <pattern id="bpGrid" width="16" height="16" patternUnits="userSpaceOnUse">
-                  <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#E5E7EB" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect x="0" y="0" width="740" height="240" fill="#FAFAFA" />
-              <rect x="0" y="0" width="740" height="240" fill="url(#bpGrid)" />
-
-              {/* Ground Turf Line */}
-              <line x1="20" y1="190" x2="720" y2="190" stroke="#16A34A" strokeWidth="2.5" />
-              <text x="30" y="205" fill="#16A34A" fontSize="9" fontWeight="bold">FINISHED GRADE / TURF LINE</text>
-
-              {/* Dimension Lines */}
-              <g stroke="#2563EB" strokeWidth="1.2" fill="#2563EB" fontSize="9" textAnchor="middle">
-                {/* Height Dimension */}
-                <line x1="45" y1="50" x2="45" y2="190" />
-                <line x1="40" y1="50" x2="50" y2="50" />
-                <line x1="40" y1="190" x2="50" y2="190" />
-                <text x="35" y="125" textAnchor="end">{config.heightFt}&apos;-0&quot; HT</text>
-
-                {/* Post Span Dimension */}
-                <line x1="90" y1="35" x2="370" y2="35" />
-                <line x1="90" y1="30" x2="90" y2="40" />
-                <line x1="370" y1="30" x2="370" y2="40" />
-                <text x="230" y="28">{config.postSpacingFt}&apos;-0&quot; POST SPAN (O.C.)</text>
-              </g>
-
-              {/* LEFT BAY: FRONT FACE */}
-              <g transform="translate(80, 0)">
-                <text x="145" y="48" fill="#141B16" fontSize="10" fontWeight="bold" textAnchor="middle">FRONT ELEVATION (STREET FACE)</text>
-                {/* Posts */}
-                <rect x="0" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
-                <rect x="274" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
-                {/* Caps */}
-                <polygon points="-2,45 8,36 18,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
-                <polygon points="272,45 282,36 292,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
-                {/* Pickets (Board on board) */}
-                {Array.from({ length: 14 }).map((_, i) => (
-                  <rect key={`bp-p-${i}`} x={18 + (i * 18)} y="50" width="20" height="140" fill="#E8C59A" stroke="#141B16" strokeWidth="1.2" />
-                ))}
-                {/* Top Cap */}
-                <rect x="-4" y="44" width="298" height="6" fill="#8C5832" stroke="#141B16" strokeWidth="1.2" />
-              </g>
-
-              {/* RIGHT BAY: BACK FRAMING */}
-              <g transform="translate(420, 0)">
-                <text x="145" y="48" fill="#141B16" fontSize="10" fontWeight="bold" textAnchor="middle">BACK ELEVATION (3-RAIL FRAMING)</text>
-                {/* Posts */}
-                <rect x="0" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
-                <rect x="274" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
-                {/* Caps */}
-                <polygon points="-2,45 8,36 18,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
-                <polygon points="272,45 282,36 292,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
-                {/* 3 Rails */}
-                <rect x="16" y="65" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
-                <rect x="16" y="115" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
-                <rect x="16" y="165" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
-                {/* Simpson Brackets */}
-                <rect x="16" y="65" width="4" height="12" fill="#141B16" />
-                <rect x="270" y="65" width="4" height="12" fill="#141B16" />
-                <rect x="16" y="165" width="4" height="12" fill="#141B16" />
-                <rect x="270" y="165" width="4" height="12" fill="#141B16" />
-              </g>
-            </svg>
-          </div>
-        </section>
-
-        {/* 4. ITEMIZED BILL OF MATERIALS (BOM) & 8-METRIC TAKEOFF */}
-        <section className="border-2 border-[#141B16] bg-white p-4 mb-5">
-          <div className="flex justify-between items-center mb-3 border-b-2 border-[#141B16] pb-1.5">
-            <h3 className="font-bold text-xs uppercase text-[#141B16]">
-              TABLE 1.0 — ITEMIZED BILL OF MATERIALS &amp; 8-METRIC PARAMETRIC TAKEOFF
-            </h3>
-            {showPricing ? (
-              <span className="text-xs font-bold text-[#16A34A] bg-green-50 px-2 py-0.5 rounded border border-green-300">
-                PRICING MODE: ACTIVE
-              </span>
-            ) : (
-              <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">
-                HOA ARC CLEAN MODE (PRICING SUPPRESSED)
-              </span>
-            )}
-          </div>
-
-          <table className="w-full text-left text-xs font-['Rowdies'] font-light">
-            <thead>
-              <tr className="border-b-2 border-gray-300 text-[10px] text-gray-500 uppercase">
-                <th className="pb-1">Metric #</th>
-                <th className="pb-1">Component / Scope Description</th>
-                <th className="pb-1">Quantity / Specs</th>
-                {showPricing && <th className="pb-1 text-right">Cost / LF</th>}
-                {showPricing && <th className="pb-1 text-right">Est. Total</th>}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#1</td>
-                <td className="py-1.5">General Layout &amp; Framing Run</td>
-                <td className="py-1.5 font-mono">{config.linearFeet} LF @ {config.heightFt}&apos; Height ({config.woodGrade.toUpperCase()})</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[0]?.costPerLf || 18.00).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[0]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#2</td>
-                <td className="py-1.5">Structural Posts &amp; Concrete Footings</td>
-                <td className="py-1.5 font-mono">{postCount}x Posts ({config.postType.toUpperCase()}) + {concreteBags}x Bags Concrete</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[1]?.costPerLf || 6.50).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[1]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#3</td>
-                <td className="py-1.5">Horizontal Rails &amp; Top Cap</td>
-                <td className="py-1.5 font-mono">{total2x4Rails}x 2x4x{railLengthEach}&apos; Rails + 2x4 Top Cap Rail</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[2]?.costPerLf || 5.80).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[2]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#4</td>
-                <td className="py-1.5">Fill Material (Board-on-Board Pickets)</td>
-                <td className="py-1.5 font-mono">{Math.round(picketCount)}x 1x6x6&apos; Western Red Cedar Pickets</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[3]?.costPerLf || 12.00).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[3]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#5</td>
-                <td className="py-1.5">Factory Pre-Stain &amp; UV Sealant</td>
-                <td className="py-1.5 font-mono">Cedar Natural Factory Dip (Both Faces + Edges)</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[4]?.costPerLf || 4.75).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[4]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#7</td>
-                <td className="py-1.5">Hardware &amp; Simpson Brackets</td>
-                <td className="py-1.5 font-mono">Black Powder FB24 Ties + 316 Stainless Ring-Shank Nails</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">${(pricing.itemizedMetrics[6]?.costPerLf || 2.40).toFixed(2)}</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${pricing.itemizedMetrics[6]?.totalEst.toLocaleString()}</td>}
-              </tr>
-              <tr>
-                <td className="py-1.5 font-bold text-[#141B16]">#8</td>
-                <td className="py-1.5">Custom Gates &amp; Hardware Kit</td>
-                <td className="py-1.5 font-mono">{config.gates.walkGates}x 4ft Pedestrian Walk Gate(s)</td>
-                {showPricing && <td className="py-1.5 text-right font-mono">—</td>}
-                {showPricing && <td className="py-1.5 text-right font-bold text-[#141B16]">${(config.gates.walkGates * 385).toLocaleString()}</td>}
-              </tr>
-            </tbody>
-          </table>
-
-          {/* Pricing Total Box */}
-          {showPricing && (
-            <div className="mt-4 pt-3 border-t-2 border-[#141B16] flex justify-between items-center bg-gray-50 p-3 rounded">
+        <div className="w-full space-y-6 sm:space-y-8 print:space-y-4">
+          {/* Header plate */}
+          <header className="bg-[#FAF6EE] border-2 border-[#141B16] rounded-sm shadow-lg p-5 sm:p-8 print:shadow-none print:border print:p-4">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b-2 border-[#141B16] pb-4 mb-4">
               <div>
-                <span className="text-[10px] text-gray-500 uppercase block font-normal">Contractor Bid Estimate Range</span>
-                <span className="text-xs text-gray-700">Includes materials, excavation, installation labor &amp; admin</span>
+                <p className="text-[10px] uppercase tracking-widest text-[#16432D]/70 font-bold mb-1">
+                  Fence Frames · Output Packet
+                </p>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-wide text-[#141B16]">
+                  Fence-Folio
+                </h1>
+                <p className="text-sm text-gray-700 font-light mt-1 max-w-xl">
+                  Your fence look, what to buy, install labor, and one combined estimate — ready for
+                  HOA review or contractor bids.
+                </p>
               </div>
-              <div className="text-right">
-                <span className="text-lg font-bold text-[#16A34A]">
-                  ${pricing.totalMin.toLocaleString()} – ${pricing.totalMax.toLocaleString()}
-                </span>
-                <span className="block text-[11px] text-gray-600 font-mono">
-                  (${pricing.pricePerLfMin} – ${pricing.pricePerLfMax} / LF)
-                </span>
+              <div className="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[180px]">
+                <div className="text-[#E5B842] font-bold text-xs">DOC #FF-98045-8912</div>
+                <div>
+                  {config.linearFeet} LF · {config.heightFt}&apos; Heritage
+                </div>
+                <div className="text-[#4ADE80] font-bold mt-1">Si View ARC Ready</div>
               </div>
             </div>
-          )}
-        </section>
 
-        {/* 5. HOA COMPLIANCE & ARC CERTIFICATION FOOTER */}
-        <footer className="border-t-4 border-[#141B16] pt-3 text-[10px] text-gray-600 flex flex-wrap justify-between items-center gap-3">
-          <div>
-            <strong className="text-[#141B16] block uppercase">HOA ARC COMPLIANCE GUARANTEE</strong>
-            <span>All lumber dimensions and framing members meet Si View Section 4.2 Architectural Standards.</span>
-          </div>
-          <div className="text-right font-mono">
-            <span>Fence Frames Platform · Authored by Two Lew Builders LLC</span>
-          </div>
-        </footer>
+            <section className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-3.5 border border-[#141B16]/30 text-xs">
+              <div>
+                <span className="text-gray-500 block text-[10px] uppercase font-light">Project</span>
+                <strong className="text-[#141B16]">Si View Lot Fence</strong>
+              </div>
+              <div>
+                <span className="text-gray-500 block text-[10px] uppercase font-light">Community</span>
+                <strong className="text-[#141B16]">Si View HOA · North Bend, WA</strong>
+              </div>
+              <div>
+                <span className="text-gray-500 block text-[10px] uppercase font-light">Style</span>
+                <strong className="text-[#141B16]">Heritage Board-on-Board</strong>
+              </div>
+              <div>
+                <span className="text-gray-500 block text-[10px] uppercase font-light">Run</span>
+                <strong className="text-[#141B16]">
+                  {config.linearFeet} LF · {config.heightFt}&apos; tall
+                </strong>
+              </div>
+            </section>
+          </header>
 
-      </main>
+          {/* 1. VISUAL */}
+          <section
+            id="visual"
+            className="scroll-mt-28 bg-[#FAF6EE] border-2 border-[#141B16] rounded-sm shadow-lg p-5 sm:p-6 print:shadow-none print:break-inside-avoid"
+          >
+            <div className="flex justify-between items-center mb-3 border-b border-[#141B16]/20 pb-2 gap-2 flex-wrap">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#16432D]/60 font-bold">
+                  Visual
+                </p>
+                <h2 className="font-bold text-base sm:text-lg uppercase text-[#141B16]">
+                  Visual Blueprint
+                </h2>
+              </div>
+              <span className="text-[10px] text-gray-500 font-mono">
+                Front &amp; back · {config.postSpacingFt}&apos;-0&quot; typical bay
+              </span>
+            </div>
+
+            <div className="w-full flex items-center justify-center py-2 bg-white border border-[#141B16]/15 rounded">
+              <svg
+                viewBox="0 0 740 240"
+                className="w-full h-auto max-h-[420px]"
+                role="img"
+                aria-label="Fence front and back visual"
+              >
+                <defs>
+                  <pattern id="ffFolioGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+                    <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#E5E7EB" strokeWidth="1" />
+                  </pattern>
+                </defs>
+                <rect x="0" y="0" width="740" height="240" fill="#FAFAFA" />
+                <rect x="0" y="0" width="740" height="240" fill="url(#ffFolioGrid)" />
+
+                <line x1="20" y1="190" x2="720" y2="190" stroke="#16A34A" strokeWidth="2.5" />
+                <text x="30" y="205" fill="#16A34A" fontSize="9" fontWeight="bold">
+                  GROUND LINE
+                </text>
+
+                <g stroke="#2563EB" strokeWidth="1.2" fill="#2563EB" fontSize="9" textAnchor="middle">
+                  <line x1="45" y1="50" x2="45" y2="190" />
+                  <line x1="40" y1="50" x2="50" y2="50" />
+                  <line x1="40" y1="190" x2="50" y2="190" />
+                  <text x="35" y="125" textAnchor="end">
+                    {config.heightFt}&apos;-0&quot;
+                  </text>
+                  <line x1="90" y1="35" x2="370" y2="35" />
+                  <line x1="90" y1="30" x2="90" y2="40" />
+                  <line x1="370" y1="30" x2="370" y2="40" />
+                  <text x="230" y="28">
+                    {config.postSpacingFt}&apos;-0&quot; POST SPAN
+                  </text>
+                </g>
+
+                <g transform="translate(80, 0)">
+                  <text
+                    x="145"
+                    y="48"
+                    fill="#141B16"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    FRONT (STREET SIDE)
+                  </text>
+                  <rect x="0" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
+                  <rect x="274" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
+                  <polygon points="-2,45 8,36 18,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
+                  <polygon points="272,45 282,36 292,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
+                  {Array.from({ length: 14 }).map((_, i) => (
+                    <rect
+                      key={`v-p-${i}`}
+                      x={18 + i * 18}
+                      y="50"
+                      width="20"
+                      height="140"
+                      fill="#E8C59A"
+                      stroke="#141B16"
+                      strokeWidth="1.2"
+                    />
+                  ))}
+                  <rect x="-4" y="44" width="298" height="6" fill="#8C5832" stroke="#141B16" strokeWidth="1.2" />
+                </g>
+
+                <g transform="translate(420, 0)">
+                  <text
+                    x="145"
+                    y="48"
+                    fill="#141B16"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    BACK (YARD SIDE)
+                  </text>
+                  <rect x="0" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
+                  <rect x="274" y="45" width="16" height="145" fill="#D49B5B" stroke="#141B16" strokeWidth="1.5" />
+                  <polygon points="-2,45 8,36 18,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
+                  <polygon points="272,45 282,36 292,45" fill="#B87B44" stroke="#141B16" strokeWidth="1.2" />
+                  <rect x="16" y="65" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
+                  <rect x="16" y="115" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
+                  <rect x="16" y="165" width="258" height="12" fill="#B87B44" stroke="#141B16" strokeWidth="1.5" />
+                </g>
+              </svg>
+            </div>
+          </section>
+
+          {/* 2. MATERIAL */}
+          <section
+            id="material"
+            className="scroll-mt-28 bg-[#FAF6EE] border-2 border-[#141B16] rounded-sm shadow-lg p-5 sm:p-6 print:shadow-none print:break-inside-avoid"
+          >
+            <div className="flex justify-between items-center mb-3 border-b-2 border-[#141B16] pb-2 gap-2 flex-wrap">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#16432D]/60 font-bold">
+                  Material
+                </p>
+                <h2 className="font-bold text-base sm:text-lg uppercase text-[#141B16]">
+                  Material Cost
+                </h2>
+              </div>
+              {showPricing ? (
+                <span className="text-sm font-bold text-[#16432D]">
+                  ${pricing.materialsCostMin.toLocaleString()} – $
+                  {pricing.materialsCostMax.toLocaleString()}
+                </span>
+              ) : (
+                <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">
+                  Quantities only (pricing hidden)
+                </span>
+              )}
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-light">
+                <thead>
+                  <tr className="border-b-2 border-gray-300 text-[10px] text-gray-500 uppercase">
+                    <th className="pb-1 pr-2">Item</th>
+                    <th className="pb-1 pr-2">What you need</th>
+                    <th className="pb-1">Qty / Spec</th>
+                    {showPricing && <th className="pb-1 text-right">Est.</th>}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Posts</td>
+                    <td className="py-2">Structural posts &amp; concrete</td>
+                    <td className="py-2 font-mono">
+                      {postCount} posts · {concreteBags} bags concrete
+                    </td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        ${materialRows[1]?.totalEst.toLocaleString() ?? '—'}
+                      </td>
+                    )}
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Rails</td>
+                    <td className="py-2">Horizontal rails &amp; top cap</td>
+                    <td className="py-2 font-mono">
+                      {total2x4Rails}× 2x4×{railLengthEach}&apos;
+                    </td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        ${materialRows[2]?.totalEst.toLocaleString() ?? '—'}
+                      </td>
+                    )}
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Pickets</td>
+                    <td className="py-2">Board-on-board fill</td>
+                    <td className="py-2 font-mono">{Math.round(picketCount)}× 1x6×6&apos; cedar</td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        ${materialRows[3]?.totalEst.toLocaleString() ?? '—'}
+                      </td>
+                    )}
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Finish</td>
+                    <td className="py-2">Stain &amp; sealant</td>
+                    <td className="py-2 font-mono">Cedar natural both faces</td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        ${materialRows[4]?.totalEst.toLocaleString() ?? '—'}
+                      </td>
+                    )}
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Hardware</td>
+                    <td className="py-2">Brackets &amp; fasteners</td>
+                    <td className="py-2 font-mono">Black powder ties · stainless nails</td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        ${materialRows[6]?.totalEst.toLocaleString() ?? '—'}
+                      </td>
+                    )}
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-bold text-[#141B16]">Gates</td>
+                    <td className="py-2">Walk / drive gates</td>
+                    <td className="py-2 font-mono">
+                      {config.gates.walkGates}× walk · {config.gates.driveGates}× drive
+                    </td>
+                    {showPricing && (
+                      <td className="py-2 text-right font-bold">
+                        $
+                        {(
+                          config.gates.walkGates * 385 +
+                          config.gates.driveGates * 850
+                        ).toLocaleString()}
+                      </td>
+                    )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {showPricing && (
+              <div className="mt-4 pt-3 border-t border-[#141B16]/20 flex justify-between items-center gap-3 flex-wrap">
+                <span className="text-[10px] uppercase text-gray-500 font-bold">Material subtotal</span>
+                <span className="text-lg font-bold text-[#141B16]">
+                  ~${materialMid.toLocaleString()}
+                </span>
+              </div>
+            )}
+          </section>
+
+          {/* 3. LABOR */}
+          <section
+            id="labor"
+            className="scroll-mt-28 bg-[#FAF6EE] border-2 border-[#141B16] rounded-sm shadow-lg p-5 sm:p-6 print:shadow-none print:break-inside-avoid"
+          >
+            <div className="flex justify-between items-center mb-3 border-b-2 border-[#141B16] pb-2 gap-2 flex-wrap">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#16432D]/60 font-bold">
+                  Labor
+                </p>
+                <h2 className="font-bold text-base sm:text-lg uppercase text-[#141B16]">
+                  Labor Estimate
+                </h2>
+              </div>
+              {showPricing ? (
+                <span className="text-sm font-bold text-[#16432D]">
+                  ${pricing.laborCostMin.toLocaleString()} – $
+                  {pricing.laborCostMax.toLocaleString()}
+                </span>
+              ) : (
+                <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">
+                  Hidden for ARC clean mode
+                </span>
+              )}
+            </div>
+
+            <p className="text-sm text-gray-700 font-light mb-4">
+              Install work kept separate from materials so you can see what you are buying versus
+              what it costs to put the fence in the ground.
+            </p>
+
+            {showPricing ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="bg-[#E8F5EE] p-4 rounded border border-[#4ADE80]/25">
+                  <strong className="text-[#16432D] block mb-1">Site prep &amp; posts</strong>
+                  <span className="text-[#1A1A1A] font-light">
+                    Digging, setting posts, concrete cure time for {postCount} posts.
+                  </span>
+                </div>
+                <div className="bg-[#E8F5EE] p-4 rounded border border-[#4ADE80]/25">
+                  <strong className="text-[#16432D] block mb-1">Framing &amp; hang</strong>
+                  <span className="text-[#1A1A1A] font-light">
+                    Rails, pickets, gates, and finish for {config.linearFeet} LF.
+                  </span>
+                </div>
+                <div className="sm:col-span-2 mt-1 pt-3 border-t border-[#141B16]/15 flex justify-between items-center">
+                  <span className="text-[10px] uppercase text-gray-500 font-bold">Labor subtotal</span>
+                  <span className="text-lg font-bold text-[#141B16]">~${laborMid.toLocaleString()}</span>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-gray-600 font-light">
+                Turn pricing ON to see the labor range for contractor bidding.
+              </p>
+            )}
+          </section>
+
+          {/* FINAL PRICE */}
+          <section
+            id="total"
+            className="scroll-mt-28 bg-[#102B1E] border-2 border-[#141B16] rounded-sm shadow-lg p-5 sm:p-8 text-[#FAF6EE] print:shadow-none print:break-inside-avoid print:bg-white print:text-[#141B16]"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#4ADE80] font-bold print:text-[#16432D]">
+                  Fence-Folio
+                </p>
+                <h2 className="font-bold text-xl sm:text-2xl uppercase text-[#4ADE80] print:text-[#141B16]">
+                  Final Price
+                </h2>
+                <p className="text-sm font-light text-[#DBD0BD] mt-1 max-w-md print:text-gray-600">
+                  Material + labor rolled into one estimate. Range is about ±15% for real-world bids.
+                </p>
+              </div>
+              {showPricing && (
+                <div className="text-right">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#4ADE80] print:text-[#16A34A]">
+                    ${pricing.totalMin.toLocaleString()} – ${pricing.totalMax.toLocaleString()}
+                  </div>
+                  <div className="text-xs font-mono text-[#DBD0BD] print:text-gray-600 mt-1">
+                    ~${totalMid.toLocaleString()} mid · ${pricing.pricePerLfMin}–$
+                    {pricing.pricePerLfMax} / LF
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {showPricing && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div className="bg-black/30 print:bg-gray-50 p-3 rounded border border-white/10 print:border-gray-200">
+                  <span className="text-[#E5B842] print:text-[#16432D] font-bold uppercase text-[10px] block mb-1">
+                    Material
+                  </span>
+                  <span className="text-lg font-bold">~${materialMid.toLocaleString()}</span>
+                </div>
+                <div className="bg-black/30 print:bg-gray-50 p-3 rounded border border-white/10 print:border-gray-200">
+                  <span className="text-[#E5B842] print:text-[#16432D] font-bold uppercase text-[10px] block mb-1">
+                    Labor
+                  </span>
+                  <span className="text-lg font-bold">~${laborMid.toLocaleString()}</span>
+                </div>
+                <div className="bg-black/30 print:bg-gray-50 p-3 rounded border border-white/10 print:border-gray-200">
+                  <span className="text-[#E5B842] print:text-[#16432D] font-bold uppercase text-[10px] block mb-1">
+                    Admin / overhead
+                  </span>
+                  <span className="text-lg font-bold">~${adminMid.toLocaleString()}</span>
+                </div>
+              </div>
+            )}
+
+            {!showPricing && (
+              <p className="text-sm font-light text-[#DBD0BD] print:text-gray-600">
+                Pricing hidden for a clean ARC submittal. Quantities stay in Material above.
+              </p>
+            )}
+
+            <footer className="mt-6 pt-4 border-t border-white/20 print:border-gray-300 text-[10px] text-[#DBD0BD] print:text-gray-600 flex flex-wrap justify-between gap-3">
+              <div>
+                <strong className="text-[#FAF6EE] print:text-[#141B16] block uppercase">
+                  HOA note
+                </strong>
+                Specs meet Si View Section 4.2 architectural standards for review.
+              </div>
+              <div className="text-right font-mono">Fence Frames · Two Lew Builders LLC</div>
+            </footer>
+          </section>
+        </div>
       </div>
     </SiteShell>
   )

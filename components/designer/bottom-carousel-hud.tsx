@@ -119,7 +119,7 @@ export function BottomCarouselHud({
 
     list.push({ id: 'job-specs', type: 'specs', title: 'Job Specs' })
     list.push({ id: 'folio-dispatch', type: 'action', title: 'Folio & 3-Bid' })
-    list.push({ id: 'takeoff-ledger', type: 'takeoff', title: 'Takeoff Ledger' })
+    list.push({ id: 'takeoff-ledger', type: 'takeoff', title: 'Fence-Folio' })
 
     return list
   }, [config, activeChapter, onChange])
@@ -436,7 +436,7 @@ export function BottomCarouselHud({
 
                 <div className="flex-1 flex flex-col justify-between px-2.5 py-1.5 min-h-0">
                   <div className="text-[8px] text-[#DBD0BD] space-y-1 font-light">
-                    <p className="line-clamp-2">Lock 2D blueprint &amp; get 3 matched bids.</p>
+                    <p className="line-clamp-2">Open Fence-Folio &amp; get 3 matched bids.</p>
                     <div className="flex items-center gap-1.5 text-[7px] text-[#FAF6EE]/50">
                       <span>🛡️ 72-Hr Refund</span>
                       <span>📋 ARC Ready</span>
@@ -476,13 +476,13 @@ export function BottomCarouselHud({
                   style={titleBarStyle}
                 >
                   <span className="font-bold text-[#E5B842] uppercase tracking-wide text-[10px]">
-                    Takeoff Ledger
+                    Fence-Folio
                   </span>
                   <button
                     onClick={onOpenLedgerModal}
                     className="text-[7px] text-[#F27A22] hover:underline font-bold"
                   >
-                    Full BOM ↗
+                    Open ↗
                   </button>
                 </div>
 
