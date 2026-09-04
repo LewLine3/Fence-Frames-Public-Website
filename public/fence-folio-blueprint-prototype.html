@@ -34,6 +34,40 @@
     .font-mono { font-family: 'Fira Code', monospace; }
 
     /* Blueprint Grid Background Pattern */
+    
+    /* Authentic Architectural Paper Backgrounds */
+    .paper-canvas-vellum {
+      background-image: url('textures/paper-parchment-cloud.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-kraft {
+      background-image: url('textures/paper-kraft-clean.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-creased {
+      background-image: url('textures/paper-kraft-creased.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-cardstock {
+      background-image: url('textures/paper-cardstock-grain.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
     .blueprint-canvas {
       background-color: #0c131d;
       background-image: 
@@ -766,185 +800,207 @@
 
         <!-- Framing Mode Selector Bar -->
         <div id="s1-selector-strip" class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-gray-600 uppercase text-[11px]">Active Connection Model:</span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-bold text-gray-600 uppercase text-[11px]">Active Connection:</span>
             <span id="active-framing-badge" class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold font-mono transition-colors">
               Angled Toe-Screws @ 45° (3× per rail end · 6/rail)
             </span>
           </div>
-          <div class="flex items-center gap-1.5 no-print">
-            <button onclick="setFramingStyle('toenail')" id="btn-framing-toenail" class="px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm">
-              🔩 Angled Toe-Screws (3×/End)
-            </button>
-            <button onclick="setFramingStyle('bracket')" id="btn-framing-bracket" class="px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm">
-              🛠️ Simpson Strong-Tie FB24Z
-            </button>
+
+          <!-- Paper Texture & Framing Controls -->
+          <div class="flex items-center gap-2 flex-wrap no-print">
+            <div class="flex items-center gap-1 bg-gray-100 p-1 rounded border border-gray-300 text-[11px]">
+              <span class="text-gray-500 font-bold px-1 uppercase text-[10px]">Paper:</span>
+              <button type="button" onclick="setSheetS1Paper('vellum')" id="btn-s1-paper-vellum" class="px-2 py-0.5 rounded font-bold bg-[#E5B842] text-[#141B16] shadow-sm">📜 Vellum</button>
+              <button type="button" onclick="setSheetS1Paper('kraft')" id="btn-s1-paper-kraft" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📄 Kraft</button>
+              <button type="button" onclick="setSheetS1Paper('creased')" id="btn-s1-paper-creased" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📐 Creased</button>
+              <button type="button" onclick="setSheetS1Paper('cardstock')" id="btn-s1-paper-cardstock" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📦 Chipboard</button>
+            </div>
+
+            <div class="flex items-center gap-1">
+              <button type="button" onclick="setFramingStyle('toenail')" id="btn-framing-toenail" class="px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm">
+                🔩 Angled Toe-Screws
+              </button>
+              <button type="button" onclick="setFramingStyle('bracket')" id="btn-framing-bracket" class="px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm">
+                🛠️ Simpson FB24Z
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- Wireframe Blueprint Drawing -->
-        <div class="drawing-canvas-wrapper w-full blueprint-canvas rounded border-2 border-[#1e3a5f] p-4 relative shadow-2xl overflow-hidden">
-          <svg viewBox="0 0 196 78" class="w-full h-auto drop-shadow-xl" style="max-height: 520px;">
+        <div id="s1-canvas-wrapper" class="drawing-canvas-wrapper w-full paper-canvas-vellum rounded border-2 border-[#3d332a] p-4 relative shadow-2xl overflow-hidden">
+          <svg viewBox="0 0 196 78" class="w-full h-auto drop-shadow-md" style="max-height: 520px;">
             <defs>
-              <!-- Ultra-Fine Architectural CAD Dot Markers -->
-              <marker id="wf-dot-bronze" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
-                <circle cx="5" cy="5" r="3.0" fill="#c28546" stroke="#ffffff" stroke-width="1.2"/>
+              <marker id="ink-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#1c1917" stroke="#ffffff" stroke-width="1.2"/>
               </marker>
-              <marker id="wf-dot-steel" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
-                <circle cx="5" cy="5" r="3.0" fill="#94a3b8" stroke="#ffffff" stroke-width="1.2"/>
+              <marker id="bronze-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#8c531b" stroke="#ffffff" stroke-width="1.2"/>
               </marker>
-              <marker id="wf-dot-slate" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
-                <circle cx="5" cy="5" r="3.0" fill="#64748b" stroke="#ffffff" stroke-width="1.2"/>
-              </marker>
-              <marker id="wf-dot-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
-                <circle cx="5" cy="5" r="3.0" fill="#7dd3fc" stroke="#ffffff" stroke-width="1.2"/>
+              <marker id="steel-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#475569" stroke="#ffffff" stroke-width="1.2"/>
               </marker>
 
-              <!-- Authentic Simpson FB24Z Hardware (Left Joint: attaches to Left Post face at X=53.5) -->
+              <!-- Reusable Authentic Simpson FB24Z Bracket (Left Joint) -->
               <g id="sym-simpson-fb24z-left">
-                <!-- Post Mounting Back Flange (18-ga ZMAX Galv Steel) -->
-                <rect x="-1.4" y="0" width="1.4" height="3.5" fill="#2d3748" stroke="#94a3b8" stroke-width="0.12" rx="0.08"/>
-                <!-- 4 SD8 Screws into Post Face -->
-                <circle cx="-0.7" cy="0.55" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="-0.7" cy="1.35" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="-0.7" cy="2.15" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="-0.7" cy="2.95" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <!-- U-Bracket Rail Seat Sleeve (Wraps around 2x4 Rail End) -->
-                <rect x="0" y="0" width="2.4" height="3.5" fill="rgba(74, 85, 104, 0.45)" stroke="#94a3b8" stroke-width="0.14" rx="0.08"/>
-                <!-- Center Stiffener Rib Emboss Line -->
-                <line x1="0.3" y1="1.75" x2="2.1" y2="1.75" stroke="#e2e8f0" stroke-width="0.14" stroke-linecap="round"/>
-                <!-- 2 Side Rail Screw Attachments -->
-                <circle cx="1.2" cy="0.85" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="1.2" cy="2.65" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
+                <rect x="-1.4" y="0" width="1.4" height="3.5" fill="rgba(203, 213, 225, 0.55)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <circle cx="-0.7" cy="0.55" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="1.35" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="2.15" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="2.95" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <rect x="0" y="0" width="2.4" height="3.5" fill="rgba(203, 213, 225, 0.45)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <line x1="0.3" y1="1.75" x2="2.1" y2="1.75" stroke="#334155" stroke-width="0.14" stroke-linecap="round"/>
+                <circle cx="1.2" cy="0.85" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="1.2" cy="2.65" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
               </g>
 
-              <!-- Authentic Simpson FB24Z Hardware (Right Joint: attaches to Right Post face at X=142.5) -->
+              <!-- Reusable Authentic Simpson FB24Z Bracket (Right Joint) -->
               <g id="sym-simpson-fb24z-right">
-                <!-- Post Mounting Back Flange -->
-                <rect x="0" y="0" width="1.4" height="3.5" fill="#2d3748" stroke="#94a3b8" stroke-width="0.12" rx="0.08"/>
-                <!-- 4 SD8 Screws into Post Face -->
-                <circle cx="0.7" cy="0.55" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="0.7" cy="1.35" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="0.7" cy="2.15" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="0.7" cy="2.95" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <!-- U-Bracket Rail Seat Sleeve -->
-                <rect x="-2.4" y="0" width="2.4" height="3.5" fill="rgba(74, 85, 104, 0.45)" stroke="#94a3b8" stroke-width="0.14" rx="0.08"/>
-                <!-- Center Stiffener Rib Emboss Line -->
-                <line x1="-2.1" y1="1.75" x2="-0.3" y2="1.75" stroke="#e2e8f0" stroke-width="0.14" stroke-linecap="round"/>
-                <!-- 2 Side Rail Screw Attachments -->
-                <circle cx="-1.2" cy="0.85" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
-                <circle cx="-1.2" cy="2.65" r="0.16" fill="#cbd5e1" stroke="#1a202c" stroke-width="0.04"/>
+                <rect x="0" y="0" width="1.4" height="3.5" fill="rgba(203, 213, 225, 0.55)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <circle cx="0.7" cy="0.55" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="1.35" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="2.15" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="2.95" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <rect x="-2.4" y="0" width="2.4" height="3.5" fill="rgba(203, 213, 225, 0.45)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <line x1="-2.1" y1="1.75" x2="-0.3" y2="1.75" stroke="#334155" stroke-width="0.14" stroke-linecap="round"/>
+                <circle cx="-1.2" cy="0.85" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-1.2" cy="2.65" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
               </g>
             </defs>
-            <!-- Ground Grade Baseline (Thin Precision CAD Datum) -->
-            <line x1="20" y1="78" x2="176" y2="78" stroke="#64748b" stroke-width="0.22"/>
-            <text x="98" y="80.6" fill="#64748b" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.4" letter-spacing="0.06em">GRADE BASELINE (Y = 78.00″ · CONTINUOUS ARCHITECTURAL DATUM)</text>
-            <!-- Structural Timber Envelopes (Muted CAD Phantom Linework) -->
-            <g fill="rgba(148, 163, 184, 0.03)" stroke="#64748b" stroke-width="0.16" stroke-dasharray="2.0 1.2">
-              <!-- Left 4x4 PT Post Envelope (X=50.00 to 53.50, Y=6.00 to 78.00) -->
-              <rect x="50" y="6" width="3.5" height="72" rx="0.05"/>
-              <!-- Right 4x4 PT Post Envelope (X=142.50 to 146.00, Y=6.00 to 78.00) -->
-              <rect x="142.5" y="6" width="3.5" height="72" rx="0.05"/>
-              <!-- Top 2x4 Structural Rail Envelope (Y=7.3125 to 10.8125) -->
-              <rect x="53.3125" y="7.3125" width="89.375" height="3.5"/>
-              <!-- Bottom 2x4 Structural Rail Envelope (Y=66.00 to 69.50) -->
-              <rect x="53.3125" y="66" width="89.375" height="3.5"/>
-              <!-- Top Cap Rail Envelope (Y=6.00 to 7.3125) -->
-              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-dasharray="1.2 1.0" opacity="0.6"/>
-              <!-- Bottom Kickboard Envelope (Y=71.00 to 76.50) -->
-              <rect x="53.3125" y="71" width="89.375" height="5.5" stroke-dasharray="1.2 1.0" opacity="0.6"/>
+            <!-- Ground Baseline (Thin Precision CAD Datum) -->
+            <line x1="20" y1="78" x2="176" y2="78" stroke="#1c1917" stroke-width="0.26"/>
+            <!-- Earth Hatching -->
+            <g stroke="#3a3027" stroke-width="0.10" opacity="0.6">
+              <line x1="30" y1="78" x2="28" y2="80"/><line x1="40" y1="78" x2="38" y2="80"/>
+              <line x1="50" y1="78" x2="48" y2="80"/><line x1="60" y1="78" x2="58" y2="80"/>
+              <line x1="70" y1="78" x2="68" y2="80"/><line x1="80" y1="78" x2="78" y2="80"/>
+              <line x1="90" y1="78" x2="88" y2="80"/><line x1="100" y1="78" x2="98" y2="80"/>
+              <line x1="110" y1="78" x2="108" y2="80"/><line x1="120" y1="78" x2="118" y2="80"/>
+              <line x1="130" y1="78" x2="128" y2="80"/><line x1="140" y1="78" x2="138" y2="80"/>
+              <line x1="150" y1="78" x2="148" y2="80"/><line x1="160" y1="78" x2="158" y2="80"/>
             </g>
-            <!-- Post Pyramid Cap Outlines -->
-            <path d="M 49.75 6 L 51.75 3.8 L 53.75 6 Z" fill="rgba(148, 163, 184, 0.04)" stroke="#64748b" stroke-width="0.14" stroke-dasharray="1.5 1.0"/>
-            <path d="M 142.25 6 L 144.25 3.8 L 146.25 6 Z" fill="rgba(148, 163, 184, 0.04)" stroke="#64748b" stroke-width="0.14" stroke-dasharray="1.5 1.0"/>
-            <!-- Ghosted Pickets (Ultra-Fine Hairline Linework) -->
-            <g opacity="0.22" stroke="#64748b" stroke-width="0.09">
-              <rect x="53.500" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="59.063" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="64.625" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="70.188" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="75.750" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="81.313" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="86.875" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="92.438" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="98.000" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="103.563" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="109.125" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="114.688" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="120.250" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="125.813" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="131.375" y="7.5" width="5.5" height="69" fill="none"/>
-              <rect x="136.938" y="7.5" width="5.5" height="69" fill="none"/>
+            <text x="98" y="80.6" fill="#4a3f35" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.35" letter-spacing="0.08em" font-weight="600">GRADE BASELINE (Y = 78.00″ · ARCHITECTURAL DATUM)</text>
+            <!-- ======================================================================= -->
+            <!-- ACTUAL ARCHITECTURAL SHELLS (FILL DELETED · 1-2PX OUTLINE)             -->
+            <!-- ======================================================================= -->
+            <g fill="none" stroke="#1c1917" stroke-width="0.22" stroke-linejoin="round">
+              <!-- Left 4x4 PT Post Shell (X=50.00 to 53.50, Y=6.00 to 78.00) -->
+              <rect x="50" y="6" width="3.5" height="72" rx="0.04"/>
+              <!-- Right 4x4 PT Post Shell (X=142.50 to 146.00, Y=6.00 to 78.00) -->
+              <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
+
+              <!-- Post Caps: Pyramid Shell + Base Skirt -->
+              <g>
+                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
+                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <line x1="51.75" y1="3.5" x2="51.75" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
+                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
+                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <line x1="144.25" y1="3.5" x2="144.25" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
+              </g>
+
+              <!-- 2x4 Top Rail Cap Shell (Weather Cap) -->
+              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
+              <!-- Top 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="3.5"/>
+              <!-- Bottom 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="66" width="89.375" height="3.5"/>
+              <!-- Bottom 2x6 Kickboard Rot Shield Shell -->
+              <rect x="53.3125" y="71" width="89.375" height="5.5"/>
+            </g>
+
+            <!-- Centerlines for Framing Rails (Dashed Drafting Axis) -->
+            <line x1="53.3125" y1="9.0625" x2="142.6875" y2="9.0625" stroke="#8c6239" stroke-width="0.12" stroke-dasharray="2.0 1.0"/>
+            <line x1="53.3125" y1="67.75" x2="142.6875" y2="67.75" stroke="#8c6239" stroke-width="0.12" stroke-dasharray="2.0 1.0"/>
+            <!-- 16 Picket Board Shells (fill="none" · Subtle Hairline Separation) -->
+            <g id="group-picket-shells" fill="none" stroke="#2b221a" stroke-width="0.14" opacity="0.38">
+              <rect x="53.500" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="59.063" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="64.625" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="70.188" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="75.750" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="81.313" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="86.875" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="92.438" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="98.000" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="103.563" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="109.125" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="114.688" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="120.250" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="125.813" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="131.375" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="136.938" y="7.5" width="5.5" height="69.0625"/>
             </g>
             <!-- Infill Fasteners: 304 SS Ring-Shank Nails (2 Per Rail Contact · 128 Total/Bay) -->
-            <g fill="#cbd5e1" stroke="#334155" stroke-width="0.04">
-              <circle cx="55.100" cy="8.2" r="0.12"/><circle cx="57.400" cy="8.2" r="0.12"/>
-              <circle cx="55.100" cy="9.95" r="0.12"/><circle cx="57.400" cy="9.95" r="0.12"/>
-              <circle cx="55.100" cy="66.9" r="0.12"/><circle cx="57.400" cy="66.9" r="0.12"/>
-              <circle cx="55.100" cy="68.6" r="0.12"/><circle cx="57.400" cy="68.6" r="0.12"/>
-              <circle cx="60.663" cy="8.2" r="0.12"/><circle cx="62.962" cy="8.2" r="0.12"/>
-              <circle cx="60.663" cy="9.95" r="0.12"/><circle cx="62.962" cy="9.95" r="0.12"/>
-              <circle cx="60.663" cy="66.9" r="0.12"/><circle cx="62.962" cy="66.9" r="0.12"/>
-              <circle cx="60.663" cy="68.6" r="0.12"/><circle cx="62.962" cy="68.6" r="0.12"/>
-              <circle cx="66.225" cy="8.2" r="0.12"/><circle cx="68.525" cy="8.2" r="0.12"/>
-              <circle cx="66.225" cy="9.95" r="0.12"/><circle cx="68.525" cy="9.95" r="0.12"/>
-              <circle cx="66.225" cy="66.9" r="0.12"/><circle cx="68.525" cy="66.9" r="0.12"/>
-              <circle cx="66.225" cy="68.6" r="0.12"/><circle cx="68.525" cy="68.6" r="0.12"/>
-              <circle cx="71.787" cy="8.2" r="0.12"/><circle cx="74.088" cy="8.2" r="0.12"/>
-              <circle cx="71.787" cy="9.95" r="0.12"/><circle cx="74.088" cy="9.95" r="0.12"/>
-              <circle cx="71.787" cy="66.9" r="0.12"/><circle cx="74.088" cy="66.9" r="0.12"/>
-              <circle cx="71.787" cy="68.6" r="0.12"/><circle cx="74.088" cy="68.6" r="0.12"/>
-              <circle cx="77.350" cy="8.2" r="0.12"/><circle cx="79.650" cy="8.2" r="0.12"/>
-              <circle cx="77.350" cy="9.95" r="0.12"/><circle cx="79.650" cy="9.95" r="0.12"/>
-              <circle cx="77.350" cy="66.9" r="0.12"/><circle cx="79.650" cy="66.9" r="0.12"/>
-              <circle cx="77.350" cy="68.6" r="0.12"/><circle cx="79.650" cy="68.6" r="0.12"/>
-              <circle cx="82.912" cy="8.2" r="0.12"/><circle cx="85.213" cy="8.2" r="0.12"/>
-              <circle cx="82.912" cy="9.95" r="0.12"/><circle cx="85.213" cy="9.95" r="0.12"/>
-              <circle cx="82.912" cy="66.9" r="0.12"/><circle cx="85.213" cy="66.9" r="0.12"/>
-              <circle cx="82.912" cy="68.6" r="0.12"/><circle cx="85.213" cy="68.6" r="0.12"/>
-              <circle cx="88.475" cy="8.2" r="0.12"/><circle cx="90.775" cy="8.2" r="0.12"/>
-              <circle cx="88.475" cy="9.95" r="0.12"/><circle cx="90.775" cy="9.95" r="0.12"/>
-              <circle cx="88.475" cy="66.9" r="0.12"/><circle cx="90.775" cy="66.9" r="0.12"/>
-              <circle cx="88.475" cy="68.6" r="0.12"/><circle cx="90.775" cy="68.6" r="0.12"/>
-              <circle cx="94.037" cy="8.2" r="0.12"/><circle cx="96.338" cy="8.2" r="0.12"/>
-              <circle cx="94.037" cy="9.95" r="0.12"/><circle cx="96.338" cy="9.95" r="0.12"/>
-              <circle cx="94.037" cy="66.9" r="0.12"/><circle cx="96.338" cy="66.9" r="0.12"/>
-              <circle cx="94.037" cy="68.6" r="0.12"/><circle cx="96.338" cy="68.6" r="0.12"/>
-              <circle cx="99.600" cy="8.2" r="0.12"/><circle cx="101.900" cy="8.2" r="0.12"/>
-              <circle cx="99.600" cy="9.95" r="0.12"/><circle cx="101.900" cy="9.95" r="0.12"/>
-              <circle cx="99.600" cy="66.9" r="0.12"/><circle cx="101.900" cy="66.9" r="0.12"/>
-              <circle cx="99.600" cy="68.6" r="0.12"/><circle cx="101.900" cy="68.6" r="0.12"/>
-              <circle cx="105.162" cy="8.2" r="0.12"/><circle cx="107.463" cy="8.2" r="0.12"/>
-              <circle cx="105.162" cy="9.95" r="0.12"/><circle cx="107.463" cy="9.95" r="0.12"/>
-              <circle cx="105.162" cy="66.9" r="0.12"/><circle cx="107.463" cy="66.9" r="0.12"/>
-              <circle cx="105.162" cy="68.6" r="0.12"/><circle cx="107.463" cy="68.6" r="0.12"/>
-              <circle cx="110.725" cy="8.2" r="0.12"/><circle cx="113.025" cy="8.2" r="0.12"/>
-              <circle cx="110.725" cy="9.95" r="0.12"/><circle cx="113.025" cy="9.95" r="0.12"/>
-              <circle cx="110.725" cy="66.9" r="0.12"/><circle cx="113.025" cy="66.9" r="0.12"/>
-              <circle cx="110.725" cy="68.6" r="0.12"/><circle cx="113.025" cy="68.6" r="0.12"/>
-              <circle cx="116.287" cy="8.2" r="0.12"/><circle cx="118.588" cy="8.2" r="0.12"/>
-              <circle cx="116.287" cy="9.95" r="0.12"/><circle cx="118.588" cy="9.95" r="0.12"/>
-              <circle cx="116.287" cy="66.9" r="0.12"/><circle cx="118.588" cy="66.9" r="0.12"/>
-              <circle cx="116.287" cy="68.6" r="0.12"/><circle cx="118.588" cy="68.6" r="0.12"/>
-              <circle cx="121.850" cy="8.2" r="0.12"/><circle cx="124.150" cy="8.2" r="0.12"/>
-              <circle cx="121.850" cy="9.95" r="0.12"/><circle cx="124.150" cy="9.95" r="0.12"/>
-              <circle cx="121.850" cy="66.9" r="0.12"/><circle cx="124.150" cy="66.9" r="0.12"/>
-              <circle cx="121.850" cy="68.6" r="0.12"/><circle cx="124.150" cy="68.6" r="0.12"/>
-              <circle cx="127.412" cy="8.2" r="0.12"/><circle cx="129.713" cy="8.2" r="0.12"/>
-              <circle cx="127.412" cy="9.95" r="0.12"/><circle cx="129.713" cy="9.95" r="0.12"/>
-              <circle cx="127.412" cy="66.9" r="0.12"/><circle cx="129.713" cy="66.9" r="0.12"/>
-              <circle cx="127.412" cy="68.6" r="0.12"/><circle cx="129.713" cy="68.6" r="0.12"/>
-              <circle cx="132.975" cy="8.2" r="0.12"/><circle cx="135.275" cy="8.2" r="0.12"/>
-              <circle cx="132.975" cy="9.95" r="0.12"/><circle cx="135.275" cy="9.95" r="0.12"/>
-              <circle cx="132.975" cy="66.9" r="0.12"/><circle cx="135.275" cy="66.9" r="0.12"/>
-              <circle cx="132.975" cy="68.6" r="0.12"/><circle cx="135.275" cy="68.6" r="0.12"/>
-              <circle cx="138.537" cy="8.2" r="0.12"/><circle cx="140.838" cy="8.2" r="0.12"/>
-              <circle cx="138.537" cy="9.95" r="0.12"/><circle cx="140.838" cy="9.95" r="0.12"/>
-              <circle cx="138.537" cy="66.9" r="0.12"/><circle cx="140.838" cy="66.9" r="0.12"/>
-              <circle cx="138.537" cy="68.6" r="0.12"/><circle cx="140.838" cy="68.6" r="0.12"/>
+            <g fill="#cbd5e1" stroke="#1c1917" stroke-width="0.04">
+              <circle cx="55.100" cy="8.2" r="0.13"/><circle cx="57.400" cy="8.2" r="0.13"/>
+              <circle cx="55.100" cy="9.95" r="0.13"/><circle cx="57.400" cy="9.95" r="0.13"/>
+              <circle cx="55.100" cy="66.9" r="0.13"/><circle cx="57.400" cy="66.9" r="0.13"/>
+              <circle cx="55.100" cy="68.6" r="0.13"/><circle cx="57.400" cy="68.6" r="0.13"/>
+              <circle cx="60.663" cy="8.2" r="0.13"/><circle cx="62.962" cy="8.2" r="0.13"/>
+              <circle cx="60.663" cy="9.95" r="0.13"/><circle cx="62.962" cy="9.95" r="0.13"/>
+              <circle cx="60.663" cy="66.9" r="0.13"/><circle cx="62.962" cy="66.9" r="0.13"/>
+              <circle cx="60.663" cy="68.6" r="0.13"/><circle cx="62.962" cy="68.6" r="0.13"/>
+              <circle cx="66.225" cy="8.2" r="0.13"/><circle cx="68.525" cy="8.2" r="0.13"/>
+              <circle cx="66.225" cy="9.95" r="0.13"/><circle cx="68.525" cy="9.95" r="0.13"/>
+              <circle cx="66.225" cy="66.9" r="0.13"/><circle cx="68.525" cy="66.9" r="0.13"/>
+              <circle cx="66.225" cy="68.6" r="0.13"/><circle cx="68.525" cy="68.6" r="0.13"/>
+              <circle cx="71.787" cy="8.2" r="0.13"/><circle cx="74.088" cy="8.2" r="0.13"/>
+              <circle cx="71.787" cy="9.95" r="0.13"/><circle cx="74.088" cy="9.95" r="0.13"/>
+              <circle cx="71.787" cy="66.9" r="0.13"/><circle cx="74.088" cy="66.9" r="0.13"/>
+              <circle cx="71.787" cy="68.6" r="0.13"/><circle cx="74.088" cy="68.6" r="0.13"/>
+              <circle cx="77.350" cy="8.2" r="0.13"/><circle cx="79.650" cy="8.2" r="0.13"/>
+              <circle cx="77.350" cy="9.95" r="0.13"/><circle cx="79.650" cy="9.95" r="0.13"/>
+              <circle cx="77.350" cy="66.9" r="0.13"/><circle cx="79.650" cy="66.9" r="0.13"/>
+              <circle cx="77.350" cy="68.6" r="0.13"/><circle cx="79.650" cy="68.6" r="0.13"/>
+              <circle cx="82.912" cy="8.2" r="0.13"/><circle cx="85.213" cy="8.2" r="0.13"/>
+              <circle cx="82.912" cy="9.95" r="0.13"/><circle cx="85.213" cy="9.95" r="0.13"/>
+              <circle cx="82.912" cy="66.9" r="0.13"/><circle cx="85.213" cy="66.9" r="0.13"/>
+              <circle cx="82.912" cy="68.6" r="0.13"/><circle cx="85.213" cy="68.6" r="0.13"/>
+              <circle cx="88.475" cy="8.2" r="0.13"/><circle cx="90.775" cy="8.2" r="0.13"/>
+              <circle cx="88.475" cy="9.95" r="0.13"/><circle cx="90.775" cy="9.95" r="0.13"/>
+              <circle cx="88.475" cy="66.9" r="0.13"/><circle cx="90.775" cy="66.9" r="0.13"/>
+              <circle cx="88.475" cy="68.6" r="0.13"/><circle cx="90.775" cy="68.6" r="0.13"/>
+              <circle cx="94.037" cy="8.2" r="0.13"/><circle cx="96.338" cy="8.2" r="0.13"/>
+              <circle cx="94.037" cy="9.95" r="0.13"/><circle cx="96.338" cy="9.95" r="0.13"/>
+              <circle cx="94.037" cy="66.9" r="0.13"/><circle cx="96.338" cy="66.9" r="0.13"/>
+              <circle cx="94.037" cy="68.6" r="0.13"/><circle cx="96.338" cy="68.6" r="0.13"/>
+              <circle cx="99.600" cy="8.2" r="0.13"/><circle cx="101.900" cy="8.2" r="0.13"/>
+              <circle cx="99.600" cy="9.95" r="0.13"/><circle cx="101.900" cy="9.95" r="0.13"/>
+              <circle cx="99.600" cy="66.9" r="0.13"/><circle cx="101.900" cy="66.9" r="0.13"/>
+              <circle cx="99.600" cy="68.6" r="0.13"/><circle cx="101.900" cy="68.6" r="0.13"/>
+              <circle cx="105.162" cy="8.2" r="0.13"/><circle cx="107.463" cy="8.2" r="0.13"/>
+              <circle cx="105.162" cy="9.95" r="0.13"/><circle cx="107.463" cy="9.95" r="0.13"/>
+              <circle cx="105.162" cy="66.9" r="0.13"/><circle cx="107.463" cy="66.9" r="0.13"/>
+              <circle cx="105.162" cy="68.6" r="0.13"/><circle cx="107.463" cy="68.6" r="0.13"/>
+              <circle cx="110.725" cy="8.2" r="0.13"/><circle cx="113.025" cy="8.2" r="0.13"/>
+              <circle cx="110.725" cy="9.95" r="0.13"/><circle cx="113.025" cy="9.95" r="0.13"/>
+              <circle cx="110.725" cy="66.9" r="0.13"/><circle cx="113.025" cy="66.9" r="0.13"/>
+              <circle cx="110.725" cy="68.6" r="0.13"/><circle cx="113.025" cy="68.6" r="0.13"/>
+              <circle cx="116.287" cy="8.2" r="0.13"/><circle cx="118.588" cy="8.2" r="0.13"/>
+              <circle cx="116.287" cy="9.95" r="0.13"/><circle cx="118.588" cy="9.95" r="0.13"/>
+              <circle cx="116.287" cy="66.9" r="0.13"/><circle cx="118.588" cy="66.9" r="0.13"/>
+              <circle cx="116.287" cy="68.6" r="0.13"/><circle cx="118.588" cy="68.6" r="0.13"/>
+              <circle cx="121.850" cy="8.2" r="0.13"/><circle cx="124.150" cy="8.2" r="0.13"/>
+              <circle cx="121.850" cy="9.95" r="0.13"/><circle cx="124.150" cy="9.95" r="0.13"/>
+              <circle cx="121.850" cy="66.9" r="0.13"/><circle cx="124.150" cy="66.9" r="0.13"/>
+              <circle cx="121.850" cy="68.6" r="0.13"/><circle cx="124.150" cy="68.6" r="0.13"/>
+              <circle cx="127.412" cy="8.2" r="0.13"/><circle cx="129.713" cy="8.2" r="0.13"/>
+              <circle cx="127.412" cy="9.95" r="0.13"/><circle cx="129.713" cy="9.95" r="0.13"/>
+              <circle cx="127.412" cy="66.9" r="0.13"/><circle cx="129.713" cy="66.9" r="0.13"/>
+              <circle cx="127.412" cy="68.6" r="0.13"/><circle cx="129.713" cy="68.6" r="0.13"/>
+              <circle cx="132.975" cy="8.2" r="0.13"/><circle cx="135.275" cy="8.2" r="0.13"/>
+              <circle cx="132.975" cy="9.95" r="0.13"/><circle cx="135.275" cy="9.95" r="0.13"/>
+              <circle cx="132.975" cy="66.9" r="0.13"/><circle cx="135.275" cy="66.9" r="0.13"/>
+              <circle cx="132.975" cy="68.6" r="0.13"/><circle cx="135.275" cy="68.6" r="0.13"/>
+              <circle cx="138.537" cy="8.2" r="0.13"/><circle cx="140.838" cy="8.2" r="0.13"/>
+              <circle cx="138.537" cy="9.95" r="0.13"/><circle cx="140.838" cy="9.95" r="0.13"/>
+              <circle cx="138.537" cy="66.9" r="0.13"/><circle cx="140.838" cy="66.9" r="0.13"/>
+              <circle cx="138.537" cy="68.6" r="0.13"/><circle cx="140.838" cy="68.6" r="0.13"/>
             </g>
             <!-- Heavy-Duty Washer Screws along 2x6 Kickboard (11″ OC Spacing) -->
-            <g fill="#94a3b8" stroke="#1e293b" stroke-width="0.04">
+            <g fill="#94a3b8" stroke="#1c1917" stroke-width="0.04">
               <circle cx="58.5" cy="73.75" r="0.18"/>
               <circle cx="69.5" cy="73.75" r="0.18"/>
               <circle cx="80.5" cy="73.75" r="0.18"/>
@@ -959,157 +1015,151 @@
             <!-- ============================================================= -->
             <g id="layer-toenails" class="transition-opacity duration-200">
               <!-- Joint 1: Left Post / Top Rail Joint (3 Screws) -->
-              <g stroke="#c28546" stroke-width="0.16" fill="none" stroke-linecap="round">
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
                 <line x1="55.0" y1="8.0" x2="52.2" y2="5.8"/>
                 <line x1="55.0" y1="9.06" x2="51.8" y2="9.06"/>
                 <line x1="55.0" y1="10.12" x2="52.2" y2="12.32"/>
               </g>
-              <circle cx="55.0" cy="8.0" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="55.0" cy="9.06" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="55.0" cy="10.12" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
+              <circle cx="55.0" cy="8.0" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="9.06" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="10.12" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
 
               <!-- Joint 2: Left Post / Bottom Rail Joint (3 Screws) -->
-              <g stroke="#c28546" stroke-width="0.16" fill="none" stroke-linecap="round">
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
                 <line x1="55.0" y1="66.7" x2="52.2" y2="64.5"/>
                 <line x1="55.0" y1="67.75" x2="51.8" y2="67.75"/>
                 <line x1="55.0" y1="68.8" x2="52.2" y2="71.0"/>
               </g>
-              <circle cx="55.0" cy="66.7" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="55.0" cy="67.75" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="55.0" cy="68.8" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
+              <circle cx="55.0" cy="66.7" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="67.75" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="68.8" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
 
               <!-- Joint 3: Right Post / Top Rail Joint (3 Screws) -->
-              <g stroke="#c28546" stroke-width="0.16" fill="none" stroke-linecap="round">
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
                 <line x1="141.0" y1="8.0" x2="143.8" y2="5.8"/>
                 <line x1="141.0" y1="9.06" x2="144.2" y2="9.06"/>
                 <line x1="141.0" y1="10.12" x2="143.8" y2="12.32"/>
               </g>
-              <circle cx="141.0" cy="8.0" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="141.0" cy="9.06" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="141.0" cy="10.12" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
+              <circle cx="141.0" cy="8.0" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="9.06" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="10.12" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
 
               <!-- Joint 4: Right Post / Bottom Rail Joint (3 Screws) -->
-              <g stroke="#c28546" stroke-width="0.16" fill="none" stroke-linecap="round">
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
                 <line x1="141.0" y1="66.7" x2="143.8" y2="64.5"/>
                 <line x1="141.0" y1="67.75" x2="144.2" y2="67.75"/>
                 <line x1="141.0" y1="68.8" x2="143.8" y2="71.0"/>
               </g>
-              <circle cx="141.0" cy="66.7" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="141.0" cy="67.75" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
-              <circle cx="141.0" cy="68.8" r="0.18" fill="#c28546" stroke="#1e293b" stroke-width="0.04"/>
+              <circle cx="141.0" cy="66.7" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="67.75" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="68.8" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
             </g>
             <!-- ============================================================= -->
             <!-- CONNECTION LAYER B: SIMPSON FB24Z METAL BRACKETS (ALL 4 JOINTS) -->
             <!-- ============================================================= -->
             <g id="layer-brackets" class="hidden transition-opacity duration-200">
-              <!-- Joint 1: Top Left Rail to Post Joint -->
               <use href="#sym-simpson-fb24z-left" x="53.5" y="7.3125"/>
-              <!-- Joint 2: Bottom Left Rail to Post Joint -->
               <use href="#sym-simpson-fb24z-left" x="53.5" y="66.0"/>
-              <!-- Joint 3: Top Right Rail to Post Joint -->
               <use href="#sym-simpson-fb24z-right" x="142.5" y="7.3125"/>
-              <!-- Joint 4: Bottom Right Rail to Post Joint -->
               <use href="#sym-simpson-fb24z-right" x="142.5" y="66.0"/>
             </g>
             <!-- ============================================================= -->
-            <!-- BALANCED SPECIFICATION SCHEDULE & LEADER LINES                -->
+            <!-- ARCHITECTURAL NOTE BLOCKS & LEADER LINES                      -->
             <!-- ============================================================= -->
-            <g font-family="'Fira Code', monospace" font-size="1.5">
+            <g font-family="'Fira Code', monospace" font-size="1.45">
 
               <!-- ===================== LEFT COLUMN ======================== -->
 
-              <!-- Card L1: Dynamic Joint Connection (Toe-Screws / Simpson FB24Z) -->
+              <!-- Card L1: Dynamic Joint Connection -->
               <g id="callout-joint-toenail">
-                <!-- Leader Line to Joint 1 -->
-                <path d="M 45.0 9.06 L 54.0 9.06" fill="none" stroke="#c28546" stroke-width="0.18" marker-end="url(#wf-dot-bronze)"/>
-                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="5.0" y="6.1" fill="#d49b5c" font-weight="700" font-size="1.5">CONNECTION: 45° ANGLED TOE-SCREWS</text>
-                <text x="5.0" y="10.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Fastener  — </tspan>#10 × 3-1/4″ Structural Screw</text>
-                <text x="5.0" y="13.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Coating   — </tspan>Exterior Bronze / ACQ Barrier</text>
-                <text x="5.0" y="16.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Schedule  — </tspan>3× Per Rail End · 6 Per Rail</text>
-                <text x="5.0" y="19.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Allowance — </tspan>33.33% Job-Site Waste Buffer</text>
-                <text x="5.0" y="21.8" fill="#94a3b8" font-size="1.15">Tested Shear Capacity: 580 lbf / End</text>
+                <path d="M 45.0 9.06 L 54.0 9.06" fill="none" stroke="#8c531b" stroke-width="0.18" marker-end="url(#bronze-dot)"/>
+                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="6.1" fill="#8c531b" font-weight="700" font-size="1.45">CONNECTION: 45° ANGLED TOE-SCREWS</text>
+                <text x="5.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Fastener  — </tspan>#10 × 3-1/4″ Structural Screw</text>
+                <text x="5.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Coating   — </tspan>Exterior Bronze / ACQ Barrier</text>
+                <text x="5.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Schedule  — </tspan>3× Per Rail End · 6 Per Rail</text>
+                <text x="5.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Allowance — </tspan>33.33% Job-Site Waste Buffer</text>
+                <text x="5.0" y="21.8" fill="#574c43" font-size="1.15">Tested Shear: 580 lbf / Rail End</text>
               </g>
 
               <g id="callout-joint-bracket" class="hidden">
-                <!-- Leader Line to Joint 1 -->
-                <path d="M 45.0 9.06 L 53.5 9.06" fill="none" stroke="#7dd3fc" stroke-width="0.18" marker-end="url(#wf-dot-cyan)"/>
-                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="5.0" y="6.1" fill="#7dd3fc" font-weight="700" font-size="1.5">CONNECTION: SIMPSON STRONG-TIE FB24Z</text>
-                <text x="5.0" y="10.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Hardware  — </tspan>18-ga ZMAX G185 Galv Steel</text>
-                <text x="5.0" y="13.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Post Spec — </tspan>4× Simpson SD8 1-1/2″ Screws</text>
-                <text x="5.0" y="16.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Rail Spec — </tspan>2× Simpson SD8 1-1/2″ Screws</text>
-                <text x="5.0" y="19.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Capacity  — </tspan>450 lb Download / 280 lb Uplift</text>
-                <text x="5.0" y="21.8" fill="#94a3b8" font-size="1.15">Eliminates Toe-Splitting · IRC Compliant</text>
+                <path d="M 45.0 9.06 L 53.5 9.06" fill="none" stroke="#475569" stroke-width="0.18" marker-end="url(#steel-dot)"/>
+                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="rgba(226, 232, 240, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="6.1" fill="#334155" font-weight="700" font-size="1.45">CONNECTION: SIMPSON STRONG-TIE FB24Z</text>
+                <text x="5.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Hardware  — </tspan>18-ga ZMAX G185 Galv Steel</text>
+                <text x="5.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Post Spec — </tspan>4× Simpson SD8 1-1/2″ Screws</text>
+                <text x="5.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Rail Spec — </tspan>2× Simpson SD8 1-1/2″ Screws</text>
+                <text x="5.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Capacity  — </tspan>450 lb Download / 280 lb Uplift</text>
+                <text x="5.0" y="21.8" fill="#574c43" font-size="1.15">Eliminates Toe-Splitting · IRC Code</text>
               </g>
 
-              <!-- Card L2: 4x4 PT Posts Envelope & Footing -->
+              <!-- Card L2: 4x4 PT Post Shell -->
               <g>
-                <path d="M 45.0 38.0 L 50.0 38.0" fill="none" stroke="#64748b" stroke-width="0.18" marker-end="url(#wf-dot-slate)"/>
-                <rect x="3.0" y="28.5" width="42.0" height="19.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="3.0" y="28.5" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="5.0" y="31.1" fill="#cbd5e1" font-weight="700" font-size="1.5">STRUCTURE: 4×4 PT POST ENVELOPE</text>
-                <text x="5.0" y="35.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Lumber    — </tspan>#2 Grade Hem-Fir (Incised PT)</text>
-                <text x="5.0" y="38.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Dimension — </tspan>3-1/2″ × 3-1/2″ × 8′-0″ Length</text>
-                <text x="5.0" y="41.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Treatment — </tspan>AC2 Ground Contact .40 Retention</text>
-                <text x="5.0" y="44.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Spacing   — </tspan>96.00″ On-Center (8′-0″ Bay)</text>
-                <text x="5.0" y="46.5" fill="#94a3b8" font-size="1.15">Footing: 24″ Depth · 120 lb Concrete Core</text>
+                <path d="M 45.0 38.0 L 50.0 38.0" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="3.0" y="28.5" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="28.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="31.1" fill="#1c1917" font-weight="700" font-size="1.45">STRUCTURE: 4×4 PT POST SHELL</text>
+                <text x="5.0" y="35.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Lumber    — </tspan>#2 Grade Hem-Fir (Incised PT)</text>
+                <text x="5.0" y="38.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Dimension — </tspan>3-1/2″ × 3-1/2″ × 8′-0″ Length</text>
+                <text x="5.0" y="41.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Treatment — </tspan>AC2 Ground Contact .40 Retention</text>
+                <text x="5.0" y="44.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Spacing   — </tspan>96.00″ On-Center (8′-0″ Bay)</text>
+                <text x="5.0" y="46.5" fill="#574c43" font-size="1.15">Footing: 24″ Depth · 120 lb Concrete Core</text>
               </g>
 
-              <!-- Card L3: Bottom Rail & Ground Clearance Datums -->
+              <!-- Card L3: Bottom Rail & Kickboard Clearance -->
               <g>
-                <path d="M 45.0 67.75 L 53.3 67.75" fill="none" stroke="#64748b" stroke-width="0.18" marker-end="url(#wf-dot-slate)"/>
-                <rect x="3.0" y="53.0" width="42.0" height="19.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="3.0" y="53.0" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="5.0" y="55.6" fill="#cbd5e1" font-weight="700" font-size="1.5">DATUM: BOTTOM RAIL &amp; KICKBOARD</text>
-                <text x="5.0" y="59.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Rail CL   — </tspan>Y = 67.75″ (4.25″ Clr to Grade)</text>
-                <text x="5.0" y="62.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Kickboard — </tspan>2×6 PT Sacrificial Rot Board</text>
-                <text x="5.0" y="65.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Clearance — </tspan>1.50″ Minimum Air Gap to Dirt</text>
-                <text x="5.0" y="68.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Drainage  — </tspan>Zero Soil Contact Moisture Barrier</text>
-                <text x="5.0" y="71.0" fill="#94a3b8" font-size="1.15">Extends Picket Lifespan by 8–12 Years</text>
+                <path d="M 45.0 67.75 L 53.3 67.75" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="3.0" y="53.0" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="53.0" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="55.6" fill="#1c1917" font-weight="700" font-size="1.45">DATUM: BOTTOM RAIL &amp; KICKBOARD</text>
+                <text x="5.0" y="59.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Rail CL   — </tspan>Y = 67.75″ (4.25″ Clr to Grade)</text>
+                <text x="5.0" y="62.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Kickboard — </tspan>2×6 PT Sacrificial Rot Board</text>
+                <text x="5.0" y="65.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Clearance — </tspan>1.50″ Minimum Air Gap to Dirt</text>
+                <text x="5.0" y="68.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Drainage  — </tspan>Zero Soil Contact Moisture Wick</text>
+                <text x="5.0" y="71.0" fill="#574c43" font-size="1.15">Extends Picket Lifespan by 8–12 Years</text>
               </g>
 
               <!-- ===================== RIGHT COLUMN ======================= -->
 
-              <!-- Card R1: Infill Fasteners (304 SS Ring-Shank Nails) -->
+              <!-- Card R1: Infill Nails -->
               <g>
-                <path d="M 151.0 9.06 L 126.0 9.06" fill="none" stroke="#94a3b8" stroke-width="0.18" marker-end="url(#wf-dot-steel)"/>
-                <rect x="151.0" y="3.5" width="42.0" height="20.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="151.0" y="3.5" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="153.0" y="6.1" fill="#cbd5e1" font-weight="700" font-size="1.5">FASTENER: 304 SS RING-SHANK NAILS</text>
-                <text x="153.0" y="10.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Material  — </tspan>AISI 304 Stainless Steel (Marine)</text>
-                <text x="153.0" y="13.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Size      — </tspan>2″ × 0.092″ Annular Ring Shank</text>
-                <text x="153.0" y="16.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Pattern   — </tspan>2 Nails / Rail Contact (6 / Picket)</text>
-                <text x="153.0" y="19.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Takeoff   — </tspan>96 Base + 33.33% Buffer = 128 / Bay</text>
-                <text x="153.0" y="21.8" fill="#94a3b8" font-size="1.15">Annular Rings Eliminate Thermal Backout</text>
+                <path d="M 151.0 9.06 L 126.0 9.06" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="3.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="6.1" fill="#1c1917" font-weight="700" font-size="1.45">FASTENER: 304 SS RING-SHANK NAILS</text>
+                <text x="153.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Material  — </tspan>AISI 304 Stainless Steel (Marine)</text>
+                <text x="153.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Size      — </tspan>2″ × 0.092″ Annular Ring Shank</text>
+                <text x="153.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Pattern   — </tspan>2 Nails / Rail Contact (6 / Picket)</text>
+                <text x="153.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Takeoff   — </tspan>96 Base + 33.33% Buffer = 128 / Bay</text>
+                <text x="153.0" y="21.8" fill="#574c43" font-size="1.15">Annular Rings Eliminate Thermal Backout</text>
               </g>
 
               <!-- Card R2: 2x4 Structural Cedar Rails -->
               <g>
-                <path d="M 151.0 38.0 L 142.5 10.8" fill="none" stroke="#64748b" stroke-width="0.18" marker-end="url(#wf-dot-slate)"/>
-                <rect x="151.0" y="28.5" width="42.0" height="19.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="151.0" y="28.5" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="153.0" y="31.1" fill="#cbd5e1" font-weight="700" font-size="1.5">STRUCTURE: 2×4 WRC CEDAR RAILS</text>
-                <text x="153.0" y="35.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Species   — </tspan>Western Red Cedar (Arch Knotty)</text>
-                <text x="153.0" y="38.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Dimension — </tspan>1-1/2″ × 3-1/2″ × 89-3/8″ Span</text>
-                <text x="153.0" y="41.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Pocket    — </tspan>3/16″ Mortise Inset Each Post</text>
-                <text x="153.0" y="44.2" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Sheen     — </tspan>Sunlit Specular Sheen Barrier</text>
-                <text x="153.0" y="46.5" fill="#94a3b8" font-size="1.15">Clear Bay Span: 89.00″ Post-to-Post</text>
+                <path d="M 151.0 38.0 L 142.5 10.8" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="28.5" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="28.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="31.1" fill="#1c1917" font-weight="700" font-size="1.45">STRUCTURE: 2×4 WRC CEDAR RAILS</text>
+                <text x="153.0" y="35.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Species   — </tspan>Western Red Cedar (Arch Knotty)</text>
+                <text x="153.0" y="38.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Dimension — </tspan>1-1/2″ × 3-1/2″ × 89-3/8″ Span</text>
+                <text x="153.0" y="41.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Pocket    — </tspan>3/16″ Mortise Inset Each Post</text>
+                <text x="153.0" y="44.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Protection— </tspan>Top Sunlit Specular Sheen Barrier</text>
+                <text x="153.0" y="46.5" fill="#574c43" font-size="1.15">Clear Bay Span: 89.00″ Post-to-Post</text>
               </g>
 
-              <!-- Card R3: Heavy-Duty Washer Screws for Kickboard -->
+              <!-- Card R3: Heavy Washer Screws -->
               <g>
-                <path d="M 151.0 67.75 L 135.5 73.75" fill="none" stroke="#64748b" stroke-width="0.18" marker-end="url(#wf-dot-slate)"/>
-                <rect x="151.0" y="53.0" width="42.0" height="19.0" fill="#0c131d" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <rect x="151.0" y="53.0" width="42.0" height="4.0" fill="#172233" stroke="#2d3748" stroke-width="0.22" rx="0.5"/>
-                <text x="153.0" y="55.6" fill="#cbd5e1" font-weight="700" font-size="1.5">FASTENER: HEAVY WASHER SCREWS</text>
-                <text x="153.0" y="59.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Type      — </tspan>#10 × 2-1/2″ Exterior Washer Head</text>
-                <text x="153.0" y="62.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Flange    — </tspan>1/2″ Integrated Washer Flange</text>
-                <text x="153.0" y="65.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Spacing   — </tspan>11.00″ On-Center (8 Per Board)</text>
-                <text x="153.0" y="68.7" fill="#e2e8f0" font-size="1.35"><tspan fill="#64748b">Takeoff   — </tspan>16 Base + 33.33% Buffer = 22 / Bay</text>
-                <text x="153.0" y="71.0" fill="#94a3b8" font-size="1.15">High-Torque Clamping Prevents Timber Warp</text>
+                <path d="M 151.0 67.75 L 135.5 73.75" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="53.0" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="53.0" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="55.6" fill="#1c1917" font-weight="700" font-size="1.45">FASTENER: HEAVY WASHER SCREWS</text>
+                <text x="153.0" y="59.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Type      — </tspan>#10 × 2-1/2″ Exterior Washer Head</text>
+                <text x="153.0" y="62.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Flange    — </tspan>1/2″ Integrated Washer Flange</text>
+                <text x="153.0" y="65.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Spacing   — </tspan>11.00″ On-Center (8 Per Board)</text>
+                <text x="153.0" y="68.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Takeoff   — </tspan>16 Base + 33.33% Buffer = 22 / Bay</text>
+                <text x="153.0" y="71.0" fill="#574c43" font-size="1.15">High-Torque Clamping Prevents Warp</text>
               </g>
 
             </g>
@@ -1179,104 +1229,114 @@
         </section>
 
         <!-- Clean Dimension CAD Drawing -->
-        <div class="drawing-canvas-wrapper w-full blueprint-canvas rounded border-2 border-[#1e3a5f] p-4 relative shadow-2xl overflow-hidden">
-          <svg viewBox="0 0 196 84" class="w-full h-auto drop-shadow-xl" style="max-height: 520px;">
+        <div id="d1-canvas-wrapper" class="drawing-canvas-wrapper w-full paper-canvas-kraft rounded border-2 border-[#3d332a] p-4 relative shadow-2xl overflow-hidden">
+          <svg viewBox="0 0 196 84" class="w-full h-auto drop-shadow-md" style="max-height: 520px;">
             <defs>
-              <!-- Ultra-Fine Architectural CAD Dimension Arrows -->
               <marker id="d-arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
-                <path d="M 0 2 L 10 5 L 0 8 z" fill="#7dd3fc"/>
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#1c1917"/>
               </marker>
               <marker id="d-arrow-steel" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
-                <path d="M 0 2 L 10 5 L 0 8 z" fill="#cbd5e1"/>
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#3a3027"/>
               </marker>
               <marker id="d-arrow-bronze" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
-                <path d="M 0 2 L 10 5 L 0 8 z" fill="#d49b5c"/>
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#8c531b"/>
               </marker>
               <marker id="d-arrow-slate" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
-                <path d="M 0 2 L 10 5 L 0 8 z" fill="#64748b"/>
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#1c1917"/>
               </marker>
             </defs>
             <!-- Ground Baseline (Thin Precision CAD Datum) -->
-            <line x1="20" y1="78" x2="176" y2="78" stroke="#64748b" stroke-width="0.22"/>
-            <text x="98" y="80.6" fill="#64748b" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.4" letter-spacing="0.06em">GRADE BASELINE (Y = 78.00″ · CONTINUOUS ARCHITECTURAL DATUM)</text>
-            <!-- Structural Framing Silhouettes (Thin Precision Drafting Linework) -->
-            <g fill="none" stroke-width="0.16">
-              <!-- Left 4x4 PT Post (X=50.00 to 53.50, Y=6.00 to 78.00) -->
-              <rect x="50" y="6" width="3.5" height="72" stroke="#64748b"/>
-              <!-- Right 4x4 PT Post (X=142.50 to 146.00, Y=6.00 to 78.00) -->
-              <rect x="142.5" y="6" width="3.5" height="72" stroke="#64748b"/>
-              <!-- Top Cap Rail (Y=6.00 to 7.3125) -->
-              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke="#d49b5c"/>
-              <!-- Top 2x4 Rail (Y=7.3125 to 10.8125) -->
-              <rect x="53.3125" y="7.3125" width="89.375" height="3.5" stroke="#7dd3fc"/>
-              <!-- Bottom 2x4 Rail (Y=66.00 to 69.50) -->
-              <rect x="53.3125" y="66" width="89.375" height="3.5" stroke="#7dd3fc"/>
-              <!-- Bottom 2x6 Kickboard (Y=71.00 to 76.50) -->
-              <rect x="53.3125" y="71" width="89.375" height="5.5" stroke="#94a3b8" stroke-dasharray="2.0 1.0"/>
+            <line x1="20" y1="78" x2="176" y2="78" stroke="#1c1917" stroke-width="0.26"/>
+            <!-- Earth Hatching -->
+            <g stroke="#3a3027" stroke-width="0.10" opacity="0.6">
+              <line x1="30" y1="78" x2="28" y2="80"/><line x1="40" y1="78" x2="38" y2="80"/>
+              <line x1="50" y1="78" x2="48" y2="80"/><line x1="60" y1="78" x2="58" y2="80"/>
+              <line x1="70" y1="78" x2="68" y2="80"/><line x1="80" y1="78" x2="78" y2="80"/>
+              <line x1="90" y1="78" x2="88" y2="80"/><line x1="100" y1="78" x2="98" y2="80"/>
+              <line x1="110" y1="78" x2="108" y2="80"/><line x1="120" y1="78" x2="118" y2="80"/>
+              <line x1="130" y1="78" x2="128" y2="80"/><line x1="140" y1="78" x2="138" y2="80"/>
+              <line x1="150" y1="78" x2="148" y2="80"/><line x1="160" y1="78" x2="158" y2="80"/>
             </g>
-            <!-- Post Pyramid Cap Outlines -->
-            <path d="M 49.75 6 L 51.75 3.8 L 53.75 6 Z" fill="none" stroke="#64748b" stroke-width="0.14"/>
-            <path d="M 142.25 6 L 144.25 3.8 L 146.25 6 Z" fill="none" stroke="#64748b" stroke-width="0.14"/>
+            <text x="98" y="80.6" fill="#4a3f35" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.35" letter-spacing="0.08em" font-weight="600">GRADE BASELINE (Y = 78.00″ · ARCHITECTURAL DATUM)</text>
+            <!-- ACTUAL ARCHITECTURAL SHELLS (FILL DELETED · 1-2PX OUTLINE) -->
+            <g fill="none" stroke="#1c1917" stroke-width="0.22" stroke-linejoin="round">
+              <rect x="50" y="6" width="3.5" height="72" rx="0.04"/>
+              <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
+
+              <!-- Post Caps -->
+              <g>
+                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
+                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
+                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+              </g>
+
+              <!-- 2x4 Top Rail Cap Shell -->
+              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
+              <!-- Top 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="3.5"/>
+              <!-- Bottom 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="66" width="89.375" height="3.5"/>
+              <!-- Bottom 2x6 Kickboard Rot Shield Shell -->
+              <rect x="53.3125" y="71" width="89.375" height="5.5"/>
+            </g>
             <!-- Horizontal Dimension Rulers -->
             <g font-family="'Fira Code', monospace">
               <!-- 96.00″ On-Center Span Ruler (Top) -->
-              <line x1="51.75" y1="2.8" x2="144.25" y2="2.8" stroke="#7dd3fc" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
-              <!-- Extension Lines down to post centers -->
-              <line x1="51.75" y1="2.2" x2="51.75" y2="5.8" stroke="#7dd3fc" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
-              <line x1="144.25" y1="2.2" x2="144.25" y2="5.8" stroke="#7dd3fc" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
-              <!-- Badge -->
-              <rect x="86" y="1.5" width="24" height="2.6" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="98" y="3.3" fill="#7dd3fc" text-anchor="middle" font-weight="700" font-size="1.45">96.00″ ON-CENTER (8′-0″)</text>
+              <line x1="51.75" y1="2.8" x2="144.25" y2="2.8" stroke="#1c1917" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
+              <line x1="51.75" y1="2.2" x2="51.75" y2="5.8" stroke="#1c1917" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
+              <line x1="144.25" y1="2.2" x2="144.25" y2="5.8" stroke="#1c1917" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
+              <rect x="86" y="1.5" width="24" height="2.6" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="3.3" fill="#1c1917" text-anchor="middle" font-weight="700" font-size="1.45">96.00″ ON-CENTER (8′-0″)</text>
 
               <!-- 89.00″ Clear Bay Span Ruler -->
-              <line x1="53.5" y1="13.2" x2="142.5" y2="13.2" stroke="#cbd5e1" stroke-width="0.18" marker-start="url(#d-arrow-steel)" marker-end="url(#d-arrow-steel)"/>
-              <rect x="87" y="11.9" width="22" height="2.6" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="98" y="13.7" fill="#cbd5e1" text-anchor="middle" font-size="1.45">89.00″ CLEAR BAY</text>
+              <line x1="53.5" y1="13.2" x2="142.5" y2="13.2" stroke="#3a3027" stroke-width="0.18" marker-start="url(#d-arrow-steel)" marker-end="url(#d-arrow-steel)"/>
+              <rect x="87" y="11.9" width="22" height="2.6" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="13.7" fill="#1c1917" text-anchor="middle" font-size="1.45">89.00″ CLEAR BAY</text>
 
-              <!-- Left & Right Post Width Ticks (3.50″) -->
-              <line x1="50" y1="2.8" x2="53.5" y2="2.8" stroke="#64748b" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
-              <text x="51.75" y="2.0" fill="#94a3b8" text-anchor="middle" font-size="1.2">3.5″</text>
-
-              <line x1="142.5" y1="2.8" x2="146" y2="2.8" stroke="#64748b" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
-              <text x="144.25" y="2.0" fill="#94a3b8" text-anchor="middle" font-size="1.2">3.5″</text>
+              <!-- Post Width Ticks -->
+              <line x1="50" y1="2.8" x2="53.5" y2="2.8" stroke="#1c1917" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
+              <text x="51.75" y="2.0" fill="#1c1917" text-anchor="middle" font-size="1.2">3.5″</text>
+              <line x1="142.5" y1="2.8" x2="146" y2="2.8" stroke="#1c1917" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
+              <text x="144.25" y="2.0" fill="#1c1917" text-anchor="middle" font-size="1.2">3.5″</text>
             </g>
             <!-- Vertical Dimension Datums (Right Side of Panel) -->
             <g font-family="'Fira Code', monospace">
               <!-- 6″ Cap Headroom -->
-              <line x1="149" y1="0" x2="149" y2="6" stroke="#d49b5c" stroke-width="0.16" marker-start="url(#d-arrow-bronze)" marker-end="url(#d-arrow-bronze)"/>
-              <line x1="146" y1="0" x2="150" y2="0" stroke="#d49b5c" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
-              <line x1="146" y1="6" x2="150" y2="6" stroke="#d49b5c" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
-              <text x="151.5" y="3.8" fill="#d49b5c" font-size="1.35">6.00″ CAP HEADROOM (APEX CEILING)</text>
+              <line x1="149" y1="0" x2="149" y2="6" stroke="#8c531b" stroke-width="0.16" marker-start="url(#d-arrow-bronze)" marker-end="url(#d-arrow-bronze)"/>
+              <line x1="146" y1="0" x2="150" y2="0" stroke="#8c531b" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <line x1="146" y1="6" x2="150" y2="6" stroke="#8c531b" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <text x="151.5" y="3.8" fill="#8c531b" font-size="1.35">6.00″ CAP HEADROOM (APEX CEILING)</text>
 
               <!-- 72.00″ Panel Height -->
-              <line x1="149" y1="6" x2="149" y2="78" stroke="#7dd3fc" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
-              <line x1="146" y1="78" x2="150" y2="78" stroke="#7dd3fc" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
-              <text x="151.5" y="42" fill="#7dd3fc" font-weight="700" font-size="1.5">72.00″ PANEL HEIGHT (6′-0″)</text>
+              <line x1="149" y1="6" x2="149" y2="78" stroke="#1c1917" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
+              <line x1="146" y1="78" x2="150" y2="78" stroke="#1c1917" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <text x="151.5" y="42" fill="#1c1917" font-weight="700" font-size="1.5">72.00″ PANEL HEIGHT (6′-0″)</text>
             </g>
             <!-- Attachment Centerline Leader Badges (Left Side of Panel) -->
             <g font-family="'Fira Code', monospace">
               <!-- Top Rail Centerline: Y = 9.0625″ -->
-              <line x1="53.3" y1="9.06" x2="45.0" y2="9.06" stroke="#d49b5c" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
-              <rect x="3.0" y="6.8" width="41.0" height="4.5" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="5.0" y="8.8" fill="#d49b5c" font-weight="700" font-size="1.35">TOP RAIL CL = Y 9.06″</text>
-              <text x="5.0" y="10.4" fill="#94a3b8" font-size="1.15">1.31″ Clr Below Cap · 3/16″ Pocket Inset</text>
+              <line x1="53.3" y1="9.06" x2="45.0" y2="9.06" stroke="#8c531b" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="6.8" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="8.8" fill="#8c531b" font-weight="700" font-size="1.35">TOP RAIL CL = Y 9.06″</text>
+              <text x="5.0" y="10.4" fill="#4a3f35" font-size="1.15">1.31″ Clr Below Cap · 3/16″ Pocket Inset</text>
 
               <!-- Bottom Rail Centerline: Y = 67.75″ -->
-              <line x1="53.3" y1="67.75" x2="45.0" y2="67.75" stroke="#d49b5c" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
-              <rect x="3.0" y="65.5" width="41.0" height="4.5" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="5.0" y="67.5" fill="#d49b5c" font-weight="700" font-size="1.35">BOTTOM RAIL CL = Y 67.75″</text>
-              <text x="5.0" y="69.1" fill="#94a3b8" font-size="1.15">4.25″ Clear Above Grade · Prevents Sag</text>
+              <line x1="53.3" y1="67.75" x2="45.0" y2="67.75" stroke="#8c531b" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="65.5" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="67.5" fill="#8c531b" font-weight="700" font-size="1.35">BOTTOM RAIL CL = Y 67.75″</text>
+              <text x="5.0" y="69.1" fill="#4a3f35" font-size="1.15">4.25″ Clear Above Grade · Prevents Sag</text>
 
               <!-- Kickboard Clearance: 1.50″ -->
-              <line x1="53.3" y1="71.0" x2="45.0" y2="72.5" stroke="#7dd3fc" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
-              <rect x="3.0" y="71.2" width="41.0" height="4.5" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="5.0" y="73.2" fill="#7dd3fc" font-weight="700" font-size="1.35">KICKBOARD CLEARANCE = 1.50″ MIN</text>
-              <text x="5.0" y="74.8" fill="#94a3b8" font-size="1.15">Eliminates Ground Contact Moisture Wick</text>
+              <line x1="53.3" y1="71.0" x2="45.0" y2="72.5" stroke="#1c1917" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="71.2" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="73.2" fill="#1c1917" font-weight="700" font-size="1.35">KICKBOARD CLEARANCE = 1.50″ MIN</text>
+              <text x="5.0" y="74.8" fill="#4a3f35" font-size="1.15">Eliminates Ground Contact Moisture Wick</text>
             </g>
             <!-- Engineering Foundation Datum Badge (Centered Below Grade) -->
             <g font-family="'Fira Code', monospace">
-              <rect x="68" y="79.2" width="60" height="3.2" fill="#0c131d" stroke="#2d3748" stroke-width="0.2" rx="0.4"/>
-              <text x="98" y="81.3" fill="#cbd5e1" text-anchor="middle" font-size="1.35">FOUNDATION: 24″ MIN DEPTH · 120 LB QUIKRETE CORE · 6″ AGGREGATE</text>
+              <rect x="68" y="79.2" width="60" height="3.2" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="81.3" fill="#1c1917" text-anchor="middle" font-size="1.35">FOUNDATION: 24″ MIN DEPTH · 120 LB QUIKRETE CORE · 6″ AGGREGATE</text>
             </g>
           </svg>
         </div>
@@ -1585,6 +1645,33 @@
     const BASE_LUMBER_MC = 167.72 + 402.48 + 201.24 + 890.24 + 259.48 + 135.80 + 76.72; // $2,133.68
     const FIXED_FASTENERS_MC = 135.00 + 69.00; // Picket Nails ($135.00) + Washer Screws ($69.00) = $204.00
     const LABOR_TOTAL_L = 2475.00; // 33.0 crew hours @ $75/hr
+
+    
+    function setSheetS1Paper(tone) {
+      const wrapper = document.getElementById('s1-canvas-wrapper');
+      const classes = ['paper-canvas-vellum', 'paper-canvas-kraft', 'paper-canvas-creased', 'paper-canvas-cardstock', 'blueprint-canvas'];
+      wrapper.classList.remove(...classes);
+
+      const map = {
+        'vellum': 'paper-canvas-vellum',
+        'kraft': 'paper-canvas-kraft',
+        'creased': 'paper-canvas-creased',
+        'cardstock': 'paper-canvas-cardstock',
+        'blueprint': 'blueprint-canvas'
+      };
+      wrapper.classList.add(map[tone] || 'paper-canvas-vellum');
+
+      const btnIds = ['btn-s1-paper-vellum', 'btn-s1-paper-kraft', 'btn-s1-paper-creased', 'btn-s1-paper-cardstock'];
+      btnIds.forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+          const match = id.includes(tone);
+          b.className = match
+            ? 'px-2 py-0.5 rounded font-bold bg-[#E5B842] text-[#141B16] shadow-sm'
+            : 'px-2 py-0.5 rounded text-gray-700 hover:text-black';
+        }
+      });
+    }
 
     function setFramingStyle(style) {
       const isToe = style === 'toenail';
