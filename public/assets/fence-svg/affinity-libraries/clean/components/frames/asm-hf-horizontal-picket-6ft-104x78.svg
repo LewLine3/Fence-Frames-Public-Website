@@ -484,19 +484,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="6.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="6.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-0)"/>
+        <rect x="3.1875" y="6.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="6.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-0)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="6.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="6.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-0)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="6.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="6.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-0)"/>
+        <rect x="97.4375" y="6.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="6.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-0)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="6.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="6.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 2 (picket-2): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="12" width="3.75" height="5.5" fill="#000000"/>
@@ -505,19 +505,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="12.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="12.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-1)"/>
+        <rect x="3.1875" y="12.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="12.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-1)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="12.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="12.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-1)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="12.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="12.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-1)"/>
+        <rect x="97.4375" y="12.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="12.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-1)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="12.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="12.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 3 (picket-3): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="18" width="3.75" height="5.5" fill="#000000"/>
@@ -526,19 +526,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="18.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="18.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-2)"/>
+        <rect x="3.1875" y="18.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="18.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-2)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="18.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="18.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-2)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="18.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="18.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-2)"/>
+        <rect x="97.4375" y="18.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="18.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-2)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="18.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="18.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 4 (picket-4): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="24" width="3.75" height="5.5" fill="#000000"/>
@@ -547,19 +547,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="24.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="24.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-3)"/>
+        <rect x="3.1875" y="24.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="24.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-3)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="24.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="24.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-3)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="24.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="24.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-3)"/>
+        <rect x="97.4375" y="24.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="24.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-3)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="24.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="24.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 5 (picket-5): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="30" width="3.75" height="5.5" fill="#000000"/>
@@ -568,19 +568,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="30.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="30.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-4)"/>
+        <rect x="3.1875" y="30.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="30.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-4)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="30.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="30.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-4)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="30.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="30.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-4)"/>
+        <rect x="97.4375" y="30.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="30.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-4)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="30.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="30.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 6 (picket-6): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="36" width="3.75" height="5.5" fill="#000000"/>
@@ -589,19 +589,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="36.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="36.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-5)"/>
+        <rect x="3.1875" y="36.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="36.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-5)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="36.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="36.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-5)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="36.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="36.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-5)"/>
+        <rect x="97.4375" y="36.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="36.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-5)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="36.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="36.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 7 (picket-7): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="42" width="3.75" height="5.5" fill="#000000"/>
@@ -610,19 +610,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="42.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="42.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-6)"/>
+        <rect x="3.1875" y="42.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="42.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-6)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="42.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="42.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-6)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="42.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="42.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-6)"/>
+        <rect x="97.4375" y="42.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="42.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-6)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="42.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="42.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 8 (picket-8): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="48" width="3.75" height="5.5" fill="#000000"/>
@@ -631,19 +631,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="48.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="48.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-7)"/>
+        <rect x="3.1875" y="48.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="48.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-7)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="48.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="48.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-7)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="48.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="48.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-7)"/>
+        <rect x="97.4375" y="48.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="48.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-7)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="48.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="48.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 9 (picket-9): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="54" width="3.75" height="5.5" fill="#000000"/>
@@ -652,19 +652,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="54.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="54.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-8)"/>
+        <rect x="3.1875" y="54.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="54.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-8)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="54.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="54.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-8)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="54.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="54.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-8)"/>
+        <rect x="97.4375" y="54.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="54.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-8)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="54.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="54.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 10 (picket-10): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="60" width="3.75" height="5.5" fill="#000000"/>
@@ -673,19 +673,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="60.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="60.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-9)"/>
+        <rect x="3.1875" y="60.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="60.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-9)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="60.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="60.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-9)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="60.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="60.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-9)"/>
+        <rect x="97.4375" y="60.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="60.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-9)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="60.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="60.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 11 (picket-11): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="66" width="3.75" height="5.5" fill="#000000"/>
@@ -694,19 +694,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="66.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="66.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-10)"/>
+        <rect x="3.1875" y="66.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="66.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-10)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="66.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="66.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-10)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="66.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="66.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-10)"/>
+        <rect x="97.4375" y="66.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="66.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-10)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="66.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="66.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 12 (picket-12): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
         <rect x="3" y="72" width="3.75" height="5.5" fill="#000000"/>
@@ -715,19 +715,19 @@
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3" y="72.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="3" y="72.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-11)"/>
+        <rect x="3.1875" y="72.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="3.1875" y="72.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-11)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
         <rect x="6.9375" y="72.1875" width="90.125" height="5.125" fill="url(#cedar-rail-shine)"/>
         <rect x="6.9375" y="72.1875" width="90.125" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-11)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="72.1875" width="3.5625" height="5.125" fill="url(#cedar-rail-shine)"/>
-        <rect x="97.4375" y="72.1875" width="3.5625" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-11)"/>
+        <rect x="97.4375" y="72.1875" width="3.375" height="5.125" fill="url(#cedar-rail-shine)"/>
+        <rect x="97.4375" y="72.1875" width="3.375" height="5.125" fill="url(#asm-hf-horizontal-picket-6ft-104x78-pat-board-11)"/>
 
-        <!-- Top Sunlit Specular Sheen across entire bay -->
-        <rect x="3" y="72.1875" width="98" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
+        <rect x="3.1875" y="72.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
       </g>
 
       <!-- 3. Post Caps Details -->
@@ -738,9 +738,9 @@
         <path fill="url(#copper-cap-highlight)" opacity="0.55" d="M 3.8125 4.75 L 5.6875 3.625 L 6.75 2.6875 L 3.875 3.9375 Q 3.84375 3.96875 3.8125 4 Z"/>
 
         <!-- Right Cap -->
-        <path fill="url(#cedar-cap-shine)" d="M 94.3125 5.8125 L 94.3125 4 Q 94.34375 95.59375 94.375 95.5625 L 97.25 94.3125 L 100.125 95.5625 Q 100.15625 95.59375 100.1875 95.625 L 100.1875 97.4375 Z"/>
+        <path fill="url(#cedar-cap-shine)" d="M 94.3125 5.8125 L 94.3125 4 Q 94.34375 3.96875 94.375 3.9375 L 97.25 2.6875 L 100.125 3.9375 Q 100.15625 3.96875 100.1875 4 L 100.1875 5.8125 Z"/>
         <path fill="url(#copper-cap-shine)" d="M 94.3125 4.75 L 100.1875 4.75 L 100.1875 4 Q 100.15625 3.96875 100.125 3.9375 L 97.25 2.6875 L 94.375 3.9375 Q 94.34375 3.96875 94.3125 4 Z"/>
-        <path fill="url(#copper-cap-highlight)" opacity="0.55" d="M 94.3125 4.75 L 96.1875 3.625 L 97.25 2.6875 L 94.375 3.9375 Q 94.34375 95.59375 94.3125 95.625 Z"/>
+        <path fill="url(#copper-cap-highlight)" opacity="0.55" d="M 94.3125 4.75 L 96.1875 3.625 L 97.25 2.6875 L 94.375 3.9375 Q 94.34375 3.96875 94.3125 4 Z"/>
       </g>
 
       <!-- 4. Visible HeadLOK Structural Screws at Butt-Joint Post Connections (4 Screws Per Post) -->
