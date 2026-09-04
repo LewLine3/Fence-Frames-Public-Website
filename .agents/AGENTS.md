@@ -108,7 +108,7 @@
 
 - **4ft Default Mandatory**: All board fences (Horizontal Split Board: Rancher `HSB-RNCH`, Homesteader `HSB-HMST`) MUST default to **4 ft (48")** in all elevations, initial state configurators, and catalogs. 5ft and 6ft exist as non-recommended options and must never be the default display.
 - **Triple Rail (3-Rail) Standard**: One board flush with post tops ($Y = 78 - H$), next two boards split interior space between ground baseline ($Y=78.00″$) and bottom of top board into **3 equal-sized windows** ($W_3 = (H - 16.50″) / 3$). At 4ft, $W_3 = 10.50″$.
-- **Two Rail (2-Rail)**: Rails sit centered exactly at the midpoints of the windows created by triple rail ($M_1 = 40.75″$, $M_2 = 56.75″$ at 4ft).
+- **Two Rail (2-Rail)**: Upper rail sits centered at the midpoint of triple rail's window 1 ($M_1 = 40.75″$ at 4ft), while bottom rail returns to the exact same position as triple rail's bottom rail ($Y = 62.00″$, bottom $Y=67.50″$, $10.50″$ ground clearance at 4ft).
 - **Quad Rail (4-Rail)**: One board flush with post tops, remaining 3 rails split space into **4 equal quadrants** ($W_4 = (H - 22.00″) / 4$). At 4ft, $W_4 = 6.50″$.
 
 

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Background Grid Options Picker</title>
+  <style>
+    :root {
+      --ff-cream: #F8F4EC;
+      --ff-cream-light: #FAF6EE;
+      --ff-forest-deep: #1B4332;
+      --ff-forest: #2F5D3A;
+      --ff-forest-bright: #3F8A52;
+      --ff-sage: #789981;
+      --ff-tan-deep: #9E8A68;
+      --ff-tan: #C4B294;
+      --ff-sand: #DBD0BD;
+      --ff-gold: #D9B872;
+      --ff-gold-dark: #AE8732;
+      --ff-ink: #1A1A1A;
+      --ff-charcoal: #383B3E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #EFEBE4;
+      color: var(--ff-ink);
+      padding: 2rem;
+    }
+    .header-bar {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      background: var(--ff-forest-deep);
+      color: var(--ff-cream-light);
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      border: 1px solid var(--ff-ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-bar h1 { font-size: 1.6rem; font-weight: 800; }
+    .header-bar p { color: var(--ff-tan); font-size: 0.95rem; margin-top: 0.25rem; }
+    
+    .grid-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .option-card {
+      border-radius: 12px;
+      border: 2px solid var(--ff-ink);
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background: #FFF;
+    }
+
+    .option-banner {
+      background: var(--ff-forest-deep);
+      color: var(--ff-cream-light);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--ff-ink);
+    }
+    .option-banner h2 { font-size: 1.25rem; }
+    .tag {
+      background: var(--ff-gold);
+      color: var(--ff-ink);
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid var(--ff-ink);
+    }
+
+    /* Option Canvases */
+    .preview-canvas {
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    /* Option 1 Grid: Vibrant Green + Dark Forest Sub-grid */
+    .canvas-opt-1 {
+      background-color: #F8F4EC;
+      background-image: 
+        linear-gradient(to right, rgba(47, 93, 58, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(47, 93, 58, 0.38) 1.5px, transparent 1.5px),
+        linear-gradient(to right, rgba(27, 67, 50, 0.18) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(27, 67, 50, 0.18) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    }
+
+    /* Option 2 Grid: Emerald Bright + Sage Sub-grid */
+    .canvas-opt-2 {
+      background-color: #FAF6EE;
+      background-image: 
+        linear-gradient(to right, rgba(63, 138, 82, 0.42) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(63, 138, 82, 0.42) 1.5px, transparent 1.5px),
+        linear-gradient(to right, rgba(120, 153, 129, 0.22) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 153, 129, 0.22) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    }
+
+    /* Option 3 Grid: Deep Forest + Cedar Tan Sub-grid */
+    .canvas-opt-3 {
+      background-color: #F5EFE6;
+      background-image: 
+        linear-gradient(to right, rgba(27, 67, 50, 0.45) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(27, 67, 50, 0.45) 1.5px, transparent 1.5px),
+        linear-gradient(to right, rgba(158, 138, 104, 0.28) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(158, 138, 104, 0.28) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 30px 30px, 30px 30px;
+    }
+
+    /* Option 4 Grid: Monochromatic Forest Dual-Weight */
+    .canvas-opt-4 {
+      background-color: #F8F4EC;
+      background-image: 
+        linear-gradient(to right, rgba(47, 93, 58, 0.45) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(47, 93, 58, 0.45) 2px, transparent 2px),
+        linear-gradient(to right, rgba(47, 93, 58, 0.20) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(47, 93, 58, 0.20) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 30px 30px, 30px 30px;
+    }
+
+    /* Components Showcase Row */
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 1. Prominent Card: Green Header + Wood Body */
+    .card-prominent {
+      border: 1px solid var(--ff-ink);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .card-header-green {
+      background: var(--ff-forest-deep);
+      color: var(--ff-cream-light);
+      padding: 0.75rem 1rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--ff-ink);
+    }
+    .card-body-wood {
+      background-color: #C4B294;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(125, 90, 63, 0.15),
+        rgba(125, 90, 63, 0.15) 10px,
+        rgba(196, 178, 148, 0.2) 10px,
+        rgba(196, 178, 148, 0.2) 20px
+      );
+      padding: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--ff-ink);
+    }
+
+    /* 2. Solid Green Card (~50%) */
+    .card-solid-green {
+      background: var(--ff-forest);
+      color: var(--ff-cream-light);
+      border: 1px solid var(--ff-ink);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .card-solid-green .card-body {
+      padding: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    /* 3. Long Detail / Material Card */
+    .card-detail {
+      background: var(--ff-cream-light);
+      border: 1px solid var(--ff-ink);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .card-detail .card-body {
+      padding: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--ff-ink);
+    }
+
+    /* Buttons */
+    .btn-gold {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--ff-gold);
+      color: var(--ff-ink);
+      font-weight: bold;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--ff-ink);
+      margin-top: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-green {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--ff-forest-deep);
+      color: var(--ff-cream-light);
+      font-weight: bold;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--ff-ink);
+      margin-top: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Full Section Variety Row */
+    .section-variety-green {
+      background: var(--ff-forest-deep);
+      border: 1px solid var(--ff-ink);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .inverted-card-tan {
+      flex: 1;
+      background: var(--ff-tan);
+      border: 1px solid var(--ff-ink);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--ff-ink);
+    }
+    .inverted-card-cream {
+      flex: 1;
+      background: var(--ff-cream-light);
+      border: 1px solid var(--ff-ink);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--ff-ink);
+    }
+  </style>
+</head>
+<body>
+  <div class="header-bar">
+    <div>
+      <h1>FENCE FRAMES — Light Cream Background Options</h1>
+      <p>Compare gridline weights, two-tone contrasts, and card textures side-by-side to select the winning foundation.</p>
+    </div>
+    <span class="tag">Selection Hub</span>
+  </div>
+
+  <div class="grid-container">
+
+    <!-- OPTION 1 -->
+    <div class="option-card">
+      <div class="option-banner">
+        <h2>Option 1: Two-Tone Vibrant Green Main (120px) + Dark Forest Sub-grid (24px)</h2>
+        <span class="tag">Recommended Baseline</span>
+      </div>
+      <div class="preview-canvas canvas-opt-1">
+        <div class="card-row">
+          <!-- Prominent Wood Card -->
+          <div class="card-prominent">
+            <div class="card-header-green">
+              <span>Heritage Vertical Picket</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">Prominent</span>
+            </div>
+            <div class="card-body-wood">
+              <strong>Cedar Wood Grain Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem;">• 6ft Height / 8ft Centers<br/>• 1x6 Western Red Cedar<br/>• Mid Quote: $13,327</p>
+              <a class="btn-gold">Launch 2D Designer</a>
+            </div>
+          </div>
+
+          <!-- Solid Green Card -->
+          <div class="card-solid-green">
+            <div class="card-header-green" style="background:#1B4332;">
+              <span>3-Seat Scramble</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">~50% Ratio</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-gold);">Full Forest Green Container</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#DBD0BD;">• No monthly subscriptions<br/>• Direct homeowner spec<br/>• 3 contractors per lead</p>
+              <a class="btn-gold">View Job Board</a>
+            </div>
+          </div>
+
+          <!-- Detail Card -->
+          <div class="card-detail">
+            <div class="card-header-green">
+              <span>Si View Material Schedule</span>
+              <span style="font-size:0.8rem; color:#DBD0BD;">Bylaws</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-forest-deep);">Light Cream Interior Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#383B3E;">• 4x4 PT Ground Contact<br/>• 2x4 WRC Framing Rails<br/>• Semi-Transparent Stain</p>
+              <a class="btn-green">Download Submittal PDF</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Variety -->
+        <div class="section-variety-green">
+          <div style="color:var(--ff-gold); font-weight:bold; font-size:0.95rem; width:220px;">
+            Full Deep Green Section (#1B4332) Variety Block:
+          </div>
+          <div class="inverted-card-tan">
+            <strong>Inverted Tan Card (#C4B294)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">1px black outline on green section.</p>
+          </div>
+          <div class="inverted-card-cream">
+            <strong style="color:var(--ff-forest-deep);">Inverted Cream Card (#FAF6EE)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">High contrast focus card with black outline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 2 -->
+    <div class="option-card">
+      <div class="option-banner">
+        <h2>Option 2: High-Definition Emerald Main (100px) + Muted Sage Sub-grid (20px)</h2>
+        <span class="tag" style="background:#FAF6EE;">High Visibility</span>
+      </div>
+      <div class="preview-canvas canvas-opt-2">
+        <div class="card-row">
+          <div class="card-prominent">
+            <div class="card-header-green">
+              <span>Heritage Vertical Picket</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">Prominent</span>
+            </div>
+            <div class="card-body-wood">
+              <strong>Cedar Wood Grain Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem;">• 6ft Height / 8ft Centers<br/>• 1x6 Western Red Cedar<br/>• Mid Quote: $13,327</p>
+              <a class="btn-gold">Launch 2D Designer</a>
+            </div>
+          </div>
+
+          <div class="card-solid-green">
+            <div class="card-header-green" style="background:#1B4332;">
+              <span>3-Seat Scramble</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">~50% Ratio</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-gold);">Full Forest Green Container</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#DBD0BD;">• No monthly subscriptions<br/>• Direct homeowner spec<br/>• 3 contractors per lead</p>
+              <a class="btn-gold">View Job Board</a>
+            </div>
+          </div>
+
+          <div class="card-detail">
+            <div class="card-header-green">
+              <span>Si View Material Schedule</span>
+              <span style="font-size:0.8rem; color:#DBD0BD;">Bylaws</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-forest-deep);">Light Cream Interior Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#383B3E;">• 4x4 PT Ground Contact<br/>• 2x4 WRC Framing Rails<br/>• Semi-Transparent Stain</p>
+              <a class="btn-green">Download Submittal PDF</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-variety-green">
+          <div style="color:var(--ff-gold); font-weight:bold; font-size:0.95rem; width:220px;">
+            Full Deep Green Section (#1B4332) Variety Block:
+          </div>
+          <div class="inverted-card-tan">
+            <strong>Inverted Tan Card (#C4B294)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">1px black outline on green section.</p>
+          </div>
+          <div class="inverted-card-cream">
+            <strong style="color:var(--ff-forest-deep);">Inverted Cream Card (#FAF6EE)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">High contrast focus card with black outline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 3 -->
+    <div class="option-card">
+      <div class="option-banner">
+        <h2>Option 3: Deep Forest Main (120px) + Cedar Tan Sub-grid (30px)</h2>
+        <span class="tag" style="background:#FAF6EE;">Earthy Craft</span>
+      </div>
+      <div class="preview-canvas canvas-opt-3">
+        <div class="card-row">
+          <div class="card-prominent">
+            <div class="card-header-green">
+              <span>Heritage Vertical Picket</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">Prominent</span>
+            </div>
+            <div class="card-body-wood">
+              <strong>Cedar Wood Grain Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem;">• 6ft Height / 8ft Centers<br/>• 1x6 Western Red Cedar<br/>• Mid Quote: $13,327</p>
+              <a class="btn-gold">Launch 2D Designer</a>
+            </div>
+          </div>
+
+          <div class="card-solid-green">
+            <div class="card-header-green" style="background:#1B4332;">
+              <span>3-Seat Scramble</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">~50% Ratio</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-gold);">Full Forest Green Container</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#DBD0BD;">• No monthly subscriptions<br/>• Direct homeowner spec<br/>• 3 contractors per lead</p>
+              <a class="btn-gold">View Job Board</a>
+            </div>
+          </div>
+
+          <div class="card-detail">
+            <div class="card-header-green">
+              <span>Si View Material Schedule</span>
+              <span style="font-size:0.8rem; color:#DBD0BD;">Bylaws</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-forest-deep);">Light Cream Interior Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#383B3E;">• 4x4 PT Ground Contact<br/>• 2x4 WRC Framing Rails<br/>• Semi-Transparent Stain</p>
+              <a class="btn-green">Download Submittal PDF</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-variety-green">
+          <div style="color:var(--ff-gold); font-weight:bold; font-size:0.95rem; width:220px;">
+            Full Deep Green Section (#1B4332) Variety Block:
+          </div>
+          <div class="inverted-card-tan">
+            <strong>Inverted Tan Card (#C4B294)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">1px black outline on green section.</p>
+          </div>
+          <div class="inverted-card-cream">
+            <strong style="color:var(--ff-forest-deep);">Inverted Cream Card (#FAF6EE)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">High contrast focus card with black outline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 4 -->
+    <div class="option-card">
+      <div class="option-banner">
+        <h2>Option 4: Monochromatic Forest Dual-Weight (120px / 30px)</h2>
+        <span class="tag" style="background:#FAF6EE;">Precision Drafting</span>
+      </div>
+      <div class="preview-canvas canvas-opt-4">
+        <div class="card-row">
+          <div class="card-prominent">
+            <div class="card-header-green">
+              <span>Heritage Vertical Picket</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">Prominent</span>
+            </div>
+            <div class="card-body-wood">
+              <strong>Cedar Wood Grain Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem;">• 6ft Height / 8ft Centers<br/>• 1x6 Western Red Cedar<br/>• Mid Quote: $13,327</p>
+              <a class="btn-gold">Launch 2D Designer</a>
+            </div>
+          </div>
+
+          <div class="card-solid-green">
+            <div class="card-header-green" style="background:#1B4332;">
+              <span>3-Seat Scramble</span>
+              <span class="tag" style="font-size:0.7rem; padding:0.15rem 0.4rem;">~50% Ratio</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-gold);">Full Forest Green Container</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#DBD0BD;">• No monthly subscriptions<br/>• Direct homeowner spec<br/>• 3 contractors per lead</p>
+              <a class="btn-gold">View Job Board</a>
+            </div>
+          </div>
+
+          <div class="card-detail">
+            <div class="card-header-green">
+              <span>Si View Material Schedule</span>
+              <span style="font-size:0.8rem; color:#DBD0BD;">Bylaws</span>
+            </div>
+            <div class="card-body">
+              <strong style="color:var(--ff-forest-deep);">Light Cream Interior Body</strong>
+              <p style="margin-top:0.4rem; font-size:0.85rem; color:#383B3E;">• 4x4 PT Ground Contact<br/>• 2x4 WRC Framing Rails<br/>• Semi-Transparent Stain</p>
+              <a class="btn-green">Download Submittal PDF</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-variety-green">
+          <div style="color:var(--ff-gold); font-weight:bold; font-size:0.95rem; width:220px;">
+            Full Deep Green Section (#1B4332) Variety Block:
+          </div>
+          <div class="inverted-card-tan">
+            <strong>Inverted Tan Card (#C4B294)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">1px black outline on green section.</p>
+          </div>
+          <div class="inverted-card-cream">
+            <strong style="color:var(--ff-forest-deep);">Inverted Cream Card (#FAF6EE)</strong>
+            <p style="font-size:0.8rem; margin-top:0.25rem;">High contrast focus card with black outline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

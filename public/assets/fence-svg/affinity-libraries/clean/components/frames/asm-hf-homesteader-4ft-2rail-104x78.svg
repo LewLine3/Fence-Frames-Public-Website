@@ -96,7 +96,7 @@
       <path d="M 0 4.96875 L 0.84375 4.96875 L 1.65625 4.96875 L 2.5 4.96875 L 3.3125 4.96875 L 4.15625 4.96875 L 5 4.96875 L 5.8125 4.9375 L 6.65625 4.9375 L 7.5 4.9375 L 8.3125 4.9375 L 9.15625 4.9375 L 9.96875 4.9375 L 10.8125 4.9375 L 11.65625 4.9375 L 12.46875 4.9375 L 13.3125 4.90625 L 14.15625 4.90625 L 14.96875 4.90625 L 15.8125 4.90625 L 16.625 4.90625 L 17.46875 4.90625 L 18.3125 4.90625 L 19.125 4.90625 L 19.96875 4.90625 L 20.8125 4.90625 L 21.625 4.90625 L 22.46875 4.90625 L 23.28125 4.9375 L 24.125 4.96875 L 24.96875 5.03125 L 25.78125 5.09375 L 26.625 5.21875 L 27.46875 5.28125 L 28.28125 5.34375 L 29.125 5.34375 L 29.9375 5.3125 L 30.78125 5.21875 L 31.625 5.125 L 32.4375 5.03125 L 33.28125 5 L 34.125 4.96875 L 34.9375 4.96875 L 35.78125 4.96875 L 36.59375 4.96875 L 37.4375 4.96875 L 38.28125 4.96875 L 39.09375 4.96875 L 39.9375 4.96875 L 40.78125 5 L 41.59375 5 L 42.4375 5 L 43.25 5 L 44.09375 5 L 44.9375 5 L 45.75 5 L 46.59375 5 L 47.4375 5 L 48.25 5 L 49.09375 5 L 49.90625 4.96875 L 50.75 4.96875 L 51.59375 4.96875 L 52.40625 4.96875 L 53.25 4.96875 L 54.09375 4.96875 L 54.90625 4.96875 L 55.75 4.96875 L 56.5625 4.96875 L 57.40625 4.96875 L 58.25 4.9375 L 59.0625 4.9375 L 59.90625 4.9375 L 60.75 4.9375 L 61.5625 4.9375 L 62.40625 4.9375 L 63.21875 4.9375 L 64.0625 4.9375 L 64.90625 4.90625 L 65.71875 4.90625 L 66.5625 4.90625 L 67.40625 4.90625 L 68.21875 4.90625 L 69.0625 4.90625 L 69.875 4.90625 L 70.71875 4.90625 L 71.5625 4.90625 L 72.375 4.90625 L 73.21875 4.90625 L 74.0625 4.90625 L 74.875 4.90625 L 75.71875 4.90625 L 76.53125 4.90625 L 77.375 4.90625 L 78.21875 4.9375 L 79.03125 4.9375 L 79.875 4.9375 L 80.71875 4.9375 L 81.53125 4.9375 L 82.375 4.9375 L 83.1875 4.9375 L 84.03125 4.9375 L 84.875 4.96875 L 85.6875 4.96875 L 86.53125 4.96875 L 87.375 4.96875 L 88.1875 4.96875 L 89.03125 4.96875 L 89.84375 4.96875 L 90.6875 4.96875 L 91.53125 4.96875 L 92.34375 4.96875 L 93.1875 5 L 94.03125 5 L 94.84375 5 L 95.6875 5 L 96.5 5 L 97.34375 5 L 98.1875 5 L 99 5 L 99.84375 5 L 100.6875 5 L 101.5 5 L 102.34375 4.96875 L 103.15625 4.96875 L 104 4.96875" fill="none" stroke="#5a3828" stroke-width="0.042" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
       <rect x="0" y="0" width="104" height="0.1875" fill="#f0c090" opacity="0.08"/>
     </pattern>
-    <pattern id="asm-hf-homesteader-4ft-2rail-104x78-pat-board-1" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="104" height="5.125" patternTransform="translate(0, 54.1875)">
+    <pattern id="asm-hf-homesteader-4ft-2rail-104x78-pat-board-1" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="104" height="5.125" patternTransform="translate(0, 62.1875)">
       <ellipse cx="68" cy="3.4375" rx="0.375" ry="0.15625" fill="#4a3018" opacity="0.98"/>
       <ellipse cx="68" cy="3.4375" rx="0.53125" ry="0.1875" fill="#553820" opacity="0.88"/>
       <ellipse cx="68" cy="3.4375" rx="0.65625" ry="0.25" fill="#664028" opacity="0.62"/>
@@ -150,9 +150,9 @@
       <rect x="6.75" y="38" width="90.5" height="5.5" fill="#000000" data-part="board-main-1"/>
       <rect x="97.25" y="38" width="3.75" height="5.5" fill="#000000" data-part="board-cont-right-1"/>
       <!-- Board row 2 shells -->
-      <rect x="3" y="54" width="3.75" height="5.5" fill="#000000" data-part="board-cont-left-2"/>
-      <rect x="6.75" y="54" width="90.5" height="5.5" fill="#000000" data-part="board-main-2"/>
-      <rect x="97.25" y="54" width="3.75" height="5.5" fill="#000000" data-part="board-cont-right-2"/>
+      <rect x="3" y="62" width="3.75" height="5.5" fill="#000000" data-part="board-cont-left-2"/>
+      <rect x="6.75" y="62" width="90.5" height="5.5" fill="#000000" data-part="board-main-2"/>
+      <rect x="97.25" y="62" width="3.75" height="5.5" fill="#000000" data-part="board-cont-right-2"/>
 
       <!-- Left Post Cap Shell -->
       <path fill="#000000" d="M 3.625 30 L 3.625 27.875 Q 3.6875 27.8125 3.75 27.75 L 6.75 26.5 L 9.75 27.75 Q 9.8125 27.8125 9.875 27.875 L 9.875 30 Z"/>
@@ -199,25 +199,25 @@
         <rect x="3.1875" y="38.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
         <!-- Board 2 (rail-2): Left Continuation, Main Bay, Right Continuation -->
         <!-- Foreground Structural Shells (guaranteeing crisp black boundary and 3/8" butt-joint shadow lines) -->
-        <rect x="3" y="54" width="3.75" height="5.5" fill="#000000"/>
-        <rect x="6.75" y="54" width="90.5" height="5.5" fill="#000000"/>
-        <rect x="97.25" y="54" width="3.75" height="5.5" fill="#000000"/>
+        <rect x="3" y="62" width="3.75" height="5.5" fill="#000000"/>
+        <rect x="6.75" y="62" width="90.5" height="5.5" fill="#000000"/>
+        <rect x="97.25" y="62" width="3.75" height="5.5" fill="#000000"/>
 
         <!-- Inset Wood Fill & Flow Grain Details -->
         <!-- Left Continuation Segment (runs 1" past post to centerline, inset at joint) -->
-        <rect x="3.1875" y="54.1875" width="3.375" height="5.125" fill="url(#pt-board-shine)"/>
-        <rect x="3.1875" y="54.1875" width="3.375" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
+        <rect x="3.1875" y="62.1875" width="3.375" height="5.125" fill="url(#pt-board-shine)"/>
+        <rect x="3.1875" y="62.1875" width="3.375" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
 
         <!-- Main Bay Board (between post centerlines, 3/16" inset all sides) -->
-        <rect x="6.9375" y="54.1875" width="90.125" height="5.125" fill="url(#pt-board-shine)"/>
-        <rect x="6.9375" y="54.1875" width="90.125" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
+        <rect x="6.9375" y="62.1875" width="90.125" height="5.125" fill="url(#pt-board-shine)"/>
+        <rect x="6.9375" y="62.1875" width="90.125" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
 
         <!-- Right Continuation Segment (starts at centerline, runs 1" past post, inset at joint) -->
-        <rect x="97.4375" y="54.1875" width="3.375" height="5.125" fill="url(#pt-board-shine)"/>
-        <rect x="97.4375" y="54.1875" width="3.375" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
+        <rect x="97.4375" y="62.1875" width="3.375" height="5.125" fill="url(#pt-board-shine)"/>
+        <rect x="97.4375" y="62.1875" width="3.375" height="5.125" fill="url(#asm-hf-homesteader-4ft-2rail-104x78-pat-board-1)"/>
 
         <!-- Top Sunlit Specular Sheen across entire bay between outer shell caps -->
-        <rect x="3.1875" y="54.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
+        <rect x="3.1875" y="62.1875" width="97.625" height="0.1875" fill="#f0c090" opacity="0.07"/>
       </g>
 
       <!-- 3. Post Caps Details -->
@@ -271,42 +271,42 @@
         <circle cx="98.625" cy="42.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
         <circle cx="98.625" cy="42.05" r="0.20" fill="#111827"/>
         <path d="M 98.625 41.95 L 98.625 42.15 M 98.525 42.05 L 98.725 42.05" stroke="#6b7280" stroke-width="0.04"/>
-        <!-- Fastener group at Y = 55.45" -->
+        <!-- Fastener group at Y = 63.45" -->
         <!-- Left Post (X = 4.00 to 9.50): Continuation Screw (5.375") + Bay Board Screw (8.125") -->
-        <circle cx="5.375" cy="55.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="5.375" cy="55.45" r="0.20" fill="#111827"/>
-        <path d="M 5.375 55.35 L 5.375 55.55 M 5.275 55.45 L 5.475 55.45" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="5.375" cy="63.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="5.375" cy="63.45" r="0.20" fill="#111827"/>
+        <path d="M 5.375 63.35 L 5.375 63.55 M 5.275 63.45 L 5.475 63.45" stroke="#6b7280" stroke-width="0.04"/>
 
-        <circle cx="8.125" cy="55.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="8.125" cy="55.45" r="0.20" fill="#111827"/>
-        <path d="M 8.125 55.35 L 8.125 55.55 M 8.025 55.45 L 8.225 55.45" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="8.125" cy="63.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="8.125" cy="63.45" r="0.20" fill="#111827"/>
+        <path d="M 8.125 63.35 L 8.125 63.55 M 8.025 63.45 L 8.225 63.45" stroke="#6b7280" stroke-width="0.04"/>
 
         <!-- Right Post (X = 94.50 to 100.00): Bay Board Screw (95.875") + Continuation Screw (98.625") -->
-        <circle cx="95.875" cy="55.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="95.875" cy="55.45" r="0.20" fill="#111827"/>
-        <path d="M 95.875 55.35 L 95.875 55.55 M 95.775 55.45 L 95.975 55.45" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="95.875" cy="63.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="95.875" cy="63.45" r="0.20" fill="#111827"/>
+        <path d="M 95.875 63.35 L 95.875 63.55 M 95.775 63.45 L 95.975 63.45" stroke="#6b7280" stroke-width="0.04"/>
 
-        <circle cx="98.625" cy="55.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="98.625" cy="55.45" r="0.20" fill="#111827"/>
-        <path d="M 98.625 55.35 L 98.625 55.55 M 98.525 55.45 L 98.725 55.45" stroke="#6b7280" stroke-width="0.04"/>
-        <!-- Fastener group at Y = 58.05" -->
+        <circle cx="98.625" cy="63.45" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="98.625" cy="63.45" r="0.20" fill="#111827"/>
+        <path d="M 98.625 63.35 L 98.625 63.55 M 98.525 63.45 L 98.725 63.45" stroke="#6b7280" stroke-width="0.04"/>
+        <!-- Fastener group at Y = 66.05" -->
         <!-- Left Post (X = 4.00 to 9.50): Continuation Screw (5.375") + Bay Board Screw (8.125") -->
-        <circle cx="5.375" cy="58.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="5.375" cy="58.05" r="0.20" fill="#111827"/>
-        <path d="M 5.375 57.95 L 5.375 58.15 M 5.275 58.05 L 5.475 58.05" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="5.375" cy="66.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="5.375" cy="66.05" r="0.20" fill="#111827"/>
+        <path d="M 5.375 65.95 L 5.375 66.15 M 5.275 66.05 L 5.475 66.05" stroke="#6b7280" stroke-width="0.04"/>
 
-        <circle cx="8.125" cy="58.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="8.125" cy="58.05" r="0.20" fill="#111827"/>
-        <path d="M 8.125 57.95 L 8.125 58.15 M 8.025 58.05 L 8.225 58.05" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="8.125" cy="66.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="8.125" cy="66.05" r="0.20" fill="#111827"/>
+        <path d="M 8.125 65.95 L 8.125 66.15 M 8.025 66.05 L 8.225 66.05" stroke="#6b7280" stroke-width="0.04"/>
 
         <!-- Right Post (X = 94.50 to 100.00): Bay Board Screw (95.875") + Continuation Screw (98.625") -->
-        <circle cx="95.875" cy="58.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="95.875" cy="58.05" r="0.20" fill="#111827"/>
-        <path d="M 95.875 57.95 L 95.875 58.15 M 95.775 58.05 L 95.975 58.05" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="95.875" cy="66.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="95.875" cy="66.05" r="0.20" fill="#111827"/>
+        <path d="M 95.875 65.95 L 95.875 66.15 M 95.775 66.05 L 95.975 66.05" stroke="#6b7280" stroke-width="0.04"/>
 
-        <circle cx="98.625" cy="58.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
-        <circle cx="98.625" cy="58.05" r="0.20" fill="#111827"/>
-        <path d="M 98.625 57.95 L 98.625 58.15 M 98.525 58.05 L 98.725 58.05" stroke="#6b7280" stroke-width="0.04"/>
+        <circle cx="98.625" cy="66.05" r="0.32" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+        <circle cx="98.625" cy="66.05" r="0.20" fill="#111827"/>
+        <path d="M 98.625 65.95 L 98.625 66.15 M 98.525 66.05 L 98.725 66.05" stroke="#6b7280" stroke-width="0.04"/>
       </g>
     </g>
   </g>
