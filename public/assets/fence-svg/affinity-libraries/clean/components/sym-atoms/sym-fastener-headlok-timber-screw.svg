@@ -1,116 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78" width="104in" height="78in">
-  <title>sym-fastener-headlok-timber-screw</title>
-  <desc>Batch 2: FastenMaster HeadLOK 2-7/8" Heavy-Duty Timber Screws on canonical 104×78 artboard.</desc>
-  <defs>
-    <!-- Cedar Horizontal Board Grain (24" x 5.125" repeat tile) -->
-    <pattern id="pat-cedar-board-grain" patternUnits="userSpaceOnUse" width="24" height="5.125">
-      <linearGradient id="cedar-board-shine" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#cf9e72" stop-opacity="0.9"/>
-        <stop offset="50%" stop-color="#b87a48" stop-opacity="0.8"/>
-        <stop offset="100%" stop-color="#9e6235" stop-opacity="0.9"/>
-      </linearGradient>
-      <rect width="24" height="5.125" fill="url(#cedar-board-shine)"/>
-      <ellipse cx="6.5" cy="1.6" rx="0.5" ry="0.18" fill="#4a3018" opacity="0.85"/>
-      <ellipse cx="6.5" cy="1.6" rx="0.9" ry="0.32" fill="#664028" opacity="0.45"/>
-      <ellipse cx="17.2" cy="3.8" rx="0.4" ry="0.15" fill="#382010" opacity="0.9"/>
-      <ellipse cx="17.2" cy="3.8" rx="0.75" ry="0.28" fill="#503020" opacity="0.5"/>
-      <path d="M 0 0.8 Q 6 1.1 12 0.7 T 24 0.9" fill="none" stroke="#d4b078" stroke-width="0.04" opacity="0.6"/>
-      <path d="M 0 1.9 Q 5 2.2 11 1.7 T 24 2.1" fill="none" stroke="#241408" stroke-width="0.04" opacity="0.75"/>
-      <path d="M 0 3.2 Q 7 3.5 13 3.0 T 24 3.3" fill="none" stroke="#6b4f3a" stroke-width="0.04" opacity="0.65"/>
-      <path d="M 0 4.4 Q 8 4.2 15 4.6 T 24 4.3" fill="none" stroke="#120908" stroke-width="0.04" opacity="0.7"/>
-    </pattern>
-
-    <!-- PT Incised Horizontal Board Grain -->
-    <pattern id="pat-pt-board-grain" patternUnits="userSpaceOnUse" width="16" height="5.125">
-      <linearGradient id="pt-board-shine" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#7a855c" stop-opacity="0.95"/>
-        <stop offset="50%" stop-color="#69734c" stop-opacity="0.9"/>
-        <stop offset="100%" stop-color="#565f3d" stop-opacity="0.95"/>
-      </linearGradient>
-      <rect width="16" height="5.125" fill="url(#pt-board-shine)"/>
-      <rect x="2.0" y="0.8" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="6.5" y="1.2" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="11.0" y="0.9" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="4.2" y="2.5" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="8.8" y="2.8" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="13.5" y="2.3" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="2.8" y="4.1" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="7.4" y="4.3" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <rect x="12.2" y="4.0" width="0.35" height="0.08" fill="#1b2010" opacity="0.7"/>
-      <path d="M 0 1.5 L 16 1.55" fill="none" stroke="#464e32" stroke-width="0.03" opacity="0.6"/>
-      <path d="M 0 3.5 L 16 3.45" fill="none" stroke="#464e32" stroke-width="0.03" opacity="0.6"/>
-    </pattern>
-
-    <!-- Cedar Vertical Post Grain (5.125" x 24") -->
-    <pattern id="pat-cedar-post-grain-4x6" patternUnits="userSpaceOnUse" width="5.125" height="24">
-      <linearGradient id="cedar-post-vert" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#b57846"/>
-        <stop offset="50%" stop-color="#c98a56"/>
-        <stop offset="100%" stop-color="#a86d3d"/>
-      </linearGradient>
-      <rect width="5.125" height="24" fill="url(#cedar-post-vert)"/>
-      <ellipse cx="2.1" cy="7.5" rx="0.22" ry="0.65" fill="#4a3018" opacity="0.9"/>
-      <ellipse cx="2.1" cy="7.5" rx="0.45" ry="1.1" fill="#664028" opacity="0.45"/>
-      <ellipse cx="3.8" cy="18.2" rx="0.18" ry="0.55" fill="#382010" opacity="0.85"/>
-      <path d="M 0.8 0 Q 1.1 6 0.7 12 T 0.9 24" fill="none" stroke="#d4b078" stroke-width="0.04" opacity="0.65"/>
-      <path d="M 2.4 0 Q 2.1 7 2.6 14 T 2.3 24" fill="none" stroke="#120908" stroke-width="0.04" opacity="0.75"/>
-      <path d="M 3.9 0 Q 4.2 5 3.8 11 T 4.1 24" fill="none" stroke="#6b4f3a" stroke-width="0.04" opacity="0.6"/>
-    </pattern>
-
-    <!-- PT Incised Vertical Post Grain (5.125" x 24") -->
-    <pattern id="pat-pt-post-grain-4x6" patternUnits="userSpaceOnUse" width="5.125" height="24">
-      <rect width="5.125" height="24" fill="#6d7650"/>
-      <!-- Incising cut marks -->
-      <rect x="1.0" y="2.0" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="2.5" y="3.5" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="4.0" y="2.2" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="1.5" y="8.0" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="3.2" y="9.5" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="4.5" y="8.2" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="1.2" y="15.0" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="2.8" y="16.5" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="4.2" y="15.2" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="1.8" y="21.0" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-      <rect x="3.5" y="22.5" width="0.1" height="0.5" fill="#1b2010" opacity="0.8"/>
-    </pattern>
-
-    <!-- HeadLOK Structural Timber Screw Symbol -->
-    <g id="sym-fastener-headlok">
-      <!-- Outer heavy flat washer head -->
-      <circle cx="0" cy="0" r="0.32" fill="#000000"/>
-      <circle cx="0" cy="0" r="0.29" fill="#2b2622"/>
-      <circle cx="0" cy="0" r="0.24" fill="#38322c"/>
-      <!-- Spider-drive recess -->
-      <polygon points="0,-0.13 0.08,-0.08 0.13,0 0.08,0.08 0,0.13 -0.08,0.08 -0.13,0 -0.08,-0.08" fill="#110f0e"/>
-      <circle cx="0" cy="0" r="0.05" fill="#050504"/>
-    </g>
-  </defs>
-  <g id="sym-fastener-headlok-timber-screw">
-    <g id="shell">
-      <!-- 3 Screws on Left Post (Centerline X=6.75) -->
-      <circle cx="6.75" cy="62.75" r="0.35" fill="#000000"/>
-      <circle cx="6.75" cy="68.25" r="0.35" fill="#000000"/>
-      <circle cx="6.75" cy="73.75" r="0.35" fill="#000000"/>
-      <!-- 3 Screws on Center Trim (X=52.00) -->
-      <circle cx="52.00" cy="62.75" r="0.35" fill="#000000"/>
-      <circle cx="52.00" cy="68.25" r="0.35" fill="#000000"/>
-      <circle cx="52.00" cy="73.75" r="0.35" fill="#000000"/>
-      <!-- 3 Screws on Right Post (Centerline X=97.25) -->
-      <circle cx="97.25" cy="62.75" r="0.35" fill="#000000"/>
-      <circle cx="97.25" cy="68.25" r="0.35" fill="#000000"/>
-      <circle cx="97.25" cy="73.75" r="0.35" fill="#000000"/>
-    </g>
-    <g id="details">
-      <use href="#sym-fastener-headlok" x="6.75" y="62.75"/>
-      <use href="#sym-fastener-headlok" x="6.75" y="68.25"/>
-      <use href="#sym-fastener-headlok" x="6.75" y="73.75"/>
-      <use href="#sym-fastener-headlok" x="52.00" y="62.75"/>
-      <use href="#sym-fastener-headlok" x="52.00" y="68.25"/>
-      <use href="#sym-fastener-headlok" x="52.00" y="73.75"/>
-      <use href="#sym-fastener-headlok" x="97.25" y="62.75"/>
-      <use href="#sym-fastener-headlok" x="97.25" y="68.25"/>
-      <use href="#sym-fastener-headlok" x="97.25" y="73.75"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" width="1in" height="1in">
+  <title>sym-fastener-headlok-screw</title>
+  <desc>FastenMaster HeadLOK Heavy-Duty Flathead Structural Timber Screw (architectural detail representation with washer face and spider drive recess).</desc>
+  <g id="sym-fastener-headlok-screw">
+    <!-- Outer Washer Edge -->
+    <circle cx="0.5" cy="0.5" r="0.44" fill="#1b1c20" stroke="#374151" stroke-width="0.04"/>
+    <!-- Recessed Flange Face -->
+    <circle cx="0.5" cy="0.5" r="0.32" fill="#111827"/>
+    <!-- Star / Spider Drive Recess -->
+    <path d="M 0.5 0.32 L 0.5 0.68 M 0.34 0.41 L 0.66 0.59 M 0.34 0.59 L 0.66 0.41" stroke="#4b5563" stroke-width="0.05" stroke-linecap="round"/>
+    <!-- Specular Highlight Arc -->
+    <path d="M 0.22 0.35 A 0.36 0.36 0 0 1 0.78 0.35" fill="none" stroke="#9ca3af" stroke-width="0.04" opacity="0.45"/>
   </g>
 </svg>

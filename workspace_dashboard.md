@@ -25,7 +25,7 @@ tags: [supabase, components, heritage, horizontal-fence, rancher, homesteader, h
 2. [`20260903000002_batch1_heritage_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000002_batch1_heritage_components.sql) — Batch 1 Heritage V1 full component suite & 4-vendor pricing
 3. [`20260903000003_batch2_horizontal_fence_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000003_batch2_horizontal_fence_components.sql) — Batch 2 Horizontal Fence (HF) full component suite (4×6 posts, 2×6 split boards, 2×4 center trim, HeadLOK timber screws, 4×6 caps), 4-vendor pricing, and style recipes for Rancher (`HSB-RNCH`), Homesteader (`HSB-HMST`), and Horizontal Picket (`HPF-HPKT`)
 4. [`batch2-component-test-studio.html`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/batch2-component-test-studio.html) — Interactive Batch 2 component tester with live SVG elevation, 2-pass shell/details toggle, blueprint dimension X-ray, multi-vendor pricing & canonical quote math
-5. [`fence-folio-blueprint-prototype.html`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/fence-folio-blueprint-prototype.html) — 4-sheet architectural plan set (A1 Elevation, S1 Framing & Fasteners X-Ray, D1 Dimensions, B1 BOM Takeoff)
+5. [`fence-folio-blueprint-prototype.html`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/fence-folio-blueprint-prototype.html) — Polished 4-sheet architectural plan set: Sheet A1 with centered 96″ fence panel, balanced dual-sided 5-line specification callouts (3 Left, 3 Right: `Material`, `Species`, `Dimensions`, `Detail`, `Stain`), authentic 15-pattern picket system (only 4 sparse knots across 16 pickets, non-repeating wavy cedar grain, pronounced dark vertical seam gaps, and cohesive low-contrast cedar palette); Sheet S1 Framing & Fasteners X-Ray with reactive 45° toe-screw vs Simpson FB24Z toggle; Sheet D1 Dimensions & Section Details; Sheet B1 BOM Takeoff with 33.33% fastener waste & $75/hr labor schedule. Strict 8.5" × 11" landscape 1-page per sheet printing with zero overflow. Mirrored from `FenceBook` source of truth.
 
 ## Synchronized Vector Component & Elevation Standard (`104 × 78` & Shell Law)
 Codified in `.agents/AGENTS.md`:
@@ -50,7 +50,8 @@ Codified in `.agents/AGENTS.md`:
 - **Horizontal Picket (`HPF-HPKT`)**: 4×6 posts (5.5″ wide face), 12× 1×6 horizontal cedar pickets with contemporary 0.5″ reveal gaps, 2×4 center vertical trim, HeadLOK screws, 4×6 pyramid caps.
 
 ## Sync & Deployment Status
-- **FenceBook**: `main` branch up-to-date with Batch 2 assets, migration, upload script, and test studio.
-- **Fence-Frames-Public-Website**: Mirrored to `public/configure/heritage-v1/components/`, `public/assets/fence-svg/`, `supabase/migrations/`, and verified with `corepack pnpm build` (25/25 static routes). Pushed to `staging` and `main` branches.
+- **FenceBook**: `main` branch up-to-date with Batch 1 backcheck (dog-eared & gothic pickets with 15 multi-variant grain patterns), Batch 2 procedural flow-grain alignment (harmonic sine waves, 4-ring knot deflectors, top sheen band), `CANON-SVG-ART-STYLE-GUIDE.md`, updated handbook docs, and refreshed Supabase Storage bucket.
+- **Fence-Frames-Public-Website**: Mirrored to `public/configure/heritage-v1/components/`, `public/assets/fence-svg/`, `docs/CANON-SVG-ART-STYLE-GUIDE.md`, `supabase/migrations/`, and verified with `corepack pnpm build` (25/25 static routes). Pushed to `staging` and `main` branches.
 - **Public Prototype Routes**:
   - `http://localhost:3000/batch2-component-test-studio.html`
+

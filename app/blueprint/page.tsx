@@ -9,6 +9,7 @@ import {
   PricingBreakdown,
   calculateBaselineFenceQuote,
 } from '@/lib/pricing-engine'
+import { BomCalculationResult, SupportedVendor } from '@/lib/bom-engine'
 
 const SECTIONS = [
   { id: 'visual', short: 'Visual', full: 'Visual Blueprint' },
@@ -43,6 +44,9 @@ function FenceFolioPageInner() {
     },
   })
 
+  const [bomData, setBomData] = useState<BomCalculationResult | null>(null)
+  const [selectedVendor, setSelectedVendor] = useState<SupportedVendor | 'cheapest'>('homeDepot')
+
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem('ff_active_draft')
@@ -52,11 +56,34 @@ function FenceFolioPageInner() {
           setConfig(parsed.config)
           setLoadedFromStorage(true)
         }
+        if (parsed.bomData) {
+          setBomData(parsed.bomData)
+        }
       }
     } catch {
       /* ignore */
     }
   }, [])
+
+  useEffect(() => {
+    let isCancelled = false;
+    fetch('/api/bom', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ config, vendor: selectedVendor }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isCancelled && data?.success && data?.data) {
+          setBomData(data.data)
+        }
+      })
+      .catch((err) => console.error('Error fetching BOM for blueprint:', err));
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [config, selectedVendor])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -334,15 +361,37 @@ function FenceFolioPageInner() {
                 <p className="text-[10px] uppercase tracking-widest text-[#16432D]/60 font-bold">
                   Material
                 </p>
-                <h2 className="font-bold text-base sm:text-lg uppercase text-[#141B16]">
-                  Material Cost
-                </h2>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h2 className="font-bold text-base sm:text-lg uppercase text-[#141B16]">
+                    Material Cost &amp; BOM Takeoff
+                  </h2>
+                  <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded font-mono">
+                    33.33% Fastener Waste Buffer Active
+                  </span>
+                </div>
               </div>
               {showPricing ? (
-                <span className="text-sm font-bold text-[#16432D]">
-                  ${pricing.materialsCostMin.toLocaleString()} – $
-                  {pricing.materialsCostMax.toLocaleString()}
-                </span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Multi-vendor selector */}
+                  <div className="flex items-center gap-1 bg-[#141B16]/5 p-0.5 rounded border border-[#141B16]/20 text-[10px] font-mono print:hidden">
+                    {(['homeDepot', 'lowes', 'dunnLumber', 'chinook', 'cheapest'] as const).map((v) => (
+                      <button
+                        key={v}
+                        onClick={() => setSelectedVendor(v)}
+                        className={`px-2 py-0.5 rounded transition ${
+                          selectedVendor === v
+                            ? 'bg-[#141B16] text-[#FAF6EE] font-bold'
+                            : 'text-[#141B16]/70 hover:text-[#141B16]'
+                        }`}
+                      >
+                        {v === 'homeDepot' ? 'HD' : v === 'lowes' ? "Lowe's" : v === 'dunnLumber' ? 'Dunn' : v === 'chinook' ? 'Chinook' : 'Low'}
+                      </button>
+                    ))}
+                  </div>
+                  <span className="text-sm font-bold text-[#16432D]">
+                    ${(bomData ? bomData.totals.mBurdenedUsd : pricing.materialsCostMin).toLocaleString()}
+                  </span>
+                </div>
               ) : (
                 <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">
                   Quantities only (pricing hidden)
@@ -354,93 +403,101 @@ function FenceFolioPageInner() {
               <table className="w-full text-left text-xs font-light">
                 <thead>
                   <tr className="border-b-2 border-gray-300 text-[10px] text-gray-500 uppercase">
-                    <th className="pb-1 pr-2">Item</th>
-                    <th className="pb-1 pr-2">What you need</th>
-                    <th className="pb-1">Qty / Spec</th>
-                    {showPricing && <th className="pb-1 text-right">Est.</th>}
+                    <th className="pb-1 pr-2">Item / Specification</th>
+                    <th className="pb-1 pr-2">Category</th>
+                    <th className="pb-1 text-center">Qty / Spec</th>
+                    {showPricing && <th className="pb-1 text-right">Unit Price</th>}
+                    {showPricing && <th className="pb-1 text-right">Est. Total</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Posts</td>
-                    <td className="py-2">Structural posts &amp; concrete</td>
-                    <td className="py-2 font-mono">
-                      {postCount} posts · {concreteBags} bags concrete
-                    </td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        ${materialRows[1]?.totalEst.toLocaleString() ?? '—'}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Rails</td>
-                    <td className="py-2">Horizontal rails &amp; top cap</td>
-                    <td className="py-2 font-mono">
-                      {total2x4Rails}× 2x4×{railLengthEach}&apos;
-                    </td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        ${materialRows[2]?.totalEst.toLocaleString() ?? '—'}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Pickets</td>
-                    <td className="py-2">Board-on-board fill</td>
-                    <td className="py-2 font-mono">{Math.round(picketCount)}× 1x6×6&apos; cedar</td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        ${materialRows[3]?.totalEst.toLocaleString() ?? '—'}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Finish</td>
-                    <td className="py-2">Stain &amp; sealant</td>
-                    <td className="py-2 font-mono">Cedar natural both faces</td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        ${materialRows[4]?.totalEst.toLocaleString() ?? '—'}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Hardware</td>
-                    <td className="py-2">Brackets &amp; fasteners</td>
-                    <td className="py-2 font-mono">Black powder ties · stainless nails</td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        ${materialRows[6]?.totalEst.toLocaleString() ?? '—'}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="py-2 font-bold text-[#141B16]">Gates</td>
-                    <td className="py-2">Walk / drive gates</td>
-                    <td className="py-2 font-mono">
-                      {config.gates.walkGates}× walk · {config.gates.driveGates}× drive
-                    </td>
-                    {showPricing && (
-                      <td className="py-2 text-right font-bold">
-                        $
-                        {(
-                          config.gates.walkGates * 385 +
-                          config.gates.driveGates * 850
-                        ).toLocaleString()}
-                      </td>
-                    )}
-                  </tr>
+                  {bomData?.items && bomData.items.length > 0 ? (
+                    bomData.items.map((item, idx) => (
+                      <tr key={idx} className="hover:bg-amber-50/50">
+                        <td className="py-2 font-bold text-[#141B16]">
+                          <div>{item.displayName}</div>
+                          <div className="text-[10px] text-gray-500 font-mono font-normal">
+                            {item.calcNotes}
+                          </div>
+                        </td>
+                        <td className="py-2 text-gray-600 capitalize">{item.category}</td>
+                        <td className="py-2 text-center font-mono">
+                          <span className="font-bold">
+                            {item.bufferedQuantity} {item.unit}
+                          </span>
+                          {item.wastePercent > 0 && (
+                            <span className="ml-1 text-[9px] text-amber-700 font-bold bg-amber-100 px-1 py-0.5 rounded">
+                              +33.33% buffer
+                            </span>
+                          )}
+                        </td>
+                        {showPricing && (
+                          <td className="py-2 text-right font-mono text-gray-700">
+                            ${item.selectedUnitPrice.toFixed(2)}
+                          </td>
+                        )}
+                        {showPricing && (
+                          <td className="py-2 text-right font-bold font-mono text-[#141B16]">
+                            ${item.lineTotalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </td>
+                        )}
+                      </tr>
+                    ))
+                  ) : (
+                    <>
+                      <tr>
+                        <td className="py-2 font-bold text-[#141B16]">Posts</td>
+                        <td className="py-2">Structural posts &amp; concrete</td>
+                        <td className="py-2 font-mono text-center">{postCount} posts · {concreteBags} bags</td>
+                        {showPricing && <td className="py-2 text-right font-mono">—</td>}
+                        {showPricing && (
+                          <td className="py-2 text-right font-bold font-mono">
+                            ${materialRows[1]?.totalEst.toLocaleString() ?? '—'}
+                          </td>
+                        )}
+                      </tr>
+                      <tr>
+                        <td className="py-2 font-bold text-[#141B16]">Rails</td>
+                        <td className="py-2">Horizontal rails &amp; top cap</td>
+                        <td className="py-2 font-mono text-center">{total2x4Rails}× 2x4×{railLengthEach}&apos;</td>
+                        {showPricing && <td className="py-2 text-right font-mono">—</td>}
+                        {showPricing && (
+                          <td className="py-2 text-right font-bold font-mono">
+                            ${materialRows[2]?.totalEst.toLocaleString() ?? '—'}
+                          </td>
+                        )}
+                      </tr>
+                      <tr>
+                        <td className="py-2 font-bold text-[#141B16]">Pickets</td>
+                        <td className="py-2">Board-on-board fill</td>
+                        <td className="py-2 font-mono text-center">{Math.round(picketCount)}× 1x6×6&apos; cedar</td>
+                        {showPricing && <td className="py-2 text-right font-mono">—</td>}
+                        {showPricing && (
+                          <td className="py-2 text-right font-bold font-mono">
+                            ${materialRows[3]?.totalEst.toLocaleString() ?? '—'}
+                          </td>
+                        )}
+                      </tr>
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>
 
             {showPricing && (
               <div className="mt-4 pt-3 border-t border-[#141B16]/20 flex justify-between items-center gap-3 flex-wrap">
-                <span className="text-[10px] uppercase text-gray-500 font-bold">Material subtotal</span>
-                <span className="text-lg font-bold text-[#141B16]">
-                  ~${materialMid.toLocaleString()}
+                <span className="text-[10px] uppercase text-gray-500 font-bold">
+                  Raw Material Cost (MC)
+                  {bomData && ` · ${selectedVendor === 'homeDepot' ? 'Home Depot' : selectedVendor === 'lowes' ? "Lowe's" : selectedVendor === 'dunnLumber' ? 'Dunn Lumber' : selectedVendor === 'chinook' ? 'Chinook Lumber' : 'Lowest Multi-Vendor'}`}
                 </span>
+                <div className="text-right">
+                  <span className="text-lg font-bold text-[#141B16] font-mono">
+                    ${(bomData ? bomData.totals.mcUsd : materialMid).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </span>
+                  <span className="text-xs text-gray-500 block">
+                    Burdened M (1.25×): ${(bomData ? bomData.totals.mBurdenedUsd : Math.round(materialMid * 1.25)).toLocaleString()}
+                  </span>
+                </div>
               </div>
             )}
           </section>
