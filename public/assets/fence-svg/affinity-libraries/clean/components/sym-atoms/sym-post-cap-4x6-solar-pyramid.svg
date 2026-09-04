@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6.25 3.5" width="900" height="504">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6.5 1.5" width="936" height="216">
   <title>sym-post-cap-4x6-solar-pyramid</title>
   <defs>
     <linearGradient id="cedar-rail-shine" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
@@ -29,16 +29,16 @@
     </linearGradient>
   </defs>
   <!-- Outer Shell -->
-  <path d="M 0 2.75 L 3.125 0.1875 L 6.25 2.75 Z" fill="#000000" />
-  <rect x="0" y="2.75" width="6.25" height="0.75" fill="#000000" />
+  <path d="M 0 1.125 L 3.25 0.1875 L 6.5 1.125 Z" fill="#000000" />
+  <rect x="0" y="1.125" width="6.5" height="0.375" fill="#000000" />
   <!-- Skirt Inset -->
-  <rect x="0.1875" y="2.9375" width="5.875" height="0.375" fill="url(#metal-cap-shine)" />
+  <rect x="0.1875" y="1.3125" width="6.125" height="0" fill="url(#metal-cap-shine)" />
   <!-- Left Face (Sunlit) -->
-  <path d="M 0.1875 2.75 L 3.125 0.375 L 3.125 2.75 Z" fill="url(#metal-cap-shine)" />
+  <path d="M 0.1875 1.125 L 3.25 0.375 L 3.25 1.125 Z" fill="url(#metal-cap-shine)" />
   <!-- Right Face (Shadow) -->
-  <path d="M 3.125 0.375 L 6.0625 2.75 L 3.125 2.75 Z" fill="#14171a" opacity="0.85" />
+  <path d="M 3.25 0.375 L 6.3125 1.125 L 3.25 1.125 Z" fill="#14171a" opacity="0.85" />
   <!-- Solar Lens -->
-  <rect x="2.275" y="0.8375" width="1.70" height="0.75" fill="#0d1117" rx="0.1" />
-  <rect x="2.375" y="0.9375" width="1.50" height="0.55" fill="#1e3a8a" />
-  <circle cx="3.125" cy="3.1" r="0.22" fill="#fef08a" opacity="0.9" />
+  <rect x="2.5" y="0.5375" width="1.50" height="0.45" fill="#0d1117" rx="0.05" />
+  <rect x="2.6" y="0.6074999999999999" width="1.30" height="0.30" fill="#1e3a8a" />
+  <circle cx="3.25" cy="0.975" r="0.16" fill="#fef08a" opacity="0.9" />
 </svg>
