@@ -13,7 +13,10 @@ tags: [supabase, components, heritage, horizontal-fence, catalog, pricing, bom-e
 ## Current State & Counts
 - **Database Ref:** `hikpszwtglrkfgivcdaa` (`https://hikpszwtglrkfgivcdaa.supabase.co`)
 - **Integration Test Suite:** `22 Passed, 0 Failed` (`node scripts/test-integration-post-migration.mjs`)
-- **Components Active:** **52 components** across 8 categories in `component_encyclopedia` (Batch 1 Heritage V1 + Batch 2 Horizontal Fence)
+- **Components Active:** **52 catalog records** + **34 vector elevation variants** (Batch 1 Heritage V1 + Batch 2 Horizontal Fence Rancher, Homesteader, Horizontal Picket)
+- **Batch 2 Architecture:**
+  - **4ft Default Mandatory:** Board fences default to 48" height ($Y=30.00″$ post top, $Y=78.00″$ ground baseline).
+  - **Window Spacing:** Triple rail divides into 3 equal $10.50″$ windows ($W_3 = (H - 16.50″) / 3$); 2-rail centers at window midpoints ($40.75″, 56.75″$); 4-rail splits into 4 equal $6.50″$ quadrants.
 - **Vendor Price Points:** **186 prices** across Home Depot, Lowe's, Dunn Lumber, Chinook in `component_vendor_pricing`
 - **Next.js App Router Endpoints:**
   - `GET /api/catalog` — Live component catalog & 4-vendor pricing from Supabase
