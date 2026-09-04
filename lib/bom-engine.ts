@@ -5,14 +5,10 @@
  * Rules:
  * 1. Fastener Waste Logic: Canonical 33.33% Contractor Waste Buffer (+33.33% on all framing, picket, and trim fasteners).
  * 2. +1 Boundary Post Law: postCount = ceil(lf / effectiveSpan) + 1.
- * 3. Canonical Quote Formula:
- *    MC = Raw Material Cost from BOM (catalog × quantities)
- *    M  = MC × 1.25          (Tax, procurement, job-site delivery margin)
- *    L  = M × 2.0           (Labor = 2× burdened material cost or discrete labor schedule)
- *    A  = (M + L) × 0.15     (15% Administrative & overhead cost)
- *    quoted_mid   = M + L + A
- *    display_low  = quoted_mid × 0.85   (-15%)
- *    display_high = quoted_mid × 1.15   (+15%)
+ * 3. Canonical Dual-Calculation Directive (2026-09-04):
+ *    - Dynamic Labor Math (V2.0) is the New Official Canon (Client-Facing: ±15% range).
+ *    - Legacy Material-Focused Math runs concurrently as an Admin Benchmark.
+ *    - Admin dashboards receive both calculations side-by-side.
  */
 
 import { FenceConfiguration } from './pricing-engine';
@@ -46,8 +42,38 @@ export interface BomLineItem {
   laborUnitRateCents?: number;
 }
 
+export interface DynamicLaborTask {
+  taskCode: string;
+  name: string;
+  basis: string;
+  hours: number;
+  rateUsd: number;
+  totalUsd: number;
+}
+
+export interface DynamicLaborSummary {
+  tradeHourlyRate: number; // $75.00/hr loaded billable trade rate
+  installerHourlyRate: number; // $30.00/hr direct installer wage
+  totalLaborHours: number;
+  totalLaborCostUsd: number;
+  tasks: DynamicLaborTask[];
+}
+
+export interface LegacyBenchmarkQuote {
+  burdenedMaterialUsd: number;
+  laborUsd: number; // M * 2.0
+  adminUsd: number; // (M + L) * 0.15
+  quotedMidUsd: number;
+  displayLowUsd: number;
+  displayHighUsd: number;
+  pricePerLfMid: number;
+  varianceVsDynamicUsd: number; // Legacy - Dynamic
+  variancePercent: number;
+}
+
 export interface MultiVendorQuoteTotals {
   vendor: SupportedVendor | 'cheapest';
+  // Client-Facing Official Canon (Dynamic Labor Math)
   mcUsd: number;
   mBurdenedUsd: number;
   laborUsd: number;
@@ -58,6 +84,10 @@ export interface MultiVendorQuoteTotals {
   pricePerLfMid: number;
   pricePerLfLow: number;
   pricePerLfHigh: number;
+  // Dynamic Labor Schedule
+  dynamicLabor: DynamicLaborSummary;
+  // Admin Benchmark (Legacy Material Math)
+  legacyQuote: LegacyBenchmarkQuote;
 }
 
 export interface BomCalculationResult {
@@ -228,6 +258,150 @@ export function generateFenceBomRequirements(config: FenceConfiguration) {
     bufferedTrimFasteners,
     walkGates,
     driveGates,
+  };
+}
+
+/**
+  * Dynamic Labor Schedule Engine (V2.0 Official Canon)
+  * Discrete component installation rates at $75.00/hr loaded billable trade rate ($30.00/hr direct wage).
+  * Ref: FenceBook/docs/03-Specs/pricing/dynamic-labor-pricing-engine-v2.md
+  */
+export function calculateDynamicLaborSchedule(
+  req: ReturnType<typeof generateFenceBomRequirements>,
+  config: FenceConfiguration
+): DynamicLaborSummary {
+  const tradeRate = 75.0; // Billable trade / loaded shop rate
+  const installerRate = 30.0; // Direct installer wage
+  const tasks: DynamicLaborTask[] = [];
+
+  // 1. Post Holes & Concrete Setting (0.50 hr / post @ $38.00/hole)
+  const postHoleHours = Number((req.postCount * 0.5).toFixed(2));
+  const postHoleTotal = Number((req.postCount * 38.0).toFixed(2));
+  tasks.push({
+    taskCode: 'L1-L3',
+    name: 'Post Hole Excavation & Concrete Setting',
+    basis: `${req.postCount} posts (${req.effectiveSpan}ft span)`,
+    hours: postHoleHours,
+    rateUsd: 38.0,
+    totalUsd: postHoleTotal,
+  });
+
+  // 2. 2x4 Structural Rail Framing (0.10 hr / LF @ $7.50/LF)
+  const railHours = Number((req.lf * 0.1).toFixed(2));
+  const railTotal = Number((req.lf * 7.5).toFixed(2));
+  tasks.push({
+    taskCode: 'L4-L5',
+    name: '2x4 Rail Framing & Structural Alignment',
+    basis: `${req.lf} LF (${req.railCount} rails)`,
+    hours: railHours,
+    rateUsd: 7.5,
+    totalUsd: railTotal,
+  });
+
+  // 3. Infill Assembly (Vertical Pickets, Horizontal Boards, or Wire)
+  let infillRatePerLf = 6.25; // Default vertical pickets: 0.083 hr/LF @ $75 = $6.25/LF
+  let infillHoursPerLf = 0.083;
+  let infillName = 'Vertical Infill Pickets Installation';
+
+  if (config.styleId?.startsWith('hsb') || config.styleId?.startsWith('hf') || (config as any).fenceType === 'horizontal') {
+    infillRatePerLf = 8.5; // Horizontal boards: 0.113 hr/LF @ $75 = $8.50/LF
+    infillHoursPerLf = 0.113;
+    infillName = 'Horizontal Infill Board Assembly';
+  } else if (config.fillPattern === 'wire' || config.fillPattern === 'welded-wire') {
+    infillRatePerLf = 5.0; // Welded wire: 0.067 hr/LF @ $75 = $5.00/LF
+    infillHoursPerLf = 0.067;
+    infillName = 'Welded Wire Mesh Fabric Infill';
+  }
+
+  const infillHours = Number((req.lf * infillHoursPerLf).toFixed(2));
+  const infillTotal = Number((req.lf * infillRatePerLf).toFixed(2));
+  tasks.push({
+    taskCode: 'L-INFILL',
+    name: infillName,
+    basis: `${req.lf} LF infill`,
+    hours: infillHours,
+    rateUsd: infillRatePerLf,
+    totalUsd: infillTotal,
+  });
+
+  // 4. 2x4 Top Cap (0.073 hr / 8' board @ $5.50/board = $0.69/LF)
+  if (req.hasTopCap) {
+    const capHours = Number((req.bays * 0.073).toFixed(2));
+    const capTotal = Number((req.bays * 5.5).toFixed(2));
+    tasks.push({
+      taskCode: 'L-CAP',
+      name: '2x4 Top Rail Cap (Amortized)',
+      basis: `${req.bays} bays (${req.lf} LF)`,
+      hours: capHours,
+      rateUsd: 5.5,
+      totalUsd: capTotal,
+    });
+  }
+
+  // 5. Picture-Frame Trim / Fascia (0.027 hr / LF @ $2.00/LF)
+  if (req.trimCount > 0) {
+    const trimHours = Number((req.lf * 0.027).toFixed(2));
+    const trimTotal = Number((req.lf * 2.0).toFixed(2));
+    tasks.push({
+      taskCode: 'L-TRIM',
+      name: 'Picture-Frame Trim / Fascia Assembly',
+      basis: `${req.lf} LF trim (${req.trimTiers} tier)`,
+      hours: trimHours,
+      rateUsd: 2.0,
+      totalUsd: trimTotal,
+    });
+  }
+
+  // 6. Field Stain Application (0.043 hr / LF @ $3.25/LF)
+  if (config.stain && config.stain !== 'none') {
+    const stainHours = Number((req.lf * 0.043).toFixed(2));
+    const stainTotal = Number((req.lf * 3.25).toFixed(2));
+    tasks.push({
+      taskCode: 'L-STAIN',
+      name: 'Field Stain & Seal Application',
+      basis: `${req.lf} LF (${config.stain})`,
+      hours: stainHours,
+      rateUsd: 3.25,
+      totalUsd: stainTotal,
+    });
+  }
+
+  // 7. Gate Fabrication & Hanging
+  if (req.walkGates > 0) {
+    const walkHours = Number((req.walkGates * 1.6).toFixed(2));
+    const walkTotal = Number((req.walkGates * 120.0).toFixed(2));
+    tasks.push({
+      taskCode: 'L-GATE-WALK',
+      name: 'Walk Gate Fabrication & Hardware Installation',
+      basis: `${req.walkGates} gate(s)`,
+      hours: walkHours,
+      rateUsd: 120.0,
+      totalUsd: walkTotal,
+    });
+  }
+
+  if (req.driveGates > 0) {
+    const driveHours = Number((req.driveGates * 3.2).toFixed(2));
+    const driveTotal = Number((req.driveGates * 240.0).toFixed(2));
+    tasks.push({
+      taskCode: 'L-GATE-DRIVE',
+      name: 'Double Drive Gate Assembly & Heavy Hardware',
+      basis: `${req.driveGates} gate(s)`,
+      hours: driveHours,
+      rateUsd: 240.0,
+      totalUsd: driveTotal,
+    });
+  }
+
+  const totalLaborCostUsd = Number(tasks.reduce((sum, t) => sum + t.totalUsd, 0).toFixed(2));
+  const totalLaborHours = Number(tasks.reduce((sum, t) => sum + t.hours, 0).toFixed(2));
+
+  return {
+    tradeHourlyRate: tradeRate,
+    installerHourlyRate: installerRate,
+    totalLaborHours,
+    totalLaborCostUsd,
+    tasks,
   };
 }
 
@@ -490,6 +664,9 @@ export function calculateBomFromCatalog(
     );
   }
 
+  // 10. Execute Dynamic Labor Schedule (New Official Canon)
+  const dynamicLabor = calculateDynamicLaborSchedule(req, config);
+
   // Calculate totals for all 4 vendors + cheapest
   const vendors: (SupportedVendor | 'cheapest')[] = ['homeDepot', 'lowes', 'dunnLumber', 'chinook', 'cheapest'];
   const comparison: Record<string, MultiVendorQuoteTotals> = {};
@@ -504,27 +681,50 @@ export function calculateBomFromCatalog(
 
     // M = MC * 1.25 (Tax, procurement, job-site delivery margin)
     const m = Number((mc * 1.25).toFixed(2));
-    // L = M * 2.0 (Labor = 2x burdened material cost)
-    const l = Number((m * 2.0).toFixed(2));
-    // A = (M + L) * 0.15 (15% Admin & overhead)
-    const a = Number(((m + l) * 0.15).toFixed(2));
 
-    const mid = Math.round(m + l + a);
-    const low = Math.round(mid * 0.85);
-    const high = Math.round(mid * 1.15);
+    // 1. DYNAMIC LABOR MATH (Official Canon - Client-Facing)
+    const dynamicLaborCost = dynamicLabor.totalLaborCostUsd;
+    const dynamicAdmin = Number(((m + dynamicLaborCost) * 0.15).toFixed(2));
+    const dynamicMid = Math.round(m + dynamicLaborCost + dynamicAdmin);
+    const dynamicLow = Math.round(dynamicMid * 0.85);
+    const dynamicHigh = Math.round(dynamicMid * 1.15);
+
+    // 2. LEGACY MATERIAL-FOCUSED MATH (Admin Sanity Check Benchmark)
+    const legacyLabor = Number((m * 2.0).toFixed(2));
+    const legacyAdmin = Number(((m + legacyLabor) * 0.15).toFixed(2));
+    const legacyMid = Math.round(m + legacyLabor + legacyAdmin);
+    const legacyLow = Math.round(legacyMid * 0.85);
+    const legacyHigh = Math.round(legacyMid * 1.15);
+    const varianceVsDynamic = Number((legacyMid - dynamicMid).toFixed(2));
+    const variancePercent = dynamicMid > 0 ? Number(((varianceVsDynamic / dynamicMid) * 100).toFixed(1)) : 0;
 
     comparison[v] = {
       vendor: v,
+      // Client-Facing Official Canon (Dynamic Labor Math)
       mcUsd: mc,
       mBurdenedUsd: m,
-      laborUsd: l,
-      adminUsd: a,
-      quotedMidUsd: mid,
-      displayLowUsd: low,
-      displayHighUsd: high,
-      pricePerLfMid: Number((mid / req.lf).toFixed(2)),
-      pricePerLfLow: Number((low / req.lf).toFixed(2)),
-      pricePerLfHigh: Number((high / req.lf).toFixed(2)),
+      laborUsd: dynamicLaborCost,
+      adminUsd: dynamicAdmin,
+      quotedMidUsd: dynamicMid,
+      displayLowUsd: dynamicLow,
+      displayHighUsd: dynamicHigh,
+      pricePerLfMid: Number((dynamicMid / req.lf).toFixed(2)),
+      pricePerLfLow: Number((dynamicLow / req.lf).toFixed(2)),
+      pricePerLfHigh: Number((dynamicHigh / req.lf).toFixed(2)),
+      // Itemized Dynamic Labor Schedule
+      dynamicLabor,
+      // Admin Benchmark (Legacy Material Math)
+      legacyQuote: {
+        burdenedMaterialUsd: m,
+        laborUsd: legacyLabor,
+        adminUsd: legacyAdmin,
+        quotedMidUsd: legacyMid,
+        displayLowUsd: legacyLow,
+        displayHighUsd: legacyHigh,
+        pricePerLfMid: Number((legacyMid / req.lf).toFixed(2)),
+        varianceVsDynamicUsd: varianceVsDynamic,
+        variancePercent,
+      },
     };
   }
 

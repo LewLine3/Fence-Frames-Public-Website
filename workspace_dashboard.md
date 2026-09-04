@@ -12,7 +12,8 @@ tags: [supabase, components, heritage, horizontal-fence, catalog, pricing, bom-e
 
 ## Current State & Counts
 - **Database Ref:** `hikpszwtglrkfgivcdaa` (`https://hikpszwtglrkfgivcdaa.supabase.co`)
-- **Integration Test Suite:** `22 Passed, 0 Failed` (`node scripts/test-integration-post-migration.mjs`)
+- **Integration Test Suite:** `25 Passed, 0 Failed` (`node scripts/test-integration-post-migration.mjs`)
+- **Canon Pricing Architecture:** **Dynamic Labor Math (V2.0)** is the **New Official Canon**. Both calculations (Dynamic Labor and Legacy Material Math) run concurrently on every calculation cycle. Client sees Dynamic Labor only (±15% range); Admin sees both side-by-side.
 - **Components Active:** **52 catalog records** + **34 vector elevation variants** (Batch 1 Heritage V1 + Batch 2 Horizontal Fence Rancher, Homesteader, Horizontal Picket)
 - **Batch 2 Architecture:**
   - **4ft Default Mandatory:** Board fences default to 48" height ($Y=30.00″$ post top, $Y=78.00″$ ground baseline).
@@ -20,16 +21,22 @@ tags: [supabase, components, heritage, horizontal-fence, catalog, pricing, bom-e
 - **Vendor Price Points:** **186 prices** across Home Depot, Lowe's, Dunn Lumber, Chinook in `component_vendor_pricing`
 - **Next.js App Router Endpoints:**
   - `GET /api/catalog` — Live component catalog & 4-vendor pricing from Supabase
-  - `POST /api/bom` & `GET /api/bom` — Canonical BOM takeoff with 33.33% fastener waste buffer & 4-vendor quote totals
+  - `POST /api/bom` & `GET /api/bom` — Dual-calculation BOM takeoff (Dynamic Labor Canon + Legacy Admin Benchmark) with 33.33% fastener buffer & 4-vendor comparisons
   - `GET /api/leads` & `POST /api/leads` — Lead persistence & zero-fee anonymized board browsing
   - `POST /api/projects` & `POST /api/projects/claim` — Lead persistence & atomic `purchase_lead_seat` claim
 - **Production Build:** `next build` passed with zero errors (`25/25` static/dynamic routes compiled cleanly)
 
-## Latest Migrations & Schema Integration
-1. [`20260903000001_unified_master_schema.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000001_unified_master_schema.sql) — 5 core domains & atomic stored procedures (`purchase_lead_seat`)
-2. [`20260903000002_batch1_heritage_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000002_batch1_heritage_components.sql) — Batch 1 Heritage V1 full component suite & 4-vendor pricing
-3. [`20260903000003_batch2_horizontal_fence_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000003_batch2_horizontal_fence_components.sql) — Batch 2 Horizontal Fence components, 4-vendor pricing & style recipes
-4. [`20260903000004_auth_triggers_and_rls.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000004_auth_triggers_and_rls.sql) — Automatic auth triggers (`handle_new_user()`), identity table RLS (`profiles`, `contractors`, `saved_designs`, `project_tickets`, `contractor_credit_ledger`), and `leads` updatable view with PII masking.
+## Dual-Calculation Directive & Dynamic Labor Engine
+- **Official Canon (Client-Facing):** Dynamic Labor Schedule ($75.00/hr loaded trade rate, $30.00/hr installer wage):
+  - Post hole excavation & concrete setting: $0.50$ hr / post ($38.00 / hole)
+  - 2x4 rail framing: $0.10$ hr / LF ($7.50 / LF)
+  - Infill assembly: $0.083$ hr / LF ($6.25 / LF for vertical pickets; $8.50 / LF for horizontal boards)
+  - 2x4 top cap amortized: $0.073$ hr / board ($5.50 / board)
+  - Picture-frame trim: $0.027$ hr / LF ($2.00 / LF)
+  - Field stain application: $0.043$ hr / LF ($3.25 / LF)
+  - Gates: 1.60 hrs ($120.00 walk gate); 3.20 hrs ($240.00 double drive gate)
+  - Quote: $M + L + A$ where $A = (M + L) \times 0.15$. Display range: $\pm 15\%$.
+- **Admin Benchmark (Internal Only):** Legacy Material-Focused Math ($L_{\text{legacy}} = M \times 2.0$, $A_{\text{legacy}} = (M + L_{\text{legacy}}) \times 0.15$). Executed concurrently on every run to track variances and protect contractor margins.
 
 ## Canonical Fastener Waste Logic (33.33% Contractor Buffer)
 Codified in `lib/bom-engine.ts`:

@@ -30,23 +30,34 @@
 
 ---
 
-## 3. Canonical Quote Math Engine (`monetization_rules.md` § Quote math engine)
+## 3. Canonical Quote Math Engine & Dual-Calculation Directive
 
-All pricing calculations in Fence Frames MUST adhere strictly to the canonical formula:
-
-```
-MC = Raw Material Cost from BOM (catalog × quantities)
-
-M  = MC × 1.25          # Tax, procurement, and job-site delivery margin
-L  = M × 2              # Labor = 2× burdened material cost
-A  = (M + L) × 0.10     # 10% Administrative & overhead cost
-
-quoted_mid   = M + L + A
-display_low  = quoted_mid × 0.85   # (-15%)
-display_high = quoted_mid × 1.15   # (+15%)
-```
-
-- **UI Display:** Show **range only (±15%)** to homeowners, with standard estimate disclaimers.
+- **Supreme Canon Baseline:** **Dynamic Labor Math (V2.0)** is the **New Official Canon** for all quote and labor calculations.
+- **Dual-Calculation Mandate (Until Further Notice):** Every pricing run MUST execute **both** calculation engines in parallel:
+  1. **Dynamic Labor Math (Client-Facing / Official Canon):**
+     - Raw Material Cost ($MC$) from catalog BOM quantities.
+     - Burdened Material Cost ($M = MC \times 1.25$, tax, procurement, job-site delivery).
+     - Discrete Component Labor ($L$) calculated from itemized trade rates ($75.00/hr loaded shop rate, $30.00/hr direct installer wage):
+       - Post Hole & Concrete: $0.50$ hr / post ($38.00 / hole)
+       - 2x4 Rail Framing: $0.10$ hr / LF ($7.50 / LF)
+       - Vertical Infill Pickets: $0.083$ hr / LF ($6.25 / LF)
+       - Horizontal Infill Boards: $0.113$ hr / LF ($8.50 / LF)
+       - Welded Wire Fabric: $0.067$ hr / LF ($5.00 / LF)
+       - 2x4 Top Cap (Amortized): $0.073$ hr / board ($5.50 / 8' board = $0.69 / LF)
+       - Picture-Frame Trim: $0.027$ hr / LF ($2.00 / LF)
+       - Stain Application: $0.043$ hr / LF ($3.25 / LF)
+       - Walk Gate: 1.60 hrs ($120.00 / gate); Double Drive Gate: 3.20 hrs ($240.00 / gate)
+     - **Terrain Dynamic Span Reduction** ($8.0'$ level, $7.5'$ moderate slope [+7% posts], $7.0'$ steep incline [+14% posts]) and **+1 Boundary Post Law** ($Q_{\text{post}} = \lceil L / P_{\text{effective}} \rceil + 1$).
+     - Total Direct Labor $L = \sum(\text{Task Hours} \times \text{Rate})$. Admin overhead $A = (M + L) \times 0.15$.
+     - $\text{Quoted Mid} = M + L + A$. Homeowner display range $= \text{Quoted Mid} \pm 15\%$.
+  2. **Legacy Material-Focused Math (Admin Sanity Check Benchmark):**
+     - $M = MC \times 1.25$
+     - $L_{\text{legacy}} = M \times 2.0$ (or $2.06$)
+     - $A_{\text{legacy}} = (M + L_{\text{legacy}}) \times 0.15$
+     - $\text{Quoted Mid}_{\text{legacy}} = M + L_{\text{legacy}} + A_{\text{legacy}}$
+- **Visibility Enforcement Law:**
+  - **Client / Homeowner UI:** Displays **ONLY Dynamic Labor Math** ($\pm 15\%$ range). Never expose Legacy Math or raw macro multipliers to clients.
+  - **Admin & Estimator Dashboards:** Display **BOTH calculations side-by-side**, presenting Dynamic Labor vs. Legacy Material Benchmark for variance tracking and margin sanity checks.
 
 ---
 
