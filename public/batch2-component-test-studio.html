@@ -330,17 +330,35 @@
         <div class="control-group">
           <label class="control-label">Horizontal Style Line</label>
           <select id="select-style" class="select-custom" onchange="updateDesign()">
-            <option value="rancher">Rancher (HSB-RNCH) — 3× 2×6 Butt Stack</option>
-            <option value="homesteader">Homesteader (HSB-HMST) — 3× 2×6 Split Boards</option>
-            <option value="horizontal-picket">Horizontal Picket (HPF-HPKT) — 12× 1×6 Pickets</option>
+            <option value="rancher">Rancher (HSB-RNCH) — Split Horizontal Boards</option>
+            <option value="homesteader">Homesteader (HSB-HMST) — Split Horizontal PT Boards</option>
+            <option value="horizontal-picket">Horizontal Picket (HPF-HPKT) — Full Span Horizontal Pickets</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Fence Height (Default: 4ft Standard)</label>
+          <select id="select-height" class="select-custom" onchange="updateDesign()">
+            <option value="4" selected>4 ft (Recommended Standard Default)</option>
+            <option value="5">5 ft (Non-recommended option)</option>
+            <option value="6">6 ft (Non-recommended option)</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="rail-select-group">
+          <label class="control-label">Rail Configuration</label>
+          <select id="select-rails" class="select-custom" onchange="updateDesign()">
+            <option value="3" selected>Triple Rail (3-Rail Standard Default — 3 Windows)</option>
+            <option value="2">Two Rail (2-Rail Option — Window Midpoints)</option>
+            <option value="4">Quad Rail (4-Rail Option — 4 Quadrants)</option>
           </select>
         </div>
 
         <div class="control-group">
           <label class="control-label">Wood Material / Finish</label>
           <select id="select-wood" class="select-custom" onchange="updateDesign()">
-            <option value="cedar">Western Red Cedar (Honey Cedar)</option>
-            <option value="pt">Pressure-Treated Hem-Fir (Olive PT)</option>
+            <option value="cedar">Western Red Cedar (Honey Cedar / Terracotta)</option>
+            <option value="pt">Pressure-Treated Hem-Fir (Chocolate Brown PT)</option>
           </select>
         </div>
 
@@ -378,6 +396,8 @@
 
 <script>
 let currentStyle = 'rancher';
+let currentHeight = 4;
+let currentRails = 3;
 let currentWood = 'cedar';
 let currentCap = 'cedar';
 let viewMode = 'both';
@@ -403,8 +423,16 @@ function toggleBlueprint() {
 
 function updateDesign() {
   currentStyle = document.getElementById('select-style').value;
+  currentHeight = parseInt(document.getElementById('select-height').value, 10) || 4;
+  currentRails = parseInt(document.getElementById('select-rails').value, 10) || 3;
   currentWood = document.getElementById('select-wood').value;
   currentCap = document.getElementById('select-cap').value;
+
+  const railGroup = document.getElementById('rail-select-group');
+  if (railGroup) {
+    railGroup.style.display = currentStyle === 'horizontal-picket' ? 'none' : 'block';
+  }
+
   renderElevation();
   updateMath();
 }
@@ -415,33 +443,55 @@ function renderElevation() {
   const isHPKT = currentStyle === 'horizontal-picket';
 
   const isCedar = currentWood === 'cedar';
-  const postFill = isCedar ? '#c98a56' : '#6d7650';
-  const boardFill = isCedar ? '#c98a56' : '#6d7650';
+  const postFill = isCedar ? '#c88254' : '#6c4834';
+  const boardFill = isCedar ? 'url(#cedar-board-shine)' : 'url(#pt-board-shine)';
+
+  const fenceH = currentHeight * 12;
+  const postTopY = 78.00 - fenceH;
+  const capY = postTopY - 3.50;
 
   let boards = [];
-  if (isRancher) {
-    boards = [
-      { y: 60.00, h: 5.50, center: 62.75 },
-      { y: 65.50, h: 5.50, center: 68.25 },
-      { y: 71.00, h: 5.50, center: 73.75 },
-    ];
-  } else if (isHomesteader) {
-    boards = [
-      { y: 19.875, h: 5.50, center: 22.625 },
-      { y: 39.250, h: 5.50, center: 42.000 },
-      { y: 58.625, h: 5.50, center: 61.375 },
-    ];
-  } else {
-    for (let i = 0; i < 12; i++) {
-      const y = 6.00 + i * 6.00;
+  if (isHPKT) {
+    const count = currentHeight === 6 ? 12 : (currentHeight === 5 ? 10 : 8);
+    for (let i = 0; i < count; i++) {
+      const y = postTopY + i * 6.00;
       boards.push({ y, h: 5.50, center: y + 2.75 });
+    }
+  } else {
+    const interiorSpace = fenceH - 5.50;
+    if (currentRails === 3) {
+      const daylight = interiorSpace - 11.00;
+      const windowH = daylight / 3;
+      boards = [
+        { y: postTopY, h: 5.50, center: postTopY + 2.75 },
+        { y: postTopY + 5.50 + windowH, h: 5.50, center: postTopY + 5.50 + windowH + 2.75 },
+        { y: postTopY + 11.00 + 2 * windowH, h: 5.50, center: postTopY + 11.00 + 2 * windowH + 2.75 },
+      ];
+    } else if (currentRails === 2) {
+      const daylight = interiorSpace - 11.00;
+      const windowH = daylight / 3;
+      const mid1 = postTopY + 5.50 + windowH / 2;
+      const mid2 = postTopY + 11.00 + 1.5 * windowH;
+      boards = [
+        { y: mid1 - 2.75, h: 5.50, center: mid1 },
+        { y: mid2 - 2.75, h: 5.50, center: mid2 },
+      ];
+    } else if (currentRails === 4) {
+      const daylight = interiorSpace - 16.50;
+      const quadH = daylight / 4;
+      boards = [
+        { y: postTopY, h: 5.50, center: postTopY + 2.75 },
+        { y: postTopY + 5.50 + quadH, h: 5.50, center: postTopY + 5.50 + quadH + 2.75 },
+        { y: postTopY + 11.00 + 2 * quadH, h: 5.50, center: postTopY + 11.00 + 2 * quadH + 2.75 },
+        { y: postTopY + 16.50 + 3 * quadH, h: 5.50, center: postTopY + 16.50 + 3 * quadH + 2.75 },
+      ];
     }
   }
 
   // Cap colors
-  let capColor = '#c48552';
+  let capColor = '#be784c';
   if (currentCap === 'metal') capColor = '#2b2d30';
-  if (currentCap === 'copper') capColor = '#b86a4b';
+  if (currentCap === 'copper') capColor = '#b87333';
   if (currentCap === 'solar') capColor = '#1f2124';
 
   const showShell = (viewMode === 'both' || viewMode === 'shell');
@@ -451,14 +501,14 @@ function renderElevation() {
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78">
     <defs>
       <linearGradient id="cedar-board-shine" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#cf9e72"/>
-        <stop offset="50%" stop-color="#b87a48"/>
-        <stop offset="100%" stop-color="#9e6235"/>
+        <stop offset="0%" stop-color="#dca070"/>
+        <stop offset="55%" stop-color="#c88254"/>
+        <stop offset="100%" stop-color="#b06e42"/>
       </linearGradient>
       <linearGradient id="pt-board-shine" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#7a855c"/>
-        <stop offset="50%" stop-color="#69734c"/>
-        <stop offset="100%" stop-color="#565f3d"/>
+        <stop offset="0%" stop-color="#78533c"/>
+        <stop offset="55%" stop-color="#6c4834"/>
+        <stop offset="100%" stop-color="#543725"/>
       </linearGradient>
 
       <!-- HeadLOK Structural Timber Screw -->
@@ -475,37 +525,37 @@ function renderElevation() {
     <!-- PASS 1: STRUCTURAL BLACK SHELLS (0.1875" Overlap Law) -->
     <g id="structural-shells">
       <!-- 4x6 Posts -->
-      <rect x="4" y="6" width="5.5" height="72" fill="#000000"/>
-      <rect x="94.5" y="6" width="5.5" height="72" fill="#000000"/>
+      <rect x="4" y="${postTopY}" width="5.5" height="${fenceH}" fill="#000000"/>
+      <rect x="94.5" y="${postTopY}" width="5.5" height="${fenceH}" fill="#000000"/>
       <!-- Boards (X=9.3125 to 94.6875, overlap=0.1875" into each post) -->
       ${boards.map(b => `<rect x="9.3125" y="${b.y}" width="85.375" height="${b.h}" fill="#000000"/>`).join('')}
       <!-- Center Trim -->
-      <rect x="50.25" y="6" width="3.5" height="72" fill="#000000"/>
+      <rect x="50.25" y="${postTopY}" width="3.5" height="${fenceH}" fill="#000000"/>
       <!-- Caps -->
-      <polygon points="6.75,1.90 3.55,5.10 3.55,6.30 9.95,6.30 9.95,5.10" fill="#000000"/>
-      <polygon points="97.25,1.90 94.05,5.10 94.05,6.30 100.45,6.30 100.45,5.10" fill="#000000"/>
+      <polygon points="6.75,${capY} 3.55,${capY + 3.2} 3.55,${postTopY} 9.95,${postTopY} 9.95,${capY + 3.2}" fill="#000000"/>
+      <polygon points="97.25,${capY} 94.05,${capY + 3.2} 94.05,${postTopY} 100.45,${postTopY} 100.45,${capY + 3.2}" fill="#000000"/>
     </g>` : ''}
 
     ${showDetails ? `
     <!-- PASS 2: SURFACE, COLOR & FASTENER DETAILS -->
     <g id="surface-details">
       <!-- Posts -->
-      <rect x="4.1875" y="6.1875" width="5.125" height="71.8125" fill="${postFill}"/>
-      <rect x="94.6875" y="6.1875" width="5.125" height="71.8125" fill="${postFill}"/>
+      <rect x="4.1875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
+      <rect x="94.6875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
       <!-- Boards -->
       ${boards.map(b => `
         <rect x="9.5" y="${b.y + 0.1875}" width="85" height="${b.h - 0.375}" fill="${boardFill}"/>
         <line x1="9.5" y1="${b.y + b.h}" x2="94.5" y2="${b.y + b.h}" stroke="#120908" stroke-width="0.06"/>
       `).join('')}
       <!-- Center Trim -->
-      <rect x="50.4375" y="6.1875" width="3.125" height="71.8125" fill="${postFill}"/>
+      <rect x="50.4375" y="${postTopY + 0.1875}" width="3.125" height="${fenceH - 0.375}" fill="${postFill}"/>
       <!-- Caps -->
-      <polygon points="6.75,2.15 3.80,5.00 6.75,5.00" fill="${capColor}"/>
-      <polygon points="6.75,2.15 9.70,5.00 6.75,5.00" fill="${capColor}" opacity="0.85"/>
-      <rect x="3.75" y="5.00" width="6.00" height="1.10" fill="${capColor}" opacity="0.9"/>
-      <polygon points="97.25,2.15 94.30,5.00 97.25,5.00" fill="${capColor}"/>
-      <polygon points="97.25,2.15 100.20,5.00 97.25,5.00" fill="${capColor}" opacity="0.85"/>
-      <rect x="94.25" y="5.00" width="6.00" height="1.10" fill="${capColor}" opacity="0.9"/>
+      <polygon points="6.75,${capY + 0.25} 3.80,${capY + 3.1} 6.75,${capY + 3.1}" fill="${capColor}"/>
+      <polygon points="6.75,${capY + 0.25} 9.70,${capY + 3.1} 6.75,${capY + 3.1}" fill="${capColor}" opacity="0.85"/>
+      <rect x="3.75" y="${capY + 3.1}" width="6.00" height="0.4" fill="${capColor}" opacity="0.9"/>
+      <polygon points="97.25,${capY + 0.25} 94.30,${capY + 3.1} 97.25,${capY + 3.1}" fill="${capColor}"/>
+      <polygon points="97.25,${capY + 0.25} 100.20,${capY + 3.1} 97.25,${capY + 3.1}" fill="${capColor}" opacity="0.85"/>
+      <rect x="94.25" y="${capY + 3.1}" width="6.00" height="0.4" fill="${capColor}" opacity="0.9"/>
       <!-- HeadLOK Timber Screws -->
       ${boards.map(b => `
         <use href="#sym-fastener-headlok" x="6.75" y="${b.center.toFixed(2)}"/>
@@ -553,7 +603,7 @@ function updateMath() {
   const headlokBoxCost = 28.98;
   const concreteBagCost = 5.98;
 
-  let memberCount = isHPKT ? 12 : 3;
+  const railCount = isHPKT ? (currentHeight === 6 ? 12 : (currentHeight === 5 ? 10 : 8)) : currentRails;
   let rawMaterialCost = 0;
 
   // Posts
@@ -564,14 +614,15 @@ function updateMath() {
   rawMaterialCost += posts * 2 * concreteBagCost;
   // Boards / Pickets
   if (isHPKT) {
-    rawMaterialCost += bays * 12 * picketUnitCost;
+    rawMaterialCost += bays * railCount * picketUnitCost;
   } else {
-    rawMaterialCost += bays * 3 * boardUnitCost;
+    rawMaterialCost += bays * currentRails * boardUnitCost;
   }
   // Center Trim
   rawMaterialCost += bays * trimUnitCost;
   // HeadLOK screws (boxes of 50)
-  const totalScrews = bays * (isHPKT ? 36 : (isHomesteader ? 18 : 9));
+  const screwsPerBoard = isHomesteader ? 6 : 3;
+  const totalScrews = bays * (isHPKT ? (railCount * 3) : (currentRails * screwsPerBoard));
   const boxes = Math.ceil(totalScrews / 50);
   rawMaterialCost += boxes * headlokBoxCost;
 

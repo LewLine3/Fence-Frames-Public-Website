@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78" width="104in" height="78in">
-  <title>asm-hf-rancher-104x78</title>
+  <title>asm-hf-rancher-4ft-3rail-104x78</title>
   <desc>Batch 2: Rancher (HSB-RNCH) [4ft, 3-Rail]: 4×6 posts (5.5" wide face), 3× 2×6 cedar horizontal boards (default recommended height), 2×4 center vertical trim, HeadLOK structural timber screws, pyramid caps. Authored strictly to canonical 104×78 inch artboard, Shell Law, and procedural flow grain.</desc>
   <defs>
     <!-- Canonical Cedar Shines -->
@@ -195,7 +195,7 @@
       <stop offset="100%" stop-color="#334155"/>
     </linearGradient>
   </defs>
-  <g id="asm-hf-rancher-104x78" data-fence-code="HSB-RNCH" data-system="HF" data-height="48" data-rail-count="3">
+  <g id="asm-hf-rancher-4ft-3rail-104x78" data-fence-code="HSB-RNCH" data-system="HF" data-height="48" data-rail-count="3">
     <!-- PASS 1: Unified Structural Shells (fused with 0.1875" horizontal overlap ears) -->
     <g id="shell">
       <!-- Left 4×6 Post Shell -->

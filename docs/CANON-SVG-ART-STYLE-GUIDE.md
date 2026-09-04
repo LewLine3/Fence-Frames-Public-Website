@@ -23,7 +23,7 @@ Past AI failures occurred when agents generated flat vector cartons, arbitrary 3
 
 ## 2. Procedural Grain Mathematics (`flow-grain.js`)
 
-All components MUST utilize the procedural grain algorithms exported from `scripts/lib/flow-grain.js`.
+All components MUST utilize the procedural grain algorithms exported from [`scripts/lib/flow-grain.js`](file:///d:/Lew-Line-Workspaces/FenceBook/scripts/lib/flow-grain.js).
 
 ### A. Harmonic Wave Formula
 Streamlines are calculated by summing harmonic sine waves across the member axis:
@@ -223,3 +223,57 @@ Whenever a task requests creating new fence styles or component batches:
 5. **Sync cross-repo and cloud**:
    - Mirror assets to `Fence-Frames-Public-Website`.
    - Upload new SVG assets to Supabase Storage `component-svgs` bucket using `upload-batch*-svgs.mjs`.
+
+---
+
+## 7. Board Fence Geometry, Window Spacing & Height Standards
+
+> **DIRECT OWNER MANDATE (Binding Law for All Board Fences)**:  
+> All board fences (Horizontal Split Board: Rancher `HSB-RNCH`, Homesteader `HSB-HMST`) are governed by the 4ft default height and strict window-splitting mathematics.
+
+### A. The 4-Foot Default Standard
+1. **Default Display**: All board fences default to **4 ft (48 inches)** above ground grade ($Y = 30.00″ \to 78.00″$).
+2. **Non-Recommended Options**: While 5 ft ($60″$) and 6 ft ($72″$) options exist in the engineering system, they are **not recommended** and MUST NOT be presented as defaults in previews, marketing, or configurator initial states.
+3. **Canvas Ground Baseline**: The ground baseline remains absolute at **`Y = 78.00″`** across all heights. A 4ft fence has post tops at $Y = 30.00″$; post caps sit from $Y = 26.50″ \to 30.00″$.
+
+### B. Triple Rail (3-Rail) [Baseline Configuration]
+- **Top Board**: Top edge is flush with post tops ($Y = 78.00 - H$). Bottom edge is at $Y = 78.00 - H + 5.50″$.
+- **Interior Space**: $S = 78.00 - (Y_{\text{post\_top}} + 5.50″) = H - 5.50″$.
+- **Window Daylight**: $D_3 = S - 2(5.50″) = H - 16.50″$.
+- **Window Height**: **$W_3 = (H - 16.50″) / 3$**.
+- The next two boards split the interior space into **3 equal-sized windows**:
+  - Window 1: $[Y_{\text{top\_board\_bottom}}, Y_{\text{top\_board\_bottom}} + W_3]$. Midpoint: $M_1 = Y_{\text{top\_board\_bottom}} + W_3 / 2$.
+  - Board 2: $[Y_{\text{top\_board\_bottom}} + W_3, Y_{\text{top\_board\_bottom}} + W_3 + 5.50″]$.
+  - Window 2: $[Y_{\text{board2\_bottom}}, Y_{\text{board2\_bottom}} + W_3]$. Midpoint: $M_2 = Y_{\text{board2\_bottom}} + W_3 / 2$.
+  - Board 3: $[Y_{\text{board2\_bottom}} + W_3, Y_{\text{board2\_bottom}} + W_3 + 5.50″]$.
+  - Window 3: $[Y_{\text{board3\_bottom}}, 78.00″]$ (clearance to ground baseline = $W_3$).
+
+### C. Two Rail (2-Rail) Configuration
+- Rails sit **centered exactly at the midpoints of the windows created by the triple rail configuration**:
+  - Rail 1: Centered at Window 1 Midpoint ($M_1$). $Y = M_1 - 2.75″ \to M_1 + 2.75″$.
+  - Rail 2: Centered at Window 2 Midpoint ($M_2$). $Y = M_2 - 2.75″ \to M_2 + 2.75″$.
+
+### D. Quad Rail (4-Rail) Configuration
+- Top board flush with post tops. The remaining 3 rails split the interior space into **4 equal quadrants**:
+  - Quadrant Daylight: $D_4 = S - 3(5.50″) = H - 22.00″$.
+  - Quadrant Height: **$W_4 = (H - 22.00″) / 4$**.
+  - Board 1 (Top): $Y = Y_{\text{post\_top}} \to Y_{\text{post\_top}} + 5.50″$.
+  - Board 2: $Y = Y_{\text{post\_top}} + 5.50″ + W_4 \to + 11.00″ + W_4$.
+  - Board 3: $Y = Y_{\text{post\_top}} + 11.00″ + 2W_4 \to + 16.50″ + 2W_4$.
+  - Board 4: $Y = Y_{\text{post\_top}} + 16.50″ + 3W_4 \to + 22.00″ + 3W_4$.
+  - Ground Clearance (Quadrant 4): $W_4$.
+
+### E. Master Coordinate Matrix ($104 \times 78$ Artboard Standard)
+
+| Fence Height | Config | Window / Quad Height | Board 1 Y | Board 2 Y | Board 3 Y | Board 4 Y | Ground Gap |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **4 ft ($48″$) [DEFAULT]** | **3-Rail** | **`10.50″`** | `30.00″` | `46.00″` | `62.00″` | — | `10.50″` |
+| **4 ft ($48″$)** | **2-Rail** | midpoints ($40.75″, 56.75″$) | `38.00″` | `54.00″` | — | — | `18.50″` |
+| **4 ft ($48″$)** | **4-Rail** | **`6.50″`** | `30.00″` | `42.00″` | `54.00″` | `66.00″` | `6.50″` |
+| 5 ft ($60″$) [Option] | 3-Rail | `14.50″` | `18.00″` | `38.00″` | `58.00″` | — | `14.50″` |
+| 5 ft ($60″$) [Option] | 2-Rail | midpoints ($30.75″, 50.75″$) | `28.00″` | `48.00″` | — | — | `24.50″` |
+| 5 ft ($60″$) [Option] | 4-Rail | `9.50″` | `18.00″` | `33.00″` | `48.00″` | `63.00″` | `9.50″` |
+| 6 ft ($72″$) [Option] | 3-Rail | `18.50″` | `6.00″` | `30.00″` | `54.00″` | — | `18.50″` |
+| 6 ft ($72″$) [Option] | 2-Rail | midpoints ($20.75″, 44.75″$) | `18.00″` | `42.00″` | — | — | `30.50″` |
+| 6 ft ($72″$) [Option] | 4-Rail | `12.50″` | `6.00″` | `24.00″` | `42.00″` | `60.00″` | `12.50″` |
+
