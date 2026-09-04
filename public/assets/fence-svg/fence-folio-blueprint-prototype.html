@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence-Folio — Complete Architectural Blueprint &amp; Contractor Dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Rowdies:wght@300;400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ff-parchment: #F4ECDC;
+      --ff-soft-ivory: #FAF6EE;
+      --ff-ink: #141B16;
+      --ff-forest-deep: #16432D;
+      --ff-forest: #2F5D3A;
+      --ff-forest-bright: #4ADE80;
+      --ff-gold: #E5B842;
+      --ff-ember: #F27A22;
+      --ff-blueprint-blue: #0A192F;
+      --ff-blueprint-cyan: #38BDF8;
+
+      /* Page Background Theme Variables (Option 1 Vibrant Green Baseline) */
+      --page-bg: #F8F4EC;
+      --page-grid-major: rgba(47, 93, 58, 0.38);
+      --page-grid-minor: rgba(27, 67, 50, 0.18);
+      --page-grid-major-size: 120px;
+      --page-grid-minor-size: 24px;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--page-bg);
+      background-image: 
+        linear-gradient(to right, var(--page-grid-major) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, var(--page-grid-major) 1.5px, transparent 1.5px),
+        linear-gradient(to right, var(--page-grid-minor) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--page-grid-minor) 1px, transparent 1px);
+      background-size: 
+        var(--page-grid-major-size) var(--page-grid-major-size),
+        var(--page-grid-major-size) var(--page-grid-major-size),
+        var(--page-grid-minor-size) var(--page-grid-minor-size),
+        var(--page-grid-minor-size) var(--page-grid-minor-size);
+      background-position: calc(50% - 600px) 0;
+      color: #141B16;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s ease;
+    }
+
+    /* Alternative Grid Themes */
+    body.theme-opt1 {
+      --page-bg: #F8F4EC;
+      --page-grid-major: rgba(47, 93, 58, 0.38);
+      --page-grid-minor: rgba(27, 67, 50, 0.18);
+      --page-grid-major-size: 120px;
+      --page-grid-minor-size: 24px;
+    }
+    body.theme-opt2 {
+      --page-bg: #FAF6EE;
+      --page-grid-major: rgba(63, 138, 82, 0.42);
+      --page-grid-minor: rgba(120, 153, 129, 0.22);
+      --page-grid-major-size: 100px;
+      --page-grid-minor-size: 20px;
+    }
+    body.theme-opt3 {
+      --page-bg: #F5EFE6;
+      --page-grid-major: rgba(27, 67, 50, 0.45);
+      --page-grid-minor: rgba(158, 138, 104, 0.28);
+      --page-grid-major-size: 120px;
+      --page-grid-minor-size: 30px;
+    }
+    body.theme-opt4 {
+      --page-bg: #F8F4EC;
+      --page-grid-major: rgba(47, 93, 58, 0.45);
+      --page-grid-minor: rgba(47, 93, 58, 0.20);
+      --page-grid-major-size: 120px;
+      --page-grid-minor-size: 30px;
+    }
+    body.theme-dark {
+      --page-bg: #0c100d;
+      --page-grid-major: rgba(148, 163, 184, 0.09);
+      --page-grid-minor: rgba(148, 163, 184, 0.04);
+      --page-grid-major-size: 100px;
+      --page-grid-minor-size: 20px;
+      color: #e2e8f0;
+    }
+
+    .font-display { font-family: 'Rowdies', cursive, sans-serif; }
+    .font-mono { font-family: 'Fira Code', monospace; }
+
+    /* Blueprint Grid Background Pattern */
+    
+    /* Authentic Architectural Paper Backgrounds */
+    .paper-canvas-vellum {
+      background-image: url('textures/paper-parchment-cloud.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-kraft {
+      background-image: url('textures/paper-kraft-clean.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-creased {
+      background-image: url('textures/paper-kraft-creased.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .paper-canvas-cardstock {
+      background-image: url('textures/paper-cardstock-grain.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #3d332a;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .blueprint-canvas {
+      background-color: #0c131d;
+      background-image: 
+        linear-gradient(to right, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(to right, rgba(148, 163, 184, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.09) 1px, transparent 1px);
+      background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+      border: 2px solid #1e293b;
+    }
+
+    /* Print Formatting: Strict 8.5" x 11" Landscape Layout (1 Sheet = Exactly 1 Page, Zero Cutoffs) */
+    @page {
+      size: 11in 8.5in;
+      margin: 0.35in;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      html, body {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #141b16 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      main {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        display: block !important;
+      }
+
+      /* 11" width - 0.70" margins = 10.30" width; 8.5" height - 0.70" margins = 7.80" printable height */
+      .sheet-container {
+        box-sizing: border-box !important;
+        width: 10.3in !important;
+        height: 7.78in !important;
+        max-height: 7.78in !important;
+        min-height: 7.78in !important;
+        margin: 0 !important;
+        padding: 0.15in 0.25in !important;
+        border: 2.5px solid #141b16 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #faf6ee !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+      }
+
+      .sheet-container:last-of-type {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+
+      .sheet-container header {
+        padding-bottom: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+        border-bottom-width: 2px !important;
+      }
+
+      .sheet-container section {
+        padding: 0.25rem 0.5rem !important;
+        margin-bottom: 0.25rem !important;
+      }
+
+      .sheet-container footer {
+        margin-top: 0.25rem !important;
+        padding-top: 0.2rem !important;
+      }
+
+      .drawing-canvas-wrapper {
+        padding: 0.25rem !important;
+      }
+
+      .sheet-container svg {
+        max-height: 3.55in !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      /* Sheet S1 Print Bar Adjustment */
+      #s1-selector-strip {
+        padding: 0.2rem 0.4rem !important;
+        margin-bottom: 0.25rem !important;
+      }
+
+      /* Sheet B1 Specific Print Tuning */
+      #sheet-B1 .takeoff-grid {
+        margin-bottom: 0.25rem !important;
+        gap: 0.5rem !important;
+      }
+
+      #sheet-B1 .takeoff-card {
+        padding: 0.35rem 0.5rem !important;
+      }
+
+      #sheet-B1 table td, #sheet-B1 table th {
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
+      }
+
+      #sheet-B1 .subtotal-row {
+        margin-top: 0.2rem !important;
+        padding-top: 0.2rem !important;
+      }
+
+      #sheet-B1 .quote-math-card {
+        padding: 0.35rem 0.5rem !important;
+      }
+
+      #sheet-B1 .quote-math-header {
+        padding-bottom: 0.15rem !important;
+        margin-bottom: 0.2rem !important;
+      }
+
+      #sheet-B1 .quote-math-grid {
+        margin-bottom: 0.2rem !important;
+        gap: 0.35rem !important;
+      }
+
+      #sheet-B1 .quote-metric-chip {
+        padding: 0.2rem 0.4rem !important;
+      }
+
+      #sheet-B1 .quote-range-banner {
+        padding: 0.25rem 0.5rem !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+  <!-- ========================================================================= -->
+  <!-- TOP APPLICATION BAR & QUICK-JUMP SHEET NAVIGATOR -->
+  <!-- ========================================================================= -->
+  <header class="no-print w-full bg-[#141B16] border-b-2 border-[#E5B842] py-3 px-6 shadow-2xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded bg-[#E5B842] flex items-center justify-center text-[#141B16] font-bold text-lg shadow">
+          🌲
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold tracking-wide text-white font-display uppercase">FENCE-FOLIO</h1>
+            <span class="text-[10px] uppercase tracking-wider bg-[#E5B842]/20 text-[#E5B842] border border-[#E5B842]/40 px-1.5 py-0.5 rounded font-mono">SCROLLABLE DOSSIER</span>
+          </div>
+          <p class="text-[11px] text-gray-400">Continuous 4-Sheet Architectural Plan Set · Visual Blueprint · Material Takeoff (BOM) · Labor Dossier</p>
+        </div>
+      </div>
+
+      <!-- Quick Jump Links -->
+      <nav class="flex items-center gap-1.5 bg-[#0d120e] p-1 rounded-lg border border-white/10 text-xs">
+        <a href="#sheet-A1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>📄</span><span>A1: Elevation</span>
+        </a>
+        <a href="#sheet-S1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>🔩</span><span>S1: Framing Wireframe</span>
+        </a>
+        <a href="#sheet-D1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>📐</span><span>D1: Dimensions</span>
+        </a>
+        <a href="#sheet-B1" class="px-3 py-1.5 rounded font-medium text-gray-300 hover:text-white hover:bg-white/5 transition flex items-center gap-1.5">
+          <span>📊</span><span>B1: BOM &amp; Labor</span>
+        </a>
+      </nav>
+
+      <!-- Print & Export Actions & Grid Switcher -->
+      <div class="flex items-center gap-3">
+        <!-- Page Grid Option Selector -->
+        <div class="flex items-center gap-1 bg-[#0d120e] p-1 rounded-lg border border-white/10 text-xs">
+          <span class="text-[11px] text-gray-400 px-1.5 font-mono hidden sm:inline">Grid:</span>
+          <button onclick="setGridTheme('opt1', this)" class="grid-btn active px-2 py-1 rounded font-bold text-xs bg-[#E5B842] text-[#141B16] transition" title="Option 1: Two-Tone Vibrant Green Main (120px) + Dark Forest Sub-grid (24px)">Opt 1</button>
+          <button onclick="setGridTheme('opt2', this)" class="grid-btn px-2 py-1 rounded font-medium text-xs text-gray-300 hover:text-white hover:bg-white/5 transition" title="Option 2: High-Definition Emerald Main (100px) + Muted Sage Sub-grid (20px)">Opt 2</button>
+          <button onclick="setGridTheme('opt3', this)" class="grid-btn px-2 py-1 rounded font-medium text-xs text-gray-300 hover:text-white hover:bg-white/5 transition" title="Option 3: Deep Forest Main (120px) + Cedar Tan Sub-grid (30px)">Opt 3</button>
+          <button onclick="setGridTheme('opt4', this)" class="grid-btn px-2 py-1 rounded font-medium text-xs text-gray-300 hover:text-white hover:bg-white/5 transition" title="Option 4: Monochromatic Forest Dual-Weight (120px / 30px)">Opt 4</button>
+          <button onclick="setGridTheme('dark', this)" class="grid-btn px-2 py-1 rounded font-medium text-xs text-gray-400 hover:text-white hover:bg-white/5 transition" title="Dark Blueprint Canvas">Dark</button>
+        </div>
+
+        <button onclick="window.print()" class="bg-[#4ADE80] hover:bg-[#3ec470] text-[#141B16] font-bold text-xs uppercase px-4 py-2 rounded border border-[#141B16] shadow flex items-center gap-2 transition active:scale-95">
+          <span>🖨️</span>
+          <span>Print / Export 4-Page PDF (8.5″×11″ Landscape)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN SCROLLABLE DOSSIER (ALL 4 SHEETS STACKED SEQUENTIALLY) -->
+  <!-- ========================================================================= -->
+  <main class="w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-12">
+
+    <!-- ======================================================================= -->
+    <!-- SHEET 1 (PAGE 1): ARCHITECTURAL ELEVATION & MATERIAL CALLOUTS           -->
+    <!-- ======================================================================= -->
+    <div id="sheet-A1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">🌲</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                FENCE FRAMES · ARCHITECTURAL PRESENTATION
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Standard Pacific Northwest Heritage Framed Privacy Panel · Canonical 104″ × 78″ Artboard · Shell Law Compliant
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-A1</div>
+            <div class="text-white font-bold">SHEET 1 OF 4 (ELEVATION &amp; MATERIALS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · 104×78 CANON</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ ARC PERMIT SUBMITTAL READY</div>
+          </div>
+        </header>
+
+        <!-- Project Metadata Summary Strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Fence Style</span>
+            <strong class="text-[#141B16] text-sm">Heritage Framed Privacy</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Panel Height / Span</span>
+            <strong class="text-[#141B16] text-sm">6′ Height (72″) × 8′ (96″ OC)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Lumber Species</span>
+            <strong class="text-[#141B16] text-sm">WRC Cedar / PT Incised Post</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Fastener Allowance</span>
+            <strong class="text-[#16a34a] text-sm font-bold">33.33% Contractor Buffer</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Material Finish</span>
+            <strong class="text-[#141B16] text-sm">Natural Cedar Face / Clear</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Jurisdiction</span>
+            <strong class="text-[#141B16] text-sm">King County / Snohomish</strong>
+          </div>
+        </section>
+
+        <!-- SVG Elevation Drawing Area with Leader Lines -->
+        <div class="drawing-canvas-wrapper w-full bg-[#111827] rounded border-2 border-[#141B16] p-4 relative shadow-inner overflow-hidden">
+          <svg viewBox="0 0 196 78" class="w-full h-auto drop-shadow-2xl" style="max-height: 520px; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));">
+            <defs>
+              <!-- Callout Markers -->
+              <marker id="dot-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+                <circle cx="5" cy="5" r="3.5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
+              </marker>
+              <marker id="dot-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+                <circle cx="5" cy="5" r="3.5" fill="#10b981" stroke="#ffffff" stroke-width="1.5"/>
+              </marker>
+              <marker id="dot-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+                <circle cx="5" cy="5" r="3.5" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+              </marker>
+
+              <!-- Canon Heritage Authentic 15 Picket Patterns with 4 Sparse Knots (Centered Bay) -->
+<pattern id="pat-picket-grain-5-5-s00" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(53.5000, 7.5)">
+      <path d="M 0.625 0 L 0.625 1.4375 L 0.625 2.875 L 0.625 4.3125 L 0.59375 5.75 L 0.59375 7.1875 L 0.59375 8.625 L 0.5625 10.0625 L 0.5625 11.5 L 0.53125 12.9375 L 0.46875 14.375 L 0.4375 15.8125 L 0.4375 17.28125 L 0.4375 18.71875 L 0.46875 20.15625 L 0.53125 21.59375 L 0.59375 23.03125 L 0.625 24.46875 L 0.625 25.90625 L 0.625 27.34375 L 0.625 28.78125 L 0.59375 30.21875 L 0.59375 31.65625 L 0.59375 33.09375 L 0.5625 34.53125 L 0.53125 35.96875 L 0.5 37.40625 L 0.46875 38.84375 L 0.4375 40.28125 L 0.4375 41.71875 L 0.46875 43.15625 L 0.5 44.59375 L 0.5625 46.03125 L 0.59375 47.46875 L 0.625 48.90625 L 0.625 50.34375 L 0.625 51.8125 L 0.625 53.25 L 0.59375 54.6875 L 0.59375 56.125 L 0.59375 57.5625 L 0.5625 59 L 0.53125 60.4375 L 0.5 61.875 L 0.46875 63.3125 L 0.4375 64.75 L 0.4375 66.1875 L 0.46875 67.625 L 0.53125 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.65625 0 L 1.625 1.4375 L 1.59375 2.875 L 1.5625 4.3125 L 1.5 5.75 L 1.46875 7.1875 L 1.4375 8.625 L 1.40625 10.0625 L 1.40625 11.5 L 1.4375 12.9375 L 1.46875 14.375 L 1.5 15.8125 L 1.5625 17.28125 L 1.59375 18.71875 L 1.625 20.15625 L 1.65625 21.59375 L 1.65625 23.03125 L 1.65625 24.46875 L 1.625 25.90625 L 1.59375 27.34375 L 1.53125 28.78125 L 1.5 30.21875 L 1.46875 31.65625 L 1.4375 33.09375 L 1.40625 34.53125 L 1.40625 35.96875 L 1.4375 37.40625 L 1.46875 38.84375 L 1.53125 40.28125 L 1.5625 41.71875 L 1.625 43.15625 L 1.65625 44.59375 L 1.65625 46.03125 L 1.65625 47.46875 L 1.65625 48.90625 L 1.625 50.34375 L 1.5625 51.8125 L 1.53125 53.25 L 1.46875 54.6875 L 1.4375 56.125 L 1.40625 57.5625 L 1.40625 59 L 1.4375 60.4375 L 1.46875 61.875 L 1.5 63.3125 L 1.53125 64.75 L 1.59375 66.1875 L 1.625 67.625 L 1.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.71875 0 L 2.71875 1.4375 L 2.6875 2.875 L 2.71875 4.3125 L 2.71875 5.75 L 2.71875 7.1875 L 2.65625 8.625 L 2.59375 10.0625 L 2.5625 11.5 L 2.5625 12.9375 L 2.5625 14.375 L 2.5625 15.8125 L 2.5625 17.28125 L 2.5625 18.71875 L 2.59375 20.15625 L 2.65625 21.59375 L 2.71875 23.03125 L 2.71875 24.46875 L 2.71875 25.90625 L 2.71875 27.34375 L 2.71875 28.78125 L 2.71875 30.21875 L 2.71875 31.65625 L 2.65625 33.09375 L 2.59375 34.53125 L 2.5625 35.96875 L 2.5625 37.40625 L 2.5625 38.84375 L 2.5625 40.28125 L 2.5625 41.71875 L 2.5625 43.15625 L 2.625 44.59375 L 2.6875 46.03125 L 2.71875 47.46875 L 2.71875 48.90625 L 2.71875 50.34375 L 2.71875 51.8125 L 2.71875 53.25 L 2.71875 54.6875 L 2.6875 56.125 L 2.625 57.5625 L 2.5625 59 L 2.5625 60.4375 L 2.5625 61.875 L 2.5625 63.3125 L 2.5625 64.75 L 2.5625 66.1875 L 2.5625 67.625 L 2.625 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.75 0 L 3.71875 1.4375 L 3.6875 2.875 L 3.65625 4.3125 L 3.625 5.75 L 3.59375 7.1875 L 3.59375 8.625 L 3.59375 10.0625 L 3.625 11.5 L 3.65625 12.9375 L 3.6875 14.375 L 3.71875 15.8125 L 3.75 17.28125 L 3.78125 18.71875 L 3.78125 20.15625 L 3.78125 21.59375 L 3.75 23.03125 L 3.71875 24.46875 L 3.6875 25.90625 L 3.65625 27.34375 L 3.625 28.78125 L 3.59375 30.21875 L 3.59375 31.65625 L 3.59375 33.09375 L 3.59375 34.53125 L 3.625 35.96875 L 3.65625 37.40625 L 3.6875 38.84375 L 3.71875 40.28125 L 3.75 41.71875 L 3.78125 43.15625 L 3.78125 44.59375 L 3.78125 46.03125 L 3.75 47.46875 L 3.71875 48.90625 L 3.6875 50.34375 L 3.65625 51.8125 L 3.625 53.25 L 3.59375 54.6875 L 3.59375 56.125 L 3.59375 57.5625 L 3.625 59 L 3.625 60.4375 L 3.65625 61.875 L 3.71875 63.3125 L 3.75 64.75 L 3.75 66.1875 L 3.78125 67.625 L 3.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.78125 0 L 4.78125 1.4375 L 4.78125 2.875 L 4.75 4.3125 L 4.71875 5.75 L 4.65625 7.1875 L 4.625 8.625 L 4.59375 10.0625 L 4.59375 11.5 L 4.59375 12.9375 L 4.625 14.375 L 4.625 15.8125 L 4.625 17.28125 L 4.625 18.71875 L 4.65625 20.15625 L 4.6875 21.59375 L 4.75 23.03125 L 4.78125 24.46875 L 4.8125 25.90625 L 4.78125 27.34375 L 4.75 28.78125 L 4.6875 30.21875 L 4.625 31.65625 L 4.59375 33.09375 L 4.59375 34.53125 L 4.59375 35.96875 L 4.59375 37.40625 L 4.625 38.84375 L 4.625 40.28125 L 4.625 41.71875 L 4.65625 43.15625 L 4.6875 44.59375 L 4.71875 46.03125 L 4.75 47.46875 L 4.78125 48.90625 L 4.8125 50.34375 L 4.78125 51.8125 L 4.71875 53.25 L 4.6875 54.6875 L 4.625 56.125 L 4.59375 57.5625 L 4.59375 59 L 4.59375 60.4375 L 4.625 61.875 L 4.625 63.3125 L 4.625 64.75 L 4.625 66.1875 L 4.65625 67.625 L 4.6875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s01" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(59.0625, 7.5)">
+      <path d="M 5.03125 0 L 4.96875 1.4375 L 4.9375 2.875 L 4.90625 4.3125 L 4.90625 5.75 L 4.90625 7.1875 L 4.90625 8.625 L 4.875 10.0625 L 4.875 11.5 L 4.875 12.9375 L 4.875 14.375 L 4.90625 15.8125 L 4.96875 17.28125 L 5.03125 18.71875 L 5.0625 20.15625 L 5.0625 21.59375 L 5.0625 23.03125 L 5 24.46875 L 4.96875 25.90625 L 4.9375 27.34375 L 4.90625 28.78125 L 4.90625 30.21875 L 4.90625 31.65625 L 4.875 33.09375 L 4.875 34.53125 L 4.875 35.96875 L 4.875 37.40625 L 4.90625 38.84375 L 4.9375 40.28125 L 5 41.71875 L 5.03125 43.15625 L 5.0625 44.59375 L 5.0625 46.03125 L 5.03125 47.46875 L 5 48.90625 L 4.96875 50.34375 L 4.9375 51.8125 L 4.90625 53.25 L 4.90625 54.6875 L 4.90625 56.125 L 4.875 57.5625 L 4.875 59 L 4.875 60.4375 L 4.875 61.875 L 4.90625 63.3125 L 4.96875 64.75 L 5 66.1875 L 5.0625 67.625 L 5.0625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 3.90625 0 L 3.875 1.4375 L 3.84375 2.875 L 3.84375 4.3125 L 3.84375 5.75 L 3.875 7.1875 L 3.90625 8.625 L 3.96875 10.0625 L 4 11.5 L 4.03125 12.9375 L 4.0625 14.375 L 4.09375 15.8125 L 4.09375 17.28125 L 4.0625 18.71875 L 4.03125 20.15625 L 3.96875 21.59375 L 3.9375 23.03125 L 3.90625 24.46875 L 3.84375 25.90625 L 3.84375 27.34375 L 3.84375 28.78125 L 3.84375 30.21875 L 3.875 31.65625 L 3.9375 33.09375 L 3.96875 34.53125 L 4 35.96875 L 4.0625 37.40625 L 4.0625 38.84375 L 4.09375 40.28125 L 4.0625 41.71875 L 4.0625 43.15625 L 4 44.59375 L 3.96875 46.03125 L 3.90625 47.46875 L 3.875 48.90625 L 3.84375 50.34375 L 3.84375 51.8125 L 3.84375 53.25 L 3.875 54.6875 L 3.90625 56.125 L 3.9375 57.5625 L 4 59 L 4.03125 60.4375 L 4.0625 61.875 L 4.09375 63.3125 L 4.09375 64.75 L 4.0625 66.1875 L 4.03125 67.625 L 4 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.90625 0 L 2.875 1.4375 L 2.84375 2.875 L 2.84375 4.3125 L 2.8125 5.75 L 2.78125 7.1875 L 2.75 8.625 L 2.75 10.0625 L 2.8125 11.5 L 2.84375 12.9375 L 2.875 14.375 L 2.875 15.8125 L 2.875 17.28125 L 2.9375 18.71875 L 2.96875 20.15625 L 2.96875 21.59375 L 2.9375 23.03125 L 2.875 24.46875 L 2.875 25.90625 L 2.84375 27.34375 L 2.84375 28.78125 L 2.8125 30.21875 L 2.75 31.65625 L 2.75 33.09375 L 2.78125 34.53125 L 2.8125 35.96875 L 2.84375 37.40625 L 2.875 38.84375 L 2.875 40.28125 L 2.90625 41.71875 L 2.9375 43.15625 L 2.96875 44.59375 L 2.96875 46.03125 L 2.90625 47.46875 L 2.875 48.90625 L 2.84375 50.34375 L 2.84375 51.8125 L 2.84375 53.25 L 2.78125 54.6875 L 2.75 56.125 L 2.75 57.5625 L 2.78125 59 L 2.84375 60.4375 L 2.875 61.875 L 2.875 63.3125 L 2.875 64.75 L 2.90625 66.1875 L 2.96875 67.625 L 3 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.71875 0 L 1.71875 1.4375 L 1.71875 2.875 L 1.75 4.3125 L 1.75 5.75 L 1.78125 7.1875 L 1.84375 8.625 L 1.875 10.0625 L 1.875 11.5 L 1.90625 12.9375 L 1.90625 14.375 L 1.90625 15.8125 L 1.875 17.28125 L 1.84375 18.71875 L 1.8125 20.15625 L 1.78125 21.59375 L 1.75 23.03125 L 1.71875 24.46875 L 1.71875 25.90625 L 1.71875 27.34375 L 1.75 28.78125 L 1.78125 30.21875 L 1.8125 31.65625 L 1.84375 33.09375 L 1.875 34.53125 L 1.90625 35.96875 L 1.90625 37.40625 L 1.90625 38.84375 L 1.90625 40.28125 L 1.875 41.71875 L 1.84375 43.15625 L 1.8125 44.59375 L 1.78125 46.03125 L 1.75 47.46875 L 1.71875 48.90625 L 1.71875 50.34375 L 1.71875 51.8125 L 1.75 53.25 L 1.78125 54.6875 L 1.8125 56.125 L 1.84375 57.5625 L 1.875 59 L 1.90625 60.4375 L 1.90625 61.875 L 1.90625 63.3125 L 1.875 64.75 L 1.84375 66.1875 L 1.8125 67.625 L 1.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.875 0 L 0.8125 1.4375 L 0.78125 2.875 L 0.71875 4.3125 L 0.71875 5.75 L 0.71875 7.1875 L 0.75 8.625 L 0.78125 10.0625 L 0.8125 11.5 L 0.84375 12.9375 L 0.84375 14.375 L 0.875 15.8125 L 0.875 17.28125 L 0.90625 18.71875 L 0.90625 20.15625 L 0.90625 21.59375 L 0.90625 23.03125 L 0.875 24.46875 L 0.8125 25.90625 L 0.75 27.34375 L 0.71875 28.78125 L 0.71875 30.21875 L 0.71875 31.65625 L 0.75 33.09375 L 0.8125 34.53125 L 0.84375 35.96875 L 0.84375 37.40625 L 0.875 38.84375 L 0.875 40.28125 L 0.875 41.71875 L 0.90625 43.15625 L 0.90625 44.59375 L 0.90625 46.03125 L 0.90625 47.46875 L 0.84375 48.90625 L 0.78125 50.34375 L 0.75 51.8125 L 0.71875 53.25 L 0.71875 54.6875 L 0.75 56.125 L 0.78125 57.5625 L 0.8125 59 L 0.84375 60.4375 L 0.84375 61.875 L 0.875 63.3125 L 0.875 64.75 L 0.875 66.1875 L 0.90625 67.625 L 0.90625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s02" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(64.6250, 7.5)">
+      <ellipse cx="2.09375" cy="59.40625" rx="0.15625" ry="0.40625" fill="#382010" opacity="1"/>
+      <ellipse cx="2.09375" cy="59.40625" rx="0.21875" ry="0.59375" fill="#422818" opacity="0.9"/>
+      <ellipse cx="2.09375" cy="59.40625" rx="0.28125" ry="0.71875" fill="#503020" opacity="0.65"/>
+      <ellipse cx="2.09375" cy="59.40625" rx="0.34375" ry="0.875" fill="#5e3828" opacity="0.4"/>
+      <path d="M 0.46875 0 L 0.46875 1.4375 L 0.46875 2.875 L 0.46875 4.3125 L 0.5 5.75 L 0.5 7.1875 L 0.53125 8.625 L 0.53125 10.0625 L 0.5625 11.5 L 0.59375 12.9375 L 0.625 14.375 L 0.65625 15.8125 L 0.65625 17.28125 L 0.65625 18.71875 L 0.59375 20.15625 L 0.53125 21.59375 L 0.5 23.03125 L 0.46875 24.46875 L 0.46875 25.90625 L 0.46875 27.34375 L 0.5 28.78125 L 0.5 30.21875 L 0.5 31.65625 L 0.53125 33.09375 L 0.53125 34.53125 L 0.5625 35.96875 L 0.59375 37.40625 L 0.65625 38.84375 L 0.65625 40.28125 L 0.65625 41.71875 L 0.625 43.15625 L 0.59375 44.59375 L 0.53125 46.03125 L 0.46875 47.46875 L 0.46875 48.90625 L 0.46875 50.34375 L 0.46875 51.8125 L 0.5 53.25 L 0.5 54.6875 L 0.4375 56.125 L 0.28125 57.5625 L 0.1875 59 L 0.25 60.4375 L 0.4375 61.875 L 0.625 63.3125 L 0.65625 64.75 L 0.65625 66.1875 L 0.625 67.625 L 0.5625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.4375 0 L 1.46875 1.4375 L 1.5 2.875 L 1.53125 4.3125 L 1.59375 5.75 L 1.625 7.1875 L 1.65625 8.625 L 1.65625 10.0625 L 1.65625 11.5 L 1.625 12.9375 L 1.59375 14.375 L 1.5625 15.8125 L 1.5 17.28125 L 1.46875 18.71875 L 1.4375 20.15625 L 1.40625 21.59375 L 1.40625 23.03125 L 1.4375 24.46875 L 1.46875 25.90625 L 1.5 27.34375 L 1.5625 28.78125 L 1.59375 30.21875 L 1.625 31.65625 L 1.65625 33.09375 L 1.65625 34.53125 L 1.65625 35.96875 L 1.625 37.40625 L 1.59375 38.84375 L 1.53125 40.28125 L 1.5 41.71875 L 1.4375 43.15625 L 1.4375 44.59375 L 1.40625 46.03125 L 1.4375 47.46875 L 1.4375 48.90625 L 1.46875 50.34375 L 1.53125 51.8125 L 1.5625 53.25 L 1.59375 54.6875 L 1.5625 56.125 L 1.40625 57.5625 L 1.28125 59 L 1.3125 60.4375 L 1.4375 61.875 L 1.53125 63.3125 L 1.53125 64.75 L 1.46875 66.1875 L 1.4375 67.625 L 1.40625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.5625 0 L 2.5625 1.4375 L 2.5625 2.875 L 2.5625 4.3125 L 2.5625 5.75 L 2.5625 7.1875 L 2.625 8.625 L 2.6875 10.0625 L 2.71875 11.5 L 2.71875 12.9375 L 2.71875 14.375 L 2.71875 15.8125 L 2.71875 17.28125 L 2.71875 18.71875 L 2.65625 20.15625 L 2.59375 21.59375 L 2.5625 23.03125 L 2.5625 24.46875 L 2.5625 25.90625 L 2.5625 27.34375 L 2.5625 28.78125 L 2.5625 30.21875 L 2.59375 31.65625 L 2.65625 33.09375 L 2.71875 34.53125 L 2.71875 35.96875 L 2.71875 37.40625 L 2.6875 38.84375 L 2.71875 40.28125 L 2.71875 41.71875 L 2.71875 43.15625 L 2.65625 44.59375 L 2.59375 46.03125 L 2.5625 47.46875 L 2.5625 48.90625 L 2.5625 50.34375 L 2.5625 51.8125 L 2.5625 53.25 L 2.5625 54.6875 L 2.6875 56.125 L 2.9375 57.5625 L 3.09375 59 L 3.0625 60.4375 L 2.875 61.875 L 2.75 63.3125 L 2.71875 64.75 L 2.71875 66.1875 L 2.6875 67.625 L 2.625 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.65625 0 L 3.6875 1.4375 L 3.71875 2.875 L 3.75 4.3125 L 3.75 5.75 L 3.78125 7.1875 L 3.78125 8.625 L 3.75 10.0625 L 3.75 11.5 L 3.71875 12.9375 L 3.6875 14.375 L 3.625 15.8125 L 3.625 17.28125 L 3.59375 18.71875 L 3.59375 20.15625 L 3.59375 21.59375 L 3.625 23.03125 L 3.65625 24.46875 L 3.6875 25.90625 L 3.71875 27.34375 L 3.75 28.78125 L 3.78125 30.21875 L 3.78125 31.65625 L 3.78125 33.09375 L 3.75 34.53125 L 3.71875 35.96875 L 3.6875 37.40625 L 3.65625 38.84375 L 3.625 40.28125 L 3.59375 41.71875 L 3.59375 43.15625 L 3.59375 44.59375 L 3.59375 46.03125 L 3.625 47.46875 L 3.65625 48.90625 L 3.6875 50.34375 L 3.71875 51.8125 L 3.75 53.25 L 3.78125 54.6875 L 3.84375 56.125 L 4.03125 57.5625 L 4.125 59 L 4.0625 60.4375 L 3.84375 61.875 L 3.6875 63.3125 L 3.625 64.75 L 3.59375 66.1875 L 3.59375 67.625 L 3.59375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.5625 0 L 4.5625 1.4375 L 4.5625 2.875 L 4.59375 4.3125 L 4.65625 5.75 L 4.71875 7.1875 L 4.75 8.625 L 4.75 10.0625 L 4.75 11.5 L 4.75 12.9375 L 4.71875 14.375 L 4.71875 15.8125 L 4.71875 17.28125 L 4.6875 18.71875 L 4.6875 20.15625 L 4.625 21.59375 L 4.59375 23.03125 L 4.5625 24.46875 L 4.5625 25.90625 L 4.5625 27.34375 L 4.625 28.78125 L 4.6875 30.21875 L 4.71875 31.65625 L 4.75 33.09375 L 4.75 34.53125 L 4.75 35.96875 L 4.75 37.40625 L 4.71875 38.84375 L 4.71875 40.28125 L 4.71875 41.71875 L 4.6875 43.15625 L 4.65625 44.59375 L 4.625 46.03125 L 4.59375 47.46875 L 4.5625 48.90625 L 4.5625 50.34375 L 4.59375 51.8125 L 4.625 53.25 L 4.71875 54.6875 L 4.8125 56.125 L 5 57.5625 L 5.125 59 L 5.09375 60.4375 L 4.90625 61.875 L 4.75 63.3125 L 4.71875 64.75 L 4.71875 66.1875 L 4.6875 67.625 L 4.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s03" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(70.1875, 7.5)">
+      <path d="M 4.875 0 L 4.90625 1.4375 L 4.9375 2.875 L 4.96875 4.3125 L 5 5.75 L 5 7.1875 L 5 8.625 L 5.03125 10.0625 L 5.03125 11.5 L 5.03125 12.9375 L 5.03125 14.375 L 5 15.8125 L 4.9375 17.28125 L 4.875 18.71875 L 4.84375 20.15625 L 4.84375 21.59375 L 4.84375 23.03125 L 4.875 24.46875 L 4.9375 25.90625 L 4.96875 27.34375 L 4.96875 28.78125 L 5 30.21875 L 5 31.65625 L 5 33.09375 L 5.03125 34.53125 L 5.03125 35.96875 L 5.03125 37.40625 L 5 38.84375 L 4.96875 40.28125 L 4.90625 41.71875 L 4.875 43.15625 L 4.84375 44.59375 L 4.84375 46.03125 L 4.84375 47.46875 L 4.90625 48.90625 L 4.9375 50.34375 L 4.96875 51.8125 L 5 53.25 L 5 54.6875 L 5 56.125 L 5 57.5625 L 5.03125 59 L 5.03125 60.4375 L 5.03125 61.875 L 5 63.3125 L 4.9375 64.75 L 4.90625 66.1875 L 4.84375 67.625 L 4.84375 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 4 0 L 4.0625 1.4375 L 4.0625 2.875 L 4.09375 4.3125 L 4.0625 5.75 L 4.0625 7.1875 L 4.03125 8.625 L 3.96875 10.0625 L 3.9375 11.5 L 3.875 12.9375 L 3.84375 14.375 L 3.84375 15.8125 L 3.84375 17.28125 L 3.84375 18.71875 L 3.875 20.15625 L 3.9375 21.59375 L 3.96875 23.03125 L 4.03125 24.46875 L 4.0625 25.90625 L 4.09375 27.34375 L 4.09375 28.78125 L 4.0625 30.21875 L 4.03125 31.65625 L 4 33.09375 L 3.96875 34.53125 L 3.90625 35.96875 L 3.875 37.40625 L 3.84375 38.84375 L 3.84375 40.28125 L 3.84375 41.71875 L 3.875 43.15625 L 3.90625 44.59375 L 3.9375 46.03125 L 4 47.46875 L 4.03125 48.90625 L 4.0625 50.34375 L 4.09375 51.8125 L 4.09375 53.25 L 4.0625 54.6875 L 4.03125 56.125 L 4 57.5625 L 3.9375 59 L 3.90625 60.4375 L 3.875 61.875 L 3.84375 63.3125 L 3.84375 64.75 L 3.84375 66.1875 L 3.875 67.625 L 3.90625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.8125 0 L 2.84375 1.4375 L 2.84375 2.875 L 2.875 4.3125 L 2.90625 5.75 L 2.9375 7.1875 L 2.96875 8.625 L 2.96875 10.0625 L 2.90625 11.5 L 2.875 12.9375 L 2.875 14.375 L 2.875 15.8125 L 2.84375 17.28125 L 2.78125 18.71875 L 2.75 20.15625 L 2.75 21.59375 L 2.78125 23.03125 L 2.84375 24.46875 L 2.84375 25.90625 L 2.84375 27.34375 L 2.875 28.78125 L 2.90625 30.21875 L 2.96875 31.65625 L 3 33.09375 L 2.96875 34.53125 L 2.90625 35.96875 L 2.875 37.40625 L 2.875 38.84375 L 2.84375 40.28125 L 2.8125 41.71875 L 2.78125 43.15625 L 2.75 44.59375 L 2.75 46.03125 L 2.8125 47.46875 L 2.84375 48.90625 L 2.84375 50.34375 L 2.875 51.8125 L 2.875 53.25 L 2.9375 54.6875 L 2.96875 56.125 L 2.96875 57.5625 L 2.9375 59 L 2.875 60.4375 L 2.875 61.875 L 2.875 63.3125 L 2.84375 64.75 L 2.8125 66.1875 L 2.75 67.625 L 2.75 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.90625 0 L 1.90625 1.4375 L 1.90625 2.875 L 1.90625 4.3125 L 1.875 5.75 L 1.84375 7.1875 L 1.8125 8.625 L 1.78125 10.0625 L 1.75 11.5 L 1.71875 12.9375 L 1.71875 14.375 L 1.71875 15.8125 L 1.75 17.28125 L 1.78125 18.71875 L 1.8125 20.15625 L 1.84375 21.59375 L 1.875 23.03125 L 1.90625 24.46875 L 1.90625 25.90625 L 1.90625 27.34375 L 1.875 28.78125 L 1.875 30.21875 L 1.8125 31.65625 L 1.78125 33.09375 L 1.75 34.53125 L 1.75 35.96875 L 1.71875 37.40625 L 1.71875 38.84375 L 1.75 40.28125 L 1.75 41.71875 L 1.78125 43.15625 L 1.8125 44.59375 L 1.875 46.03125 L 1.875 47.46875 L 1.90625 48.90625 L 1.90625 50.34375 L 1.90625 51.8125 L 1.875 53.25 L 1.84375 54.6875 L 1.8125 56.125 L 1.78125 57.5625 L 1.75 59 L 1.71875 60.4375 L 1.71875 61.875 L 1.71875 63.3125 L 1.75 64.75 L 1.78125 66.1875 L 1.8125 67.625 L 1.84375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.78125 0 L 0.8125 1.4375 L 0.875 2.875 L 0.9375 4.3125 L 0.9375 5.75 L 0.9375 7.1875 L 0.90625 8.625 L 0.875 10.0625 L 0.84375 11.5 L 0.8125 12.9375 L 0.78125 14.375 L 0.78125 15.8125 L 0.78125 17.28125 L 0.75 18.71875 L 0.75 20.15625 L 0.71875 21.59375 L 0.75 23.03125 L 0.78125 24.46875 L 0.84375 25.90625 L 0.90625 27.34375 L 0.9375 28.78125 L 0.9375 30.21875 L 0.9375 31.65625 L 0.90625 33.09375 L 0.84375 34.53125 L 0.8125 35.96875 L 0.8125 37.40625 L 0.78125 38.84375 L 0.78125 40.28125 L 0.78125 41.71875 L 0.75 43.15625 L 0.71875 44.59375 L 0.71875 46.03125 L 0.75 47.46875 L 0.8125 48.90625 L 0.84375 50.34375 L 0.90625 51.8125 L 0.9375 53.25 L 0.9375 54.6875 L 0.90625 56.125 L 0.875 57.5625 L 0.84375 59 L 0.8125 60.4375 L 0.8125 61.875 L 0.78125 63.3125 L 0.78125 64.75 L 0.75 66.1875 L 0.75 67.625 L 0.71875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s04" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(75.7500, 7.5)">
+      <path d="M 0.5625 0 L 0.5 1.4375 L 0.5 2.875 L 0.46875 4.3125 L 0.5 5.75 L 0.5 7.1875 L 0.5 8.625 L 0.5 10.0625 L 0.5 11.5 L 0.5 12.9375 L 0.5625 14.375 L 0.59375 15.8125 L 0.65625 17.28125 L 0.6875 18.71875 L 0.65625 20.15625 L 0.625 21.59375 L 0.59375 23.03125 L 0.53125 24.46875 L 0.5 25.90625 L 0.5 27.34375 L 0.46875 28.78125 L 0.5 30.21875 L 0.5 31.65625 L 0.5 33.09375 L 0.5 34.53125 L 0.5 35.96875 L 0.53125 37.40625 L 0.5625 38.84375 L 0.625 40.28125 L 0.65625 41.71875 L 0.6875 43.15625 L 0.65625 44.59375 L 0.625 46.03125 L 0.5625 47.46875 L 0.53125 48.90625 L 0.5 50.34375 L 0.46875 51.8125 L 0.46875 53.25 L 0.5 54.6875 L 0.5 56.125 L 0.5 57.5625 L 0.5 59 L 0.5 60.4375 L 0.53125 61.875 L 0.59375 63.3125 L 0.625 64.75 L 0.65625 66.1875 L 0.6875 67.625 L 0.65625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.4375 0 L 1.40625 1.4375 L 1.4375 2.875 L 1.4375 4.3125 L 1.46875 5.75 L 1.53125 7.1875 L 1.5625 8.625 L 1.625 10.0625 L 1.65625 11.5 L 1.65625 12.9375 L 1.65625 14.375 L 1.65625 15.8125 L 1.625 17.28125 L 1.5625 18.71875 L 1.53125 20.15625 L 1.46875 21.59375 L 1.4375 23.03125 L 1.40625 24.46875 L 1.40625 25.90625 L 1.4375 27.34375 L 1.46875 28.78125 L 1.5 30.21875 L 1.53125 31.65625 L 1.59375 33.09375 L 1.625 34.53125 L 1.65625 35.96875 L 1.65625 37.40625 L 1.65625 38.84375 L 1.625 40.28125 L 1.59375 41.71875 L 1.5625 43.15625 L 1.5 44.59375 L 1.46875 46.03125 L 1.4375 47.46875 L 1.40625 48.90625 L 1.40625 50.34375 L 1.4375 51.8125 L 1.46875 53.25 L 1.5 54.6875 L 1.5625 56.125 L 1.59375 57.5625 L 1.625 59 L 1.65625 60.4375 L 1.65625 61.875 L 1.65625 63.3125 L 1.625 64.75 L 1.59375 66.1875 L 1.53125 67.625 L 1.5 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.625 0 L 2.59375 1.4375 L 2.59375 2.875 L 2.59375 4.3125 L 2.5625 5.75 L 2.53125 7.1875 L 2.53125 8.625 L 2.59375 10.0625 L 2.65625 11.5 L 2.6875 12.9375 L 2.6875 14.375 L 2.6875 15.8125 L 2.71875 17.28125 L 2.75 18.71875 L 2.75 20.15625 L 2.71875 21.59375 L 2.65625 23.03125 L 2.59375 24.46875 L 2.59375 25.90625 L 2.59375 27.34375 L 2.5625 28.78125 L 2.53125 30.21875 L 2.53125 31.65625 L 2.5625 33.09375 L 2.625 34.53125 L 2.65625 35.96875 L 2.6875 37.40625 L 2.6875 38.84375 L 2.6875 40.28125 L 2.71875 41.71875 L 2.75 43.15625 L 2.75 44.59375 L 2.6875 46.03125 L 2.625 47.46875 L 2.59375 48.90625 L 2.59375 50.34375 L 2.59375 51.8125 L 2.5625 53.25 L 2.53125 54.6875 L 2.53125 56.125 L 2.5625 57.5625 L 2.625 59 L 2.6875 60.4375 L 2.6875 61.875 L 2.6875 63.3125 L 2.6875 64.75 L 2.75 66.1875 L 2.75 67.625 L 2.71875 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.59375 0 L 3.59375 1.4375 L 3.625 2.875 L 3.65625 4.3125 L 3.6875 5.75 L 3.71875 7.1875 L 3.75 8.625 L 3.78125 10.0625 L 3.78125 11.5 L 3.78125 12.9375 L 3.75 14.375 L 3.71875 15.8125 L 3.6875 17.28125 L 3.65625 18.71875 L 3.625 20.15625 L 3.59375 21.59375 L 3.59375 23.03125 L 3.59375 24.46875 L 3.625 25.90625 L 3.625 27.34375 L 3.6875 28.78125 L 3.71875 30.21875 L 3.75 31.65625 L 3.75 33.09375 L 3.78125 34.53125 L 3.78125 35.96875 L 3.75 37.40625 L 3.75 38.84375 L 3.71875 40.28125 L 3.6875 41.71875 L 3.65625 43.15625 L 3.625 44.59375 L 3.59375 46.03125 L 3.59375 47.46875 L 3.59375 48.90625 L 3.625 50.34375 L 3.65625 51.8125 L 3.6875 53.25 L 3.71875 54.6875 L 3.75 56.125 L 3.78125 57.5625 L 3.78125 59 L 3.78125 60.4375 L 3.75 61.875 L 3.71875 63.3125 L 3.6875 64.75 L 3.65625 66.1875 L 3.625 67.625 L 3.59375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.65625 0 L 4.59375 1.4375 L 4.5625 2.875 L 4.5625 4.3125 L 4.5625 5.75 L 4.625 7.1875 L 4.65625 8.625 L 4.6875 10.0625 L 4.71875 11.5 L 4.71875 12.9375 L 4.75 14.375 L 4.75 15.8125 L 4.75 17.28125 L 4.75 18.71875 L 4.75 20.15625 L 4.71875 21.59375 L 4.6875 23.03125 L 4.625 24.46875 L 4.59375 25.90625 L 4.5625 27.34375 L 4.5625 28.78125 L 4.59375 30.21875 L 4.625 31.65625 L 4.6875 33.09375 L 4.71875 34.53125 L 4.71875 35.96875 L 4.75 37.40625 L 4.75 38.84375 L 4.75 40.28125 L 4.75 41.71875 L 4.75 43.15625 L 4.75 44.59375 L 4.71875 46.03125 L 4.65625 47.46875 L 4.625 48.90625 L 4.5625 50.34375 L 4.5625 51.8125 L 4.5625 53.25 L 4.59375 54.6875 L 4.65625 56.125 L 4.6875 57.5625 L 4.71875 59 L 4.71875 60.4375 L 4.75 61.875 L 4.75 63.3125 L 4.75 64.75 L 4.75 66.1875 L 4.75 67.625 L 4.71875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s05" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(81.3125, 7.5)">
+      <path d="M 4.9375 0 L 5 1.4375 L 5 2.875 L 5.03125 4.3125 L 5.03125 5.75 L 5 7.1875 L 5 8.625 L 5 10.0625 L 5 11.5 L 4.96875 12.9375 L 4.9375 14.375 L 4.90625 15.8125 L 4.84375 17.28125 L 4.8125 18.71875 L 4.84375 20.15625 L 4.875 21.59375 L 4.90625 23.03125 L 4.96875 24.46875 L 5 25.90625 L 5.03125 27.34375 L 5.03125 28.78125 L 5 30.21875 L 5 31.65625 L 5 33.09375 L 5 34.53125 L 5 35.96875 L 4.96875 37.40625 L 4.9375 38.84375 L 4.875 40.28125 L 4.84375 41.71875 L 4.8125 43.15625 L 4.84375 44.59375 L 4.875 46.03125 L 4.9375 47.46875 L 4.96875 48.90625 L 5 50.34375 L 5.03125 51.8125 L 5.03125 53.25 L 5 54.6875 L 5 56.125 L 5 57.5625 L 5 59 L 5 60.4375 L 4.96875 61.875 L 4.90625 63.3125 L 4.875 64.75 L 4.84375 66.1875 L 4.8125 67.625 L 4.84375 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 4.0625 0 L 4.09375 1.4375 L 4.0625 2.875 L 4.0625 4.3125 L 4 5.75 L 3.96875 7.1875 L 3.90625 8.625 L 3.875 10.0625 L 3.84375 11.5 L 3.84375 12.9375 L 3.84375 14.375 L 3.875 15.8125 L 3.90625 17.28125 L 3.9375 18.71875 L 4 20.15625 L 4.03125 21.59375 L 4.0625 23.03125 L 4.09375 24.46875 L 4.09375 25.90625 L 4.0625 27.34375 L 4.03125 28.78125 L 4 30.21875 L 3.9375 31.65625 L 3.90625 33.09375 L 3.875 34.53125 L 3.84375 35.96875 L 3.84375 37.40625 L 3.84375 38.84375 L 3.875 40.28125 L 3.90625 41.71875 L 3.96875 43.15625 L 4 44.59375 L 4.03125 46.03125 L 4.0625 47.46875 L 4.09375 48.90625 L 4.09375 50.34375 L 4.0625 51.8125 L 4.03125 53.25 L 3.96875 54.6875 L 3.9375 56.125 L 3.90625 57.5625 L 3.84375 59 L 3.84375 60.4375 L 3.84375 61.875 L 3.84375 63.3125 L 3.875 64.75 L 3.9375 66.1875 L 3.96875 67.625 L 4 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.90625 0 L 2.90625 1.4375 L 2.90625 2.875 L 2.90625 4.3125 L 2.9375 5.75 L 2.96875 7.1875 L 2.96875 8.625 L 2.90625 10.0625 L 2.84375 11.5 L 2.8125 12.9375 L 2.8125 14.375 L 2.8125 15.8125 L 2.78125 17.28125 L 2.75 18.71875 L 2.75 20.15625 L 2.8125 21.59375 L 2.875 23.03125 L 2.90625 24.46875 L 2.90625 25.90625 L 2.90625 27.34375 L 2.9375 28.78125 L 2.96875 30.21875 L 2.96875 31.65625 L 2.9375 33.09375 L 2.875 34.53125 L 2.8125 35.96875 L 2.8125 37.40625 L 2.8125 38.84375 L 2.8125 40.28125 L 2.78125 41.71875 L 2.75 43.15625 L 2.75 44.59375 L 2.8125 46.03125 L 2.875 47.46875 L 2.90625 48.90625 L 2.90625 50.34375 L 2.90625 51.8125 L 2.9375 53.25 L 2.96875 54.6875 L 2.96875 56.125 L 2.9375 57.5625 L 2.875 59 L 2.8125 60.4375 L 2.8125 61.875 L 2.8125 63.3125 L 2.78125 64.75 L 2.75 66.1875 L 2.75 67.625 L 2.78125 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.90625 0 L 1.90625 1.4375 L 1.875 2.875 L 1.84375 4.3125 L 1.8125 5.75 L 1.75 7.1875 L 1.75 8.625 L 1.71875 10.0625 L 1.71875 11.5 L 1.71875 12.9375 L 1.75 14.375 L 1.78125 15.8125 L 1.8125 17.28125 L 1.84375 18.71875 L 1.875 20.15625 L 1.90625 21.59375 L 1.90625 23.03125 L 1.90625 24.46875 L 1.875 25.90625 L 1.84375 27.34375 L 1.8125 28.78125 L 1.78125 30.21875 L 1.75 31.65625 L 1.71875 33.09375 L 1.71875 34.53125 L 1.71875 35.96875 L 1.75 37.40625 L 1.75 38.84375 L 1.78125 40.28125 L 1.84375 41.71875 L 1.875 43.15625 L 1.875 44.59375 L 1.90625 46.03125 L 1.90625 47.46875 L 1.90625 48.90625 L 1.875 50.34375 L 1.84375 51.8125 L 1.8125 53.25 L 1.78125 54.6875 L 1.75 56.125 L 1.71875 57.5625 L 1.71875 59 L 1.71875 60.4375 L 1.75 61.875 L 1.78125 63.3125 L 1.8125 64.75 L 1.84375 66.1875 L 1.875 67.625 L 1.90625 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.875 0 L 0.90625 1.4375 L 0.9375 2.875 L 0.9375 4.3125 L 0.9375 5.75 L 0.875 7.1875 L 0.84375 8.625 L 0.78125 10.0625 L 0.78125 11.5 L 0.75 12.9375 L 0.75 14.375 L 0.75 15.8125 L 0.75 17.28125 L 0.75 18.71875 L 0.75 20.15625 L 0.78125 21.59375 L 0.8125 23.03125 L 0.875 24.46875 L 0.9375 25.90625 L 0.9375 27.34375 L 0.9375 28.78125 L 0.90625 30.21875 L 0.875 31.65625 L 0.8125 33.09375 L 0.78125 34.53125 L 0.78125 35.96875 L 0.75 37.40625 L 0.75 38.84375 L 0.75 40.28125 L 0.75 41.71875 L 0.75 43.15625 L 0.75 44.59375 L 0.78125 46.03125 L 0.84375 47.46875 L 0.90625 48.90625 L 0.9375 50.34375 L 0.9375 51.8125 L 0.9375 53.25 L 0.90625 54.6875 L 0.84375 56.125 L 0.8125 57.5625 L 0.78125 59 L 0.75 60.4375 L 0.75 61.875 L 0.75 63.3125 L 0.75 64.75 L 0.75 66.1875 L 0.75 67.625 L 0.78125 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s06" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(86.8750, 7.5)">
+      <ellipse cx="3.40625" cy="35.90625" rx="0.15625" ry="0.40625" fill="#382010" opacity="1"/>
+      <ellipse cx="3.40625" cy="35.90625" rx="0.21875" ry="0.59375" fill="#422818" opacity="0.9"/>
+      <ellipse cx="3.40625" cy="35.90625" rx="0.28125" ry="0.71875" fill="#503020" opacity="0.65"/>
+      <ellipse cx="3.40625" cy="35.90625" rx="0.34375" ry="0.875" fill="#5e3828" opacity="0.4"/>
+      <path d="M 0.65625 0 L 0.625 1.4375 L 0.59375 2.875 L 0.59375 4.3125 L 0.5625 5.75 L 0.53125 7.1875 L 0.53125 8.625 L 0.5 10.0625 L 0.5 11.5 L 0.46875 12.9375 L 0.4375 14.375 L 0.4375 15.8125 L 0.46875 17.28125 L 0.53125 18.71875 L 0.59375 20.15625 L 0.625 21.59375 L 0.65625 23.03125 L 0.65625 24.46875 L 0.625 25.90625 L 0.59375 27.34375 L 0.5625 28.78125 L 0.5625 30.21875 L 0.53125 31.65625 L 0.40625 33.09375 L 0.1875 34.53125 L 0.09375 35.96875 L 0.15625 37.40625 L 0.34375 38.84375 L 0.4375 40.28125 L 0.5 41.71875 L 0.5625 43.15625 L 0.59375 44.59375 L 0.65625 46.03125 L 0.65625 47.46875 L 0.65625 48.90625 L 0.625 50.34375 L 0.59375 51.8125 L 0.5625 53.25 L 0.5625 54.6875 L 0.53125 56.125 L 0.53125 57.5625 L 0.5 59 L 0.46875 60.4375 L 0.4375 61.875 L 0.4375 63.3125 L 0.46875 64.75 L 0.5 66.1875 L 0.5625 67.625 L 0.625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.59375 0 L 1.53125 1.4375 L 1.5 2.875 L 1.4375 4.3125 L 1.4375 5.75 L 1.40625 7.1875 L 1.4375 8.625 L 1.4375 10.0625 L 1.46875 11.5 L 1.53125 12.9375 L 1.5625 14.375 L 1.625 15.8125 L 1.65625 17.28125 L 1.65625 18.71875 L 1.65625 20.15625 L 1.65625 21.59375 L 1.625 23.03125 L 1.5625 24.46875 L 1.53125 25.90625 L 1.46875 27.34375 L 1.4375 28.78125 L 1.40625 30.21875 L 1.40625 31.65625 L 1.3125 33.09375 L 1.15625 34.53125 L 1.125 35.96875 L 1.25 37.40625 L 1.46875 38.84375 L 1.625 40.28125 L 1.65625 41.71875 L 1.65625 43.15625 L 1.65625 44.59375 L 1.625 46.03125 L 1.59375 47.46875 L 1.5625 48.90625 L 1.5 50.34375 L 1.46875 51.8125 L 1.4375 53.25 L 1.40625 54.6875 L 1.40625 56.125 L 1.4375 57.5625 L 1.46875 59 L 1.5 60.4375 L 1.5625 61.875 L 1.59375 63.3125 L 1.625 64.75 L 1.65625 66.1875 L 1.65625 67.625 L 1.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.71875 0 L 2.6875 1.4375 L 2.6875 2.875 L 2.6875 4.3125 L 2.6875 5.75 L 2.625 7.1875 L 2.5625 8.625 L 2.53125 10.0625 L 2.53125 11.5 L 2.5625 12.9375 L 2.59375 14.375 L 2.59375 15.8125 L 2.59375 17.28125 L 2.625 18.71875 L 2.6875 20.15625 L 2.75 21.59375 L 2.75 23.03125 L 2.71875 24.46875 L 2.6875 25.90625 L 2.6875 27.34375 L 2.6875 28.78125 L 2.65625 30.21875 L 2.59375 31.65625 L 2.40625 33.09375 L 2.21875 34.53125 L 2.1875 35.96875 L 2.28125 37.40625 L 2.46875 38.84375 L 2.5625 40.28125 L 2.59375 41.71875 L 2.65625 43.15625 L 2.71875 44.59375 L 2.75 46.03125 L 2.75 47.46875 L 2.71875 48.90625 L 2.6875 50.34375 L 2.6875 51.8125 L 2.6875 53.25 L 2.65625 54.6875 L 2.59375 56.125 L 2.53125 57.5625 L 2.53125 59 L 2.5625 60.4375 L 2.59375 61.875 L 2.59375 63.3125 L 2.59375 64.75 L 2.625 66.1875 L 2.6875 67.625 L 2.71875 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.65625 0 L 3.625 1.4375 L 3.59375 2.875 L 3.59375 4.3125 L 3.59375 5.75 L 3.59375 7.1875 L 3.625 8.625 L 3.65625 10.0625 L 3.6875 11.5 L 3.71875 12.9375 L 3.75 14.375 L 3.78125 15.8125 L 3.78125 17.28125 L 3.78125 18.71875 L 3.75 20.15625 L 3.71875 21.59375 L 3.6875 23.03125 L 3.65625 24.46875 L 3.625 25.90625 L 3.59375 27.34375 L 3.59375 28.78125 L 3.59375 30.21875 L 3.625 31.65625 L 3.78125 33.09375 L 3.96875 34.53125 L 4.09375 35.96875 L 4.03125 37.40625 L 3.875 38.84375 L 3.78125 40.28125 L 3.78125 41.71875 L 3.75 43.15625 L 3.75 44.59375 L 3.71875 46.03125 L 3.6875 47.46875 L 3.625 48.90625 L 3.625 50.34375 L 3.59375 51.8125 L 3.59375 53.25 L 3.59375 54.6875 L 3.625 56.125 L 3.65625 57.5625 L 3.6875 59 L 3.71875 60.4375 L 3.75 61.875 L 3.78125 63.3125 L 3.78125 64.75 L 3.78125 66.1875 L 3.75 67.625 L 3.71875 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.78125 0 L 4.75 1.4375 L 4.71875 2.875 L 4.65625 4.3125 L 4.59375 5.75 L 4.5625 7.1875 L 4.5625 8.625 L 4.59375 10.0625 L 4.625 11.5 L 4.625 12.9375 L 4.65625 14.375 L 4.65625 15.8125 L 4.6875 17.28125 L 4.71875 18.71875 L 4.75 20.15625 L 4.78125 21.59375 L 4.78125 23.03125 L 4.78125 24.46875 L 4.75 25.90625 L 4.6875 27.34375 L 4.625 28.78125 L 4.59375 30.21875 L 4.59375 31.65625 L 4.6875 33.09375 L 4.90625 34.53125 L 5 35.96875 L 4.9375 37.40625 L 4.78125 38.84375 L 4.6875 40.28125 L 4.6875 41.71875 L 4.71875 43.15625 L 4.75 44.59375 L 4.78125 46.03125 L 4.78125 47.46875 L 4.78125 48.90625 L 4.75 50.34375 L 4.6875 51.8125 L 4.625 53.25 L 4.59375 54.6875 L 4.5625 56.125 L 4.59375 57.5625 L 4.59375 59 L 4.625 60.4375 L 4.65625 61.875 L 4.65625 63.3125 L 4.6875 64.75 L 4.6875 66.1875 L 4.71875 67.625 L 4.75 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s07" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(92.4375, 7.5)">
+      <path d="M 4.84375 0 L 4.875 1.4375 L 4.90625 2.875 L 4.9375 4.3125 L 4.9375 5.75 L 4.96875 7.1875 L 4.96875 8.625 L 5 10.0625 L 5 11.5 L 5.03125 12.9375 L 5.0625 14.375 L 5.0625 15.8125 L 5 17.28125 L 4.96875 18.71875 L 4.90625 20.15625 L 4.84375 21.59375 L 4.84375 23.03125 L 4.84375 24.46875 L 4.875 25.90625 L 4.90625 27.34375 L 4.9375 28.78125 L 4.9375 30.21875 L 4.96875 31.65625 L 4.96875 33.09375 L 5 34.53125 L 5.03125 35.96875 L 5.0625 37.40625 L 5.0625 38.84375 L 5.03125 40.28125 L 5 41.71875 L 4.9375 43.15625 L 4.875 44.59375 L 4.84375 46.03125 L 4.84375 47.46875 L 4.84375 48.90625 L 4.875 50.34375 L 4.90625 51.8125 L 4.9375 53.25 L 4.96875 54.6875 L 4.96875 56.125 L 4.96875 57.5625 L 5 59 L 5.03125 60.4375 L 5.0625 61.875 L 5.0625 63.3125 L 5.03125 64.75 L 4.96875 66.1875 L 4.9375 67.625 L 4.875 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 3.9375 0 L 3.96875 1.4375 L 4.03125 2.875 L 4.0625 4.3125 L 4.0625 5.75 L 4.09375 7.1875 L 4.0625 8.625 L 4.0625 10.0625 L 4 11.5 L 3.96875 12.9375 L 3.90625 14.375 L 3.875 15.8125 L 3.84375 17.28125 L 3.84375 18.71875 L 3.84375 20.15625 L 3.875 21.59375 L 3.90625 23.03125 L 3.9375 24.46875 L 4 25.90625 L 4.03125 27.34375 L 4.0625 28.78125 L 4.09375 30.21875 L 4.09375 31.65625 L 4.0625 33.09375 L 4.03125 34.53125 L 4 35.96875 L 3.9375 37.40625 L 3.90625 38.84375 L 3.875 40.28125 L 3.84375 41.71875 L 3.84375 43.15625 L 3.84375 44.59375 L 3.875 46.03125 L 3.90625 47.46875 L 3.96875 48.90625 L 4 50.34375 L 4.03125 51.8125 L 4.0625 53.25 L 4.09375 54.6875 L 4.09375 56.125 L 4.0625 57.5625 L 4.03125 59 L 3.96875 60.4375 L 3.9375 61.875 L 3.90625 63.3125 L 3.84375 64.75 L 3.84375 66.1875 L 3.84375 67.625 L 3.84375 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.78125 0 L 2.8125 1.4375 L 2.8125 2.875 L 2.8125 4.3125 L 2.84375 5.75 L 2.875 7.1875 L 2.9375 8.625 L 2.96875 10.0625 L 2.96875 11.5 L 2.9375 12.9375 L 2.90625 14.375 L 2.90625 15.8125 L 2.90625 17.28125 L 2.84375 18.71875 L 2.78125 20.15625 L 2.75 21.59375 L 2.75 23.03125 L 2.78125 24.46875 L 2.8125 25.90625 L 2.8125 27.34375 L 2.8125 28.78125 L 2.84375 30.21875 L 2.90625 31.65625 L 2.96875 33.09375 L 2.96875 34.53125 L 2.9375 35.96875 L 2.90625 37.40625 L 2.90625 38.84375 L 2.90625 40.28125 L 2.875 41.71875 L 2.84375 43.15625 L 2.78125 44.59375 L 2.75 46.03125 L 2.75 47.46875 L 2.78125 48.90625 L 2.8125 50.34375 L 2.8125 51.8125 L 2.8125 53.25 L 2.875 54.6875 L 2.9375 56.125 L 2.96875 57.5625 L 2.96875 59 L 2.9375 60.4375 L 2.90625 61.875 L 2.90625 63.3125 L 2.90625 64.75 L 2.875 66.1875 L 2.8125 67.625 L 2.75 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.84375 0 L 1.875 1.4375 L 1.90625 2.875 L 1.90625 4.3125 L 1.90625 5.75 L 1.90625 7.1875 L 1.875 8.625 L 1.84375 10.0625 L 1.8125 11.5 L 1.75 12.9375 L 1.75 14.375 L 1.71875 15.8125 L 1.71875 17.28125 L 1.71875 18.71875 L 1.75 20.15625 L 1.78125 21.59375 L 1.8125 23.03125 L 1.84375 24.46875 L 1.875 25.90625 L 1.90625 27.34375 L 1.90625 28.78125 L 1.90625 30.21875 L 1.875 31.65625 L 1.84375 33.09375 L 1.8125 34.53125 L 1.78125 35.96875 L 1.75 37.40625 L 1.71875 38.84375 L 1.71875 40.28125 L 1.71875 41.71875 L 1.75 43.15625 L 1.75 44.59375 L 1.78125 46.03125 L 1.84375 47.46875 L 1.875 48.90625 L 1.875 50.34375 L 1.90625 51.8125 L 1.90625 53.25 L 1.90625 54.6875 L 1.875 56.125 L 1.84375 57.5625 L 1.8125 59 L 1.78125 60.4375 L 1.75 61.875 L 1.71875 63.3125 L 1.71875 64.75 L 1.71875 66.1875 L 1.75 67.625 L 1.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.71875 0 L 0.75 1.4375 L 0.78125 2.875 L 0.84375 4.3125 L 0.90625 5.75 L 0.9375 7.1875 L 0.9375 8.625 L 0.90625 10.0625 L 0.875 11.5 L 0.84375 12.9375 L 0.84375 14.375 L 0.8125 15.8125 L 0.8125 17.28125 L 0.78125 18.71875 L 0.75 20.15625 L 0.71875 21.59375 L 0.71875 23.03125 L 0.71875 24.46875 L 0.75 25.90625 L 0.8125 27.34375 L 0.875 28.78125 L 0.90625 30.21875 L 0.9375 31.65625 L 0.9375 33.09375 L 0.90625 34.53125 L 0.875 35.96875 L 0.84375 37.40625 L 0.84375 38.84375 L 0.8125 40.28125 L 0.8125 41.71875 L 0.78125 43.15625 L 0.75 44.59375 L 0.71875 46.03125 L 0.71875 47.46875 L 0.71875 48.90625 L 0.78125 50.34375 L 0.84375 51.8125 L 0.875 53.25 L 0.90625 54.6875 L 0.9375 56.125 L 0.90625 57.5625 L 0.90625 59 L 0.875 60.4375 L 0.84375 61.875 L 0.84375 63.3125 L 0.8125 64.75 L 0.8125 66.1875 L 0.78125 67.625 L 0.75 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s08" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(98.0000, 7.5)">
+      <path d="M 0.625 0 L 0.625 1.4375 L 0.625 2.875 L 0.625 4.3125 L 0.59375 5.75 L 0.59375 7.1875 L 0.59375 8.625 L 0.5625 10.0625 L 0.5625 11.5 L 0.53125 12.9375 L 0.46875 14.375 L 0.4375 15.8125 L 0.4375 17.28125 L 0.4375 18.71875 L 0.46875 20.15625 L 0.53125 21.59375 L 0.59375 23.03125 L 0.625 24.46875 L 0.625 25.90625 L 0.625 27.34375 L 0.625 28.78125 L 0.59375 30.21875 L 0.59375 31.65625 L 0.59375 33.09375 L 0.5625 34.53125 L 0.53125 35.96875 L 0.5 37.40625 L 0.46875 38.84375 L 0.4375 40.28125 L 0.4375 41.71875 L 0.46875 43.15625 L 0.5 44.59375 L 0.5625 46.03125 L 0.59375 47.46875 L 0.625 48.90625 L 0.625 50.34375 L 0.625 51.8125 L 0.625 53.25 L 0.59375 54.6875 L 0.59375 56.125 L 0.59375 57.5625 L 0.5625 59 L 0.53125 60.4375 L 0.5 61.875 L 0.46875 63.3125 L 0.4375 64.75 L 0.4375 66.1875 L 0.46875 67.625 L 0.53125 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.65625 0 L 1.625 1.4375 L 1.59375 2.875 L 1.5625 4.3125 L 1.5 5.75 L 1.46875 7.1875 L 1.4375 8.625 L 1.40625 10.0625 L 1.40625 11.5 L 1.4375 12.9375 L 1.46875 14.375 L 1.5 15.8125 L 1.5625 17.28125 L 1.59375 18.71875 L 1.625 20.15625 L 1.65625 21.59375 L 1.65625 23.03125 L 1.65625 24.46875 L 1.625 25.90625 L 1.59375 27.34375 L 1.53125 28.78125 L 1.5 30.21875 L 1.46875 31.65625 L 1.4375 33.09375 L 1.40625 34.53125 L 1.40625 35.96875 L 1.4375 37.40625 L 1.46875 38.84375 L 1.53125 40.28125 L 1.5625 41.71875 L 1.625 43.15625 L 1.65625 44.59375 L 1.65625 46.03125 L 1.65625 47.46875 L 1.65625 48.90625 L 1.625 50.34375 L 1.5625 51.8125 L 1.53125 53.25 L 1.46875 54.6875 L 1.4375 56.125 L 1.40625 57.5625 L 1.40625 59 L 1.4375 60.4375 L 1.46875 61.875 L 1.5 63.3125 L 1.53125 64.75 L 1.59375 66.1875 L 1.625 67.625 L 1.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.71875 0 L 2.71875 1.4375 L 2.6875 2.875 L 2.71875 4.3125 L 2.71875 5.75 L 2.71875 7.1875 L 2.65625 8.625 L 2.59375 10.0625 L 2.5625 11.5 L 2.5625 12.9375 L 2.5625 14.375 L 2.5625 15.8125 L 2.5625 17.28125 L 2.5625 18.71875 L 2.59375 20.15625 L 2.65625 21.59375 L 2.71875 23.03125 L 2.71875 24.46875 L 2.71875 25.90625 L 2.71875 27.34375 L 2.71875 28.78125 L 2.71875 30.21875 L 2.71875 31.65625 L 2.65625 33.09375 L 2.59375 34.53125 L 2.5625 35.96875 L 2.5625 37.40625 L 2.5625 38.84375 L 2.5625 40.28125 L 2.5625 41.71875 L 2.5625 43.15625 L 2.625 44.59375 L 2.6875 46.03125 L 2.71875 47.46875 L 2.71875 48.90625 L 2.71875 50.34375 L 2.71875 51.8125 L 2.71875 53.25 L 2.71875 54.6875 L 2.6875 56.125 L 2.625 57.5625 L 2.5625 59 L 2.5625 60.4375 L 2.5625 61.875 L 2.5625 63.3125 L 2.5625 64.75 L 2.5625 66.1875 L 2.5625 67.625 L 2.625 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.75 0 L 3.71875 1.4375 L 3.6875 2.875 L 3.65625 4.3125 L 3.625 5.75 L 3.59375 7.1875 L 3.59375 8.625 L 3.59375 10.0625 L 3.625 11.5 L 3.65625 12.9375 L 3.6875 14.375 L 3.71875 15.8125 L 3.75 17.28125 L 3.78125 18.71875 L 3.78125 20.15625 L 3.78125 21.59375 L 3.75 23.03125 L 3.71875 24.46875 L 3.6875 25.90625 L 3.65625 27.34375 L 3.625 28.78125 L 3.59375 30.21875 L 3.59375 31.65625 L 3.59375 33.09375 L 3.59375 34.53125 L 3.625 35.96875 L 3.65625 37.40625 L 3.6875 38.84375 L 3.71875 40.28125 L 3.75 41.71875 L 3.78125 43.15625 L 3.78125 44.59375 L 3.78125 46.03125 L 3.75 47.46875 L 3.71875 48.90625 L 3.6875 50.34375 L 3.65625 51.8125 L 3.625 53.25 L 3.59375 54.6875 L 3.59375 56.125 L 3.59375 57.5625 L 3.625 59 L 3.625 60.4375 L 3.65625 61.875 L 3.71875 63.3125 L 3.75 64.75 L 3.75 66.1875 L 3.78125 67.625 L 3.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.78125 0 L 4.78125 1.4375 L 4.78125 2.875 L 4.75 4.3125 L 4.71875 5.75 L 4.65625 7.1875 L 4.625 8.625 L 4.59375 10.0625 L 4.59375 11.5 L 4.59375 12.9375 L 4.625 14.375 L 4.625 15.8125 L 4.625 17.28125 L 4.625 18.71875 L 4.65625 20.15625 L 4.6875 21.59375 L 4.75 23.03125 L 4.78125 24.46875 L 4.8125 25.90625 L 4.78125 27.34375 L 4.75 28.78125 L 4.6875 30.21875 L 4.625 31.65625 L 4.59375 33.09375 L 4.59375 34.53125 L 4.59375 35.96875 L 4.59375 37.40625 L 4.625 38.84375 L 4.625 40.28125 L 4.625 41.71875 L 4.65625 43.15625 L 4.6875 44.59375 L 4.71875 46.03125 L 4.75 47.46875 L 4.78125 48.90625 L 4.8125 50.34375 L 4.78125 51.8125 L 4.71875 53.25 L 4.6875 54.6875 L 4.625 56.125 L 4.59375 57.5625 L 4.59375 59 L 4.59375 60.4375 L 4.625 61.875 L 4.625 63.3125 L 4.625 64.75 L 4.625 66.1875 L 4.65625 67.625 L 4.6875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s09" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(103.5625, 7.5)">
+      <path d="M 5.03125 0 L 4.96875 1.4375 L 4.9375 2.875 L 4.90625 4.3125 L 4.90625 5.75 L 4.90625 7.1875 L 4.90625 8.625 L 4.875 10.0625 L 4.875 11.5 L 4.875 12.9375 L 4.875 14.375 L 4.90625 15.8125 L 4.96875 17.28125 L 5.03125 18.71875 L 5.0625 20.15625 L 5.0625 21.59375 L 5.0625 23.03125 L 5 24.46875 L 4.96875 25.90625 L 4.9375 27.34375 L 4.90625 28.78125 L 4.90625 30.21875 L 4.90625 31.65625 L 4.875 33.09375 L 4.875 34.53125 L 4.875 35.96875 L 4.875 37.40625 L 4.90625 38.84375 L 4.9375 40.28125 L 5 41.71875 L 5.03125 43.15625 L 5.0625 44.59375 L 5.0625 46.03125 L 5.03125 47.46875 L 5 48.90625 L 4.96875 50.34375 L 4.9375 51.8125 L 4.90625 53.25 L 4.90625 54.6875 L 4.90625 56.125 L 4.875 57.5625 L 4.875 59 L 4.875 60.4375 L 4.875 61.875 L 4.90625 63.3125 L 4.96875 64.75 L 5 66.1875 L 5.0625 67.625 L 5.0625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 3.90625 0 L 3.875 1.4375 L 3.84375 2.875 L 3.84375 4.3125 L 3.84375 5.75 L 3.875 7.1875 L 3.90625 8.625 L 3.96875 10.0625 L 4 11.5 L 4.03125 12.9375 L 4.0625 14.375 L 4.09375 15.8125 L 4.09375 17.28125 L 4.0625 18.71875 L 4.03125 20.15625 L 3.96875 21.59375 L 3.9375 23.03125 L 3.90625 24.46875 L 3.84375 25.90625 L 3.84375 27.34375 L 3.84375 28.78125 L 3.84375 30.21875 L 3.875 31.65625 L 3.9375 33.09375 L 3.96875 34.53125 L 4 35.96875 L 4.0625 37.40625 L 4.0625 38.84375 L 4.09375 40.28125 L 4.0625 41.71875 L 4.0625 43.15625 L 4 44.59375 L 3.96875 46.03125 L 3.90625 47.46875 L 3.875 48.90625 L 3.84375 50.34375 L 3.84375 51.8125 L 3.84375 53.25 L 3.875 54.6875 L 3.90625 56.125 L 3.9375 57.5625 L 4 59 L 4.03125 60.4375 L 4.0625 61.875 L 4.09375 63.3125 L 4.09375 64.75 L 4.0625 66.1875 L 4.03125 67.625 L 4 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.90625 0 L 2.875 1.4375 L 2.84375 2.875 L 2.84375 4.3125 L 2.8125 5.75 L 2.78125 7.1875 L 2.75 8.625 L 2.75 10.0625 L 2.8125 11.5 L 2.84375 12.9375 L 2.875 14.375 L 2.875 15.8125 L 2.875 17.28125 L 2.9375 18.71875 L 2.96875 20.15625 L 2.96875 21.59375 L 2.9375 23.03125 L 2.875 24.46875 L 2.875 25.90625 L 2.84375 27.34375 L 2.84375 28.78125 L 2.8125 30.21875 L 2.75 31.65625 L 2.75 33.09375 L 2.78125 34.53125 L 2.8125 35.96875 L 2.84375 37.40625 L 2.875 38.84375 L 2.875 40.28125 L 2.90625 41.71875 L 2.9375 43.15625 L 2.96875 44.59375 L 2.96875 46.03125 L 2.90625 47.46875 L 2.875 48.90625 L 2.84375 50.34375 L 2.84375 51.8125 L 2.84375 53.25 L 2.78125 54.6875 L 2.75 56.125 L 2.75 57.5625 L 2.78125 59 L 2.84375 60.4375 L 2.875 61.875 L 2.875 63.3125 L 2.875 64.75 L 2.90625 66.1875 L 2.96875 67.625 L 3 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.71875 0 L 1.71875 1.4375 L 1.71875 2.875 L 1.75 4.3125 L 1.75 5.75 L 1.78125 7.1875 L 1.84375 8.625 L 1.875 10.0625 L 1.875 11.5 L 1.90625 12.9375 L 1.90625 14.375 L 1.90625 15.8125 L 1.875 17.28125 L 1.84375 18.71875 L 1.8125 20.15625 L 1.78125 21.59375 L 1.75 23.03125 L 1.71875 24.46875 L 1.71875 25.90625 L 1.71875 27.34375 L 1.75 28.78125 L 1.78125 30.21875 L 1.8125 31.65625 L 1.84375 33.09375 L 1.875 34.53125 L 1.90625 35.96875 L 1.90625 37.40625 L 1.90625 38.84375 L 1.90625 40.28125 L 1.875 41.71875 L 1.84375 43.15625 L 1.8125 44.59375 L 1.78125 46.03125 L 1.75 47.46875 L 1.71875 48.90625 L 1.71875 50.34375 L 1.71875 51.8125 L 1.75 53.25 L 1.78125 54.6875 L 1.8125 56.125 L 1.84375 57.5625 L 1.875 59 L 1.90625 60.4375 L 1.90625 61.875 L 1.90625 63.3125 L 1.875 64.75 L 1.84375 66.1875 L 1.8125 67.625 L 1.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.875 0 L 0.8125 1.4375 L 0.78125 2.875 L 0.71875 4.3125 L 0.71875 5.75 L 0.71875 7.1875 L 0.75 8.625 L 0.78125 10.0625 L 0.8125 11.5 L 0.84375 12.9375 L 0.84375 14.375 L 0.875 15.8125 L 0.875 17.28125 L 0.90625 18.71875 L 0.90625 20.15625 L 0.90625 21.59375 L 0.90625 23.03125 L 0.875 24.46875 L 0.8125 25.90625 L 0.75 27.34375 L 0.71875 28.78125 L 0.71875 30.21875 L 0.71875 31.65625 L 0.75 33.09375 L 0.8125 34.53125 L 0.84375 35.96875 L 0.84375 37.40625 L 0.875 38.84375 L 0.875 40.28125 L 0.875 41.71875 L 0.90625 43.15625 L 0.90625 44.59375 L 0.90625 46.03125 L 0.90625 47.46875 L 0.84375 48.90625 L 0.78125 50.34375 L 0.75 51.8125 L 0.71875 53.25 L 0.71875 54.6875 L 0.75 56.125 L 0.78125 57.5625 L 0.8125 59 L 0.84375 60.4375 L 0.84375 61.875 L 0.875 63.3125 L 0.875 64.75 L 0.875 66.1875 L 0.90625 67.625 L 0.90625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s10" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(109.1250, 7.5)">
+      <ellipse cx="2.46875" cy="55.25" rx="0.15625" ry="0.40625" fill="#382010" opacity="1"/>
+      <ellipse cx="2.46875" cy="55.25" rx="0.21875" ry="0.59375" fill="#422818" opacity="0.9"/>
+      <ellipse cx="2.46875" cy="55.25" rx="0.28125" ry="0.71875" fill="#503020" opacity="0.65"/>
+      <ellipse cx="2.46875" cy="55.25" rx="0.34375" ry="0.875" fill="#5e3828" opacity="0.4"/>
+      <path d="M 0.46875 0 L 0.46875 1.4375 L 0.46875 2.875 L 0.46875 4.3125 L 0.5 5.75 L 0.5 7.1875 L 0.53125 8.625 L 0.53125 10.0625 L 0.5625 11.5 L 0.59375 12.9375 L 0.625 14.375 L 0.65625 15.8125 L 0.65625 17.28125 L 0.65625 18.71875 L 0.59375 20.15625 L 0.53125 21.59375 L 0.5 23.03125 L 0.46875 24.46875 L 0.46875 25.90625 L 0.46875 27.34375 L 0.5 28.78125 L 0.5 30.21875 L 0.5 31.65625 L 0.53125 33.09375 L 0.53125 34.53125 L 0.5625 35.96875 L 0.59375 37.40625 L 0.65625 38.84375 L 0.65625 40.28125 L 0.65625 41.71875 L 0.625 43.15625 L 0.59375 44.59375 L 0.53125 46.03125 L 0.46875 47.46875 L 0.46875 48.90625 L 0.4375 50.34375 L 0.40625 51.8125 L 0.25 53.25 L 0.15625 54.6875 L 0.15625 56.125 L 0.34375 57.5625 L 0.5 59 L 0.5625 60.4375 L 0.625 61.875 L 0.65625 63.3125 L 0.65625 64.75 L 0.65625 66.1875 L 0.625 67.625 L 0.5625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.4375 0 L 1.46875 1.4375 L 1.5 2.875 L 1.53125 4.3125 L 1.59375 5.75 L 1.625 7.1875 L 1.65625 8.625 L 1.65625 10.0625 L 1.65625 11.5 L 1.625 12.9375 L 1.59375 14.375 L 1.5625 15.8125 L 1.5 17.28125 L 1.46875 18.71875 L 1.4375 20.15625 L 1.40625 21.59375 L 1.40625 23.03125 L 1.4375 24.46875 L 1.46875 25.90625 L 1.5 27.34375 L 1.5625 28.78125 L 1.59375 30.21875 L 1.625 31.65625 L 1.65625 33.09375 L 1.65625 34.53125 L 1.65625 35.96875 L 1.625 37.40625 L 1.59375 38.84375 L 1.53125 40.28125 L 1.5 41.71875 L 1.4375 43.15625 L 1.4375 44.59375 L 1.40625 46.03125 L 1.4375 47.46875 L 1.4375 48.90625 L 1.46875 50.34375 L 1.46875 51.8125 L 1.34375 53.25 L 1.25 54.6875 L 1.3125 56.125 L 1.46875 57.5625 L 1.625 59 L 1.625 60.4375 L 1.625 61.875 L 1.5625 63.3125 L 1.53125 64.75 L 1.46875 66.1875 L 1.4375 67.625 L 1.40625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.5625 0 L 2.5625 1.4375 L 2.5625 2.875 L 2.5625 4.3125 L 2.5625 5.75 L 2.5625 7.1875 L 2.625 8.625 L 2.6875 10.0625 L 2.71875 11.5 L 2.71875 12.9375 L 2.71875 14.375 L 2.71875 15.8125 L 2.71875 17.28125 L 2.71875 18.71875 L 2.65625 20.15625 L 2.59375 21.59375 L 2.5625 23.03125 L 2.5625 24.46875 L 2.5625 25.90625 L 2.5625 27.34375 L 2.5625 28.78125 L 2.5625 30.21875 L 2.59375 31.65625 L 2.65625 33.09375 L 2.71875 34.53125 L 2.71875 35.96875 L 2.71875 37.40625 L 2.6875 38.84375 L 2.71875 40.28125 L 2.71875 41.71875 L 2.71875 43.15625 L 2.65625 44.59375 L 2.59375 46.03125 L 2.5625 47.46875 L 2.5625 48.90625 L 2.59375 50.34375 L 2.625 51.8125 L 2.78125 53.25 L 2.9375 54.6875 L 2.96875 56.125 L 2.875 57.5625 L 2.78125 59 L 2.71875 60.4375 L 2.71875 61.875 L 2.71875 63.3125 L 2.71875 64.75 L 2.71875 66.1875 L 2.6875 67.625 L 2.625 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.65625 0 L 3.6875 1.4375 L 3.71875 2.875 L 3.75 4.3125 L 3.75 5.75 L 3.78125 7.1875 L 3.78125 8.625 L 3.75 10.0625 L 3.75 11.5 L 3.71875 12.9375 L 3.6875 14.375 L 3.625 15.8125 L 3.625 17.28125 L 3.59375 18.71875 L 3.59375 20.15625 L 3.59375 21.59375 L 3.625 23.03125 L 3.65625 24.46875 L 3.6875 25.90625 L 3.71875 27.34375 L 3.75 28.78125 L 3.78125 30.21875 L 3.78125 31.65625 L 3.78125 33.09375 L 3.75 34.53125 L 3.71875 35.96875 L 3.6875 37.40625 L 3.65625 38.84375 L 3.625 40.28125 L 3.59375 41.71875 L 3.59375 43.15625 L 3.59375 44.59375 L 3.59375 46.03125 L 3.625 47.46875 L 3.65625 48.90625 L 3.71875 50.34375 L 3.78125 51.8125 L 4 53.25 L 4.125 54.6875 L 4.125 56.125 L 3.96875 57.5625 L 3.78125 59 L 3.71875 60.4375 L 3.6875 61.875 L 3.65625 63.3125 L 3.625 64.75 L 3.59375 66.1875 L 3.59375 67.625 L 3.59375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.5625 0 L 4.5625 1.4375 L 4.5625 2.875 L 4.59375 4.3125 L 4.65625 5.75 L 4.71875 7.1875 L 4.75 8.625 L 4.75 10.0625 L 4.75 11.5 L 4.75 12.9375 L 4.71875 14.375 L 4.71875 15.8125 L 4.71875 17.28125 L 4.6875 18.71875 L 4.6875 20.15625 L 4.625 21.59375 L 4.59375 23.03125 L 4.5625 24.46875 L 4.5625 25.90625 L 4.5625 27.34375 L 4.625 28.78125 L 4.6875 30.21875 L 4.71875 31.65625 L 4.75 33.09375 L 4.75 34.53125 L 4.75 35.96875 L 4.75 37.40625 L 4.71875 38.84375 L 4.71875 40.28125 L 4.71875 41.71875 L 4.6875 43.15625 L 4.65625 44.59375 L 4.625 46.03125 L 4.59375 47.46875 L 4.5625 48.90625 L 4.5625 50.34375 L 4.65625 51.8125 L 4.875 53.25 L 5.0625 54.6875 L 5.09375 56.125 L 4.9375 57.5625 L 4.8125 59 L 4.75 60.4375 L 4.71875 61.875 L 4.71875 63.3125 L 4.71875 64.75 L 4.71875 66.1875 L 4.6875 67.625 L 4.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s11" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(114.6875, 7.5)">
+      <path d="M 4.875 0 L 4.90625 1.4375 L 4.9375 2.875 L 4.96875 4.3125 L 5 5.75 L 5 7.1875 L 5 8.625 L 5.03125 10.0625 L 5.03125 11.5 L 5.03125 12.9375 L 5.03125 14.375 L 5 15.8125 L 4.9375 17.28125 L 4.875 18.71875 L 4.84375 20.15625 L 4.84375 21.59375 L 4.84375 23.03125 L 4.875 24.46875 L 4.9375 25.90625 L 4.96875 27.34375 L 4.96875 28.78125 L 5 30.21875 L 5 31.65625 L 5 33.09375 L 5.03125 34.53125 L 5.03125 35.96875 L 5.03125 37.40625 L 5 38.84375 L 4.96875 40.28125 L 4.90625 41.71875 L 4.875 43.15625 L 4.84375 44.59375 L 4.84375 46.03125 L 4.84375 47.46875 L 4.90625 48.90625 L 4.9375 50.34375 L 4.96875 51.8125 L 5 53.25 L 5 54.6875 L 5 56.125 L 5 57.5625 L 5.03125 59 L 5.03125 60.4375 L 5.03125 61.875 L 5 63.3125 L 4.9375 64.75 L 4.90625 66.1875 L 4.84375 67.625 L 4.84375 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 4 0 L 4.0625 1.4375 L 4.0625 2.875 L 4.09375 4.3125 L 4.0625 5.75 L 4.0625 7.1875 L 4.03125 8.625 L 3.96875 10.0625 L 3.9375 11.5 L 3.875 12.9375 L 3.84375 14.375 L 3.84375 15.8125 L 3.84375 17.28125 L 3.84375 18.71875 L 3.875 20.15625 L 3.9375 21.59375 L 3.96875 23.03125 L 4.03125 24.46875 L 4.0625 25.90625 L 4.09375 27.34375 L 4.09375 28.78125 L 4.0625 30.21875 L 4.03125 31.65625 L 4 33.09375 L 3.96875 34.53125 L 3.90625 35.96875 L 3.875 37.40625 L 3.84375 38.84375 L 3.84375 40.28125 L 3.84375 41.71875 L 3.875 43.15625 L 3.90625 44.59375 L 3.9375 46.03125 L 4 47.46875 L 4.03125 48.90625 L 4.0625 50.34375 L 4.09375 51.8125 L 4.09375 53.25 L 4.0625 54.6875 L 4.03125 56.125 L 4 57.5625 L 3.9375 59 L 3.90625 60.4375 L 3.875 61.875 L 3.84375 63.3125 L 3.84375 64.75 L 3.84375 66.1875 L 3.875 67.625 L 3.90625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.8125 0 L 2.84375 1.4375 L 2.84375 2.875 L 2.875 4.3125 L 2.90625 5.75 L 2.9375 7.1875 L 2.96875 8.625 L 2.96875 10.0625 L 2.90625 11.5 L 2.875 12.9375 L 2.875 14.375 L 2.875 15.8125 L 2.84375 17.28125 L 2.78125 18.71875 L 2.75 20.15625 L 2.75 21.59375 L 2.78125 23.03125 L 2.84375 24.46875 L 2.84375 25.90625 L 2.84375 27.34375 L 2.875 28.78125 L 2.90625 30.21875 L 2.96875 31.65625 L 3 33.09375 L 2.96875 34.53125 L 2.90625 35.96875 L 2.875 37.40625 L 2.875 38.84375 L 2.84375 40.28125 L 2.8125 41.71875 L 2.78125 43.15625 L 2.75 44.59375 L 2.75 46.03125 L 2.8125 47.46875 L 2.84375 48.90625 L 2.84375 50.34375 L 2.875 51.8125 L 2.875 53.25 L 2.9375 54.6875 L 2.96875 56.125 L 2.96875 57.5625 L 2.9375 59 L 2.875 60.4375 L 2.875 61.875 L 2.875 63.3125 L 2.84375 64.75 L 2.8125 66.1875 L 2.75 67.625 L 2.75 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.90625 0 L 1.90625 1.4375 L 1.90625 2.875 L 1.90625 4.3125 L 1.875 5.75 L 1.84375 7.1875 L 1.8125 8.625 L 1.78125 10.0625 L 1.75 11.5 L 1.71875 12.9375 L 1.71875 14.375 L 1.71875 15.8125 L 1.75 17.28125 L 1.78125 18.71875 L 1.8125 20.15625 L 1.84375 21.59375 L 1.875 23.03125 L 1.90625 24.46875 L 1.90625 25.90625 L 1.90625 27.34375 L 1.875 28.78125 L 1.875 30.21875 L 1.8125 31.65625 L 1.78125 33.09375 L 1.75 34.53125 L 1.75 35.96875 L 1.71875 37.40625 L 1.71875 38.84375 L 1.75 40.28125 L 1.75 41.71875 L 1.78125 43.15625 L 1.8125 44.59375 L 1.875 46.03125 L 1.875 47.46875 L 1.90625 48.90625 L 1.90625 50.34375 L 1.90625 51.8125 L 1.875 53.25 L 1.84375 54.6875 L 1.8125 56.125 L 1.78125 57.5625 L 1.75 59 L 1.71875 60.4375 L 1.71875 61.875 L 1.71875 63.3125 L 1.75 64.75 L 1.78125 66.1875 L 1.8125 67.625 L 1.84375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.78125 0 L 0.8125 1.4375 L 0.875 2.875 L 0.9375 4.3125 L 0.9375 5.75 L 0.9375 7.1875 L 0.90625 8.625 L 0.875 10.0625 L 0.84375 11.5 L 0.8125 12.9375 L 0.78125 14.375 L 0.78125 15.8125 L 0.78125 17.28125 L 0.75 18.71875 L 0.75 20.15625 L 0.71875 21.59375 L 0.75 23.03125 L 0.78125 24.46875 L 0.84375 25.90625 L 0.90625 27.34375 L 0.9375 28.78125 L 0.9375 30.21875 L 0.9375 31.65625 L 0.90625 33.09375 L 0.84375 34.53125 L 0.8125 35.96875 L 0.8125 37.40625 L 0.78125 38.84375 L 0.78125 40.28125 L 0.78125 41.71875 L 0.75 43.15625 L 0.71875 44.59375 L 0.71875 46.03125 L 0.75 47.46875 L 0.8125 48.90625 L 0.84375 50.34375 L 0.90625 51.8125 L 0.9375 53.25 L 0.9375 54.6875 L 0.90625 56.125 L 0.875 57.5625 L 0.84375 59 L 0.8125 60.4375 L 0.8125 61.875 L 0.78125 63.3125 L 0.78125 64.75 L 0.75 66.1875 L 0.75 67.625 L 0.71875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s12" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(120.2500, 7.5)">
+      <path d="M 0.5625 0 L 0.5 1.4375 L 0.5 2.875 L 0.46875 4.3125 L 0.5 5.75 L 0.5 7.1875 L 0.5 8.625 L 0.5 10.0625 L 0.5 11.5 L 0.5 12.9375 L 0.5625 14.375 L 0.59375 15.8125 L 0.65625 17.28125 L 0.6875 18.71875 L 0.65625 20.15625 L 0.625 21.59375 L 0.59375 23.03125 L 0.53125 24.46875 L 0.5 25.90625 L 0.5 27.34375 L 0.46875 28.78125 L 0.5 30.21875 L 0.5 31.65625 L 0.5 33.09375 L 0.5 34.53125 L 0.5 35.96875 L 0.53125 37.40625 L 0.5625 38.84375 L 0.625 40.28125 L 0.65625 41.71875 L 0.6875 43.15625 L 0.65625 44.59375 L 0.625 46.03125 L 0.5625 47.46875 L 0.53125 48.90625 L 0.5 50.34375 L 0.46875 51.8125 L 0.46875 53.25 L 0.5 54.6875 L 0.5 56.125 L 0.5 57.5625 L 0.5 59 L 0.5 60.4375 L 0.53125 61.875 L 0.59375 63.3125 L 0.625 64.75 L 0.65625 66.1875 L 0.6875 67.625 L 0.65625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.4375 0 L 1.40625 1.4375 L 1.4375 2.875 L 1.4375 4.3125 L 1.46875 5.75 L 1.53125 7.1875 L 1.5625 8.625 L 1.625 10.0625 L 1.65625 11.5 L 1.65625 12.9375 L 1.65625 14.375 L 1.65625 15.8125 L 1.625 17.28125 L 1.5625 18.71875 L 1.53125 20.15625 L 1.46875 21.59375 L 1.4375 23.03125 L 1.40625 24.46875 L 1.40625 25.90625 L 1.4375 27.34375 L 1.46875 28.78125 L 1.5 30.21875 L 1.53125 31.65625 L 1.59375 33.09375 L 1.625 34.53125 L 1.65625 35.96875 L 1.65625 37.40625 L 1.65625 38.84375 L 1.625 40.28125 L 1.59375 41.71875 L 1.5625 43.15625 L 1.5 44.59375 L 1.46875 46.03125 L 1.4375 47.46875 L 1.40625 48.90625 L 1.40625 50.34375 L 1.4375 51.8125 L 1.46875 53.25 L 1.5 54.6875 L 1.5625 56.125 L 1.59375 57.5625 L 1.625 59 L 1.65625 60.4375 L 1.65625 61.875 L 1.65625 63.3125 L 1.625 64.75 L 1.59375 66.1875 L 1.53125 67.625 L 1.5 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.625 0 L 2.59375 1.4375 L 2.59375 2.875 L 2.59375 4.3125 L 2.5625 5.75 L 2.53125 7.1875 L 2.53125 8.625 L 2.59375 10.0625 L 2.65625 11.5 L 2.6875 12.9375 L 2.6875 14.375 L 2.6875 15.8125 L 2.71875 17.28125 L 2.75 18.71875 L 2.75 20.15625 L 2.71875 21.59375 L 2.65625 23.03125 L 2.59375 24.46875 L 2.59375 25.90625 L 2.59375 27.34375 L 2.5625 28.78125 L 2.53125 30.21875 L 2.53125 31.65625 L 2.5625 33.09375 L 2.625 34.53125 L 2.65625 35.96875 L 2.6875 37.40625 L 2.6875 38.84375 L 2.6875 40.28125 L 2.71875 41.71875 L 2.75 43.15625 L 2.75 44.59375 L 2.6875 46.03125 L 2.625 47.46875 L 2.59375 48.90625 L 2.59375 50.34375 L 2.59375 51.8125 L 2.5625 53.25 L 2.53125 54.6875 L 2.53125 56.125 L 2.5625 57.5625 L 2.625 59 L 2.6875 60.4375 L 2.6875 61.875 L 2.6875 63.3125 L 2.6875 64.75 L 2.75 66.1875 L 2.75 67.625 L 2.71875 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.59375 0 L 3.59375 1.4375 L 3.625 2.875 L 3.65625 4.3125 L 3.6875 5.75 L 3.71875 7.1875 L 3.75 8.625 L 3.78125 10.0625 L 3.78125 11.5 L 3.78125 12.9375 L 3.75 14.375 L 3.71875 15.8125 L 3.6875 17.28125 L 3.65625 18.71875 L 3.625 20.15625 L 3.59375 21.59375 L 3.59375 23.03125 L 3.59375 24.46875 L 3.625 25.90625 L 3.625 27.34375 L 3.6875 28.78125 L 3.71875 30.21875 L 3.75 31.65625 L 3.75 33.09375 L 3.78125 34.53125 L 3.78125 35.96875 L 3.75 37.40625 L 3.75 38.84375 L 3.71875 40.28125 L 3.6875 41.71875 L 3.65625 43.15625 L 3.625 44.59375 L 3.59375 46.03125 L 3.59375 47.46875 L 3.59375 48.90625 L 3.625 50.34375 L 3.65625 51.8125 L 3.6875 53.25 L 3.71875 54.6875 L 3.75 56.125 L 3.78125 57.5625 L 3.78125 59 L 3.78125 60.4375 L 3.75 61.875 L 3.71875 63.3125 L 3.6875 64.75 L 3.65625 66.1875 L 3.625 67.625 L 3.59375 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.65625 0 L 4.59375 1.4375 L 4.5625 2.875 L 4.5625 4.3125 L 4.5625 5.75 L 4.625 7.1875 L 4.65625 8.625 L 4.6875 10.0625 L 4.71875 11.5 L 4.71875 12.9375 L 4.75 14.375 L 4.75 15.8125 L 4.75 17.28125 L 4.75 18.71875 L 4.75 20.15625 L 4.71875 21.59375 L 4.6875 23.03125 L 4.625 24.46875 L 4.59375 25.90625 L 4.5625 27.34375 L 4.5625 28.78125 L 4.59375 30.21875 L 4.625 31.65625 L 4.6875 33.09375 L 4.71875 34.53125 L 4.71875 35.96875 L 4.75 37.40625 L 4.75 38.84375 L 4.75 40.28125 L 4.75 41.71875 L 4.75 43.15625 L 4.75 44.59375 L 4.71875 46.03125 L 4.65625 47.46875 L 4.625 48.90625 L 4.5625 50.34375 L 4.5625 51.8125 L 4.5625 53.25 L 4.59375 54.6875 L 4.65625 56.125 L 4.6875 57.5625 L 4.71875 59 L 4.71875 60.4375 L 4.75 61.875 L 4.75 63.3125 L 4.75 64.75 L 4.75 66.1875 L 4.75 67.625 L 4.71875 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s13" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(125.8125, 7.5)">
+      <ellipse cx="2.46875" cy="30.375" rx="0.15625" ry="0.40625" fill="#382010" opacity="1"/>
+      <ellipse cx="2.46875" cy="30.375" rx="0.21875" ry="0.59375" fill="#422818" opacity="0.9"/>
+      <ellipse cx="2.46875" cy="30.375" rx="0.28125" ry="0.71875" fill="#503020" opacity="0.65"/>
+      <ellipse cx="2.46875" cy="30.375" rx="0.34375" ry="0.875" fill="#5e3828" opacity="0.4"/>
+      <path d="M 4.9375 0 L 5 1.4375 L 5 2.875 L 5.03125 4.3125 L 5.03125 5.75 L 5 7.1875 L 5 8.625 L 5 10.0625 L 5 11.5 L 4.96875 12.9375 L 4.9375 14.375 L 4.90625 15.8125 L 4.84375 17.28125 L 4.8125 18.71875 L 4.84375 20.15625 L 4.875 21.59375 L 4.90625 23.03125 L 4.96875 24.46875 L 5 25.90625 L 5.125 27.34375 L 5.3125 28.78125 L 5.375 30.21875 L 5.34375 31.65625 L 5.15625 33.09375 L 5.03125 34.53125 L 5 35.96875 L 4.96875 37.40625 L 4.9375 38.84375 L 4.875 40.28125 L 4.84375 41.71875 L 4.8125 43.15625 L 4.84375 44.59375 L 4.875 46.03125 L 4.9375 47.46875 L 4.96875 48.90625 L 5 50.34375 L 5.03125 51.8125 L 5.03125 53.25 L 5 54.6875 L 5 56.125 L 5 57.5625 L 5 59 L 5 60.4375 L 4.96875 61.875 L 4.90625 63.3125 L 4.875 64.75 L 4.84375 66.1875 L 4.8125 67.625 L 4.84375 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 4.0625 0 L 4.09375 1.4375 L 4.0625 2.875 L 4.0625 4.3125 L 4 5.75 L 3.96875 7.1875 L 3.90625 8.625 L 3.875 10.0625 L 3.84375 11.5 L 3.84375 12.9375 L 3.84375 14.375 L 3.875 15.8125 L 3.90625 17.28125 L 3.9375 18.71875 L 4 20.15625 L 4.03125 21.59375 L 4.0625 23.03125 L 4.09375 24.46875 L 4.09375 25.90625 L 4.15625 27.34375 L 4.3125 28.78125 L 4.375 30.21875 L 4.28125 31.65625 L 4.03125 33.09375 L 3.90625 34.53125 L 3.84375 35.96875 L 3.84375 37.40625 L 3.84375 38.84375 L 3.875 40.28125 L 3.90625 41.71875 L 3.96875 43.15625 L 4 44.59375 L 4.03125 46.03125 L 4.0625 47.46875 L 4.09375 48.90625 L 4.09375 50.34375 L 4.0625 51.8125 L 4.03125 53.25 L 3.96875 54.6875 L 3.9375 56.125 L 3.90625 57.5625 L 3.84375 59 L 3.84375 60.4375 L 3.84375 61.875 L 3.84375 63.3125 L 3.875 64.75 L 3.9375 66.1875 L 3.96875 67.625 L 4 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.90625 0 L 2.90625 1.4375 L 2.90625 2.875 L 2.90625 4.3125 L 2.9375 5.75 L 2.96875 7.1875 L 2.96875 8.625 L 2.90625 10.0625 L 2.84375 11.5 L 2.8125 12.9375 L 2.8125 14.375 L 2.8125 15.8125 L 2.78125 17.28125 L 2.75 18.71875 L 2.75 20.15625 L 2.8125 21.59375 L 2.875 23.03125 L 2.90625 24.46875 L 2.90625 25.90625 L 3 27.34375 L 3.21875 28.78125 L 3.34375 30.21875 L 3.28125 31.65625 L 3.09375 33.09375 L 2.90625 34.53125 L 2.84375 35.96875 L 2.8125 37.40625 L 2.8125 38.84375 L 2.8125 40.28125 L 2.78125 41.71875 L 2.75 43.15625 L 2.75 44.59375 L 2.8125 46.03125 L 2.875 47.46875 L 2.90625 48.90625 L 2.90625 50.34375 L 2.90625 51.8125 L 2.9375 53.25 L 2.96875 54.6875 L 2.96875 56.125 L 2.9375 57.5625 L 2.875 59 L 2.8125 60.4375 L 2.8125 61.875 L 2.8125 63.3125 L 2.78125 64.75 L 2.75 66.1875 L 2.75 67.625 L 2.78125 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.90625 0 L 1.90625 1.4375 L 1.875 2.875 L 1.84375 4.3125 L 1.8125 5.75 L 1.75 7.1875 L 1.75 8.625 L 1.71875 10.0625 L 1.71875 11.5 L 1.71875 12.9375 L 1.75 14.375 L 1.78125 15.8125 L 1.8125 17.28125 L 1.84375 18.71875 L 1.875 20.15625 L 1.90625 21.59375 L 1.90625 23.03125 L 1.90625 24.46875 L 1.875 25.90625 L 1.75 27.34375 L 1.53125 28.78125 L 1.40625 30.21875 L 1.4375 31.65625 L 1.59375 33.09375 L 1.6875 34.53125 L 1.71875 35.96875 L 1.75 37.40625 L 1.75 38.84375 L 1.78125 40.28125 L 1.84375 41.71875 L 1.875 43.15625 L 1.875 44.59375 L 1.90625 46.03125 L 1.90625 47.46875 L 1.90625 48.90625 L 1.875 50.34375 L 1.84375 51.8125 L 1.8125 53.25 L 1.78125 54.6875 L 1.75 56.125 L 1.71875 57.5625 L 1.71875 59 L 1.71875 60.4375 L 1.75 61.875 L 1.78125 63.3125 L 1.8125 64.75 L 1.84375 66.1875 L 1.875 67.625 L 1.90625 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.875 0 L 0.90625 1.4375 L 0.9375 2.875 L 0.9375 4.3125 L 0.9375 5.75 L 0.875 7.1875 L 0.84375 8.625 L 0.78125 10.0625 L 0.78125 11.5 L 0.75 12.9375 L 0.75 14.375 L 0.75 15.8125 L 0.75 17.28125 L 0.75 18.71875 L 0.75 20.15625 L 0.78125 21.59375 L 0.8125 23.03125 L 0.875 24.46875 L 0.90625 25.90625 L 0.84375 27.34375 L 0.65625 28.78125 L 0.53125 30.21875 L 0.53125 31.65625 L 0.6875 33.09375 L 0.75 34.53125 L 0.75 35.96875 L 0.75 37.40625 L 0.75 38.84375 L 0.75 40.28125 L 0.75 41.71875 L 0.75 43.15625 L 0.75 44.59375 L 0.78125 46.03125 L 0.84375 47.46875 L 0.90625 48.90625 L 0.9375 50.34375 L 0.9375 51.8125 L 0.9375 53.25 L 0.90625 54.6875 L 0.84375 56.125 L 0.8125 57.5625 L 0.78125 59 L 0.75 60.4375 L 0.75 61.875 L 0.75 63.3125 L 0.75 64.75 L 0.75 66.1875 L 0.75 67.625 L 0.78125 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s14" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(131.3750, 7.5)">
+      <path d="M 0.65625 0 L 0.625 1.4375 L 0.59375 2.875 L 0.59375 4.3125 L 0.5625 5.75 L 0.53125 7.1875 L 0.53125 8.625 L 0.5 10.0625 L 0.5 11.5 L 0.46875 12.9375 L 0.4375 14.375 L 0.4375 15.8125 L 0.46875 17.28125 L 0.53125 18.71875 L 0.59375 20.15625 L 0.625 21.59375 L 0.65625 23.03125 L 0.65625 24.46875 L 0.625 25.90625 L 0.59375 27.34375 L 0.5625 28.78125 L 0.5625 30.21875 L 0.53125 31.65625 L 0.53125 33.09375 L 0.5 34.53125 L 0.46875 35.96875 L 0.46875 37.40625 L 0.4375 38.84375 L 0.46875 40.28125 L 0.5 41.71875 L 0.5625 43.15625 L 0.59375 44.59375 L 0.65625 46.03125 L 0.65625 47.46875 L 0.65625 48.90625 L 0.625 50.34375 L 0.59375 51.8125 L 0.5625 53.25 L 0.5625 54.6875 L 0.53125 56.125 L 0.53125 57.5625 L 0.5 59 L 0.46875 60.4375 L 0.4375 61.875 L 0.4375 63.3125 L 0.46875 64.75 L 0.5 66.1875 L 0.5625 67.625 L 0.625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 1.59375 0 L 1.53125 1.4375 L 1.5 2.875 L 1.4375 4.3125 L 1.4375 5.75 L 1.40625 7.1875 L 1.4375 8.625 L 1.4375 10.0625 L 1.46875 11.5 L 1.53125 12.9375 L 1.5625 14.375 L 1.625 15.8125 L 1.65625 17.28125 L 1.65625 18.71875 L 1.65625 20.15625 L 1.65625 21.59375 L 1.625 23.03125 L 1.5625 24.46875 L 1.53125 25.90625 L 1.46875 27.34375 L 1.4375 28.78125 L 1.40625 30.21875 L 1.40625 31.65625 L 1.4375 33.09375 L 1.46875 34.53125 L 1.5 35.96875 L 1.53125 37.40625 L 1.59375 38.84375 L 1.625 40.28125 L 1.65625 41.71875 L 1.65625 43.15625 L 1.65625 44.59375 L 1.625 46.03125 L 1.59375 47.46875 L 1.5625 48.90625 L 1.5 50.34375 L 1.46875 51.8125 L 1.4375 53.25 L 1.40625 54.6875 L 1.40625 56.125 L 1.4375 57.5625 L 1.46875 59 L 1.5 60.4375 L 1.5625 61.875 L 1.59375 63.3125 L 1.625 64.75 L 1.65625 66.1875 L 1.65625 67.625 L 1.65625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.71875 0 L 2.6875 1.4375 L 2.6875 2.875 L 2.6875 4.3125 L 2.6875 5.75 L 2.625 7.1875 L 2.5625 8.625 L 2.53125 10.0625 L 2.53125 11.5 L 2.5625 12.9375 L 2.59375 14.375 L 2.59375 15.8125 L 2.59375 17.28125 L 2.625 18.71875 L 2.6875 20.15625 L 2.75 21.59375 L 2.75 23.03125 L 2.71875 24.46875 L 2.6875 25.90625 L 2.6875 27.34375 L 2.6875 28.78125 L 2.65625 30.21875 L 2.59375 31.65625 L 2.53125 33.09375 L 2.53125 34.53125 L 2.5625 35.96875 L 2.59375 37.40625 L 2.59375 38.84375 L 2.59375 40.28125 L 2.59375 41.71875 L 2.65625 43.15625 L 2.71875 44.59375 L 2.75 46.03125 L 2.75 47.46875 L 2.71875 48.90625 L 2.6875 50.34375 L 2.6875 51.8125 L 2.6875 53.25 L 2.65625 54.6875 L 2.59375 56.125 L 2.53125 57.5625 L 2.53125 59 L 2.5625 60.4375 L 2.59375 61.875 L 2.59375 63.3125 L 2.59375 64.75 L 2.625 66.1875 L 2.6875 67.625 L 2.71875 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 3.65625 0 L 3.625 1.4375 L 3.59375 2.875 L 3.59375 4.3125 L 3.59375 5.75 L 3.59375 7.1875 L 3.625 8.625 L 3.65625 10.0625 L 3.6875 11.5 L 3.71875 12.9375 L 3.75 14.375 L 3.78125 15.8125 L 3.78125 17.28125 L 3.78125 18.71875 L 3.75 20.15625 L 3.71875 21.59375 L 3.6875 23.03125 L 3.65625 24.46875 L 3.625 25.90625 L 3.59375 27.34375 L 3.59375 28.78125 L 3.59375 30.21875 L 3.625 31.65625 L 3.625 33.09375 L 3.6875 34.53125 L 3.71875 35.96875 L 3.75 37.40625 L 3.75 38.84375 L 3.78125 40.28125 L 3.78125 41.71875 L 3.75 43.15625 L 3.75 44.59375 L 3.71875 46.03125 L 3.6875 47.46875 L 3.625 48.90625 L 3.625 50.34375 L 3.59375 51.8125 L 3.59375 53.25 L 3.59375 54.6875 L 3.625 56.125 L 3.65625 57.5625 L 3.6875 59 L 3.71875 60.4375 L 3.75 61.875 L 3.78125 63.3125 L 3.78125 64.75 L 3.78125 66.1875 L 3.75 67.625 L 3.71875 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 4.78125 0 L 4.75 1.4375 L 4.71875 2.875 L 4.65625 4.3125 L 4.59375 5.75 L 4.5625 7.1875 L 4.5625 8.625 L 4.59375 10.0625 L 4.625 11.5 L 4.625 12.9375 L 4.65625 14.375 L 4.65625 15.8125 L 4.6875 17.28125 L 4.71875 18.71875 L 4.75 20.15625 L 4.78125 21.59375 L 4.78125 23.03125 L 4.78125 24.46875 L 4.75 25.90625 L 4.6875 27.34375 L 4.625 28.78125 L 4.59375 30.21875 L 4.5625 31.65625 L 4.5625 33.09375 L 4.59375 34.53125 L 4.625 35.96875 L 4.65625 37.40625 L 4.65625 38.84375 L 4.6875 40.28125 L 4.6875 41.71875 L 4.71875 43.15625 L 4.75 44.59375 L 4.78125 46.03125 L 4.78125 47.46875 L 4.78125 48.90625 L 4.75 50.34375 L 4.6875 51.8125 L 4.625 53.25 L 4.59375 54.6875 L 4.5625 56.125 L 4.59375 57.5625 L 4.59375 59 L 4.625 60.4375 L 4.65625 61.875 L 4.65625 63.3125 L 4.6875 64.75 L 4.6875 66.1875 L 4.71875 67.625 L 4.75 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+<pattern id="pat-picket-grain-5-5-s15" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(136.9375, 7.5)">
+      <path d="M 5.03125 0 L 4.96875 1.4375 L 4.9375 2.875 L 4.90625 4.3125 L 4.90625 5.75 L 4.90625 7.1875 L 4.90625 8.625 L 4.875 10.0625 L 4.875 11.5 L 4.875 12.9375 L 4.875 14.375 L 4.90625 15.8125 L 4.96875 17.28125 L 5.03125 18.71875 L 5.0625 20.15625 L 5.0625 21.59375 L 5.0625 23.03125 L 5 24.46875 L 4.96875 25.90625 L 4.9375 27.34375 L 4.90625 28.78125 L 4.90625 30.21875 L 4.90625 31.65625 L 4.875 33.09375 L 4.875 34.53125 L 4.875 35.96875 L 4.875 37.40625 L 4.90625 38.84375 L 4.9375 40.28125 L 5 41.71875 L 5.03125 43.15625 L 5.0625 44.59375 L 5.0625 46.03125 L 5.03125 47.46875 L 5 48.90625 L 4.96875 50.34375 L 4.9375 51.8125 L 4.90625 53.25 L 4.90625 54.6875 L 4.90625 56.125 L 4.875 57.5625 L 4.875 59 L 4.875 60.4375 L 4.875 61.875 L 4.90625 63.3125 L 4.96875 64.75 L 5 66.1875 L 5.0625 67.625 L 5.0625 69.0625" fill="none" stroke="#d4b078" stroke-width="0.09375" stroke-linecap="round" opacity="0.58"/>
+      <path d="M 3.90625 0 L 3.875 1.4375 L 3.84375 2.875 L 3.84375 4.3125 L 3.84375 5.75 L 3.875 7.1875 L 3.90625 8.625 L 3.96875 10.0625 L 4 11.5 L 4.03125 12.9375 L 4.0625 14.375 L 4.09375 15.8125 L 4.09375 17.28125 L 4.0625 18.71875 L 4.03125 20.15625 L 3.96875 21.59375 L 3.9375 23.03125 L 3.90625 24.46875 L 3.84375 25.90625 L 3.84375 27.34375 L 3.84375 28.78125 L 3.84375 30.21875 L 3.875 31.65625 L 3.9375 33.09375 L 3.96875 34.53125 L 4 35.96875 L 4.0625 37.40625 L 4.0625 38.84375 L 4.09375 40.28125 L 4.0625 41.71875 L 4.0625 43.15625 L 4 44.59375 L 3.96875 46.03125 L 3.90625 47.46875 L 3.875 48.90625 L 3.84375 50.34375 L 3.84375 51.8125 L 3.84375 53.25 L 3.875 54.6875 L 3.90625 56.125 L 3.9375 57.5625 L 4 59 L 4.03125 60.4375 L 4.0625 61.875 L 4.09375 63.3125 L 4.09375 64.75 L 4.0625 66.1875 L 4.03125 67.625 L 4 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 2.90625 0 L 2.875 1.4375 L 2.84375 2.875 L 2.84375 4.3125 L 2.8125 5.75 L 2.78125 7.1875 L 2.75 8.625 L 2.75 10.0625 L 2.8125 11.5 L 2.84375 12.9375 L 2.875 14.375 L 2.875 15.8125 L 2.875 17.28125 L 2.9375 18.71875 L 2.96875 20.15625 L 2.96875 21.59375 L 2.9375 23.03125 L 2.875 24.46875 L 2.875 25.90625 L 2.84375 27.34375 L 2.84375 28.78125 L 2.8125 30.21875 L 2.75 31.65625 L 2.75 33.09375 L 2.78125 34.53125 L 2.8125 35.96875 L 2.84375 37.40625 L 2.875 38.84375 L 2.875 40.28125 L 2.90625 41.71875 L 2.9375 43.15625 L 2.96875 44.59375 L 2.96875 46.03125 L 2.90625 47.46875 L 2.875 48.90625 L 2.84375 50.34375 L 2.84375 51.8125 L 2.84375 53.25 L 2.78125 54.6875 L 2.75 56.125 L 2.75 57.5625 L 2.78125 59 L 2.84375 60.4375 L 2.875 61.875 L 2.875 63.3125 L 2.875 64.75 L 2.90625 66.1875 L 2.96875 67.625 L 3 69.0625" fill="none" stroke="#6b4f3a" stroke-width="0.0625" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 1.71875 0 L 1.71875 1.4375 L 1.71875 2.875 L 1.75 4.3125 L 1.75 5.75 L 1.78125 7.1875 L 1.84375 8.625 L 1.875 10.0625 L 1.875 11.5 L 1.90625 12.9375 L 1.90625 14.375 L 1.90625 15.8125 L 1.875 17.28125 L 1.84375 18.71875 L 1.8125 20.15625 L 1.78125 21.59375 L 1.75 23.03125 L 1.71875 24.46875 L 1.71875 25.90625 L 1.71875 27.34375 L 1.75 28.78125 L 1.78125 30.21875 L 1.8125 31.65625 L 1.84375 33.09375 L 1.875 34.53125 L 1.90625 35.96875 L 1.90625 37.40625 L 1.90625 38.84375 L 1.90625 40.28125 L 1.875 41.71875 L 1.84375 43.15625 L 1.8125 44.59375 L 1.78125 46.03125 L 1.75 47.46875 L 1.71875 48.90625 L 1.71875 50.34375 L 1.71875 51.8125 L 1.75 53.25 L 1.78125 54.6875 L 1.8125 56.125 L 1.84375 57.5625 L 1.875 59 L 1.90625 60.4375 L 1.90625 61.875 L 1.90625 63.3125 L 1.875 64.75 L 1.84375 66.1875 L 1.8125 67.625 L 1.78125 69.0625" fill="none" stroke="#8a6548" stroke-width="0.0625" stroke-linecap="round" opacity="0.66"/>
+      <path d="M 0.875 0 L 0.8125 1.4375 L 0.78125 2.875 L 0.71875 4.3125 L 0.71875 5.75 L 0.71875 7.1875 L 0.75 8.625 L 0.78125 10.0625 L 0.8125 11.5 L 0.84375 12.9375 L 0.84375 14.375 L 0.875 15.8125 L 0.875 17.28125 L 0.90625 18.71875 L 0.90625 20.15625 L 0.90625 21.59375 L 0.90625 23.03125 L 0.875 24.46875 L 0.8125 25.90625 L 0.75 27.34375 L 0.71875 28.78125 L 0.71875 30.21875 L 0.71875 31.65625 L 0.75 33.09375 L 0.8125 34.53125 L 0.84375 35.96875 L 0.84375 37.40625 L 0.875 38.84375 L 0.875 40.28125 L 0.875 41.71875 L 0.90625 43.15625 L 0.90625 44.59375 L 0.90625 46.03125 L 0.90625 47.46875 L 0.84375 48.90625 L 0.78125 50.34375 L 0.75 51.8125 L 0.71875 53.25 L 0.71875 54.6875 L 0.75 56.125 L 0.78125 57.5625 L 0.8125 59 L 0.84375 60.4375 L 0.84375 61.875 L 0.875 63.3125 L 0.875 64.75 L 0.875 66.1875 L 0.90625 67.625 L 0.90625 69.0625" fill="none" stroke="#120908" stroke-width="0.0625" stroke-linecap="round" opacity="0.74"/>
+    </pattern>
+            </defs>
+
+            
+            <!-- Pass 1: Black Structural Shells (The Immutable Shell Law) -->
+            <g id="a1-shells">
+              <!-- Ground baseline shell under fence -->
+              <rect x="46" y="76.375" width="104" height="1.625" fill="#000000"/>
+              <!-- 4x4 Left Post Shell (50.00" -> 53.50", Y = 6.00" -> 78.00") -->
+              <rect x="50" y="6" width="3.5" height="72" fill="#000000"/>
+              <!-- 4x4 Right Post Shell (142.50" -> 146.00", Y = 6.00" -> 78.00") -->
+              <rect x="142.5" y="6" width="3.5" height="72" fill="#000000"/>
+              <!-- 2x4 Cedar Rail Cap Shell -->
+              <rect x="53.3125" y="6" width="89.375" height="1.5" fill="#000000"/>
+              <!-- 1x4 Top Face Trim Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="3.5" fill="#000000"/>
+              <!-- Privacy Picket Bay Continuous Black Backing Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
+              <!-- 1x4 Bottom Face Kickboard Trim Shell -->
+              <rect x="53.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
+              <!-- Left Cedar Pyramid Cap Shell (centered on post at X=51.75) -->
+              <path d="M 49.625 6.0 L 49.625 3.875 Q 49.6875 3.8125 49.75 3.75 L 51.75 2.5 L 53.75 3.75 Q 53.8125 3.8125 53.875 3.875 L 53.875 6.0 Z" fill="#000000"/>
+              <!-- Right Cedar Pyramid Cap Shell (centered on post at X=144.25) -->
+              <path d="M 142.125 6.0 L 142.125 3.875 Q 142.1875 3.8125 142.25 3.75 L 144.25 2.5 L 146.25 3.75 Q 146.3125 3.8125 146.375 3.875 L 146.375 6.0 Z" fill="#000000"/>
+            </g>
+
+
+            <!-- Pass 2: Wood Color Fills & Textures (0.1875" Inset Cosmetic Detailing Layers) -->
+            <g id="a1-fills">
+              <!-- Ground Earth Base Fill -->
+              <rect x="46" y="76.5625" width="104" height="1.4375" fill="#543716"/>
+
+              <!-- 4x4 PT Incised Posts -->
+              <rect x="50.1875" y="6.1875" width="3.125" height="71.625" fill="#6c4834"/>
+              <rect x="50.1875" y="6.1875" width="3.125" height="71.625" fill="url(#pt-grain-post)"/>
+              <rect x="142.6875" y="6.1875" width="3.125" height="71.625" fill="#6c4834"/>
+              <rect x="142.6875" y="6.1875" width="3.125" height="71.625" fill="url(#pt-grain-post)"/>
+
+              <!-- 16 Discrete WRC Cedar Privacy Pickets (Single Plane, Pronounced Seams, Low Contrast) -->
+              <g id="a1-pickets">
+                <!-- Picket 1 -->
+                <rect x="53.5000" y="7.5" width="5.50" height="69.0625" fill="#c88254"/>
+                <rect x="53.5000" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s00)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="53.5800" y1="7.5" x2="53.5800" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="59.0000" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="59.0313" y1="7.5" x2="59.0313" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 2 -->
+                <rect x="59.0625" y="7.5" width="5.50" height="69.0625" fill="#c68052"/>
+                <rect x="59.0625" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s01)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="59.1425" y1="7.5" x2="59.1425" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="64.5625" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="64.5938" y1="7.5" x2="64.5938" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 3 -->
+                <rect x="64.6250" y="7.5" width="5.50" height="69.0625" fill="#c98355"/>
+                <rect x="64.6250" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s02)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="64.7050" y1="7.5" x2="64.7050" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="70.1250" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="70.1563" y1="7.5" x2="70.1563" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 4 -->
+                <rect x="70.1875" y="7.5" width="5.50" height="69.0625" fill="#c78153"/>
+                <rect x="70.1875" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s03)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="70.2675" y1="7.5" x2="70.2675" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="75.6875" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="75.7188" y1="7.5" x2="75.7188" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 5 -->
+                <rect x="75.7500" y="7.5" width="5.50" height="69.0625" fill="#c88254"/>
+                <rect x="75.7500" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s04)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="75.8300" y1="7.5" x2="75.8300" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="81.2500" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="81.2813" y1="7.5" x2="81.2813" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 6 -->
+                <rect x="81.3125" y="7.5" width="5.50" height="69.0625" fill="#c68052"/>
+                <rect x="81.3125" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s05)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="81.3925" y1="7.5" x2="81.3925" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="86.8125" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="86.8438" y1="7.5" x2="86.8438" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 7 -->
+                <rect x="86.8750" y="7.5" width="5.50" height="69.0625" fill="#ca8456"/>
+                <rect x="86.8750" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s06)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="86.9550" y1="7.5" x2="86.9550" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="92.3750" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="92.4063" y1="7.5" x2="92.4063" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 8 -->
+                <rect x="92.4375" y="7.5" width="5.50" height="69.0625" fill="#c78153"/>
+                <rect x="92.4375" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s07)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="92.5175" y1="7.5" x2="92.5175" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="97.9375" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="97.9688" y1="7.5" x2="97.9688" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 9 -->
+                <rect x="98.0000" y="7.5" width="5.50" height="69.0625" fill="#c88254"/>
+                <rect x="98.0000" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s08)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="98.0800" y1="7.5" x2="98.0800" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="103.5000" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="103.5313" y1="7.5" x2="103.5313" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 10 -->
+                <rect x="103.5625" y="7.5" width="5.50" height="69.0625" fill="#c57f51"/>
+                <rect x="103.5625" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s09)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="103.6425" y1="7.5" x2="103.6425" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="109.0625" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="109.0938" y1="7.5" x2="109.0938" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 11 -->
+                <rect x="109.1250" y="7.5" width="5.50" height="69.0625" fill="#c98355"/>
+                <rect x="109.1250" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s10)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="109.2050" y1="7.5" x2="109.2050" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="114.6250" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="114.6563" y1="7.5" x2="114.6563" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 12 -->
+                <rect x="114.6875" y="7.5" width="5.50" height="69.0625" fill="#c68052"/>
+                <rect x="114.6875" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s11)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="114.7675" y1="7.5" x2="114.7675" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="120.1875" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="120.2188" y1="7.5" x2="120.2188" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 13 -->
+                <rect x="120.2500" y="7.5" width="5.50" height="69.0625" fill="#ca8456"/>
+                <rect x="120.2500" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s12)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="120.3300" y1="7.5" x2="120.3300" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="125.7500" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="125.7813" y1="7.5" x2="125.7813" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 14 -->
+                <rect x="125.8125" y="7.5" width="5.50" height="69.0625" fill="#c78153"/>
+                <rect x="125.8125" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s13)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="125.8925" y1="7.5" x2="125.8925" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="131.3125" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="131.3438" y1="7.5" x2="131.3438" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 15 -->
+                <rect x="131.3750" y="7.5" width="5.50" height="69.0625" fill="#c88254"/>
+                <rect x="131.3750" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s14)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="131.4550" y1="7.5" x2="131.4550" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+                <!-- Architectural Seam Gap -->
+                <rect x="136.8750" y="7.5" width="0.0625" height="69.0625" fill="#120908"/>
+                <line x1="136.9063" y1="7.5" x2="136.9063" y2="76.5625" stroke="#000000" stroke-width="0.08" opacity="0.8"/>
+                <!-- Picket 16 -->
+                <rect x="136.9375" y="7.5" width="5.50" height="69.0625" fill="#c68052"/>
+                <rect x="136.9375" y="7.5" width="5.50" height="69.0625" fill="url(#pat-picket-grain-5-5-s15)"/>
+                <!-- Subtle wood bevel highlight on picket left edge -->
+                <line x1="137.0175" y1="7.5" x2="137.0175" y2="76.5625" stroke="#f5cca0" stroke-width="0.04" opacity="0.35"/>
+              </g>
+
+              <!-- Post Ambient Occlusion Inner Drop Shadows -->
+              <rect x="53.5" y="7.5" width="1.2" height="69.0625" fill="url(#post-inner-shadow-l)"/>
+              <rect x="141.3" y="7.5" width="1.2" height="69.0625" fill="url(#post-inner-shadow-r)"/>
+
+              <!-- 1x4 Bottom Face Kickboard Trim + Drop Shadow -->
+              <rect x="53.5" y="66.1875" width="89" height="3.125" fill="url(#cedar-trim-shine)"/>
+              <rect x="53.5" y="66.1875" width="89" height="3.125" fill="url(#cedar-rail-cap-grain)" opacity="0.45"/>
+              <rect x="53.5" y="69.3125" width="89" height="0.8" fill="url(#trim-drop-shadow)"/>
+
+              <!-- 1x4 Top Face Trim (Fascia) + Drop Shadow onto Pickets -->
+              <rect x="53.5" y="7.5" width="89" height="3.125" fill="url(#cedar-trim-shine)"/>
+              <rect x="53.5" y="7.5" width="89" height="3.125" fill="url(#cedar-rail-cap-grain)" opacity="0.45"/>
+              <rect x="53.5" y="10.625" width="89" height="0.9" fill="url(#trim-drop-shadow)"/>
+
+              <!-- 2x4 WRC Cedar Rail Cap + Drop Shadow onto Trim -->
+              <rect x="53.5" y="6.1875" width="89" height="1.125" fill="url(#cedar-rail-shine)"/>
+              <rect x="53.5" y="6.1875" width="89" height="1.125" fill="url(#cedar-rail-cap-grain)" opacity="0.55"/>
+              <rect x="53.5" y="7.3125" width="89" height="0.65" fill="url(#rail-drop-shadow)"/>
+
+              <!-- Left Cedar Pyramid Cap (Canon 3D Facet Lighting + Overhang Shadow) -->
+              <g id="a1-cap-left">
+                <rect x="50.1875" y="6.0" width="3.125" height="0.8" fill="url(#cap-drop-shadow)"/>
+                <path d="M 51.75 2.6875 L 49.875 3.9375 L 51.75 4.6875 Z" fill="url(#cedar-cap-facet-left)"/>
+                <path d="M 51.75 2.6875 L 53.625 3.9375 L 51.75 4.6875 Z" fill="url(#cedar-cap-facet-right)"/>
+                <path d="M 49.8125 3.9375 L 51.75 4.6875 L 53.6875 3.9375 L 53.6875 5.8125 L 49.8125 5.8125 Z" fill="url(#cedar-cap-shine)"/>
+                <path d="M 49.8125 5.8125 L 49.8125 4.0 Q 49.84375 3.96875 49.875 3.9375 L 51.75 2.6875 L 53.625 3.9375 Q 53.65625 3.96875 53.6875 4.0 L 53.6875 5.8125 Z" fill="url(#cedar-cap-grain)"/>
+                <line x1="51.75" y1="2.6875" x2="51.75" y2="4.6875" stroke="#fff1d6" stroke-width="0.04" opacity="0.8"/>
+              </g>
+
+              <!-- Right Cedar Pyramid Cap (Canon 3D Facet Lighting + Overhang Shadow) -->
+              <g id="a1-cap-right">
+                <rect x="142.6875" y="6.0" width="3.125" height="0.8" fill="url(#cap-drop-shadow)"/>
+                <path d="M 144.25 2.6875 L 142.375 3.9375 L 144.25 4.6875 Z" fill="url(#cedar-cap-facet-left)"/>
+                <path d="M 144.25 2.6875 L 146.125 3.9375 L 144.25 4.6875 Z" fill="url(#cedar-cap-facet-right)"/>
+                <path d="M 142.3125 3.9375 L 144.25 4.6875 L 146.1875 3.9375 L 146.1875 5.8125 L 142.3125 5.8125 Z" fill="url(#cedar-cap-shine)"/>
+                <path d="M 142.3125 5.8125 L 142.3125 4.0 Q 142.34375 3.96875 142.375 3.9375 L 144.25 2.6875 L 146.125 3.9375 Q 146.15625 3.96875 146.1875 4.0 L 146.1875 5.8125 Z" fill="url(#cedar-cap-grain)"/>
+                <line x1="144.25" y1="2.6875" x2="144.25" y2="4.6875" stroke="#fff1d6" stroke-width="0.04" opacity="0.8"/>
+              </g>
+
+              <!-- Grade Baseline Ground Edge & Natural Grass Turf Module -->
+              <path d="M 46 78 Q 54 75.5 62 78 Q 76 75.5 91 78 Q 111 75.5 126 78 Q 138 75.5 150 78 Z" fill="#227e1f"/>
+              <path d="M 50 77.8 L 51 76.8 L 52 77.8 M 60 77.8 L 61 76.6 L 62.5 77.9 M 78 77.8 L 79 76.5 L 80.5 77.8 M 101 77.8 L 102 76.7 L 103 77.9 M 124 77.8 L 125 76.6 L 126.5 77.8 M 140 77.8 L 141 76.7 L 142 77.9" stroke="#318116" stroke-width="0.3" fill="none"/>
+            </g>
+
+            <!-- Standardized Material Callout Cards (Balanced Left & Right Columns) -->
+            <g font-family="'Space Grotesk', sans-serif">
+
+  <!-- 4×4 CEDAR POST CAP -->
+  <g class="callout-card-group">
+    <path d="M 51.75 2.5 L 47.5 2.5 L 46 10.5 L 45 10.5" fill="none" stroke="#f59e0b" stroke-width="0.32" marker-start="url(#dot-gold)"/>
+    <rect x="3" y="5" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#f59e0b" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="3" y="5" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="44.1" y="5" width="0.9" height="11" rx="0.45" fill="#f59e0b"/>
+    <text x="5.2" y="6.55" fill="#f59e0b" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">4×4 CEDAR POST CAP</text>
+    <text x="5.2" y="8.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Fence Post Cap</tspan></text>
+    <text x="5.2" y="9.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
+    <text x="5.2" y="11.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">4″ × 4″ (Nom. 3.5″ × 3.5″)</tspan></text>
+    <text x="5.2" y="12.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">4-Sided Pyramid w/ Skirt Base</tspan></text>
+    <text x="5.2" y="14.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None (Natural Clear)</tspan></text>
+  </g>
+
+  <!-- 1×4 UPPER FASCIA TRIM -->
+  <g class="callout-card-group">
+    <path d="M 65 9.15 L 47.5 9.15 L 46 32.5 L 45 32.5" fill="none" stroke="#f59e0b" stroke-width="0.32" marker-start="url(#dot-gold)"/>
+    <rect x="3" y="27" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#f59e0b" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="3" y="27" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="44.1" y="27" width="0.9" height="11" rx="0.45" fill="#f59e0b"/>
+    <text x="5.2" y="28.55" fill="#f59e0b" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">1×4 UPPER FASCIA TRIM</text>
+    <text x="5.2" y="30.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Face Trim (Fascia)</tspan></text>
+    <text x="5.2" y="31.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
+    <text x="5.2" y="33.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">1″ × 4″ × 8′ (S4S 0.75″ × 3.5″)</tspan></text>
+    <text x="5.2" y="34.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Upper Picket Retention Trim</tspan></text>
+    <text x="5.2" y="36.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None (Natural Clear)</tspan></text>
+  </g>
+
+  <!-- 4×4 INCISED STRUCTURAL POST -->
+  <g class="callout-card-group">
+    <path d="M 51.75 54.5 L 45 54.5" fill="none" stroke="#0ea5e9" stroke-width="0.32" marker-start="url(#dot-cyan)"/>
+    <rect x="3" y="49" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#0ea5e9" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="3" y="49" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="44.1" y="49" width="0.9" height="11" rx="0.45" fill="#0ea5e9"/>
+    <text x="5.2" y="50.55" fill="#0ea5e9" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">4×4 INCISED STRUCTURAL POST</text>
+    <text x="5.2" y="52.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Structural Support Post</tspan></text>
+    <text x="5.2" y="53.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Incised PT Hem-Fir</tspan></text>
+    <text x="5.2" y="55.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">4″ × 4″ × 8′ (In-Ground 24″)</tspan></text>
+    <text x="5.2" y="56.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Ground Contact (AWPA UC4A)</tspan></text>
+    <text x="5.2" y="58.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">Earth-Tone Preservative</tspan></text>
+  </g>
+
+  <!-- 2×4 TOP RAIL CAP -->
+  <g class="callout-card-group">
+    <path d="M 132 6.75 L 148.5 6.75 L 150 10.5 L 151 10.5" fill="none" stroke="#f59e0b" stroke-width="0.32" marker-start="url(#dot-gold)"/>
+    <rect x="151" y="5" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#f59e0b" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="151" y="5" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="151" y="5" width="0.9" height="11" rx="0.45" fill="#f59e0b"/>
+    <text x="153.2" y="6.55" fill="#f59e0b" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">2×4 TOP RAIL CAP</text>
+    <text x="153.2" y="8.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Top Rail Cap</tspan></text>
+    <text x="153.2" y="9.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
+    <text x="153.2" y="11.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">2″ × 4″ × 8′ (S4S 1.5″ × 3.5″)</tspan></text>
+    <text x="153.2" y="12.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Continuous Weather Protection</tspan></text>
+    <text x="153.2" y="14.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None (Natural Clear)</tspan></text>
+  </g>
+
+  <!-- 1×6 CEDAR FENCE PICKET -->
+  <g class="callout-card-group">
+    <path d="M 128 32.5 L 151 32.5" fill="none" stroke="#10b981" stroke-width="0.32" marker-start="url(#dot-green)"/>
+    <rect x="151" y="27" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#10b981" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="151" y="27" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="151" y="27" width="0.9" height="11" rx="0.45" fill="#10b981"/>
+    <text x="153.2" y="28.55" fill="#10b981" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">1×6 CEDAR FENCE PICKET</text>
+    <text x="153.2" y="30.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Fence Picket</tspan></text>
+    <text x="153.2" y="31.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
+    <text x="153.2" y="33.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">5/8″ × 5.5″ × 6′</tspan></text>
+    <text x="153.2" y="34.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Flat Top (1/16″ Privacy Gap)</tspan></text>
+    <text x="153.2" y="36.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None</tspan></text>
+  </g>
+
+  <!-- 1×4 BOTTOM KICKBOARD TRIM -->
+  <g class="callout-card-group">
+    <path d="M 120 67.8 L 148.5 67.8 L 150 54.5 L 151 54.5" fill="none" stroke="#f59e0b" stroke-width="0.32" marker-start="url(#dot-gold)"/>
+    <rect x="151" y="49" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#f59e0b" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <rect x="151" y="49" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
+    <rect x="151" y="49" width="0.9" height="11" rx="0.45" fill="#f59e0b"/>
+    <text x="153.2" y="50.55" fill="#f59e0b" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">1×4 BOTTOM KICKBOARD TRIM</text>
+    <text x="153.2" y="52.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Kickboard Trim</tspan></text>
+    <text x="153.2" y="53.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
+    <text x="153.2" y="55.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">1″ × 4″ × 8′ (S4S 0.75″ × 3.5″)</tspan></text>
+    <text x="153.2" y="56.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Lower Rot-Shield Barrier</tspan></text>
+    <text x="153.2" y="58.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None (Natural Clear)</tspan></text>
+  </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Sheet Footer -->
+      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANON REF: 104×78-SHELL-V2</div>
+        <div class="font-bold">SHEET A1 (PAGE 1 OF 4)</div>
+      </footer>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SHEET 2 (PAGE 2): STRUCTURAL FRAMING & HIDDEN FASTENERS WIREFRAME       -->
+    <!-- ======================================================================= -->
+    <div id="sheet-S1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">🔩</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                STRUCTURAL FRAMING &amp; HIDDEN FASTENERS (X-RAY)
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              See-Through Engineering Wireframe Exposing Angled Toe-Screws, Simpson FB24Z Hangers &amp; Ring Nails
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-S1</div>
+            <div class="text-white font-bold">SHEET 2 OF 4 (FRAMING &amp; FASTENERS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · 33.33% WASTE BUFFER</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ IBC / IRC CODE COMPLIANT</div>
+          </div>
+        </header>
+
+        <!-- Framing Mode Selector Bar -->
+        <div id="s1-selector-strip" class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-bold text-gray-600 uppercase text-[11px]">Active Connection:</span>
+            <span id="active-framing-badge" class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold font-mono transition-colors">
+              Angled Toe-Screws @ 45° (3× per rail end · 6/rail)
+            </span>
+          </div>
+
+          <!-- Paper Texture & Framing Controls -->
+          <div class="flex items-center gap-2 flex-wrap no-print">
+            <div class="flex items-center gap-1 bg-gray-100 p-1 rounded border border-gray-300 text-[11px]">
+              <span class="text-gray-500 font-bold px-1 uppercase text-[10px]">Paper:</span>
+              <button type="button" onclick="setSheetS1Paper('vellum')" id="btn-s1-paper-vellum" class="px-2 py-0.5 rounded font-bold bg-[#E5B842] text-[#141B16] shadow-sm">📜 Vellum</button>
+              <button type="button" onclick="setSheetS1Paper('kraft')" id="btn-s1-paper-kraft" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📄 Kraft</button>
+              <button type="button" onclick="setSheetS1Paper('creased')" id="btn-s1-paper-creased" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📐 Creased</button>
+              <button type="button" onclick="setSheetS1Paper('cardstock')" id="btn-s1-paper-cardstock" class="px-2 py-0.5 rounded text-gray-700 hover:text-black">📦 Chipboard</button>
+            </div>
+
+            <div class="flex items-center gap-1">
+              <button type="button" onclick="setFramingStyle('toenail')" id="btn-framing-toenail" class="px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm">
+                🔩 Angled Toe-Screws
+              </button>
+              <button type="button" onclick="setFramingStyle('bracket')" id="btn-framing-bracket" class="px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm">
+                🛠️ Simpson FB24Z
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wireframe Blueprint Drawing -->
+        <div id="s1-canvas-wrapper" class="drawing-canvas-wrapper w-full paper-canvas-vellum rounded border-2 border-[#3d332a] p-4 relative shadow-2xl overflow-hidden">
+          <svg viewBox="0 0 196 78" class="w-full h-auto drop-shadow-md" style="max-height: 520px;">
+            <defs>
+              <marker id="ink-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#1c1917" stroke="#ffffff" stroke-width="1.2"/>
+              </marker>
+              <marker id="bronze-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#8c531b" stroke="#ffffff" stroke-width="1.2"/>
+              </marker>
+              <marker id="steel-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5">
+                <circle cx="5" cy="5" r="3.2" fill="#475569" stroke="#ffffff" stroke-width="1.2"/>
+              </marker>
+
+              <!-- Reusable Authentic Simpson FB24Z Bracket (Left Joint) -->
+              <g id="sym-simpson-fb24z-left">
+                <rect x="-1.4" y="0" width="1.4" height="3.5" fill="rgba(203, 213, 225, 0.55)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <circle cx="-0.7" cy="0.55" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="1.35" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="2.15" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-0.7" cy="2.95" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <rect x="0" y="0" width="2.4" height="3.5" fill="rgba(203, 213, 225, 0.45)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <line x1="0.3" y1="1.75" x2="2.1" y2="1.75" stroke="#334155" stroke-width="0.14" stroke-linecap="round"/>
+                <circle cx="1.2" cy="0.85" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="1.2" cy="2.65" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+              </g>
+
+              <!-- Reusable Authentic Simpson FB24Z Bracket (Right Joint) -->
+              <g id="sym-simpson-fb24z-right">
+                <rect x="0" y="0" width="1.4" height="3.5" fill="rgba(203, 213, 225, 0.55)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <circle cx="0.7" cy="0.55" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="1.35" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="2.15" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="0.7" cy="2.95" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <rect x="-2.4" y="0" width="2.4" height="3.5" fill="rgba(203, 213, 225, 0.45)" stroke="#1c1917" stroke-width="0.14" rx="0.08"/>
+                <line x1="-2.1" y1="1.75" x2="-0.3" y2="1.75" stroke="#334155" stroke-width="0.14" stroke-linecap="round"/>
+                <circle cx="-1.2" cy="0.85" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+                <circle cx="-1.2" cy="2.65" r="0.15" fill="#e2e8f0" stroke="#1c1917" stroke-width="0.04"/>
+              </g>
+            </defs>
+            <!-- Ground Baseline (Thin Precision CAD Datum) -->
+            <line x1="20" y1="78" x2="176" y2="78" stroke="#1c1917" stroke-width="0.26"/>
+            <!-- Earth Hatching -->
+            <g stroke="#3a3027" stroke-width="0.10" opacity="0.6">
+              <line x1="30" y1="78" x2="28" y2="80"/><line x1="40" y1="78" x2="38" y2="80"/>
+              <line x1="50" y1="78" x2="48" y2="80"/><line x1="60" y1="78" x2="58" y2="80"/>
+              <line x1="70" y1="78" x2="68" y2="80"/><line x1="80" y1="78" x2="78" y2="80"/>
+              <line x1="90" y1="78" x2="88" y2="80"/><line x1="100" y1="78" x2="98" y2="80"/>
+              <line x1="110" y1="78" x2="108" y2="80"/><line x1="120" y1="78" x2="118" y2="80"/>
+              <line x1="130" y1="78" x2="128" y2="80"/><line x1="140" y1="78" x2="138" y2="80"/>
+              <line x1="150" y1="78" x2="148" y2="80"/><line x1="160" y1="78" x2="158" y2="80"/>
+            </g>
+            <text x="98" y="80.6" fill="#4a3f35" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.35" letter-spacing="0.08em" font-weight="600">GRADE BASELINE (Y = 78.00″ · ARCHITECTURAL DATUM)</text>
+            <!-- ======================================================================= -->
+            <!-- ACTUAL ARCHITECTURAL SHELLS (FILL DELETED · 1-2PX OUTLINE)             -->
+            <!-- ======================================================================= -->
+            <g fill="none" stroke="#1c1917" stroke-width="0.22" stroke-linejoin="round">
+              <!-- Left 4x4 PT Post Shell (X=50.00 to 53.50, Y=6.00 to 78.00) -->
+              <rect x="50" y="6" width="3.5" height="72" rx="0.04"/>
+              <!-- Right 4x4 PT Post Shell (X=142.50 to 146.00, Y=6.00 to 78.00) -->
+              <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
+
+              <!-- Post Caps: Pyramid Shell + Base Skirt -->
+              <g>
+                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
+                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <line x1="51.75" y1="3.5" x2="51.75" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
+                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
+                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <line x1="144.25" y1="3.5" x2="144.25" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
+              </g>
+
+              <!-- 2x4 Top Rail Cap Shell (Weather Cap) -->
+              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
+              <!-- Top 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="3.5"/>
+              <!-- Bottom 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="66" width="89.375" height="3.5"/>
+              <!-- Bottom 2x6 Kickboard Rot Shield Shell -->
+              <rect x="53.3125" y="71" width="89.375" height="5.5"/>
+            </g>
+
+            <!-- Centerlines for Framing Rails (Dashed Drafting Axis) -->
+            <line x1="53.3125" y1="9.0625" x2="142.6875" y2="9.0625" stroke="#8c6239" stroke-width="0.12" stroke-dasharray="2.0 1.0"/>
+            <line x1="53.3125" y1="67.75" x2="142.6875" y2="67.75" stroke="#8c6239" stroke-width="0.12" stroke-dasharray="2.0 1.0"/>
+            <!-- 16 Picket Board Shells (fill="none" · Subtle Hairline Separation) -->
+            <g id="group-picket-shells" fill="none" stroke="#2b221a" stroke-width="0.14" opacity="0.38">
+              <rect x="53.500" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="59.063" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="64.625" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="70.188" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="75.750" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="81.313" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="86.875" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="92.438" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="98.000" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="103.563" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="109.125" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="114.688" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="120.250" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="125.813" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="131.375" y="7.5" width="5.5" height="69.0625"/>
+              <rect x="136.938" y="7.5" width="5.5" height="69.0625"/>
+            </g>
+            <!-- Infill Fasteners: 304 SS Ring-Shank Nails (2 Per Rail Contact · 128 Total/Bay) -->
+            <g fill="#cbd5e1" stroke="#1c1917" stroke-width="0.04">
+              <circle cx="55.100" cy="8.2" r="0.13"/><circle cx="57.400" cy="8.2" r="0.13"/>
+              <circle cx="55.100" cy="9.95" r="0.13"/><circle cx="57.400" cy="9.95" r="0.13"/>
+              <circle cx="55.100" cy="66.9" r="0.13"/><circle cx="57.400" cy="66.9" r="0.13"/>
+              <circle cx="55.100" cy="68.6" r="0.13"/><circle cx="57.400" cy="68.6" r="0.13"/>
+              <circle cx="60.663" cy="8.2" r="0.13"/><circle cx="62.962" cy="8.2" r="0.13"/>
+              <circle cx="60.663" cy="9.95" r="0.13"/><circle cx="62.962" cy="9.95" r="0.13"/>
+              <circle cx="60.663" cy="66.9" r="0.13"/><circle cx="62.962" cy="66.9" r="0.13"/>
+              <circle cx="60.663" cy="68.6" r="0.13"/><circle cx="62.962" cy="68.6" r="0.13"/>
+              <circle cx="66.225" cy="8.2" r="0.13"/><circle cx="68.525" cy="8.2" r="0.13"/>
+              <circle cx="66.225" cy="9.95" r="0.13"/><circle cx="68.525" cy="9.95" r="0.13"/>
+              <circle cx="66.225" cy="66.9" r="0.13"/><circle cx="68.525" cy="66.9" r="0.13"/>
+              <circle cx="66.225" cy="68.6" r="0.13"/><circle cx="68.525" cy="68.6" r="0.13"/>
+              <circle cx="71.787" cy="8.2" r="0.13"/><circle cx="74.088" cy="8.2" r="0.13"/>
+              <circle cx="71.787" cy="9.95" r="0.13"/><circle cx="74.088" cy="9.95" r="0.13"/>
+              <circle cx="71.787" cy="66.9" r="0.13"/><circle cx="74.088" cy="66.9" r="0.13"/>
+              <circle cx="71.787" cy="68.6" r="0.13"/><circle cx="74.088" cy="68.6" r="0.13"/>
+              <circle cx="77.350" cy="8.2" r="0.13"/><circle cx="79.650" cy="8.2" r="0.13"/>
+              <circle cx="77.350" cy="9.95" r="0.13"/><circle cx="79.650" cy="9.95" r="0.13"/>
+              <circle cx="77.350" cy="66.9" r="0.13"/><circle cx="79.650" cy="66.9" r="0.13"/>
+              <circle cx="77.350" cy="68.6" r="0.13"/><circle cx="79.650" cy="68.6" r="0.13"/>
+              <circle cx="82.912" cy="8.2" r="0.13"/><circle cx="85.213" cy="8.2" r="0.13"/>
+              <circle cx="82.912" cy="9.95" r="0.13"/><circle cx="85.213" cy="9.95" r="0.13"/>
+              <circle cx="82.912" cy="66.9" r="0.13"/><circle cx="85.213" cy="66.9" r="0.13"/>
+              <circle cx="82.912" cy="68.6" r="0.13"/><circle cx="85.213" cy="68.6" r="0.13"/>
+              <circle cx="88.475" cy="8.2" r="0.13"/><circle cx="90.775" cy="8.2" r="0.13"/>
+              <circle cx="88.475" cy="9.95" r="0.13"/><circle cx="90.775" cy="9.95" r="0.13"/>
+              <circle cx="88.475" cy="66.9" r="0.13"/><circle cx="90.775" cy="66.9" r="0.13"/>
+              <circle cx="88.475" cy="68.6" r="0.13"/><circle cx="90.775" cy="68.6" r="0.13"/>
+              <circle cx="94.037" cy="8.2" r="0.13"/><circle cx="96.338" cy="8.2" r="0.13"/>
+              <circle cx="94.037" cy="9.95" r="0.13"/><circle cx="96.338" cy="9.95" r="0.13"/>
+              <circle cx="94.037" cy="66.9" r="0.13"/><circle cx="96.338" cy="66.9" r="0.13"/>
+              <circle cx="94.037" cy="68.6" r="0.13"/><circle cx="96.338" cy="68.6" r="0.13"/>
+              <circle cx="99.600" cy="8.2" r="0.13"/><circle cx="101.900" cy="8.2" r="0.13"/>
+              <circle cx="99.600" cy="9.95" r="0.13"/><circle cx="101.900" cy="9.95" r="0.13"/>
+              <circle cx="99.600" cy="66.9" r="0.13"/><circle cx="101.900" cy="66.9" r="0.13"/>
+              <circle cx="99.600" cy="68.6" r="0.13"/><circle cx="101.900" cy="68.6" r="0.13"/>
+              <circle cx="105.162" cy="8.2" r="0.13"/><circle cx="107.463" cy="8.2" r="0.13"/>
+              <circle cx="105.162" cy="9.95" r="0.13"/><circle cx="107.463" cy="9.95" r="0.13"/>
+              <circle cx="105.162" cy="66.9" r="0.13"/><circle cx="107.463" cy="66.9" r="0.13"/>
+              <circle cx="105.162" cy="68.6" r="0.13"/><circle cx="107.463" cy="68.6" r="0.13"/>
+              <circle cx="110.725" cy="8.2" r="0.13"/><circle cx="113.025" cy="8.2" r="0.13"/>
+              <circle cx="110.725" cy="9.95" r="0.13"/><circle cx="113.025" cy="9.95" r="0.13"/>
+              <circle cx="110.725" cy="66.9" r="0.13"/><circle cx="113.025" cy="66.9" r="0.13"/>
+              <circle cx="110.725" cy="68.6" r="0.13"/><circle cx="113.025" cy="68.6" r="0.13"/>
+              <circle cx="116.287" cy="8.2" r="0.13"/><circle cx="118.588" cy="8.2" r="0.13"/>
+              <circle cx="116.287" cy="9.95" r="0.13"/><circle cx="118.588" cy="9.95" r="0.13"/>
+              <circle cx="116.287" cy="66.9" r="0.13"/><circle cx="118.588" cy="66.9" r="0.13"/>
+              <circle cx="116.287" cy="68.6" r="0.13"/><circle cx="118.588" cy="68.6" r="0.13"/>
+              <circle cx="121.850" cy="8.2" r="0.13"/><circle cx="124.150" cy="8.2" r="0.13"/>
+              <circle cx="121.850" cy="9.95" r="0.13"/><circle cx="124.150" cy="9.95" r="0.13"/>
+              <circle cx="121.850" cy="66.9" r="0.13"/><circle cx="124.150" cy="66.9" r="0.13"/>
+              <circle cx="121.850" cy="68.6" r="0.13"/><circle cx="124.150" cy="68.6" r="0.13"/>
+              <circle cx="127.412" cy="8.2" r="0.13"/><circle cx="129.713" cy="8.2" r="0.13"/>
+              <circle cx="127.412" cy="9.95" r="0.13"/><circle cx="129.713" cy="9.95" r="0.13"/>
+              <circle cx="127.412" cy="66.9" r="0.13"/><circle cx="129.713" cy="66.9" r="0.13"/>
+              <circle cx="127.412" cy="68.6" r="0.13"/><circle cx="129.713" cy="68.6" r="0.13"/>
+              <circle cx="132.975" cy="8.2" r="0.13"/><circle cx="135.275" cy="8.2" r="0.13"/>
+              <circle cx="132.975" cy="9.95" r="0.13"/><circle cx="135.275" cy="9.95" r="0.13"/>
+              <circle cx="132.975" cy="66.9" r="0.13"/><circle cx="135.275" cy="66.9" r="0.13"/>
+              <circle cx="132.975" cy="68.6" r="0.13"/><circle cx="135.275" cy="68.6" r="0.13"/>
+              <circle cx="138.537" cy="8.2" r="0.13"/><circle cx="140.838" cy="8.2" r="0.13"/>
+              <circle cx="138.537" cy="9.95" r="0.13"/><circle cx="140.838" cy="9.95" r="0.13"/>
+              <circle cx="138.537" cy="66.9" r="0.13"/><circle cx="140.838" cy="66.9" r="0.13"/>
+              <circle cx="138.537" cy="68.6" r="0.13"/><circle cx="140.838" cy="68.6" r="0.13"/>
+            </g>
+            <!-- Heavy-Duty Washer Screws along 2x6 Kickboard (11″ OC Spacing) -->
+            <g fill="#94a3b8" stroke="#1c1917" stroke-width="0.04">
+              <circle cx="58.5" cy="73.75" r="0.18"/>
+              <circle cx="69.5" cy="73.75" r="0.18"/>
+              <circle cx="80.5" cy="73.75" r="0.18"/>
+              <circle cx="91.5" cy="73.75" r="0.18"/>
+              <circle cx="102.5" cy="73.75" r="0.18"/>
+              <circle cx="113.5" cy="73.75" r="0.18"/>
+              <circle cx="124.5" cy="73.75" r="0.18"/>
+              <circle cx="135.5" cy="73.75" r="0.18"/>
+            </g>
+            <!-- ============================================================= -->
+            <!-- CONNECTION LAYER A: 45° ANGLED TOE-SCREWS (ALL 4 JOINTS)      -->
+            <!-- ============================================================= -->
+            <g id="layer-toenails" class="transition-opacity duration-200">
+              <!-- Joint 1: Left Post / Top Rail Joint (3 Screws) -->
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
+                <line x1="55.0" y1="8.0" x2="52.2" y2="5.8"/>
+                <line x1="55.0" y1="9.06" x2="51.8" y2="9.06"/>
+                <line x1="55.0" y1="10.12" x2="52.2" y2="12.32"/>
+              </g>
+              <circle cx="55.0" cy="8.0" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="9.06" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="10.12" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+
+              <!-- Joint 2: Left Post / Bottom Rail Joint (3 Screws) -->
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
+                <line x1="55.0" y1="66.7" x2="52.2" y2="64.5"/>
+                <line x1="55.0" y1="67.75" x2="51.8" y2="67.75"/>
+                <line x1="55.0" y1="68.8" x2="52.2" y2="71.0"/>
+              </g>
+              <circle cx="55.0" cy="66.7" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="67.75" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="55.0" cy="68.8" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+
+              <!-- Joint 3: Right Post / Top Rail Joint (3 Screws) -->
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
+                <line x1="141.0" y1="8.0" x2="143.8" y2="5.8"/>
+                <line x1="141.0" y1="9.06" x2="144.2" y2="9.06"/>
+                <line x1="141.0" y1="10.12" x2="143.8" y2="12.32"/>
+              </g>
+              <circle cx="141.0" cy="8.0" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="9.06" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="10.12" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+
+              <!-- Joint 4: Right Post / Bottom Rail Joint (3 Screws) -->
+              <g stroke="#8c531b" stroke-width="0.18" fill="none" stroke-linecap="round">
+                <line x1="141.0" y1="66.7" x2="143.8" y2="64.5"/>
+                <line x1="141.0" y1="67.75" x2="144.2" y2="67.75"/>
+                <line x1="141.0" y1="68.8" x2="143.8" y2="71.0"/>
+              </g>
+              <circle cx="141.0" cy="66.7" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="67.75" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+              <circle cx="141.0" cy="68.8" r="0.18" fill="#a0622d" stroke="#1c1917" stroke-width="0.04"/>
+            </g>
+            <!-- ============================================================= -->
+            <!-- CONNECTION LAYER B: SIMPSON FB24Z METAL BRACKETS (ALL 4 JOINTS) -->
+            <!-- ============================================================= -->
+            <g id="layer-brackets" class="hidden transition-opacity duration-200">
+              <use href="#sym-simpson-fb24z-left" x="53.5" y="7.3125"/>
+              <use href="#sym-simpson-fb24z-left" x="53.5" y="66.0"/>
+              <use href="#sym-simpson-fb24z-right" x="142.5" y="7.3125"/>
+              <use href="#sym-simpson-fb24z-right" x="142.5" y="66.0"/>
+            </g>
+            <!-- ============================================================= -->
+            <!-- ARCHITECTURAL NOTE BLOCKS & LEADER LINES                      -->
+            <!-- ============================================================= -->
+            <g font-family="'Fira Code', monospace" font-size="1.45">
+
+              <!-- ===================== LEFT COLUMN ======================== -->
+
+              <!-- Card L1: Dynamic Joint Connection -->
+              <g id="callout-joint-toenail">
+                <path d="M 45.0 9.06 L 54.0 9.06" fill="none" stroke="#8c531b" stroke-width="0.18" marker-end="url(#bronze-dot)"/>
+                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="6.1" fill="#8c531b" font-weight="700" font-size="1.45">CONNECTION: 45° ANGLED TOE-SCREWS</text>
+                <text x="5.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Fastener  — </tspan>#10 × 3-1/4″ Structural Screw</text>
+                <text x="5.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Coating   — </tspan>Exterior Bronze / ACQ Barrier</text>
+                <text x="5.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Schedule  — </tspan>3× Per Rail End · 6 Per Rail</text>
+                <text x="5.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Allowance — </tspan>33.33% Job-Site Waste Buffer</text>
+                <text x="5.0" y="21.8" fill="#574c43" font-size="1.15">Tested Shear: 580 lbf / Rail End</text>
+              </g>
+
+              <g id="callout-joint-bracket" class="hidden">
+                <path d="M 45.0 9.06 L 53.5 9.06" fill="none" stroke="#475569" stroke-width="0.18" marker-end="url(#steel-dot)"/>
+                <rect x="3.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="3.5" width="42.0" height="4.0" fill="rgba(226, 232, 240, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="6.1" fill="#334155" font-weight="700" font-size="1.45">CONNECTION: SIMPSON STRONG-TIE FB24Z</text>
+                <text x="5.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Hardware  — </tspan>18-ga ZMAX G185 Galv Steel</text>
+                <text x="5.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Post Spec — </tspan>4× Simpson SD8 1-1/2″ Screws</text>
+                <text x="5.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Rail Spec — </tspan>2× Simpson SD8 1-1/2″ Screws</text>
+                <text x="5.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Capacity  — </tspan>450 lb Download / 280 lb Uplift</text>
+                <text x="5.0" y="21.8" fill="#574c43" font-size="1.15">Eliminates Toe-Splitting · IRC Code</text>
+              </g>
+
+              <!-- Card L2: 4x4 PT Post Shell -->
+              <g>
+                <path d="M 45.0 38.0 L 50.0 38.0" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="3.0" y="28.5" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="28.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="31.1" fill="#1c1917" font-weight="700" font-size="1.45">STRUCTURE: 4×4 PT POST SHELL</text>
+                <text x="5.0" y="35.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Lumber    — </tspan>#2 Grade Hem-Fir (Incised PT)</text>
+                <text x="5.0" y="38.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Dimension — </tspan>3-1/2″ × 3-1/2″ × 8′-0″ Length</text>
+                <text x="5.0" y="41.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Treatment — </tspan>AC2 Ground Contact .40 Retention</text>
+                <text x="5.0" y="44.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Spacing   — </tspan>96.00″ On-Center (8′-0″ Bay)</text>
+                <text x="5.0" y="46.5" fill="#574c43" font-size="1.15">Footing: 24″ Depth · 120 lb Concrete Core</text>
+              </g>
+
+              <!-- Card L3: Bottom Rail & Kickboard Clearance -->
+              <g>
+                <path d="M 45.0 67.75 L 53.3 67.75" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="3.0" y="53.0" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="3.0" y="53.0" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="5.0" y="55.6" fill="#1c1917" font-weight="700" font-size="1.45">DATUM: BOTTOM RAIL &amp; KICKBOARD</text>
+                <text x="5.0" y="59.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Rail CL   — </tspan>Y = 67.75″ (4.25″ Clr to Grade)</text>
+                <text x="5.0" y="62.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Kickboard — </tspan>2×6 PT Sacrificial Rot Board</text>
+                <text x="5.0" y="65.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Clearance — </tspan>1.50″ Minimum Air Gap to Dirt</text>
+                <text x="5.0" y="68.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Drainage  — </tspan>Zero Soil Contact Moisture Wick</text>
+                <text x="5.0" y="71.0" fill="#574c43" font-size="1.15">Extends Picket Lifespan by 8–12 Years</text>
+              </g>
+
+              <!-- ===================== RIGHT COLUMN ======================= -->
+
+              <!-- Card R1: Infill Nails -->
+              <g>
+                <path d="M 151.0 9.06 L 126.0 9.06" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="3.5" width="42.0" height="20.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="3.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="6.1" fill="#1c1917" font-weight="700" font-size="1.45">FASTENER: 304 SS RING-SHANK NAILS</text>
+                <text x="153.0" y="10.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Material  — </tspan>AISI 304 Stainless Steel (Marine)</text>
+                <text x="153.0" y="13.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Size      — </tspan>2″ × 0.092″ Annular Ring Shank</text>
+                <text x="153.0" y="16.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Pattern   — </tspan>2 Nails / Rail Contact (6 / Picket)</text>
+                <text x="153.0" y="19.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Takeoff   — </tspan>96 Base + 33.33% Buffer = 128 / Bay</text>
+                <text x="153.0" y="21.8" fill="#574c43" font-size="1.15">Annular Rings Eliminate Thermal Backout</text>
+              </g>
+
+              <!-- Card R2: 2x4 Structural Cedar Rails -->
+              <g>
+                <path d="M 151.0 38.0 L 142.5 10.8" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="28.5" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="28.5" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="31.1" fill="#1c1917" font-weight="700" font-size="1.45">STRUCTURE: 2×4 WRC CEDAR RAILS</text>
+                <text x="153.0" y="35.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Species   — </tspan>Western Red Cedar (Arch Knotty)</text>
+                <text x="153.0" y="38.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Dimension — </tspan>1-1/2″ × 3-1/2″ × 89-3/8″ Span</text>
+                <text x="153.0" y="41.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Pocket    — </tspan>3/16″ Mortise Inset Each Post</text>
+                <text x="153.0" y="44.2" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Protection— </tspan>Top Sunlit Specular Sheen Barrier</text>
+                <text x="153.0" y="46.5" fill="#574c43" font-size="1.15">Clear Bay Span: 89.00″ Post-to-Post</text>
+              </g>
+
+              <!-- Card R3: Heavy Washer Screws -->
+              <g>
+                <path d="M 151.0 67.75 L 135.5 73.75" fill="none" stroke="#1c1917" stroke-width="0.18" marker-end="url(#ink-dot)"/>
+                <rect x="151.0" y="53.0" width="42.0" height="19.0" fill="rgba(255, 255, 255, 0.88)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <rect x="151.0" y="53.0" width="42.0" height="4.0" fill="rgba(235, 222, 203, 0.95)" stroke="#1c1917" stroke-width="0.22" rx="0.4"/>
+                <text x="153.0" y="55.6" fill="#1c1917" font-weight="700" font-size="1.45">FASTENER: HEAVY WASHER SCREWS</text>
+                <text x="153.0" y="59.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Type      — </tspan>#10 × 2-1/2″ Exterior Washer Head</text>
+                <text x="153.0" y="62.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Flange    — </tspan>1/2″ Integrated Washer Flange</text>
+                <text x="153.0" y="65.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Spacing   — </tspan>11.00″ On-Center (8 Per Board)</text>
+                <text x="153.0" y="68.7" fill="#1c1917" font-size="1.3"><tspan fill="#66574a">Takeoff   — </tspan>16 Base + 33.33% Buffer = 22 / Bay</text>
+                <text x="153.0" y="71.0" fill="#574c43" font-size="1.15">High-Torque Clamping Prevents Warp</text>
+              </g>
+
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Sheet Footer -->
+      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · FASTENER SPECIFICATION: V2.4</div>
+        <div class="font-bold">SHEET S1 (PAGE 2 OF 4)</div>
+      </footer>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SHEET 3 (PAGE 3): DIMENSIONAL CAD BLUEPRINT & ATTACHMENT DATUMS         -->
+    <!-- ======================================================================= -->
+    <div id="sheet-D1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">📐</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                DIMENSIONAL BLUEPRINT &amp; INSTALLATION DATUMS
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Crisp Engineering CAD View Showing On-Center Spans, Clear Bays, and Rail Attachment Centerlines
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-D1</div>
+            <div class="text-white font-bold">SHEET 3 OF 4 (CAD DIMENSIONS)</div>
+            <div>SCALE: 1/2″ = 1′-0″ · DATUM ACCURACY: 1/16″</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ ZERO ACCUMULATED ERROR</div>
+          </div>
+        </header>
+
+        <!-- Engineering Datums Summary Strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Post On-Center (OC)</span>
+            <strong class="text-[#141B16] text-sm font-mono">96.00″ (8′-0″)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Clear Bay Span</span>
+            <strong class="text-[#141B16] text-sm font-mono">89.00″ Between Posts</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Top Rail Centerline</span>
+            <strong class="text-[#141B16] text-sm font-mono">Y = 9.06″ (1.31″ Clr)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Bottom Rail Centerline</span>
+            <strong class="text-[#141B16] text-sm font-mono">Y = 67.75″ (4.25″ Clr)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Kickboard Clearance</span>
+            <strong class="text-[#141B16] text-sm font-mono">1.50″ Above Grade</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block text-[10px] uppercase font-bold">Hole Excavation</span>
+            <strong class="text-[#141B16] text-sm font-mono">24″ Min Depth · 120 lb</strong>
+          </div>
+        </section>
+
+        <!-- Clean Dimension CAD Drawing -->
+        <div id="d1-canvas-wrapper" class="drawing-canvas-wrapper w-full paper-canvas-kraft rounded border-2 border-[#3d332a] p-4 relative shadow-2xl overflow-hidden">
+          <svg viewBox="0 0 196 84" class="w-full h-auto drop-shadow-md" style="max-height: 520px;">
+            <defs>
+              <marker id="d-arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#1c1917"/>
+              </marker>
+              <marker id="d-arrow-steel" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#3a3027"/>
+              </marker>
+              <marker id="d-arrow-bronze" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#8c531b"/>
+              </marker>
+              <marker id="d-arrow-slate" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse">
+                <path d="M 0 2 L 10 5 L 0 8 z" fill="#1c1917"/>
+              </marker>
+            </defs>
+            <!-- Ground Baseline (Thin Precision CAD Datum) -->
+            <line x1="20" y1="78" x2="176" y2="78" stroke="#1c1917" stroke-width="0.26"/>
+            <!-- Earth Hatching -->
+            <g stroke="#3a3027" stroke-width="0.10" opacity="0.6">
+              <line x1="30" y1="78" x2="28" y2="80"/><line x1="40" y1="78" x2="38" y2="80"/>
+              <line x1="50" y1="78" x2="48" y2="80"/><line x1="60" y1="78" x2="58" y2="80"/>
+              <line x1="70" y1="78" x2="68" y2="80"/><line x1="80" y1="78" x2="78" y2="80"/>
+              <line x1="90" y1="78" x2="88" y2="80"/><line x1="100" y1="78" x2="98" y2="80"/>
+              <line x1="110" y1="78" x2="108" y2="80"/><line x1="120" y1="78" x2="118" y2="80"/>
+              <line x1="130" y1="78" x2="128" y2="80"/><line x1="140" y1="78" x2="138" y2="80"/>
+              <line x1="150" y1="78" x2="148" y2="80"/><line x1="160" y1="78" x2="158" y2="80"/>
+            </g>
+            <text x="98" y="80.6" fill="#4a3f35" text-anchor="middle" font-family="'Fira Code', monospace" font-size="1.35" letter-spacing="0.08em" font-weight="600">GRADE BASELINE (Y = 78.00″ · ARCHITECTURAL DATUM)</text>
+            <!-- ACTUAL ARCHITECTURAL SHELLS (FILL DELETED · 1-2PX OUTLINE) -->
+            <g fill="none" stroke="#1c1917" stroke-width="0.22" stroke-linejoin="round">
+              <rect x="50" y="6" width="3.5" height="72" rx="0.04"/>
+              <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
+
+              <!-- Post Caps -->
+              <g>
+                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
+                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
+                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
+              </g>
+
+              <!-- 2x4 Top Rail Cap Shell -->
+              <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
+              <!-- Top 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="7.3125" width="89.375" height="3.5"/>
+              <!-- Bottom 2x4 Structural Framing Rail Shell -->
+              <rect x="53.3125" y="66" width="89.375" height="3.5"/>
+              <!-- Bottom 2x6 Kickboard Rot Shield Shell -->
+              <rect x="53.3125" y="71" width="89.375" height="5.5"/>
+            </g>
+            <!-- Horizontal Dimension Rulers -->
+            <g font-family="'Fira Code', monospace">
+              <!-- 96.00″ On-Center Span Ruler (Top) -->
+              <line x1="51.75" y1="2.8" x2="144.25" y2="2.8" stroke="#1c1917" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
+              <line x1="51.75" y1="2.2" x2="51.75" y2="5.8" stroke="#1c1917" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
+              <line x1="144.25" y1="2.2" x2="144.25" y2="5.8" stroke="#1c1917" stroke-width="0.12" stroke-dasharray="1.0 1.0"/>
+              <rect x="86" y="1.5" width="24" height="2.6" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="3.3" fill="#1c1917" text-anchor="middle" font-weight="700" font-size="1.45">96.00″ ON-CENTER (8′-0″)</text>
+
+              <!-- 89.00″ Clear Bay Span Ruler -->
+              <line x1="53.5" y1="13.2" x2="142.5" y2="13.2" stroke="#3a3027" stroke-width="0.18" marker-start="url(#d-arrow-steel)" marker-end="url(#d-arrow-steel)"/>
+              <rect x="87" y="11.9" width="22" height="2.6" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="13.7" fill="#1c1917" text-anchor="middle" font-size="1.45">89.00″ CLEAR BAY</text>
+
+              <!-- Post Width Ticks -->
+              <line x1="50" y1="2.8" x2="53.5" y2="2.8" stroke="#1c1917" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
+              <text x="51.75" y="2.0" fill="#1c1917" text-anchor="middle" font-size="1.2">3.5″</text>
+              <line x1="142.5" y1="2.8" x2="146" y2="2.8" stroke="#1c1917" stroke-width="0.14" marker-start="url(#d-arrow-slate)" marker-end="url(#d-arrow-slate)"/>
+              <text x="144.25" y="2.0" fill="#1c1917" text-anchor="middle" font-size="1.2">3.5″</text>
+            </g>
+            <!-- Vertical Dimension Datums (Right Side of Panel) -->
+            <g font-family="'Fira Code', monospace">
+              <!-- 6″ Cap Headroom -->
+              <line x1="149" y1="0" x2="149" y2="6" stroke="#8c531b" stroke-width="0.16" marker-start="url(#d-arrow-bronze)" marker-end="url(#d-arrow-bronze)"/>
+              <line x1="146" y1="0" x2="150" y2="0" stroke="#8c531b" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <line x1="146" y1="6" x2="150" y2="6" stroke="#8c531b" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <text x="151.5" y="3.8" fill="#8c531b" font-size="1.35">6.00″ CAP HEADROOM (APEX CEILING)</text>
+
+              <!-- 72.00″ Panel Height -->
+              <line x1="149" y1="6" x2="149" y2="78" stroke="#1c1917" stroke-width="0.18" marker-start="url(#d-arrow-cyan)" marker-end="url(#d-arrow-cyan)"/>
+              <line x1="146" y1="78" x2="150" y2="78" stroke="#1c1917" stroke-width="0.1" stroke-dasharray="1.0 1.0"/>
+              <text x="151.5" y="42" fill="#1c1917" font-weight="700" font-size="1.5">72.00″ PANEL HEIGHT (6′-0″)</text>
+            </g>
+            <!-- Attachment Centerline Leader Badges (Left Side of Panel) -->
+            <g font-family="'Fira Code', monospace">
+              <!-- Top Rail Centerline: Y = 9.0625″ -->
+              <line x1="53.3" y1="9.06" x2="45.0" y2="9.06" stroke="#8c531b" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="6.8" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="8.8" fill="#8c531b" font-weight="700" font-size="1.35">TOP RAIL CL = Y 9.06″</text>
+              <text x="5.0" y="10.4" fill="#4a3f35" font-size="1.15">1.31″ Clr Below Cap · 3/16″ Pocket Inset</text>
+
+              <!-- Bottom Rail Centerline: Y = 67.75″ -->
+              <line x1="53.3" y1="67.75" x2="45.0" y2="67.75" stroke="#8c531b" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="65.5" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="67.5" fill="#8c531b" font-weight="700" font-size="1.35">BOTTOM RAIL CL = Y 67.75″</text>
+              <text x="5.0" y="69.1" fill="#4a3f35" font-size="1.15">4.25″ Clear Above Grade · Prevents Sag</text>
+
+              <!-- Kickboard Clearance: 1.50″ -->
+              <line x1="53.3" y1="71.0" x2="45.0" y2="72.5" stroke="#1c1917" stroke-width="0.16" stroke-dasharray="1.8 1.0"/>
+              <rect x="3.0" y="71.2" width="41.0" height="4.5" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="5.0" y="73.2" fill="#1c1917" font-weight="700" font-size="1.35">KICKBOARD CLEARANCE = 1.50″ MIN</text>
+              <text x="5.0" y="74.8" fill="#4a3f35" font-size="1.15">Eliminates Ground Contact Moisture Wick</text>
+            </g>
+            <!-- Engineering Foundation Datum Badge (Centered Below Grade) -->
+            <g font-family="'Fira Code', monospace">
+              <rect x="68" y="79.2" width="60" height="3.2" fill="rgba(255, 255, 255, 0.9)" stroke="#1c1917" stroke-width="0.2" rx="0.4"/>
+              <text x="98" y="81.3" fill="#1c1917" text-anchor="middle" font-size="1.35">FOUNDATION: 24″ MIN DEPTH · 120 LB QUIKRETE CORE · 6″ AGGREGATE</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Sheet Footer -->
+      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CAD DATUM SPECIFICATION: 104×78-V2</div>
+        <div class="font-bold">SHEET D1 (PAGE 3 OF 4)</div>
+      </footer>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SHEET 4 (PAGE 4): COMBINED BOM TAKEOFF & CONTRACTOR LABOR DOSSIER       -->
+    <!-- ======================================================================= -->
+    <div id="sheet-B1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+      <div>
+        <!-- Title Block Header -->
+        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">📊</span>
+              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+                MATERIAL TAKEOFF (BOM) &amp; LABOR DOSSIER
+              </h2>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">
+              Parametric Material List with 33.33% Contractor Fastener Waste Buffer + Discrete Component Labor Schedule
+            </p>
+          </div>
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+            <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-B1</div>
+            <div class="text-white font-bold">SHEET 4 OF 4 (PRICING &amp; LABOR)</div>
+            <div>TRADE RATE: $75/HR LOADED SHOP RATE</div>
+            <div class="text-[#4ADE80] font-bold mt-1">✓ CANONICAL QUOTE ENGINE VERIFIED</div>
+          </div>
+        </header>
+
+        <!-- Two Column Takeoff Grid -->
+        <div class="takeoff-grid grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+
+          <!-- Pillar 1: Material Takeoff BOM -->
+          <div class="takeoff-card bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">📦</span>
+                  <h4 class="font-bold font-display uppercase text-sm tracking-wide">Pillar 1: Material Takeoff (BOM)</h4>
+                </div>
+                <span class="text-[10px] font-mono bg-green-100 text-green-800 px-2 py-0.5 rounded font-bold">100 LF RUN (13 BAYS)</span>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead>
+                    <tr class="border-b border-gray-300 text-gray-500 text-[10px]">
+                      <th class="py-1">Item / Component</th>
+                      <th class="py-1 text-center">Qty Rate</th>
+                      <th class="py-1 text-center">Total Qty</th>
+                      <th class="py-1 text-right">Unit $</th>
+                      <th class="py-1 text-right">Total $</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr>
+                      <td class="py-1 font-bold">4×4 PT Incised Post (8′)</td>
+                      <td class="text-center text-gray-500">1/post</td>
+                      <td class="text-center font-bold">14 ea</td>
+                      <td class="text-right">$11.98</td>
+                      <td class="text-right font-bold">$167.72</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">2×4 Cedar Rail (8′ S4S)</td>
+                      <td class="text-center text-gray-500">2/bay</td>
+                      <td class="text-center font-bold">26 ea</td>
+                      <td class="text-right">$15.48</td>
+                      <td class="text-right font-bold">$402.48</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">2×4 Cedar Rail Cap (8′)</td>
+                      <td class="text-center text-gray-500">1/bay</td>
+                      <td class="text-center font-bold">13 ea</td>
+                      <td class="text-right">$15.48</td>
+                      <td class="text-right font-bold">$201.24</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">1×6 Cedar Flat Picket (6′)</td>
+                      <td class="text-center text-gray-500">16/bay</td>
+                      <td class="text-center font-bold">208 ea</td>
+                      <td class="text-right">$4.28</td>
+                      <td class="text-right font-bold">$890.24</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">1×4 Cedar Face Trim (8′)</td>
+                      <td class="text-center text-gray-500">2/bay</td>
+                      <td class="text-center font-bold">26 ea</td>
+                      <td class="text-right">$9.98</td>
+                      <td class="text-right font-bold">$259.48</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">Quikrete Concrete (60 lb)</td>
+                      <td class="text-center text-gray-500">2/post</td>
+                      <td class="text-center font-bold">28 bags</td>
+                      <td class="text-right">$4.85</td>
+                      <td class="text-right font-bold">$135.80</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">Crushed Gravel Base</td>
+                      <td class="text-center text-gray-500">1/post</td>
+                      <td class="text-center font-bold">14 bags</td>
+                      <td class="text-right">$5.48</td>
+                      <td class="text-right font-bold">$76.72</td>
+                    </tr>
+                    <!-- Dynamic Fastener Row 1: Structural Connection (Toe-Screws vs Simpson FB24Z) -->
+                    <tr id="bom-row-connection" class="bg-amber-50">
+                      <td class="py-1 font-bold text-amber-900">
+                        <span id="bom-conn-title">Framing Screws (#10 3.25″)</span>
+                        <span id="bom-conn-sub" class="block text-[9px] font-normal text-amber-700">6/rail (156 base + 33.33% contractor buffer = 208)</span>
+                      </td>
+                      <td id="bom-conn-rate" class="text-center text-amber-800">6/rail</td>
+                      <td id="bom-conn-qty" class="text-center font-bold text-amber-900">1 × 5 lb Box</td>
+                      <td id="bom-conn-unit" class="text-right text-amber-900">$48.95</td>
+                      <td id="bom-conn-total" class="text-right font-bold text-amber-900">$48.95</td>
+                    </tr>
+                    <!-- Fastener Row 2: Stainless Ring Nails -->
+                    <tr class="bg-amber-50">
+                      <td class="py-1 font-bold text-amber-900">
+                        Picket Nails (2″ SS Ring)
+                        <span class="block text-[9px] font-normal text-amber-700">6/picket (1,248 base + 33.33% contractor buffer = 1,664)</span>
+                      </td>
+                      <td class="text-center text-amber-800">6/picket</td>
+                      <td class="text-center font-bold text-amber-900">1 × 3.6k Box</td>
+                      <td class="text-right text-amber-900">$135.00</td>
+                      <td class="text-right font-bold text-amber-900">$135.00</td>
+                    </tr>
+                    <!-- Fastener Row 3: Washer Screws -->
+                    <tr class="bg-amber-50">
+                      <td class="py-1 font-bold text-amber-900">
+                        Trim Washer Screws (Black/Gold)
+                        <span class="block text-[9px] font-normal text-amber-700">16/board (416 base + 33.33% contractor buffer = 555)</span>
+                      </td>
+                      <td class="text-center text-amber-800">16/board</td>
+                      <td class="text-center font-bold text-amber-900">2 × 300 pk</td>
+                      <td class="text-right text-amber-900">$34.50</td>
+                      <td class="text-right font-bold text-amber-900">$69.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="subtotal-row mt-3 pt-2 border-t-2 border-[#141B16] flex justify-between items-center text-xs font-mono">
+              <span class="font-bold">Raw Material Cost (MC):</span>
+              <span id="display-mc" class="text-base font-bold text-[#141B16]">$2,386.63</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Dynamic Labor Estimate -->
+          <div class="takeoff-card bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">🔨</span>
+                  <h4 class="font-bold font-display uppercase text-sm tracking-wide">Pillar 2: Dynamic Labor Estimate</h4>
+                </div>
+                <span class="text-[10px] font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">RATE: $75/HR TRADE</span>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead>
+                    <tr class="border-b border-gray-300 text-gray-500 text-[10px]">
+                      <th class="py-1">Task / Sub-Ledger</th>
+                      <th class="py-1 text-center">Unit Metric</th>
+                      <th class="py-1 text-center">Hours</th>
+                      <th class="py-1 text-right">Direct ($30)</th>
+                      <th class="py-1 text-right">Loaded ($75)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr>
+                      <td class="py-1 font-bold">L1: Hole Dig &amp; Concrete Post Set</td>
+                      <td class="text-center text-gray-500">14 posts</td>
+                      <td class="text-center font-bold">7.0 hrs</td>
+                      <td class="text-right">$210.00</td>
+                      <td class="text-right font-bold">$525.00</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L2: 2×4 Structural Rail Framing</td>
+                      <td class="text-center text-gray-500">100 LF</td>
+                      <td class="text-center font-bold">10.0 hrs</td>
+                      <td class="text-right">$300.00</td>
+                      <td class="text-right font-bold">$750.00</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L3: Picket Infill Attachment</td>
+                      <td class="text-center text-gray-500">208 pickets</td>
+                      <td class="text-center font-bold">8.3 hrs</td>
+                      <td class="text-right">$250.00</td>
+                      <td class="text-right font-bold">$625.00</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L4: Rail Cap Board Installation</td>
+                      <td class="text-center text-gray-500">13 bays</td>
+                      <td class="text-center font-bold">1.0 hr</td>
+                      <td class="text-right">$30.00</td>
+                      <td class="text-right font-bold">$75.00</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L5: Top &amp; Bottom Trim Installation</td>
+                      <td class="text-center text-gray-500">26 boards</td>
+                      <td class="text-center font-bold">2.7 hrs</td>
+                      <td class="text-right">$80.00</td>
+                      <td class="text-right font-bold">$200.00</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L6: Mobilization, Site Layout &amp; String</td>
+                      <td class="text-center text-gray-500">1 project</td>
+                      <td class="text-center font-bold">2.5 hrs</td>
+                      <td class="text-right">$75.00</td>
+                      <td class="text-right font-bold">$187.50</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold">L7: Clean Up &amp; Waste Management</td>
+                      <td class="text-center text-gray-500">1 project</td>
+                      <td class="text-center font-bold">1.5 hrs</td>
+                      <td class="text-right">$45.00</td>
+                      <td class="text-right font-bold">$112.50</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="subtotal-row mt-3 pt-2 border-t-2 border-[#141B16] flex justify-between items-center text-xs font-mono">
+              <span class="font-bold">Total Estimated Labor (33.0 Crew Hours):</span>
+              <span class="text-base font-bold text-[#141B16]">$2,475.00</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pillar 3: Canonical Quote Range Output -->
+        <div class="quote-math-card bg-[#141B16] text-[#FAF6EE] p-4 md:p-5 rounded border-2 border-[#141B16] shadow-xl">
+          <div class="quote-math-header flex items-center justify-between border-b border-white/20 pb-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">💰</span>
+              <h4 class="font-bold font-display uppercase tracking-wide text-sm md:text-base text-[#E5B842]">
+                Pillar 3: Canonical Quote Math &amp; Range Output
+              </h4>
+            </div>
+            <span class="text-[11px] font-mono bg-white/10 px-2 py-0.5 rounded text-white/80">FORMULA: M + L + A (±15%)</span>
+          </div>
+
+          <div class="quote-math-grid grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono mb-3">
+            <div class="quote-metric-chip bg-white/5 p-2.5 rounded border border-white/10">
+              <span class="text-gray-400 block text-[10px] uppercase">Burdened Material (M)</span>
+              <div id="display-m" class="text-base md:text-lg font-bold text-white mt-0.5">$2,983.29</div>
+              <span class="text-[9px] text-gray-400">MC × 1.25 (tax + procurement)</span>
+            </div>
+            <div class="quote-metric-chip bg-white/5 p-2.5 rounded border border-white/10">
+              <span class="text-gray-400 block text-[10px] uppercase">Total Trade Labor (L)</span>
+              <div class="text-base md:text-lg font-bold text-white mt-0.5">$2,475.00</div>
+              <span class="text-[9px] text-gray-400">33.0 hrs @ $75/hr shop rate</span>
+            </div>
+            <div class="quote-metric-chip bg-white/5 p-2.5 rounded border border-white/10">
+              <span class="text-gray-400 block text-[10px] uppercase">Admin &amp; Overhead (A)</span>
+              <div id="display-a" class="text-base md:text-lg font-bold text-white mt-0.5">$545.83</div>
+              <span class="text-[9px] text-gray-400">10% of (M + L)</span>
+            </div>
+            <div class="quote-metric-chip bg-[#E5B842]/20 p-2.5 rounded border border-[#E5B842]/40">
+              <span class="text-[#E5B842] block text-[10px] uppercase font-bold">Quoted Midpoint</span>
+              <div id="display-mid" class="text-base md:text-xl font-bold text-[#E5B842] mt-0.5">$6,004.12</div>
+              <span id="display-lf" class="text-[9px] text-amber-200">~$60.04 / Linear Foot</span>
+            </div>
+          </div>
+
+          <div class="quote-range-banner bg-[#2F5D3A] p-3.5 rounded-lg flex flex-wrap items-center justify-between gap-3 border border-[#4ADE80]/40">
+            <div>
+              <span class="text-[10px] font-bold text-emerald-200 uppercase tracking-wider block font-display">HOMEOWNER GUARANTEED ESTIMATE RANGE (±15%)</span>
+              <div id="display-range" class="text-xl md:text-2xl font-bold text-white font-display mt-0.5 tracking-tight">
+                $5,103 <span class="text-emerald-300 font-light text-lg">to</span> $6,905
+              </div>
+            </div>
+            <div class="text-right text-[11px] text-emerald-100 max-w-sm">
+              Standard 100 LF estimate includes materials, loaded trade labor, delivery, and cleanup. Excludes steep rock excavation or tree clearance permits.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sheet Footer -->
+      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+        <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANONICAL MONETIZATION RULES: § QUOTE MATH</div>
+        <div class="font-bold">SHEET B1 (PAGE 4 OF 4)</div>
+      </footer>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- REACTIVE SCRIPT FOR SHEET S1 FRAMING & SHEET B1 BOM DYNAMIC SYNC          -->
+  <!-- ========================================================================= -->
+  <script>
+    // Constant Base Lumber Costs (100 LF Run = 13 Bays, 14 Posts)
+    const BASE_LUMBER_MC = 167.72 + 402.48 + 201.24 + 890.24 + 259.48 + 135.80 + 76.72; // $2,133.68
+    const FIXED_FASTENERS_MC = 135.00 + 69.00; // Picket Nails ($135.00) + Washer Screws ($69.00) = $204.00
+    const LABOR_TOTAL_L = 2475.00; // 33.0 crew hours @ $75/hr
+
+    
+    function setSheetS1Paper(tone) {
+      const wrapper = document.getElementById('s1-canvas-wrapper');
+      const classes = ['paper-canvas-vellum', 'paper-canvas-kraft', 'paper-canvas-creased', 'paper-canvas-cardstock', 'blueprint-canvas'];
+      wrapper.classList.remove(...classes);
+
+      const map = {
+        'vellum': 'paper-canvas-vellum',
+        'kraft': 'paper-canvas-kraft',
+        'creased': 'paper-canvas-creased',
+        'cardstock': 'paper-canvas-cardstock',
+        'blueprint': 'blueprint-canvas'
+      };
+      wrapper.classList.add(map[tone] || 'paper-canvas-vellum');
+
+      const btnIds = ['btn-s1-paper-vellum', 'btn-s1-paper-kraft', 'btn-s1-paper-creased', 'btn-s1-paper-cardstock'];
+      btnIds.forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+          const match = id.includes(tone);
+          b.className = match
+            ? 'px-2 py-0.5 rounded font-bold bg-[#E5B842] text-[#141B16] shadow-sm'
+            : 'px-2 py-0.5 rounded text-gray-700 hover:text-black';
+        }
+      });
+    }
+
+    function setGridTheme(themeKey, btnEl) {
+      document.body.classList.remove('theme-opt1', 'theme-opt2', 'theme-opt3', 'theme-opt4', 'theme-dark');
+      if (themeKey !== 'opt1') {
+        document.body.classList.add('theme-' + themeKey);
+      }
+      document.querySelectorAll('.grid-btn').forEach(b => {
+        b.className = 'grid-btn px-2 py-1 rounded font-medium text-xs text-gray-300 hover:text-white hover:bg-white/5 transition';
+      });
+      if (btnEl) {
+        btnEl.className = 'grid-btn active px-2 py-1 rounded font-bold text-xs bg-[#E5B842] text-[#141B16] transition';
+      }
+    }
+
+    function setFramingStyle(style) {
+      const isToe = style === 'toenail';
+
+      // 1. Update Sheet S1 Wireframe Layers
+      document.getElementById('layer-toenails').classList.toggle('hidden', !isToe);
+      document.getElementById('layer-brackets').classList.toggle('hidden', isToe);
+
+      // 2. Update Sheet S1 Callouts
+      document.getElementById('callout-joint-toenail').classList.toggle('hidden', !isToe);
+      document.getElementById('callout-joint-bracket').classList.toggle('hidden', isToe);
+
+      // 3. Update Sheet S1 UI Buttons & Badge
+      const btnToe = document.getElementById('btn-framing-toenail');
+      const btnBrk = document.getElementById('btn-framing-bracket');
+      const badge = document.getElementById('active-framing-badge');
+
+      if (isToe) {
+        btnToe.className = 'px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm';
+        btnBrk.className = 'px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm';
+        badge.className = 'px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold font-mono transition-colors';
+        badge.textContent = 'Angled Toe-Screws @ 45° (3× per rail end · 6/rail)';
+
+        // 4. Update Sheet B1 BOM Row for Toenail Framing Screws
+        document.getElementById('bom-conn-title').textContent = 'Framing Screws (#10 3.25″)';
+        document.getElementById('bom-conn-sub').textContent = '6/rail (156 base + 33.33% contractor buffer = 208)';
+        document.getElementById('bom-conn-rate').textContent = '6/rail';
+        document.getElementById('bom-conn-qty').textContent = '1 × 5 lb Box';
+        document.getElementById('bom-conn-unit').textContent = '$48.95';
+        document.getElementById('bom-conn-total').textContent = '$48.95';
+
+        updatePricing(48.95);
+      } else {
+        btnBrk.className = 'px-3 py-1 rounded font-bold bg-[#E5B842] text-[#141B16] transition text-xs shadow-sm';
+        btnToe.className = 'px-3 py-1 rounded font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition text-xs shadow-sm';
+        badge.className = 'px-2.5 py-0.5 rounded bg-sky-100 text-sky-900 border border-sky-300 font-bold font-mono transition-colors';
+        badge.textContent = 'Simpson Strong-Tie FB24Z Hangers (4× into post · 2× into rail)';
+
+        // 4. Update Sheet B1 BOM Row for Simpson FB24Z Hangers + Fasteners
+        // 52 Brackets (4/bay @ $1.98 = $102.96) + 1 box #9 1.5" SD8 structural screws ($34.84) = $137.80
+        document.getElementById('bom-conn-title').textContent = 'Simpson FB24Z Hangers + SD8 Screws';
+        document.getElementById('bom-conn-sub').textContent = '4/bay (52 brackets + 312 screws + 33.33% buffer = 416)';
+        document.getElementById('bom-conn-rate').textContent = '4/bay';
+        document.getElementById('bom-conn-qty').textContent = '52 ea + 1 box';
+        document.getElementById('bom-conn-unit').textContent = '$2.65/assy';
+        document.getElementById('bom-conn-total').textContent = '$137.80';
+
+        updatePricing(137.80);
+      }
+    }
+
+    function updatePricing(connectionFastenerCost) {
+      // Canonical Quote Math Engine (monetization_rules.md)
+      // MC = Raw Material Cost
+      const mc = BASE_LUMBER_MC + FIXED_FASTENERS_MC + connectionFastenerCost;
+      // M = MC * 1.25 (Tax, procurement, delivery)
+      const m = mc * 1.25;
+      // L = Labor Schedule Total ($75/hr shop rate)
+      const l = LABOR_TOTAL_L;
+      // A = (M + L) * 0.10 (Admin & overhead)
+      const a = (m + l) * 0.10;
+      // Quoted Midpoint = M + L + A
+      const mid = m + l + a;
+      // Display range = Midpoint +- 15%
+      const low = Math.round(mid * 0.85);
+      const high = Math.round(mid * 1.15);
+
+      document.getElementById('display-mc').textContent = '$' + mc.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('display-m').textContent = '$' + m.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('display-a').textContent = '$' + a.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('display-mid').textContent = '$' + mid.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('display-lf').textContent = '~$' + (mid / 100).toFixed(2) + ' / Linear Foot';
+      document.getElementById('display-range').innerHTML = '$' + low.toLocaleString('en-US') + ' <span class="text-emerald-300 font-light text-lg">to</span> $' + high.toLocaleString('en-US');
+    }
+  </script>
+</body>
+</html>
