@@ -136,6 +136,41 @@
       border: 2px solid #1e293b;
     }
 
+    /* Architectural Sheet Framing on Screen: 
+    /* Architectural Sheet Framing on Screen: 
+       Background grid remains visible behind most of page!
+       Zero blanket white/cream container covering the viewport.
+       The drafting grid flows continuously across the entire canvas. */
+    .sheet-container {
+      background-color: transparent !important;
+      border: 2.5px solid var(--ff-forest-deep);
+      border-radius: 6px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .sheet-container::before,
+    .sheet-container::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .sheet-container::before {
+      top: -2px;
+      left: -2px;
+      border-top: 3px solid var(--ff-gold);
+      border-left: 3px solid var(--ff-gold);
+    }
+    .sheet-container::after {
+      bottom: -2px;
+      right: -2px;
+      border-bottom: 3px solid var(--ff-gold);
+      border-right: 3px solid var(--ff-gold);
+    }
+
     /* Print Formatting: Strict 8.5" x 11" Landscape Layout (1 Sheet = Exactly 1 Page, Zero Cutoffs) */
     @page {
       size: 11in 8.5in;
@@ -192,6 +227,21 @@
       .sheet-container:last-of-type {
         page-break-after: auto !important;
         break-after: auto !important;
+      }
+
+      .sheet-container::before,
+      .sheet-container::after {
+        display: none !important;
+      }
+
+      .sheet-container header,
+      .sheet-container section,
+      .sheet-container footer,
+      .sheet-container .takeoff-card,
+      #s1-selector-strip {
+        background: #ffffff !important;
+        box-shadow: none !important;
+        border-color: #141b16 !important;
       }
 
       .sheet-container header {
@@ -336,14 +386,14 @@
     <!-- ======================================================================= -->
     <!-- SHEET 1 (PAGE 1): ARCHITECTURAL ELEVATION & MATERIAL CALLOUTS           -->
     <!-- ======================================================================= -->
-    <div id="sheet-A1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+    <div id="sheet-A1" class="sheet-container w-full text-[#141B16] p-4 md:p-6 flex flex-col justify-between min-h-[920px]">
       <div>
-        <!-- Title Block Header -->
-        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+        <!-- Title Block Header (Modular Architectural Card) -->
+        <header class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-4 mb-4 flex flex-wrap items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="text-2xl">🌲</span>
-              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+              <h2 class="text-xl md:text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
                 FENCE FRAMES · ARCHITECTURAL PRESENTATION
               </h2>
             </div>
@@ -351,7 +401,7 @@
               Standard Pacific Northwest Heritage Framed Privacy Panel · Canonical 104″ × 78″ Artboard · Shell Law Compliant
             </p>
           </div>
-          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded border border-[#E5B842]/40 text-right font-mono text-[11px] min-w-[240px] shadow">
             <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-A1</div>
             <div class="text-white font-bold">SHEET 1 OF 4 (ELEVATION &amp; MATERIALS)</div>
             <div>SCALE: 1/2″ = 1′-0″ · 104×78 CANON</div>
@@ -359,36 +409,36 @@
           </div>
         </header>
 
-        <!-- Project Metadata Summary Strip -->
-        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
-          <div>
+        <!-- Project Metadata Summary Strip (Modular Card with Specification Badges) -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-[#FAF6EE]/95 p-3.5 border-2 border-[#141B16] rounded-md mb-4 text-xs shadow-sm backdrop-blur-sm">
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Fence Style</span>
             <strong class="text-[#141B16] text-sm">Heritage Framed Privacy</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Panel Height / Span</span>
             <strong class="text-[#141B16] text-sm">6′ Height (72″) × 8′ (96″ OC)</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Lumber Species</span>
             <strong class="text-[#141B16] text-sm">WRC Cedar / PT Incised Post</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Fastener Allowance</span>
             <strong class="text-[#16a34a] text-sm font-bold">33.33% Contractor Buffer</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Material Finish</span>
             <strong class="text-[#141B16] text-sm">Natural Cedar Face / Clear</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Jurisdiction</span>
             <strong class="text-[#141B16] text-sm">King County / Snohomish</strong>
           </div>
         </section>
 
-        <!-- SVG Elevation Drawing Area with Leader Lines -->
-        <div class="drawing-canvas-wrapper w-full bg-[#111827] rounded border-2 border-[#141B16] p-4 relative shadow-inner overflow-hidden">
+        <!-- SVG Elevation Drawing Area with Leader Lines (Framed Viewport Container) -->
+        <div class="drawing-canvas-wrapper w-full bg-[#0d131a]/95 rounded-md border-2 border-[#141B16] p-4 relative shadow-xl overflow-hidden mb-4">
           <svg viewBox="0 0 196 78" class="w-full h-auto drop-shadow-2xl" style="max-height: 520px; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));">
             <defs>
               <!-- Callout Markers -->
@@ -401,6 +451,15 @@
               <marker id="dot-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
                 <circle cx="5" cy="5" r="3.5" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
               </marker>
+
+              <!-- Canonical Incised PT Wood Grain Pattern for Posts -->
+              <pattern id="pt-grain-post" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="1.5" height="1.3125">
+                <rect x="0.4375" y="0.03125" width="0.09375" height="0.625" fill="#000000" opacity="0.85"/>
+                <rect x="1.03125" y="0.03125" width="0.09375" height="0.625" fill="#000000" opacity="0.85"/>
+                <rect x="0.71875" y="0.6875" width="0.09375" height="0.625" fill="#000000" opacity="0.85"/>
+                <rect x="0.125" y="0.6875" width="0.09375" height="0.625" fill="#000000" opacity="0.85"/>
+                <rect x="1.3125" y="0.6875" width="0.09375" height="0.625" fill="#000000" opacity="0.85"/>
+              </pattern>
 
               <!-- Canon Heritage Authentic 15 Picket Patterns with 4 Sparse Knots (Centered Bay) -->
 <pattern id="pat-picket-grain-5-5-s00" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="5.5" height="69.0625" patternTransform="translate(53.5000, 7.5)">
@@ -550,10 +609,6 @@
               <rect x="53.3125" y="7.3125" width="89.375" height="69.4375" fill="#000000"/>
               <!-- 1x4 Bottom Face Kickboard Trim Shell -->
               <rect x="53.3125" y="66" width="89.375" height="3.5" fill="#000000"/>
-              <!-- Left Cedar Pyramid Cap Shell (centered on post at X=51.75) -->
-              <path d="M 49.625 6.0 L 49.625 3.875 Q 49.6875 3.8125 49.75 3.75 L 51.75 2.5 L 53.75 3.75 Q 53.8125 3.8125 53.875 3.875 L 53.875 6.0 Z" fill="#000000"/>
-              <!-- Right Cedar Pyramid Cap Shell (centered on post at X=144.25) -->
-              <path d="M 142.125 6.0 L 142.125 3.875 Q 142.1875 3.8125 142.25 3.75 L 144.25 2.5 L 146.25 3.75 Q 146.3125 3.8125 146.375 3.875 L 146.375 6.0 Z" fill="#000000"/>
             </g>
 
 
@@ -716,24 +771,10 @@
               <rect x="53.5" y="6.1875" width="89" height="1.125" fill="url(#cedar-rail-cap-grain)" opacity="0.55"/>
               <rect x="53.5" y="7.3125" width="89" height="0.65" fill="url(#rail-drop-shadow)"/>
 
-              <!-- Left Cedar Pyramid Cap (Canon 3D Facet Lighting + Overhang Shadow) -->
-              <g id="a1-cap-left">
-                <rect x="50.1875" y="6.0" width="3.125" height="0.8" fill="url(#cap-drop-shadow)"/>
-                <path d="M 51.75 2.6875 L 49.875 3.9375 L 51.75 4.6875 Z" fill="url(#cedar-cap-facet-left)"/>
-                <path d="M 51.75 2.6875 L 53.625 3.9375 L 51.75 4.6875 Z" fill="url(#cedar-cap-facet-right)"/>
-                <path d="M 49.8125 3.9375 L 51.75 4.6875 L 53.6875 3.9375 L 53.6875 5.8125 L 49.8125 5.8125 Z" fill="url(#cedar-cap-shine)"/>
-                <path d="M 49.8125 5.8125 L 49.8125 4.0 Q 49.84375 3.96875 49.875 3.9375 L 51.75 2.6875 L 53.625 3.9375 Q 53.65625 3.96875 53.6875 4.0 L 53.6875 5.8125 Z" fill="url(#cedar-cap-grain)"/>
-                <line x1="51.75" y1="2.6875" x2="51.75" y2="4.6875" stroke="#fff1d6" stroke-width="0.04" opacity="0.8"/>
-              </g>
-
-              <!-- Right Cedar Pyramid Cap (Canon 3D Facet Lighting + Overhang Shadow) -->
-              <g id="a1-cap-right">
-                <rect x="142.6875" y="6.0" width="3.125" height="0.8" fill="url(#cap-drop-shadow)"/>
-                <path d="M 144.25 2.6875 L 142.375 3.9375 L 144.25 4.6875 Z" fill="url(#cedar-cap-facet-left)"/>
-                <path d="M 144.25 2.6875 L 146.125 3.9375 L 144.25 4.6875 Z" fill="url(#cedar-cap-facet-right)"/>
-                <path d="M 142.3125 3.9375 L 144.25 4.6875 L 146.1875 3.9375 L 146.1875 5.8125 L 142.3125 5.8125 Z" fill="url(#cedar-cap-shine)"/>
-                <path d="M 142.3125 5.8125 L 142.3125 4.0 Q 142.34375 3.96875 142.375 3.9375 L 144.25 2.6875 L 146.125 3.9375 Q 146.15625 3.96875 146.1875 4.0 L 146.1875 5.8125 Z" fill="url(#cedar-cap-grain)"/>
-                <line x1="144.25" y1="2.6875" x2="144.25" y2="4.6875" stroke="#fff1d6" stroke-width="0.04" opacity="0.8"/>
+              <!-- Flat Post Tops (Clean End-Cut Inset) -->
+              <g id="a1-post-tops">
+                <line x1="50.1875" y1="6.1875" x2="53.3125" y2="6.1875" stroke="#3d2719" stroke-width="0.2"/>
+                <line x1="142.6875" y1="6.1875" x2="145.8125" y2="6.1875" stroke="#3d2719" stroke-width="0.2"/>
               </g>
 
               <!-- Grade Baseline Ground Edge & Natural Grass Turf Module -->
@@ -744,18 +785,18 @@
             <!-- Standardized Material Callout Cards (Balanced Left & Right Columns) -->
             <g font-family="'Space Grotesk', sans-serif">
 
-  <!-- 4×4 CEDAR POST CAP -->
+  <!-- 4×4 INCISED POST END-CUT -->
   <g class="callout-card-group">
-    <path d="M 51.75 2.5 L 47.5 2.5 L 46 10.5 L 45 10.5" fill="none" stroke="#f59e0b" stroke-width="0.32" marker-start="url(#dot-gold)"/>
-    <rect x="3" y="5" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#f59e0b" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <path d="M 51.75 6.18 L 47.5 6.18 L 46 10.5 L 45 10.5" fill="none" stroke="#0ea5e9" stroke-width="0.32" marker-start="url(#dot-cyan)"/>
+    <rect x="3" y="5" width="42" height="11" rx="0.8" fill="#0f172a" stroke="#0ea5e9" stroke-width="0.28" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
     <rect x="3" y="5" width="42" height="2.2" rx="0.8" fill="#1e293b"/>
-    <rect x="44.1" y="5" width="0.9" height="11" rx="0.45" fill="#f59e0b"/>
-    <text x="5.2" y="6.55" fill="#f59e0b" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">4×4 CEDAR POST CAP</text>
-    <text x="5.2" y="8.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Fence Post Cap</tspan></text>
-    <text x="5.2" y="9.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Western Red Cedar</tspan></text>
-    <text x="5.2" y="11.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">4″ × 4″ (Nom. 3.5″ × 3.5″)</tspan></text>
-    <text x="5.2" y="12.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">4-Sided Pyramid w/ Skirt Base</tspan></text>
-    <text x="5.2" y="14.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Stain - </tspan><tspan fill="#f8fafc" font-weight="bold">None (Natural Clear)</tspan></text>
+    <rect x="44.1" y="5" width="0.9" height="11" rx="0.45" fill="#0ea5e9"/>
+    <text x="5.2" y="6.55" fill="#0ea5e9" font-size="1.15" font-weight="bold" font-family="'Space Grotesk', sans-serif" letter-spacing="0.04">4×4 PT INCISED POST TOP</text>
+    <text x="5.2" y="8.50" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Material - </tspan><tspan fill="#f8fafc" font-weight="bold">Square End-Cut Post Top</tspan></text>
+    <text x="5.2" y="9.95" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Species - </tspan><tspan fill="#f8fafc" font-weight="bold">Incised PT Hem-Fir</tspan></text>
+    <text x="5.2" y="11.40" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Dimensions - </tspan><tspan fill="#f8fafc" font-weight="bold">3.5″ × 3.5″ Flat End</tspan></text>
+    <text x="5.2" y="12.85" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Detail - </tspan><tspan fill="#f8fafc" font-weight="bold">Clean 90° Flush Cut (Unnotched)</tspan></text>
+    <text x="5.2" y="14.30" font-family="'JetBrains Mono', monospace" font-size="1.05"><tspan fill="#94a3b8" font-weight="600">Treatment - </tspan><tspan fill="#f8fafc" font-weight="bold">Copper Naphthenate Field Cut</tspan></text>
   </g>
 
   <!-- 1×4 UPPER FASCIA TRIM -->
@@ -832,8 +873,8 @@
         </div>
       </div>
 
-      <!-- Sheet Footer -->
-      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+      <!-- Sheet Footer (Modular Architectural Card) -->
+      <footer class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-3 text-xs font-mono text-gray-700 flex flex-wrap items-center justify-between gap-2 shadow-sm backdrop-blur-sm">
         <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANON REF: 104×78-SHELL-V2</div>
         <div class="font-bold">SHEET A1 (PAGE 1 OF 4)</div>
       </footer>
@@ -842,14 +883,14 @@
     <!-- ======================================================================= -->
     <!-- SHEET 2 (PAGE 2): STRUCTURAL FRAMING & HIDDEN FASTENERS WIREFRAME       -->
     <!-- ======================================================================= -->
-    <div id="sheet-S1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+    <div id="sheet-S1" class="sheet-container w-full text-[#141B16] p-4 md:p-6 flex flex-col justify-between min-h-[920px]">
       <div>
-        <!-- Title Block Header -->
-        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+        <!-- Title Block Header (Modular Architectural Card) -->
+        <header class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-4 mb-4 flex flex-wrap items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="text-2xl">🔩</span>
-              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+              <h2 class="text-xl md:text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
                 STRUCTURAL FRAMING &amp; HIDDEN FASTENERS (X-RAY)
               </h2>
             </div>
@@ -857,7 +898,7 @@
               See-Through Engineering Wireframe Exposing Angled Toe-Screws, Simpson FB24Z Hangers &amp; Ring Nails
             </p>
           </div>
-          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded border border-[#E5B842]/40 text-right font-mono text-[11px] min-w-[240px] shadow">
             <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-S1</div>
             <div class="text-white font-bold">SHEET 2 OF 4 (FRAMING &amp; FASTENERS)</div>
             <div>SCALE: 1/2″ = 1′-0″ · 33.33% WASTE BUFFER</div>
@@ -865,8 +906,8 @@
           </div>
         </header>
 
-        <!-- Framing Mode Selector Bar -->
-        <div id="s1-selector-strip" class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
+        <!-- Framing Mode Selector Bar (Modular Architectural Card) -->
+        <div id="s1-selector-strip" class="flex flex-wrap items-center justify-between gap-3 bg-[#FAF6EE]/95 p-3.5 border-2 border-[#141B16] rounded-md mb-4 text-xs shadow-sm backdrop-blur-sm">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="font-bold text-gray-600 uppercase text-[11px]">Active Connection:</span>
             <span id="active-framing-badge" class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold font-mono transition-colors">
@@ -957,15 +998,9 @@
               <!-- Right 4x4 PT Post Shell (X=142.50 to 146.00, Y=6.00 to 78.00) -->
               <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
 
-              <!-- Post Caps: Pyramid Shell + Base Skirt -->
-              <g>
-                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
-                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
-                <line x1="51.75" y1="3.5" x2="51.75" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
-                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
-                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
-                <line x1="144.25" y1="3.5" x2="144.25" y2="5.6" stroke="#574c43" stroke-width="0.14"/>
-              </g>
+              <!-- Flat Post Tops (Clean Square End-Cut Flush at Y = 6.00″) -->
+              <line x1="50" y1="6" x2="53.5" y2="6" stroke="#1c1917" stroke-width="0.22"/>
+              <line x1="142.5" y1="6" x2="146" y2="6" stroke="#1c1917" stroke-width="0.22"/>
 
               <!-- 2x4 Top Rail Cap Shell (Weather Cap) -->
               <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
@@ -1234,8 +1269,8 @@
         </div>
       </div>
 
-      <!-- Sheet Footer -->
-      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+      <!-- Sheet Footer (Modular Architectural Card) -->
+      <footer class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-3 text-xs font-mono text-gray-700 flex flex-wrap items-center justify-between gap-2 shadow-sm backdrop-blur-sm">
         <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · FASTENER SPECIFICATION: V2.4</div>
         <div class="font-bold">SHEET S1 (PAGE 2 OF 4)</div>
       </footer>
@@ -1244,14 +1279,14 @@
     <!-- ======================================================================= -->
     <!-- SHEET 3 (PAGE 3): DIMENSIONAL CAD BLUEPRINT & ATTACHMENT DATUMS         -->
     <!-- ======================================================================= -->
-    <div id="sheet-D1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+    <div id="sheet-D1" class="sheet-container w-full text-[#141B16] p-4 md:p-6 flex flex-col justify-between min-h-[920px]">
       <div>
-        <!-- Title Block Header -->
-        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+        <!-- Title Block Header (Modular Architectural Card) -->
+        <header class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-4 mb-4 flex flex-wrap items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="text-2xl">📐</span>
-              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+              <h2 class="text-xl md:text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
                 DIMENSIONAL BLUEPRINT &amp; INSTALLATION DATUMS
               </h2>
             </div>
@@ -1259,7 +1294,7 @@
               Crisp Engineering CAD View Showing On-Center Spans, Clear Bays, and Rail Attachment Centerlines
             </p>
           </div>
-          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded border border-[#E5B842]/40 text-right font-mono text-[11px] min-w-[240px] shadow">
             <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-D1</div>
             <div class="text-white font-bold">SHEET 3 OF 4 (CAD DIMENSIONS)</div>
             <div>SCALE: 1/2″ = 1′-0″ · DATUM ACCURACY: 1/16″</div>
@@ -1267,29 +1302,29 @@
           </div>
         </header>
 
-        <!-- Engineering Datums Summary Strip -->
-        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-white p-3 border-2 border-[#141B16] mb-6 text-xs shadow-sm">
-          <div>
+        <!-- Engineering Datums Summary Strip (Modular Card with Specification Badges) -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 bg-[#FAF6EE]/95 p-3.5 border-2 border-[#141B16] rounded-md mb-4 text-xs shadow-sm backdrop-blur-sm">
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Post On-Center (OC)</span>
             <strong class="text-[#141B16] text-sm font-mono">96.00″ (8′-0″)</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Clear Bay Span</span>
             <strong class="text-[#141B16] text-sm font-mono">89.00″ Between Posts</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Top Rail Centerline</span>
             <strong class="text-[#141B16] text-sm font-mono">Y = 9.06″ (1.31″ Clr)</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Bottom Rail Centerline</span>
             <strong class="text-[#141B16] text-sm font-mono">Y = 67.75″ (4.25″ Clr)</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Kickboard Clearance</span>
             <strong class="text-[#141B16] text-sm font-mono">1.50″ Above Grade</strong>
           </div>
-          <div>
+          <div class="bg-white/80 p-2 rounded border border-[#141B16]/15">
             <span class="text-gray-500 block text-[10px] uppercase font-bold">Hole Excavation</span>
             <strong class="text-[#141B16] text-sm font-mono">24″ Min Depth · 120 lb</strong>
           </div>
@@ -1330,13 +1365,9 @@
               <rect x="50" y="6" width="3.5" height="72" rx="0.04"/>
               <rect x="142.5" y="6" width="3.5" height="72" rx="0.04"/>
 
-              <!-- Post Caps -->
-              <g>
-                <path d="M 49.625 5.6 L 51.75 3.5 L 53.875 5.6 Z"/>
-                <rect x="49.625" y="5.6" width="4.25" height="0.8" rx="0.04"/>
-                <path d="M 142.125 5.6 L 144.25 3.5 L 146.375 5.6 Z"/>
-                <rect x="142.125" y="5.6" width="4.25" height="0.8" rx="0.04"/>
-              </g>
+              <!-- Flat Post Tops (Clean Square End-Cut Flush at Y = 6.00″) -->
+              <line x1="50" y1="6" x2="53.5" y2="6" stroke="#1c1917" stroke-width="0.22"/>
+              <line x1="142.5" y1="6" x2="146" y2="6" stroke="#1c1917" stroke-width="0.22"/>
 
               <!-- 2x4 Top Rail Cap Shell -->
               <rect x="53.3125" y="6" width="89.375" height="1.3125" stroke-width="0.20"/>
@@ -1409,8 +1440,8 @@
         </div>
       </div>
 
-      <!-- Sheet Footer -->
-      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+      <!-- Sheet Footer (Modular Architectural Card) -->
+      <footer class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-3 text-xs font-mono text-gray-700 flex flex-wrap items-center justify-between gap-2 shadow-sm backdrop-blur-sm">
         <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CAD DATUM SPECIFICATION: 104×78-V2</div>
         <div class="font-bold">SHEET D1 (PAGE 3 OF 4)</div>
       </footer>
@@ -1419,14 +1450,14 @@
     <!-- ======================================================================= -->
     <!-- SHEET 4 (PAGE 4): COMBINED BOM TAKEOFF & CONTRACTOR LABOR DOSSIER       -->
     <!-- ======================================================================= -->
-    <div id="sheet-B1" class="sheet-container w-full bg-[#FAF6EE] text-[#141B16] border-4 border-[#141B16] rounded-sm shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[920px]">
+    <div id="sheet-B1" class="sheet-container w-full text-[#141B16] p-4 md:p-6 flex flex-col justify-between min-h-[920px]">
       <div>
-        <!-- Title Block Header -->
-        <header class="border-b-4 border-[#141B16] pb-4 mb-4 flex flex-wrap items-start justify-between gap-4">
+        <!-- Title Block Header (Modular Architectural Card) -->
+        <header class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-4 mb-4 flex flex-wrap items-center justify-between gap-4 shadow-sm backdrop-blur-sm">
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="text-2xl">📊</span>
-              <h2 class="text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
+              <h2 class="text-xl md:text-2xl font-bold tracking-wide text-[#141B16] font-display uppercase">
                 MATERIAL TAKEOFF (BOM) &amp; LABOR DOSSIER
               </h2>
             </div>
@@ -1434,7 +1465,7 @@
               Parametric Material List with 33.33% Contractor Fastener Waste Buffer + Discrete Component Labor Schedule
             </p>
           </div>
-          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded text-right font-mono text-[11px] min-w-[240px] shadow">
+          <div class="bg-[#141B16] text-[#FAF6EE] p-3 rounded border border-[#E5B842]/40 text-right font-mono text-[11px] min-w-[240px] shadow">
             <div class="text-[#E5B842] font-bold text-xs">DOC: #FF-FOLIO-8912-B1</div>
             <div class="text-white font-bold">SHEET 4 OF 4 (PRICING &amp; LABOR)</div>
             <div>TRADE RATE: $75/HR LOADED SHOP RATE</div>
@@ -1446,7 +1477,7 @@
         <div class="takeoff-grid grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
 
           <!-- Pillar 1: Material Takeoff BOM -->
-          <div class="takeoff-card bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
+          <div class="takeoff-card bg-[#FAF6EE]/95 border-2 border-[#141B16] p-4 rounded-md shadow-sm flex flex-col justify-between backdrop-blur-sm">
             <div>
               <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
                 <div class="flex items-center gap-2">
@@ -1562,7 +1593,7 @@
           </div>
 
           <!-- Pillar 2: Dynamic Labor Estimate -->
-          <div class="takeoff-card bg-white border-2 border-[#141B16] p-4 rounded shadow-sm flex flex-col justify-between">
+          <div class="takeoff-card bg-[#FAF6EE]/95 border-2 border-[#141B16] p-4 rounded-md shadow-sm flex flex-col justify-between backdrop-blur-sm">
             <div>
               <div class="flex items-center justify-between border-b-2 border-[#141B16] pb-2 mb-3">
                 <div class="flex items-center gap-2">
@@ -1647,7 +1678,7 @@
         </div>
 
         <!-- Pillar 3: Canonical Quote Range Output -->
-        <div class="quote-math-card bg-[#141B16] text-[#FAF6EE] p-4 md:p-5 rounded border-2 border-[#141B16] shadow-xl">
+        <div class="quote-math-card bg-[#141B16] text-[#FAF6EE] p-4 md:p-5 rounded-md border-2 border-[#16432D] shadow-xl mb-4">
           <div class="quote-math-header flex items-center justify-between border-b border-white/20 pb-2 mb-3">
             <div class="flex items-center gap-2">
               <span class="text-xl">💰</span>
@@ -1695,8 +1726,8 @@
         </div>
       </div>
 
-      <!-- Sheet Footer -->
-      <footer class="mt-4 pt-2 border-t-2 border-[#141B16] flex flex-wrap items-center justify-between text-xs font-mono text-gray-600">
+      <!-- Sheet Footer (Modular Architectural Card) -->
+      <footer class="bg-[#FAF6EE]/95 border-2 border-[#141B16] rounded-md p-3 text-xs font-mono text-gray-700 flex flex-wrap items-center justify-between gap-2 shadow-sm backdrop-blur-sm">
         <div>AUTHORITY: FENCE FRAMES ARCHITECTURAL ENGINE · CANONICAL MONETIZATION RULES: § QUOTE MATH</div>
         <div class="font-bold">SHEET B1 (PAGE 4 OF 4)</div>
       </footer>
