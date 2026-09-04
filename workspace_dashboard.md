@@ -19,11 +19,12 @@ tags: [supabase, components, heritage, horizontal-fence, catalog, pricing, bom-e
   - **4ft Default Mandatory:** Board fences default to 48" height ($Y=30.00″$ post top, $Y=78.00″$ ground baseline).
   - **Window Spacing:** Triple rail divides into 3 equal $10.50″$ windows ($W_3 = (H - 16.50″) / 3$); 2-rail centers at window midpoints ($40.75″, 56.75″$); 4-rail splits into 4 equal $6.50″$ quadrants.
 - **Vendor Price Points:** **186 prices** across Home Depot, Lowe's, Dunn Lumber, Chinook in `component_vendor_pricing`
-- **Next.js App Router Endpoints:**
+- **Next.js App Router Endpoints & Dynamic Routes:**
   - `GET /api/catalog` — Live component catalog & 4-vendor pricing from Supabase
   - `POST /api/bom` & `GET /api/bom` — Dual-calculation BOM takeoff (Dynamic Labor Canon + Legacy Admin Benchmark) with 33.33% fastener buffer & 4-vendor comparisons
   - `GET /api/leads` & `POST /api/leads` — Lead persistence & zero-fee anonymized board browsing
   - `POST /api/projects` & `POST /api/projects/claim` — Lead persistence & atomic `purchase_lead_seat` claim
+  - `/contractors/projects` & `/contractor/match/[jobId]` — Verified contractor dispatch feed and dynamic lead match scramble page with live 3-seat allocation, instant RPC claim, and homeowner PII unmasking
 - **Production Build:** `next build` passed with zero errors (`25/25` static/dynamic routes compiled cleanly)
 
 ## Dual-Calculation Directive & Dynamic Labor Engine
