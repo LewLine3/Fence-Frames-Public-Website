@@ -1,71 +1,61 @@
 ---
-title: "Walkthrough — Frame hub + prior sessions"
+title: "Walkthrough — Post-Migration Integration Steps (Live Supabase Catalog, Multi-Vendor Pricing, Canonical BOM & RLS)"
 type: reference
 category: fence-frames
 updated: 2026-09-03
-tags: [walkthrough, frame, hub]
+tags: [walkthrough, supabase, catalog, pricing, bom, leads, rls, auth]
 ---
 
-# Walkthrough
+# Walkthrough — Post-Migration Integration Steps
 
-## 2026-09-03 — Frame hub: drop comparison fluff
+## 2026-09-03 — Post-Migration Integration & Gap Closure (Supabase `hikpszwtglrkfgivcdaa`)
 
-- Removed comparison matrix (2D CAD / timing / slider fluff).
-- Folded “best for” + plain bullets into Catalog / Designer / Wizard cards; larger previews.
-- No bottom fluff row — pathway cards carry the useful bits only.
+### 1. Supabase Master Database Review & Migration `20260903000004`
+- **Reviewed Schema:** Inspected `hikpszwtglrkfgivcdaa` and verified completion of Batch 1 Heritage schema and 4-vendor pricing (`20260903000002_batch1_heritage_components.sql`).
+- **Gap A Closed (Automatic Auth Trigger):**
+  - Authored and applied trigger function `public.handle_new_user()` firing `AFTER INSERT ON auth.users`.
+  - Automatically provisions a corresponding row in `public.profiles` (`auth_user_id`, `role`, `email`, `full_name`, `phone_e164`).
+  - Supports SMS OTP, Magic Link, and OAuth with phone/email fallback.
+- **Gap B Closed (Identity Table Row-Level Security & Anonymized Lead Board):**
+  - Enabled RLS and created granular security policies on `profiles`, `contractors`, `contractor_credit_ledger`, `saved_designs`, `projects`, and `project_tickets`.
+  - Contractors can only read and edit their own account profile and credit ledger.
+  - Homeowners can only access and modify their own saved designs.
+  - Created updatable `public.leads` view with an `INSTEAD OF INSERT` trigger to synchronize `quoted_mid_cents`, `quoted_low_cents`, and `quoted_high_cents` into `public.projects`.
+  - **Zero-Fee Lead Board Browsing:** Masked PII (`homeowner_name = 'Homeowner (Claim to View)'`, `homeowner_phone = '***-***-****'`, `homeowner_email = 'contact@anonymized.fenceframes.com'`, `street_address = 'Address on file (Claim to Unmask)'`) for anonymous contractors, automatically unmasked only when a contractor holds an active claimed ticket in `project_tickets` or for admin users.
+  - Updated `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local` and `lib/supabase/client.ts` to the genuine Supabase anon key (`role: anon`) so client-side anonymous browsing correctly enforces RLS.
 
-## 2026-09-03 — Frame hub layout (catalog up)
+### 2. Next.js App Router API Routes
+- **`GET /api/catalog` ([`app/api/catalog/route.ts`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/api/catalog/route.ts)):**
+  - Pulls live component catalog data from `component_encyclopedia` joined with `component_vendor_pricing(*)`.
+  - Aggregates multi-vendor price points across Home Depot, Lowe's, Dunn Lumber, and Chinook Lumber.
+  - Supports query filters: `category`, `sku`, `heritage_only`.
+- **`POST /api/bom` & `GET /api/bom` ([`app/api/bom/route.ts`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/api/bom/route.ts)):**
+  - Implements the Canonical BOM & Fastener Waste Engine ([`lib/bom-engine.ts`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/lib/bom-engine.ts)).
+  - Calculates physical quantities: bays, posts (+1 Boundary Post Law), rails, rail caps, pickets (with Board-on-Board 1.25× overlap factor or Shadowbox alternation), caps, concrete, and crushed aggregate base.
+  - **Canonical 33.33% Fastener Waste Logic:**
+    - Framing Screws: `6/rail` (toenail) or `6/bracket` with `+33.33% contractor buffer`.
+    - Picket Fasteners: `2 nails/rail contact` (6/picket on 3-rail) with `+33.33% contractor buffer`.
+    - Trim Fasteners: `16 screws/board` with `+33.33% contractor buffer`.
+  - Computes raw material cost (MC) across all 4 vendors, burdened materials ($M = MC \times 1.25$), labor ($L = M \times 2.0$), admin ($A = (M + L) \times 0.15$), and canonical estimate range ($quoted\_mid = M + L + A$, display low $-15\%$, display high $+15\%$).
+- **`GET /api/leads` & `POST /api/leads` ([`app/api/leads/route.ts`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/api/leads/route.ts)):**
+  - Full lead record persistence with quote mid, low, and high ranges directly stored and queryable via `leads`.
 
-- Reworked [`app/frame/page.tsx`](app/frame/page.tsx) so it no longer mirrors the homepage 3-equal-card grid.
-- **Top row:** guidance plate (start with Catalog → Designer/Wizard or Fence-Folio) + Catalog card.
-- **Bottom row:** Designer + Wizard at full half-width each.
-- Fixed main-card padding (removed oversized `p-6/sm:p-10` + clipped `overflow-hidden` on cornered plates).
-- Dropped unused style-filter chips and comparison matrix for a cleaner hub.
-- Responsive stack via `.frame-hub-top` / `.frame-hub-tools` in `styles/ff-overrides.css`.
+### 3. Client-Side Configurator & Blueprint Takeoff Integration
+- **Estimate Bar ([`components/designer/estimate-bar.tsx`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/components/designer/estimate-bar.tsx)):**
+  - Wired live reactive BOM drawer: clicking "📋 Material" fetches live Supabase takeoff from `/api/bom`.
+  - Features real-time multi-vendor toggle tabs (`Home Depot`, `Lowe's`, `Dunn Lumber`, `Chinook`, `Lowest Price`).
+  - Renders line-item takeoff with "+33.33% contractor buffer" badges on all fastener lines.
+- **Fence-Folio Blueprint Page ([`app/blueprint/page.tsx`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/app/blueprint/page.tsx)):**
+  - Section 2 (Material Cost) upgraded to display the live itemized BOM takeoff with 33.33% contractor buffer tags and multi-vendor selector tabs.
 
-## 2026-08-26 — Session start (ROXY starter)
-
-- Loaded [`ROXY-new-chat-starter.md`](docs/plans/ROXY-new-chat-starter.md) + active Tier-1 plan.
-- Git: on **`staging`** tracking `origin/staging`. Dirty tree (many HTML wireframes + untracked `app/log-in/`, nav/footer elems, etc.).
-- Confirmed Batch 1 turn 1 = **CORE-02 Auth Gate `/log-in`**.
-- Findings before Keep:
-  - `public/auth-gate.html` = Phase 1 shell (guest draft + SMS OTP UI) but **no** `data-interactive-target` markers yet.
-  - Corners are 24px L-marks (not 50% wall-span law).
-  - Footer still says “Authored by Two Lew Builders LLC” (brand firewall violation).
-  - `app/log-in/page.tsx` already has a full React OTP prototype (ahead of Phase 1 HTML-first cadence).
-
-## 2026-08-26 — CORE-02 Auth Gate Phase 1 (Keep candidate)
-
-- Restyled `public/auth-gate.html` (+ root copy) with **Live Demos ELEM-01** header/footer chrome (`element-header-footer.html` pattern: forest nav + wood brand + ember strip + 4-col footer).
-- Added `data-interactive-target` hooks: `auth.draft-summary`, `auth.sign-in-card`, `auth.phone-form`, `auth.phone`, `auth.send-otp`, `auth.otp`, `auth.otp-digits`, `auth.verify`.
-- Outside corners → **50% wall-span** `.corner-mark-out` (DESIGN-RULES).
-- Footer brand line: Fence Frames only (no TLB wordmark).
-- `/log-in` and `/auth-gate` redirect → `/auth-gate.html` (HTML-first).
-
-## 2026-08-26 — Auth Gate card correction (inventory studio)
-
-- Cards now match `12-component-inventory-studio.html`:
-  - Draft: **black wood** (`black-wood-grain-h.png`) + opaque **mint** inner plate (black + gold/forest text)
-  - Sign-in: **wet wood** (`Wood-wet-card-background.jpg`) + opaque ivory wrap (no transparent grid)
-  - Corners: **two diagonal only** (draft TR+BL / sign-in TL+BR), inventory 33% / 5.5px dock outside border
-
-## 2026-08-27 — Auth Gate footer crush + draft CAD grid
-
-- Footer options → Rowdies Light @ ~0.7rem; brand glued to ©/King County (~2px); cols→brand ~3px.
-- Draft black plate: beat `styles.css` `.card-solid` cover/min-height; denser white/gold CAD grid (48/16) so frame gutters read.
-
-## 2026-08-31 — Incident Fix: Local File Navigation & Offline Preview
-
-- **Incident:** Opening demo/studio directly from local disk via `file:///` protocol resulted in a blank preview screen, and clicking the top-left Fence Frames logo navigated to `file:///D:/` (browser local directory listing of the D: drive).
-- **Diagnosis:**
-  1. **Security / Privacy:** Confirmed 100% strictly local to the user's browser. No data was transmitted online. The browser's native `file:///` scheme resolved `<a href="/">` to the local drive root (`file:///D:/`).
-  2. **Blank Screen Cause:** `founder-preflight-studio.html` used absolute iframe root paths (`/homepage.html`) and relied on `/api/registry`. When opened without an HTTP server (`file:///`), the iframe resolved to `file:///D:/homepage.html` (missing) and fetch failed.
-- **Fixes Applied:**
-  1. Created `public/homepage.html` as the standard landing target.
-  2. Updated `server.js` to seamlessly resolve static assets from both workspace root and `public/`.
-  3. Added `file:` protocol safeguards to `founder-preflight-studio.html`, `demo-founder-preflight.html`, and `ff-site-header.js` (`event.preventDefault()` to prevent drive-root navigation).
-  4. Added `DEFAULT_PAGES` offline fallback and relative path resolution in `founder-preflight-studio.html`.
-  5. Updated `artifact-triage-studio.html` modal preview to resolve relative URLs when opened via `file:`.
-
-## Next
-- Owner Keep/Park on Auth Gate → then CORE-03 Blueprint.
+### 4. Verification & Testing
+- **Automated Integration Test Suite ([`scripts/test-integration-post-migration.mjs`](file:///d:/Lew-Line-Workspaces/FenceBook/scripts/test-integration-post-migration.mjs)):**
+  - Ran against live Supabase database `hikpszwtglrkfgivcdaa`:
+    - Test 1: Live catalog & 4-vendor pricing extraction (`4/4 vendors confirmed`).
+    - Test 2: Canonical 33.33% fastener waste calculation & quote math formulas.
+    - Test 3: Lead record persistence in `leads` table with quote mid/low/high ranges and `quoted_mid_cents` synchronization into `projects`.
+    - Test 4: Anonymous PII masking on lead board browsing vs unmasking.
+    - Test 5: Automatic profile generation trigger & `purchase_lead_seat` RPC validation.
+  - **Result: 22 Passed, 0 Failed.**
+- **Production Build:** Ran `next build` in `Fence-Frames-Public-Website` — compiled 25/25 routes with zero errors.
+- **Multi-Repo Synchronization:** Committed and pushed to `FenceBook` (`main`) and `Fence-Frames-Public-Website` (`staging`).
