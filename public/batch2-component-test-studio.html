@@ -511,44 +511,68 @@ function renderElevation() {
         <stop offset="100%" stop-color="#543725"/>
       </linearGradient>
 
-      <!-- HeadLOK Structural Timber Screw -->
-      <g id="sym-fastener-headlok">
-        <circle cx="0" cy="0" r="0.32" fill="#000000"/>
-        <circle cx="0" cy="0" r="0.29" fill="#2b2622"/>
-        <circle cx="0" cy="0" r="0.24" fill="#38322c"/>
-        <polygon points="0,-0.13 0.08,-0.08 0.13,0 0.08,0.08 0,0.13 -0.08,0.08 -0.13,0 -0.08,-0.08" fill="#110f0e"/>
-        <circle cx="0" cy="0" r="0.05" fill="#050504"/>
-      </g>
+      <!-- Flow Grain Pattern Defs -->
+      ${boards.map((b, i) => `
+      <pattern id="studio-pat-board-${i}" patternUnits="userSpaceOnUse" width="24" height="5.125" patternTransform="translate(6.9375, ${b.y + 0.1875})">
+        <!-- Knots -->
+        <ellipse cx="${(i % 2 === 0 ? 10.0 : 16.0)}" cy="2.0" rx="0.8" ry="0.3" fill="#4a3018" opacity="0.95"/>
+        <ellipse cx="${(i % 2 === 0 ? 10.0 : 16.0)}" cy="2.0" rx="1.0" ry="0.38" fill="#785030" opacity="0.4"/>
+        <ellipse cx="${(i % 2 === 0 ? 19.0 : 6.0)}" cy="3.5" rx="0.4" ry="0.18" fill="#382010" opacity="0.9"/>
+        <!-- Annual Growth Grain Streamlines -->
+        <path d="M 0 0.4 Q 6 0.3, 12 0.5 T 24 0.4" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.045" fill="none" opacity="0.85"/>
+        <path d="M 0 0.8 Q 6 0.7, 12 1.0 T 24 0.8" stroke="${isCedar ? '#d4b078' : '#5a3828'}" stroke-width="0.04" fill="none" opacity="0.65"/>
+        <path d="M 0 1.2 Q 6 1.1, 12 1.5 T 24 1.2" stroke="${isCedar ? '#8a6548' : '#3d2418'}" stroke-width="0.04" fill="none" opacity="0.75"/>
+        <path d="M 0 1.6 Q 6 1.5, 12 1.9 T 24 1.6" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.048" fill="none" opacity="0.85"/>
+        <path d="M 0 2.0 Q 6 1.9, 12 2.3 T 24 2.0" stroke="${isCedar ? '#d4b078' : '#5a3828'}" stroke-width="0.04" fill="none" opacity="0.65"/>
+        <path d="M 0 2.4 Q 6 2.3, 12 2.7 T 24 2.4" stroke="${isCedar ? '#8a6548' : '#3d2418'}" stroke-width="0.04" fill="none" opacity="0.7"/>
+        <path d="M 0 2.8 Q 6 2.7, 12 3.1 T 24 2.8" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.045" fill="none" opacity="0.85"/>
+        <path d="M 0 3.2 Q 6 3.1, 12 3.5 T 24 3.2" stroke="${isCedar ? '#d4b078' : '#5a3828'}" stroke-width="0.04" fill="none" opacity="0.65"/>
+        <path d="M 0 3.6 Q 6 3.5, 12 3.9 T 24 3.6" stroke="${isCedar ? '#8a6548' : '#3d2418'}" stroke-width="0.04" fill="none" opacity="0.7"/>
+        <path d="M 0 4.0 Q 6 3.9, 12 4.3 T 24 4.0" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.048" fill="none" opacity="0.85"/>
+        <path d="M 0 4.4 Q 6 4.3, 12 4.7 T 24 4.4" stroke="${isCedar ? '#d4b078' : '#5a3828'}" stroke-width="0.04" fill="none" opacity="0.6"/>
+        <path d="M 0 4.8 Q 6 4.7, 12 5.0 T 24 4.8" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.045" fill="none" opacity="0.8"/>
+        <rect x="0" y="0" width="24" height="0.1875" fill="#f0c090" opacity="0.08"/>
+      </pattern>`).join('')}
+
+      <!-- Vertical Post Grain -->
+      <pattern id="studio-pat-post" patternUnits="userSpaceOnUse" width="5.125" height="24">
+        <ellipse cx="1.1" cy="8" rx="0.2" ry="0.6" fill="#4a3018" opacity="0.9"/>
+        <ellipse cx="1.1" cy="8" rx="0.35" ry="0.9" fill="#785030" opacity="0.4"/>
+        <path d="M 0.5 0 L 0.5 24 M 1.2 0 L 1.2 24 M 2.1 0 L 2.1 24 M 3.0 0 L 3.0 24 M 4.0 0 L 4.0 24 M 4.7 0 L 4.7 24" stroke="${isCedar ? '#120908' : '#2a1810'}" stroke-width="0.04" opacity="0.6"/>
+        <path d="M 0.8 0 L 0.8 24 M 1.6 0 L 1.6 24 M 2.6 0 L 2.6 24 M 3.5 0 L 3.5 24 M 4.4 0 L 4.4 24" stroke="${isCedar ? '#d4b078' : '#5a3828'}" stroke-width="0.04" opacity="0.5"/>
+      </pattern>
     </defs>
 
     ${showShell ? `
-    <!-- PASS 1: STRUCTURAL BLACK SHELLS (0.1875" Overlap Law) -->
+    <!-- PASS 1: STRUCTURAL BLACK SHELLS (50% Overlap Law) -->
     <g id="structural-shells">
       <!-- 4x6 Posts -->
       <rect x="4" y="${postTopY}" width="5.5" height="${fenceH}" fill="#000000"/>
       <rect x="94.5" y="${postTopY}" width="5.5" height="${fenceH}" fill="#000000"/>
-      <!-- Boards (X=9.3125 to 94.6875, overlap=0.1875" into each post) -->
-      ${boards.map(b => `<rect x="9.3125" y="${b.y}" width="85.375" height="${b.h}" fill="#000000"/>`).join('')}
-      <!-- Center Trim -->
-      <rect x="50.25" y="${postTopY}" width="3.5" height="${fenceH}" fill="#000000"/>
+      <!-- Face-Mounted Boards (X=6.75 to 97.25, 50% post overlap, width=90.50) -->
+      ${boards.map(b => `<rect x="6.75" y="${b.y}" width="90.50" height="${b.h}" fill="#000000"/>`).join('')}
       <!-- Caps -->
       <polygon points="6.75,${capY} 3.55,${capY + 3.2} 3.55,${postTopY} 9.95,${postTopY} 9.95,${capY + 3.2}" fill="#000000"/>
       <polygon points="97.25,${capY} 94.05,${capY + 3.2} 94.05,${postTopY} 100.45,${postTopY} 100.45,${capY + 3.2}" fill="#000000"/>
     </g>` : ''}
 
     ${showDetails ? `
-    <!-- PASS 2: SURFACE, COLOR & FASTENER DETAILS -->
+    <!-- PASS 2: DETAILS, FLOW GRAIN & STRUCTURAL FASTENERS -->
     <g id="surface-details">
-      <!-- Posts -->
-      <rect x="4.1875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
-      <rect x="94.6875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
-      <!-- Boards -->
-      ${boards.map(b => `
-        <rect x="9.5" y="${b.y + 0.1875}" width="85" height="${b.h - 0.375}" fill="${boardFill}"/>
-        <line x1="9.5" y1="${b.y + b.h}" x2="94.5" y2="${b.y + b.h}" stroke="#120908" stroke-width="0.06"/>
-      `).join('')}
-      <!-- Center Trim -->
-      <rect x="50.4375" y="${postTopY + 0.1875}" width="3.125" height="${fenceH - 0.375}" fill="${postFill}"/>
+      <!-- Background Posts Fill & Vertical Grain -->
+      <g id="posts-fill">
+        <rect x="4.1875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
+        <rect x="4.1875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="url(#studio-pat-post)"/>
+        <rect x="94.6875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="${postFill}"/>
+        <rect x="94.6875" y="${postTopY + 0.1875}" width="5.125" height="${fenceH - 0.375}" fill="url(#studio-pat-post)"/>
+      </g>
+      <!-- Foreground Face-Mounted Boards with Rich Flow Grain -->
+      <g id="boards-fill">
+        ${boards.map((b, i) => `
+          <rect x="6.9375" y="${b.y + 0.1875}" width="90.125" height="${b.h - 0.375}" fill="${boardFill}"/>
+          <rect x="6.9375" y="${b.y + 0.1875}" width="90.125" height="${b.h - 0.375}" fill="url(#studio-pat-board-${i})"/>
+        `).join('')}
+      </g>
       <!-- Caps -->
       <polygon points="6.75,${capY + 0.25} 3.80,${capY + 3.1} 6.75,${capY + 3.1}" fill="${capColor}"/>
       <polygon points="6.75,${capY + 0.25} 9.70,${capY + 3.1} 6.75,${capY + 3.1}" fill="${capColor}" opacity="0.85"/>
@@ -556,11 +580,12 @@ function renderElevation() {
       <polygon points="97.25,${capY + 0.25} 94.30,${capY + 3.1} 97.25,${capY + 3.1}" fill="${capColor}"/>
       <polygon points="97.25,${capY + 0.25} 100.20,${capY + 3.1} 97.25,${capY + 3.1}" fill="${capColor}" opacity="0.85"/>
       <rect x="94.25" y="${capY + 3.1}" width="6.00" height="0.4" fill="${capColor}" opacity="0.9"/>
-      <!-- HeadLOK Timber Screws -->
+      <!-- Visible HeadLOK Timber Screws at 50% Post Connection (X=8.125 & X=95.875) -->
       ${boards.map(b => `
-        <use href="#sym-fastener-headlok" x="6.75" y="${b.center.toFixed(2)}"/>
-        <use href="#sym-fastener-headlok" x="52.00" y="${b.center.toFixed(2)}"/>
-        <use href="#sym-fastener-headlok" x="97.25" y="${b.center.toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="8.125" y="${(b.center - 1.30).toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="8.125" y="${(b.center + 1.30).toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="95.875" y="${(b.center - 1.30).toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="95.875" y="${(b.center + 1.30).toFixed(2)}"/>
       `).join('')}
     </g>` : ''}
 

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fence Frames — Batch Consistency Check</title>
+  <style>
+    :root {
+      --ff-dark: #0f1115;
+      --ff-panel: #171b22;
+      --ff-card: #202632;
+      --ff-border: #2e3646;
+      --ff-gold: #e5a93c;
+      --ff-cyan: #38bdf8;
+      --ff-emerald: #34d399;
+      --ff-text: #f1f5f9;
+      --ff-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ff-dark);
+      color: var(--ff-text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--ff-panel);
+      border-bottom: 1px solid var(--ff-border);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    header h1 { font-size: 18px; font-weight: 700; }
+    header p { font-size: 13px; color: var(--ff-muted); margin-top: 4px; max-width: 920px; line-height: 1.45; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-left: 10px;
+      vertical-align: middle;
+      background: rgba(229, 169, 60, 0.15);
+      color: var(--ff-gold);
+      border: 1px solid rgba(229, 169, 60, 0.35);
+    }
+    main {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 960px) {
+      .row { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--ff-panel);
+      border: 1px solid var(--ff-border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel.original { border-top: 4px solid var(--ff-cyan); }
+    .panel.batch1 { border-top: 4px solid var(--ff-gold); }
+    .panel.batch2 { border-top: 4px solid var(--ff-emerald); }
+    .panel-head {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--ff-border);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; }
+    .panel-sub { font-size: 12px; color: var(--ff-muted); margin-top: 4px; line-height: 1.4; }
+    .panel-tag {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .original .panel-tag { background: rgba(56, 189, 248, 0.15); color: var(--ff-cyan); }
+    .batch1 .panel-tag { background: rgba(229, 169, 60, 0.15); color: var(--ff-gold); }
+    .batch2 .panel-tag { background: rgba(52, 211, 153, 0.15); color: var(--ff-emerald); }
+    .viewport {
+      background: #0b0d11;
+      padding: 16px;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .viewport svg,
+    .viewport img,
+    .viewport object {
+      width: 100%;
+      max-height: 420px;
+      display: block;
+    }
+    .viewport.batch2-vp {
+      aspect-ratio: 104 / 78;
+      max-height: 420px;
+    }
+    .viewport.batch2-vp img,
+    .viewport.batch2-vp object {
+      max-height: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--ff-border);
+      border-top: 1px solid var(--ff-border);
+    }
+    .spec {
+      background: var(--ff-card);
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+    .spec span { display: block; color: var(--ff-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+    .spec strong { font-weight: 600; word-break: break-all; }
+    .ref-link {
+      color: var(--ff-cyan);
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .ref-link:hover { text-decoration: underline; }
+    .mono-ref {
+      margin-top: 12px;
+      border: 1px dashed var(--ff-border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0b0d11;
+    }
+    .mono-ref-head {
+      padding: 8px 12px;
+      font-size: 11px;
+      color: var(--ff-muted);
+      border-bottom: 1px solid var(--ff-border);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .mono-ref img { width: 100%; max-height: 220px; object-fit: contain; display: block; background: #111; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ff-muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      Batch Consistency Check
+      <span class="badge">Trials · Local parts only</span>
+    </h1>
+    <p>
+      Side-by-side renders for pre-commit review: Original designer Heritage stack (rail cap + 2T trim + privacy spacing),
+      Batch 1 vertical atoms on the same coordinates, and Batch 2 committed 4&nbsp;ft Horizontal Picket + Rancher board fence.
+      Heritage panels use 112×95; Batch 2 uses 104×78 — scale differences are expected.
+    </p>
+  </header>
+
+  <main>
+    <div class="section-label">Row A · Vertical Heritage (112 × 95)</div>
+    <div class="row">
+      <!-- ORIGINAL DESIGNER COMPOSE -->
+      <section class="panel original">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Original designer · Heritage vertical</div>
+            <div class="panel-sub">
+              Composed from local <code>heritage-v1/components</code> (not Batch 1/2 frames).
+              Flat-top cedar pickets · rail cap · 2T top+bottom trim · privacy panel · U-brackets · cedar pyramid caps.
+            </div>
+          </div>
+          <div class="panel-tag">Original</div>
+        </div>
+        <div class="viewport" id="stage-original"></div>
+        <div class="specs">
+          <div class="spec"><span>Artboard</span><strong>112 × 95 in</strong></div>
+          <div class="spec"><span>Recipe</span><strong>Rail cap + 2T + privacy</strong></div>
+          <div class="spec"><span>Picket</span><strong>sym-picket-cedar-flat-top-heritage.svg</strong></div>
+          <div class="spec"><span>Source</span><strong>configure/heritage-v1/components/</strong></div>
+        </div>
+        <div class="mono-ref">
+          <div class="mono-ref-head">
+            <span>Designer monolith reference (same recipe baked in)</span>
+            <a class="ref-link" href="/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame.svg" target="_blank" rel="noopener">Open SVG ↗</a>
+          </div>
+          <img
+            src="/configure/heritage-v1/pilot-fences/vpf/heritage/asm-heritage-hrtg-frame.svg"
+            alt="Heritage HRTG designer monolith assembly"
+          />
+        </div>
+      </section>
+
+      <!-- BATCH 1 COMPOSE -->
+      <section class="panel batch1">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Batch 1 atoms · same privacy stack</div>
+            <div class="panel-sub">
+              Same coordinates as Original. Dog-ear picket atom + shared posts/rails/rail cap/2T trim/brackets/caps from the Batch 1 component tree.
+            </div>
+          </div>
+          <div class="panel-tag">Batch 1</div>
+        </div>
+        <div class="viewport" id="stage-batch1"></div>
+        <div class="specs">
+          <div class="spec"><span>Artboard</span><strong>112 × 95 in</strong></div>
+          <div class="spec"><span>Recipe</span><strong>Rail cap + 2T + privacy coords</strong></div>
+          <div class="spec"><span>Picket</span><strong>sym-picket-cedar-dog-eared.svg</strong></div>
+          <div class="spec"><span>Diff focus</span><strong>Picket style / grain vs Original flat-top</strong></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="section-label">Row B · Batch 2 committed frames (104 × 78)</div>
+    <div class="row">
+      <section class="panel batch2">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Batch 2 · Horizontal Picket 4 ft</div>
+            <div class="panel-sub">Committed assembly SVG — Shell Law / flow grain / 104×78 canon.</div>
+          </div>
+          <div class="panel-tag">Batch 2</div>
+        </div>
+        <div class="viewport batch2-vp">
+          <img
+            src="/assets/fence-svg/affinity-libraries/clean/components/frames/asm-hf-horizontal-picket-4ft-104x78.svg"
+            alt="Batch 2 Horizontal Picket 4ft assembly"
+          />
+        </div>
+        <div class="specs">
+          <div class="spec"><span>Artboard</span><strong>104 × 78 in</strong></div>
+          <div class="spec"><span>Height</span><strong>4 ft default</strong></div>
+          <div class="spec"><span>File</span><strong>asm-hf-horizontal-picket-4ft-104x78.svg</strong></div>
+          <div class="spec"><span>Family</span><strong>HPF-HPKT</strong></div>
+        </div>
+      </section>
+
+      <section class="panel batch2">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Batch 2 · Rancher board fence 4 ft / 3-rail</div>
+            <div class="panel-sub">Solid horizontal board fence (not Homesteader windows).</div>
+          </div>
+          <div class="panel-tag">Batch 2</div>
+        </div>
+        <div class="viewport batch2-vp">
+          <img
+            src="/assets/fence-svg/affinity-libraries/clean/components/frames/asm-hf-rancher-4ft-3rail-104x78.svg"
+            alt="Batch 2 Rancher 4ft 3-rail board fence assembly"
+          />
+        </div>
+        <div class="specs">
+          <div class="spec"><span>Artboard</span><strong>104 × 78 in</strong></div>
+          <div class="spec"><span>Height / rails</span><strong>4 ft · 3-rail</strong></div>
+          <div class="spec"><span>File</span><strong>asm-hf-rancher-4ft-3rail-104x78.svg</strong></div>
+          <div class="spec"><span>Family</span><strong>HSB-RNCH board fence</strong></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const ROOT = '/configure/heritage-v1/components';
+
+    const PARTS = {
+      post: ROOT + '/posts/sym-post-cedar-4x4.svg',
+      rail: ROOT + '/rails/sym-rail-top-heritage.svg',
+      railCap: ROOT + '/rails/sym-rail-cap-ref-1.5.svg',
+      trimTop: ROOT + '/trim/sym-trim-top-cedar.svg',
+      trimBottom: ROOT + '/trim/sym-trim-bottom-cedar.svg',
+      cap: ROOT + '/caps/sym-post-cap-cedar-pyramid.svg',
+      bracket: ROOT + '/brackets/sym-bracket-u-2x4-black.svg',
+      picketFlat: ROOT + '/pickets/sym-picket-cedar-flat-top-heritage.svg',
+      picketDog: ROOT + '/pickets/sym-picket-cedar-dog-eared.svg',
+    };
+
+    /**
+     * Compose a Heritage vertical bay on the batch1 studio module grid.
+     * Posts x=8 / 100.5 · rail cap y=12 · rails/trims · full-module picket panel · caps · U-brackets.
+     */
+    function composeHeritageStack(picketHref) {
+      const leftCapX = 7.625;
+      const rightCapX = 100.5 + 3.5 / 2 - 4.25 / 2; // 100.125
+      const brkLeftX = 9.875;
+      const brkRightX = 100.5 - (9.875 - 8); // 98.625
+      const brkTopY = 13.3125;
+      const brkBotY = 13.3125 + 58.6875; // 72
+
+      return `
+<svg viewBox="0 0 112 95" xmlns="http://www.w3.org/2000/svg" role="img">
+  <rect width="112" height="95" fill="#111318"/>
+  <line x1="0" y1="84" x2="112" y2="84" stroke="#3d6b48" stroke-width="0.35" stroke-dasharray="1.2 1"/>
+  <text x="2" y="82.6" font-size="2.2" font-family="ui-monospace, monospace" fill="#5aab6a">GRADE Y=84</text>
+
+  <!-- Posts -->
+  <image href="${PARTS.post}" x="8" y="12" width="3.5" height="72" preserveAspectRatio="none"/>
+  <image href="${PARTS.post}" x="100.5" y="12" width="3.5" height="72" preserveAspectRatio="none"/>
+
+  <!-- Structural rails -->
+  <image href="${PARTS.rail}" x="11.3125" y="13.3125" width="89.375" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.rail}" x="11.3125" y="72" width="89.375" height="3.5" preserveAspectRatio="none"/>
+
+  <!-- Rail cap -->
+  <image href="${PARTS.railCap}" x="11.3125" y="12" width="89.375" height="1.5" preserveAspectRatio="none"/>
+
+  <!-- Privacy picket panel (full 112×95 atom) -->
+  <image href="${picketHref}" x="0" y="0" width="112" height="95" preserveAspectRatio="none"/>
+
+  <!-- 2T fascia trim -->
+  <image href="${PARTS.trimTop}" x="11.3125" y="13.3125" width="89.375" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.trimBottom}" x="11.3125" y="72" width="89.375" height="3.5" preserveAspectRatio="none"/>
+
+  <!-- Post caps -->
+  <image href="${PARTS.cap}" x="${leftCapX}" y="8.5" width="4.25" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.cap}" x="${rightCapX}" y="8.5" width="4.25" height="3.5" preserveAspectRatio="none"/>
+
+  <!-- U-brackets at top + bottom rail junctions -->
+  <image href="${PARTS.bracket}" x="${brkLeftX}" y="${brkTopY}" width="2.5" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.bracket}" x="${brkRightX}" y="${brkTopY}" width="2.5" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.bracket}" x="${brkLeftX}" y="${brkBotY}" width="2.5" height="3.5" preserveAspectRatio="none"/>
+  <image href="${PARTS.bracket}" x="${brkRightX}" y="${brkBotY}" width="2.5" height="3.5" preserveAspectRatio="none"/>
+</svg>`;
+    }
+
+    document.getElementById('stage-original').innerHTML = composeHeritageStack(PARTS.picketFlat);
+    document.getElementById('stage-batch1').innerHTML = composeHeritageStack(PARTS.picketDog);
+  </script>
+</body>
+</html>

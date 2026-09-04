@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85.375 3.5" width="85.375in" height="3.5in">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90.5 3.5" width="90.5in" height="3.5in">
   <title>sym-board-cedar-2x4</title>
-  <desc>Batch 2: 2x4 CEDAR Horizontal Board (85.375" total shell width with 0.1875" overlap ears, 3.5" height) with canonical flow grain.</desc>
+  <desc>Batch 2: 2x4 CEDAR Face-Mounted Horizontal Board (90.5" span overlapping 50% across post faces, 3.5" height) with canonical flow grain.</desc>
   <defs>
     <!-- Canonical Cedar Shines -->
     <linearGradient id="cedar-rail-shine" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
@@ -193,11 +193,11 @@
   </defs>
   <g id="sym-board-cedar-2x4">
     <g id="shell">
-      <rect x="0" y="0" width="85.375" height="3.5" fill="#000000" data-overlap="0.1875"/>
+      <rect x="0" y="0" width="90.5" height="3.5" fill="#000000"/>
     </g>
     <g id="fill" data-slot="board-material">
-      <rect x="0.1875" y="0.1875" width="85" height="3.125" fill="url(#cedar-rail-shine)"/>
-      <rect x="0.1875" y="0.1875" width="85" height="3.125" fill="url(#pat-cedar-board-grain-2x4)"/>
+      <rect x="0.1875" y="0.1875" width="90.125" height="3.125" fill="url(#cedar-rail-shine)"/>
+      <rect x="0.1875" y="0.1875" width="90.125" height="3.125" fill="url(#pat-cedar-board-grain-2x4)"/>
     </g>
   </g>
 </svg>
