@@ -45,3 +45,13 @@ Codified in `lib/bom-engine.ts`:
   - `homeowner_email`: `"contact@anonymized.fenceframes.com"`
   - `street_address`: `"Address on file (Claim to Unmask)"`
 - **Claimed Ticket Unmasking:** Verified contractors holding an active ticket in `project_tickets` (or service role) automatically view full homeowner contact details.
+
+## Fence-Folio Architectural Blueprint & Dossier (`fence-folio-blueprint-prototype.html`)
+- **4-Sheet Continuous Plan Set:**
+  - **Sheet A1 (Elevation & Materials):** Centered 96″ panel on `viewBox="0 0 196 78"` with balanced 3-left / 3-right 5-line specification callouts, authentic 15-pattern cedar flow-grain, and privacy-gapped pickets.
+  - **Sheet S1 (Structural Framing X-Ray):** Thin-line CAD wireframe (`0.09`–`0.22` pen weights), muted architectural palette (slate `#0c131d`, bronze `#c28546`, galvanized `#cbd5e1`), centered `196 × 78` layout, Simpson FB24Z vs 45° toe-screw reactive toggle, and balanced specification cards.
+  - **Sheet D1 (CAD Dimensions & Datums):** Centered `196 × 84` blueprint with thin-line dimension rulers, 96.00″ OC and 89.00″ clear bay spans, and attachment centerline badges.
+  - **Sheet B1 (BOM Takeoff & Labor Dossier):** Pillar 1 material BOM with 33.33% contractor waste buffer, Pillar 2 loaded $75/hr labor schedule, and canonical quote math engine.
+- **Print Preview Fit:** 100% exact 1-page fit per sheet for all 4 pages on 8.5″ × 11″ landscape (`diff: 0px`, `isOverflowing: false`).
+- **Mirrored Locations:** `FenceBook/assets/fence-svg/`, `_Platform/demos/`, and `Fence-Frames-Public-Website/public/` (all SHA-256 verified).
+
