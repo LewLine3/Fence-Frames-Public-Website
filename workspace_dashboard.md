@@ -1,42 +1,31 @@
 ---
-title: "FenceBook Workspace Dashboard — Supabase Master DB & Component Catalog"
+title: "Fence Frames Public Website — Workspace Dashboard & Component Sync"
 type: dashboard
 category: fence-frames
 updated: 2026-09-03
-tags: [supabase, components, heritage, pilot, catalog, pricing]
+tags: [supabase, components, heritage, horizontal-fence, rancher, homesteader, horizontal-picket, catalog, pricing]
 ---
 
-# FenceBook Workspace Dashboard — Supabase Master Database
+# Fence Frames Public Website — Workspace Dashboard
 
-**Focus:** Supabase unified master database (`hikpszwtglrkfgivcdaa`), component encyclopedia, multi-vendor pricing, and pilot previews.
+**Focus:** Public web app (`Fence-Frames-Public-Website`), Next.js 16.3 Turbopack, Supabase unified master database (`hikpszwtglrkfgivcdaa`), component encyclopedia, multi-vendor pricing, Batch 2 Horizontal Fence (HF), and pilot previews.
 
 ## Current State & Counts
 - **Database Ref:** `hikpszwtglrkfgivcdaa` (`https://hikpszwtglrkfgivcdaa.supabase.co`)
 - **Validation Suite:** `23 Passed, 0 Failed` (`node scripts/verify-supabase-master.mjs`)
-- **Components Active:** **38 components** across 7 categories in `component_encyclopedia`
-- **Vendor Price Points:** **130 prices** across Home Depot, Lowe's, Dunn Lumber, Chinook in `component_vendor_pricing`
-- **Storage Assets:** **25 SVGs** active in public `component-svgs` bucket
+- **Components Active:** **52 components** across 8 categories in `component_encyclopedia` (Batch 1 Heritage V1 + Batch 2 Horizontal Fence)
+- **Vendor Price Points:** **186 prices** across Home Depot, Lowe's, Dunn Lumber, Chinook in `component_vendor_pricing`
+- **Storage Assets:** **42 SVGs** active in public `component-svgs` bucket (25 Batch 1 + 17 Batch 2)
+- **Style Recipes Active:** **24 recipes** across `heritage-v1`, `rancher-v1` (`HSB-RNCH`), `homesteader-v1` (`HSB-HMST`), and `horizontal-picket-v1` (`HPF-HPKT`)
 - **Communities & Slots:** 4 Snoqualmie Valley HOAs (Si View, Forster Woods, Riverbend, Snoqualmie Ridge); 6 active Si View CC&R slots
+- **Production Build:** `corepack pnpm build` passed (25/25 static pages compiled in 6.6s)
 
 ## Latest Migrations & Tools
-1. [`20260903000001_unified_master_schema.sql`](file:///d:/Lew-Line-Workspaces/FenceBook/supabase/migrations/20260903000001_unified_master_schema.sql) — 5 core domains & atomic stored procedures
-2. [`20260903000002_batch1_heritage_components.sql`](file:///d:/Lew-Line-Workspaces/FenceBook/supabase/migrations/20260903000002_batch1_heritage_components.sql) — Batch 1 Heritage V1 full component suite & 4-vendor pricing
-3. [`upload-batch1-svgs.mjs`](file:///d:/Lew-Line-Workspaces/FenceBook/scripts/upload-batch1-svgs.mjs) — Automated SVG uploader to Supabase Storage
-4. [`batch1-component-test-studio.html`](file:///d:/Lew-Line-Workspaces/FenceBook/assets/fence-svg/batch1-component-test-studio.html) — Interactive component tester with live SVG elevation & canonical quote math
-5. [`fence-folio-blueprint-prototype.html`](file:///d:/Lew-Line-Workspaces/FenceBook/assets/fence-svg/fence-folio-blueprint-prototype.html) — Single scrollable 4-sheet architectural plan set (A1 Elevation, S1 Framing & Fasteners X-Ray, D1 Dimensions, B1 BOM Takeoff with 33.33% fastener waste & discrete labor)
-
-## Sync & Deployment Status
-- **FenceBook**: `main` branch up-to-date (`bf50dc0`) pushed to GitHub.
-- **Fence-Frames-Public-Website**: Both `staging` and `main` branches up-to-date (`861c143`) pushed to GitHub.
-- **Design**: `main` branch up-to-date (`7e67db3`) pushed to GitHub.
-- **Public Prototype Route**: `http://localhost:8080/fence-folio-blueprint-prototype.html` or `http://localhost:3000/fence-folio-blueprint-prototype.html`.
-
-## Deployment Pipeline Protocol (Standard Operating Law)
-For all component batches, schemas, and configurator enhancements:
-1. **Trial & Asset Build on FenceBook**: Build SVG assets, test manifest coordinates, and construct Supabase migration.
-2. **Supabase Cloud Execution**: Apply SQL migration to `hikpszwtglrkfgivcdaa` and upload SVGs to `component-svgs` bucket.
-3. **Public Website Mirror & Verification**: Copy test studios and mirror migrations to `Fence-Frames-Public-Website`, run Next.js production verification (`corepack pnpm build`).
-4. **Synchronized Push**: Commit and push to `FenceBook/main`, `Fence-Frames-Public-Website/staging`, and `Fence-Frames-Public-Website/main` in lockstep.
+1. [`20260903000001_unified_master_schema.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000001_unified_master_schema.sql) — 5 core domains & atomic stored procedures
+2. [`20260903000002_batch1_heritage_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000002_batch1_heritage_components.sql) — Batch 1 Heritage V1 full component suite & 4-vendor pricing
+3. [`20260903000003_batch2_horizontal_fence_components.sql`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/supabase/migrations/20260903000003_batch2_horizontal_fence_components.sql) — Batch 2 Horizontal Fence (HF) full component suite (4×6 posts, 2×6 split boards, 2×4 center trim, HeadLOK timber screws, 4×6 caps), 4-vendor pricing, and style recipes for Rancher (`HSB-RNCH`), Homesteader (`HSB-HMST`), and Horizontal Picket (`HPF-HPKT`)
+4. [`batch2-component-test-studio.html`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/batch2-component-test-studio.html) — Interactive Batch 2 component tester with live SVG elevation, 2-pass shell/details toggle, blueprint dimension X-ray, multi-vendor pricing & canonical quote math
+5. [`fence-folio-blueprint-prototype.html`](file:///d:/Lew-Line-Workspaces/Fence-Frames-Public-Website/public/fence-folio-blueprint-prototype.html) — 4-sheet architectural plan set (A1 Elevation, S1 Framing & Fasteners X-Ray, D1 Dimensions, B1 BOM Takeoff)
 
 ## Synchronized Vector Component & Elevation Standard (`104 × 78` & Shell Law)
 Codified in `.agents/AGENTS.md`:
@@ -52,12 +41,16 @@ Codified in `.agents/AGENTS.md`:
   - `Y = 78.00″`: **Ground Baseline**. Absolute bottom of canvas; **zero added height below**.
 - **The Shell Law**: All dimensional coordinates measure to the outer edge of the component black shell (`#000000`). Inner wood fills are inset by $0.1875″$ ($3/16″$). No SVG strokes used for geometry.
 - **2-Pass Rendering Architecture (Shells → Details)**:
-  - **Pass 1 (Structural Silhouette)**: All black shells render together, merging overlapping joints into a solid frame without collision lines.
-  - **Pass 2 (Surface & Color Details)**: Inset wood fills, wood grain/knots, and hardware fasteners render in place. Two-Tone (black frame + honey cedar pickets) is natively supported by separating framing shells from picket details.
+  - **Pass 1 (Structural Silhouette)**: All black shells render together, merging overlapping joints (horizontal members extend $0.1875″$ into post shells) into a solid frame without collision lines.
+  - **Pass 2 (Surface & Color Details)**: Inset wood fills, wood grain/knots, and hardware fasteners (HeadLOK timber screws) render in place. Two-Tone is natively supported.
 
-## Next Pilot Batch
-- **Batch 2:** Horizontal Fence (HF) — Rancher (`HSB-RNCH`), Homesteader (`HSB-HMST`), & Horizontal Picket (`HPF-HPKT`)
-  - Authored natively on the **`104 × 78` Transparent Standard** with double-layer black shells.
-  - 4×6 posts (wide-face 5.5″), 2×6 split horizontal boards, 2×4 boards, HeadLOK structural timber screws, horizontal gap spacers, 4×6 post caps.
-  - Linked to `HORIZONTAL_BOARDS_INFILL` labor schedule ($8.50/LF) and `style_recipes`.
+## Batch 2 Styles & Specifications
+- **Rancher (`HSB-RNCH`)**: 4×6 posts (5.5″ wide face), 3× 2×6 Western Red Cedar horizontal boards in tight vertical butt stack (bottom-anchored at Y=60..76.5), 2×4 center vertical stiffener trim batten (X=50.25..53.75), FastenMaster HeadLOK 2-7/8″ structural timber screws, 4×6 pyramid caps.
+- **Homesteader (`HSB-HMST`)**: 4×6 posts (5.5″ wide face), 3× 2×6 split horizontal boards with equal 13.875″ open view gaps, 2×4 center vertical trim, HeadLOK screws, 4×6 pyramid caps.
+- **Horizontal Picket (`HPF-HPKT`)**: 4×6 posts (5.5″ wide face), 12× 1×6 horizontal cedar pickets with contemporary 0.5″ reveal gaps, 2×4 center vertical trim, HeadLOK screws, 4×6 pyramid caps.
 
+## Sync & Deployment Status
+- **FenceBook**: `main` branch up-to-date with Batch 2 assets, migration, upload script, and test studio.
+- **Fence-Frames-Public-Website**: Mirrored to `public/configure/heritage-v1/components/`, `public/assets/fence-svg/`, `supabase/migrations/`, and verified with `corepack pnpm build` (25/25 static routes). Pushed to `staging` and `main` branches.
+- **Public Prototype Routes**:
+  - `http://localhost:3000/batch2-component-test-studio.html`

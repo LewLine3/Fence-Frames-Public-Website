@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78" width="104in" height="78in">
+  <title>sym-post-cap-4x6-solar-pyramid</title>
+  <desc>Batch 2: 4×6 SOLAR Pyramid Post Cap on canonical 104×78 artboard (6" headroom zone).</desc>
+  <g id="sym-post-cap-4x6-solar-pyramid">
+    <g id="shell">
+      <!-- Left Cap Shell -->
+      <polygon points="6.75,1.90 3.55,5.10 3.55,6.30 9.95,6.30 9.95,5.10" fill="#000000"/>
+      <!-- Right Cap Shell -->
+      <polygon points="97.25,1.90 94.05,5.10 94.05,6.30 100.45,6.30 100.45,5.10" fill="#000000"/>
+    </g>
+    <g id="details">
+      <!-- Left Cap Detailing -->
+      <polygon points="6.75,2.15 3.80,5.00 6.75,5.00" fill="#2a2c2e"/>
+      <polygon points="6.75,2.15 9.70,5.00 6.75,5.00" fill="#17181a"/>
+      <rect x="3.75" y="5.00" width="6.00" height="1.10" fill="#202224"/>
+      <rect x="5.50" y="2.60" width="2.50" height="1.50" rx="0.1" fill="#14213d" stroke="#38a3a5" stroke-width="0.05"/>
+      <rect x="4.25" y="5.85" width="5.00" height="0.18" fill="#ffea00" opacity="0.85"/>
+
+      <!-- Right Cap Detailing -->
+      <polygon points="97.25,2.15 94.30,5.00 97.25,5.00" fill="#2a2c2e"/>
+      <polygon points="97.25,2.15 100.20,5.00 97.25,5.00" fill="#17181a"/>
+      <rect x="94.25" y="5.00" width="6.00" height="1.10" fill="#202224"/>
+      <rect x="96.00" y="2.60" width="2.50" height="1.50" rx="0.1" fill="#14213d" stroke="#38a3a5" stroke-width="0.05"/>
+      <rect x="94.75" y="5.85" width="5.00" height="0.18" fill="#ffea00" opacity="0.85"/>
+    </g>
+  </g>
+</svg>

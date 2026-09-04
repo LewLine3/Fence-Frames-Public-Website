@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78" width="104in" height="78in">
+  <title>sym-post-cap-4x6-cedar-pyramid</title>
+  <desc>Batch 2: 4×6 CEDAR Pyramid Post Cap on canonical 104×78 artboard (6" headroom zone).</desc>
+  <g id="sym-post-cap-4x6-cedar-pyramid">
+    <g id="shell">
+      <!-- Left Cap Shell -->
+      <polygon points="6.75,1.90 3.55,5.10 3.55,6.30 9.95,6.30 9.95,5.10" fill="#000000"/>
+      <!-- Right Cap Shell -->
+      <polygon points="97.25,1.90 94.05,5.10 94.05,6.30 100.45,6.30 100.45,5.10" fill="#000000"/>
+    </g>
+    <g id="details">
+      <!-- Left Cap Detailing -->
+      <polygon points="6.75,2.15 3.80,5.00 6.75,5.00" fill="#c48552"/>
+      <polygon points="6.75,2.15 9.70,5.00 6.75,5.00" fill="#aa6d3c"/>
+      <rect x="3.75" y="5.00" width="6.00" height="1.10" fill="#b87946"/>
+      
+
+      <!-- Right Cap Detailing -->
+      <polygon points="97.25,2.15 94.30,5.00 97.25,5.00" fill="#c48552"/>
+      <polygon points="97.25,2.15 100.20,5.00 97.25,5.00" fill="#aa6d3c"/>
+      <rect x="94.25" y="5.00" width="6.00" height="1.10" fill="#b87946"/>
+      
+    </g>
+  </g>
+</svg>

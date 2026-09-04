@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fence Frames — Batch 2: Horizontal Fence (HF) Elevation &amp; Component Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F4ECDC;
+      --bg-card: #FAF6EE;
+      --ink: #141B16;
+      --forest: #2F5D3A;
+      --forest-deep: #16432D;
+      --gold: #D9B872;
+      --gold-dark: #B89243;
+      --ember: #C2622D;
+      --tan: #C4B294;
+      --tan-light: #EBE1D0;
+      --cyan-inspect: #00E5FF;
+      --border: 2px solid var(--ink);
+      --radius: 4px;
+      --maxw: 1480px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(46, 139, 78, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 139, 78, 0.15) 1px, transparent 1px),
+        linear-gradient(rgba(22, 67, 45, 0.35) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(22, 67, 45, 0.35) 2px, transparent 2px);
+      background-size: 25px 25px, 25px 25px, 100px 100px, 100px 100px;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    header {
+      background: var(--ink);
+      color: #FAF6EE;
+      border-bottom: 3px solid var(--gold);
+      padding: 0.9rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+    }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .brand-title {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-tag {
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .badge-canon {
+      background: rgba(46, 139, 78, 0.25);
+      border: 1px solid #5AAB6A;
+      color: #7FE592;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 1080px) {
+      .studio-grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--bg-card);
+      border: var(--border);
+      border-radius: var(--radius);
+      box-shadow: 6px 6px 0 rgba(20, 27, 22, 0.85);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: 'Rowdies', sans-serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 2px solid var(--tan-light);
+      padding-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .viewport-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      padding: 1rem;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .viewport-box svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
+    }
+    .toolbar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 0.45rem 0.9rem;
+      border: 2px solid var(--ink);
+      background: var(--bg-card);
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: all 0.1s ease;
+    }
+    .btn:hover { background: #fff; transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+    .btn.active {
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest-deep);
+      box-shadow: 2px 2px 0 var(--forest-deep);
+    }
+    .control-group {
+      margin-bottom: 1.2rem;
+    }
+    .control-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #555;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .select-custom {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      background: #FFF;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .math-pill {
+      background: #E8F5E9;
+      border: 1px solid #81C784;
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+    .math-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    .math-row.total {
+      font-weight: 700;
+      border-top: 1px dashed #4CAF50;
+      padding-top: 0.35rem;
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+    }
+    .table-clean {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 0.75rem;
+    }
+    .table-clean th, .table-clean td {
+      border: 1px solid var(--tan);
+      padding: 0.45rem 0.6rem;
+      text-align: left;
+    }
+    .table-clean th { background: var(--tan-light); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="brand-title">
+      FENCE FRAMES
+      <span class="brand-tag">Batch 2: Horizontal Fence (HF)</span>
+    </div>
+    <div class="badge-canon">
+      ✓ Canonical 104 × 78 Standard &amp; 2-Pass Law
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="studio-grid">
+    <!-- Left: Elevation Stage & Viewport -->
+    <div>
+      <div class="card">
+        <h2>
+          <span>Architectural Elevation Stage</span>
+          <span style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; font-weight: 400; color: #666;">viewBox="0 0 104 78"</span>
+        </h2>
+
+        <div class="toolbar">
+          <button class="btn active" id="btn-pass-both" onclick="setViewMode('both')">Full 2-Pass Composite</button>
+          <button class="btn" id="btn-pass-shell" onclick="setViewMode('shell')">Pass 1: Black Shell Silhouette</button>
+          <button class="btn" id="btn-pass-details" onclick="setViewMode('details')">Pass 2: Surface &amp; Grain Details</button>
+          <button class="btn" id="btn-blueprint" onclick="toggleBlueprint()">📐 Blueprint Dimension X-Ray</button>
+        </div>
+
+        <div class="viewport-box">
+          <div id="svg-container">
+            <!-- Dynamic SVG injected here -->
+          </div>
+        </div>
+
+        <!-- Architectural Blueprint Guides & Shell Law Legend -->
+        <div style="margin-top: 1rem; font-size: 0.82rem; color: #444; line-height: 1.6;">
+          <strong>Universal Vector Standard Proof:</strong>
+          Canvas <code>104″ × 78″</code> (4:3 ratio). Left &amp; Right breathing room = <code>4.00″</code>. 96″ Fence Core (X=4..100).
+          4×6 Posts wide-face = <code>5.50″</code> (Left: X=4.00..9.50, Right: X=94.50..100.00).
+          Bay span = <code>85.00″</code>. Member black shells extend <code>0.1875″</code> into posts (X=9.3125..94.6875) for 100% gapless fusion in Pass 1.
+          Center 2×4 stiffener trim sits at <code>X=50.25..53.75</code> with HeadLOK structural timber screws.
+        </div>
+      </div>
+
+      <!-- Multi-Vendor Price Points Table -->
+      <div class="card">
+        <h2>Multi-Vendor Pricing Spectrum (Batch 2 Components)</h2>
+        <table class="table-clean">
+          <thead>
+            <tr>
+              <th>Component SKU</th>
+              <th>Description</th>
+              <th>Home Depot</th>
+              <th>Lowe's</th>
+              <th>Dunn Lumber</th>
+              <th>Chinook</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>post-4x6-cedar</code></td>
+              <td>4×6 Cedar Post 8ft (Wide Face)</td>
+              <td>$34.98</td>
+              <td>$36.98</td>
+              <td>$33.50</td>
+              <td>$34.25</td>
+            </tr>
+            <tr>
+              <td><code>post-4x6-pt</code></td>
+              <td>4×6 PT Post 8ft (Wide Face)</td>
+              <td>$22.98</td>
+              <td>$24.48</td>
+              <td>$21.90</td>
+              <td>$22.50</td>
+            </tr>
+            <tr>
+              <td><code>board-2x6-cedar-horizontal</code></td>
+              <td>2×6 Cedar Board 8ft</td>
+              <td>$12.48</td>
+              <td>$13.18</td>
+              <td>$11.95</td>
+              <td>$12.25</td>
+            </tr>
+            <tr>
+              <td><code>picket-cedar-horizontal-1x6</code></td>
+              <td>1×6 Cedar Picket 8ft</td>
+              <td>$4.28</td>
+              <td>$4.48</td>
+              <td>$4.15</td>
+              <td>$4.25</td>
+            </tr>
+            <tr>
+              <td><code>post-cap-4x6-cedar-pyramid</code></td>
+              <td>4×6 Cedar Pyramid Cap</td>
+              <td>$8.48</td>
+              <td>$8.98</td>
+              <td>$7.95</td>
+              <td>$8.25</td>
+            </tr>
+            <tr>
+              <td><code>post-cap-4x6-metal-pyramid</code></td>
+              <td>4×6 Black Aluminum Cap</td>
+              <td>$11.98</td>
+              <td>$12.48</td>
+              <td>$11.25</td>
+              <td>$11.50</td>
+            </tr>
+            <tr>
+              <td><code>fastener-headlok-timber-screw</code></td>
+              <td>HeadLOK 2-7/8″ Screws (Box of 50)</td>
+              <td>$28.98</td>
+              <td>$30.48</td>
+              <td>$27.50</td>
+              <td>$28.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right: Configurator & Canonical Quote Math Engine -->
+    <div>
+      <div class="card">
+        <h2>Style Configurator</h2>
+
+        <div class="control-group">
+          <label class="control-label">Horizontal Style Line</label>
+          <select id="select-style" class="select-custom" onchange="updateDesign()">
+            <option value="rancher">Rancher (HSB-RNCH) — 3× 2×6 Butt Stack</option>
+            <option value="homesteader">Homesteader (HSB-HMST) — 3× 2×6 Split Boards</option>
+            <option value="horizontal-picket">Horizontal Picket (HPF-HPKT) — 12× 1×6 Pickets</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Wood Material / Finish</label>
+          <select id="select-wood" class="select-custom" onchange="updateDesign()">
+            <option value="cedar">Western Red Cedar (Honey Cedar)</option>
+            <option value="pt">Pressure-Treated Hem-Fir (Olive PT)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">4×6 Post Cap Option</label>
+          <select id="select-cap" class="select-custom" onchange="updateDesign()">
+            <option value="cedar">4×6 Cedar Pyramid Cap</option>
+            <option value="metal">4×6 Black Aluminum Pyramid Cap</option>
+            <option value="copper">4×6 Solid Copper Pyramid Cap</option>
+            <option value="solar">4×6 Solar LED Pyramid Down-Light</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Run Length (Linear Feet)</label>
+          <input type="number" id="input-lf" value="96" min="8" step="8" class="select-custom" onchange="updateMath()" />
+          <span style="font-size: 0.75rem; color: #666;">96 LF = 12 bays @ 8ft on-center</span>
+        </div>
+      </div>
+
+      <!-- Canonical Quote Math Engine (§monetization_rules.md) -->
+      <div class="card">
+        <h2>Canonical Quote Math Engine</h2>
+        <p style="font-size: 0.8rem; color: #555;">
+          Formula: <code>MC</code> → <code>M = MC × 1.25</code> → <code>L = M × 2</code> → <code>A = (M + L) × 0.10</code> → <code>mid = M + L + A</code> (±15% Display Range)
+        </p>
+
+        <div class="math-pill" id="quote-math-box">
+          <!-- Live calculation rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStyle = 'rancher';
+let currentWood = 'cedar';
+let currentCap = 'cedar';
+let viewMode = 'both';
+let showBlueprint = false;
+
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.toolbar .btn').forEach(b => {
+    if (b.id.startsWith('btn-pass')) b.classList.remove('active');
+  });
+  const activeBtn = document.getElementById('btn-pass-' + mode);
+  if (activeBtn) activeBtn.classList.add('active');
+  renderElevation();
+}
+
+function toggleBlueprint() {
+  showBlueprint = !showBlueprint;
+  const btn = document.getElementById('btn-blueprint');
+  if (showBlueprint) btn.classList.add('active');
+  else btn.classList.remove('active');
+  renderElevation();
+}
+
+function updateDesign() {
+  currentStyle = document.getElementById('select-style').value;
+  currentWood = document.getElementById('select-wood').value;
+  currentCap = document.getElementById('select-cap').value;
+  renderElevation();
+  updateMath();
+}
+
+function renderElevation() {
+  const isRancher = currentStyle === 'rancher';
+  const isHomesteader = currentStyle === 'homesteader';
+  const isHPKT = currentStyle === 'horizontal-picket';
+
+  const isCedar = currentWood === 'cedar';
+  const postFill = isCedar ? '#c98a56' : '#6d7650';
+  const boardFill = isCedar ? '#c98a56' : '#6d7650';
+
+  let boards = [];
+  if (isRancher) {
+    boards = [
+      { y: 60.00, h: 5.50, center: 62.75 },
+      { y: 65.50, h: 5.50, center: 68.25 },
+      { y: 71.00, h: 5.50, center: 73.75 },
+    ];
+  } else if (isHomesteader) {
+    boards = [
+      { y: 19.875, h: 5.50, center: 22.625 },
+      { y: 39.250, h: 5.50, center: 42.000 },
+      { y: 58.625, h: 5.50, center: 61.375 },
+    ];
+  } else {
+    for (let i = 0; i < 12; i++) {
+      const y = 6.00 + i * 6.00;
+      boards.push({ y, h: 5.50, center: y + 2.75 });
+    }
+  }
+
+  // Cap colors
+  let capColor = '#c48552';
+  if (currentCap === 'metal') capColor = '#2b2d30';
+  if (currentCap === 'copper') capColor = '#b86a4b';
+  if (currentCap === 'solar') capColor = '#1f2124';
+
+  const showShell = (viewMode === 'both' || viewMode === 'shell');
+  const showDetails = (viewMode === 'both' || viewMode === 'details');
+
+  let svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 78">
+    <defs>
+      <linearGradient id="cedar-board-shine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#cf9e72"/>
+        <stop offset="50%" stop-color="#b87a48"/>
+        <stop offset="100%" stop-color="#9e6235"/>
+      </linearGradient>
+      <linearGradient id="pt-board-shine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7a855c"/>
+        <stop offset="50%" stop-color="#69734c"/>
+        <stop offset="100%" stop-color="#565f3d"/>
+      </linearGradient>
+
+      <!-- HeadLOK Structural Timber Screw -->
+      <g id="sym-fastener-headlok">
+        <circle cx="0" cy="0" r="0.32" fill="#000000"/>
+        <circle cx="0" cy="0" r="0.29" fill="#2b2622"/>
+        <circle cx="0" cy="0" r="0.24" fill="#38322c"/>
+        <polygon points="0,-0.13 0.08,-0.08 0.13,0 0.08,0.08 0,0.13 -0.08,0.08 -0.13,0 -0.08,-0.08" fill="#110f0e"/>
+        <circle cx="0" cy="0" r="0.05" fill="#050504"/>
+      </g>
+    </defs>
+
+    ${showShell ? `
+    <!-- PASS 1: STRUCTURAL BLACK SHELLS (0.1875" Overlap Law) -->
+    <g id="structural-shells">
+      <!-- 4x6 Posts -->
+      <rect x="4" y="6" width="5.5" height="72" fill="#000000"/>
+      <rect x="94.5" y="6" width="5.5" height="72" fill="#000000"/>
+      <!-- Boards (X=9.3125 to 94.6875, overlap=0.1875" into each post) -->
+      ${boards.map(b => `<rect x="9.3125" y="${b.y}" width="85.375" height="${b.h}" fill="#000000"/>`).join('')}
+      <!-- Center Trim -->
+      <rect x="50.25" y="6" width="3.5" height="72" fill="#000000"/>
+      <!-- Caps -->
+      <polygon points="6.75,1.90 3.55,5.10 3.55,6.30 9.95,6.30 9.95,5.10" fill="#000000"/>
+      <polygon points="97.25,1.90 94.05,5.10 94.05,6.30 100.45,6.30 100.45,5.10" fill="#000000"/>
+    </g>` : ''}
+
+    ${showDetails ? `
+    <!-- PASS 2: SURFACE, COLOR & FASTENER DETAILS -->
+    <g id="surface-details">
+      <!-- Posts -->
+      <rect x="4.1875" y="6.1875" width="5.125" height="71.8125" fill="${postFill}"/>
+      <rect x="94.6875" y="6.1875" width="5.125" height="71.8125" fill="${postFill}"/>
+      <!-- Boards -->
+      ${boards.map(b => `
+        <rect x="9.5" y="${b.y + 0.1875}" width="85" height="${b.h - 0.375}" fill="${boardFill}"/>
+        <line x1="9.5" y1="${b.y + b.h}" x2="94.5" y2="${b.y + b.h}" stroke="#120908" stroke-width="0.06"/>
+      `).join('')}
+      <!-- Center Trim -->
+      <rect x="50.4375" y="6.1875" width="3.125" height="71.8125" fill="${postFill}"/>
+      <!-- Caps -->
+      <polygon points="6.75,2.15 3.80,5.00 6.75,5.00" fill="${capColor}"/>
+      <polygon points="6.75,2.15 9.70,5.00 6.75,5.00" fill="${capColor}" opacity="0.85"/>
+      <rect x="3.75" y="5.00" width="6.00" height="1.10" fill="${capColor}" opacity="0.9"/>
+      <polygon points="97.25,2.15 94.30,5.00 97.25,5.00" fill="${capColor}"/>
+      <polygon points="97.25,2.15 100.20,5.00 97.25,5.00" fill="${capColor}" opacity="0.85"/>
+      <rect x="94.25" y="5.00" width="6.00" height="1.10" fill="${capColor}" opacity="0.9"/>
+      <!-- HeadLOK Timber Screws -->
+      ${boards.map(b => `
+        <use href="#sym-fastener-headlok" x="6.75" y="${b.center.toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="52.00" y="${b.center.toFixed(2)}"/>
+        <use href="#sym-fastener-headlok" x="97.25" y="${b.center.toFixed(2)}"/>
+      `).join('')}
+    </g>` : ''}
+
+    ${showBlueprint ? `
+    <!-- BLUEPRINT X-RAY & DIMENSIONS -->
+    <g id="blueprint-layer" stroke="#00E5FF" stroke-width="0.1" stroke-dasharray="0.4,0.4" opacity="0.95">
+      <!-- 4" Margin Lines -->
+      <line x1="4" y1="0" x2="4" y2="78" />
+      <line x1="100" y1="0" x2="100" y2="78" />
+      <!-- Y=6 Post Top / Cap Line -->
+      <line x1="0" y1="6" x2="104" y2="6" stroke="#FF5722" />
+      <!-- Y=78 Ground Baseline -->
+      <line x1="0" y1="78" x2="104" y2="78" stroke="#4CAF50" stroke-width="0.3" stroke-dasharray="none" />
+      <!-- Dimension text -->
+      <text x="52" y="4" font-family="'JetBrains Mono', monospace" font-size="2" fill="#00E5FF" text-anchor="middle">96.00" FENCE CORE (8FT)</text>
+      <text x="2" y="42" font-family="'JetBrains Mono', monospace" font-size="1.8" fill="#FF5722" text-anchor="middle">4"</text>
+      <text x="102" y="42" font-family="'JetBrains Mono', monospace" font-size="1.8" fill="#FF5722" text-anchor="middle">4"</text>
+      <text x="52" y="76.5" font-family="'JetBrains Mono', monospace" font-size="1.6" fill="#4CAF50" text-anchor="middle">Y=78.00 GROUND BASELINE</text>
+    </g>` : ''}
+  </svg>`;
+
+  document.getElementById('svg-container').innerHTML = svg;
+}
+
+function updateMath() {
+  const lf = parseInt(document.getElementById('input-lf').value, 10) || 96;
+  const bays = Math.ceil(lf / 8);
+  const posts = bays + 1;
+
+  const isRancher = currentStyle === 'rancher';
+  const isHomesteader = currentStyle === 'homesteader';
+  const isHPKT = currentStyle === 'horizontal-picket';
+
+  // Unit Material Costs
+  const postCost = (currentWood === 'cedar') ? 34.98 : 22.98;
+  const boardUnitCost = (currentWood === 'cedar') ? 12.48 : 8.98;
+  const picketUnitCost = 4.28;
+  const trimUnitCost = (currentWood === 'cedar') ? 8.48 : 5.98;
+  const capUnitCost = (currentCap === 'metal') ? 11.98 : (currentCap === 'copper' ? 18.98 : (currentCap === 'solar' ? 24.98 : 8.48));
+  const headlokBoxCost = 28.98;
+  const concreteBagCost = 5.98;
+
+  let memberCount = isHPKT ? 12 : 3;
+  let rawMaterialCost = 0;
+
+  // Posts
+  rawMaterialCost += posts * postCost;
+  // Caps
+  rawMaterialCost += posts * capUnitCost;
+  // Concrete (2 bags per post)
+  rawMaterialCost += posts * 2 * concreteBagCost;
+  // Boards / Pickets
+  if (isHPKT) {
+    rawMaterialCost += bays * 12 * picketUnitCost;
+  } else {
+    rawMaterialCost += bays * 3 * boardUnitCost;
+  }
+  // Center Trim
+  rawMaterialCost += bays * trimUnitCost;
+  // HeadLOK screws (boxes of 50)
+  const totalScrews = bays * (isHPKT ? 36 : (isHomesteader ? 18 : 9));
+  const boxes = Math.ceil(totalScrews / 50);
+  rawMaterialCost += boxes * headlokBoxCost;
+
+  // Canonical Quote Math Engine (§monetization_rules.md)
+  const MC = rawMaterialCost;
+  const M = MC * 1.25;            // Tax, procurement, site delivery margin (1.25x)
+  const L = M * 2.0;              // Burdened labor = 2x burdened materials
+  const A = (M + L) * 0.10;       // 10% Administrative & overhead cost
+  const mid = M + L + A;
+  const low = mid * 0.85;         // -15%
+  const high = mid * 1.15;        // +15%
+
+  const html = `
+    <div class="math-row"><span>Bays / Run:</span><span>${bays} bays (${lf} LF)</span></div>
+    <div class="math-row"><span>Raw Materials (BOM):</span><span>$${MC.toFixed(2)}</span></div>
+    <div class="math-row"><span>Burdened Mat (M = MC × 1.25):</span><span>$${M.toFixed(2)}</span></div>
+    <div class="math-row"><span>Labor Burden (L = M × 2):</span><span>$${L.toFixed(2)}</span></div>
+    <div class="math-row"><span>Admin &amp; Overhead (A = 10%):</span><span>$${A.toFixed(2)}</span></div>
+    <div class="math-row total"><span>Quoted Mid-Point:</span><span>$${mid.toFixed(2)}</span></div>
+    <div class="math-row" style="color: #2E7D32; font-weight: 700; margin-top: 0.5rem;">
+      <span>Honest Estimate (±15%):</span>
+      <span>$${Math.round(low).toLocaleString()} – $${Math.round(high).toLocaleString()}</span>
+    </div>
+    <div style="font-size: 0.75rem; color: #777; margin-top: 0.4rem;">
+      Per Linear Foot: $${(mid / lf).toFixed(2)} / LF (Range: $${(low / lf).toFixed(2)} – $${(high / lf).toFixed(2)})
+    </div>
+  `;
+
+  document.getElementById('quote-math-box').innerHTML = html;
+}
+
+// Initial Render
+renderElevation();
+updateMath();
+</script>
+
+</body>
+</html>
